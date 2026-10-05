@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the LaunchDarkly REST API OpenAPI spec and first-party docs to
  * ../specs/.
@@ -12,7 +12,7 @@
  * crawls the live docs site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The files are saved to:
  *   ../specs/openapi.json
@@ -23,6 +23,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const OPENAPI_SPEC_URL = "https://app.launchdarkly.com/api/v2/openapi.json";
 const SPECS_DIR = "../specs";
@@ -79,7 +80,7 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   const docs: Array<{ path: string; source: string; bytes: number }> = [];
   for (const file of DOCS) {
@@ -89,7 +90,7 @@ async function main() {
       throw new Error(`${file.url} returned an empty or HTML body — not vendor docs`);
     }
     const outputPath = `${DOCS_DIR}/${file.output}`;
-    await Bun.write(outputPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(outputPath, text.endsWith("\n") ? text : `${text}\n`);
     docs.push({ path: file.output, source: file.url, bytes: text.length });
   }
 
@@ -109,7 +110,7 @@ async function main() {
     },
     docs,
   };
-  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
+  await writeFile(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

@@ -2979,6 +2979,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals": {
       "type": "structure",
       "members": {
@@ -2999,6 +3014,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef"
         }
       }
     },
@@ -3100,6 +3118,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRules": {
       "type": "structure",
       "members": {
@@ -3120,6 +3153,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesMessageRef"
         }
       }
     },
@@ -3221,6 +3257,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuth": {
       "type": "structure",
       "members": {
@@ -3241,6 +3292,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthMessageRef"
         }
       }
     },
@@ -3365,6 +3419,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp": {
       "type": "structure",
       "members": {
@@ -3385,6 +3454,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpMessageRef"
         }
       }
     },
@@ -3486,6 +3558,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2MessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2": {
       "type": "structure",
       "members": {
@@ -3506,6 +3593,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2MessageRef"
         }
       }
     },
@@ -3607,6 +3697,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp": {
       "type": "structure",
       "members": {
@@ -3627,6 +3732,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppMessageRef"
         }
       }
     },
@@ -3728,6 +3836,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp": {
       "type": "structure",
       "members": {
@@ -3748,6 +3871,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpMessageRef"
         }
       }
     },
@@ -3849,6 +3975,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402MessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402": {
       "type": "structure",
       "members": {
@@ -3869,6 +4010,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402MessageRef"
         }
       }
     },
@@ -4005,6 +4149,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiation": {
       "type": "structure",
       "members": {
@@ -4025,6 +4184,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationMessageRef"
         }
       }
     },
@@ -4137,6 +4299,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid": {
       "type": "structure",
       "members": {
@@ -4157,6 +4334,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidMessageRef"
         }
       }
     },
@@ -4258,6 +4438,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders": {
       "type": "structure",
       "members": {
@@ -4278,6 +4473,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersMessageRef"
         }
       }
     },
@@ -4379,6 +4577,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt": {
       "type": "structure",
       "members": {
@@ -4399,6 +4612,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtMessageRef"
         }
       }
     },
@@ -4500,6 +4716,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap": {
       "type": "structure",
       "members": {
@@ -4520,6 +4751,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapMessageRef"
         }
       }
     },
@@ -4650,6 +4884,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard": {
       "type": "structure",
       "members": {
@@ -4670,6 +4919,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardMessageRef"
         }
       }
     },
@@ -4771,6 +5023,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills": {
       "type": "structure",
       "members": {
@@ -4791,6 +5058,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsMessageRef"
         }
       }
     },
@@ -4892,6 +5162,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog": {
       "type": "structure",
       "members": {
@@ -4912,6 +5197,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogMessageRef"
         }
       }
     },
@@ -5013,6 +5301,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd": {
       "type": "structure",
       "members": {
@@ -5033,6 +5336,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdMessageRef"
         }
       }
     },
@@ -5134,6 +5440,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd": {
       "type": "structure",
       "members": {
@@ -5154,6 +5475,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdMessageRef"
         }
       }
     },
@@ -5255,6 +5579,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard": {
       "type": "structure",
       "members": {
@@ -5275,6 +5614,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardMessageRef"
         }
       }
     },
@@ -5376,6 +5718,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery": {
       "type": "structure",
       "members": {
@@ -5396,6 +5753,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryMessageRef"
         }
       }
     },
@@ -5497,6 +5857,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource": {
       "type": "structure",
       "members": {
@@ -5517,6 +5892,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceMessageRef"
         }
       }
     },
@@ -5618,6 +5996,21 @@
         "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceItem"
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpMessageRef": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable, translatable message code.",
+            "smithy.api#required": {}
+          }
+        },
+        "params": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp": {
       "type": "structure",
       "members": {
@@ -5638,6 +6031,9 @@
         },
         "message": {
           "target": "smithy.api#String"
+        },
+        "messageRef": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpMessageRef"
         }
       }
     },
@@ -5860,19 +6256,19 @@
         }
       }
     },
-    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList": {
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList": {
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal": {
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal": {
       "type": "structure",
       "members": {
         "ai_input": {
@@ -5892,39 +6288,36 @@
         }
       }
     },
-    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape": {
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue": {
       "type": "structure",
       "members": {
         "allow": {
-          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList",
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "disallow": {
-          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList",
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "contentSignal": {
-          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal"
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal"
         },
         "crawlDelay": {
           "target": "smithy.api#Double"
         }
       }
     },
-    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRules": {
-      "type": "structure",
-      "members": {
-        "_": {
-          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape",
-          "traits": {
-            "smithy.api#required": {},
-            "smithy.api#jsonName": "*"
-          }
-        }
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue"
       }
     },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList": {
@@ -5937,7 +6330,7 @@
       "type": "structure",
       "members": {
         "rules": {
-          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRules",
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap",
           "traits": {
             "smithy.api#required": {}
           }

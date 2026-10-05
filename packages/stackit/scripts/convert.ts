@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — STACKIT's OpenAPI descriptions → Smithy JSON models in
  * .generated-specs.
@@ -25,7 +25,7 @@ import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const manifestPath = resolveSpecPath(root, "specs/spec-mirror-stackit/specs/_manifest.json");
 const specsDir = path.dirname(manifestPath);
 const outDir = path.join(root, ".generated-specs");

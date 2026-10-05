@@ -74,9 +74,7 @@ export const DeleteFluidRelayServerResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<DeleteFluidRelayServerResponse>;
 
 /** Resource tags. */
-export type FluidRelayServersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FluidRelayServersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FluidRelayServersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -140,9 +138,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customerManagedKeyEncryption: S.optional(CustomerManagedKeyEncryptionProperties),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** Sku of the storage associated with the resource */
 export type FluidRelayServerPropertiesInputStoragesku = "standard" | "basic";
@@ -243,9 +239,7 @@ export const FluidRelayServersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<FluidRelayServersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FluidRelayServersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FluidRelayServersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FluidRelayServersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -284,9 +278,7 @@ export const FluidRelayEndpoints = /*@__PURE__*/ S.suspend(() =>
     storageEndpoints: S.optional(FluidRelayEndpointsStorageEndpointsList),
     serviceEndpoints: S.optional(FluidRelayEndpointsServiceEndpointsList),
   }),
-).annotate({
-  identifier: "FluidRelayEndpoints",
-}) as any as S.Schema<FluidRelayEndpoints>;
+).annotate({ identifier: "FluidRelayEndpoints" }) as any as S.Schema<FluidRelayEndpoints>;
 
 /** Provision states for FluidRelay RP */
 export type FluidRelayServerPropertiesProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -603,9 +595,7 @@ export const GetFluidRelayServerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFluidRelayServerRequest>;
 
 /** Resource tags. */
-export type GetFluidRelayServerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFluidRelayServerResponseTagsMap = { [key: string]: string | undefined };
 export const GetFluidRelayServerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -778,9 +768,7 @@ export const FluidRelayContainer = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FluidRelayContainerProperties),
     systemData: S.optional(FluidRelayContainerSystemData),
   }),
-).annotate({
-  identifier: "FluidRelayContainer",
-}) as any as S.Schema<FluidRelayContainer>;
+).annotate({ identifier: "FluidRelayContainer" }) as any as S.Schema<FluidRelayContainer>;
 
 /** A sequence of FluidRelay containers. */
 export type FluidRelayContainerListValueList = Array<FluidRelayContainer>;
@@ -800,9 +788,7 @@ export const FluidRelayContainerList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FluidRelayContainerListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FluidRelayContainerList",
-}) as any as S.Schema<FluidRelayContainerList>;
+).annotate({ identifier: "FluidRelayContainerList" }) as any as S.Schema<FluidRelayContainerList>;
 
 export interface ListFluidRelayOperationsRequest {}
 export const ListFluidRelayOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -836,9 +822,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A FluidRelay REST API operation. */
 export interface OperationResult {
@@ -855,9 +839,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     isDataAction: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 /** List of FluidRelay operations supported by the Microsoft.FluidRelay provider. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -877,9 +859,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListFluidRelayServerByResourceGroupRequest {
   /** The subscription id (GUID) for this resource. */
@@ -984,9 +964,7 @@ export const FluidRelayServer = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(FluidRelayServerSystemData),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "FluidRelayServer",
-}) as any as S.Schema<FluidRelayServer>;
+).annotate({ identifier: "FluidRelayServer" }) as any as S.Schema<FluidRelayServer>;
 
 /** A sequence of FluidRelay servers. */
 export type FluidRelayServerListValueList = Array<FluidRelayServer>;
@@ -1006,9 +984,7 @@ export const FluidRelayServerList = /*@__PURE__*/ S.suspend(() =>
     value: FluidRelayServerListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FluidRelayServerList",
-}) as any as S.Schema<FluidRelayServerList>;
+).annotate({ identifier: "FluidRelayServerList" }) as any as S.Schema<FluidRelayServerList>;
 
 export interface ListFluidRelayServerBySubscriptionRequest {
   /** The subscription id (GUID) for this resource. */
@@ -1066,9 +1042,7 @@ export const FluidRelayServerKeys = /*@__PURE__*/ S.suspend(() =>
     key1: S.optional(S.String),
     key2: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FluidRelayServerKeys",
-}) as any as S.Schema<FluidRelayServerKeys>;
+).annotate({ identifier: "FluidRelayServerKeys" }) as any as S.Schema<FluidRelayServerKeys>;
 
 /** The key to regenerate. */
 export type RegenerateFluidRelayServerKeyRequestKeyName = "key1" | "key2";
@@ -1116,9 +1090,7 @@ export const FluidRelayServerUpdateProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FluidRelayServerUpdateProperties>;
 
 /** Resource tags. */
-export type UpdateFluidRelayServerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFluidRelayServerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFluidRelayServerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1162,9 +1134,7 @@ export const UpdateFluidRelayServerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFluidRelayServerRequest>;
 
 /** Resource tags. */
-export type UpdateFluidRelayServerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFluidRelayServerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFluidRelayServerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

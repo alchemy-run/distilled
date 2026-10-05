@@ -249,9 +249,7 @@ export const DeletePeerAsnRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePeerAsnRequest",
-}) as any as S.Schema<DeletePeerAsnRequest>;
+).annotate({ identifier: "DeletePeerAsnRequest" }) as any as S.Schema<DeletePeerAsnRequest>;
 
 export interface DeletePeerAsnResponse {}
 export const DeletePeerAsnResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -279,9 +277,7 @@ export const DeletePeeringRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePeeringRequest",
-}) as any as S.Schema<DeletePeeringRequest>;
+).annotate({ identifier: "DeletePeeringRequest" }) as any as S.Schema<DeletePeeringRequest>;
 
 export interface DeletePeeringResponse {}
 export const DeletePeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -342,9 +338,7 @@ export const DeletePrefixRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePrefixRequest",
-}) as any as S.Schema<DeletePrefixRequest>;
+).annotate({ identifier: "DeletePrefixRequest" }) as any as S.Schema<DeletePrefixRequest>;
 
 export interface DeletePrefixResponse {}
 export const DeletePrefixResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -487,9 +481,7 @@ export const GetPeerAsnRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPeerAsnRequest",
-}) as any as S.Schema<GetPeerAsnRequest>;
+).annotate({ identifier: "GetPeerAsnRequest" }) as any as S.Schema<GetPeerAsnRequest>;
 
 /** The role of the contact. */
 export type Role = "Noc" | "Policy" | "Technical" | "Service" | "Escalation" | "Other";
@@ -543,9 +535,7 @@ export const PeerAsnProperties = /*@__PURE__*/ S.suspend(() =>
     validationState: S.optional(ValidationState),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeerAsnProperties",
-}) as any as S.Schema<PeerAsnProperties>;
+).annotate({ identifier: "PeerAsnProperties" }) as any as S.Schema<PeerAsnProperties>;
 
 export interface GetPeerAsnResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -567,9 +557,7 @@ export const GetPeerAsnResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeerAsnProperties),
   }),
-).annotate({
-  identifier: "GetPeerAsnResponse",
-}) as any as S.Schema<GetPeerAsnResponse>;
+).annotate({ identifier: "GetPeerAsnResponse" }) as any as S.Schema<GetPeerAsnResponse>;
 
 export interface GetPeeringRequest {
   /** The ID of the target subscription. */
@@ -592,9 +580,7 @@ export const GetPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPeeringRequest",
-}) as any as S.Schema<GetPeeringRequest>;
+).annotate({ identifier: "GetPeeringRequest" }) as any as S.Schema<GetPeeringRequest>;
 
 /** Resource tags. */
 export type GetPeeringResponseTagsMap = { [key: string]: string | undefined };
@@ -729,9 +715,7 @@ export const DirectConnection = /*@__PURE__*/ S.suspend(() =>
     connectionIdentifier: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DirectConnection",
-}) as any as S.Schema<DirectConnection>;
+).annotate({ identifier: "DirectConnection" }) as any as S.Schema<DirectConnection>;
 
 /** The set of connections that constitute a direct peering. */
 export type PeeringPropertiesDirectConnectionsList = Array<DirectConnection>;
@@ -781,9 +765,7 @@ export const PeeringPropertiesDirect = /*@__PURE__*/ S.suspend(() =>
     peerAsn: S.optional(SubResource),
     directPeeringType: S.optional(DirectPeeringType),
   }),
-).annotate({
-  identifier: "PeeringPropertiesDirect",
-}) as any as S.Schema<PeeringPropertiesDirect>;
+).annotate({ identifier: "PeeringPropertiesDirect" }) as any as S.Schema<PeeringPropertiesDirect>;
 
 /** The properties that define an exchange connection. */
 export interface ExchangeConnection {
@@ -806,9 +788,7 @@ export const ExchangeConnection = /*@__PURE__*/ S.suspend(() =>
     connectionIdentifier: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExchangeConnection",
-}) as any as S.Schema<ExchangeConnection>;
+).annotate({ identifier: "ExchangeConnection" }) as any as S.Schema<ExchangeConnection>;
 
 /** The set of connections that constitute an exchange peering. */
 export type PeeringPropertiesExchangeConnectionsList = Array<ExchangeConnection>;
@@ -860,9 +840,7 @@ export const ConnectivityProbe = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(Protocol),
     prefixesToAccesslist: S.optional(ConnectivityProbePrefixesToAccesslistList),
   }),
-).annotate({
-  identifier: "ConnectivityProbe",
-}) as any as S.Schema<ConnectivityProbe>;
+).annotate({ identifier: "ConnectivityProbe" }) as any as S.Schema<ConnectivityProbe>;
 
 /** The connectivity probes associated with the peering. */
 export type PeeringPropertiesConnectivityProbesList = Array<ConnectivityProbe>;
@@ -891,9 +869,7 @@ export const PeeringProperties = /*@__PURE__*/ S.suspend(() =>
     peeringLocation: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "PeeringProperties",
-}) as any as S.Schema<PeeringProperties>;
+).annotate({ identifier: "PeeringProperties" }) as any as S.Schema<PeeringProperties>;
 
 /** The tier of the peering SKU. */
 export type Tier = "Basic" | "Premium";
@@ -963,9 +939,7 @@ export const GetPeeringResponse = /*@__PURE__*/ S.suspend(() =>
     sku: PeeringSku,
     kind: Kind,
   }),
-).annotate({
-  identifier: "GetPeeringResponse",
-}) as any as S.Schema<GetPeeringResponse>;
+).annotate({ identifier: "GetPeeringResponse" }) as any as S.Schema<GetPeeringResponse>;
 
 export interface GetPeeringServiceRequest {
   /** The ID of the target subscription. */
@@ -988,14 +962,10 @@ export const GetPeeringServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPeeringServiceRequest",
-}) as any as S.Schema<GetPeeringServiceRequest>;
+).annotate({ identifier: "GetPeeringServiceRequest" }) as any as S.Schema<GetPeeringServiceRequest>;
 
 /** Resource tags. */
-export type GetPeeringServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPeeringServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetPeeringServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1050,9 +1020,7 @@ export const PeeringServiceProperties = /*@__PURE__*/ S.suspend(() =>
     providerBackupPeeringLocation: S.optional(S.String),
     logAnalyticsWorkspaceProperties: S.optional(LogAnalyticsWorkspaceProperties),
   }),
-).annotate({
-  identifier: "PeeringServiceProperties",
-}) as any as S.Schema<PeeringServiceProperties>;
+).annotate({ identifier: "PeeringServiceProperties" }) as any as S.Schema<PeeringServiceProperties>;
 
 /** The SKU that defines the type of the peering service. */
 export interface PeeringServiceSku {
@@ -1063,9 +1031,7 @@ export const PeeringServiceSku = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeeringServiceSku",
-}) as any as S.Schema<PeeringServiceSku>;
+).annotate({ identifier: "PeeringServiceSku" }) as any as S.Schema<PeeringServiceSku>;
 
 export interface GetPeeringServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1127,9 +1093,7 @@ export const GetPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPrefixRequest",
-}) as any as S.Schema<GetPrefixRequest>;
+).annotate({ identifier: "GetPrefixRequest" }) as any as S.Schema<GetPrefixRequest>;
 
 /** The prefix validation state. */
 export type PrefixValidationState =
@@ -1228,9 +1192,7 @@ export const GetPrefixResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringServicePrefixProperties),
   }),
-).annotate({
-  identifier: "GetPrefixResponse",
-}) as any as S.Schema<GetPrefixResponse>;
+).annotate({ identifier: "GetPrefixResponse" }) as any as S.Schema<GetPrefixResponse>;
 
 export interface GetRegisteredAsnRequest {
   /** The ID of the target subscription. */
@@ -1256,9 +1218,7 @@ export const GetRegisteredAsnRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetRegisteredAsnRequest",
-}) as any as S.Schema<GetRegisteredAsnRequest>;
+).annotate({ identifier: "GetRegisteredAsnRequest" }) as any as S.Schema<GetRegisteredAsnRequest>;
 
 /** The properties that define a registered ASN. */
 export interface PeeringRegisteredAsnProperties {
@@ -1299,9 +1259,7 @@ export const GetRegisteredAsnResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringRegisteredAsnProperties),
   }),
-).annotate({
-  identifier: "GetRegisteredAsnResponse",
-}) as any as S.Schema<GetRegisteredAsnResponse>;
+).annotate({ identifier: "GetRegisteredAsnResponse" }) as any as S.Schema<GetRegisteredAsnResponse>;
 
 export interface GetRegisteredPrefixRequest {
   /** The ID of the target subscription. */
@@ -1433,9 +1391,7 @@ export const LookingGlassOutput = /*@__PURE__*/ S.suspend(() =>
     command: S.optional(Command),
     output: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LookingGlassOutput",
-}) as any as S.Schema<LookingGlassOutput>;
+).annotate({ identifier: "LookingGlassOutput" }) as any as S.Schema<LookingGlassOutput>;
 
 export interface ListCdnPeeringPrefixesRequest {
   /** The ID of the target subscription. */
@@ -1505,9 +1461,7 @@ export const CdnPeeringPrefix = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CdnPeeringPrefixProperties),
   }),
-).annotate({
-  identifier: "CdnPeeringPrefix",
-}) as any as S.Schema<CdnPeeringPrefix>;
+).annotate({ identifier: "CdnPeeringPrefix" }) as any as S.Schema<CdnPeeringPrefix>;
 
 /** The CdnPeeringPrefix items on this page */
 export type CdnPeeringPrefixListResultValueList = Array<CdnPeeringPrefix>;
@@ -1577,9 +1531,7 @@ export const ConnectionMonitorTest = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConnectionMonitorTestProperties),
   }),
-).annotate({
-  identifier: "ConnectionMonitorTest",
-}) as any as S.Schema<ConnectionMonitorTest>;
+).annotate({ identifier: "ConnectionMonitorTest" }) as any as S.Schema<ConnectionMonitorTest>;
 
 /** The ConnectionMonitorTest items on this page */
 export type ConnectionMonitorTestListResultValueList = Array<ConnectionMonitorTest>;
@@ -1709,9 +1661,7 @@ export const PeeringListResult = /*@__PURE__*/ S.suspend(() =>
     value: PeeringListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeeringListResult",
-}) as any as S.Schema<PeeringListResult>;
+).annotate({ identifier: "PeeringListResult" }) as any as S.Schema<PeeringListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1723,9 +1673,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The information related to the operation. */
 export interface OperationDisplayInfo {
@@ -1745,9 +1693,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** Supported time grain types for the metric. */
 export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
@@ -1767,9 +1713,7 @@ export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 
 /** Dimensions of the metric. */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
@@ -1804,9 +1748,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     supportedTimeGrainTypes: S.optional(MetricSpecificationSupportedTimeGrainTypesList),
     dimensions: S.optional(MetricSpecificationDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1823,9 +1765,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** The properties of the operation. */
 export interface OperationProperties {
@@ -1836,9 +1776,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** The peering API operation. */
 export interface Operation {
@@ -1878,9 +1816,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPeerAsnBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1942,9 +1878,7 @@ export const PeerAsnListResult = /*@__PURE__*/ S.suspend(() =>
     value: PeerAsnListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeerAsnListResult",
-}) as any as S.Schema<PeerAsnListResult>;
+).annotate({ identifier: "PeerAsnListResult" }) as any as S.Schema<PeerAsnListResult>;
 
 export interface ListPeeringByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2045,9 +1979,7 @@ export const DirectPeeringFacility = /*@__PURE__*/ S.suspend(() =>
     peeringDBFacilityId: S.optional(S.Number),
     peeringDBFacilityLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DirectPeeringFacility",
-}) as any as S.Schema<DirectPeeringFacility>;
+).annotate({ identifier: "DirectPeeringFacility" }) as any as S.Schema<DirectPeeringFacility>;
 
 /** The list of direct peering facilities at the peering location. */
 export type PeeringLocationPropertiesDirectPeeringFacilitiesList = Array<DirectPeeringFacility>;
@@ -2067,9 +1999,7 @@ export const PeeringBandwidthOffer = /*@__PURE__*/ S.suspend(() =>
     offerName: S.optional(S.String),
     valueInMbps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PeeringBandwidthOffer",
-}) as any as S.Schema<PeeringBandwidthOffer>;
+).annotate({ identifier: "PeeringBandwidthOffer" }) as any as S.Schema<PeeringBandwidthOffer>;
 
 /** The list of bandwidth offers available at the peering location. */
 export type PeeringLocationPropertiesDirectBandwidthOffersList = Array<PeeringBandwidthOffer>;
@@ -2123,9 +2053,7 @@ export const ExchangePeeringFacility = /*@__PURE__*/ S.suspend(() =>
     peeringDBFacilityId: S.optional(S.Number),
     peeringDBFacilityLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExchangePeeringFacility",
-}) as any as S.Schema<ExchangePeeringFacility>;
+).annotate({ identifier: "ExchangePeeringFacility" }) as any as S.Schema<ExchangePeeringFacility>;
 
 /** The list of exchange peering facilities at the peering location. */
 export type PeeringLocationPropertiesExchangePeeringFacilitiesList = Array<ExchangePeeringFacility>;
@@ -2195,9 +2123,7 @@ export const PeeringLocation = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(Kind),
     properties: S.optional(PeeringLocationProperties),
   }),
-).annotate({
-  identifier: "PeeringLocation",
-}) as any as S.Schema<PeeringLocation>;
+).annotate({ identifier: "PeeringLocation" }) as any as S.Schema<PeeringLocation>;
 
 /** The PeeringLocation items on this page */
 export type PeeringLocationListResultValueList = Array<PeeringLocation>;
@@ -2300,9 +2226,7 @@ export const PeeringServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: PeeringServiceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeeringServiceListResult",
-}) as any as S.Schema<PeeringServiceListResult>;
+).annotate({ identifier: "PeeringServiceListResult" }) as any as S.Schema<PeeringServiceListResult>;
 
 export interface ListPeeringServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2360,9 +2284,7 @@ export const PeeringServiceCountry = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "PeeringServiceCountry",
-}) as any as S.Schema<PeeringServiceCountry>;
+).annotate({ identifier: "PeeringServiceCountry" }) as any as S.Schema<PeeringServiceCountry>;
 
 /** The PeeringServiceCountry items on this page */
 export type PeeringServiceCountryListResultValueList = Array<PeeringServiceCountry>;
@@ -2448,9 +2370,7 @@ export const PeeringServiceLocation = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringServiceLocationProperties),
   }),
-).annotate({
-  identifier: "PeeringServiceLocation",
-}) as any as S.Schema<PeeringServiceLocation>;
+).annotate({ identifier: "PeeringServiceLocation" }) as any as S.Schema<PeeringServiceLocation>;
 
 /** The PeeringServiceLocation items on this page */
 export type PeeringServiceLocationListResultValueList = Array<PeeringServiceLocation>;
@@ -2536,9 +2456,7 @@ export const PeeringServiceProvider = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringServiceProviderProperties),
   }),
-).annotate({
-  identifier: "PeeringServiceProvider",
-}) as any as S.Schema<PeeringServiceProvider>;
+).annotate({ identifier: "PeeringServiceProvider" }) as any as S.Schema<PeeringServiceProvider>;
 
 /** The PeeringServiceProvider items on this page */
 export type PeeringServiceProviderListResultValueList = Array<PeeringServiceProvider>;
@@ -2611,9 +2529,7 @@ export const PeeringServicePrefix = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringServicePrefixProperties),
   }),
-).annotate({
-  identifier: "PeeringServicePrefix",
-}) as any as S.Schema<PeeringServicePrefix>;
+).annotate({ identifier: "PeeringServicePrefix" }) as any as S.Schema<PeeringServicePrefix>;
 
 /** The PeeringServicePrefix items on this page */
 export type PeeringServicePrefixListResultValueList = Array<PeeringServicePrefix>;
@@ -2704,9 +2620,7 @@ export const PeeringReceivedRoute = /*@__PURE__*/ S.suspend(() =>
     trustAnchor: S.optional(S.String),
     receivedTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeeringReceivedRoute",
-}) as any as S.Schema<PeeringReceivedRoute>;
+).annotate({ identifier: "PeeringReceivedRoute" }) as any as S.Schema<PeeringReceivedRoute>;
 
 /** The PeeringReceivedRoute items on this page */
 export type PeeringReceivedRouteListResultValueList = Array<PeeringReceivedRoute>;
@@ -2776,9 +2690,7 @@ export const PeeringRegisteredAsn = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringRegisteredAsnProperties),
   }),
-).annotate({
-  identifier: "PeeringRegisteredAsn",
-}) as any as S.Schema<PeeringRegisteredAsn>;
+).annotate({ identifier: "PeeringRegisteredAsn" }) as any as S.Schema<PeeringRegisteredAsn>;
 
 /** The PeeringRegisteredAsn items on this page */
 export type PeeringRegisteredAsnListResultValueList = Array<PeeringRegisteredAsn>;
@@ -2848,9 +2760,7 @@ export const PeeringRegisteredPrefix = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PeeringRegisteredPrefixProperties),
   }),
-).annotate({
-  identifier: "PeeringRegisteredPrefix",
-}) as any as S.Schema<PeeringRegisteredPrefix>;
+).annotate({ identifier: "PeeringRegisteredPrefix" }) as any as S.Schema<PeeringRegisteredPrefix>;
 
 /** The PeeringRegisteredPrefix items on this page */
 export type PeeringRegisteredPrefixListResultValueList = Array<PeeringRegisteredPrefix>;
@@ -2917,9 +2827,7 @@ export const RpUnbilledPrefix = /*@__PURE__*/ S.suspend(() =>
     azureRegion: S.optional(S.String),
     peerAsn: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RpUnbilledPrefix",
-}) as any as S.Schema<RpUnbilledPrefix>;
+).annotate({ identifier: "RpUnbilledPrefix" }) as any as S.Schema<RpUnbilledPrefix>;
 
 /** The RpUnbilledPrefix items on this page */
 export type RpUnbilledPrefixListResultValueList = Array<RpUnbilledPrefix>;
@@ -2964,9 +2872,7 @@ export const PeerAsnPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     peerContactDetail: S.optional(PeerAsnPropertiesInputPeerContactDetailList),
     peerName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeerAsnPropertiesInput",
-}) as any as S.Schema<PeerAsnPropertiesInput>;
+).annotate({ identifier: "PeerAsnPropertiesInput" }) as any as S.Schema<PeerAsnPropertiesInput>;
 
 export interface PeerAsnsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3018,9 +2924,7 @@ export const PeerAsnsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PeerAsnsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PeeringsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PeeringsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PeeringsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3050,9 +2954,7 @@ export const DirectConnectionInput = /*@__PURE__*/ S.suspend(() =>
     bgpSession: S.optional(BgpSession),
     connectionIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DirectConnectionInput",
-}) as any as S.Schema<DirectConnectionInput>;
+).annotate({ identifier: "DirectConnectionInput" }) as any as S.Schema<DirectConnectionInput>;
 
 /** The set of connections that constitute a direct peering. */
 export type PeeringPropertiesDirectInputConnectionsList = Array<DirectConnectionInput>;
@@ -3094,9 +2996,7 @@ export const ExchangeConnectionInput = /*@__PURE__*/ S.suspend(() =>
     bgpSession: S.optional(BgpSession),
     connectionIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExchangeConnectionInput",
-}) as any as S.Schema<ExchangeConnectionInput>;
+).annotate({ identifier: "ExchangeConnectionInput" }) as any as S.Schema<ExchangeConnectionInput>;
 
 /** The set of connections that constitute an exchange peering. */
 export type PeeringPropertiesExchangeInputConnectionsList = Array<ExchangeConnectionInput>;
@@ -3135,9 +3035,7 @@ export const ConnectivityProbeInput = /*@__PURE__*/ S.suspend(() =>
     azureRegion: S.optional(S.String),
     protocol: S.optional(Protocol),
   }),
-).annotate({
-  identifier: "ConnectivityProbeInput",
-}) as any as S.Schema<ConnectivityProbeInput>;
+).annotate({ identifier: "ConnectivityProbeInput" }) as any as S.Schema<ConnectivityProbeInput>;
 
 /** The connectivity probes associated with the peering. */
 export type PeeringPropertiesInputConnectivityProbesList = Array<ConnectivityProbeInput>;
@@ -3163,9 +3061,7 @@ export const PeeringPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     connectivityProbes: S.optional(PeeringPropertiesInputConnectivityProbesList),
     peeringLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PeeringPropertiesInput",
-}) as any as S.Schema<PeeringPropertiesInput>;
+).annotate({ identifier: "PeeringPropertiesInput" }) as any as S.Schema<PeeringPropertiesInput>;
 
 export interface PeeringsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3208,9 +3104,7 @@ export const PeeringsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PeeringsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PeeringsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PeeringsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PeeringsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3253,9 +3147,7 @@ export const PeeringsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PeeringsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PeeringServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PeeringServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PeeringServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3332,9 +3224,7 @@ export const PeeringServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PeeringServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PeeringServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PeeringServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PeeringServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3637,14 +3527,10 @@ export const UpdatePeeringRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePeeringRequest",
-}) as any as S.Schema<UpdatePeeringRequest>;
+).annotate({ identifier: "UpdatePeeringRequest" }) as any as S.Schema<UpdatePeeringRequest>;
 
 /** Resource tags. */
-export type UpdatePeeringResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePeeringResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePeeringResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3682,14 +3568,10 @@ export const UpdatePeeringResponse = /*@__PURE__*/ S.suspend(() =>
     sku: PeeringSku,
     kind: Kind,
   }),
-).annotate({
-  identifier: "UpdatePeeringResponse",
-}) as any as S.Schema<UpdatePeeringResponse>;
+).annotate({ identifier: "UpdatePeeringResponse" }) as any as S.Schema<UpdatePeeringResponse>;
 
 /** Gets or sets the tags, a dictionary of descriptors arm object */
-export type UpdatePeeringServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePeeringServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePeeringServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3724,9 +3606,7 @@ export const UpdatePeeringServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePeeringServiceRequest>;
 
 /** Resource tags. */
-export type UpdatePeeringServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePeeringServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePeeringServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

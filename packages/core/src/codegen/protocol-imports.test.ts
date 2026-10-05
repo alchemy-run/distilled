@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { generateService } from "./generator.ts";
 
 test("imports only the pagination protocol when every operation uses it", () => {

@@ -125,13 +125,7 @@ export const CreateCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     privateKey: S.optional(S.String.pipe(T.Body("private_key"))),
     type: S.optional(CreateRequestType),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/custom_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/custom_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomCertificateRequest",
@@ -226,7 +220,7 @@ export const CreateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCustomCertificateResponse {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id: string;
   /** Identifier. */
   zoneId: string;
@@ -282,7 +276,7 @@ export const CreateCustomCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteCustomCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   customCertificateId: string;
 }
 export const DeleteCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -304,7 +298,7 @@ export const DeleteCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCustomCertificateResponse {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id?: string | null;
 }
 export const DeleteCustomCertificateResponse = /*@__PURE__*/ S.suspend(() =>
@@ -318,7 +312,7 @@ export const DeleteCustomCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetCustomCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   customCertificateId: string;
 }
 export const GetCustomCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -406,16 +400,14 @@ export const GetResponseKeylessServer = /*@__PURE__*/ S.suspend(() =>
     status: GetResponseKeylessServerStatus,
     tunnel: S.optional(S.NullOr(CreateResponseKeylessServerTunnel)),
   }),
-).annotate({
-  identifier: "GetResponseKeylessServer",
-}) as any as S.Schema<GetResponseKeylessServer>;
+).annotate({ identifier: "GetResponseKeylessServer" }) as any as S.Schema<GetResponseKeylessServer>;
 
 export type GetResponseStatus = "active" | "expired" | "deleted" | "pending" | "initializing";
 export const GetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomCertificateResponse {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id: string;
   /** Identifier. */
   zoneId: string;
@@ -494,13 +486,7 @@ export const ListCustomCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     status: S.optional(ListRequestStatus.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomCertificatesRequest",
@@ -582,7 +568,7 @@ export type ListResultItemStatus = "active" | "expired" | "deleted" | "pending" 
 export const ListResultItemStatus = S.String;
 
 export interface ListResultItem {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id: string;
   /** Identifier. */
   zoneId: string;
@@ -676,7 +662,7 @@ export const EditRequestGeoRestrictions = /*@__PURE__*/ S.suspend(() =>
 export interface PatchCustomCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   customCertificateId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
   bundleMethod?: EditRequestBundleMethod | (string & {});
@@ -794,7 +780,7 @@ export const EditResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCustomCertificateResponse {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id: string;
   /** Identifier. */
   zoneId: string;
@@ -848,7 +834,7 @@ export const PatchCustomCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCustomCertificateResponse>;
 
 export interface PrioritizeUpdateRequestCertificatesItem {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id?: string;
   /** The order/priority in which the certificate will be used in a request. The higher priority will break ties across overlapping 'legacy_custom' certificates, but 'legacy_custom' certificates will always supercede 'sni_custom' certificates. */
   priority?: number;
@@ -880,16 +866,10 @@ export const PutPrioritizeRequest = /*@__PURE__*/ S.suspend(() =>
     certificates: PrioritizeUpdateRequestCertificatesList,
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/custom_certificates/prioritize",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/custom_certificates/prioritize", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPrioritizeRequest",
-}) as any as S.Schema<PutPrioritizeRequest>;
+).annotate({ identifier: "PutPrioritizeRequest" }) as any as S.Schema<PutPrioritizeRequest>;
 
 export type PrioritizeUpdateResultItemBundleMethod = "ubiquitous" | "optimal" | "force";
 export const PrioritizeUpdateResultItemBundleMethod = S.String;
@@ -972,7 +952,7 @@ export type PrioritizeUpdateResultItemStatus =
 export const PrioritizeUpdateResultItemStatus = S.String;
 
 export interface PrioritizeUpdateResultItem {
-  /** Identifier. */
+  /** Custom certificate identifier tag. */
   id: string;
   /** Identifier. */
   zoneId: string;
@@ -1045,9 +1025,7 @@ export const PutPrioritizeResponse = /*@__PURE__*/ S.suspend(() =>
     result: PrioritizeUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutPrioritizeResponse",
-}) as any as S.Schema<PutPrioritizeResponse>;
+).annotate({ identifier: "PutPrioritizeResponse" }) as any as S.Schema<PutPrioritizeResponse>;
 
 export type CreateCustomCertificateError = PlanLevelNotAllowed | Forbidden | CloudflareOpError;
 /** Upload a new SSL certificate for a zone. */

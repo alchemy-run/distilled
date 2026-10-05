@@ -15,27 +15,6 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.rate_limits#ListRateLimits/input/target",
       "value": "com.cloudflare.rate_limits#ListRateLimitsRequest"
-    },
-    {
-      "op": "move",
-      "from": "/shapes/com.cloudflare.rate_limits#ListResponse",
-      "path": "/shapes/com.cloudflare.rate_limits#ListRateLimitsResponse"
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.cloudflare.rate_limits#ListRateLimits/output/target",
-      "value": "com.cloudflare.rate_limits#ListRateLimitsResponse"
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.rate_limits#ListRateLimits/traits/smithy.api#paginated",
-      "value": {
-        "mode": "page",
-        "inputToken": "page",
-        "outputToken": "resultInfo.page",
-        "items": "result",
-        "pageSize": "perPage"
-      }
     }
   ]
 }

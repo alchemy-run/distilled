@@ -7,9 +7,16 @@ import * as AWS from "@distilled.cloud/aws/index";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 
 const layer = Layer.mergeAll(
-  Credentials.fromCredentials({ accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" }, "us-east-1"),
+  Credentials.fromCredentials(
+    {
+      accessKeyId: Redacted.make("AKIA_BENCH"),
+      secretAccessKey: Redacted.make("bench"),
+    },
+    "us-east-1",
+  ),
   FetchHttpClient.layer,
 );
 

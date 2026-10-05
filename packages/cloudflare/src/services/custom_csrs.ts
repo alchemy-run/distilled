@@ -72,13 +72,7 @@ export const CreateCustomCsrForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     organizationalUnit: S.optional(S.String.pipe(T.Body("organizational_unit"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/custom_csrs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/custom_csrs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomCsrForAccountRequest",
@@ -140,9 +134,7 @@ export const CreateCustomCsrResponse = /*@__PURE__*/ S.suspend(() =>
     sans: S.optional(S.NullOr(CreateResponseSansList)),
     state: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCustomCsrResponse",
-}) as any as S.Schema<CreateCustomCsrResponse>;
+).annotate({ identifier: "CreateCustomCsrResponse" }) as any as S.Schema<CreateCustomCsrResponse>;
 
 export interface CreateCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -182,13 +174,7 @@ export const CreateCustomCsrForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     organizationalUnit: S.optional(S.String.pipe(T.Body("organizational_unit"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/custom_csrs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/custom_csrs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateCustomCsrForZoneRequest",
@@ -226,9 +212,7 @@ export const DeleteCustomCsrResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCustomCsrResponse",
-}) as any as S.Schema<DeleteCustomCsrResponse>;
+).annotate({ identifier: "DeleteCustomCsrResponse" }) as any as S.Schema<DeleteCustomCsrResponse>;
 
 export interface DeleteCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -242,11 +226,7 @@ export const DeleteCustomCsrForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     customCsrId: S.String.pipe(T.Label("custom_csr_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/custom_csrs/{custom_csr_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/custom_csrs/{custom_csr_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -332,9 +312,7 @@ export const GetCustomCsrResponse = /*@__PURE__*/ S.suspend(() =>
     sans: S.optional(S.NullOr(GetResponseSansList)),
     state: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCustomCsrResponse",
-}) as any as S.Schema<GetCustomCsrResponse>;
+).annotate({ identifier: "GetCustomCsrResponse" }) as any as S.Schema<GetCustomCsrResponse>;
 
 export interface GetCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -347,13 +325,7 @@ export const GetCustomCsrForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     customCsrId: S.String.pipe(T.Label("custom_csr_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/custom_csrs/{custom_csr_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/custom_csrs/{custom_csr_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetCustomCsrForZoneRequest",
@@ -385,13 +357,7 @@ export const ListCustomCsrsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/custom_csrs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/custom_csrs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCustomCsrsForAccountRequest",
@@ -470,9 +436,7 @@ export const ListCustomCsrsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCustomCsrsResponse",
-}) as any as S.Schema<ListCustomCsrsResponse>;
+).annotate({ identifier: "ListCustomCsrsResponse" }) as any as S.Schema<ListCustomCsrsResponse>;
 
 export interface ListCustomCsrsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

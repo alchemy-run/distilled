@@ -96,16 +96,10 @@ export const CreatePageTestRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(PagesTestsCreateRequestRegion),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/speed_api/pages/{url}/tests",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/speed_api/pages/{url}/tests", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePageTestRequest",
-}) as any as S.Schema<CreatePageTestRequest>;
+).annotate({ identifier: "CreatePageTestRequest" }) as any as S.Schema<CreatePageTestRequest>;
 
 export type PagesTestsCreateResponseDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export const PagesTestsCreateResponseDesktopReportDeviceType = S.String;
@@ -326,9 +320,7 @@ export const CreatePageTestResponse = /*@__PURE__*/ S.suspend(() =>
     scheduleFrequency: S.optional(S.NullOr(PagesTestsCreateResponseScheduleFrequency)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePageTestResponse",
-}) as any as S.Schema<CreatePageTestResponse>;
+).annotate({ identifier: "CreatePageTestResponse" }) as any as S.Schema<CreatePageTestResponse>;
 
 export type ScheduleCreateRequestFrequency = "DAILY" | "WEEKLY";
 export const ScheduleCreateRequestFrequency = S.String;
@@ -374,17 +366,9 @@ export const CreateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(ScheduleCreateRequestFrequency.pipe(T.Query())),
     region: S.optional(ScheduleCreateRequestRegion.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/speed_api/schedule/{url}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/speed_api/schedule/{url}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScheduleRequest",
-}) as any as S.Schema<CreateScheduleRequest>;
+).annotate({ identifier: "CreateScheduleRequest" }) as any as S.Schema<CreateScheduleRequest>;
 
 export type ScheduleCreateResponseScheduleFrequency = "DAILY" | "WEEKLY";
 export const ScheduleCreateResponseScheduleFrequency = S.String;
@@ -664,9 +648,7 @@ export const CreateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(S.NullOr(ScheduleCreateResponseSchedule)),
     test: S.optional(S.NullOr(ScheduleCreateResponseTest)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScheduleResponse",
-}) as any as S.Schema<CreateScheduleResponse>;
+).annotate({ identifier: "CreateScheduleResponse" }) as any as S.Schema<CreateScheduleResponse>;
 
 export type PagesTestsDeleteRequestRegion =
   | "asia-east1"
@@ -707,16 +689,10 @@ export const DeletePageTestRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(PagesTestsDeleteRequestRegion.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/speed_api/pages/{url}/tests",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/speed_api/pages/{url}/tests", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePageTestRequest",
-}) as any as S.Schema<DeletePageTestRequest>;
+).annotate({ identifier: "DeletePageTestRequest" }) as any as S.Schema<DeletePageTestRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePageTestResponse {
@@ -727,9 +703,7 @@ export const DeletePageTestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePageTestResponse",
-}) as any as S.Schema<DeletePageTestResponse>;
+).annotate({ identifier: "DeletePageTestResponse" }) as any as S.Schema<DeletePageTestResponse>;
 
 export type ScheduleDeleteRequestRegion =
   | "asia-east1"
@@ -769,17 +743,9 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String.pipe(T.Label()),
     region: S.optional(ScheduleDeleteRequestRegion.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/speed_api/schedule/{url}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/speed_api/schedule/{url}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteScheduleResponse {
@@ -790,9 +756,7 @@ export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteScheduleResponse",
-}) as any as S.Schema<DeleteScheduleResponse>;
+).annotate({ identifier: "DeleteScheduleResponse" }) as any as S.Schema<DeleteScheduleResponse>;
 
 export interface GetPageTestRequest {
   /** Identifier. */
@@ -815,9 +779,7 @@ export const GetPageTestRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageTestRequest",
-}) as any as S.Schema<GetPageTestRequest>;
+).annotate({ identifier: "GetPageTestRequest" }) as any as S.Schema<GetPageTestRequest>;
 
 export type PagesTestsGetResponseDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export const PagesTestsGetResponseDesktopReportDeviceType = S.String;
@@ -1038,9 +1000,7 @@ export const GetPageTestResponse = /*@__PURE__*/ S.suspend(() =>
     scheduleFrequency: S.optional(S.NullOr(PagesTestsGetResponseScheduleFrequency)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPageTestResponse",
-}) as any as S.Schema<GetPageTestResponse>;
+).annotate({ identifier: "GetPageTestResponse" }) as any as S.Schema<GetPageTestResponse>;
 
 export type ScheduleGetRequestRegion =
   | "asia-east1"
@@ -1080,17 +1040,9 @@ export const GetScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String.pipe(T.Label()),
     region: S.optional(ScheduleGetRequestRegion.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/speed_api/schedule/{url}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/speed_api/schedule/{url}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScheduleRequest",
-}) as any as S.Schema<GetScheduleRequest>;
+).annotate({ identifier: "GetScheduleRequest" }) as any as S.Schema<GetScheduleRequest>;
 
 export type ScheduleGetResponseFrequency = "DAILY" | "WEEKLY";
 export const ScheduleGetResponseFrequency = S.String;
@@ -1134,9 +1086,7 @@ export const GetScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.NullOr(ScheduleGetResponseRegion)),
     url: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScheduleResponse",
-}) as any as S.Schema<GetScheduleResponse>;
+).annotate({ identifier: "GetScheduleResponse" }) as any as S.Schema<GetScheduleResponse>;
 
 export interface ListAvailabilitiesRequest {
   /** Identifier. */
@@ -1146,13 +1096,7 @@ export const ListAvailabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/speed_api/availabilities",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/speed_api/availabilities", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListAvailabilitiesRequest",
@@ -1482,17 +1426,9 @@ export const ListPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/speed_api/pages",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/speed_api/pages", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPagesRequest",
-}) as any as S.Schema<ListPagesRequest>;
+).annotate({ identifier: "ListPagesRequest" }) as any as S.Schema<ListPagesRequest>;
 
 export type PagesListResultItemRegionValue =
   | "asia-east1"
@@ -1778,9 +1714,7 @@ export const PagesListResultItem = /*@__PURE__*/ S.suspend(() =>
     tests: S.optional(S.NullOr(PagesListResultItemTestsList)),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PagesListResultItem",
-}) as any as S.Schema<PagesListResultItem>;
+).annotate({ identifier: "PagesListResultItem" }) as any as S.Schema<PagesListResultItem>;
 
 export type PagesListResultList = Array<PagesListResultItem>;
 export const PagesListResultList = /*@__PURE__*/ S.Array(
@@ -1798,9 +1732,7 @@ export const ListPagesResponse = /*@__PURE__*/ S.suspend(() =>
     result: PagesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPagesResponse",
-}) as any as S.Schema<ListPagesResponse>;
+).annotate({ identifier: "ListPagesResponse" }) as any as S.Schema<ListPagesResponse>;
 
 export type PagesTestsListRequestRegion =
   | "asia-east1"
@@ -1844,17 +1776,9 @@ export const ListPageTestsRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     region: S.optional(PagesTestsListRequestRegion.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/speed_api/pages/{url}/tests",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/speed_api/pages/{url}/tests", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPageTestsRequest",
-}) as any as S.Schema<ListPageTestsRequest>;
+).annotate({ identifier: "ListPageTestsRequest" }) as any as S.Schema<ListPageTestsRequest>;
 
 export type PagesTestsListResultItemDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export const PagesTestsListResultItemDesktopReportDeviceType = S.String;
@@ -2074,9 +1998,7 @@ export const PagesTestsListResultItem = /*@__PURE__*/ S.suspend(() =>
     scheduleFrequency: S.optional(S.NullOr(PagesTestsListResultItemScheduleFrequency)),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PagesTestsListResultItem",
-}) as any as S.Schema<PagesTestsListResultItem>;
+).annotate({ identifier: "PagesTestsListResultItem" }) as any as S.Schema<PagesTestsListResultItem>;
 
 export type PagesTestsListResultList = Array<PagesTestsListResultItem>;
 export const PagesTestsListResultList = /*@__PURE__*/ S.Array(
@@ -2094,9 +2016,7 @@ export const ListPageTestsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PagesTestsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPageTestsResponse",
-}) as any as S.Schema<ListPageTestsResponse>;
+).annotate({ identifier: "ListPageTestsResponse" }) as any as S.Schema<ListPageTestsResponse>;
 
 export type PagesTrendRequestDeviceType = "DESKTOP" | "MOBILE";
 export const PagesTrendRequestDeviceType = S.String;
@@ -2152,17 +2072,9 @@ export const TrendPageRequest = /*@__PURE__*/ S.suspend(() =>
     tz: S.String.pipe(T.Query()),
     end: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/speed_api/pages/{url}/trend",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/speed_api/pages/{url}/trend", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TrendPageRequest",
-}) as any as S.Schema<TrendPageRequest>;
+).annotate({ identifier: "TrendPageRequest" }) as any as S.Schema<TrendPageRequest>;
 
 export type PagesTrendResponseClsList = Array<number>;
 export const PagesTrendResponseClsList = /*@__PURE__*/ S.Array(
@@ -2234,9 +2146,7 @@ export const TrendPageResponse = /*@__PURE__*/ S.suspend(() =>
     ttfb: S.optional(S.NullOr(PagesTrendResponseTtfbList)),
     tti: S.optional(S.NullOr(PagesTrendResponseTtiList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TrendPageResponse",
-}) as any as S.Schema<TrendPageResponse>;
+).annotate({ identifier: "TrendPageResponse" }) as any as S.Schema<TrendPageResponse>;
 
 export type CreatePageTestError = CloudflareOpError;
 /** Starts a test for a specific webpage, in a specific region. */

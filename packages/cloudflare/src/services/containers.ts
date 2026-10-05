@@ -33,12 +33,7 @@ export class DurableObjectAlreadyHasApplication
         message: S.String,
       },
     ),
-    [
-      {
-        code: 1608,
-        message: { includes: "DURABLE_OBJECT_ALREADY_HAS_APPLICATION" },
-      },
-    ],
+    [{ code: 1608, message: { includes: "DURABLE_OBJECT_ALREADY_HAS_APPLICATION" } }],
   ) {}
 
 export class DurableObjectCheckError
@@ -47,12 +42,7 @@ export class DurableObjectCheckError
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 1000,
-        message: { includes: "checking the application durable object" },
-      },
-    ],
+    [{ code: 1000, message: { includes: "checking the application durable object" } }],
   ) {}
 
 export class DurableObjectNotContainerEnabled
@@ -64,12 +54,7 @@ export class DurableObjectNotContainerEnabled
         message: S.String,
       },
     ),
-    [
-      {
-        code: 1607,
-        message: { includes: "DURABLE_OBJECT_NOT_CONTAINER_ENABLED" },
-      },
-    ],
+    [{ code: 1607, message: { includes: "DURABLE_OBJECT_NOT_CONTAINER_ENABLED" } }],
   ) {}
 
 export class InvalidRoute
@@ -90,9 +75,7 @@ export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
 
 export type EnvironmentVariableList = Array<EnvironmentVariable>;
 export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
@@ -146,9 +129,7 @@ export const ContainerConfiguration = /*@__PURE__*/ S.suspend(() =>
     dns: S.optional(S.NullOr(S.Unknown)),
     sshPublicKeyIds: S.optional(S.NullOr(StringList).pipe(T.Body("ssh_public_key_ids"))),
   }),
-).annotate({
-  identifier: "ContainerConfiguration",
-}) as any as S.Schema<ContainerConfiguration>;
+).annotate({ identifier: "ContainerConfiguration" }) as any as S.Schema<ContainerConfiguration>;
 
 export interface DurableObjectsRef {
   namespaceId: string;
@@ -157,9 +138,7 @@ export const DurableObjectsRef = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespaceId: S.String.pipe(T.Body("namespace_id")),
   }),
-).annotate({
-  identifier: "DurableObjectsRef",
-}) as any as S.Schema<DurableObjectsRef>;
+).annotate({ identifier: "DurableObjectsRef" }) as any as S.Schema<DurableObjectsRef>;
 
 export interface CreateContainerApplicationRequest {
   accountId: string;
@@ -186,11 +165,7 @@ export const CreateContainerApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     affinities: S.optional(S.Unknown),
     jobs: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/containers/applications",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/accounts/{account_id}/containers/applications", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateContainerApplicationRequest",
@@ -225,9 +200,7 @@ export const ContainerApplicationItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String.pipe(T.Body("created_at")),
     version: S.Number,
   }),
-).annotate({
-  identifier: "ContainerApplicationItem",
-}) as any as S.Schema<ContainerApplicationItem>;
+).annotate({ identifier: "ContainerApplicationItem" }) as any as S.Schema<ContainerApplicationItem>;
 
 export type CreateContainerApplicationResponse = ContainerApplicationItem;
 export const CreateContainerApplicationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -376,13 +349,7 @@ export interface GetContainerIdentityRequest {
 export const GetContainerIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/containers/me",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/containers/me", code: 200 })),
 ).annotate({
   identifier: "GetContainerIdentityRequest",
 }) as any as S.Schema<GetContainerIdentityRequest>;
@@ -401,11 +368,7 @@ export const ListContainerApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/accounts/{account_id}/containers/applications",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/accounts/{account_id}/containers/applications", code: 200 }),
   ),
 ).annotate({
   identifier: "ListContainerApplicationsRequest",

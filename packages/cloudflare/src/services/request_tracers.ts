@@ -43,9 +43,7 @@ export const TracesCreateRequestBody = /*@__PURE__*/ S.suspend(() =>
     json: S.optional(S.Unknown),
     plainText: S.optional(S.String.pipe(T.Body("plain_text"))),
   }),
-).annotate({
-  identifier: "TracesCreateRequestBody",
-}) as any as S.Schema<TracesCreateRequestBody>;
+).annotate({ identifier: "TracesCreateRequestBody" }) as any as S.Schema<TracesCreateRequestBody>;
 
 export interface TracesCreateRequestContextGeoloc {
   city?: string;
@@ -97,17 +95,13 @@ export const TracesCreateRequestContext = /*@__PURE__*/ S.suspend(() =>
   identifier: "TracesCreateRequestContext",
 }) as any as S.Schema<TracesCreateRequestContext>;
 
-export type TracesCreateRequestCookiesMap = {
-  [key: string]: string | undefined;
-};
+export type TracesCreateRequestCookiesMap = { [key: string]: string | undefined };
 export const TracesCreateRequestCookiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<TracesCreateRequestCookiesMap>;
 
-export type TracesCreateRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type TracesCreateRequestHeadersMap = { [key: string]: string | undefined };
 export const TracesCreateRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -144,17 +138,9 @@ export const CreateTraceRequest = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(S.String),
     skipResponse: S.optional(S.Boolean.pipe(T.Body("skip_response"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/request-tracer/trace",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/request-tracer/trace", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTraceRequest",
-}) as any as S.Schema<CreateTraceRequest>;
+).annotate({ identifier: "CreateTraceRequest" }) as any as S.Schema<CreateTraceRequest>;
 
 export interface TracesCreateResponseTraceItem {
   /** If step type is rule, then action performed by this rule */
@@ -210,9 +196,7 @@ export const CreateTraceResponse = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.NullOr(S.Number).pipe(T.Body("status_code"))),
     trace: S.optional(S.NullOr(TracesCreateResponseTraceList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTraceResponse",
-}) as any as S.Schema<CreateTraceResponse>;
+).annotate({ identifier: "CreateTraceResponse" }) as any as S.Schema<CreateTraceResponse>;
 
 export type CreateTraceError = CloudflareOpError;
 /** Traces a simulated HTTP request through Cloudflare's edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context. */

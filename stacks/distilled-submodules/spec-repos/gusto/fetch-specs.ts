@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Snapshots Gusto's vendor docs and builds a merged OpenAPI document.
  *
@@ -15,7 +15,7 @@
  * Generate-time never crawls live docs; it reads `../specs/openapi.json`.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/openapi.json
@@ -24,7 +24,7 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
-import { mkdir, readdir, rm, writeFile } from "fs/promises";
+import { mkdir, readFile, readdir, rm, writeFile } from "fs/promises";
 import { dirname, join, relative } from "path";
 
 const ORIGIN = "https://docs.gusto.com";
@@ -48,12 +48,15 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -328,7 +331,7 @@ async function main() {
     } catch (cause) {
       if (existsSync(localLlms)) {
         console.warn(`  ${llmsUrl} failed (${cause}) — using the previously mirrored catalog`);
-        llms = await Bun.file(localLlms).text();
+        llms = await readFile(localLlms, "utf8");
       } else {
         throw cause;
       }
@@ -392,7 +395,7 @@ async function main() {
   let rateLimited = 0;
   const saved = await mapConcurrent(entries, CONCURRENCY, async (entry) => {
     if (existsSync(entry.localPath)) {
-      const existing = await Bun.file(entry.localPath).text();
+      const existing = await readFile(entry.localPath, "utf8");
       if (existing.includes('"openapi"') || existing.length > 200) {
         return entry.localPath;
       }
@@ -428,7 +431,7 @@ async function main() {
   const snippets: any[] = [];
   for (const file of [...kept].sort()) {
     if (!file.endsWith(".md")) continue;
-    const markdown = await Bun.file(file).text();
+    const markdown = await readFile(file, "utf8");
     snippets.push(...extractOpenApiDocuments(markdown));
   }
 

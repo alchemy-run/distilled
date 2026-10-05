@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Infisical OpenAPI spec to ../specs/.
  *
@@ -7,7 +7,7 @@
  * repo and no versioned URL, so the mirror simply snapshots it.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/openapi.json
@@ -18,6 +18,7 @@ const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 // Ensure the specs directory exists
 if (!existsSync(SPECS_DIR)) {
@@ -51,7 +52,7 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline, matching the package's own downloader,
   // so a whitespace-only change upstream produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

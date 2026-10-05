@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Trigger.dev's first-party OpenAPI spec and snapshots vendor docs
  * into ../specs/.
@@ -10,7 +10,7 @@
  * docs are snapshotted here so convert/generate never crawl the live site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -19,7 +19,9 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import * as path from "node:path";
+import YAML from "yaml";
 
 const OPENAPI_SPEC_URL = "https://trigger.dev/docs/v3-openapi.yaml";
 const DOCS_LLMS_URL = "https://trigger.dev/docs/llms.txt";
@@ -81,7 +83,7 @@ async function fetchOpenApi(): Promise<void> {
     OPENAPI_SPEC_URL,
     "application/yaml, text/yaml, text/plain, application/json",
   );
-  const spec = Bun.YAML.parse(text) as Record<string, unknown>;
+  const spec = YAML.parse(text) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML, but it is not an OpenAPI document.
@@ -94,7 +96,7 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
@@ -106,7 +108,7 @@ async function fetchDocs(): Promise<void> {
     throw new Error(`${DOCS_LLMS_URL} did not look like Trigger.dev's llms.txt catalog`);
   }
   console.log(`Writing docs catalog to ${LLMS_OUTPUT}...`);
-  await Bun.write(LLMS_OUTPUT, llms.endsWith("\n") ? llms : `${llms}\n`);
+  await writeFile(LLMS_OUTPUT, llms.endsWith("\n") ? llms : `${llms}\n`);
 
   mkdirSync(`${SPECS_DIR}/docs`, { recursive: true });
   for (const doc of DOCS) {
@@ -121,7 +123,7 @@ async function fetchDocs(): Promise<void> {
     const snapshot = trimmed.endsWith("\n") ? trimmed : `${trimmed}\n`;
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     mkdirSync(path.dirname(outputPath), { recursive: true });
-    await Bun.write(outputPath, snapshot);
+    await writeFile(outputPath, snapshot);
     console.log(`Wrote ${outputPath}`);
   }
 }

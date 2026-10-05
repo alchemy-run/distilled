@@ -73,9 +73,7 @@ export const DeleteSettingTlsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSettingTlsRequest",
-}) as any as S.Schema<DeleteSettingTlsRequest>;
+).annotate({ identifier: "DeleteSettingTlsRequest" }) as any as S.Schema<DeleteSettingTlsRequest>;
 
 export type SettingsTlsDeleteResponseValueCase0 = "1.0" | "1.1" | "1.2" | "1.3" | "on" | "off";
 export const SettingsTlsDeleteResponseValueCase0 = S.String;
@@ -111,9 +109,7 @@ export const DeleteSettingTlsResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     value: S.optional(S.NullOr(SettingsTlsDeleteResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSettingTlsResponse",
-}) as any as S.Schema<DeleteSettingTlsResponse>;
+).annotate({ identifier: "DeleteSettingTlsResponse" }) as any as S.Schema<DeleteSettingTlsResponse>;
 
 export type SettingsTlsGetRequestSettingId = "ciphers" | "min_tls_version" | "http2";
 export const SettingsTlsGetRequestSettingId = S.String;
@@ -140,9 +136,7 @@ export const GetSettingTlsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingTlsRequest",
-}) as any as S.Schema<GetSettingTlsRequest>;
+).annotate({ identifier: "GetSettingTlsRequest" }) as any as S.Schema<GetSettingTlsRequest>;
 
 export type SettingsTlsGetResponseValueCase0 = "1.0" | "1.1" | "1.2" | "1.3" | "on" | "off";
 export const SettingsTlsGetResponseValueCase0 = S.String;
@@ -178,9 +172,7 @@ export const GetSettingTlsResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     value: S.optional(S.NullOr(SettingsTlsGetResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingTlsResponse",
-}) as any as S.Schema<GetSettingTlsResponse>;
+).annotate({ identifier: "GetSettingTlsResponse" }) as any as S.Schema<GetSettingTlsResponse>;
 
 export type ListSettingsTlsRequestSettingId = "ciphers" | "min_tls_version" | "http2";
 export const ListSettingsTlsRequestSettingId = S.String;
@@ -197,16 +189,10 @@ export const ListSettingsTlsRequest = /*@__PURE__*/ S.suspend(() =>
     settingId: ListSettingsTlsRequestSettingId.pipe(T.Label("setting_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/hostnames/settings/{setting_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/hostnames/settings/{setting_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSettingsTlsRequest",
-}) as any as S.Schema<ListSettingsTlsRequest>;
+).annotate({ identifier: "ListSettingsTlsRequest" }) as any as S.Schema<ListSettingsTlsRequest>;
 
 export type ListSettingsTlsResultItemValueCase0 = "1.0" | "1.1" | "1.2" | "1.3" | "on" | "off";
 export const ListSettingsTlsResultItemValueCase0 = S.String;
@@ -253,9 +239,7 @@ export const ListSettingsTlsResultList = /*@__PURE__*/ S.Array(
 export type ListSettingsTlsResponse = ListSettingsTlsResultList;
 export const ListSettingsTlsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSettingsTlsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSettingsTlsResponse",
-}) as any as S.Schema<ListSettingsTlsResponse>;
+).annotate({ identifier: "ListSettingsTlsResponse" }) as any as S.Schema<ListSettingsTlsResponse>;
 
 export type SettingsTlsUpdateRequestSettingId = "ciphers" | "min_tls_version" | "http2";
 export const SettingsTlsUpdateRequestSettingId = S.String;
@@ -299,9 +283,7 @@ export const PutSettingTlsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingTlsRequest",
-}) as any as S.Schema<PutSettingTlsRequest>;
+).annotate({ identifier: "PutSettingTlsRequest" }) as any as S.Schema<PutSettingTlsRequest>;
 
 export type SettingsTlsUpdateResponseValueCase0 = "1.0" | "1.1" | "1.2" | "1.3" | "on" | "off";
 export const SettingsTlsUpdateResponseValueCase0 = S.String;
@@ -337,9 +319,7 @@ export const PutSettingTlsResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     value: S.optional(S.NullOr(SettingsTlsUpdateResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingTlsResponse",
-}) as any as S.Schema<PutSettingTlsResponse>;
+).annotate({ identifier: "PutSettingTlsResponse" }) as any as S.Schema<PutSettingTlsResponse>;
 
 export type DeleteSettingTlsError =
   | AdvancedCertificateManagerRequired

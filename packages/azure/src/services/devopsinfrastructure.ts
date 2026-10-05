@@ -88,9 +88,7 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-02",
     }),
   ),
-).annotate({
-  identifier: "DeletePoolRequest",
-}) as any as S.Schema<DeletePoolRequest>;
+).annotate({ identifier: "DeletePoolRequest" }) as any as S.Schema<DeletePoolRequest>;
 
 export interface DeletePoolResponse {}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -211,18 +209,48 @@ export type ProvisioningState =
   | "Accepted";
 export const ProvisioningState = S.String;
 
+/** A list of strings. */
+export type PoolStringList = Array<string>;
+export const PoolStringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<PoolStringList>;
+
+/** Defines the type of Azure DevOps pool permission. */
+export interface AzureDevOpsPermissionProfile {
+  /** Determines who has admin permissions to the Azure DevOps pool (CreatorOnly, Inherit, SpecificAccounts). */
+  kind: string;
+  /** User email addresses. */
+  users?: PoolStringList;
+  /** Group email addresses. */
+  groups?: PoolStringList;
+}
+export const AzureDevOpsPermissionProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.String,
+    users: S.optional(PoolStringList),
+    groups: S.optional(PoolStringList),
+  }),
+).annotate({
+  identifier: "AzureDevOpsPermissionProfile",
+}) as any as S.Schema<AzureDevOpsPermissionProfile>;
+
 /** Defines the organization in which the pool will be used. */
 export interface OrganizationProfile {
   /** Discriminator property for OrganizationProfile. */
   kind: string;
+  /** AzureDevOps: list of {url, projects?, parallelism?, openAccess?}; GitHub: list of {url, repositories?}. */
+  organizations?: unknown;
+  /** AzureDevOps only: the type of permission which determines which accounts are admins on the pool. */
+  permissionProfile?: AzureDevOpsPermissionProfile;
+  /** AzureDevOps only: an alias to reference the pool by. */
+  alias?: string;
 }
 export const OrganizationProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
+    organizations: S.optional(S.Unknown),
+    permissionProfile: S.optional(AzureDevOpsPermissionProfile),
+    alias: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationProfile",
-}) as any as S.Schema<OrganizationProfile>;
+).annotate({ identifier: "OrganizationProfile" }) as any as S.Schema<OrganizationProfile>;
 
 /** Determines how the stand-by scheme should be provided. */
 export type ResourcePredictionsProfileType = "Manual" | "Automatic";
@@ -232,10 +260,13 @@ export const ResourcePredictionsProfileType = S.String;
 export interface ResourcePredictionsProfile {
   /** Determines how the stand-by scheme should be provided. */
   kind: ResourcePredictionsProfileType | (string & {});
+  /** Automatic only: determines the balance between cost and performance (Balanced, MostCostEffective, MoreCostEffective, MorePerformance, BestPerformance). */
+  predictionPreference?: string;
 }
 export const ResourcePredictionsProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: ResourcePredictionsProfileType,
+    predictionPreference: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ResourcePredictionsProfile",
@@ -249,23 +280,170 @@ export interface AgentProfile {
   resourcePredictions?: unknown;
   /** Defines how the pool buffer/stand-by agents is provided. */
   resourcePredictionsProfile?: ResourcePredictionsProfile;
+  /** Stateful only: how long should stateful machines be kept around (d.hh:mm:ss). */
+  maxAgentLifetime?: string;
+  /** Stateful only: how long should the machine be kept around after it ran a workload when there are no stand-by agents. */
+  gracePeriodTimeSpan?: string;
 }
 export const AgentProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
     resourcePredictions: S.optional(S.Unknown),
     resourcePredictionsProfile: S.optional(ResourcePredictionsProfile),
+    maxAgentLifetime: S.optional(S.String),
+    gracePeriodTimeSpan: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentProfile" }) as any as S.Schema<AgentProfile>;
+
+/** The Azure SKU of the machines in the pool. */
+export interface DevOpsAzureSku {
+  /** The Azure SKU name of the machines in the pool. */
+  name: string;
+}
+export const DevOpsAzureSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({ identifier: "DevOpsAzureSku" }) as any as S.Schema<DevOpsAzureSku>;
+
+/** The VM image of the machines in the pool. */
+export interface PoolImage {
+  /** The resource id of the image. */
+  resourceId?: string;
+  /** The image to use from a well-known set of images made available to customers. */
+  wellKnownImageName?: string;
+  /** List of aliases to reference the image by. */
+  aliases?: PoolStringList;
+  /** The percentage of the buffer to be allocated to this image. */
+  buffer?: string;
+  /** The ephemeral type of the image (Automatic, CacheDisk, ResourceDisk). */
+  ephemeralType?: string;
+}
+export const PoolImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    wellKnownImageName: S.optional(S.String),
+    aliases: S.optional(PoolStringList),
+    buffer: S.optional(S.String),
+    ephemeralType: S.optional(S.String),
+  }),
+).annotate({ identifier: "PoolImage" }) as any as S.Schema<PoolImage>;
+
+/** The VM images of the machines in the pool. */
+export type PoolImageList = Array<PoolImage>;
+export const PoolImageList = /*@__PURE__*/ S.Array(PoolImage) as any as S.Schema<PoolImageList>;
+
+/** The secret management settings of the machines in the pool. */
+export interface SecretsManagementSettings {
+  /** Where to store certificates on the machine. */
+  certificateStoreLocation?: string;
+  /** Name of the certificate store to use on the machine (My, Root). */
+  certificateStoreName?: string;
+  /** The list of certificates to install on all machines in the pool. */
+  observedCertificates: PoolStringList;
+  /** Defines if the key of installed certificates should be exportable. */
+  keyExportable: boolean;
+}
+export const SecretsManagementSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificateStoreLocation: S.optional(S.String),
+    certificateStoreName: S.optional(S.String),
+    observedCertificates: PoolStringList,
+    keyExportable: S.Boolean,
+  }),
+).annotate({
+  identifier: "SecretsManagementSettings",
+}) as any as S.Schema<SecretsManagementSettings>;
+
+/** The OS profile of the machines in the pool. */
+export interface OsProfile {
+  /** The secret management settings of the machines in the pool. */
+  secretsManagementSettings?: SecretsManagementSettings;
+  /** Determines how the service should be run (Service, Interactive). */
+  logonType?: string;
+}
+export const OsProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretsManagementSettings: S.optional(SecretsManagementSettings),
+    logonType: S.optional(S.String),
+  }),
+).annotate({ identifier: "OsProfile" }) as any as S.Schema<OsProfile>;
+
+/** The data disk of the VMSS. */
+export interface DataDisk {
+  /** The type of caching to be enabled for the data disks (None, ReadOnly, ReadWrite). */
+  caching?: string;
+  /** The initial disk size in gigabytes. */
+  diskSizeGiB?: number;
+  /** The storage Account type to be used for the data disk. */
+  storageAccountType?: string;
+  /** The drive letter for the empty data disk. */
+  driveLetter?: string;
+}
+export const DataDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    caching: S.optional(S.String),
+    diskSizeGiB: S.optional(S.Number),
+    storageAccountType: S.optional(S.String),
+    driveLetter: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataDisk" }) as any as S.Schema<DataDisk>;
+
+/** A list of empty data disks to attach. */
+export type DataDiskList = Array<DataDisk>;
+export const DataDiskList = /*@__PURE__*/ S.Array(DataDisk) as any as S.Schema<DataDiskList>;
+
+/** The storage profile of the VMSS. */
+export interface StorageProfile {
+  /** The Azure SKU name of the OS disk (Standard, Premium, StandardSSD). */
+  osDiskStorageAccountType?: string;
+  /** A list of empty data disks to attach. */
+  dataDisks?: DataDiskList;
+}
+export const StorageProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    osDiskStorageAccountType: S.optional(S.String),
+    dataDisks: S.optional(DataDiskList),
+  }),
+).annotate({ identifier: "StorageProfile" }) as any as S.Schema<StorageProfile>;
+
+/** The network profile of the machines in the pool. */
+export interface NetworkProfile {
+  /** The subnet id on which to put all machines created in the pool. */
+  subnetId?: string;
+  /** The number of static public IP addresses for machines in the pool. */
+  staticIpAddressCount?: number;
+}
+export const NetworkProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subnetId: S.optional(S.String),
+    staticIpAddressCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "NetworkProfile" }) as any as S.Schema<NetworkProfile>;
 
 /** Defines the type of fabric the agent will run on. */
 export interface FabricProfile {
   /** Discriminator property for FabricProfile. */
   kind: string;
+  /** Vmss only: the Azure SKU of the machines in the pool. */
+  sku?: DevOpsAzureSku;
+  /** Vmss only: the VM images of the machines in the pool. */
+  images?: PoolImageList;
+  /** Vmss only: the OS profile of the machines in the pool. */
+  osProfile?: OsProfile;
+  /** Vmss only: the storage profile of the machines in the pool. */
+  storageProfile?: StorageProfile;
+  /** Vmss only: the network profile of the machines in the pool. */
+  networkProfile?: NetworkProfile;
 }
 export const FabricProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
+    sku: S.optional(DevOpsAzureSku),
+    images: S.optional(PoolImageList),
+    osProfile: S.optional(OsProfile),
+    storageProfile: S.optional(StorageProfile),
+    networkProfile: S.optional(NetworkProfile),
   }),
 ).annotate({ identifier: "FabricProfile" }) as any as S.Schema<FabricProfile>;
 
@@ -278,9 +456,7 @@ export const RuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workFolder: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuntimeConfiguration",
-}) as any as S.Schema<RuntimeConfiguration>;
+).annotate({ identifier: "RuntimeConfiguration" }) as any as S.Schema<RuntimeConfiguration>;
 
 /** Pool properties */
 export interface PoolProperties {
@@ -331,9 +507,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetPoolResponseIdentityUserAssignedIdentitiesMap = {
@@ -361,9 +535,7 @@ export const GetPoolResponseIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(GetPoolResponseIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "GetPoolResponseIdentity",
-}) as any as S.Schema<GetPoolResponseIdentity>;
+).annotate({ identifier: "GetPoolResponseIdentity" }) as any as S.Schema<GetPoolResponseIdentity>;
 
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -394,9 +566,7 @@ export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PoolProperties),
     identity: S.optional(GetPoolResponseIdentity),
   }),
-).annotate({
-  identifier: "GetPoolResponse",
-}) as any as S.Schema<GetPoolResponse>;
+).annotate({ identifier: "GetPoolResponse" }) as any as S.Schema<GetPoolResponse>;
 
 export interface ListImageVersionByImageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -432,9 +602,7 @@ export const ImageVersionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.String,
   }),
-).annotate({
-  identifier: "ImageVersionProperties",
-}) as any as S.Schema<ImageVersionProperties>;
+).annotate({ identifier: "ImageVersionProperties" }) as any as S.Schema<ImageVersionProperties>;
 
 /** An image version object */
 export interface ImageVersion {
@@ -477,9 +645,7 @@ export const ImageVersionListResult = /*@__PURE__*/ S.suspend(() =>
     value: ImageVersionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageVersionListResult",
-}) as any as S.Schema<ImageVersionListResult>;
+).annotate({ identifier: "ImageVersionListResult" }) as any as S.Schema<ImageVersionListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -491,9 +657,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-02",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -513,9 +677,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -565,9 +727,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -777,9 +937,7 @@ export const ResourceDetailsObject = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ResourceDetailsObjectProperties),
   }),
-).annotate({
-  identifier: "ResourceDetailsObject",
-}) as any as S.Schema<ResourceDetailsObject>;
+).annotate({ identifier: "ResourceDetailsObject" }) as any as S.Schema<ResourceDetailsObject>;
 
 /** The ResourceDetailsObject items on this page */
 export type ResourceDetailsObjectListResultValueList = Array<ResourceDetailsObject>;
@@ -821,9 +979,7 @@ export const ListSkuByLocationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-02",
     }),
   ),
-).annotate({
-  identifier: "ListSkuByLocationRequest",
-}) as any as S.Schema<ListSkuByLocationRequest>;
+).annotate({ identifier: "ListSkuByLocationRequest" }) as any as S.Schema<ListSkuByLocationRequest>;
 
 /** The set of locations that the SKU is available. */
 export type ResourceSkuPropertiesLocationsList = Array<string>;
@@ -855,9 +1011,7 @@ export const ResourceSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "ResourceSkuCapabilities",
-}) as any as S.Schema<ResourceSkuCapabilities>;
+).annotate({ identifier: "ResourceSkuCapabilities" }) as any as S.Schema<ResourceSkuCapabilities>;
 
 /** A list of capabilities that are available for the SKU in the specified list of zones. */
 export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -877,9 +1031,7 @@ export const ResourceSkuZoneDetails = /*@__PURE__*/ S.suspend(() =>
     name: ResourceSkuZoneDetailsNameList,
     capabilities: ResourceSkuZoneDetailsCapabilitiesList,
   }),
-).annotate({
-  identifier: "ResourceSkuZoneDetails",
-}) as any as S.Schema<ResourceSkuZoneDetails>;
+).annotate({ identifier: "ResourceSkuZoneDetails" }) as any as S.Schema<ResourceSkuZoneDetails>;
 
 /** Gets details of capabilities available to a SKU in specific zones. */
 export type ResourceSkuLocationInfoZoneDetailsList = Array<ResourceSkuZoneDetails>;
@@ -902,9 +1054,7 @@ export const ResourceSkuLocationInfo = /*@__PURE__*/ S.suspend(() =>
     zones: ResourceSkuLocationInfoZonesList,
     zoneDetails: ResourceSkuLocationInfoZoneDetailsList,
   }),
-).annotate({
-  identifier: "ResourceSkuLocationInfo",
-}) as any as S.Schema<ResourceSkuLocationInfo>;
+).annotate({ identifier: "ResourceSkuLocationInfo" }) as any as S.Schema<ResourceSkuLocationInfo>;
 
 /** A list of locations and availability zones in those locations where the SKU is available */
 export type ResourceSkuPropertiesLocationInfoList = Array<ResourceSkuLocationInfo>;
@@ -978,9 +1128,7 @@ export const ResourceSkuRestrictions = /*@__PURE__*/ S.suspend(() =>
     restrictionInfo: ResourceSkuRestrictionInfo,
     reasonCode: S.optional(ResourceSkuRestrictionsReasonCode),
   }),
-).annotate({
-  identifier: "ResourceSkuRestrictions",
-}) as any as S.Schema<ResourceSkuRestrictions>;
+).annotate({ identifier: "ResourceSkuRestrictions" }) as any as S.Schema<ResourceSkuRestrictions>;
 
 /** The restrictions of the SKU. */
 export type ResourceSkuPropertiesRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -1018,9 +1166,7 @@ export const ResourceSkuProperties = /*@__PURE__*/ S.suspend(() =>
     capabilities: ResourceSkuPropertiesCapabilitiesList,
     restrictions: ResourceSkuPropertiesRestrictionsList,
   }),
-).annotate({
-  identifier: "ResourceSkuProperties",
-}) as any as S.Schema<ResourceSkuProperties>;
+).annotate({ identifier: "ResourceSkuProperties" }) as any as S.Schema<ResourceSkuProperties>;
 
 /** A ResourceSku */
 export interface ResourceSku {
@@ -1063,14 +1209,10 @@ export const ResourceSkuListResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceSkuListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuListResult",
-}) as any as S.Schema<ResourceSkuListResult>;
+).annotate({ identifier: "ResourceSkuListResult" }) as any as S.Schema<ResourceSkuListResult>;
 
 /** Resource tags. */
-export type PoolsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PoolsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1144,9 +1286,7 @@ export const PoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PoolsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PoolsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PoolsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1354,9 +1494,7 @@ export const PoolUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     devCenterProjectResourceId: S.optional(S.String),
     runtimeConfiguration: S.optional(RuntimeConfiguration),
   }),
-).annotate({
-  identifier: "PoolUpdateProperties",
-}) as any as S.Schema<PoolUpdateProperties>;
+).annotate({ identifier: "PoolUpdateProperties" }) as any as S.Schema<PoolUpdateProperties>;
 
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1388,9 +1526,7 @@ export const UpdatePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-02",
     }),
   ),
-).annotate({
-  identifier: "UpdatePoolRequest",
-}) as any as S.Schema<UpdatePoolRequest>;
+).annotate({ identifier: "UpdatePoolRequest" }) as any as S.Schema<UpdatePoolRequest>;
 
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -1458,9 +1594,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PoolProperties),
     identity: S.optional(UpdatePoolResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdatePoolResponse",
-}) as any as S.Schema<UpdatePoolResponse>;
+).annotate({ identifier: "UpdatePoolResponse" }) as any as S.Schema<UpdatePoolResponse>;
 
 export type CheckPoolNameAvailabilityError = AzureOpError;
 /** Checks that the pool name is valid and is not already in use. */

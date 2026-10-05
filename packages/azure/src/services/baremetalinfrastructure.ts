@@ -41,9 +41,7 @@ export const StorageBillingProperties = /*@__PURE__*/ S.suspend(() =>
     billingMode: S.optional(S.String),
     azureBareMetalStorageInstanceSize: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageBillingProperties",
-}) as any as S.Schema<StorageBillingProperties>;
+).annotate({ identifier: "StorageBillingProperties" }) as any as S.Schema<StorageBillingProperties>;
 
 /** described the storage properties of the azure baremetalstorage instance */
 export interface StorageProperties {
@@ -72,9 +70,7 @@ export const StorageProperties = /*@__PURE__*/ S.suspend(() =>
     workloadType: S.optional(S.String),
     storageBillingProperties: S.optional(StorageBillingProperties),
   }),
-).annotate({
-  identifier: "StorageProperties",
-}) as any as S.Schema<StorageProperties>;
+).annotate({ identifier: "StorageProperties" }) as any as S.Schema<StorageProperties>;
 
 /** Describes the properties of an AzureBareMetalStorageInstance. */
 export interface AzureBareMetalStorageInstanceProperties {
@@ -269,9 +265,7 @@ export const GetAzureBareMetalInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAzureBareMetalInstanceRequest>;
 
 /** Resource tags. */
-export type GetAzureBareMetalInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAzureBareMetalInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const GetAzureBareMetalInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -340,9 +334,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
     hardwareType: S.optional(HardwareProfileHardwareType),
     azureBareMetalInstanceSize: S.optional(HardwareProfileAzureBareMetalInstanceSize),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** Specifies the disk information fo the AzureBareMetal instance */
 export interface Disk {
@@ -593,9 +585,7 @@ export const GetAzureBareMetalStorageInstanceRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetAzureBareMetalStorageInstanceRequest>;
 
 /** Resource tags. */
-export type GetAzureBareMetalStorageInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAzureBareMetalStorageInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const GetAzureBareMetalStorageInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -700,9 +690,7 @@ export const ListAzureBareMetalInstanceByResourceGroupRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<ListAzureBareMetalInstanceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type AzureBareMetalInstanceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AzureBareMetalInstanceTagsMap = { [key: string]: string | undefined };
 export const AzureBareMetalInstanceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -779,9 +767,7 @@ export const AzureBareMetalInstance = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AzureBareMetalInstanceProperties),
     systemData: S.optional(AzureBareMetalInstanceSystemData),
   }),
-).annotate({
-  identifier: "AzureBareMetalInstance",
-}) as any as S.Schema<AzureBareMetalInstance>;
+).annotate({ identifier: "AzureBareMetalInstance" }) as any as S.Schema<AzureBareMetalInstance>;
 
 /** The list of Azure BareMetal instances. */
 export type AzureBareMetalInstancesListResultValueList = Array<AzureBareMetalInstance>;
@@ -847,9 +833,7 @@ export const ListAzureBareMetalStorageInstanceByResourceGroupRequest = /*@__PURE
 }) as any as S.Schema<ListAzureBareMetalStorageInstanceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type AzureBareMetalStorageInstanceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AzureBareMetalStorageInstanceTagsMap = { [key: string]: string | undefined };
 export const AzureBareMetalStorageInstanceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -982,9 +966,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-06",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Detailed BareMetal operation information */
 export interface Display {
@@ -1041,9 +1023,7 @@ export const OperationList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "OperationList" }) as any as S.Schema<OperationList>;
 
 /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
-export type UpdateAzureBareMetalInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureBareMetalInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureBareMetalInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1078,9 +1058,7 @@ export const UpdateAzureBareMetalInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAzureBareMetalInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateAzureBareMetalInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureBareMetalInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureBareMetalInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

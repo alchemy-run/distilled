@@ -227,9 +227,7 @@ export const DeleteLoadTestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteLoadTestRequest",
-}) as any as S.Schema<DeleteLoadTestRequest>;
+).annotate({ identifier: "DeleteLoadTestRequest" }) as any as S.Schema<DeleteLoadTestRequest>;
 
 export interface DeleteLoadTestResponse {}
 export const DeleteLoadTestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -289,9 +287,7 @@ export const GetLoadTestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetLoadTestRequest",
-}) as any as S.Schema<GetLoadTestRequest>;
+).annotate({ identifier: "GetLoadTestRequest" }) as any as S.Schema<GetLoadTestRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -370,9 +366,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(EncryptionPropertiesIdentity),
     keyUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** LoadTest resource properties. */
 export interface LoadTestProperties {
@@ -392,9 +386,7 @@ export const LoadTestProperties = /*@__PURE__*/ S.suspend(() =>
     dataPlaneURI: S.optional(S.String),
     encryption: S.optional(EncryptionProperties),
   }),
-).annotate({
-  identifier: "LoadTestProperties",
-}) as any as S.Schema<LoadTestProperties>;
+).annotate({ identifier: "LoadTestProperties" }) as any as S.Schema<LoadTestProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -416,14 +408,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -478,9 +466,7 @@ export const GetLoadTestResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(LoadTestProperties),
     identity: S.optional(GetLoadTestResponseIdentity),
   }),
-).annotate({
-  identifier: "GetLoadTestResponse",
-}) as any as S.Schema<GetLoadTestResponse>;
+).annotate({ identifier: "GetLoadTestResponse" }) as any as S.Schema<GetLoadTestResponse>;
 
 export type GetPlaywrightQuotasRequestPlaywrightQuotaName = "ExecutionMinutes";
 export const GetPlaywrightQuotasRequestPlaywrightQuotaName = S.String;
@@ -526,9 +512,7 @@ export const FreeTrialProperties = /*@__PURE__*/ S.suspend(() =>
     workspaceId: S.String,
     state: FreeTrialState,
   }),
-).annotate({
-  identifier: "FreeTrialProperties",
-}) as any as S.Schema<FreeTrialProperties>;
+).annotate({ identifier: "FreeTrialProperties" }) as any as S.Schema<FreeTrialProperties>;
 
 /** The status of the last resource operation. */
 export type ProvisioningState =
@@ -606,9 +590,7 @@ export const GetPlaywrightWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPlaywrightWorkspaceRequest>;
 
 /** Resource tags. */
-export type GetPlaywrightWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPlaywrightWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const GetPlaywrightWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -794,9 +776,7 @@ export const GetQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetQuotasRequest",
-}) as any as S.Schema<GetQuotasRequest>;
+).annotate({ identifier: "GetQuotasRequest" }) as any as S.Schema<GetQuotasRequest>;
 
 /** Quota bucket resource properties. */
 export interface QuotaResourceProperties {
@@ -813,9 +793,7 @@ export const QuotaResourceProperties = /*@__PURE__*/ S.suspend(() =>
     usage: S.optional(S.Number),
     provisioningState: S.optional(ResourceState),
   }),
-).annotate({
-  identifier: "QuotaResourceProperties",
-}) as any as S.Schema<QuotaResourceProperties>;
+).annotate({ identifier: "QuotaResourceProperties" }) as any as S.Schema<QuotaResourceProperties>;
 
 export interface GetQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -837,9 +815,7 @@ export const GetQuotasResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaResourceProperties),
   }),
-).annotate({
-  identifier: "GetQuotasResponse",
-}) as any as S.Schema<GetQuotasResponse>;
+).annotate({ identifier: "GetQuotasResponse" }) as any as S.Schema<GetQuotasResponse>;
 
 export interface ListLoadTestByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -904,9 +880,7 @@ export const LoadTestResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(LoadTestProperties),
     identity: S.optional(GetLoadTestResponseIdentity),
   }),
-).annotate({
-  identifier: "LoadTestResource",
-}) as any as S.Schema<LoadTestResource>;
+).annotate({ identifier: "LoadTestResource" }) as any as S.Schema<LoadTestResource>;
 
 /** The LoadTestResource items on this page */
 export type LoadTestResourceListResultValueList = Array<LoadTestResource>;
@@ -1006,9 +980,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints for this service to which the Batch service makes outbound calls. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -1064,9 +1036,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1086,9 +1056,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1138,9 +1106,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPlaywrightQuotasBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1185,9 +1151,7 @@ export const PlaywrightQuota = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PlaywrightQuotaProperties),
   }),
-).annotate({
-  identifier: "PlaywrightQuota",
-}) as any as S.Schema<PlaywrightQuota>;
+).annotate({ identifier: "PlaywrightQuota" }) as any as S.Schema<PlaywrightQuota>;
 
 /** The PlaywrightQuota items on this page */
 export type PlaywrightQuotaListResultValueList = Array<PlaywrightQuota>;
@@ -1267,9 +1231,7 @@ export const PlaywrightWorkspace = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PlaywrightWorkspaceProperties),
   }),
-).annotate({
-  identifier: "PlaywrightWorkspace",
-}) as any as S.Schema<PlaywrightWorkspace>;
+).annotate({ identifier: "PlaywrightWorkspace" }) as any as S.Schema<PlaywrightWorkspace>;
 
 /** The PlaywrightWorkspace items on this page */
 export type PlaywrightWorkspaceListResultValueList = Array<PlaywrightWorkspace>;
@@ -1359,9 +1321,7 @@ export const PlaywrightWorkspaceQuota = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PlaywrightWorkspaceQuotaProperties),
   }),
-).annotate({
-  identifier: "PlaywrightWorkspaceQuota",
-}) as any as S.Schema<PlaywrightWorkspaceQuota>;
+).annotate({ identifier: "PlaywrightWorkspaceQuota" }) as any as S.Schema<PlaywrightWorkspaceQuota>;
 
 /** The PlaywrightWorkspaceQuota items on this page */
 export type PlaywrightWorkspaceQuotaListResultValueList = Array<PlaywrightWorkspaceQuota>;
@@ -1403,9 +1363,7 @@ export const ListQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListQuotasRequest",
-}) as any as S.Schema<ListQuotasRequest>;
+).annotate({ identifier: "ListQuotasRequest" }) as any as S.Schema<ListQuotasRequest>;
 
 /** Quota bucket details object. */
 export interface QuotaResource {
@@ -1448,14 +1406,10 @@ export const QuotaResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: QuotaResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaResourceListResult",
-}) as any as S.Schema<QuotaResourceListResult>;
+).annotate({ identifier: "QuotaResourceListResult" }) as any as S.Schema<QuotaResourceListResult>;
 
 /** Resource tags. */
-export type LoadTestsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LoadTestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LoadTestsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1473,9 +1427,7 @@ export const LoadTestPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     encryption: S.optional(EncryptionProperties),
   }),
-).annotate({
-  identifier: "LoadTestPropertiesInput",
-}) as any as S.Schema<LoadTestPropertiesInput>;
+).annotate({ identifier: "LoadTestPropertiesInput" }) as any as S.Schema<LoadTestPropertiesInput>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -1544,9 +1496,7 @@ export const LoadTestsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LoadTestsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LoadTestsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LoadTestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LoadTestsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1700,9 +1650,7 @@ export type UpdateLoadTestRequestIdentity = LoadTestsCreateOrUpdateRequestIdenti
 export const UpdateLoadTestRequestIdentity = LoadTestsCreateOrUpdateRequestIdentity;
 
 /** Resource tags. */
-export type UpdateLoadTestRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadTestRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateLoadTestRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1742,14 +1690,10 @@ export const UpdateLoadTestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateLoadTestRequest",
-}) as any as S.Schema<UpdateLoadTestRequest>;
+).annotate({ identifier: "UpdateLoadTestRequest" }) as any as S.Schema<UpdateLoadTestRequest>;
 
 /** Resource tags. */
-export type UpdateLoadTestResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadTestResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLoadTestResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1788,14 +1732,10 @@ export const UpdateLoadTestResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(LoadTestProperties),
     identity: S.optional(GetLoadTestResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateLoadTestResponse",
-}) as any as S.Schema<UpdateLoadTestResponse>;
+).annotate({ identifier: "UpdateLoadTestResponse" }) as any as S.Schema<UpdateLoadTestResponse>;
 
 /** Resource tags. */
-export type UpdatePlaywrightWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePlaywrightWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePlaywrightWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1853,9 +1793,7 @@ export const UpdatePlaywrightWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePlaywrightWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdatePlaywrightWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePlaywrightWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePlaywrightWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

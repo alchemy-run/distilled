@@ -46,7 +46,7 @@ const resolveBaseUrl = (config: {
 /** Layer from a client id + secret + optional version/base URL/env. */
 export const fromApiKey = (config: {
   readonly clientId: string;
-  readonly secret: string;
+  readonly secret: Redacted.Redacted<string>;
   readonly plaidVersion?: string;
   readonly apiBaseUrl?: string;
   readonly env?: string;
@@ -55,7 +55,7 @@ export const fromApiKey = (config: {
     Credentials,
     Effect.succeed({
       clientId: config.clientId,
-      secret: Redacted.make(config.secret),
+      secret: config.secret,
       plaidVersion: config.plaidVersion ?? DEFAULT_PLAID_VERSION,
       apiBaseUrl: resolveBaseUrl(config),
     }),

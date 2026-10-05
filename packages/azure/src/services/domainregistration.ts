@@ -77,9 +77,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 
 export interface DeleteDomainResponse {}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -122,9 +120,7 @@ export const DeleteDomainOwnershipIdentifierResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DeleteDomainOwnershipIdentifierResponse>;
 
 /** Resource tags. */
-export type DomainsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DomainsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -212,9 +208,7 @@ export const DomainPurchaseConsent = /*@__PURE__*/ S.suspend(() =>
     agreedBy: S.optional(S.String),
     agreedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainPurchaseConsent",
-}) as any as S.Schema<DomainPurchaseConsent>;
+).annotate({ identifier: "DomainPurchaseConsent" }) as any as S.Schema<DomainPurchaseConsent>;
 
 /** Current DNS type */
 export type DnsType = "AzureDns" | "DefaultDomainRegistrarDns";
@@ -259,9 +253,7 @@ export const DomainPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetDnsType: S.optional(DnsType),
     authCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainPropertiesInput",
-}) as any as S.Schema<DomainPropertiesInput>;
+).annotate({ identifier: "DomainPropertiesInput" }) as any as S.Schema<DomainPropertiesInput>;
 
 export interface DomainsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -335,9 +327,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type DomainsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DomainsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -507,9 +497,7 @@ export const DomainProperties = /*@__PURE__*/ S.suspend(() =>
     targetDnsType: S.optional(DnsType),
     authCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainProperties",
-}) as any as S.Schema<DomainProperties>;
+).annotate({ identifier: "DomainProperties" }) as any as S.Schema<DomainProperties>;
 
 export interface DomainsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -639,9 +627,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 /** Resource tags. */
 export type GetDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -679,9 +665,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DomainProperties),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetDomainControlCenterSsoRequestRequest {
   /** The ID of the target subscription. */
@@ -794,9 +778,7 @@ export const GetTopLevelDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetTopLevelDomainRequest",
-}) as any as S.Schema<GetTopLevelDomainRequest>;
+).annotate({ identifier: "GetTopLevelDomainRequest" }) as any as S.Schema<GetTopLevelDomainRequest>;
 
 /** TopLevelDomain resource specific properties */
 export interface TopLevelDomainProperties {
@@ -807,9 +789,7 @@ export const TopLevelDomainProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     privacy: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TopLevelDomainProperties",
-}) as any as S.Schema<TopLevelDomainProperties>;
+).annotate({ identifier: "TopLevelDomainProperties" }) as any as S.Schema<TopLevelDomainProperties>;
 
 export interface GetTopLevelDomainResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -917,9 +897,7 @@ export const DomainCollection = /*@__PURE__*/ S.suspend(() =>
     value: DomainCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainCollection",
-}) as any as S.Schema<DomainCollection>;
+).annotate({ identifier: "DomainCollection" }) as any as S.Schema<DomainCollection>;
 
 export interface ListDomainOwnershipIdentifiersRequest {
   /** The ID of the target subscription. */
@@ -1050,9 +1028,7 @@ export const NameIdentifierCollection = /*@__PURE__*/ S.suspend(() =>
     value: NameIdentifierCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameIdentifierCollection",
-}) as any as S.Schema<NameIdentifierCollection>;
+).annotate({ identifier: "NameIdentifierCollection" }) as any as S.Schema<NameIdentifierCollection>;
 
 export interface ListDomainRegistrationProviderOperationsRequest {}
 export const ListDomainRegistrationProviderOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1086,9 +1062,7 @@ export const CsmOperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CsmOperationDisplay",
-}) as any as S.Schema<CsmOperationDisplay>;
+).annotate({ identifier: "CsmOperationDisplay" }) as any as S.Schema<CsmOperationDisplay>;
 
 /** Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, where instance name is dimension of the metric HTTP request */
 export interface Dimension {
@@ -1128,9 +1102,7 @@ export const MetricAvailability = /*@__PURE__*/ S.suspend(() =>
     timeGrain: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricAvailability",
-}) as any as S.Schema<MetricAvailability>;
+).annotate({ identifier: "MetricAvailability" }) as any as S.Schema<MetricAvailability>;
 
 /** Resource metric availability. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
@@ -1207,9 +1179,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     supportedTimeGrainTypes: S.optional(MetricSpecificationSupportedTimeGrainTypesList),
     supportedAggregationTypes: S.optional(MetricSpecificationSupportedAggregationTypesList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Resource metrics service name. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1235,9 +1205,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     blobDuration: S.optional(S.String),
     logFilterPattern: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Resource logs service provided by Microsoft.Insights resource provider. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1257,9 +1225,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties available for a Microsoft.Web resource provider operation. */
 export interface CsmOperationDescriptionProperties {
@@ -1295,9 +1261,7 @@ export const CsmOperationDescription = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(CsmOperationDescriptionProperties),
   }),
-).annotate({
-  identifier: "CsmOperationDescription",
-}) as any as S.Schema<CsmOperationDescription>;
+).annotate({ identifier: "CsmOperationDescription" }) as any as S.Schema<CsmOperationDescription>;
 
 /** Collection of resources. */
 export type CsmOperationCollectionValueList = Array<CsmOperationDescription>;
@@ -1317,9 +1281,7 @@ export const CsmOperationCollection = /*@__PURE__*/ S.suspend(() =>
     value: CsmOperationCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CsmOperationCollection",
-}) as any as S.Schema<CsmOperationCollection>;
+).annotate({ identifier: "CsmOperationCollection" }) as any as S.Schema<CsmOperationCollection>;
 
 export interface ListDomainsRequest {
   /** The ID of the target subscription. */
@@ -1336,9 +1298,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
 export interface ListTopLevelDomainAgreementsRequest {
   /** The ID of the target subscription. */
@@ -1386,9 +1346,7 @@ export const TldLegalAgreement = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TldLegalAgreement",
-}) as any as S.Schema<TldLegalAgreement>;
+).annotate({ identifier: "TldLegalAgreement" }) as any as S.Schema<TldLegalAgreement>;
 
 /** The TldLegalAgreement items on this page */
 export type TldLegalAgreementCollectionValueList = Array<TldLegalAgreement>;
@@ -1475,9 +1433,7 @@ export const TopLevelDomainCollection = /*@__PURE__*/ S.suspend(() =>
     value: TopLevelDomainCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopLevelDomainCollection",
-}) as any as S.Schema<TopLevelDomainCollection>;
+).annotate({ identifier: "TopLevelDomainCollection" }) as any as S.Schema<TopLevelDomainCollection>;
 
 export interface RenewDomainRequest {
   /** The ID of the target subscription. */
@@ -1500,9 +1456,7 @@ export const RenewDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "RenewDomainRequest",
-}) as any as S.Schema<RenewDomainRequest>;
+).annotate({ identifier: "RenewDomainRequest" }) as any as S.Schema<RenewDomainRequest>;
 
 export interface RenewDomainResponse {}
 export const RenewDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1530,14 +1484,10 @@ export const TransferDomainOutRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "TransferDomainOutRequest",
-}) as any as S.Schema<TransferDomainOutRequest>;
+).annotate({ identifier: "TransferDomainOutRequest" }) as any as S.Schema<TransferDomainOutRequest>;
 
 /** Resource tags. */
-export type TransferDomainOutResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TransferDomainOutResponseTagsMap = { [key: string]: string | undefined };
 export const TransferDomainOutResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1607,9 +1557,7 @@ export const UpdateDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDomainRequest",
-}) as any as S.Schema<UpdateDomainRequest>;
+).annotate({ identifier: "UpdateDomainRequest" }) as any as S.Schema<UpdateDomainRequest>;
 
 /** Resource tags. */
 export type UpdateDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -1647,9 +1595,7 @@ export const UpdateDomainResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DomainProperties),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateDomainResponse",
-}) as any as S.Schema<UpdateDomainResponse>;
+).annotate({ identifier: "UpdateDomainResponse" }) as any as S.Schema<UpdateDomainResponse>;
 
 export interface UpdateDomainOwnershipIdentifierRequest {
   /** The ID of the target subscription. */

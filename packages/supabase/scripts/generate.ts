@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect
@@ -67,7 +67,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Supabase Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts — there are no smithy-model patches.
   patchesDir: false,

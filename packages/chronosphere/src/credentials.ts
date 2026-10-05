@@ -36,16 +36,16 @@ const originFrom = (value: string): string => {
   return trimmed.includes(".") ? `https://${trimmed}` : `https://${trimmed}.chronosphere.io`;
 };
 
-/** Layer from a plain API token + instance origin. */
+/** Layer from a redacted API token + instance origin. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
   readonly actor?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: originFrom(config.apiBaseUrl),
       actor: config.actor,
     }),

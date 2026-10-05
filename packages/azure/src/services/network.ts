@@ -330,6 +330,68 @@ export const AdminRuleCollectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 export type AdminRulesCreateOrUpdateRequestKind = "Custom" | "Default";
 export const AdminRulesCreateOrUpdateRequestKind = S.String;
 
+/** Address prefix type. */
+export type AddressPrefixItemAddressPrefixType = "IPPrefix" | "ServiceTag" | "NetworkGroup";
+export const AddressPrefixItemAddressPrefixType = S.String;
+
+/** Address prefix item. */
+export interface AddressPrefixItem {
+  /** Address prefix. */
+  addressPrefix?: string;
+  /** Address prefix type. */
+  addressPrefixType?: AddressPrefixItemAddressPrefixType | (string & {});
+}
+export const AddressPrefixItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addressPrefix: S.optional(S.String),
+    addressPrefixType: S.optional(AddressPrefixItemAddressPrefixType),
+  }),
+).annotate({ identifier: "AddressPrefixItem" }) as any as S.Schema<AddressPrefixItem>;
+
+export type AdminRuleAddressPrefixItemList = Array<AddressPrefixItem>;
+export const AdminRuleAddressPrefixItemList = /*@__PURE__*/ S.Array(
+  AddressPrefixItem,
+) as any as S.Schema<AdminRuleAddressPrefixItemList>;
+
+export type AdminRuleStringList = Array<string>;
+export const AdminRuleStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AdminRuleStringList>;
+
+/** Properties of a Custom (properties) or Default (flag) security admin rule. */
+export interface AdminRulePropertiesFormat {
+  description?: string;
+  flag?: string;
+  protocol?: string;
+  access?: string;
+  direction?: string;
+  priority?: number;
+  sources?: AdminRuleAddressPrefixItemList;
+  destinations?: AdminRuleAddressPrefixItemList;
+  sourcePortRanges?: AdminRuleStringList;
+  destinationPortRanges?: AdminRuleStringList;
+  provisioningState?: string;
+  resourceGuid?: string;
+}
+export const AdminRulePropertiesFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    flag: S.optional(S.String),
+    protocol: S.optional(S.String),
+    access: S.optional(S.String),
+    direction: S.optional(S.String),
+    priority: S.optional(S.Number),
+    sources: S.optional(AdminRuleAddressPrefixItemList),
+    destinations: S.optional(AdminRuleAddressPrefixItemList),
+    sourcePortRanges: S.optional(AdminRuleStringList),
+    destinationPortRanges: S.optional(AdminRuleStringList),
+    provisioningState: S.optional(S.String),
+    resourceGuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AdminRulePropertiesFormat",
+}) as any as S.Schema<AdminRulePropertiesFormat>;
+
 export interface AdminRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -345,6 +407,7 @@ export interface AdminRulesCreateOrUpdateRequest {
   ruleName: string;
   /** Whether the rule is custom or default. */
   kind: AdminRulesCreateOrUpdateRequestKind | (string & {});
+  properties?: AdminRulePropertiesFormat;
 }
 export const AdminRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -355,6 +418,7 @@ export const AdminRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ruleCollectionName: S.String.pipe(T.Label()),
     ruleName: S.String.pipe(T.Label()),
     kind: AdminRulesCreateOrUpdateRequestKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -428,6 +492,7 @@ export interface AdminRulesCreateOrUpdateResponse {
   systemData?: AdminRulesCreateOrUpdateResponseSystemData;
   /** Whether the rule is custom or default. */
   kind: AdminRulesCreateOrUpdateResponseKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const AdminRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -437,6 +502,7 @@ export const AdminRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(AdminRulesCreateOrUpdateResponseSystemData),
     kind: AdminRulesCreateOrUpdateResponseKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
 ).annotate({
   identifier: "AdminRulesCreateOrUpdateResponse",
@@ -1076,9 +1142,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList = Array<NetworkInterface>;
@@ -1152,9 +1216,7 @@ export const FlowLogFormatParameters = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.Unknown),
     version: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "FlowLogFormatParameters",
-}) as any as S.Schema<FlowLogFormatParameters>;
+).annotate({ identifier: "FlowLogFormatParameters" }) as any as S.Schema<FlowLogFormatParameters>;
 
 /** Parameters that define the configuration of traffic analytics. */
 export interface TrafficAnalyticsProperties {
@@ -1215,9 +1277,7 @@ export const FlowLogPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     flowAnalyticsConfiguration: S.optional(TrafficAnalyticsProperties),
     provisioningState: S.optional(FlowLogPropertiesFormatProvisioningState),
   }),
-).annotate({
-  identifier: "FlowLogPropertiesFormat",
-}) as any as S.Schema<FlowLogPropertiesFormat>;
+).annotate({ identifier: "FlowLogPropertiesFormat" }) as any as S.Schema<FlowLogPropertiesFormat>;
 
 /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
 export type ResourceIdentityType =
@@ -1389,9 +1449,7 @@ export const NetworkSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup",
-}) as any as S.Schema<NetworkSecurityGroup>;
+).annotate({ identifier: "NetworkSecurityGroup" }) as any as S.Schema<NetworkSecurityGroup>;
 
 /** Resource tags. */
 export type RouteTableTagsMap = { [key: string]: string | undefined };
@@ -1444,9 +1502,7 @@ export const RoutePropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(RoutePropertiesFormatProvisioningState),
     hasBgpOverride: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RoutePropertiesFormat",
-}) as any as S.Schema<RoutePropertiesFormat>;
+).annotate({ identifier: "RoutePropertiesFormat" }) as any as S.Schema<RoutePropertiesFormat>;
 
 /** Route resource. */
 export interface Route {
@@ -1943,9 +1999,7 @@ export const PublicIPAddressSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PublicIPAddressSkuName),
     tier: S.optional(PublicIPAddressSkuTier),
   }),
-).annotate({
-  identifier: "PublicIPAddressSku",
-}) as any as S.Schema<PublicIPAddressSku>;
+).annotate({ identifier: "PublicIPAddressSku" }) as any as S.Schema<PublicIPAddressSku>;
 
 /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
 export type PublicIPAddressZonesList = Array<string>;
@@ -1989,9 +2043,7 @@ export const PublicIPAddress = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddress",
-}) as any as S.Schema<PublicIPAddress>;
+).annotate({ identifier: "PublicIPAddress" }) as any as S.Schema<PublicIPAddress>;
 
 /** Provisioning states of a resource. */
 export type IPConfigurationPropertiesFormatProvisioningState =
@@ -2046,9 +2098,7 @@ export const IPConfiguration = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration",
-}) as any as S.Schema<IPConfiguration>;
+).annotate({ identifier: "IPConfiguration" }) as any as S.Schema<IPConfiguration>;
 
 /** An array of references to the network interface IP configurations using subnet. */
 export type SubnetPropertiesFormatIpConfigurationsList = Array<IPConfiguration>;
@@ -2103,9 +2153,7 @@ export const IPConfigurationProfile = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile",
-}) as any as S.Schema<IPConfigurationProfile>;
+).annotate({ identifier: "IPConfigurationProfile" }) as any as S.Schema<IPConfigurationProfile>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList = Array<IPConfigurationProfile>;
@@ -2176,9 +2224,7 @@ export const ResourceNavigationLink = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceNavigationLink",
-}) as any as S.Schema<ResourceNavigationLink>;
+).annotate({ identifier: "ResourceNavigationLink" }) as any as S.Schema<ResourceNavigationLink>;
 
 /** An array of references to the external resources using subnet. */
 export type SubnetPropertiesFormatResourceNavigationLinksList = Array<ResourceNavigationLink>;
@@ -2248,9 +2294,7 @@ export const ServiceAssociationLink = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceAssociationLink",
-}) as any as S.Schema<ServiceAssociationLink>;
+).annotate({ identifier: "ServiceAssociationLink" }) as any as S.Schema<ServiceAssociationLink>;
 
 /** An array of references to services injecting into this subnet. */
 export type SubnetPropertiesFormatServiceAssociationLinksList = Array<ServiceAssociationLink>;
@@ -2449,9 +2493,7 @@ export const IpamPoolPrefixAllocation = /*@__PURE__*/ S.suspend(() =>
     numberOfIpAddresses: S.optional(S.String),
     allocatedAddressPrefixes: S.optional(IpamPoolPrefixAllocationAllocatedAddressPrefixesList),
   }),
-).annotate({
-  identifier: "IpamPoolPrefixAllocation",
-}) as any as S.Schema<IpamPoolPrefixAllocation>;
+).annotate({ identifier: "IpamPoolPrefixAllocation" }) as any as S.Schema<IpamPoolPrefixAllocation>;
 
 /** A list of IPAM Pools for allocating IP address prefixes. */
 export type SubnetPropertiesFormatIpamPoolPrefixAllocationsList = Array<IpamPoolPrefixAllocation>;
@@ -2546,9 +2588,7 @@ export const SubnetPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat",
-}) as any as S.Schema<SubnetPropertiesFormat>;
+).annotate({ identifier: "SubnetPropertiesFormat" }) as any as S.Schema<SubnetPropertiesFormat>;
 
 /** Subnet in a virtual network resource. */
 export interface FrontendIPConfigurationPropertiesFormatSubnet {
@@ -2962,9 +3002,7 @@ export const NatRulePortMapping = /*@__PURE__*/ S.suspend(() =>
     frontendPort: S.optional(S.Number),
     backendPort: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NatRulePortMapping",
-}) as any as S.Schema<NatRulePortMapping>;
+).annotate({ identifier: "NatRulePortMapping" }) as any as S.Schema<NatRulePortMapping>;
 
 /** Collection of inbound NAT rule port mappings. */
 export type LoadBalancerBackendAddressPropertiesFormatInboundNatRulesPortMappingList =
@@ -3333,9 +3371,7 @@ export type NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersi
 export const NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAddressVersion = S.String;
 
 /** Resource tags. */
-export type ApplicationSecurityGroupTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationSecurityGroupTagsMap = { [key: string]: string | undefined };
 export const ApplicationSecurityGroupTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3394,9 +3430,7 @@ export const ApplicationSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApplicationSecurityGroupPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSecurityGroup",
-}) as any as S.Schema<ApplicationSecurityGroup>;
+).annotate({ identifier: "ApplicationSecurityGroup" }) as any as S.Schema<ApplicationSecurityGroup>;
 
 /** Application security groups in which the IP configuration is included. */
 export type NetworkInterfaceIPConfigurationPropertiesFormatApplicationSecurityGroupsList =
@@ -4035,9 +4069,7 @@ export const ApplicationGatewayBackendHealthOnDemand = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ApplicationGatewayBackendHealthOnDemand>;
 
 /** Resource tags. */
-export type ApplicationGatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationGatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationGatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4081,9 +4113,7 @@ export const ApplicationGatewaySku = /*@__PURE__*/ S.suspend(() =>
     capacity: S.optional(S.Number),
     family: S.optional(ApplicationGatewaySkuFamily),
   }),
-).annotate({
-  identifier: "ApplicationGatewaySku",
-}) as any as S.Schema<ApplicationGatewaySku>;
+).annotate({ identifier: "ApplicationGatewaySku" }) as any as S.Schema<ApplicationGatewaySku>;
 
 /** Ssl protocol enums. */
 export type ApplicationGatewaySslPolicyDisabledSslProtocolsItem =
@@ -5819,9 +5849,7 @@ export const HeaderValueMatcher = /*@__PURE__*/ S.suspend(() =>
     ignoreCase: S.optional(S.Boolean),
     negate: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HeaderValueMatcher",
-}) as any as S.Schema<HeaderValueMatcher>;
+).annotate({ identifier: "HeaderValueMatcher" }) as any as S.Schema<HeaderValueMatcher>;
 
 /** Header configuration of the Actions set in Application Gateway. */
 export interface ApplicationGatewayHeaderConfiguration {
@@ -7186,9 +7214,7 @@ export const ApplicationGatewayProbe = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationGatewayProbe",
-}) as any as S.Schema<ApplicationGatewayProbe>;
+).annotate({ identifier: "ApplicationGatewayProbe" }) as any as S.Schema<ApplicationGatewayProbe>;
 
 /** Probes of the application gateway resource. */
 export type ApplicationGatewayPropertiesFormatProbesList = Array<ApplicationGatewayProbe>;
@@ -8592,9 +8618,7 @@ export const ApplicationSecurityGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<ApplicationSecurityGroupsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type AzureFirewallsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AzureFirewallsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AzureFirewallsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8613,9 +8637,7 @@ export const AzureFirewallRCAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(AzureFirewallRCActionType),
   }),
-).annotate({
-  identifier: "AzureFirewallRCAction",
-}) as any as S.Schema<AzureFirewallRCAction>;
+).annotate({ identifier: "AzureFirewallRCAction" }) as any as S.Schema<AzureFirewallRCAction>;
 
 /** List of source IP addresses for this rule. */
 export type AzureFirewallApplicationRuleSourceAddressesList = Array<string>;
@@ -8782,9 +8804,7 @@ export const AzureFirewallNatRCAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(AzureFirewallNatRCActionType),
   }),
-).annotate({
-  identifier: "AzureFirewallNatRCAction",
-}) as any as S.Schema<AzureFirewallNatRCAction>;
+).annotate({ identifier: "AzureFirewallNatRCAction" }) as any as S.Schema<AzureFirewallNatRCAction>;
 
 /** List of source IP addresses for this rule. */
 export type AzureFirewallNatRuleSourceAddressesList = Array<string>;
@@ -8858,9 +8878,7 @@ export const AzureFirewallNatRule = /*@__PURE__*/ S.suspend(() =>
     translatedFqdn: S.optional(S.String),
     sourceIpGroups: S.optional(AzureFirewallNatRuleSourceIpGroupsList),
   }),
-).annotate({
-  identifier: "AzureFirewallNatRule",
-}) as any as S.Schema<AzureFirewallNatRule>;
+).annotate({ identifier: "AzureFirewallNatRule" }) as any as S.Schema<AzureFirewallNatRule>;
 
 /** Collection of rules used by a NAT rule collection. */
 export type AzureFirewallNatRuleCollectionPropertiesRulesList = Array<AzureFirewallNatRule>;
@@ -9007,9 +9025,7 @@ export const AzureFirewallNetworkRule = /*@__PURE__*/ S.suspend(() =>
     sourceIpGroups: S.optional(AzureFirewallNetworkRuleSourceIpGroupsList),
     destinationIpGroups: S.optional(AzureFirewallNetworkRuleDestinationIpGroupsList),
   }),
-).annotate({
-  identifier: "AzureFirewallNetworkRule",
-}) as any as S.Schema<AzureFirewallNetworkRule>;
+).annotate({ identifier: "AzureFirewallNetworkRule" }) as any as S.Schema<AzureFirewallNetworkRule>;
 
 /** Collection of rules used by a network rule collection. */
 export type AzureFirewallNetworkRuleCollectionPropertiesFormatRulesList =
@@ -9208,9 +9224,7 @@ export const HubPublicIPAddresses = /*@__PURE__*/ S.suspend(() =>
     addresses: S.optional(HubPublicIPAddressesAddressesList),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HubPublicIPAddresses",
-}) as any as S.Schema<HubPublicIPAddresses>;
+).annotate({ identifier: "HubPublicIPAddresses" }) as any as S.Schema<HubPublicIPAddresses>;
 
 /** IP addresses associated with azure firewall. */
 export interface HubIPAddresses {
@@ -9246,9 +9260,7 @@ export const AzureFirewallSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AzureFirewallSkuName),
     tier: S.optional(AzureFirewallSkuTier),
   }),
-).annotate({
-  identifier: "AzureFirewallSku",
-}) as any as S.Schema<AzureFirewallSku>;
+).annotate({ identifier: "AzureFirewallSku" }) as any as S.Schema<AzureFirewallSku>;
 
 /** The additional properties used to further config this azure firewall. */
 export type AzureFirewallPropertiesFormatInputAdditionalPropertiesMap = {
@@ -9397,9 +9409,7 @@ export const AzureFirewallsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AzureFirewallsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AzureFirewallsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AzureFirewallsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AzureFirewallsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9605,9 +9615,7 @@ export const AzureFirewallIpGroups = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     changeNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureFirewallIpGroups",
-}) as any as S.Schema<AzureFirewallIpGroups>;
+).annotate({ identifier: "AzureFirewallIpGroups" }) as any as S.Schema<AzureFirewallIpGroups>;
 
 /** IpGroups associated with AzureFirewall. */
 export type AzureFirewallPropertiesFormatIpGroupsList = Array<AzureFirewallIpGroups>;
@@ -9633,9 +9641,7 @@ export const AfcConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AfcConfiguration",
-}) as any as S.Schema<AfcConfiguration>;
+).annotate({ identifier: "AfcConfiguration" }) as any as S.Schema<AfcConfiguration>;
 
 /** Properties of the Azure Firewall. */
 export interface AzureFirewallPropertiesFormat {
@@ -9897,9 +9903,7 @@ export const AzureFirewallPacketCaptureResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AzureFirewallPacketCaptureResponse>;
 
 /** Resource tags. */
-export type BastionHostsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BastionHostsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const BastionHostsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10145,9 +10149,7 @@ export const BastionHostsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BastionHostsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type BastionHostsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BastionHostsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const BastionHostsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10419,9 +10421,7 @@ export const ConnectivitySource = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConnectivitySource",
-}) as any as S.Schema<ConnectivitySource>;
+).annotate({ identifier: "ConnectivitySource" }) as any as S.Schema<ConnectivitySource>;
 
 /** Parameters that define destination of connection. */
 export interface ConnectivityDestination {
@@ -10438,9 +10438,7 @@ export const ConnectivityDestination = /*@__PURE__*/ S.suspend(() =>
     address: S.optional(S.String),
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConnectivityDestination",
-}) as any as S.Schema<ConnectivityDestination>;
+).annotate({ identifier: "ConnectivityDestination" }) as any as S.Schema<ConnectivityDestination>;
 
 /** Network protocol. */
 export type CheckNetworkWatcherConnectivityRequestProtocol = "Tcp" | "Http" | "Https" | "Icmp";
@@ -10491,9 +10489,7 @@ export const HTTPConfiguration = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(HTTPConfigurationHeadersList),
     validStatusCodes: S.optional(HTTPConfigurationValidStatusCodesList),
   }),
-).annotate({
-  identifier: "HTTPConfiguration",
-}) as any as S.Schema<HTTPConfiguration>;
+).annotate({ identifier: "HTTPConfiguration" }) as any as S.Schema<HTTPConfiguration>;
 
 /** Configuration of the protocol. */
 export interface ProtocolConfiguration {
@@ -10504,9 +10500,7 @@ export const ProtocolConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HTTPConfiguration: S.optional(HTTPConfiguration),
   }),
-).annotate({
-  identifier: "ProtocolConfiguration",
-}) as any as S.Schema<ProtocolConfiguration>;
+).annotate({ identifier: "ProtocolConfiguration" }) as any as S.Schema<ProtocolConfiguration>;
 
 /** IP address version. */
 export type CheckNetworkWatcherConnectivityRequestPreferredIPVersion = "IPv4" | "IPv6";
@@ -10579,9 +10573,7 @@ export const HopLinkProperties = /*@__PURE__*/ S.suspend(() =>
     roundTripTimeAvg: S.optional(S.Number),
     roundTripTimeMax: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HopLinkProperties",
-}) as any as S.Schema<HopLinkProperties>;
+).annotate({ identifier: "HopLinkProperties" }) as any as S.Schema<HopLinkProperties>;
 
 /** The origin of the issue. */
 export type ConnectivityIssueOrigin = "Local" | "Inbound" | "Outbound";
@@ -10604,9 +10596,7 @@ export type ConnectivityIssueType =
   | "Platform";
 export const ConnectivityIssueType = S.String;
 
-export type ConnectivityIssueContextItemMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectivityIssueContextItemMap = { [key: string]: string | undefined };
 export const ConnectivityIssueContextItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10636,9 +10626,7 @@ export const ConnectivityIssue = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ConnectivityIssueType),
     context: S.optional(ConnectivityIssueContextList),
   }),
-).annotate({
-  identifier: "ConnectivityIssue",
-}) as any as S.Schema<ConnectivityIssue>;
+).annotate({ identifier: "ConnectivityIssue" }) as any as S.Schema<ConnectivityIssue>;
 
 /** List of issues. */
 export type HopLinkIssuesList = Array<ConnectivityIssue>;
@@ -10730,9 +10718,7 @@ export const ConnectivityHop = /*@__PURE__*/ S.suspend(() =>
     previousLinks: S.optional(ConnectivityHopPreviousLinksList),
     issues: S.optional(ConnectivityHopIssuesList),
   }),
-).annotate({
-  identifier: "ConnectivityHop",
-}) as any as S.Schema<ConnectivityHop>;
+).annotate({ identifier: "ConnectivityHop" }) as any as S.Schema<ConnectivityHop>;
 
 /** List of hops between the source and the destination. */
 export type ConnectivityInformationHopsList = Array<ConnectivityHop>;
@@ -10775,9 +10761,7 @@ export const ConnectivityInformation = /*@__PURE__*/ S.suspend(() =>
     probesSent: S.optional(S.Number),
     probesFailed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConnectivityInformation",
-}) as any as S.Schema<ConnectivityInformation>;
+).annotate({ identifier: "ConnectivityInformation" }) as any as S.Schema<ConnectivityInformation>;
 
 export interface CheckPrivateLinkServicePrivateLinkServiceVisibilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11008,9 +10992,7 @@ export const CommitPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetLocations: CommitPropertiesInputTargetLocationsList,
     forceUpdateTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitPropertiesInput",
-}) as any as S.Schema<CommitPropertiesInput>;
+).annotate({ identifier: "CommitPropertiesInput" }) as any as S.Schema<CommitPropertiesInput>;
 
 export interface CommitsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11109,9 +11091,7 @@ export const CommitProperties = /*@__PURE__*/ S.suspend(() =>
     activeLocations: S.optional(CommitPropertiesActiveLocationsList),
     forceUpdateTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitProperties",
-}) as any as S.Schema<CommitProperties>;
+).annotate({ identifier: "CommitProperties" }) as any as S.Schema<CommitProperties>;
 
 /** The type of identity that created the resource. */
 export type CommitsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -11374,9 +11354,7 @@ export const ConfigurationPolicyGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<ConfigurationPolicyGroupsCreateOrUpdateResponse>;
 
 /** Connection monitor tags. */
-export type ConnectionMonitorsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionMonitorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ConnectionMonitorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11394,9 +11372,7 @@ export const ConnectionMonitorSource = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConnectionMonitorSource",
-}) as any as S.Schema<ConnectionMonitorSource>;
+).annotate({ identifier: "ConnectionMonitorSource" }) as any as S.Schema<ConnectionMonitorSource>;
 
 /** Describes the destination of connection monitor. */
 export interface ConnectionMonitorDestination {
@@ -11808,9 +11784,7 @@ export const ConnectionMonitorOutput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ConnectionMonitorOutputType),
     workspaceSettings: S.optional(ConnectionMonitorWorkspaceSettings),
   }),
-).annotate({
-  identifier: "ConnectionMonitorOutput",
-}) as any as S.Schema<ConnectionMonitorOutput>;
+).annotate({ identifier: "ConnectionMonitorOutput" }) as any as S.Schema<ConnectionMonitorOutput>;
 
 /** List of connection monitor outputs. */
 export type ConnectionMonitorParametersOutputsList = Array<ConnectionMonitorOutput>;
@@ -11896,9 +11870,7 @@ export const ConnectionMonitorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ConnectionMonitorsCreateOrUpdateRequest>;
 
 /** Connection monitor tags. */
-export type ConnectionMonitorsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionMonitorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ConnectionMonitorsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12061,9 +12033,7 @@ export const PropagatedRouteTable = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(PropagatedRouteTableLabelsList),
     ids: S.optional(PropagatedRouteTableIdsList),
   }),
-).annotate({
-  identifier: "PropagatedRouteTable",
-}) as any as S.Schema<PropagatedRouteTable>;
+).annotate({ identifier: "PropagatedRouteTable" }) as any as S.Schema<PropagatedRouteTable>;
 
 /** Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet. */
 export type StaticRoutesConfigVnetLocalRouteOverrideCriteria = "Contains" | "Equal";
@@ -12081,9 +12051,7 @@ export const StaticRoutesConfig = /*@__PURE__*/ S.suspend(() =>
     propagateStaticRoutes: S.optional(S.Boolean),
     vnetLocalRouteOverrideCriteria: S.optional(StaticRoutesConfigVnetLocalRouteOverrideCriteria),
   }),
-).annotate({
-  identifier: "StaticRoutesConfig",
-}) as any as S.Schema<StaticRoutesConfig>;
+).annotate({ identifier: "StaticRoutesConfig" }) as any as S.Schema<StaticRoutesConfig>;
 
 /** List of all address prefixes. */
 export type StaticRouteAddressPrefixesList = Array<string>;
@@ -12311,9 +12279,7 @@ export const RoutingConfiguration = /*@__PURE__*/ S.suspend(() =>
       NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer,
     ),
   }),
-).annotate({
-  identifier: "RoutingConfiguration",
-}) as any as S.Schema<RoutingConfiguration>;
+).annotate({ identifier: "RoutingConfiguration" }) as any as S.Schema<RoutingConfiguration>;
 
 /** Provisioning states of a resource. */
 export type ConnectionPolicyPropertiesProvisioningState =
@@ -12485,9 +12451,7 @@ export const ConnectivityGroupItem = /*@__PURE__*/ S.suspend(() =>
     isGlobal: S.optional(ConnectivityGroupItemIsGlobal),
     groupConnectivity: ConnectivityGroupItemGroupConnectivity,
   }),
-).annotate({
-  identifier: "ConnectivityGroupItem",
-}) as any as S.Schema<ConnectivityGroupItem>;
+).annotate({ identifier: "ConnectivityGroupItem" }) as any as S.Schema<ConnectivityGroupItem>;
 
 /** Groups for configuration */
 export type ConnectivityConfigurationPropertiesInputAppliesToGroupsList =
@@ -12734,9 +12698,7 @@ export const ConnectivityConfigurationsCreateOrUpdateResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<ConnectivityConfigurationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type CreateIpamPoolRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIpamPoolRequestTagsMap = { [key: string]: string | undefined };
 export const CreateIpamPoolRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12778,9 +12740,7 @@ export const IpamPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     addressPrefixes: IpamPoolPropertiesInputAddressPrefixesList,
     provisioningState: S.optional(IpamPoolPropertiesInputProvisioningState),
   }),
-).annotate({
-  identifier: "IpamPoolPropertiesInput",
-}) as any as S.Schema<IpamPoolPropertiesInput>;
+).annotate({ identifier: "IpamPoolPropertiesInput" }) as any as S.Schema<IpamPoolPropertiesInput>;
 
 export interface CreateIpamPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12815,9 +12775,7 @@ export const CreateIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "CreateIpamPoolRequest",
-}) as any as S.Schema<CreateIpamPoolRequest>;
+).annotate({ identifier: "CreateIpamPoolRequest" }) as any as S.Schema<CreateIpamPoolRequest>;
 
 /** The type of identity that created the resource. */
 export type CreateIpamPoolResponseSystemDataCreatedByType =
@@ -12864,9 +12822,7 @@ export const CreateIpamPoolResponseSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateIpamPoolResponseSystemData>;
 
 /** Resource tags. */
-export type CreateIpamPoolResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIpamPoolResponseTagsMap = { [key: string]: string | undefined };
 export const CreateIpamPoolResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12921,9 +12877,7 @@ export const IpamPoolProperties = /*@__PURE__*/ S.suspend(() =>
     addressPrefixes: IpamPoolPropertiesAddressPrefixesList,
     provisioningState: S.optional(IpamPoolPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "IpamPoolProperties",
-}) as any as S.Schema<IpamPoolProperties>;
+).annotate({ identifier: "IpamPoolProperties" }) as any as S.Schema<IpamPoolProperties>;
 
 export interface CreateIpamPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -12954,9 +12908,7 @@ export const CreateIpamPoolResponse = /*@__PURE__*/ S.suspend(() =>
     properties: IpamPoolProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateIpamPoolResponse",
-}) as any as S.Schema<CreateIpamPoolResponse>;
+).annotate({ identifier: "CreateIpamPoolResponse" }) as any as S.Schema<CreateIpamPoolResponse>;
 
 /** Resource tags. */
 export type CreateNetworkWatchersConnectionAnalyzerRequestTagsMap = {
@@ -13031,9 +12983,7 @@ export const ProtocolSettings = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(ProtocolSettingsProtocol),
     httpConfiguration: S.optional(HTTPConfiguration),
   }),
-).annotate({
-  identifier: "ProtocolSettings",
-}) as any as S.Schema<ProtocolSettings>;
+).annotate({ identifier: "ProtocolSettings" }) as any as S.Schema<ProtocolSettings>;
 
 /** The preferred IP version to use in test evaluation. The connection monitor may choose to use a different version depending on other parameters. */
 export type ConnectivityCheckSettingsPreferredIPVersion = "IPv4" | "IPv6";
@@ -13099,9 +13049,7 @@ export const StorageAccountSettings = /*@__PURE__*/ S.suspend(() =>
     storageAccountId: S.String,
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageAccountSettings",
-}) as any as S.Schema<StorageAccountSettings>;
+).annotate({ identifier: "StorageAccountSettings" }) as any as S.Schema<StorageAccountSettings>;
 
 /** Settings that control where the connection analyzer writes its results. */
 export interface OutputSettings {
@@ -13357,9 +13305,7 @@ export const ConnectionAnalyzer = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(ConnectionAnalyzerSystemData),
     properties: ConnectionAnalyzerProperties,
   }),
-).annotate({
-  identifier: "ConnectionAnalyzer",
-}) as any as S.Schema<ConnectionAnalyzer>;
+).annotate({ identifier: "ConnectionAnalyzer" }) as any as S.Schema<ConnectionAnalyzer>;
 
 /** List of AzureVMSS instances to run packet capture on. */
 export type PacketCaptureMachineScopeIncludeList = Array<string>;
@@ -13440,9 +13386,7 @@ export const PacketCaptureFilter = /*@__PURE__*/ S.suspend(() =>
     localPort: S.optional(S.String),
     remotePort: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PacketCaptureFilter",
-}) as any as S.Schema<PacketCaptureFilter>;
+).annotate({ identifier: "PacketCaptureFilter" }) as any as S.Schema<PacketCaptureFilter>;
 
 /** A list of packet capture filters. */
 export type PacketCaptureParametersFiltersList = Array<PacketCaptureFilter>;
@@ -13465,9 +13409,7 @@ export const PacketCaptureSettings = /*@__PURE__*/ S.suspend(() =>
     fileSizeInBytes: S.optional(S.Number),
     sessionTimeLimitInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PacketCaptureSettings",
-}) as any as S.Schema<PacketCaptureSettings>;
+).annotate({ identifier: "PacketCaptureSettings" }) as any as S.Schema<PacketCaptureSettings>;
 
 /** Parameters that define the create packet capture operation. */
 export interface PacketCaptureParameters {
@@ -13505,9 +13447,7 @@ export const PacketCaptureParameters = /*@__PURE__*/ S.suspend(() =>
     continuousCapture: S.optional(S.Boolean),
     captureSettings: S.optional(PacketCaptureSettings),
   }),
-).annotate({
-  identifier: "PacketCaptureParameters",
-}) as any as S.Schema<PacketCaptureParameters>;
+).annotate({ identifier: "PacketCaptureParameters" }) as any as S.Schema<PacketCaptureParameters>;
 
 export interface CreatePacketCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13621,9 +13561,7 @@ export const PacketCaptureResult = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(PacketCaptureResultProperties),
   }),
-).annotate({
-  identifier: "PacketCaptureResult",
-}) as any as S.Schema<PacketCaptureResult>;
+).annotate({ identifier: "PacketCaptureResult" }) as any as S.Schema<PacketCaptureResult>;
 
 /** Provisioning states of a resource. */
 export type ReachabilityAnalysisIntentPropertiesProvisioningState =
@@ -14070,9 +14008,7 @@ export const CreateStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "CreateStaticCidrRequest",
-}) as any as S.Schema<CreateStaticCidrRequest>;
+).annotate({ identifier: "CreateStaticCidrRequest" }) as any as S.Schema<CreateStaticCidrRequest>;
 
 /** The type of identity that created the resource. */
 export type CreateStaticCidrResponseSystemDataCreatedByType =
@@ -14154,9 +14090,7 @@ export const StaticCidrProperties = /*@__PURE__*/ S.suspend(() =>
     totalNumberOfIPAddresses: S.optional(S.String),
     provisioningState: S.optional(StaticCidrPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "StaticCidrProperties",
-}) as any as S.Schema<StaticCidrProperties>;
+).annotate({ identifier: "StaticCidrProperties" }) as any as S.Schema<StaticCidrProperties>;
 
 export interface CreateStaticCidrResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -14178,14 +14112,10 @@ export const CreateStaticCidrResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(CreateStaticCidrResponseSystemData),
     properties: S.optional(StaticCidrProperties),
   }),
-).annotate({
-  identifier: "CreateStaticCidrResponse",
-}) as any as S.Schema<CreateStaticCidrResponse>;
+).annotate({ identifier: "CreateStaticCidrResponse" }) as any as S.Schema<CreateStaticCidrResponse>;
 
 /** Resource tags. */
-export type CreateVerifierWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateVerifierWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateVerifierWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14298,9 +14228,7 @@ export const CreateVerifierWorkspaceResponseSystemData = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CreateVerifierWorkspaceResponseSystemData>;
 
 /** Resource tags. */
-export type CreateVerifierWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateVerifierWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateVerifierWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14355,9 +14283,7 @@ export const SwapResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slotType: S.optional(SwapResourcePropertiesSlotType),
   }),
-).annotate({
-  identifier: "SwapResourceProperties",
-}) as any as S.Schema<SwapResourceProperties>;
+).annotate({ identifier: "SwapResourceProperties" }) as any as S.Schema<SwapResourceProperties>;
 
 export interface CreateVipSwapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14385,9 +14311,7 @@ export const CreateVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "CreateVipSwapRequest",
-}) as any as S.Schema<CreateVipSwapRequest>;
+).annotate({ identifier: "CreateVipSwapRequest" }) as any as S.Schema<CreateVipSwapRequest>;
 
 export interface CreateVipSwapResponse {}
 export const CreateVipSwapResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14395,9 +14319,7 @@ export const CreateVipSwapResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<CreateVipSwapResponse>;
 
 /** Resource tags. */
-export type CustomIPPrefixesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomIPPrefixesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CustomIPPrefixesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14549,9 +14471,7 @@ export const CustomIPPrefixesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<CustomIPPrefixesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CustomIPPrefixesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomIPPrefixesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CustomIPPrefixesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14734,9 +14654,7 @@ export const CustomIPPrefixesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<CustomIPPrefixesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DdosCustomPoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DdosCustomPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DdosCustomPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14782,9 +14700,7 @@ export const TrafficDetectionRule = /*@__PURE__*/ S.suspend(() =>
     trafficType: S.optional(TrafficDetectionRuleTrafficType),
     packetsPerSecond: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TrafficDetectionRule",
-}) as any as S.Schema<TrafficDetectionRule>;
+).annotate({ identifier: "TrafficDetectionRule" }) as any as S.Schema<TrafficDetectionRule>;
 
 /** DDoS detection rule properties. */
 export interface DdosDetectionRulePropertiesFormat {
@@ -14820,9 +14736,7 @@ export const DdosDetectionRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(DdosDetectionRulePropertiesFormat),
   }),
-).annotate({
-  identifier: "DdosDetectionRuleInput",
-}) as any as S.Schema<DdosDetectionRuleInput>;
+).annotate({ identifier: "DdosDetectionRuleInput" }) as any as S.Schema<DdosDetectionRuleInput>;
 
 /** The list of DDoS detection rules associated with the custom policy. */
 export type DdosCustomPolicyPropertiesFormatInputDetectionRulesList = Array<DdosDetectionRuleInput>;
@@ -14903,9 +14817,7 @@ export const DdosCustomPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DdosCustomPoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DdosCustomPoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DdosCustomPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DdosCustomPoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14942,9 +14854,7 @@ export const DdosDetectionRule = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DdosDetectionRulePropertiesFormat),
   }),
-).annotate({
-  identifier: "DdosDetectionRule",
-}) as any as S.Schema<DdosDetectionRule>;
+).annotate({ identifier: "DdosDetectionRule" }) as any as S.Schema<DdosDetectionRule>;
 
 /** The list of DDoS detection rules associated with the custom policy. */
 export type DdosCustomPolicyPropertiesFormatDetectionRulesList = Array<DdosDetectionRule>;
@@ -15036,9 +14946,7 @@ export const DdosCustomPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DdosCustomPoliciesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DdosProtectionPlansCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DdosProtectionPlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DdosProtectionPlansCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15264,9 +15172,7 @@ export const DeleteAdminRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAdminRuleRequest",
-}) as any as S.Schema<DeleteAdminRuleRequest>;
+).annotate({ identifier: "DeleteAdminRuleRequest" }) as any as S.Schema<DeleteAdminRuleRequest>;
 
 export interface DeleteAdminRuleResponse {}
 export const DeleteAdminRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15465,9 +15371,7 @@ export const DeleteBastionHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBastionHostRequest",
-}) as any as S.Schema<DeleteBastionHostRequest>;
+).annotate({ identifier: "DeleteBastionHostRequest" }) as any as S.Schema<DeleteBastionHostRequest>;
 
 export interface DeleteBastionHostResponse {}
 export const DeleteBastionHostResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15617,9 +15521,7 @@ export const DeleteCommitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCommitRequest",
-}) as any as S.Schema<DeleteCommitRequest>;
+).annotate({ identifier: "DeleteCommitRequest" }) as any as S.Schema<DeleteCommitRequest>;
 
 export interface DeleteCommitResponse {}
 export const DeleteCommitResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15691,9 +15593,7 @@ export const DeleteConnectionMonitorRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteConnectionMonitorResponse {}
 export const DeleteConnectionMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteConnectionMonitorResponse",
-  },
+  { identifier: "DeleteConnectionMonitorResponse" },
 ) as any as S.Schema<DeleteConnectionMonitorResponse>;
 
 export interface DeleteConnectionPolicyRequest {
@@ -15886,9 +15786,7 @@ export const DeleteDscpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteDscpConfigurationResponse {}
 export const DeleteDscpConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteDscpConfigurationResponse",
-  },
+  { identifier: "DeleteDscpConfigurationResponse" },
 ) as any as S.Schema<DeleteDscpConfigurationResponse>;
 
 export interface DeleteExpressRouteCircuitRequest {
@@ -16451,9 +16349,7 @@ export const DeleteFlowLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFlowLogRequest",
-}) as any as S.Schema<DeleteFlowLogRequest>;
+).annotate({ identifier: "DeleteFlowLogRequest" }) as any as S.Schema<DeleteFlowLogRequest>;
 
 export interface DeleteFlowLogResponse {}
 export const DeleteFlowLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16587,9 +16483,7 @@ export const DeleteInterconnectGroupRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteInterconnectGroupResponse {}
 export const DeleteInterconnectGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteInterconnectGroupResponse",
-  },
+  { identifier: "DeleteInterconnectGroupResponse" },
 ) as any as S.Schema<DeleteInterconnectGroupResponse>;
 
 export interface DeleteIpAllocationRequest {
@@ -16646,9 +16540,7 @@ export const DeleteIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteIpamPoolRequest",
-}) as any as S.Schema<DeleteIpamPoolRequest>;
+).annotate({ identifier: "DeleteIpamPoolRequest" }) as any as S.Schema<DeleteIpamPoolRequest>;
 
 export interface DeleteIpamPoolResponse {}
 export const DeleteIpamPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16676,9 +16568,7 @@ export const DeleteIpGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteIpGroupRequest",
-}) as any as S.Schema<DeleteIpGroupRequest>;
+).annotate({ identifier: "DeleteIpGroupRequest" }) as any as S.Schema<DeleteIpGroupRequest>;
 
 export interface DeleteIpGroupResponse {}
 export const DeleteIpGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16832,9 +16722,7 @@ export const DeleteNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNatGatewayRequest",
-}) as any as S.Schema<DeleteNatGatewayRequest>;
+).annotate({ identifier: "DeleteNatGatewayRequest" }) as any as S.Schema<DeleteNatGatewayRequest>;
 
 export interface DeleteNatGatewayResponse {}
 export const DeleteNatGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -16865,9 +16753,7 @@ export const DeleteNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNatRuleRequest",
-}) as any as S.Schema<DeleteNatRuleRequest>;
+).annotate({ identifier: "DeleteNatRuleRequest" }) as any as S.Schema<DeleteNatRuleRequest>;
 
 export interface DeleteNatRuleResponse {}
 export const DeleteNatRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17844,9 +17730,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRouteRequest",
-}) as any as S.Schema<DeleteRouteRequest>;
+).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
 
 export interface DeleteRouteResponse {}
 export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17874,9 +17758,7 @@ export const DeleteRouteFilterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRouteFilterRequest",
-}) as any as S.Schema<DeleteRouteFilterRequest>;
+).annotate({ identifier: "DeleteRouteFilterRequest" }) as any as S.Schema<DeleteRouteFilterRequest>;
 
 export interface DeleteRouteFilterResponse {}
 export const DeleteRouteFilterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17940,9 +17822,7 @@ export const DeleteRouteMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRouteMapRequest",
-}) as any as S.Schema<DeleteRouteMapRequest>;
+).annotate({ identifier: "DeleteRouteMapRequest" }) as any as S.Schema<DeleteRouteMapRequest>;
 
 export interface DeleteRouteMapResponse {}
 export const DeleteRouteMapResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -17970,9 +17850,7 @@ export const DeleteRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRouteTableRequest",
-}) as any as S.Schema<DeleteRouteTableRequest>;
+).annotate({ identifier: "DeleteRouteTableRequest" }) as any as S.Schema<DeleteRouteTableRequest>;
 
 export interface DeleteRouteTableResponse {}
 export const DeleteRouteTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18045,9 +17923,7 @@ export const DeleteRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRoutingRuleRequest",
-}) as any as S.Schema<DeleteRoutingRuleRequest>;
+).annotate({ identifier: "DeleteRoutingRuleRequest" }) as any as S.Schema<DeleteRoutingRuleRequest>;
 
 export interface DeleteRoutingRuleResponse {}
 export const DeleteRoutingRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18476,9 +18352,7 @@ export const DeleteStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteStaticCidrRequest",
-}) as any as S.Schema<DeleteStaticCidrRequest>;
+).annotate({ identifier: "DeleteStaticCidrRequest" }) as any as S.Schema<DeleteStaticCidrRequest>;
 
 export interface DeleteStaticCidrResponse {}
 export const DeleteStaticCidrResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18545,9 +18419,7 @@ export const DeleteSubnetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSubnetRequest",
-}) as any as S.Schema<DeleteSubnetRequest>;
+).annotate({ identifier: "DeleteSubnetRequest" }) as any as S.Schema<DeleteSubnetRequest>;
 
 export interface DeleteSubnetResponse {}
 export const DeleteSubnetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18613,9 +18485,7 @@ export const DeleteVerifierWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteVerifierWorkspaceResponse {}
 export const DeleteVerifierWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteVerifierWorkspaceResponse",
-  },
+  { identifier: "DeleteVerifierWorkspaceResponse" },
 ) as any as S.Schema<DeleteVerifierWorkspaceResponse>;
 
 export interface DeleteVirtualApplianceSiteRequest {
@@ -18674,9 +18544,7 @@ export const DeleteVirtualHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVirtualHubRequest",
-}) as any as S.Schema<DeleteVirtualHubRequest>;
+).annotate({ identifier: "DeleteVirtualHubRequest" }) as any as S.Schema<DeleteVirtualHubRequest>;
 
 export interface DeleteVirtualHubResponse {}
 export const DeleteVirtualHubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19011,9 +18879,7 @@ export const DeleteVirtualNetworkTapRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteVirtualNetworkTapResponse {}
 export const DeleteVirtualNetworkTapResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteVirtualNetworkTapResponse",
-  },
+  { identifier: "DeleteVirtualNetworkTapResponse" },
 ) as any as S.Schema<DeleteVirtualNetworkTapResponse>;
 
 export interface DeleteVirtualRouterRequest {
@@ -19102,9 +18968,7 @@ export const DeleteVirtualWanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVirtualWanRequest",
-}) as any as S.Schema<DeleteVirtualWanRequest>;
+).annotate({ identifier: "DeleteVirtualWanRequest" }) as any as S.Schema<DeleteVirtualWanRequest>;
 
 export interface DeleteVirtualWanResponse {}
 export const DeleteVirtualWanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19165,9 +19029,7 @@ export const DeleteVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVpnGatewayRequest",
-}) as any as S.Schema<DeleteVpnGatewayRequest>;
+).annotate({ identifier: "DeleteVpnGatewayRequest" }) as any as S.Schema<DeleteVpnGatewayRequest>;
 
 export interface DeleteVpnGatewayResponse {}
 export const DeleteVpnGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19227,9 +19089,7 @@ export const DeleteVpnSiteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVpnSiteRequest",
-}) as any as S.Schema<DeleteVpnSiteRequest>;
+).annotate({ identifier: "DeleteVpnSiteRequest" }) as any as S.Schema<DeleteVpnSiteRequest>;
 
 export interface DeleteVpnSiteResponse {}
 export const DeleteVpnSiteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19349,9 +19209,7 @@ export const BastionSessionState = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BastionSessionState",
-}) as any as S.Schema<BastionSessionState>;
+).annotate({ identifier: "BastionSessionState" }) as any as S.Schema<BastionSessionState>;
 
 /** The BastionSessionState items on this page */
 export type BastionSessionDeleteResultValueList = Array<BastionSessionState>;
@@ -19509,9 +19367,7 @@ export const DownloadVpnSitesConfigurationResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DownloadVpnSitesConfigurationResponse>;
 
 /** Resource tags. */
-export type DscpConfigurationCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DscpConfigurationCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DscpConfigurationCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19752,9 +19608,7 @@ export const DscpConfigurationCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DscpConfigurationCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DscpConfigurationCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DscpConfigurationCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DscpConfigurationCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19975,9 +19829,7 @@ export const RouteNextHopEcmp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextHopIpAddresses: RouteNextHopEcmpNextHopIpAddressesList,
   }),
-).annotate({
-  identifier: "RouteNextHopEcmp",
-}) as any as S.Schema<RouteNextHopEcmp>;
+).annotate({ identifier: "RouteNextHopEcmp" }) as any as S.Schema<RouteNextHopEcmp>;
 
 /** Route resource. */
 export interface RoutePropertiesFormat_6 {
@@ -20003,9 +19855,7 @@ export const RoutePropertiesFormat_6 = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(RoutePropertiesFormatProvisioningState),
     hasBgpOverride: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RoutePropertiesFormat_6",
-}) as any as S.Schema<RoutePropertiesFormat_6>;
+).annotate({ identifier: "RoutePropertiesFormat_6" }) as any as S.Schema<RoutePropertiesFormat_6>;
 
 /** Route resource. */
 export interface Route_6 {
@@ -20364,9 +20214,7 @@ export const PrivateEndpoint_5 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_5",
-}) as any as S.Schema<PrivateEndpoint_5>;
+).annotate({ identifier: "PrivateEndpoint_5" }) as any as S.Schema<PrivateEndpoint_5>;
 
 /** An array of references to private endpoints. */
 export type SubnetPropertiesFormatPrivateEndpointsList_6 = Array<PrivateEndpoint_5>;
@@ -20766,9 +20614,7 @@ export const PublicIPAddress_6 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddress_6",
-}) as any as S.Schema<PublicIPAddress_6>;
+).annotate({ identifier: "PublicIPAddress_6" }) as any as S.Schema<PublicIPAddress_6>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_5 {
@@ -20813,9 +20659,7 @@ export const IPConfiguration_6 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_6",
-}) as any as S.Schema<IPConfiguration_6>;
+).annotate({ identifier: "IPConfiguration_6" }) as any as S.Schema<IPConfiguration_6>;
 
 /** An array of references to the network interface IP configurations using subnet. */
 export type SubnetPropertiesFormatIpConfigurationsList_6 = Array<IPConfiguration_6>;
@@ -20860,9 +20704,7 @@ export const IPConfigurationProfile_6 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_6",
-}) as any as S.Schema<IPConfigurationProfile_6>;
+).annotate({ identifier: "IPConfigurationProfile_6" }) as any as S.Schema<IPConfigurationProfile_6>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_6 = Array<IPConfigurationProfile_6>;
@@ -20951,9 +20793,7 @@ export const SubnetPropertiesFormat_6 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_6",
-}) as any as S.Schema<SubnetPropertiesFormat_6>;
+).annotate({ identifier: "SubnetPropertiesFormat_6" }) as any as S.Schema<SubnetPropertiesFormat_6>;
 
 /** Subnet in a virtual network resource. */
 export interface Subnet_6 {
@@ -21252,9 +21092,7 @@ export const NetworkSecurityGroup_6 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_6),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_6",
-}) as any as S.Schema<NetworkSecurityGroup_6>;
+).annotate({ identifier: "NetworkSecurityGroup_6" }) as any as S.Schema<NetworkSecurityGroup_6>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_6 {
@@ -22342,9 +22180,7 @@ export const PrivateLinkService_5 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_5",
-}) as any as S.Schema<PrivateLinkService_5>;
+).annotate({ identifier: "PrivateLinkService_5" }) as any as S.Schema<PrivateLinkService_5>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_6 {
@@ -22457,9 +22293,7 @@ export const NetworkInterface_6 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_6",
-}) as any as S.Schema<NetworkInterface_6>;
+).annotate({ identifier: "NetworkInterface_6" }) as any as S.Schema<NetworkInterface_6>;
 
 /** Associated Network Interfaces to the DSCP Configuration. */
 export type DscpConfigurationPropertiesFormatAssociatedNetworkInterfacesList =
@@ -23028,9 +22862,7 @@ export const ExpressRouteCircuitStats = /*@__PURE__*/ S.suspend(() =>
     secondarybytesIn: S.optional(S.Number),
     secondarybytesOut: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExpressRouteCircuitStats",
-}) as any as S.Schema<ExpressRouteCircuitStats>;
+).annotate({ identifier: "ExpressRouteCircuitStats" }) as any as S.Schema<ExpressRouteCircuitStats>;
 
 /** Provisioning states of a resource. */
 export type ExpressRouteCircuitPeeringPropertiesFormatInputProvisioningState =
@@ -23693,9 +23525,7 @@ export const ExpressRouteCircuitSku = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(ExpressRouteCircuitSkuTier),
     family: S.optional(ExpressRouteCircuitSkuFamily),
   }),
-).annotate({
-  identifier: "ExpressRouteCircuitSku",
-}) as any as S.Schema<ExpressRouteCircuitSku>;
+).annotate({ identifier: "ExpressRouteCircuitSku" }) as any as S.Schema<ExpressRouteCircuitSku>;
 
 export interface ExpressRouteCircuitsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24741,9 +24571,7 @@ export const ExpressRouteConnection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ExpressRouteConnectionProperties),
     name: S.String,
   }),
-).annotate({
-  identifier: "ExpressRouteConnection",
-}) as any as S.Schema<ExpressRouteConnection>;
+).annotate({ identifier: "ExpressRouteConnection" }) as any as S.Schema<ExpressRouteConnection>;
 
 /** List of ExpressRoute connections to the ExpressRoute gateway. */
 export type ExpressRouteGatewayPropertiesExpressRouteConnectionsList =
@@ -24818,9 +24646,7 @@ export const ExpressRouteGatewaysCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ExpressRouteGatewaysCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ExpressRouteLagsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteLagsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteLagsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -24971,9 +24797,7 @@ export const ExpressRouteLagLinkInput = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     properties: S.optional(ExpressRouteLagLinkPropertiesFormatInput),
   }),
-).annotate({
-  identifier: "ExpressRouteLagLinkInput",
-}) as any as S.Schema<ExpressRouteLagLinkInput>;
+).annotate({ identifier: "ExpressRouteLagLinkInput" }) as any as S.Schema<ExpressRouteLagLinkInput>;
 
 /** The set of links of the ExpressRouteLag resource. */
 export type ExpressRouteLagPropertiesFormatInputLinksList = Array<ExpressRouteLagLinkInput>;
@@ -25105,9 +24929,7 @@ export const ExpressRouteLagsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ExpressRouteLagsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ExpressRouteLagsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteLagsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteLagsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25201,9 +25023,7 @@ export const ExpressRouteLagMember = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteLagMember",
-}) as any as S.Schema<ExpressRouteLagMember>;
+).annotate({ identifier: "ExpressRouteLagMember" }) as any as S.Schema<ExpressRouteLagMember>;
 
 /** The set of members of the ExpressRouteLagLink resource. */
 export type ExpressRouteLagLinkPropertiesFormatMembersList = Array<ExpressRouteLagMember>;
@@ -25260,9 +25080,7 @@ export const ExpressRouteLagLink = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteLagLink",
-}) as any as S.Schema<ExpressRouteLagLink>;
+).annotate({ identifier: "ExpressRouteLagLink" }) as any as S.Schema<ExpressRouteLagLink>;
 
 /** The set of links of the ExpressRouteLag resource. */
 export type ExpressRouteLagPropertiesFormatLinksList = Array<ExpressRouteLagLink>;
@@ -25554,9 +25372,7 @@ export const ExpressRoutePortAuthorizationsCreateOrUpdateResponse = /*@__PURE__*
 }) as any as S.Schema<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ExpressRoutePortsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRoutePortsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ExpressRoutePortsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25621,9 +25437,7 @@ export const ExpressRouteLinkInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ExpressRouteLinkPropertiesFormatInput),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteLinkInput",
-}) as any as S.Schema<ExpressRouteLinkInput>;
+).annotate({ identifier: "ExpressRouteLinkInput" }) as any as S.Schema<ExpressRouteLinkInput>;
 
 /** The set of physical links of the ExpressRoutePort resource. */
 export type ExpressRoutePortPropertiesFormatInputLinksList = Array<ExpressRouteLinkInput>;
@@ -25742,9 +25556,7 @@ export const ExpressRoutePortsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ExpressRoutePortsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ExpressRoutePortsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRoutePortsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ExpressRoutePortsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25827,9 +25639,7 @@ export const ExpressRouteLink = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteLink",
-}) as any as S.Schema<ExpressRouteLink>;
+).annotate({ identifier: "ExpressRouteLink" }) as any as S.Schema<ExpressRouteLink>;
 
 /** The set of physical links of the ExpressRoutePort resource. */
 export type ExpressRoutePortPropertiesFormatLinksList = Array<ExpressRouteLink>;
@@ -26000,9 +25810,7 @@ export const ExpressRouteProviderPortRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExpressRouteProviderPortRequest>;
 
 /** Resource tags. */
-export type ExpressRouteProviderPortResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteProviderPortResponseTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteProviderPortResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26073,9 +25881,7 @@ export const ExpressRouteProviderPortResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExpressRouteProviderPortResponse>;
 
 /** Resource tags. */
-export type FirewallPoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FirewallPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FirewallPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26197,9 +26003,7 @@ export const FirewallPolicyInsights = /*@__PURE__*/ S.suspend(() =>
     retentionDays: S.optional(S.Number),
     logAnalyticsResources: S.optional(FirewallPolicyLogAnalyticsResources),
   }),
-).annotate({
-  identifier: "FirewallPolicyInsights",
-}) as any as S.Schema<FirewallPolicyInsights>;
+).annotate({ identifier: "FirewallPolicyInsights" }) as any as S.Schema<FirewallPolicyInsights>;
 
 /** List of private IP addresses/IP address ranges to not be SNAT. */
 export type FirewallPolicySNATPrivateRangesList = Array<string>;
@@ -26223,9 +26027,7 @@ export const FirewallPolicySNAT = /*@__PURE__*/ S.suspend(() =>
     privateRanges: S.optional(FirewallPolicySNATPrivateRangesList),
     autoLearnPrivateRanges: S.optional(FirewallPolicySNATAutoLearnPrivateRanges),
   }),
-).annotate({
-  identifier: "FirewallPolicySNAT",
-}) as any as S.Schema<FirewallPolicySNAT>;
+).annotate({ identifier: "FirewallPolicySNAT" }) as any as S.Schema<FirewallPolicySNAT>;
 
 /** SQL Settings in Firewall Policy. */
 export interface FirewallPolicySQL {
@@ -26236,9 +26038,7 @@ export const FirewallPolicySQL = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowSqlRedirect: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FirewallPolicySQL",
-}) as any as S.Schema<FirewallPolicySQL>;
+).annotate({ identifier: "FirewallPolicySQL" }) as any as S.Schema<FirewallPolicySQL>;
 
 /** List of Custom DNS Servers. */
 export type DnsSettingsServersList = Array<string>;
@@ -26516,9 +26316,7 @@ export const FirewallPolicySku = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tier: S.optional(FirewallPolicySkuTier),
   }),
-).annotate({
-  identifier: "FirewallPolicySku",
-}) as any as S.Schema<FirewallPolicySku>;
+).annotate({ identifier: "FirewallPolicySku" }) as any as S.Schema<FirewallPolicySku>;
 
 /** Firewall Policy definition. */
 export interface FirewallPolicyPropertiesFormatInput {
@@ -26638,9 +26436,7 @@ export const FirewallPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<FirewallPoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FirewallPoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FirewallPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FirewallPoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -26983,9 +26779,7 @@ export const FirewallPolicyDraftsCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<FirewallPolicyDraftsCreateOrUpdateResponse>;
 
 /** matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
-export type KubeLabelSelectorMatchLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type KubeLabelSelectorMatchLabelsMap = { [key: string]: string | undefined };
 export const KubeLabelSelectorMatchLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27016,9 +26810,7 @@ export const LabelSelectorExpression = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(LabelSelectorExpressionOperator),
     values: S.optional(LabelSelectorExpressionValuesList),
   }),
-).annotate({
-  identifier: "LabelSelectorExpression",
-}) as any as S.Schema<LabelSelectorExpression>;
+).annotate({ identifier: "LabelSelectorExpression" }) as any as S.Schema<LabelSelectorExpression>;
 
 /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
 export type KubeLabelSelectorMatchExpressionsList = Array<LabelSelectorExpression>;
@@ -27038,9 +26830,7 @@ export const KubeLabelSelector = /*@__PURE__*/ S.suspend(() =>
     matchLabels: S.optional(KubeLabelSelectorMatchLabelsMap),
     matchExpressions: S.optional(KubeLabelSelectorMatchExpressionsList),
   }),
-).annotate({
-  identifier: "KubeLabelSelector",
-}) as any as S.Schema<KubeLabelSelector>;
+).annotate({ identifier: "KubeLabelSelector" }) as any as S.Schema<KubeLabelSelector>;
 
 /** Provisioning states of a resource. */
 export type FirewallPolicyKubeSelectorGroupPropertiesProvisioningState =
@@ -27138,6 +26928,112 @@ export type FirewallPolicyRuleCollectionRuleCollectionType =
   | "FirewallPolicyFilterRuleCollection";
 export const FirewallPolicyRuleCollectionRuleCollectionType = S.String;
 
+export interface FirewallPolicyRuleCollectionAction {
+  type?: string;
+}
+export const FirewallPolicyRuleCollectionAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FirewallPolicyRuleCollectionAction",
+}) as any as S.Schema<FirewallPolicyRuleCollectionAction>;
+
+export type FirewallPolicyRuleStringList = Array<string>;
+export const FirewallPolicyRuleStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FirewallPolicyRuleStringList>;
+
+export interface FirewallPolicyRuleApplicationProtocol {
+  protocolType?: string;
+  port?: number;
+}
+export const FirewallPolicyRuleApplicationProtocol = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    protocolType: S.optional(S.String),
+    port: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "FirewallPolicyRuleApplicationProtocol",
+}) as any as S.Schema<FirewallPolicyRuleApplicationProtocol>;
+
+export type FirewallPolicyRuleApplicationProtocolList =
+  Array<FirewallPolicyRuleApplicationProtocol>;
+export const FirewallPolicyRuleApplicationProtocolList = /*@__PURE__*/ S.Array(
+  FirewallPolicyRuleApplicationProtocol,
+) as any as S.Schema<FirewallPolicyRuleApplicationProtocolList>;
+
+export interface FirewallPolicyHttpHeaderToInsert {
+  headerName?: string;
+  headerValue?: string;
+}
+export const FirewallPolicyHttpHeaderToInsert = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headerName: S.optional(S.String),
+    headerValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FirewallPolicyHttpHeaderToInsert",
+}) as any as S.Schema<FirewallPolicyHttpHeaderToInsert>;
+
+export type FirewallPolicyHttpHeaderToInsertList = Array<FirewallPolicyHttpHeaderToInsert>;
+export const FirewallPolicyHttpHeaderToInsertList = /*@__PURE__*/ S.Array(
+  FirewallPolicyHttpHeaderToInsert,
+) as any as S.Schema<FirewallPolicyHttpHeaderToInsertList>;
+
+/** A firewall policy rule (application, network, or NAT; discriminated by ruleType). */
+export interface FirewallPolicyRule {
+  ruleType: string;
+  name?: string;
+  description?: string;
+  ipProtocols?: FirewallPolicyRuleStringList;
+  sourceAddresses?: FirewallPolicyRuleStringList;
+  destinationAddresses?: FirewallPolicyRuleStringList;
+  destinationPorts?: FirewallPolicyRuleStringList;
+  sourceIpGroups?: FirewallPolicyRuleStringList;
+  destinationIpGroups?: FirewallPolicyRuleStringList;
+  destinationFqdns?: FirewallPolicyRuleStringList;
+  translatedAddress?: string;
+  translatedPort?: string;
+  translatedFqdn?: string;
+  protocols?: FirewallPolicyRuleApplicationProtocolList;
+  targetFqdns?: FirewallPolicyRuleStringList;
+  targetUrls?: FirewallPolicyRuleStringList;
+  fqdnTags?: FirewallPolicyRuleStringList;
+  webCategories?: FirewallPolicyRuleStringList;
+  terminateTLS?: boolean;
+  httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsertList;
+}
+export const FirewallPolicyRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleType: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    ipProtocols: S.optional(FirewallPolicyRuleStringList),
+    sourceAddresses: S.optional(FirewallPolicyRuleStringList),
+    destinationAddresses: S.optional(FirewallPolicyRuleStringList),
+    destinationPorts: S.optional(FirewallPolicyRuleStringList),
+    sourceIpGroups: S.optional(FirewallPolicyRuleStringList),
+    destinationIpGroups: S.optional(FirewallPolicyRuleStringList),
+    destinationFqdns: S.optional(FirewallPolicyRuleStringList),
+    translatedAddress: S.optional(S.String),
+    translatedPort: S.optional(S.String),
+    translatedFqdn: S.optional(S.String),
+    protocols: S.optional(FirewallPolicyRuleApplicationProtocolList),
+    targetFqdns: S.optional(FirewallPolicyRuleStringList),
+    targetUrls: S.optional(FirewallPolicyRuleStringList),
+    fqdnTags: S.optional(FirewallPolicyRuleStringList),
+    webCategories: S.optional(FirewallPolicyRuleStringList),
+    terminateTLS: S.optional(S.Boolean),
+    httpHeadersToInsert: S.optional(FirewallPolicyHttpHeaderToInsertList),
+  }),
+).annotate({ identifier: "FirewallPolicyRule" }) as any as S.Schema<FirewallPolicyRule>;
+
+export type FirewallPolicyRuleList = Array<FirewallPolicyRule>;
+export const FirewallPolicyRuleList = /*@__PURE__*/ S.Array(
+  FirewallPolicyRule,
+) as any as S.Schema<FirewallPolicyRuleList>;
+
 /** Properties of the rule collection. */
 export interface FirewallPolicyRuleCollection {
   /** The type of the rule collection. */
@@ -27146,12 +27042,16 @@ export interface FirewallPolicyRuleCollection {
   name?: string;
   /** Priority of the Firewall Policy Rule Collection resource. */
   priority?: number;
+  action?: FirewallPolicyRuleCollectionAction;
+  rules?: FirewallPolicyRuleList;
 }
 export const FirewallPolicyRuleCollection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleCollectionType: FirewallPolicyRuleCollectionRuleCollectionType,
     name: S.optional(S.String),
     priority: S.optional(S.Number),
+    action: S.optional(FirewallPolicyRuleCollectionAction),
+    rules: S.optional(FirewallPolicyRuleList),
   }),
 ).annotate({
   identifier: "FirewallPolicyRuleCollection",
@@ -27560,9 +27460,7 @@ export const FirstPartyServiceTagsCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<FirstPartyServiceTagsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type FlowLogsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FlowLogsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FlowLogsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27711,9 +27609,7 @@ export const FlowLogsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FlowLogsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FlowLogsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FlowLogsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FlowLogsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -27963,9 +27859,7 @@ export const VpnProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profileUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnProfileResponse",
-}) as any as S.Schema<VpnProfileResponse>;
+).annotate({ identifier: "VpnProfileResponse" }) as any as S.Schema<VpnProfileResponse>;
 
 /** VPN client Processor Architecture. */
 export type GenerateVirtualNetworkGatewayVpnProfileRequestProcessorArchitecture = "Amd64" | "X86";
@@ -28103,9 +27997,7 @@ export const GetActiveSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetActiveSessionsRequest",
-}) as any as S.Schema<GetActiveSessionsRequest>;
+).annotate({ identifier: "GetActiveSessionsRequest" }) as any as S.Schema<GetActiveSessionsRequest>;
 
 /** The protocol used to connect to the target. */
 export type BastionActiveSessionProtocol = "SSH" | "RDP";
@@ -28150,9 +28042,7 @@ export const BastionActiveSession = /*@__PURE__*/ S.suspend(() =>
     targetResourceId: S.optional(S.String),
     sessionDurationInMins: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BastionActiveSession",
-}) as any as S.Schema<BastionActiveSession>;
+).annotate({ identifier: "BastionActiveSession" }) as any as S.Schema<BastionActiveSession>;
 
 /** The BastionActiveSession items on this page */
 export type BastionActiveSessionListResultValueList = Array<BastionActiveSession>;
@@ -28258,9 +28148,7 @@ export const GetAdminRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetAdminRuleRequest",
-}) as any as S.Schema<GetAdminRuleRequest>;
+).annotate({ identifier: "GetAdminRuleRequest" }) as any as S.Schema<GetAdminRuleRequest>;
 
 /** The type of identity that created the resource. */
 export type GetAdminRuleResponseSystemDataCreatedByType =
@@ -28323,6 +28211,7 @@ export interface GetAdminRuleResponse {
   systemData?: GetAdminRuleResponseSystemData;
   /** Whether the rule is custom or default. */
   kind: GetAdminRuleResponseKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const GetAdminRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28332,10 +28221,9 @@ export const GetAdminRuleResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(GetAdminRuleResponseSystemData),
     kind: GetAdminRuleResponseKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
-).annotate({
-  identifier: "GetAdminRuleResponse",
-}) as any as S.Schema<GetAdminRuleResponse>;
+).annotate({ identifier: "GetAdminRuleResponse" }) as any as S.Schema<GetAdminRuleResponse>;
 
 export interface GetAdminRuleCollectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -28465,9 +28353,7 @@ export const GetApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationGatewayRequest>;
 
 /** Resource tags. */
-export type GetApplicationGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29009,9 +28895,7 @@ export const GetApplicationSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationSecurityGroupRequest>;
 
 /** Resource tags. */
-export type GetApplicationSecurityGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationSecurityGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationSecurityGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29068,14 +28952,10 @@ export const GetAzureFirewallRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetAzureFirewallRequest",
-}) as any as S.Schema<GetAzureFirewallRequest>;
+).annotate({ identifier: "GetAzureFirewallRequest" }) as any as S.Schema<GetAzureFirewallRequest>;
 
 /** Resource tags. */
-export type GetAzureFirewallResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAzureFirewallResponseTagsMap = { [key: string]: string | undefined };
 export const GetAzureFirewallResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29123,9 +29003,7 @@ export const GetAzureFirewallResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(GetAzureFirewallResponseZonesList),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetAzureFirewallResponse",
-}) as any as S.Schema<GetAzureFirewallResponse>;
+).annotate({ identifier: "GetAzureFirewallResponse" }) as any as S.Schema<GetAzureFirewallResponse>;
 
 export interface GetBastionHostRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -29148,14 +29026,10 @@ export const GetBastionHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetBastionHostRequest",
-}) as any as S.Schema<GetBastionHostRequest>;
+).annotate({ identifier: "GetBastionHostRequest" }) as any as S.Schema<GetBastionHostRequest>;
 
 /** Resource tags. */
-export type GetBastionHostResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBastionHostResponseTagsMap = { [key: string]: string | undefined };
 export const GetBastionHostResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29199,9 +29073,7 @@ export const GetBastionHostResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetBastionHostResponse",
-}) as any as S.Schema<GetBastionHostResponse>;
+).annotate({ identifier: "GetBastionHostResponse" }) as any as S.Schema<GetBastionHostResponse>;
 
 /** List of VM references. */
 export type GetBastionShareableLinkRequestVmsList = Array<BastionShareableLinkInput>;
@@ -29282,9 +29154,7 @@ export const BastionShareableLink = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BastionShareableLink",
-}) as any as S.Schema<BastionShareableLink>;
+).annotate({ identifier: "BastionShareableLink" }) as any as S.Schema<BastionShareableLink>;
 
 /** The BastionShareableLink items on this page */
 export type BastionShareableLinkListResultValueList = Array<BastionShareableLink>;
@@ -29332,9 +29202,7 @@ export const GetCommitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetCommitRequest",
-}) as any as S.Schema<GetCommitRequest>;
+).annotate({ identifier: "GetCommitRequest" }) as any as S.Schema<GetCommitRequest>;
 
 /** The type of identity that created the resource. */
 export type GetCommitResponseSystemDataCreatedByType =
@@ -29403,9 +29271,7 @@ export const GetCommitResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CommitProperties),
     systemData: S.optional(GetCommitResponseSystemData),
   }),
-).annotate({
-  identifier: "GetCommitResponse",
-}) as any as S.Schema<GetCommitResponse>;
+).annotate({ identifier: "GetCommitResponse" }) as any as S.Schema<GetCommitResponse>;
 
 export interface GetConfigurationPolicyGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -29488,9 +29354,7 @@ export const GetConnectionMonitorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConnectionMonitorRequest>;
 
 /** Connection monitor tags. */
-export type GetConnectionMonitorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConnectionMonitorResponseTagsMap = { [key: string]: string | undefined };
 export const GetConnectionMonitorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29703,14 +29567,10 @@ export const GetCustomIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetCustomIPPrefixRequest",
-}) as any as S.Schema<GetCustomIPPrefixRequest>;
+).annotate({ identifier: "GetCustomIPPrefixRequest" }) as any as S.Schema<GetCustomIPPrefixRequest>;
 
 /** Resource tags. */
-export type GetCustomIPPrefixResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCustomIPPrefixResponseTagsMap = { [key: string]: string | undefined };
 export const GetCustomIPPrefixResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29788,9 +29648,7 @@ export const GetDdosCustomPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDdosCustomPolicyRequest>;
 
 /** Resource tags. */
-export type GetDdosCustomPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDdosCustomPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetDdosCustomPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29852,9 +29710,7 @@ export const GetDdosProtectionPlanRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDdosProtectionPlanRequest>;
 
 /** Resource tags. */
-export type GetDdosProtectionPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDdosProtectionPlanResponseTagsMap = { [key: string]: string | undefined };
 export const GetDdosProtectionPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29968,9 +29824,7 @@ export const GetDscpConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDscpConfigurationRequest>;
 
 /** Resource tags. */
-export type GetDscpConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDscpConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const GetDscpConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30032,9 +29886,7 @@ export const GetExpressRouteCircuitRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetExpressRouteCircuitRequest>;
 
 /** Resource tags. */
-export type GetExpressRouteCircuitResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRouteCircuitResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRouteCircuitResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30702,9 +30554,7 @@ export const GetExpressRouteCrossConnectionRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetExpressRouteCrossConnectionRequest>;
 
 /** Resource tags. */
-export type GetExpressRouteCrossConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRouteCrossConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRouteCrossConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30815,9 +30665,7 @@ export const GetExpressRouteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetExpressRouteGatewayRequest>;
 
 /** Resource tags. */
-export type GetExpressRouteGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRouteGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRouteGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31366,9 +31214,7 @@ export const RouteSourceDetails = /*@__PURE__*/ S.suspend(() =>
     pri: S.optional(S.String),
     sec: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteSourceDetails",
-}) as any as S.Schema<RouteSourceDetails>;
+).annotate({ identifier: "RouteSourceDetails" }) as any as S.Schema<RouteSourceDetails>;
 
 export type GatewayRouteSetDetailsValueList = Array<RouteSourceDetails>;
 export const GatewayRouteSetDetailsValueList = /*@__PURE__*/ S.Array(
@@ -31398,9 +31244,7 @@ export const GatewayRouteSet = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(GatewayRouteSetLocationsList),
     details: S.optional(GatewayRouteSetDetailsMap),
   }),
-).annotate({
-  identifier: "GatewayRouteSet",
-}) as any as S.Schema<GatewayRouteSet>;
+).annotate({ identifier: "GatewayRouteSet" }) as any as S.Schema<GatewayRouteSet>;
 
 /** List of Gateway Route Sets */
 export type GetExpressRouteGatewayRoutesInformationResponseRouteSetsList = Array<GatewayRouteSet>;
@@ -31422,9 +31266,7 @@ export const CircuitMetadataMap = /*@__PURE__*/ S.suspend(() =>
     link: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CircuitMetadataMap",
-}) as any as S.Schema<CircuitMetadataMap>;
+).annotate({ identifier: "CircuitMetadataMap" }) as any as S.Schema<CircuitMetadataMap>;
 
 /** Dictionary containing map of the circuit id and circuit details */
 export type GetExpressRouteGatewayRoutesInformationResponseCircuitsMetadataMapMap = {
@@ -31488,9 +31330,7 @@ export const GetExpressRouteLagRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetExpressRouteLagRequest>;
 
 /** Resource tags. */
-export type GetExpressRouteLagResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRouteLagResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRouteLagResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31742,9 +31582,7 @@ export const GetExpressRoutePortRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetExpressRoutePortRequest>;
 
 /** Resource tags. */
-export type GetExpressRoutePortResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRoutePortResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRoutePortResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31891,9 +31729,7 @@ export const GetExpressRoutePortsLocationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetExpressRoutePortsLocationRequest>;
 
 /** Resource tags. */
-export type GetExpressRoutePortsLocationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpressRoutePortsLocationResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpressRoutePortsLocationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32008,14 +31844,10 @@ export const GetFirewallPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallPolicyRequest",
-}) as any as S.Schema<GetFirewallPolicyRequest>;
+).annotate({ identifier: "GetFirewallPolicyRequest" }) as any as S.Schema<GetFirewallPolicyRequest>;
 
 /** Resource tags. */
-export type GetFirewallPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFirewallPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetFirewallPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32111,9 +31943,7 @@ export const GetFirewallPolicyDraftRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFirewallPolicyDraftRequest>;
 
 /** Resource tags. */
-export type GetFirewallPolicyDraftResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFirewallPolicyDraftResponseTagsMap = { [key: string]: string | undefined };
 export const GetFirewallPolicyDraftResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32172,9 +32002,7 @@ export const GetFirewallPolicyIdpsSignaturesOverrideRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<GetFirewallPolicyIdpsSignaturesOverrideRequest>;
 
 /** Dictionary of <string> */
-export type SignaturesOverridesPropertiesSignaturesMap = {
-  [key: string]: string | undefined;
-};
+export type SignaturesOverridesPropertiesSignaturesMap = { [key: string]: string | undefined };
 export const SignaturesOverridesPropertiesSignaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32393,9 +32221,7 @@ export const GetFirstPartyServiceTagRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFirstPartyServiceTagRequest>;
 
 /** Resource tags. */
-export type GetFirstPartyServiceTagResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFirstPartyServiceTagResponseTagsMap = { [key: string]: string | undefined };
 export const GetFirstPartyServiceTagResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32455,9 +32281,7 @@ export const GetFlowLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetFlowLogRequest",
-}) as any as S.Schema<GetFlowLogRequest>;
+).annotate({ identifier: "GetFlowLogRequest" }) as any as S.Schema<GetFlowLogRequest>;
 
 /** Resource tags. */
 export type GetFlowLogResponseTagsMap = { [key: string]: string | undefined };
@@ -32526,9 +32350,7 @@ export const GetFlowLogResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(GetFlowLogResponseIdentity),
   }),
-).annotate({
-  identifier: "GetFlowLogResponse",
-}) as any as S.Schema<GetFlowLogResponse>;
+).annotate({ identifier: "GetFlowLogResponse" }) as any as S.Schema<GetFlowLogResponse>;
 
 export interface GetHubRouteTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32554,9 +32376,7 @@ export const GetHubRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetHubRouteTableRequest",
-}) as any as S.Schema<GetHubRouteTableRequest>;
+).annotate({ identifier: "GetHubRouteTableRequest" }) as any as S.Schema<GetHubRouteTableRequest>;
 
 /** List of all destinations. */
 export type HubRouteDestinationsList = Array<string>;
@@ -32642,9 +32462,7 @@ export const HubRouteTableProperties = /*@__PURE__*/ S.suspend(() =>
     propagatingConnections: S.optional(HubRouteTablePropertiesPropagatingConnectionsList),
     provisioningState: S.optional(HubRouteTablePropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "HubRouteTableProperties",
-}) as any as S.Schema<HubRouteTableProperties>;
+).annotate({ identifier: "HubRouteTableProperties" }) as any as S.Schema<HubRouteTableProperties>;
 
 export interface GetHubRouteTableResponse {
   /** Resource ID. */
@@ -32666,9 +32484,7 @@ export const GetHubRouteTableResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(HubRouteTableProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetHubRouteTableResponse",
-}) as any as S.Schema<GetHubRouteTableResponse>;
+).annotate({ identifier: "GetHubRouteTableResponse" }) as any as S.Schema<GetHubRouteTableResponse>;
 
 export interface GetHubVirtualNetworkConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32809,9 +32625,7 @@ export const GetInboundNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetInboundNatRuleRequest",
-}) as any as S.Schema<GetInboundNatRuleRequest>;
+).annotate({ identifier: "GetInboundNatRuleRequest" }) as any as S.Schema<GetInboundNatRuleRequest>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_3 {
@@ -33176,9 +32990,7 @@ export const PrivateEndpoint_2 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_2",
-}) as any as S.Schema<PrivateEndpoint_2>;
+).annotate({ identifier: "PrivateEndpoint_2" }) as any as S.Schema<PrivateEndpoint_2>;
 
 /** IPConfiguration in a network interface. */
 export type NetworkInterfaceIPConfiguration_2 =
@@ -33464,9 +33276,7 @@ export const PrivateLinkService_2 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_2",
-}) as any as S.Schema<PrivateLinkService_2>;
+).annotate({ identifier: "PrivateLinkService_2" }) as any as S.Schema<PrivateLinkService_2>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_3 {
@@ -33579,9 +33389,7 @@ export const NetworkInterface_3 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_3",
-}) as any as S.Schema<NetworkInterface_3>;
+).annotate({ identifier: "NetworkInterface_3" }) as any as S.Schema<NetworkInterface_3>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_3 = Array<NetworkInterface_3>;
@@ -33755,9 +33563,7 @@ export const NetworkSecurityGroup_3 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_3),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_3",
-}) as any as S.Schema<NetworkSecurityGroup_3>;
+).annotate({ identifier: "NetworkSecurityGroup_3" }) as any as S.Schema<NetworkSecurityGroup_3>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_3 = RoutePropertiesFormat_6;
@@ -34245,9 +34051,7 @@ export const PublicIPAddress_3 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddress_3",
-}) as any as S.Schema<PublicIPAddress_3>;
+).annotate({ identifier: "PublicIPAddress_3" }) as any as S.Schema<PublicIPAddress_3>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_3 {
@@ -34292,9 +34096,7 @@ export const IPConfiguration_3 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_3",
-}) as any as S.Schema<IPConfiguration_3>;
+).annotate({ identifier: "IPConfiguration_3" }) as any as S.Schema<IPConfiguration_3>;
 
 /** An array of references to the network interface IP configurations using subnet. */
 export type SubnetPropertiesFormatIpConfigurationsList_3 = Array<IPConfiguration_3>;
@@ -34339,9 +34141,7 @@ export const IPConfigurationProfile_3 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_3",
-}) as any as S.Schema<IPConfigurationProfile_3>;
+).annotate({ identifier: "IPConfigurationProfile_3" }) as any as S.Schema<IPConfigurationProfile_3>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_3 = Array<IPConfigurationProfile_3>;
@@ -34430,9 +34230,7 @@ export const SubnetPropertiesFormat_3 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_3",
-}) as any as S.Schema<SubnetPropertiesFormat_3>;
+).annotate({ identifier: "SubnetPropertiesFormat_3" }) as any as S.Schema<SubnetPropertiesFormat_3>;
 
 /** Subnet in a virtual network resource. */
 export interface FrontendIPConfigurationPropertiesFormatSubnet_3 {
@@ -34754,9 +34552,7 @@ export const NatRulePortMapping_2 = /*@__PURE__*/ S.suspend(() =>
     frontendPort: S.optional(S.Unknown),
     backendPort: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "NatRulePortMapping_2",
-}) as any as S.Schema<NatRulePortMapping_2>;
+).annotate({ identifier: "NatRulePortMapping_2" }) as any as S.Schema<NatRulePortMapping_2>;
 
 /** Collection of inbound NAT rule port mappings. */
 export type LoadBalancerBackendAddressPropertiesFormatInboundNatRulesPortMappingList_2 =
@@ -35204,9 +35000,7 @@ export const InboundSecurityRules = /*@__PURE__*/ S.suspend(() =>
     destinationPortRanges: S.optional(InboundSecurityRulesDestinationPortRangesList),
     appliesOn: S.optional(InboundSecurityRulesAppliesOnList),
   }),
-).annotate({
-  identifier: "InboundSecurityRules",
-}) as any as S.Schema<InboundSecurityRules>;
+).annotate({ identifier: "InboundSecurityRules" }) as any as S.Schema<InboundSecurityRules>;
 
 /** List of allowed rules. */
 export type InboundSecurityRulePropertiesRulesList = Array<InboundSecurityRules>;
@@ -35293,9 +35087,7 @@ export const GetInterconnectGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetInterconnectGroupRequest>;
 
 /** Resource tags. */
-export type GetInterconnectGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetInterconnectGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetInterconnectGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -35354,9 +35146,7 @@ export const SubgroupProperties = /*@__PURE__*/ S.suspend(() =>
     virtualMachines: S.optional(SubgroupPropertiesVirtualMachinesList),
     provisioningState: S.optional(SubgroupPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "SubgroupProperties",
-}) as any as S.Schema<SubgroupProperties>;
+).annotate({ identifier: "SubgroupProperties" }) as any as S.Schema<SubgroupProperties>;
 
 /** A subgroup in an interconnect group. */
 export interface Subgroup {
@@ -35413,9 +35203,7 @@ export const SubgroupProfile = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(SubgroupProfileScope),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SubgroupProfile",
-}) as any as S.Schema<SubgroupProfile>;
+).annotate({ identifier: "SubgroupProfile" }) as any as S.Schema<SubgroupProfile>;
 
 /** Interconnect group properties. */
 export interface InterconnectGroupPropertiesFormat {
@@ -35568,14 +35356,10 @@ export const GetIpAllocationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetIpAllocationRequest",
-}) as any as S.Schema<GetIpAllocationRequest>;
+).annotate({ identifier: "GetIpAllocationRequest" }) as any as S.Schema<GetIpAllocationRequest>;
 
 /** Resource tags. */
-export type GetIpAllocationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIpAllocationResponseTagsMap = { [key: string]: string | undefined };
 export const GetIpAllocationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -35602,9 +35386,7 @@ export type IpAllocationPropertiesFormatPrefixType = "IPv4" | "IPv6";
 export const IpAllocationPropertiesFormatPrefixType = S.String;
 
 /** IpAllocation tags. */
-export type IpAllocationPropertiesFormatAllocationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IpAllocationPropertiesFormatAllocationTagsMap = { [key: string]: string | undefined };
 export const IpAllocationPropertiesFormatAllocationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -35670,9 +35452,7 @@ export const GetIpAllocationResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IpAllocationPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetIpAllocationResponse",
-}) as any as S.Schema<GetIpAllocationResponse>;
+).annotate({ identifier: "GetIpAllocationResponse" }) as any as S.Schema<GetIpAllocationResponse>;
 
 export interface GetIpamPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -35698,9 +35478,7 @@ export const GetIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetIpamPoolRequest",
-}) as any as S.Schema<GetIpamPoolRequest>;
+).annotate({ identifier: "GetIpamPoolRequest" }) as any as S.Schema<GetIpamPoolRequest>;
 
 /** The type of identity that created the resource. */
 export type GetIpamPoolResponseSystemDataCreatedByType =
@@ -35782,9 +35560,7 @@ export const GetIpamPoolResponse = /*@__PURE__*/ S.suspend(() =>
     properties: IpamPoolProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetIpamPoolResponse",
-}) as any as S.Schema<GetIpamPoolResponse>;
+).annotate({ identifier: "GetIpamPoolResponse" }) as any as S.Schema<GetIpamPoolResponse>;
 
 export interface GetIpamPoolPoolUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -35923,9 +35699,7 @@ export const GetIpGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetIpGroupRequest",
-}) as any as S.Schema<GetIpGroupRequest>;
+).annotate({ identifier: "GetIpGroupRequest" }) as any as S.Schema<GetIpGroupRequest>;
 
 /** Resource tags. */
 export type GetIpGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -35994,9 +35768,7 @@ export const IpGroupPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     firewalls: S.optional(IpGroupPropertiesFormatFirewallsList),
     firewallPolicies: S.optional(IpGroupPropertiesFormatFirewallPoliciesList),
   }),
-).annotate({
-  identifier: "IpGroupPropertiesFormat",
-}) as any as S.Schema<IpGroupPropertiesFormat>;
+).annotate({ identifier: "IpGroupPropertiesFormat" }) as any as S.Schema<IpGroupPropertiesFormat>;
 
 export interface GetIpGroupResponse {
   /** Resource ID. */
@@ -36024,9 +35796,7 @@ export const GetIpGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IpGroupPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetIpGroupResponse",
-}) as any as S.Schema<GetIpGroupResponse>;
+).annotate({ identifier: "GetIpGroupResponse" }) as any as S.Schema<GetIpGroupResponse>;
 
 export type GetLoadBalancerRequestDetailLevel = "Reduced";
 export const GetLoadBalancerRequestDetailLevel = S.String;
@@ -36058,14 +35828,10 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 /** Resource tags. */
-export type GetLoadBalancerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetLoadBalancerResponseTagsMap = { [key: string]: string | undefined };
 export const GetLoadBalancerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -36101,9 +35867,7 @@ export const FrontendIPConfiguration = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(FrontendIPConfigurationZonesList),
   }),
-).annotate({
-  identifier: "FrontendIPConfiguration",
-}) as any as S.Schema<FrontendIPConfiguration>;
+).annotate({ identifier: "FrontendIPConfiguration" }) as any as S.Schema<FrontendIPConfiguration>;
 
 /** Object representing the frontend IPs to be used for the load balancer. */
 export type LoadBalancerPropertiesFormatFrontendIPConfigurationsList =
@@ -36254,9 +36018,7 @@ export const LoadBalancingRule = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(LoadBalancingRulePropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LoadBalancingRule",
-}) as any as S.Schema<LoadBalancingRule>;
+).annotate({ identifier: "LoadBalancingRule" }) as any as S.Schema<LoadBalancingRule>;
 
 /** Object collection representing the load balancing rules Gets the provisioning. */
 export type LoadBalancerPropertiesFormatLoadBalancingRulesList = Array<LoadBalancingRule>;
@@ -36328,9 +36090,7 @@ export const ProbePropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     requestPath: S.optional(S.String),
     provisioningState: S.optional(ProbePropertiesFormatProvisioningState),
   }),
-).annotate({
-  identifier: "ProbePropertiesFormat",
-}) as any as S.Schema<ProbePropertiesFormat>;
+).annotate({ identifier: "ProbePropertiesFormat" }) as any as S.Schema<ProbePropertiesFormat>;
 
 /** A load balancer probe. */
 export interface Probe {
@@ -36656,9 +36416,7 @@ export const LoadBalancerSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(LoadBalancerSkuName),
     tier: S.optional(LoadBalancerSkuTier),
   }),
-).annotate({
-  identifier: "LoadBalancerSku",
-}) as any as S.Schema<LoadBalancerSku>;
+).annotate({ identifier: "LoadBalancerSku" }) as any as S.Schema<LoadBalancerSku>;
 
 export interface GetLoadBalancerResponse {
   /** Resource ID. */
@@ -36692,9 +36450,7 @@ export const GetLoadBalancerResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     sku: S.optional(LoadBalancerSku),
   }),
-).annotate({
-  identifier: "GetLoadBalancerResponse",
-}) as any as S.Schema<GetLoadBalancerResponse>;
+).annotate({ identifier: "GetLoadBalancerResponse" }) as any as S.Schema<GetLoadBalancerResponse>;
 
 export interface GetLoadBalancerBackendAddressPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -36991,9 +36747,7 @@ export const GetLocalNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLocalNetworkGatewayRequest>;
 
 /** Resource tags. */
-export type GetLocalNetworkGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetLocalNetworkGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetLocalNetworkGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -37323,14 +37077,10 @@ export const GetNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNatGatewayRequest",
-}) as any as S.Schema<GetNatGatewayRequest>;
+).annotate({ identifier: "GetNatGatewayRequest" }) as any as S.Schema<GetNatGatewayRequest>;
 
 /** Resource tags. */
-export type GetNatGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNatGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetNatGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -37374,9 +37124,7 @@ export const GetNatGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(GetNatGatewayResponseZonesList),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetNatGatewayResponse",
-}) as any as S.Schema<GetNatGatewayResponse>;
+).annotate({ identifier: "GetNatGatewayResponse" }) as any as S.Schema<GetNatGatewayResponse>;
 
 export interface GetNatRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -37402,9 +37150,7 @@ export const GetNatRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNatRuleRequest",
-}) as any as S.Schema<GetNatRuleRequest>;
+).annotate({ identifier: "GetNatRuleRequest" }) as any as S.Schema<GetNatRuleRequest>;
 
 /** Provisioning states of a resource. */
 export type VpnGatewayNatRulePropertiesProvisioningState =
@@ -37436,9 +37182,7 @@ export const VpnNatRuleMapping = /*@__PURE__*/ S.suspend(() =>
     addressSpace: S.optional(S.String),
     portRange: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnNatRuleMapping",
-}) as any as S.Schema<VpnNatRuleMapping>;
+).annotate({ identifier: "VpnNatRuleMapping" }) as any as S.Schema<VpnNatRuleMapping>;
 
 /** The private IP address internal mapping for NAT. */
 export type VpnGatewayNatRulePropertiesInternalMappingsList = Array<VpnNatRuleMapping>;
@@ -37536,9 +37280,7 @@ export const GetNatRuleResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnGatewayNatRuleProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetNatRuleResponse",
-}) as any as S.Schema<GetNatRuleResponse>;
+).annotate({ identifier: "GetNatRuleResponse" }) as any as S.Schema<GetNatRuleResponse>;
 
 export interface GetNetworkGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -37564,9 +37306,7 @@ export const GetNetworkGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkGroupRequest",
-}) as any as S.Schema<GetNetworkGroupRequest>;
+).annotate({ identifier: "GetNetworkGroupRequest" }) as any as S.Schema<GetNetworkGroupRequest>;
 
 /** Network Group member type */
 export type NetworkGroupPropertiesMemberType = "VirtualNetwork" | "Subnet";
@@ -37600,9 +37340,7 @@ export const NetworkGroupProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(NetworkGroupPropertiesProvisioningState),
     resourceGuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkGroupProperties",
-}) as any as S.Schema<NetworkGroupProperties>;
+).annotate({ identifier: "NetworkGroupProperties" }) as any as S.Schema<NetworkGroupProperties>;
 
 /** The type of identity that created the resource. */
 export type GetNetworkGroupResponseSystemDataCreatedByType =
@@ -37671,9 +37409,7 @@ export const GetNetworkGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkGroupProperties),
     systemData: S.optional(GetNetworkGroupResponseSystemData),
   }),
-).annotate({
-  identifier: "GetNetworkGroupResponse",
-}) as any as S.Schema<GetNetworkGroupResponse>;
+).annotate({ identifier: "GetNetworkGroupResponse" }) as any as S.Schema<GetNetworkGroupResponse>;
 
 export interface GetNetworkInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -37704,9 +37440,7 @@ export const GetNetworkInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNetworkInterfaceRequest>;
 
 /** Resource tags. */
-export type GetNetworkInterfaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkInterfaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -37934,9 +37668,7 @@ export const EffectiveRouteListResult = /*@__PURE__*/ S.suspend(() =>
     value: EffectiveRouteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EffectiveRouteListResult",
-}) as any as S.Schema<EffectiveRouteListResult>;
+).annotate({ identifier: "EffectiveRouteListResult" }) as any as S.Schema<EffectiveRouteListResult>;
 
 export interface GetNetworkInterfaceIPConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -38063,14 +37795,10 @@ export const GetNetworkManagerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkManagerRequest",
-}) as any as S.Schema<GetNetworkManagerRequest>;
+).annotate({ identifier: "GetNetworkManagerRequest" }) as any as S.Schema<GetNetworkManagerRequest>;
 
 /** Resource tags. */
-export type GetNetworkManagerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkManagerResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkManagerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -38116,9 +37844,7 @@ export const CrossTenantScopes = /*@__PURE__*/ S.suspend(() =>
     managementGroups: S.optional(CrossTenantScopesManagementGroupsList),
     subscriptions: S.optional(CrossTenantScopesSubscriptionsList),
   }),
-).annotate({
-  identifier: "CrossTenantScopes",
-}) as any as S.Schema<CrossTenantScopes>;
+).annotate({ identifier: "CrossTenantScopes" }) as any as S.Schema<CrossTenantScopes>;
 
 /** List of cross tenant scopes. */
 export type NetworkManagerPropertiesNetworkManagerScopesCrossTenantScopesList =
@@ -38197,9 +37923,7 @@ export const NetworkManagerProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(NetworkManagerPropertiesProvisioningState),
     resourceGuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkManagerProperties",
-}) as any as S.Schema<NetworkManagerProperties>;
+).annotate({ identifier: "NetworkManagerProperties" }) as any as S.Schema<NetworkManagerProperties>;
 
 /** The type of identity that created the resource. */
 export type GetNetworkManagerResponseSystemDataCreatedByType =
@@ -38445,14 +38169,10 @@ export const GetNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkProfileRequest",
-}) as any as S.Schema<GetNetworkProfileRequest>;
+).annotate({ identifier: "GetNetworkProfileRequest" }) as any as S.Schema<GetNetworkProfileRequest>;
 
 /** Resource tags. */
-export type GetNetworkProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -38766,9 +38486,7 @@ export const GetNetworkSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNetworkSecurityGroupRequest>;
 
 /** Resource tags. */
-export type GetNetworkSecurityGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkSecurityGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkSecurityGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -38874,9 +38592,7 @@ export const GetNetworkSecurityPerimeterResponseSystemData = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetNetworkSecurityPerimeterResponseSystemData>;
 
 /** Resource tags. */
-export type GetNetworkSecurityPerimeterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkSecurityPerimeterResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkSecurityPerimeterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -39071,9 +38787,7 @@ export const PerimeterBasedAccessRule = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PerimeterBasedAccessRule",
-}) as any as S.Schema<PerimeterBasedAccessRule>;
+).annotate({ identifier: "PerimeterBasedAccessRule" }) as any as S.Schema<PerimeterBasedAccessRule>;
 
 /** Rule specified by the perimeter id. */
 export type NspAccessRulePropertiesNetworkSecurityPerimetersList = Array<PerimeterBasedAccessRule>;
@@ -39132,9 +38846,7 @@ export const NspAccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     phoneNumbers: S.optional(NspAccessRulePropertiesPhoneNumbersList),
     serviceTags: S.optional(NspAccessRulePropertiesServiceTagsList),
   }),
-).annotate({
-  identifier: "NspAccessRuleProperties",
-}) as any as S.Schema<NspAccessRuleProperties>;
+).annotate({ identifier: "NspAccessRuleProperties" }) as any as S.Schema<NspAccessRuleProperties>;
 
 export interface GetNetworkSecurityPerimeterAccessRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -39285,9 +38997,7 @@ export const NspAssociationProperties = /*@__PURE__*/ S.suspend(() =>
     accessMode: S.optional(NspAssociationPropertiesAccessMode),
     hasProvisioningIssues: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspAssociationProperties",
-}) as any as S.Schema<NspAssociationProperties>;
+).annotate({ identifier: "NspAssociationProperties" }) as any as S.Schema<NspAssociationProperties>;
 
 export interface GetNetworkSecurityPerimeterAssociationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -39462,9 +39172,7 @@ export const NspLinkProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     status: S.optional(NspLinkPropertiesStatus),
   }),
-).annotate({
-  identifier: "NspLinkProperties",
-}) as any as S.Schema<NspLinkProperties>;
+).annotate({ identifier: "NspLinkProperties" }) as any as S.Schema<NspLinkProperties>;
 
 export interface GetNetworkSecurityPerimeterLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -39845,9 +39553,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -39911,9 +39617,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type GetNetworkSecurityPerimeterOperationStatusResponseOperationsList =
@@ -40045,9 +39749,7 @@ export const NspProfileProperties = /*@__PURE__*/ S.suspend(() =>
     accessRulesVersion: S.optional(S.String),
     diagnosticSettingsVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspProfileProperties",
-}) as any as S.Schema<NspProfileProperties>;
+).annotate({ identifier: "NspProfileProperties" }) as any as S.Schema<NspProfileProperties>;
 
 export interface GetNetworkSecurityPerimeterProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -40102,9 +39804,7 @@ export const GetNetworkVirtualApplianceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNetworkVirtualApplianceRequest>;
 
 /** Resource tags. */
-export type GetNetworkVirtualApplianceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkVirtualApplianceResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkVirtualApplianceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -40401,9 +40101,7 @@ export const DelegationProperties = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     provisioningState: S.optional(DelegationPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "DelegationProperties",
-}) as any as S.Schema<DelegationProperties>;
+).annotate({ identifier: "DelegationProperties" }) as any as S.Schema<DelegationProperties>;
 
 /** Properties of the partner managed resource. Only appliable for SaaS NVA. */
 export interface PartnerManagedResourceProperties {
@@ -40842,14 +40540,10 @@ export const GetNetworkWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkWatcherRequest",
-}) as any as S.Schema<GetNetworkWatcherRequest>;
+).annotate({ identifier: "GetNetworkWatcherRequest" }) as any as S.Schema<GetNetworkWatcherRequest>;
 
 /** Resource tags. */
-export type GetNetworkWatcherResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkWatcherResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkWatcherResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -41042,9 +40736,7 @@ export const AzureReachabilityReport = /*@__PURE__*/ S.suspend(() =>
     providerLocation: AzureReachabilityReportLocation,
     reachabilityReport: AzureReachabilityReportReachabilityReportList,
   }),
-).annotate({
-  identifier: "AzureReachabilityReport",
-}) as any as S.Schema<AzureReachabilityReport>;
+).annotate({ identifier: "AzureReachabilityReport" }) as any as S.Schema<AzureReachabilityReport>;
 
 export interface GetNetworkWatcherFlowLogStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -41098,9 +40790,7 @@ export const FlowLogProperties = /*@__PURE__*/ S.suspend(() =>
     retentionPolicy: S.optional(RetentionPolicyParameters_7),
     format: S.optional(FlowLogFormatParameters_5),
   }),
-).annotate({
-  identifier: "FlowLogProperties",
-}) as any as S.Schema<FlowLogProperties>;
+).annotate({ identifier: "FlowLogProperties" }) as any as S.Schema<FlowLogProperties>;
 
 /** The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type FlowLogInformationIdentityUserAssignedIdentitiesMap = {
@@ -41151,9 +40841,7 @@ export const FlowLogInformation = /*@__PURE__*/ S.suspend(() =>
     flowAnalyticsConfiguration: S.optional(TrafficAnalyticsProperties_7),
     identity: S.optional(FlowLogInformationIdentity),
   }),
-).annotate({
-  identifier: "FlowLogInformation",
-}) as any as S.Schema<FlowLogInformation>;
+).annotate({ identifier: "FlowLogInformation" }) as any as S.Schema<FlowLogInformation>;
 
 /** Verbosity level. */
 export type GetNetworkWatcherNetworkConfigurationDiagnosticRequestVerbosityLevel =
@@ -41533,9 +41221,7 @@ export const TopologyAssociation = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     associationType: S.optional(TopologyAssociationAssociationType),
   }),
-).annotate({
-  identifier: "TopologyAssociation",
-}) as any as S.Schema<TopologyAssociation>;
+).annotate({ identifier: "TopologyAssociation" }) as any as S.Schema<TopologyAssociation>;
 
 /** Holds the associations the resource has with other resources in the resource group. */
 export type TopologyResourceAssociationsList = Array<TopologyAssociation>;
@@ -41561,9 +41247,7 @@ export const TopologyResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     associations: S.optional(TopologyResourceAssociationsList),
   }),
-).annotate({
-  identifier: "TopologyResource",
-}) as any as S.Schema<TopologyResource>;
+).annotate({ identifier: "TopologyResource" }) as any as S.Schema<TopologyResource>;
 
 /** A list of topology resources. */
 export type TopologyResourcesList = Array<TopologyResource>;
@@ -41687,9 +41371,7 @@ export const TroubleshootingDetails = /*@__PURE__*/ S.suspend(() =>
     detail: S.optional(S.String),
     recommendedActions: S.optional(TroubleshootingDetailsRecommendedActionsList),
   }),
-).annotate({
-  identifier: "TroubleshootingDetails",
-}) as any as S.Schema<TroubleshootingDetails>;
+).annotate({ identifier: "TroubleshootingDetails" }) as any as S.Schema<TroubleshootingDetails>;
 
 /** Information from troubleshooting. */
 export type TroubleshootingResultResultsList = Array<TroubleshootingDetails>;
@@ -41715,9 +41397,7 @@ export const TroubleshootingResult = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     results: S.optional(TroubleshootingResultResultsList),
   }),
-).annotate({
-  identifier: "TroubleshootingResult",
-}) as any as S.Schema<TroubleshootingResult>;
+).annotate({ identifier: "TroubleshootingResult" }) as any as S.Schema<TroubleshootingResult>;
 
 export interface GetNetworkWatcherTroubleshootingResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -41950,9 +41630,7 @@ export const SubnetAssociation = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     securityRules: S.optional(SubnetAssociationSecurityRulesList),
   }),
-).annotate({
-  identifier: "SubnetAssociation",
-}) as any as S.Schema<SubnetAssociation>;
+).annotate({ identifier: "SubnetAssociation" }) as any as S.Schema<SubnetAssociation>;
 
 /** Network security rule. */
 export type SecurityRuleAssociationsDefaultSecurityRulesItem =
@@ -42118,9 +41796,7 @@ export const SecurityRuleAssociations = /*@__PURE__*/ S.suspend(() =>
     defaultSecurityRules: S.optional(SecurityRuleAssociationsDefaultSecurityRulesList),
     effectiveSecurityRules: S.optional(SecurityRuleAssociationsEffectiveSecurityRulesList),
   }),
-).annotate({
-  identifier: "SecurityRuleAssociations",
-}) as any as S.Schema<SecurityRuleAssociations>;
+).annotate({ identifier: "SecurityRuleAssociations" }) as any as S.Schema<SecurityRuleAssociations>;
 
 /** Network interface and all its associated security rules. */
 export interface SecurityGroupNetworkInterface {
@@ -42153,9 +41829,7 @@ export const SecurityGroupViewResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkInterfaces: S.optional(SecurityGroupViewResultNetworkInterfacesList),
   }),
-).annotate({
-  identifier: "SecurityGroupViewResult",
-}) as any as S.Schema<SecurityGroupViewResult>;
+).annotate({ identifier: "SecurityGroupViewResult" }) as any as S.Schema<SecurityGroupViewResult>;
 
 export interface GetP2sVpnGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -42178,14 +41852,10 @@ export const GetP2sVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetP2sVpnGatewayRequest",
-}) as any as S.Schema<GetP2sVpnGatewayRequest>;
+).annotate({ identifier: "GetP2sVpnGatewayRequest" }) as any as S.Schema<GetP2sVpnGatewayRequest>;
 
 /** Resource tags. */
-export type GetP2sVpnGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetP2sVpnGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetP2sVpnGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -42434,9 +42104,7 @@ export const P2SVpnGatewayProperties = /*@__PURE__*/ S.suspend(() =>
     customDnsServers: S.optional(P2SVpnGatewayPropertiesCustomDnsServersList),
     isRoutingPreferenceInternet: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "P2SVpnGatewayProperties",
-}) as any as S.Schema<P2SVpnGatewayProperties>;
+).annotate({ identifier: "P2SVpnGatewayProperties" }) as any as S.Schema<P2SVpnGatewayProperties>;
 
 export interface GetP2sVpnGatewayResponse {
   /** Resource ID. */
@@ -42464,9 +42132,7 @@ export const GetP2sVpnGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(P2SVpnGatewayProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetP2sVpnGatewayResponse",
-}) as any as S.Schema<GetP2sVpnGatewayResponse>;
+).annotate({ identifier: "GetP2sVpnGatewayResponse" }) as any as S.Schema<GetP2sVpnGatewayResponse>;
 
 export interface GetP2sVpnGatewayP2sVpnConnectionHealthRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -42582,9 +42248,7 @@ export const P2SVpnConnectionHealth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sasUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "P2SVpnConnectionHealth",
-}) as any as S.Schema<P2SVpnConnectionHealth>;
+).annotate({ identifier: "P2SVpnConnectionHealth" }) as any as S.Schema<P2SVpnConnectionHealth>;
 
 export interface GetPacketCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -42610,9 +42274,7 @@ export const GetPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetPacketCaptureRequest",
-}) as any as S.Schema<GetPacketCaptureRequest>;
+).annotate({ identifier: "GetPacketCaptureRequest" }) as any as S.Schema<GetPacketCaptureRequest>;
 
 export interface GetPacketCaptureStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -42863,9 +42525,7 @@ export const PrivateDnsZoneConfig = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(PrivateDnsZonePropertiesFormat),
   }),
-).annotate({
-  identifier: "PrivateDnsZoneConfig",
-}) as any as S.Schema<PrivateDnsZoneConfig>;
+).annotate({ identifier: "PrivateDnsZoneConfig" }) as any as S.Schema<PrivateDnsZoneConfig>;
 
 /** A collection of private dns zone configurations of the private dns zone group. */
 export type PrivateDnsZoneGroupPropertiesFormatPrivateDnsZoneConfigsList =
@@ -42940,9 +42600,7 @@ export const GetPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPrivateEndpointRequest>;
 
 /** Resource tags. */
-export type GetPrivateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43014,9 +42672,7 @@ export const GetPrivateLinkServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPrivateLinkServiceRequest>;
 
 /** Resource tags. */
-export type GetPrivateLinkServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateLinkServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateLinkServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43143,9 +42799,7 @@ export const GetPublicIPAddressRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPublicIPAddressRequest>;
 
 /** Resource tags. */
-export type GetPublicIPAddressResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPublicIPAddressResponseTagsMap = { [key: string]: string | undefined };
 export const GetPublicIPAddressResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43324,14 +42978,10 @@ export const GetPublicIPPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetPublicIPPrefixRequest",
-}) as any as S.Schema<GetPublicIPPrefixRequest>;
+).annotate({ identifier: "GetPublicIPPrefixRequest" }) as any as S.Schema<GetPublicIPPrefixRequest>;
 
 /** Resource tags. */
-export type GetPublicIPPrefixResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPublicIPPrefixResponseTagsMap = { [key: string]: string | undefined };
 export const GetPublicIPPrefixResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43457,9 +43107,7 @@ export const PublicIPPrefixSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PublicIPPrefixSkuName),
     tier: S.optional(PublicIPPrefixSkuTier),
   }),
-).annotate({
-  identifier: "PublicIPPrefixSku",
-}) as any as S.Schema<PublicIPPrefixSku>;
+).annotate({ identifier: "PublicIPPrefixSku" }) as any as S.Schema<PublicIPPrefixSku>;
 
 /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
 export type GetPublicIPPrefixResponseZonesList = Array<string>;
@@ -43730,9 +43378,7 @@ export const GetRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRouteRequest",
-}) as any as S.Schema<GetRouteRequest>;
+).annotate({ identifier: "GetRouteRequest" }) as any as S.Schema<GetRouteRequest>;
 
 export interface GetRouteResponse {
   /** Resource ID. */
@@ -43754,9 +43400,7 @@ export const GetRouteResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RoutePropertiesFormat_6),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRouteResponse",
-}) as any as S.Schema<GetRouteResponse>;
+).annotate({ identifier: "GetRouteResponse" }) as any as S.Schema<GetRouteResponse>;
 
 export interface GetRouteFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -43782,14 +43426,10 @@ export const GetRouteFilterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRouteFilterRequest",
-}) as any as S.Schema<GetRouteFilterRequest>;
+).annotate({ identifier: "GetRouteFilterRequest" }) as any as S.Schema<GetRouteFilterRequest>;
 
 /** Resource tags. */
-export type GetRouteFilterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRouteFilterResponseTagsMap = { [key: string]: string | undefined };
 export const GetRouteFilterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -43862,9 +43502,7 @@ export const RouteFilterRule = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteFilterRule",
-}) as any as S.Schema<RouteFilterRule>;
+).annotate({ identifier: "RouteFilterRule" }) as any as S.Schema<RouteFilterRule>;
 
 /** Collection of RouteFilterRules contained within a route filter. */
 export type RouteFilterPropertiesFormatRulesList = Array<RouteFilterRule>;
@@ -43942,9 +43580,7 @@ export const GetRouteFilterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RouteFilterPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRouteFilterResponse",
-}) as any as S.Schema<GetRouteFilterResponse>;
+).annotate({ identifier: "GetRouteFilterResponse" }) as any as S.Schema<GetRouteFilterResponse>;
 
 export interface GetRouteFilterRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -44022,9 +43658,7 @@ export const GetRouteMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRouteMapRequest",
-}) as any as S.Schema<GetRouteMapRequest>;
+).annotate({ identifier: "GetRouteMapRequest" }) as any as S.Schema<GetRouteMapRequest>;
 
 /** List of connections which have this RoutMap associated for inbound traffic. */
 export type RouteMapPropertiesAssociatedInboundConnectionsList = Array<string>;
@@ -44214,9 +43848,7 @@ export const RouteMapProperties = /*@__PURE__*/ S.suspend(() =>
     rules: S.optional(RouteMapPropertiesRulesList),
     provisioningState: S.optional(RouteMapPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "RouteMapProperties",
-}) as any as S.Schema<RouteMapProperties>;
+).annotate({ identifier: "RouteMapProperties" }) as any as S.Schema<RouteMapProperties>;
 
 export interface GetRouteMapResponse {
   /** Resource ID. */
@@ -44238,9 +43870,7 @@ export const GetRouteMapResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RouteMapProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRouteMapResponse",
-}) as any as S.Schema<GetRouteMapResponse>;
+).annotate({ identifier: "GetRouteMapResponse" }) as any as S.Schema<GetRouteMapResponse>;
 
 export interface GetRouteTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -44266,14 +43896,10 @@ export const GetRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRouteTableRequest",
-}) as any as S.Schema<GetRouteTableRequest>;
+).annotate({ identifier: "GetRouteTableRequest" }) as any as S.Schema<GetRouteTableRequest>;
 
 /** Resource tags. */
-export type GetRouteTableResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRouteTableResponseTagsMap = { [key: string]: string | undefined };
 export const GetRouteTableResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -44305,9 +43931,7 @@ export const GetRouteTableResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RouteTablePropertiesFormat_6),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRouteTableResponse",
-}) as any as S.Schema<GetRouteTableResponse>;
+).annotate({ identifier: "GetRouteTableResponse" }) as any as S.Schema<GetRouteTableResponse>;
 
 export interface GetRoutingIntentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -44333,9 +43957,7 @@ export const GetRoutingIntentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRoutingIntentRequest",
-}) as any as S.Schema<GetRoutingIntentRequest>;
+).annotate({ identifier: "GetRoutingIntentRequest" }) as any as S.Schema<GetRoutingIntentRequest>;
 
 /** List of all destinations which this routing policy is applicable to (for example: Internet, PrivateTraffic). */
 export type RoutingPolicyDestinationsList = Array<string>;
@@ -44388,9 +44010,7 @@ export const RoutingIntentProperties = /*@__PURE__*/ S.suspend(() =>
     routingPolicies: S.optional(RoutingIntentPropertiesRoutingPoliciesList),
     provisioningState: S.optional(RoutingIntentPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "RoutingIntentProperties",
-}) as any as S.Schema<RoutingIntentProperties>;
+).annotate({ identifier: "RoutingIntentProperties" }) as any as S.Schema<RoutingIntentProperties>;
 
 export interface GetRoutingIntentResponse {
   /** Resource ID. */
@@ -44412,9 +44032,7 @@ export const GetRoutingIntentResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RoutingIntentProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRoutingIntentResponse",
-}) as any as S.Schema<GetRoutingIntentResponse>;
+).annotate({ identifier: "GetRoutingIntentResponse" }) as any as S.Schema<GetRoutingIntentResponse>;
 
 export interface GetRoutingRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -44446,9 +44064,7 @@ export const GetRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetRoutingRuleRequest",
-}) as any as S.Schema<GetRoutingRuleRequest>;
+).annotate({ identifier: "GetRoutingRuleRequest" }) as any as S.Schema<GetRoutingRuleRequest>;
 
 /** Provisioning states of a resource. */
 export type RoutingRulePropertiesFormatProvisioningState =
@@ -44501,9 +44117,7 @@ export const RoutingRuleNextHop = /*@__PURE__*/ S.suspend(() =>
     nextHopType: RoutingRuleNextHopNextHopType,
     nextHopAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoutingRuleNextHop",
-}) as any as S.Schema<RoutingRuleNextHop>;
+).annotate({ identifier: "RoutingRuleNextHop" }) as any as S.Schema<RoutingRuleNextHop>;
 
 /** Routing rule resource. */
 export interface RoutingRulePropertiesFormat {
@@ -44597,9 +44211,7 @@ export const GetRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RoutingRulePropertiesFormat),
     systemData: S.optional(GetRoutingRuleResponseSystemData),
   }),
-).annotate({
-  identifier: "GetRoutingRuleResponse",
-}) as any as S.Schema<GetRoutingRuleResponse>;
+).annotate({ identifier: "GetRoutingRuleResponse" }) as any as S.Schema<GetRoutingRuleResponse>;
 
 export interface GetRoutingRuleCollectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -45074,9 +44686,7 @@ export const GetSecurityPartnerProviderRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSecurityPartnerProviderRequest>;
 
 /** Resource tags. */
-export type GetSecurityPartnerProviderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSecurityPartnerProviderResponseTagsMap = { [key: string]: string | undefined };
 export const GetSecurityPartnerProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -45191,9 +44801,7 @@ export const GetSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetSecurityRuleRequest",
-}) as any as S.Schema<GetSecurityRuleRequest>;
+).annotate({ identifier: "GetSecurityRuleRequest" }) as any as S.Schema<GetSecurityRuleRequest>;
 
 export interface GetSecurityRuleResponse {
   /** Resource ID. */
@@ -45215,9 +44823,7 @@ export const GetSecurityRuleResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SecurityRulePropertiesFormat_7),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSecurityRuleResponse",
-}) as any as S.Schema<GetSecurityRuleResponse>;
+).annotate({ identifier: "GetSecurityRuleResponse" }) as any as S.Schema<GetSecurityRuleResponse>;
 
 export interface GetSecurityUserConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -45392,26 +44998,6 @@ export type SecurityUserRulePropertiesFormatProtocol =
   | "Any"
   | "Ah";
 export const SecurityUserRulePropertiesFormatProtocol = S.String;
-
-/** Address prefix type. */
-export type AddressPrefixItemAddressPrefixType = "IPPrefix" | "ServiceTag" | "NetworkGroup";
-export const AddressPrefixItemAddressPrefixType = S.String;
-
-/** Address prefix item. */
-export interface AddressPrefixItem {
-  /** Address prefix. */
-  addressPrefix?: string;
-  /** Address prefix type. */
-  addressPrefixType?: AddressPrefixItemAddressPrefixType | (string & {});
-}
-export const AddressPrefixItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    addressPrefix: S.optional(S.String),
-    addressPrefixType: S.optional(AddressPrefixItemAddressPrefixType),
-  }),
-).annotate({
-  identifier: "AddressPrefixItem",
-}) as any as S.Schema<AddressPrefixItem>;
 
 /** The CIDR or source IP ranges. */
 export type SecurityUserRulePropertiesFormatSourcesList = Array<AddressPrefixItem>;
@@ -45735,9 +45321,7 @@ export const GetServiceEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetServiceEndpointPolicyRequest>;
 
 /** Resource tags. */
-export type GetServiceEndpointPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceEndpointPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceEndpointPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -46060,9 +45644,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_2 {
@@ -46201,9 +45783,7 @@ export const PublicIPAddress_2 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.Unknown),
     zones: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "PublicIPAddress_2",
-}) as any as S.Schema<PublicIPAddress_2>;
+).annotate({ identifier: "PublicIPAddress_2" }) as any as S.Schema<PublicIPAddress_2>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_2 {
@@ -46248,9 +45828,7 @@ export const IPConfiguration_2 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_2",
-}) as any as S.Schema<IPConfiguration_2>;
+).annotate({ identifier: "IPConfiguration_2" }) as any as S.Schema<IPConfiguration_2>;
 
 /** The list of tags associated with the public IP address. */
 export type PublicIPAddressPropertiesFormatIpTagsList_2 = Array<IpTag>;
@@ -47315,9 +46893,7 @@ export const PrivateLinkService = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService",
-}) as any as S.Schema<PrivateLinkService>;
+).annotate({ identifier: "PrivateLinkService" }) as any as S.Schema<PrivateLinkService>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_2 {
@@ -47430,9 +47006,7 @@ export const NetworkInterface_2 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_2",
-}) as any as S.Schema<NetworkInterface_2>;
+).annotate({ identifier: "NetworkInterface_2" }) as any as S.Schema<NetworkInterface_2>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_2 = Array<NetworkInterface_2>;
@@ -47601,9 +47175,7 @@ export const NetworkSecurityGroup_2 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_2),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_2",
-}) as any as S.Schema<NetworkSecurityGroup_2>;
+).annotate({ identifier: "NetworkSecurityGroup_2" }) as any as S.Schema<NetworkSecurityGroup_2>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_2 = RoutePropertiesFormat_6;
@@ -47772,9 +47344,7 @@ export const IPConfigurationProfile_2 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_2",
-}) as any as S.Schema<IPConfigurationProfile_2>;
+).annotate({ identifier: "IPConfigurationProfile_2" }) as any as S.Schema<IPConfigurationProfile_2>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_2 = Array<IPConfigurationProfile_2>;
@@ -47863,9 +47433,7 @@ export const SubnetPropertiesFormat_2 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_2",
-}) as any as S.Schema<SubnetPropertiesFormat_2>;
+).annotate({ identifier: "SubnetPropertiesFormat_2" }) as any as S.Schema<SubnetPropertiesFormat_2>;
 
 /** Subnet in a virtual network resource. */
 export interface ServiceEndpointPolicyPropertiesFormatSubnetsItem_2 {
@@ -48037,9 +47605,7 @@ export const GetServiceGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceGatewayRequest",
-}) as any as S.Schema<GetServiceGatewayRequest>;
+).annotate({ identifier: "GetServiceGatewayRequest" }) as any as S.Schema<GetServiceGatewayRequest>;
 
 /** The type of identity that created the resource. */
 export type GetServiceGatewayResponseSystemDataCreatedByType =
@@ -48086,9 +47652,7 @@ export const GetServiceGatewayResponseSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetServiceGatewayResponseSystemData>;
 
 /** Resource tags. */
-export type GetServiceGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -48374,9 +47938,7 @@ export const PrivateEndpoint_4 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_4",
-}) as any as S.Schema<PrivateEndpoint_4>;
+).annotate({ identifier: "PrivateEndpoint_4" }) as any as S.Schema<PrivateEndpoint_4>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_5 {
@@ -48530,9 +48092,7 @@ export const IPConfiguration_5 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.Unknown),
     etag: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "IPConfiguration_5",
-}) as any as S.Schema<IPConfiguration_5>;
+).annotate({ identifier: "IPConfiguration_5" }) as any as S.Schema<IPConfiguration_5>;
 
 /** Contains FQDN of the DNS record associated with the public IP address. */
 export interface PublicIPAddressDnsSettings_2 {
@@ -49584,9 +49144,7 @@ export const PrivateLinkService_4 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_4",
-}) as any as S.Schema<PrivateLinkService_4>;
+).annotate({ identifier: "PrivateLinkService_4" }) as any as S.Schema<PrivateLinkService_4>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_5 {
@@ -49699,9 +49257,7 @@ export const NetworkInterface_5 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_5",
-}) as any as S.Schema<NetworkInterface_5>;
+).annotate({ identifier: "NetworkInterface_5" }) as any as S.Schema<NetworkInterface_5>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_5 = Array<NetworkInterface_5>;
@@ -49875,9 +49431,7 @@ export const NetworkSecurityGroup_5 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_5),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_5",
-}) as any as S.Schema<NetworkSecurityGroup_5>;
+).annotate({ identifier: "NetworkSecurityGroup_5" }) as any as S.Schema<NetworkSecurityGroup_5>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_5 = RoutePropertiesFormat_6;
@@ -50157,9 +49711,7 @@ export const IPConfigurationProfile_5 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_5",
-}) as any as S.Schema<IPConfigurationProfile_5>;
+).annotate({ identifier: "IPConfigurationProfile_5" }) as any as S.Schema<IPConfigurationProfile_5>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_5 = Array<IPConfigurationProfile_5>;
@@ -50248,9 +49800,7 @@ export const SubnetPropertiesFormat_5 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_5",
-}) as any as S.Schema<SubnetPropertiesFormat_5>;
+).annotate({ identifier: "SubnetPropertiesFormat_5" }) as any as S.Schema<SubnetPropertiesFormat_5>;
 
 /** Subnet in a virtual network resource. */
 export interface Subnet_5 {
@@ -50319,9 +49869,7 @@ export const VirtualNetworkEncryption = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     enforcement: S.optional(VirtualNetworkEncryptionEnforcement),
   }),
-).annotate({
-  identifier: "VirtualNetworkEncryption",
-}) as any as S.Schema<VirtualNetworkEncryption>;
+).annotate({ identifier: "VirtualNetworkEncryption" }) as any as S.Schema<VirtualNetworkEncryption>;
 
 /** The status of the virtual network peering. */
 export type VirtualNetworkPeeringPropertiesFormatPeeringState =
@@ -50453,9 +50001,7 @@ export const VirtualNetworkPeering = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualNetworkPeeringPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkPeering",
-}) as any as S.Schema<VirtualNetworkPeering>;
+).annotate({ identifier: "VirtualNetworkPeering" }) as any as S.Schema<VirtualNetworkPeering>;
 
 /** A list of peerings in a Virtual Network. */
 export type VirtualNetworkPropertiesFormatVirtualNetworkPeeringsList = Array<VirtualNetworkPeering>;
@@ -50777,9 +50323,7 @@ export const ServiceGatewaySku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(ServiceGatewaySkuName),
     tier: S.optional(ServiceGatewaySkuTier),
   }),
-).annotate({
-  identifier: "ServiceGatewaySku",
-}) as any as S.Schema<ServiceGatewaySku>;
+).annotate({ identifier: "ServiceGatewaySku" }) as any as S.Schema<ServiceGatewaySku>;
 
 /** A list of availability zones denoting the zone in which service gateway should be deployed. - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc. */
 export type GetServiceGatewayResponseZonesList = Array<string>;
@@ -50869,9 +50413,7 @@ export const ServiceGatewayAddress = /*@__PURE__*/ S.suspend(() =>
     address: S.optional(S.String),
     services: S.optional(ServiceGatewayAddressServicesList),
   }),
-).annotate({
-  identifier: "ServiceGatewayAddress",
-}) as any as S.Schema<ServiceGatewayAddress>;
+).annotate({ identifier: "ServiceGatewayAddress" }) as any as S.Schema<ServiceGatewayAddress>;
 
 /** An array of addresses to create or update in locations. */
 export type ServiceGatewayAddressLocationResponseAddressesList = Array<ServiceGatewayAddress>;
@@ -51000,9 +50542,7 @@ export const ServiceGatewayService = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ServiceGatewayServicePropertiesFormat),
   }),
-).annotate({
-  identifier: "ServiceGatewayService",
-}) as any as S.Schema<ServiceGatewayService>;
+).annotate({ identifier: "ServiceGatewayService" }) as any as S.Schema<ServiceGatewayService>;
 
 /** The ServiceGatewayService items on this page */
 export type GetServiceGatewayServicesResultValueList = Array<ServiceGatewayService>;
@@ -51053,9 +50593,7 @@ export const GetStaticCidrRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetStaticCidrRequest",
-}) as any as S.Schema<GetStaticCidrRequest>;
+).annotate({ identifier: "GetStaticCidrRequest" }) as any as S.Schema<GetStaticCidrRequest>;
 
 /** The type of identity that created the resource. */
 export type GetStaticCidrResponseSystemDataCreatedByType =
@@ -51121,9 +50659,7 @@ export const GetStaticCidrResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetStaticCidrResponseSystemData),
     properties: S.optional(StaticCidrProperties),
   }),
-).annotate({
-  identifier: "GetStaticCidrResponse",
-}) as any as S.Schema<GetStaticCidrResponse>;
+).annotate({ identifier: "GetStaticCidrResponse" }) as any as S.Schema<GetStaticCidrResponse>;
 
 export interface GetStaticMemberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -51152,9 +50688,7 @@ export const GetStaticMemberRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetStaticMemberRequest",
-}) as any as S.Schema<GetStaticMemberRequest>;
+).annotate({ identifier: "GetStaticMemberRequest" }) as any as S.Schema<GetStaticMemberRequest>;
 
 /** Provisioning states of a resource. */
 export type StaticMemberPropertiesProvisioningState =
@@ -51181,9 +50715,7 @@ export const StaticMemberProperties = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     provisioningState: S.optional(StaticMemberPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "StaticMemberProperties",
-}) as any as S.Schema<StaticMemberProperties>;
+).annotate({ identifier: "StaticMemberProperties" }) as any as S.Schema<StaticMemberProperties>;
 
 /** The type of identity that created the resource. */
 export type GetStaticMemberResponseSystemDataCreatedByType =
@@ -51252,9 +50784,7 @@ export const GetStaticMemberResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(StaticMemberProperties),
     systemData: S.optional(GetStaticMemberResponseSystemData),
   }),
-).annotate({
-  identifier: "GetStaticMemberResponse",
-}) as any as S.Schema<GetStaticMemberResponse>;
+).annotate({ identifier: "GetStaticMemberResponse" }) as any as S.Schema<GetStaticMemberResponse>;
 
 export interface GetSubgroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -51280,9 +50810,7 @@ export const GetSubgroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetSubgroupRequest",
-}) as any as S.Schema<GetSubgroupRequest>;
+).annotate({ identifier: "GetSubgroupRequest" }) as any as S.Schema<GetSubgroupRequest>;
 
 export interface GetSubgroupResponse {
   /** Resource ID. */
@@ -51301,9 +50829,7 @@ export const GetSubgroupResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SubgroupProperties),
   }),
-).annotate({
-  identifier: "GetSubgroupResponse",
-}) as any as S.Schema<GetSubgroupResponse>;
+).annotate({ identifier: "GetSubgroupResponse" }) as any as S.Schema<GetSubgroupResponse>;
 
 export interface GetSubnetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -51332,9 +50858,7 @@ export const GetSubnetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetSubnetRequest",
-}) as any as S.Schema<GetSubnetRequest>;
+).annotate({ identifier: "GetSubnetRequest" }) as any as S.Schema<GetSubnetRequest>;
 
 export interface GetSubnetResponse {
   /** Resource ID. */
@@ -51356,9 +50880,7 @@ export const GetSubnetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SubnetPropertiesFormat_6),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSubnetResponse",
-}) as any as S.Schema<GetSubnetResponse>;
+).annotate({ identifier: "GetSubnetResponse" }) as any as S.Schema<GetSubnetResponse>;
 
 export interface GetSubscriptionNetworkManagerConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -51531,9 +51053,7 @@ export const GetVerifierWorkspaceResponseSystemData = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetVerifierWorkspaceResponseSystemData>;
 
 /** Resource tags. */
-export type GetVerifierWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVerifierWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const GetVerifierWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -51598,9 +51118,7 @@ export const GetVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVipSwapRequest",
-}) as any as S.Schema<GetVipSwapRequest>;
+).annotate({ identifier: "GetVipSwapRequest" }) as any as S.Schema<GetVipSwapRequest>;
 
 export interface GetVipSwapResponse {
   /** Resource ID. */
@@ -51619,9 +51137,7 @@ export const GetVipSwapResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SwapResourceProperties),
   }),
-).annotate({
-  identifier: "GetVipSwapResponse",
-}) as any as S.Schema<GetVipSwapResponse>;
+).annotate({ identifier: "GetVipSwapResponse" }) as any as S.Schema<GetVipSwapResponse>;
 
 export interface GetVirtualApplianceSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -51666,9 +51182,7 @@ export const BreakOutCategoryPolicies = /*@__PURE__*/ S.suspend(() =>
     optimize: S.optional(S.Boolean),
     default: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BreakOutCategoryPolicies",
-}) as any as S.Schema<BreakOutCategoryPolicies>;
+).annotate({ identifier: "BreakOutCategoryPolicies" }) as any as S.Schema<BreakOutCategoryPolicies>;
 
 /** Network Virtual Appliance Sku Properties. */
 export interface Office365PolicyProperties {
@@ -51759,9 +51273,7 @@ export const GetVirtualApplianceSkusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualApplianceSkusRequest>;
 
 /** Resource tags. */
-export type GetVirtualApplianceSkusResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualApplianceSkusResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualApplianceSkusResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -51870,14 +51382,10 @@ export const GetVirtualHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualHubRequest",
-}) as any as S.Schema<GetVirtualHubRequest>;
+).annotate({ identifier: "GetVirtualHubRequest" }) as any as S.Schema<GetVirtualHubRequest>;
 
 /** Resource tags. */
-export type GetVirtualHubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualHubResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualHubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -51937,9 +51445,7 @@ export const VirtualHubRoute = /*@__PURE__*/ S.suspend(() =>
     addressPrefixes: S.optional(VirtualHubRouteAddressPrefixesList),
     nextHopIpAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualHubRoute",
-}) as any as S.Schema<VirtualHubRoute>;
+).annotate({ identifier: "VirtualHubRoute" }) as any as S.Schema<VirtualHubRoute>;
 
 /** List of all routes. */
 export type VirtualHubRouteTableRoutesList = Array<VirtualHubRoute>;
@@ -51956,9 +51462,7 @@ export const VirtualHubRouteTable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     routes: S.optional(VirtualHubRouteTableRoutesList),
   }),
-).annotate({
-  identifier: "VirtualHubRouteTable",
-}) as any as S.Schema<VirtualHubRouteTable>;
+).annotate({ identifier: "VirtualHubRouteTable" }) as any as S.Schema<VirtualHubRouteTable>;
 
 /** Provisioning states of a resource. */
 export type VirtualHubPropertiesProvisioningState =
@@ -52000,9 +51504,7 @@ export const VirtualHubRouteV2 = /*@__PURE__*/ S.suspend(() =>
     nextHopType: S.optional(S.String),
     nextHops: S.optional(VirtualHubRouteV2NextHopsList),
   }),
-).annotate({
-  identifier: "VirtualHubRouteV2",
-}) as any as S.Schema<VirtualHubRouteV2>;
+).annotate({ identifier: "VirtualHubRouteV2" }) as any as S.Schema<VirtualHubRouteV2>;
 
 /** List of all routes. */
 export type VirtualHubRouteTableV2PropertiesRoutesList = Array<VirtualHubRouteV2>;
@@ -52063,9 +51565,7 @@ export const VirtualHubRouteTableV2 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualHubRouteTableV2",
-}) as any as S.Schema<VirtualHubRouteTableV2>;
+).annotate({ identifier: "VirtualHubRouteTableV2" }) as any as S.Schema<VirtualHubRouteTableV2>;
 
 /** List of all virtual hub route table v2s associated with this VirtualHub. */
 export type VirtualHubPropertiesVirtualHubRouteTableV2sList = Array<VirtualHubRouteTableV2>;
@@ -52231,9 +51731,7 @@ export const VirtualHubProperties = /*@__PURE__*/ S.suspend(() =>
     hubRoutingPreference: S.optional(VirtualHubPropertiesHubRoutingPreference),
     virtualRouterAutoScaleConfiguration: S.optional(VirtualRouterAutoScaleConfiguration),
   }),
-).annotate({
-  identifier: "VirtualHubProperties",
-}) as any as S.Schema<VirtualHubProperties>;
+).annotate({ identifier: "VirtualHubProperties" }) as any as S.Schema<VirtualHubProperties>;
 
 export interface GetVirtualHubResponse {
   /** Resource ID. */
@@ -52264,9 +51762,7 @@ export const GetVirtualHubResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVirtualHubResponse",
-}) as any as S.Schema<GetVirtualHubResponse>;
+).annotate({ identifier: "GetVirtualHubResponse" }) as any as S.Schema<GetVirtualHubResponse>;
 
 export interface GetVirtualHubBgpConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -52346,9 +51842,7 @@ export const BgpConnectionProperties = /*@__PURE__*/ S.suspend(() =>
     connectionState: S.optional(BgpConnectionPropertiesConnectionState),
     routingConfiguration: S.optional(RoutingConfiguration),
   }),
-).annotate({
-  identifier: "BgpConnectionProperties",
-}) as any as S.Schema<BgpConnectionProperties>;
+).annotate({ identifier: "BgpConnectionProperties" }) as any as S.Schema<BgpConnectionProperties>;
 
 export interface GetVirtualHubBgpConnectionResponse {
   /** Resource ID. */
@@ -52438,9 +51932,7 @@ export const VirtualHubEffectiveRoute = /*@__PURE__*/ S.suspend(() =>
     asPath: S.optional(S.String),
     routeOrigin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualHubEffectiveRoute",
-}) as any as S.Schema<VirtualHubEffectiveRoute>;
+).annotate({ identifier: "VirtualHubEffectiveRoute" }) as any as S.Schema<VirtualHubEffectiveRoute>;
 
 /** The list of effective routes configured on the virtual hub or the specified resource. */
 export type VirtualHubEffectiveRouteListValueList = Array<VirtualHubEffectiveRoute>;
@@ -52507,9 +51999,7 @@ export const EffectiveRouteMapRoute = /*@__PURE__*/ S.suspend(() =>
     bgpCommunities: S.optional(S.String),
     asPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EffectiveRouteMapRoute",
-}) as any as S.Schema<EffectiveRouteMapRoute>;
+).annotate({ identifier: "EffectiveRouteMapRoute" }) as any as S.Schema<EffectiveRouteMapRoute>;
 
 /** The list of Effective RouteMap Routes configured on the connection resource. */
 export type EffectiveRouteMapRouteListValueList = Array<EffectiveRouteMapRoute>;
@@ -52813,9 +52303,7 @@ export const PrivateEndpoint_7 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_7",
-}) as any as S.Schema<PrivateEndpoint_7>;
+).annotate({ identifier: "PrivateEndpoint_7" }) as any as S.Schema<PrivateEndpoint_7>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_8 {
@@ -52998,9 +52486,7 @@ export const PublicIPAddress_8 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList_4),
   }),
-).annotate({
-  identifier: "PublicIPAddress_8",
-}) as any as S.Schema<PublicIPAddress_8>;
+).annotate({ identifier: "PublicIPAddress_8" }) as any as S.Schema<PublicIPAddress_8>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_7 {
@@ -53045,9 +52531,7 @@ export const IPConfiguration_8 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_8",
-}) as any as S.Schema<IPConfiguration_8>;
+).annotate({ identifier: "IPConfiguration_8" }) as any as S.Schema<IPConfiguration_8>;
 
 /** The list of tags associated with the public IP address. */
 export type PublicIPAddressPropertiesFormatIpTagsList_7 = Array<IpTag>;
@@ -54114,9 +53598,7 @@ export const PrivateLinkService_7 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_7",
-}) as any as S.Schema<PrivateLinkService_7>;
+).annotate({ identifier: "PrivateLinkService_7" }) as any as S.Schema<PrivateLinkService_7>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_8 {
@@ -54229,9 +53711,7 @@ export const NetworkInterface_8 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_8",
-}) as any as S.Schema<NetworkInterface_8>;
+).annotate({ identifier: "NetworkInterface_8" }) as any as S.Schema<NetworkInterface_8>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_8 = Array<NetworkInterface_8>;
@@ -54405,9 +53885,7 @@ export const NetworkSecurityGroup_8 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_8),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_8",
-}) as any as S.Schema<NetworkSecurityGroup_8>;
+).annotate({ identifier: "NetworkSecurityGroup_8" }) as any as S.Schema<NetworkSecurityGroup_8>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_8 = RoutePropertiesFormat_6;
@@ -54684,9 +54162,7 @@ export const IPConfigurationProfile_8 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_8",
-}) as any as S.Schema<IPConfigurationProfile_8>;
+).annotate({ identifier: "IPConfigurationProfile_8" }) as any as S.Schema<IPConfigurationProfile_8>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_8 = Array<IPConfigurationProfile_8>;
@@ -54775,9 +54251,7 @@ export const SubnetPropertiesFormat_8 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_8",
-}) as any as S.Schema<SubnetPropertiesFormat_8>;
+).annotate({ identifier: "SubnetPropertiesFormat_8" }) as any as S.Schema<SubnetPropertiesFormat_8>;
 
 /** Subnet in a virtual network resource. */
 export interface HubIPConfigurationPropertiesFormatSubnet {
@@ -55030,14 +54504,10 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualNetworkRequest",
-}) as any as S.Schema<GetVirtualNetworkRequest>;
+).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -55179,9 +54649,7 @@ export const GetVirtualNetworkApplianceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualNetworkApplianceRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkApplianceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkApplianceResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkApplianceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -55537,9 +55005,7 @@ export const PrivateEndpoint_6 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_6",
-}) as any as S.Schema<PrivateEndpoint_6>;
+).annotate({ identifier: "PrivateEndpoint_6" }) as any as S.Schema<PrivateEndpoint_6>;
 
 /** Virtual Network Tap resource. */
 export interface NetworkInterfaceTapConfigurationPropertiesFormatVirtualNetworkTap_7 {
@@ -55710,9 +55176,7 @@ export const PublicIPAddress_7 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList_3),
   }),
-).annotate({
-  identifier: "PublicIPAddress_7",
-}) as any as S.Schema<PublicIPAddress_7>;
+).annotate({ identifier: "PublicIPAddress_7" }) as any as S.Schema<PublicIPAddress_7>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_6 {
@@ -55757,9 +55221,7 @@ export const IPConfiguration_7 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_7",
-}) as any as S.Schema<IPConfiguration_7>;
+).annotate({ identifier: "IPConfiguration_7" }) as any as S.Schema<IPConfiguration_7>;
 
 /** The list of tags associated with the public IP address. */
 export type PublicIPAddressPropertiesFormatIpTagsList_6 = Array<IpTag>;
@@ -56826,9 +56288,7 @@ export const PrivateLinkService_6 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_6",
-}) as any as S.Schema<PrivateLinkService_6>;
+).annotate({ identifier: "PrivateLinkService_6" }) as any as S.Schema<PrivateLinkService_6>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_7 {
@@ -56941,9 +56401,7 @@ export const NetworkInterface_7 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_7",
-}) as any as S.Schema<NetworkInterface_7>;
+).annotate({ identifier: "NetworkInterface_7" }) as any as S.Schema<NetworkInterface_7>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_7 = Array<NetworkInterface_7>;
@@ -57117,9 +56575,7 @@ export const NetworkSecurityGroup_7 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_7),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_7",
-}) as any as S.Schema<NetworkSecurityGroup_7>;
+).annotate({ identifier: "NetworkSecurityGroup_7" }) as any as S.Schema<NetworkSecurityGroup_7>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_7 = RoutePropertiesFormat_6;
@@ -57396,9 +56852,7 @@ export const IPConfigurationProfile_7 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_7",
-}) as any as S.Schema<IPConfigurationProfile_7>;
+).annotate({ identifier: "IPConfigurationProfile_7" }) as any as S.Schema<IPConfigurationProfile_7>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_7 = Array<IPConfigurationProfile_7>;
@@ -57487,9 +56941,7 @@ export const SubnetPropertiesFormat_7 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_7",
-}) as any as S.Schema<SubnetPropertiesFormat_7>;
+).annotate({ identifier: "SubnetPropertiesFormat_7" }) as any as S.Schema<SubnetPropertiesFormat_7>;
 
 /** Subnet in a virtual network resource. */
 export interface VirtualNetworkAppliancePropertiesFormatSubnet {
@@ -57602,9 +57054,7 @@ export const GetVirtualNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualNetworkGatewayRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -57848,9 +57298,7 @@ export const VirtualNetworkGatewaySku = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(VirtualNetworkGatewaySkuTier),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VirtualNetworkGatewaySku",
-}) as any as S.Schema<VirtualNetworkGatewaySku>;
+).annotate({ identifier: "VirtualNetworkGatewaySku" }) as any as S.Schema<VirtualNetworkGatewaySku>;
 
 /** A list of address blocks reserved for this virtual network in CIDR notation. */
 export type VpnClientConfigurationVpnClientAddressPoolAddressPrefixesList = Array<string>;
@@ -57928,9 +57376,7 @@ export const VpnClientRootCertificate = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnClientRootCertificate",
-}) as any as S.Schema<VpnClientRootCertificate>;
+).annotate({ identifier: "VpnClientRootCertificate" }) as any as S.Schema<VpnClientRootCertificate>;
 
 /** VpnClientRootCertificate for virtual network gateway. */
 export type VpnClientConfigurationVpnClientRootCertificatesList = Array<VpnClientRootCertificate>;
@@ -58304,9 +57750,7 @@ export const VpnClientConfiguration = /*@__PURE__*/ S.suspend(() =>
       VpnClientConfigurationVngClientConnectionConfigurationsList,
     ),
   }),
-).annotate({
-  identifier: "VpnClientConfiguration",
-}) as any as S.Schema<VpnClientConfiguration>;
+).annotate({ identifier: "VpnClientConfiguration" }) as any as S.Schema<VpnClientConfiguration>;
 
 /** The Vpn Policy member attribute type. */
 export type VirtualNetworkGatewayPolicyGroupMemberAttributeType =
@@ -58821,9 +58265,7 @@ export const GatewayRouteListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GatewayRouteListResultValueList),
   }),
-).annotate({
-  identifier: "GatewayRouteListResult",
-}) as any as S.Schema<GatewayRouteListResult>;
+).annotate({ identifier: "GatewayRouteListResult" }) as any as S.Schema<GatewayRouteListResult>;
 
 export interface GetVirtualNetworkGatewayBgpPeerStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -58904,9 +58346,7 @@ export const BgpPeerStatusListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(BgpPeerStatusListResultValueList),
   }),
-).annotate({
-  identifier: "BgpPeerStatusListResult",
-}) as any as S.Schema<BgpPeerStatusListResult>;
+).annotate({ identifier: "BgpPeerStatusListResult" }) as any as S.Schema<BgpPeerStatusListResult>;
 
 export interface GetVirtualNetworkGatewayConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -58943,9 +58383,7 @@ export const GetVirtualNetworkGatewayConnectionResponseTagsMap = /*@__PURE__*/ S
 ) as any as S.Schema<GetVirtualNetworkGatewayConnectionResponseTagsMap>;
 
 /** Resource tags. */
-export type VirtualNetworkGatewayTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkGatewayTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkGatewayTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -59019,9 +58457,7 @@ export const VirtualNetworkGateway = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(VirtualNetworkGatewayIdentity),
   }),
-).annotate({
-  identifier: "VirtualNetworkGateway",
-}) as any as S.Schema<VirtualNetworkGateway>;
+).annotate({ identifier: "VirtualNetworkGateway" }) as any as S.Schema<VirtualNetworkGateway>;
 
 /** Resource tags. */
 export type LocalNetworkGatewayTagsMap = { [key: string]: string | undefined };
@@ -59057,9 +58493,7 @@ export const LocalNetworkGateway = /*@__PURE__*/ S.suspend(() =>
     properties: LocalNetworkGatewayPropertiesFormat,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LocalNetworkGateway",
-}) as any as S.Schema<LocalNetworkGateway>;
+).annotate({ identifier: "LocalNetworkGateway" }) as any as S.Schema<LocalNetworkGateway>;
 
 /** Reference to another subresource. */
 export type VirtualNetworkGatewayConnectionPropertiesFormatIngressNatRulesItem =
@@ -59168,9 +58602,7 @@ export const TunnelConnectionHealth = /*@__PURE__*/ S.suspend(() =>
     egressBytesTransferred: S.optional(S.Number),
     lastConnectionEstablishedUtcTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TunnelConnectionHealth",
-}) as any as S.Schema<TunnelConnectionHealth>;
+).annotate({ identifier: "TunnelConnectionHealth" }) as any as S.Schema<TunnelConnectionHealth>;
 
 /** Collection of all tunnels' connection health status. */
 export type VirtualNetworkGatewayConnectionPropertiesFormatTunnelConnectionStatusList =
@@ -59241,9 +58673,7 @@ export const TrafficSelectorPolicy = /*@__PURE__*/ S.suspend(() =>
     localAddressRanges: TrafficSelectorPolicyLocalAddressRangesList,
     remoteAddressRanges: TrafficSelectorPolicyRemoteAddressRangesList,
   }),
-).annotate({
-  identifier: "TrafficSelectorPolicy",
-}) as any as S.Schema<TrafficSelectorPolicy>;
+).annotate({ identifier: "TrafficSelectorPolicy" }) as any as S.Schema<TrafficSelectorPolicy>;
 
 /** The Traffic Selector Policies to be considered by this connection. */
 export type VirtualNetworkGatewayConnectionPropertiesFormatTrafficSelectorPoliciesList =
@@ -59590,9 +59020,7 @@ export const GatewayEffectiveRoute = /*@__PURE__*/ S.suspend(() =>
     nextHopIpAddress: S.optional(S.String),
     nextHopType: S.optional(GatewayEffectiveRouteNextHopType),
   }),
-).annotate({
-  identifier: "GatewayEffectiveRoute",
-}) as any as S.Schema<GatewayEffectiveRoute>;
+).annotate({ identifier: "GatewayEffectiveRoute" }) as any as S.Schema<GatewayEffectiveRoute>;
 
 /** List of gateway effective routes. */
 export type GatewayEffectiveRouteListResultValueList = Array<GatewayEffectiveRoute>;
@@ -60278,9 +59706,7 @@ export const VpnClientIPsecParameters = /*@__PURE__*/ S.suspend(() =>
     dhGroup: VpnClientIPsecParametersDhGroup,
     pfsGroup: VpnClientIPsecParametersPfsGroup,
   }),
-).annotate({
-  identifier: "VpnClientIPsecParameters",
-}) as any as S.Schema<VpnClientIPsecParameters>;
+).annotate({ identifier: "VpnClientIPsecParameters" }) as any as S.Schema<VpnClientIPsecParameters>;
 
 export interface GetVirtualNetworkGatewayVpnProfilePackageUrlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -60392,9 +59818,7 @@ export const GetVirtualNetworkTapRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualNetworkTapRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkTapResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkTapResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkTapResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -61041,9 +60465,7 @@ export const PrivateEndpoint_3 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint_3",
-}) as any as S.Schema<PrivateEndpoint_3>;
+).annotate({ identifier: "PrivateEndpoint_3" }) as any as S.Schema<PrivateEndpoint_3>;
 
 /** IPConfiguration in a network interface. */
 export type NetworkInterfaceIPConfiguration_3 =
@@ -61161,9 +60583,7 @@ export const PublicIPAddress_4 = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     zones: S.optional(PublicIPAddressZonesList_2),
   }),
-).annotate({
-  identifier: "PublicIPAddress_4",
-}) as any as S.Schema<PublicIPAddress_4>;
+).annotate({ identifier: "PublicIPAddress_4" }) as any as S.Schema<PublicIPAddress_4>;
 
 /** Properties of IP configuration. */
 export interface IPConfigurationPropertiesFormat_4 {
@@ -61208,9 +60628,7 @@ export const IPConfiguration_4 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfiguration_4",
-}) as any as S.Schema<IPConfiguration_4>;
+).annotate({ identifier: "IPConfiguration_4" }) as any as S.Schema<IPConfiguration_4>;
 
 /** The list of tags associated with the public IP address. */
 export type PublicIPAddressPropertiesFormatIpTagsList_4 = Array<IpTag>;
@@ -61775,9 +61193,7 @@ export const PrivateLinkService_3 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkService_3",
-}) as any as S.Schema<PrivateLinkService_3>;
+).annotate({ identifier: "PrivateLinkService_3" }) as any as S.Schema<PrivateLinkService_3>;
 
 /** NetworkInterface properties. */
 export interface NetworkInterfacePropertiesFormat_4 {
@@ -61890,9 +61306,7 @@ export const NetworkInterface_4 = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(NetworkInterfaceExtendedLocation),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface_4",
-}) as any as S.Schema<NetworkInterface_4>;
+).annotate({ identifier: "NetworkInterface_4" }) as any as S.Schema<NetworkInterface_4>;
 
 /** A collection of references to network interfaces. */
 export type NetworkSecurityGroupPropertiesFormatNetworkInterfacesList_4 = Array<NetworkInterface_4>;
@@ -62061,9 +61475,7 @@ export const NetworkSecurityGroup_4 = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkSecurityGroupPropertiesFormat_4),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroup_4",
-}) as any as S.Schema<NetworkSecurityGroup_4>;
+).annotate({ identifier: "NetworkSecurityGroup_4" }) as any as S.Schema<NetworkSecurityGroup_4>;
 
 /** Route resource. */
 export type RoutePropertiesFormat_4 = RoutePropertiesFormat_6;
@@ -62343,9 +61755,7 @@ export const IPConfigurationProfile_4 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IPConfigurationProfile_4",
-}) as any as S.Schema<IPConfigurationProfile_4>;
+).annotate({ identifier: "IPConfigurationProfile_4" }) as any as S.Schema<IPConfigurationProfile_4>;
 
 /** Array of IP configuration profiles which reference this subnet. */
 export type SubnetPropertiesFormatIpConfigurationProfilesList_4 = Array<IPConfigurationProfile_4>;
@@ -62434,9 +61844,7 @@ export const SubnetPropertiesFormat_4 = /*@__PURE__*/ S.suspend(() =>
     ipamPoolPrefixAllocations: S.optional(SubnetPropertiesFormatIpamPoolPrefixAllocationsList),
     serviceGateway: S.optional(NetworkInterfaceIPConfigurationPropertiesFormatGatewayLoadBalancer),
   }),
-).annotate({
-  identifier: "SubnetPropertiesFormat_4",
-}) as any as S.Schema<SubnetPropertiesFormat_4>;
+).annotate({ identifier: "SubnetPropertiesFormat_4" }) as any as S.Schema<SubnetPropertiesFormat_4>;
 
 /** Subnet in a virtual network resource. */
 export interface Subnet_4 {
@@ -62679,14 +62087,10 @@ export const GetVirtualRouterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualRouterRequest",
-}) as any as S.Schema<GetVirtualRouterRequest>;
+).annotate({ identifier: "GetVirtualRouterRequest" }) as any as S.Schema<GetVirtualRouterRequest>;
 
 /** Resource tags. */
-export type GetVirtualRouterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualRouterResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualRouterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -62787,9 +62191,7 @@ export const GetVirtualRouterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualRouterPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVirtualRouterResponse",
-}) as any as S.Schema<GetVirtualRouterResponse>;
+).annotate({ identifier: "GetVirtualRouterResponse" }) as any as S.Schema<GetVirtualRouterResponse>;
 
 export interface GetVirtualRouterPeeringRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -62893,14 +62295,10 @@ export const GetVirtualWanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualWanRequest",
-}) as any as S.Schema<GetVirtualWanRequest>;
+).annotate({ identifier: "GetVirtualWanRequest" }) as any as S.Schema<GetVirtualWanRequest>;
 
 /** Resource tags. */
-export type GetVirtualWanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualWanResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualWanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -62980,9 +62378,7 @@ export const VirtualWanProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(VirtualWanPropertiesProvisioningState),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualWanProperties",
-}) as any as S.Schema<VirtualWanProperties>;
+).annotate({ identifier: "VirtualWanProperties" }) as any as S.Schema<VirtualWanProperties>;
 
 export interface GetVirtualWanResponse {
   /** Resource ID. */
@@ -63010,9 +62406,7 @@ export const GetVirtualWanResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualWanProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVirtualWanResponse",
-}) as any as S.Schema<GetVirtualWanResponse>;
+).annotate({ identifier: "GetVirtualWanResponse" }) as any as S.Schema<GetVirtualWanResponse>;
 
 export interface GetVpnConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -63038,9 +62432,7 @@ export const GetVpnConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVpnConnectionRequest",
-}) as any as S.Schema<GetVpnConnectionRequest>;
+).annotate({ identifier: "GetVpnConnectionRequest" }) as any as S.Schema<GetVpnConnectionRequest>;
 
 /** Reference to another subresource. */
 export type VpnConnectionPropertiesRemoteVpnSite =
@@ -63494,9 +62886,7 @@ export const VpnSiteLinkConnection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnSiteLinkConnectionProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnSiteLinkConnection",
-}) as any as S.Schema<VpnSiteLinkConnection>;
+).annotate({ identifier: "VpnSiteLinkConnection" }) as any as S.Schema<VpnSiteLinkConnection>;
 
 /** List of all vpn site link connections to the gateway. */
 export type VpnConnectionPropertiesVpnLinkConnectionsList = Array<VpnSiteLinkConnection>;
@@ -63567,9 +62957,7 @@ export const VpnConnectionProperties = /*@__PURE__*/ S.suspend(() =>
     vpnLinkConnections: S.optional(VpnConnectionPropertiesVpnLinkConnectionsList),
     routingConfiguration: S.optional(RoutingConfiguration),
   }),
-).annotate({
-  identifier: "VpnConnectionProperties",
-}) as any as S.Schema<VpnConnectionProperties>;
+).annotate({ identifier: "VpnConnectionProperties" }) as any as S.Schema<VpnConnectionProperties>;
 
 export interface GetVpnConnectionResponse {
   /** Resource ID. */
@@ -63588,9 +62976,7 @@ export const GetVpnConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVpnConnectionResponse",
-}) as any as S.Schema<GetVpnConnectionResponse>;
+).annotate({ identifier: "GetVpnConnectionResponse" }) as any as S.Schema<GetVpnConnectionResponse>;
 
 export interface GetVpnGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -63613,14 +62999,10 @@ export const GetVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVpnGatewayRequest",
-}) as any as S.Schema<GetVpnGatewayRequest>;
+).annotate({ identifier: "GetVpnGatewayRequest" }) as any as S.Schema<GetVpnGatewayRequest>;
 
 /** Resource tags. */
-export type GetVpnGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVpnGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetVpnGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -63743,9 +63125,7 @@ export const VpnGatewayNatRule = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnGatewayNatRuleProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnGatewayNatRule",
-}) as any as S.Schema<VpnGatewayNatRule>;
+).annotate({ identifier: "VpnGatewayNatRule" }) as any as S.Schema<VpnGatewayNatRule>;
 
 /** List of all the nat Rules associated with the gateway. */
 export type VpnGatewayPropertiesNatRulesList = Array<VpnGatewayNatRule>;
@@ -63786,9 +63166,7 @@ export const VpnGatewayProperties = /*@__PURE__*/ S.suspend(() =>
     isRoutingPreferenceInternet: S.optional(S.Boolean),
     natRules: S.optional(VpnGatewayPropertiesNatRulesList),
   }),
-).annotate({
-  identifier: "VpnGatewayProperties",
-}) as any as S.Schema<VpnGatewayProperties>;
+).annotate({ identifier: "VpnGatewayProperties" }) as any as S.Schema<VpnGatewayProperties>;
 
 export interface GetVpnGatewayResponse {
   /** Resource ID. */
@@ -63816,9 +63194,7 @@ export const GetVpnGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnGatewayProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVpnGatewayResponse",
-}) as any as S.Schema<GetVpnGatewayResponse>;
+).annotate({ identifier: "GetVpnGatewayResponse" }) as any as S.Schema<GetVpnGatewayResponse>;
 
 export interface GetVpnLinkConnectionAllSharedKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -63876,9 +63252,7 @@ export const SharedKeyProperties = /*@__PURE__*/ S.suspend(() =>
     sharedKeyLength: S.optional(S.Number),
     provisioningState: S.optional(SharedKeyPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "SharedKeyProperties",
-}) as any as S.Schema<SharedKeyProperties>;
+).annotate({ identifier: "SharedKeyProperties" }) as any as S.Schema<SharedKeyProperties>;
 
 /** SharedKey Resource . */
 export interface ConnectionSharedKeyResult {
@@ -64040,9 +63414,7 @@ export const GetVpnServerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVpnServerConfigurationRequest>;
 
 /** Resource tags. */
-export type GetVpnServerConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVpnServerConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const GetVpnServerConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64464,9 +63836,7 @@ export const GetVpnSiteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVpnSiteRequest",
-}) as any as S.Schema<GetVpnSiteRequest>;
+).annotate({ identifier: "GetVpnSiteRequest" }) as any as S.Schema<GetVpnSiteRequest>;
 
 /** Resource tags. */
 export type GetVpnSiteResponseTagsMap = { [key: string]: string | undefined };
@@ -64496,9 +63866,7 @@ export const DeviceProperties = /*@__PURE__*/ S.suspend(() =>
     deviceModel: S.optional(S.String),
     linkSpeedInMbps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeviceProperties",
-}) as any as S.Schema<DeviceProperties>;
+).annotate({ identifier: "DeviceProperties" }) as any as S.Schema<DeviceProperties>;
 
 /** A list of address blocks reserved for this virtual network in CIDR notation. */
 export type VpnSitePropertiesAddressSpaceAddressPrefixesList = Array<string>;
@@ -64598,9 +63966,7 @@ export const VpnLinkBgpSettings = /*@__PURE__*/ S.suspend(() =>
     asn: S.optional(S.Number),
     bgpPeeringAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnLinkBgpSettings",
-}) as any as S.Schema<VpnLinkBgpSettings>;
+).annotate({ identifier: "VpnLinkBgpSettings" }) as any as S.Schema<VpnLinkBgpSettings>;
 
 /** Provisioning states of a resource. */
 export type VpnSiteLinkPropertiesProvisioningState =
@@ -64633,9 +63999,7 @@ export const VpnSiteLinkProperties = /*@__PURE__*/ S.suspend(() =>
     bgpProperties: S.optional(VpnLinkBgpSettings),
     provisioningState: S.optional(VpnSiteLinkPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "VpnSiteLinkProperties",
-}) as any as S.Schema<VpnSiteLinkProperties>;
+).annotate({ identifier: "VpnSiteLinkProperties" }) as any as S.Schema<VpnSiteLinkProperties>;
 
 /** VpnSiteLink Resource. */
 export interface VpnSiteLink {
@@ -64694,9 +64058,7 @@ export const O365PolicyProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     breakOutCategories: S.optional(O365BreakOutCategoryPolicies),
   }),
-).annotate({
-  identifier: "O365PolicyProperties",
-}) as any as S.Schema<O365PolicyProperties>;
+).annotate({ identifier: "O365PolicyProperties" }) as any as S.Schema<O365PolicyProperties>;
 
 /** Parameters for VpnSite. */
 export interface VpnSiteProperties {
@@ -64734,9 +64096,7 @@ export const VpnSiteProperties = /*@__PURE__*/ S.suspend(() =>
     vpnSiteLinks: S.optional(VpnSitePropertiesVpnSiteLinksList),
     o365Policy: S.optional(O365PolicyProperties),
   }),
-).annotate({
-  identifier: "VpnSiteProperties",
-}) as any as S.Schema<VpnSiteProperties>;
+).annotate({ identifier: "VpnSiteProperties" }) as any as S.Schema<VpnSiteProperties>;
 
 export interface GetVpnSiteResponse {
   /** Resource ID. */
@@ -64764,9 +64124,7 @@ export const GetVpnSiteResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnSiteProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVpnSiteResponse",
-}) as any as S.Schema<GetVpnSiteResponse>;
+).annotate({ identifier: "GetVpnSiteResponse" }) as any as S.Schema<GetVpnSiteResponse>;
 
 export interface GetVpnSiteLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -64792,9 +64150,7 @@ export const GetVpnSiteLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetVpnSiteLinkRequest",
-}) as any as S.Schema<GetVpnSiteLinkRequest>;
+).annotate({ identifier: "GetVpnSiteLinkRequest" }) as any as S.Schema<GetVpnSiteLinkRequest>;
 
 export interface GetVpnSiteLinkResponse {
   /** Resource ID. */
@@ -64816,9 +64172,7 @@ export const GetVpnSiteLinkResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnSiteLinkProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVpnSiteLinkResponse",
-}) as any as S.Schema<GetVpnSiteLinkResponse>;
+).annotate({ identifier: "GetVpnSiteLinkResponse" }) as any as S.Schema<GetVpnSiteLinkResponse>;
 
 export interface GetVpnSiteLinkConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -64901,9 +64255,7 @@ export const GetWebApplicationFirewallPolicyRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetWebApplicationFirewallPolicyRequest>;
 
 /** Resource tags. */
-export type GetWebApplicationFirewallPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetWebApplicationFirewallPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetWebApplicationFirewallPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65161,9 +64513,7 @@ export const GroupByVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variableName: GroupByVariableVariableName,
   }),
-).annotate({
-  identifier: "GroupByVariable",
-}) as any as S.Schema<GroupByVariable>;
+).annotate({ identifier: "GroupByVariable" }) as any as S.Schema<GroupByVariable>;
 
 /** List of group by clause variables. */
 export type GroupByUserSessionGroupByVariablesList = Array<GroupByVariable>;
@@ -65180,9 +64530,7 @@ export const GroupByUserSession = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupByVariables: GroupByUserSessionGroupByVariablesList,
   }),
-).annotate({
-  identifier: "GroupByUserSession",
-}) as any as S.Schema<GroupByUserSession>;
+).annotate({ identifier: "GroupByUserSession" }) as any as S.Schema<GroupByUserSession>;
 
 /** List of user session identifier group by clauses. */
 export type WebApplicationFirewallCustomRuleGroupByUserSessionList = Array<GroupByUserSession>;
@@ -65323,9 +64671,7 @@ export const ApplicationGateway = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(ApplicationGatewayZonesList),
     identity: S.optional(ApplicationGatewayIdentity),
   }),
-).annotate({
-  identifier: "ApplicationGateway",
-}) as any as S.Schema<ApplicationGateway>;
+).annotate({ identifier: "ApplicationGateway" }) as any as S.Schema<ApplicationGateway>;
 
 /** A collection of references to application gateways. */
 export type WebApplicationFirewallPolicyPropertiesFormatApplicationGatewaysList =
@@ -65387,9 +64733,7 @@ export const ExclusionManagedRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleId: S.String,
   }),
-).annotate({
-  identifier: "ExclusionManagedRule",
-}) as any as S.Schema<ExclusionManagedRule>;
+).annotate({ identifier: "ExclusionManagedRule" }) as any as S.Schema<ExclusionManagedRule>;
 
 /** List of rules that will be excluded. If none specified, all rules in the group will be excluded. */
 export type ExclusionManagedRuleGroupRulesList = Array<ExclusionManagedRule>;
@@ -65434,9 +64778,7 @@ export const ExclusionManagedRuleSet = /*@__PURE__*/ S.suspend(() =>
     ruleSetVersion: S.String,
     ruleGroups: S.optional(ExclusionManagedRuleSetRuleGroupsList),
   }),
-).annotate({
-  identifier: "ExclusionManagedRuleSet",
-}) as any as S.Schema<ExclusionManagedRuleSet>;
+).annotate({ identifier: "ExclusionManagedRuleSet" }) as any as S.Schema<ExclusionManagedRuleSet>;
 
 /** The managed rule sets that are associated with the exception. */
 export type ExceptionEntryExceptionManagedRuleSetsList = Array<ExclusionManagedRuleSet>;
@@ -65522,9 +64864,7 @@ export const OwaspCrsExclusionEntry = /*@__PURE__*/ S.suspend(() =>
     selector: S.String,
     exclusionManagedRuleSets: S.optional(OwaspCrsExclusionEntryExclusionManagedRuleSetsList),
   }),
-).annotate({
-  identifier: "OwaspCrsExclusionEntry",
-}) as any as S.Schema<OwaspCrsExclusionEntry>;
+).annotate({ identifier: "OwaspCrsExclusionEntry" }) as any as S.Schema<OwaspCrsExclusionEntry>;
 
 /** The Exclusions that are applied on the policy. */
 export type ManagedRulesDefinitionExclusionsList = Array<OwaspCrsExclusionEntry>;
@@ -65568,9 +64908,7 @@ export const ManagedRuleOverride = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(ManagedRuleOverrideAction),
     sensitivity: S.optional(ManagedRuleOverrideSensitivity),
   }),
-).annotate({
-  identifier: "ManagedRuleOverride",
-}) as any as S.Schema<ManagedRuleOverride>;
+).annotate({ identifier: "ManagedRuleOverride" }) as any as S.Schema<ManagedRuleOverride>;
 
 /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
 export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
@@ -65590,9 +64928,7 @@ export const ManagedRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
     ruleGroupName: S.String,
     rules: S.optional(ManagedRuleGroupOverrideRulesList),
   }),
-).annotate({
-  identifier: "ManagedRuleGroupOverride",
-}) as any as S.Schema<ManagedRuleGroupOverride>;
+).annotate({ identifier: "ManagedRuleGroupOverride" }) as any as S.Schema<ManagedRuleGroupOverride>;
 
 /** Defines the rule group overrides to apply to the rule set. */
 export type ManagedRuleSetRuleGroupOverridesList = Array<ManagedRuleGroupOverride>;
@@ -65618,9 +64954,7 @@ export const ManagedRuleSetRuleGroup = /*@__PURE__*/ S.suspend(() =>
     ruleGroupName: S.String,
     rules: S.optional(ManagedRuleSetRuleGroupRulesList),
   }),
-).annotate({
-  identifier: "ManagedRuleSetRuleGroup",
-}) as any as S.Schema<ManagedRuleSetRuleGroup>;
+).annotate({ identifier: "ManagedRuleSetRuleGroup" }) as any as S.Schema<ManagedRuleSetRuleGroup>;
 
 /** Stores the final list of disabled rule groups */
 export type ManagedRuleSetComputedDisabledRulesList = Array<ManagedRuleSetRuleGroup>;
@@ -65669,9 +65003,7 @@ export const ManagedRulesDefinition = /*@__PURE__*/ S.suspend(() =>
     exclusions: S.optional(ManagedRulesDefinitionExclusionsList),
     managedRuleSets: ManagedRulesDefinitionManagedRuleSetsList,
   }),
-).annotate({
-  identifier: "ManagedRulesDefinition",
-}) as any as S.Schema<ManagedRulesDefinition>;
+).annotate({ identifier: "ManagedRulesDefinition" }) as any as S.Schema<ManagedRulesDefinition>;
 
 /** Reference to another subresource. */
 export type WebApplicationFirewallPolicyPropertiesFormatHttpListenersItem =
@@ -65812,9 +65144,7 @@ export const GetWebCategoryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetWebCategoryRequest",
-}) as any as S.Schema<GetWebCategoryRequest>;
+).annotate({ identifier: "GetWebCategoryRequest" }) as any as S.Schema<GetWebCategoryRequest>;
 
 /** Azure Web Category Properties. */
 export interface AzureWebCategoryPropertiesFormat {
@@ -65849,9 +65179,7 @@ export const GetWebCategoryResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(AzureWebCategoryPropertiesFormat),
   }),
-).annotate({
-  identifier: "GetWebCategoryResponse",
-}) as any as S.Schema<GetWebCategoryResponse>;
+).annotate({ identifier: "GetWebCategoryResponse" }) as any as S.Schema<GetWebCategoryResponse>;
 
 /** List of all routes. */
 export type HubRouteTablePropertiesInputRoutesList = Array<HubRoute>;
@@ -66151,9 +65479,7 @@ export const SubnetPropertiesFormatInputAddressPrefixesList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<SubnetPropertiesFormatInputAddressPrefixesList>;
 
 /** Resource tags. */
-export type NetworkSecurityGroupInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkSecurityGroupInputTagsMap = { [key: string]: string | undefined };
 export const NetworkSecurityGroupInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -66170,9 +65496,7 @@ export const SecurityRulePropertiesFormatInputSourceAddressPrefixesList = /*@__P
 ) as any as S.Schema<SecurityRulePropertiesFormatInputSourceAddressPrefixesList>;
 
 /** Resource tags. */
-export type ApplicationSecurityGroupInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationSecurityGroupInputTagsMap = { [key: string]: string | undefined };
 export const ApplicationSecurityGroupInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -66332,9 +65656,7 @@ export const SecurityRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(SecurityRulePropertiesFormatInput),
   }),
-).annotate({
-  identifier: "SecurityRuleInput",
-}) as any as S.Schema<SecurityRuleInput>;
+).annotate({ identifier: "SecurityRuleInput" }) as any as S.Schema<SecurityRuleInput>;
 
 /** A collection of security rules of the network security group. */
 export type NetworkSecurityGroupPropertiesFormatInputSecurityRulesList = Array<SecurityRuleInput>;
@@ -66522,9 +65844,7 @@ export const RouteTableInput_2 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_2),
   }),
-).annotate({
-  identifier: "RouteTableInput_2",
-}) as any as S.Schema<RouteTableInput_2>;
+).annotate({ identifier: "RouteTableInput_2" }) as any as S.Schema<RouteTableInput_2>;
 
 /** Reference to another subresource. */
 export type SubnetPropertiesFormatInputNatGateway =
@@ -66706,9 +66026,7 @@ export const DelegationInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DelegationInput",
-}) as any as S.Schema<DelegationInput>;
+).annotate({ identifier: "DelegationInput" }) as any as S.Schema<DelegationInput>;
 
 /** An array of references to the delegations on the subnet. */
 export type SubnetPropertiesFormatInputDelegationsList = Array<DelegationInput>;
@@ -66960,9 +66278,7 @@ export const PublicIPAddressInput = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(PublicIPAddressSku),
     zones: S.optional(PublicIPAddressInputZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddressInput",
-}) as any as S.Schema<PublicIPAddressInput>;
+).annotate({ identifier: "PublicIPAddressInput" }) as any as S.Schema<PublicIPAddressInput>;
 
 /** Resource tags. */
 export type NatGatewayInputTagsMap = { [key: string]: string | undefined };
@@ -67118,9 +66434,7 @@ export const NatGatewayInput = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(NatGatewaySku),
     zones: S.optional(NatGatewayInputZonesList),
   }),
-).annotate({
-  identifier: "NatGatewayInput",
-}) as any as S.Schema<NatGatewayInput>;
+).annotate({ identifier: "NatGatewayInput" }) as any as S.Schema<NatGatewayInput>;
 
 /** Migration phase of Public IP Address. */
 export type PublicIPAddressPropertiesFormatInputMigrationPhase =
@@ -67958,9 +67272,7 @@ export const InboundSecurityRuleCreateOrUpdateResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<InboundSecurityRuleCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type InterconnectGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InterconnectGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const InterconnectGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68037,9 +67349,7 @@ export const InterconnectGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<InterconnectGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type InterconnectGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InterconnectGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const InterconnectGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68183,9 +67493,7 @@ export const InvokeVirtualNetworkGatewayPrepareMigrationResponse = /*@__PURE__*/
 }) as any as S.Schema<InvokeVirtualNetworkGatewayPrepareMigrationResponse>;
 
 /** Resource tags. */
-export type IpAllocationsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IpAllocationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const IpAllocationsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68229,9 +67537,7 @@ export const IpAllocationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IpAllocationsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type IpAllocationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IpAllocationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const IpAllocationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68268,9 +67574,7 @@ export const IpAllocationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IpAllocationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type IpGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IpGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const IpGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68346,9 +67650,7 @@ export const IpGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IpGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type IpGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IpGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const IpGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -68436,9 +67738,7 @@ export const ConfigurationGroup = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     properties: S.optional(NetworkGroupProperties),
   }),
-).annotate({
-  identifier: "ConfigurationGroup",
-}) as any as S.Schema<ConfigurationGroup>;
+).annotate({ identifier: "ConfigurationGroup" }) as any as S.Schema<ConfigurationGroup>;
 
 /** Effective configuration groups. */
 export type ActiveConnectivityConfigurationConfigurationGroupsList = Array<ConfigurationGroup>;
@@ -68655,9 +67955,7 @@ export const AddressPrefixSet = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(AddressPrefixSetPropertiesFormat),
   }),
-).annotate({
-  identifier: "AddressPrefixSet",
-}) as any as S.Schema<AddressPrefixSet>;
+).annotate({ identifier: "AddressPrefixSet" }) as any as S.Schema<AddressPrefixSet>;
 
 /** The AddressPrefixSet items on this page */
 export type AddressPrefixSetListResultValueList = Array<AddressPrefixSet>;
@@ -68783,9 +68081,7 @@ export const AdminRuleCollection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AdminRuleCollectionPropertiesFormat),
     systemData: S.optional(AdminRuleCollectionSystemData),
   }),
-).annotate({
-  identifier: "AdminRuleCollection",
-}) as any as S.Schema<AdminRuleCollection>;
+).annotate({ identifier: "AdminRuleCollection" }) as any as S.Schema<AdminRuleCollection>;
 
 /** The AdminRuleCollection items on this page */
 export type AdminRuleCollectionListResultValueList = Array<AdminRuleCollection>;
@@ -68842,9 +68138,7 @@ export const ListAdminRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListAdminRulesRequest",
-}) as any as S.Schema<ListAdminRulesRequest>;
+).annotate({ identifier: "ListAdminRulesRequest" }) as any as S.Schema<ListAdminRulesRequest>;
 
 /** The type of identity that created the resource. */
 export type BaseAdminRuleSystemDataCreatedByType =
@@ -68886,9 +68180,7 @@ export const BaseAdminRuleSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(BaseAdminRuleSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaseAdminRuleSystemData",
-}) as any as S.Schema<BaseAdminRuleSystemData>;
+).annotate({ identifier: "BaseAdminRuleSystemData" }) as any as S.Schema<BaseAdminRuleSystemData>;
 
 /** Whether the rule is custom or default. */
 export type BaseAdminRuleKind = "Custom" | "Default";
@@ -68908,6 +68200,7 @@ export interface BaseAdminRule {
   systemData?: BaseAdminRuleSystemData;
   /** Whether the rule is custom or default. */
   kind: BaseAdminRuleKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const BaseAdminRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -68917,6 +68210,7 @@ export const BaseAdminRule = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(BaseAdminRuleSystemData),
     kind: BaseAdminRuleKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
 ).annotate({ identifier: "BaseAdminRule" }) as any as S.Schema<BaseAdminRule>;
 
@@ -68938,9 +68232,7 @@ export const AdminRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: AdminRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AdminRuleListResult",
-}) as any as S.Schema<AdminRuleListResult>;
+).annotate({ identifier: "AdminRuleListResult" }) as any as S.Schema<AdminRuleListResult>;
 
 export interface ListApplicationGatewayAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -69324,9 +68616,7 @@ export const ListApplicationGatewayAvailableWafRuleSetsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListApplicationGatewayAvailableWafRuleSetsRequest>;
 
 /** Resource tags. */
-export type ApplicationGatewayFirewallRuleSetTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationGatewayFirewallRuleSetTagsMap = { [key: string]: string | undefined };
 export const ApplicationGatewayFirewallRuleSetTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -69729,9 +69019,7 @@ export const AvailableDelegation = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     actions: S.optional(AvailableDelegationActionsList),
   }),
-).annotate({
-  identifier: "AvailableDelegation",
-}) as any as S.Schema<AvailableDelegation>;
+).annotate({ identifier: "AvailableDelegation" }) as any as S.Schema<AvailableDelegation>;
 
 /** The AvailableDelegation items on this page */
 export type AvailableDelegationsResultValueList = Array<AvailableDelegation>;
@@ -69792,9 +69080,7 @@ export const EndpointServiceResult = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointServiceResult",
-}) as any as S.Schema<EndpointServiceResult>;
+).annotate({ identifier: "EndpointServiceResult" }) as any as S.Schema<EndpointServiceResult>;
 
 /** The EndpointServiceResult items on this page */
 export type EndpointServicesListResultValueList = Array<EndpointServiceResult>;
@@ -69980,9 +69266,7 @@ export const AvailableServiceAlias = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     resourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableServiceAlias",
-}) as any as S.Schema<AvailableServiceAlias>;
+).annotate({ identifier: "AvailableServiceAlias" }) as any as S.Schema<AvailableServiceAlias>;
 
 /** The AvailableServiceAlias items on this page */
 export type AvailableServiceAliasesResultValueList = Array<AvailableServiceAlias>;
@@ -70117,9 +69401,7 @@ export const AzureFirewallListResult = /*@__PURE__*/ S.suspend(() =>
     value: AzureFirewallListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureFirewallListResult",
-}) as any as S.Schema<AzureFirewallListResult>;
+).annotate({ identifier: "AzureFirewallListResult" }) as any as S.Schema<AzureFirewallListResult>;
 
 export interface ListAzureFirewallFqdnTagAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -70200,9 +69482,7 @@ export const AzureFirewallFqdnTag = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AzureFirewallFqdnTagPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureFirewallFqdnTag",
-}) as any as S.Schema<AzureFirewallFqdnTag>;
+).annotate({ identifier: "AzureFirewallFqdnTag" }) as any as S.Schema<AzureFirewallFqdnTag>;
 
 /** The AzureFirewallFqdnTag items on this page */
 export type AzureFirewallFqdnTagListResultValueList = Array<AzureFirewallFqdnTag>;
@@ -70378,9 +69658,7 @@ export const BastionHostListResult = /*@__PURE__*/ S.suspend(() =>
     value: BastionHostListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BastionHostListResult",
-}) as any as S.Schema<BastionHostListResult>;
+).annotate({ identifier: "BastionHostListResult" }) as any as S.Schema<BastionHostListResult>;
 
 export interface ListBastionHostsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -70397,9 +69675,7 @@ export const ListBastionHostsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListBastionHostsRequest",
-}) as any as S.Schema<ListBastionHostsRequest>;
+).annotate({ identifier: "ListBastionHostsRequest" }) as any as S.Schema<ListBastionHostsRequest>;
 
 export interface ListBgpServiceCommunitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -70505,9 +69781,7 @@ export const BgpServiceCommunity = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(BgpServiceCommunityTagsMap),
     properties: S.optional(BgpServiceCommunityPropertiesFormat),
   }),
-).annotate({
-  identifier: "BgpServiceCommunity",
-}) as any as S.Schema<BgpServiceCommunity>;
+).annotate({ identifier: "BgpServiceCommunity" }) as any as S.Schema<BgpServiceCommunity>;
 
 /** The BgpServiceCommunity items on this page */
 export type BgpServiceCommunityListResultValueList = Array<BgpServiceCommunity>;
@@ -70558,9 +69832,7 @@ export const ListCommitsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListCommitsRequest",
-}) as any as S.Schema<ListCommitsRequest>;
+).annotate({ identifier: "ListCommitsRequest" }) as any as S.Schema<ListCommitsRequest>;
 
 /** The type of identity that created the resource. */
 export type CommitSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -70594,9 +69866,7 @@ export const CommitSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(CommitSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitSystemData",
-}) as any as S.Schema<CommitSystemData>;
+).annotate({ identifier: "CommitSystemData" }) as any as S.Schema<CommitSystemData>;
 
 /** The commit resource */
 export interface Commit {
@@ -70642,9 +69912,7 @@ export const CommitListResult = /*@__PURE__*/ S.suspend(() =>
     value: CommitListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitListResult",
-}) as any as S.Schema<CommitListResult>;
+).annotate({ identifier: "CommitListResult" }) as any as S.Schema<CommitListResult>;
 
 export interface ListConfigurationPolicyGroupByVpnServerConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -70721,9 +69989,7 @@ export const ListConnectionMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListConnectionMonitorsRequest>;
 
 /** Connection monitor tags. */
-export type ConnectionMonitorResultTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionMonitorResultTagsMap = { [key: string]: string | undefined };
 export const ConnectionMonitorResultTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -70756,9 +70022,7 @@ export const ConnectionMonitorResult = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ConnectionMonitorResultTagsMap),
     properties: S.optional(ConnectionMonitorResultProperties),
   }),
-).annotate({
-  identifier: "ConnectionMonitorResult",
-}) as any as S.Schema<ConnectionMonitorResult>;
+).annotate({ identifier: "ConnectionMonitorResult" }) as any as S.Schema<ConnectionMonitorResult>;
 
 /** Information about connection monitors. */
 export type ConnectionMonitorListResultValueList = Array<ConnectionMonitorResult>;
@@ -70828,9 +70092,7 @@ export const ConnectionPolicy = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ConnectionPolicyProperties),
   }),
-).annotate({
-  identifier: "ConnectionPolicy",
-}) as any as S.Schema<ConnectionPolicy>;
+).annotate({ identifier: "ConnectionPolicy" }) as any as S.Schema<ConnectionPolicy>;
 
 /** The ConnectionPolicy items on this page */
 export type ListConnectionPoliciesResultValueList = Array<ConnectionPolicy>;
@@ -71068,9 +70330,7 @@ export const CustomIpPrefixListResult = /*@__PURE__*/ S.suspend(() =>
     value: CustomIpPrefixListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomIpPrefixListResult",
-}) as any as S.Schema<CustomIpPrefixListResult>;
+).annotate({ identifier: "CustomIpPrefixListResult" }) as any as S.Schema<CustomIpPrefixListResult>;
 
 export interface ListCustomIPPrefixesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -71150,9 +70410,7 @@ export const DdosCustomPolicy = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DdosCustomPolicyPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DdosCustomPolicy",
-}) as any as S.Schema<DdosCustomPolicy>;
+).annotate({ identifier: "DdosCustomPolicy" }) as any as S.Schema<DdosCustomPolicy>;
 
 /** The DdosCustomPolicy items on this page */
 export type DdosCustomPolicyListResultValueList = Array<DdosCustomPolicy>;
@@ -71251,9 +70509,7 @@ export const DdosProtectionPlan = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DdosProtectionPlanPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DdosProtectionPlan",
-}) as any as S.Schema<DdosProtectionPlan>;
+).annotate({ identifier: "DdosProtectionPlan" }) as any as S.Schema<DdosProtectionPlan>;
 
 /** The DdosProtectionPlan items on this page */
 export type DdosProtectionPlanListResultValueList = Array<DdosProtectionPlan>;
@@ -71339,9 +70595,7 @@ export const SecurityRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: SecurityRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityRuleListResult",
-}) as any as S.Schema<SecurityRuleListResult>;
+).annotate({ identifier: "SecurityRuleListResult" }) as any as S.Schema<SecurityRuleListResult>;
 
 export interface ListDscpConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -71399,9 +70653,7 @@ export const DscpConfiguration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DscpConfigurationPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DscpConfiguration",
-}) as any as S.Schema<DscpConfiguration>;
+).annotate({ identifier: "DscpConfiguration" }) as any as S.Schema<DscpConfiguration>;
 
 /** The DscpConfiguration items on this page */
 export type DscpConfigurationListResultValueList = Array<DscpConfiguration>;
@@ -71500,9 +70752,7 @@ export const ExpressRouteCircuit = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: S.optional(ExpressRouteCircuitSku),
   }),
-).annotate({
-  identifier: "ExpressRouteCircuit",
-}) as any as S.Schema<ExpressRouteCircuit>;
+).annotate({ identifier: "ExpressRouteCircuit" }) as any as S.Schema<ExpressRouteCircuit>;
 
 /** The ExpressRouteCircuit items on this page */
 export type ExpressRouteCircuitListResultValueList = Array<ExpressRouteCircuit>;
@@ -71644,9 +70894,7 @@ export const AuthorizationListResult = /*@__PURE__*/ S.suspend(() =>
     value: AuthorizationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationListResult",
-}) as any as S.Schema<AuthorizationListResult>;
+).annotate({ identifier: "AuthorizationListResult" }) as any as S.Schema<AuthorizationListResult>;
 
 export interface ListExpressRouteCircuitConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -72023,9 +71271,7 @@ export const ListExpressRouteCrossConnectionByResourceGroupRequest = /*@__PURE__
 }) as any as S.Schema<ListExpressRouteCrossConnectionByResourceGroupRequest>;
 
 /** Resource tags. */
-export type ExpressRouteCrossConnectionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteCrossConnectionTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteCrossConnectionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -72320,9 +71566,7 @@ export const ExpressRouteGateway = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ExpressRouteGatewayProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteGateway",
-}) as any as S.Schema<ExpressRouteGateway>;
+).annotate({ identifier: "ExpressRouteGateway" }) as any as S.Schema<ExpressRouteGateway>;
 
 /** List of ExpressRoute gateways. */
 export type ExpressRouteGatewayListValueList = Array<ExpressRouteGateway>;
@@ -72339,9 +71583,7 @@ export const ExpressRouteGatewayList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ExpressRouteGatewayListValueList),
   }),
-).annotate({
-  identifier: "ExpressRouteGatewayList",
-}) as any as S.Schema<ExpressRouteGatewayList>;
+).annotate({ identifier: "ExpressRouteGatewayList" }) as any as S.Schema<ExpressRouteGatewayList>;
 
 export interface ListExpressRouteGatewayBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -72418,9 +71660,7 @@ export const ExpressRouteLagIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(ExpressRouteLagIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ExpressRouteLagIdentity",
-}) as any as S.Schema<ExpressRouteLagIdentity>;
+).annotate({ identifier: "ExpressRouteLagIdentity" }) as any as S.Schema<ExpressRouteLagIdentity>;
 
 /** ExpressRouteLag resource definition. */
 export interface ExpressRouteLag {
@@ -72452,9 +71692,7 @@ export const ExpressRouteLag = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(ExpressRouteLagIdentity),
   }),
-).annotate({
-  identifier: "ExpressRouteLag",
-}) as any as S.Schema<ExpressRouteLag>;
+).annotate({ identifier: "ExpressRouteLag" }) as any as S.Schema<ExpressRouteLag>;
 
 /** The ExpressRouteLag items on this page */
 export type ExpressRouteLagListResultValueList = Array<ExpressRouteLag>;
@@ -72769,9 +72007,7 @@ export const ExpressRoutePortIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(ExpressRoutePortIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ExpressRoutePortIdentity",
-}) as any as S.Schema<ExpressRoutePortIdentity>;
+).annotate({ identifier: "ExpressRoutePortIdentity" }) as any as S.Schema<ExpressRoutePortIdentity>;
 
 /** ExpressRoutePort resource definition. */
 export interface ExpressRoutePort {
@@ -72803,9 +72039,7 @@ export const ExpressRoutePort = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(ExpressRoutePortIdentity),
   }),
-).annotate({
-  identifier: "ExpressRoutePort",
-}) as any as S.Schema<ExpressRoutePort>;
+).annotate({ identifier: "ExpressRoutePort" }) as any as S.Schema<ExpressRoutePort>;
 
 /** The ExpressRoutePort items on this page */
 export type ExpressRoutePortListResultValueList = Array<ExpressRoutePort>;
@@ -72868,9 +72102,7 @@ export const ListExpressRoutePortsLocationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListExpressRoutePortsLocationsRequest>;
 
 /** Resource tags. */
-export type ExpressRoutePortsLocationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRoutePortsLocationTagsMap = { [key: string]: string | undefined };
 export const ExpressRoutePortsLocationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -72949,9 +72181,7 @@ export const ListExpressRouteProviderPortsLocationRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListExpressRouteProviderPortsLocationRequest>;
 
 /** Resource tags. */
-export type ExpressRouteProviderPortTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteProviderPortTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteProviderPortTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -72984,9 +72214,7 @@ export const ExpressRouteProviderPort = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ExpressRouteProviderPortProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpressRouteProviderPort",
-}) as any as S.Schema<ExpressRouteProviderPort>;
+).annotate({ identifier: "ExpressRouteProviderPort" }) as any as S.Schema<ExpressRouteProviderPort>;
 
 /** The ExpressRouteProviderPort items on this page */
 export type ExpressRouteProviderPortListResultValueList = Array<ExpressRouteProviderPort>;
@@ -73030,9 +72258,7 @@ export const ListExpressRouteServiceProvidersRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ListExpressRouteServiceProvidersRequest>;
 
 /** Resource tags. */
-export type ExpressRouteServiceProviderTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpressRouteServiceProviderTagsMap = { [key: string]: string | undefined };
 export const ExpressRouteServiceProviderTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -73204,9 +72430,7 @@ export const FirewallPolicyIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(FirewallPolicyIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "FirewallPolicyIdentity",
-}) as any as S.Schema<FirewallPolicyIdentity>;
+).annotate({ identifier: "FirewallPolicyIdentity" }) as any as S.Schema<FirewallPolicyIdentity>;
 
 /** FirewallPolicy Resource. */
 export interface FirewallPolicy {
@@ -73258,9 +72482,7 @@ export const FirewallPolicyListResult = /*@__PURE__*/ S.suspend(() =>
     value: FirewallPolicyListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallPolicyListResult",
-}) as any as S.Schema<FirewallPolicyListResult>;
+).annotate({ identifier: "FirewallPolicyListResult" }) as any as S.Schema<FirewallPolicyListResult>;
 
 export interface ListFirewallPolicyAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -73427,9 +72649,7 @@ export const SingleQueryResult = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     inheritedFromParentPolicy: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SingleQueryResult",
-}) as any as S.Schema<SingleQueryResult>;
+).annotate({ identifier: "SingleQueryResult" }) as any as S.Schema<SingleQueryResult>;
 
 /** Array containing the results of the query */
 export type QueryResultsSignaturesList = Array<SingleQueryResult>;
@@ -73541,9 +72761,7 @@ export const SignaturesOverrides = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SignaturesOverridesProperties),
   }),
-).annotate({
-  identifier: "SignaturesOverrides",
-}) as any as S.Schema<SignaturesOverrides>;
+).annotate({ identifier: "SignaturesOverrides" }) as any as S.Schema<SignaturesOverrides>;
 
 /** Describes a list consisting exactly one item describing the policy's signature override status */
 export type SignaturesOverridesListValueList = Array<SignaturesOverrides>;
@@ -73560,9 +72778,7 @@ export const SignaturesOverridesList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SignaturesOverridesListValueList),
   }),
-).annotate({
-  identifier: "SignaturesOverridesList",
-}) as any as S.Schema<SignaturesOverridesList>;
+).annotate({ identifier: "SignaturesOverridesList" }) as any as S.Schema<SignaturesOverridesList>;
 
 export interface ListFirewallPolicyKubeSelectorGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -73763,9 +72979,7 @@ export const FirstPartyServiceTag = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FirstPartyServiceTagPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirstPartyServiceTag",
-}) as any as S.Schema<FirstPartyServiceTag>;
+).annotate({ identifier: "FirstPartyServiceTag" }) as any as S.Schema<FirstPartyServiceTag>;
 
 /** The FirstPartyServiceTag items on this page */
 export type FirstPartyServiceTagListResultValueList = Array<FirstPartyServiceTag>;
@@ -73832,9 +73046,7 @@ export const ListFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListFlowLogsRequest",
-}) as any as S.Schema<ListFlowLogsRequest>;
+).annotate({ identifier: "ListFlowLogsRequest" }) as any as S.Schema<ListFlowLogsRequest>;
 
 /** Resource tags. */
 export type FlowLogTagsMap = { [key: string]: string | undefined };
@@ -73870,9 +73082,7 @@ export const FlowLogIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(FlowLogIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "FlowLogIdentity",
-}) as any as S.Schema<FlowLogIdentity>;
+).annotate({ identifier: "FlowLogIdentity" }) as any as S.Schema<FlowLogIdentity>;
 
 /** A flow log resource. */
 export interface FlowLog {
@@ -73924,9 +73134,7 @@ export const FlowLogListResult = /*@__PURE__*/ S.suspend(() =>
     value: FlowLogListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlowLogListResult",
-}) as any as S.Schema<FlowLogListResult>;
+).annotate({ identifier: "FlowLogListResult" }) as any as S.Schema<FlowLogListResult>;
 
 export interface ListHubRouteTablesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -73994,9 +73202,7 @@ export const ListHubRouteTablesResult = /*@__PURE__*/ S.suspend(() =>
     value: ListHubRouteTablesResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListHubRouteTablesResult",
-}) as any as S.Schema<ListHubRouteTablesResult>;
+).annotate({ identifier: "ListHubRouteTablesResult" }) as any as S.Schema<ListHubRouteTablesResult>;
 
 export interface ListHubVirtualNetworkConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74110,9 +73316,7 @@ export const InboundNatRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: InboundNatRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InboundNatRuleListResult",
-}) as any as S.Schema<InboundNatRuleListResult>;
+).annotate({ identifier: "InboundNatRuleListResult" }) as any as S.Schema<InboundNatRuleListResult>;
 
 export interface ListInterconnectGroupAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74167,9 +73371,7 @@ export const InterconnectGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InterconnectGroupPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InterconnectGroup",
-}) as any as S.Schema<InterconnectGroup>;
+).annotate({ identifier: "InterconnectGroup" }) as any as S.Schema<InterconnectGroup>;
 
 /** The InterconnectGroup items on this page */
 export type InterconnectGroupListResultValueList = Array<InterconnectGroup>;
@@ -74291,9 +73493,7 @@ export const IpAllocationListResult = /*@__PURE__*/ S.suspend(() =>
     value: IpAllocationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpAllocationListResult",
-}) as any as S.Schema<IpAllocationListResult>;
+).annotate({ identifier: "IpAllocationListResult" }) as any as S.Schema<IpAllocationListResult>;
 
 export interface ListIpAllocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74310,9 +73510,7 @@ export const ListIpAllocationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListIpAllocationsRequest",
-}) as any as S.Schema<ListIpAllocationsRequest>;
+).annotate({ identifier: "ListIpAllocationsRequest" }) as any as S.Schema<ListIpAllocationsRequest>;
 
 export interface ListIpamPoolAssociatedResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74386,9 +73584,7 @@ export const PoolAssociation = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     reservationExpiresAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PoolAssociation",
-}) as any as S.Schema<PoolAssociation>;
+).annotate({ identifier: "PoolAssociation" }) as any as S.Schema<PoolAssociation>;
 
 /** The PoolAssociation items on this page */
 export type PoolAssociationListValueList = Array<PoolAssociation>;
@@ -74408,9 +73604,7 @@ export const PoolAssociationList = /*@__PURE__*/ S.suspend(() =>
     value: PoolAssociationListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PoolAssociationList",
-}) as any as S.Schema<PoolAssociationList>;
+).annotate({ identifier: "PoolAssociationList" }) as any as S.Schema<PoolAssociationList>;
 
 export interface ListIpamPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74448,9 +73642,7 @@ export const ListIpamPoolsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListIpamPoolsRequest",
-}) as any as S.Schema<ListIpamPoolsRequest>;
+).annotate({ identifier: "ListIpamPoolsRequest" }) as any as S.Schema<ListIpamPoolsRequest>;
 
 /** The type of identity that created the resource. */
 export type IpamPoolSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -74488,9 +73680,7 @@ export const IpamPoolSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(IpamPoolSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpamPoolSystemData",
-}) as any as S.Schema<IpamPoolSystemData>;
+).annotate({ identifier: "IpamPoolSystemData" }) as any as S.Schema<IpamPoolSystemData>;
 
 /** Resource tags. */
 export type IpamPoolTagsMap = { [key: string]: string | undefined };
@@ -74627,9 +73817,7 @@ export const IpGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: IpGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpGroupListResult",
-}) as any as S.Schema<IpGroupListResult>;
+).annotate({ identifier: "IpGroupListResult" }) as any as S.Schema<IpGroupListResult>;
 
 export interface ListIpGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74646,9 +73834,7 @@ export const ListIpGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListIpGroupsRequest",
-}) as any as S.Schema<ListIpGroupsRequest>;
+).annotate({ identifier: "ListIpGroupsRequest" }) as any as S.Schema<ListIpGroupsRequest>;
 
 export interface ListLoadBalancerAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -74733,9 +73919,7 @@ export const LoadBalancerListResult = /*@__PURE__*/ S.suspend(() =>
     value: LoadBalancerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LoadBalancerListResult",
-}) as any as S.Schema<LoadBalancerListResult>;
+).annotate({ identifier: "LoadBalancerListResult" }) as any as S.Schema<LoadBalancerListResult>;
 
 export interface ListLoadBalancerBackendAddressPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75125,9 +74309,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 export interface ListLocalNetworkGatewaysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75266,9 +74448,7 @@ export const NetworkManagerConnection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NetworkManagerConnectionProperties),
     systemData: S.optional(NetworkManagerConnectionSystemData),
   }),
-).annotate({
-  identifier: "NetworkManagerConnection",
-}) as any as S.Schema<NetworkManagerConnection>;
+).annotate({ identifier: "NetworkManagerConnection" }) as any as S.Schema<NetworkManagerConnection>;
 
 /** The NetworkManagerConnection items on this page */
 export type NetworkManagerConnectionListResultValueList = Array<NetworkManagerConnection>;
@@ -75307,9 +74487,7 @@ export const ListNatGatewayAllRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListNatGatewayAllRequest",
-}) as any as S.Schema<ListNatGatewayAllRequest>;
+).annotate({ identifier: "ListNatGatewayAllRequest" }) as any as S.Schema<ListNatGatewayAllRequest>;
 
 /** The NatGateway items on this page */
 export type NatGatewayListResultValueList = Array<NatGateway_5>;
@@ -75329,9 +74507,7 @@ export const NatGatewayListResult = /*@__PURE__*/ S.suspend(() =>
     value: NatGatewayListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NatGatewayListResult",
-}) as any as S.Schema<NatGatewayListResult>;
+).annotate({ identifier: "NatGatewayListResult" }) as any as S.Schema<NatGatewayListResult>;
 
 export interface ListNatGatewaysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75351,9 +74527,7 @@ export const ListNatGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListNatGatewaysRequest",
-}) as any as S.Schema<ListNatGatewaysRequest>;
+).annotate({ identifier: "ListNatGatewaysRequest" }) as any as S.Schema<ListNatGatewaysRequest>;
 
 export interface ListNatRuleByVpnGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75429,9 +74603,7 @@ export const ListNetworkGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListNetworkGroupsRequest",
-}) as any as S.Schema<ListNetworkGroupsRequest>;
+).annotate({ identifier: "ListNetworkGroupsRequest" }) as any as S.Schema<ListNetworkGroupsRequest>;
 
 /** The type of identity that created the resource. */
 export type NetworkGroupSystemDataCreatedByType =
@@ -75473,9 +74645,7 @@ export const NetworkGroupSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NetworkGroupSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkGroupSystemData",
-}) as any as S.Schema<NetworkGroupSystemData>;
+).annotate({ identifier: "NetworkGroupSystemData" }) as any as S.Schema<NetworkGroupSystemData>;
 
 /** The network group resource */
 export interface NetworkGroup {
@@ -75521,9 +74691,7 @@ export const NetworkGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: NetworkGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkGroupListResult",
-}) as any as S.Schema<NetworkGroupListResult>;
+).annotate({ identifier: "NetworkGroupListResult" }) as any as S.Schema<NetworkGroupListResult>;
 
 export interface ListNetworkInterfaceAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -76265,9 +75433,7 @@ export const NetworkManagerSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NetworkManagerSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkManagerSystemData",
-}) as any as S.Schema<NetworkManagerSystemData>;
+).annotate({ identifier: "NetworkManagerSystemData" }) as any as S.Schema<NetworkManagerSystemData>;
 
 /** The Managed Network resource */
 export interface NetworkManager {
@@ -76319,9 +75485,7 @@ export const NetworkManagerListResult = /*@__PURE__*/ S.suspend(() =>
     value: NetworkManagerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkManagerListResult",
-}) as any as S.Schema<NetworkManagerListResult>;
+).annotate({ identifier: "NetworkManagerListResult" }) as any as S.Schema<NetworkManagerListResult>;
 
 /** List of locations. */
 export type ListNetworkManagerDeploymentStatusRequestRegionsList = Array<string>;
@@ -76866,9 +76030,7 @@ export const NetworkProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: NetworkProfileListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkProfileListResult",
-}) as any as S.Schema<NetworkProfileListResult>;
+).annotate({ identifier: "NetworkProfileListResult" }) as any as S.Schema<NetworkProfileListResult>;
 
 export interface ListNetworkProfilesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -77029,9 +76191,7 @@ export const NspAccessRuleSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NspAccessRuleSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspAccessRuleSystemData",
-}) as any as S.Schema<NspAccessRuleSystemData>;
+).annotate({ identifier: "NspAccessRuleSystemData" }) as any as S.Schema<NspAccessRuleSystemData>;
 
 /** The NSP access rule resource */
 export interface NspAccessRule {
@@ -77074,9 +76234,7 @@ export const NspAccessRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: NspAccessRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspAccessRuleListResult",
-}) as any as S.Schema<NspAccessRuleListResult>;
+).annotate({ identifier: "NspAccessRuleListResult" }) as any as S.Schema<NspAccessRuleListResult>;
 
 export interface ListNetworkSecurityPerimeterAssociableResourceTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -77267,9 +76425,7 @@ export const NspAssociationSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NspAssociationSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspAssociationSystemData",
-}) as any as S.Schema<NspAssociationSystemData>;
+).annotate({ identifier: "NspAssociationSystemData" }) as any as S.Schema<NspAssociationSystemData>;
 
 /** The NSP resource association resource */
 export interface NspAssociation {
@@ -77386,9 +76542,7 @@ export const NetworkSecurityPerimeterSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NetworkSecurityPerimeterSystemData>;
 
 /** Resource tags. */
-export type NetworkSecurityPerimeterTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkSecurityPerimeterTagsMap = { [key: string]: string | undefined };
 export const NetworkSecurityPerimeterTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -77421,9 +76575,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(NetworkSecurityPerimeterProperties),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** The NetworkSecurityPerimeter items on this page */
 export type NetworkSecurityPerimeterListResultValueList = Array<NetworkSecurityPerimeter>;
@@ -77543,9 +76695,7 @@ export const NspLinkReference = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(NspLinkReferenceSystemData),
     properties: S.optional(NspLinkReferenceProperties),
   }),
-).annotate({
-  identifier: "NspLinkReference",
-}) as any as S.Schema<NspLinkReference>;
+).annotate({ identifier: "NspLinkReference" }) as any as S.Schema<NspLinkReference>;
 
 /** The NspLinkReference items on this page */
 export type NspLinkReferenceListResultValueList = Array<NspLinkReference>;
@@ -77636,9 +76786,7 @@ export const NspLinkSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NspLinkSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspLinkSystemData",
-}) as any as S.Schema<NspLinkSystemData>;
+).annotate({ identifier: "NspLinkSystemData" }) as any as S.Schema<NspLinkSystemData>;
 
 /** The network security perimeter link resource */
 export interface NspLink {
@@ -77681,9 +76829,7 @@ export const NspLinkListResult = /*@__PURE__*/ S.suspend(() =>
     value: NspLinkListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspLinkListResult",
-}) as any as S.Schema<NspLinkListResult>;
+).annotate({ identifier: "NspLinkListResult" }) as any as S.Schema<NspLinkListResult>;
 
 export interface ListNetworkSecurityPerimeterLoggingConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -77776,9 +76922,7 @@ export const NspLoggingConfiguration = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(NspLoggingConfigurationSystemData),
     properties: S.optional(NspLoggingConfigurationProperties),
   }),
-).annotate({
-  identifier: "NspLoggingConfiguration",
-}) as any as S.Schema<NspLoggingConfiguration>;
+).annotate({ identifier: "NspLoggingConfiguration" }) as any as S.Schema<NspLoggingConfiguration>;
 
 /** The NspLoggingConfiguration items on this page */
 export type NspLoggingConfigurationListResultValueList = Array<NspLoggingConfiguration>;
@@ -77869,9 +77013,7 @@ export const NspProfileSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NspProfileSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspProfileSystemData",
-}) as any as S.Schema<NspProfileSystemData>;
+).annotate({ identifier: "NspProfileSystemData" }) as any as S.Schema<NspProfileSystemData>;
 
 /** The network security perimeter profile resource */
 export interface NspProfile {
@@ -77914,9 +77056,7 @@ export const NspProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: NspProfileListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspProfileListResult",
-}) as any as S.Schema<NspProfileListResult>;
+).annotate({ identifier: "NspProfileListResult" }) as any as S.Schema<NspProfileListResult>;
 
 export interface ListNetworkSecurityPerimetersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -77983,9 +77123,7 @@ export const NspServiceTagsResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceTags: S.optional(NspServiceTagsResourceServiceTagsList),
   }),
-).annotate({
-  identifier: "NspServiceTagsResource",
-}) as any as S.Schema<NspServiceTagsResource>;
+).annotate({ identifier: "NspServiceTagsResource" }) as any as S.Schema<NspServiceTagsResource>;
 
 /** The NspServiceTagsResource items on this page */
 export type NspServiceTagsListResultValueList = Array<NspServiceTagsResource>;
@@ -78005,9 +77143,7 @@ export const NspServiceTagsListResult = /*@__PURE__*/ S.suspend(() =>
     value: NspServiceTagsListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NspServiceTagsListResult",
-}) as any as S.Schema<NspServiceTagsListResult>;
+).annotate({ identifier: "NspServiceTagsListResult" }) as any as S.Schema<NspServiceTagsListResult>;
 
 export interface ListNetworkVirtualApplianceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -78032,9 +77168,7 @@ export const ListNetworkVirtualApplianceByResourceGroupRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListNetworkVirtualApplianceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type NetworkVirtualApplianceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkVirtualApplianceTagsMap = { [key: string]: string | undefined };
 export const NetworkVirtualApplianceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -78101,9 +77235,7 @@ export const NetworkVirtualAppliance = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(NetworkVirtualApplianceIdentity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkVirtualAppliance",
-}) as any as S.Schema<NetworkVirtualAppliance>;
+).annotate({ identifier: "NetworkVirtualAppliance" }) as any as S.Schema<NetworkVirtualAppliance>;
 
 /** The NetworkVirtualAppliance items on this page */
 export type NetworkVirtualApplianceListResultValueList = Array<NetworkVirtualAppliance>;
@@ -78286,9 +77418,7 @@ export const NetworkWatcherListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(NetworkWatcherListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkWatcherListResult",
-}) as any as S.Schema<NetworkWatcherListResult>;
+).annotate({ identifier: "NetworkWatcherListResult" }) as any as S.Schema<NetworkWatcherListResult>;
 
 /** A list of Azure regions. */
 export type ListNetworkWatcherAvailableProvidersRequestAzureLocationsList = Array<string>;
@@ -78432,9 +77562,7 @@ export const AvailableProvidersList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     countries: AvailableProvidersListCountriesList,
   }),
-).annotate({
-  identifier: "AvailableProvidersList",
-}) as any as S.Schema<AvailableProvidersList>;
+).annotate({ identifier: "AvailableProvidersList" }) as any as S.Schema<AvailableProvidersList>;
 
 export interface ListNetworkWatchersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -78515,9 +77643,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -78537,9 +77663,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Availability of the metric. */
 export interface Availability {
@@ -78635,9 +77759,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     sourceMdmNamespace: S.optional(S.String),
     resourceIdDimensionNameOverride: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Operation service specification. */
 export type OperationPropertiesFormatServiceSpecificationMetricSpecificationsList =
@@ -78662,9 +77784,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Operation log specification. */
 export type OperationPropertiesFormatServiceSpecificationLogSpecificationsList =
@@ -78745,9 +77865,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListP2sVpnGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -78789,9 +77907,7 @@ export const ListP2SVpnGatewaysResult = /*@__PURE__*/ S.suspend(() =>
     value: ListP2SVpnGatewaysResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListP2SVpnGatewaysResult",
-}) as any as S.Schema<ListP2SVpnGatewaysResult>;
+).annotate({ identifier: "ListP2SVpnGatewaysResult" }) as any as S.Schema<ListP2SVpnGatewaysResult>;
 
 export interface ListP2sVpnGatewaysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -78855,9 +77971,7 @@ export const PacketCaptureListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PacketCaptureListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PacketCaptureListResult",
-}) as any as S.Schema<PacketCaptureListResult>;
+).annotate({ identifier: "PacketCaptureListResult" }) as any as S.Schema<PacketCaptureListResult>;
 
 export interface ListPeerExpressRouteCircuitConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -78953,9 +78067,7 @@ export const PrivateDnsZoneGroup = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(PrivateDnsZoneGroupPropertiesFormat),
   }),
-).annotate({
-  identifier: "PrivateDnsZoneGroup",
-}) as any as S.Schema<PrivateDnsZoneGroup>;
+).annotate({ identifier: "PrivateDnsZoneGroup" }) as any as S.Schema<PrivateDnsZoneGroup>;
 
 /** The PrivateDnsZoneGroup items on this page */
 export type PrivateDnsZoneGroupListResultValueList = Array<PrivateDnsZoneGroup>;
@@ -79451,9 +78563,7 @@ export const PublicIPPrefixListResult = /*@__PURE__*/ S.suspend(() =>
     value: PublicIPPrefixListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublicIPPrefixListResult",
-}) as any as S.Schema<PublicIPPrefixListResult>;
+).annotate({ identifier: "PublicIPPrefixListResult" }) as any as S.Schema<PublicIPPrefixListResult>;
 
 export interface ListPublicIPPrefixesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -79719,9 +78829,7 @@ export const ReachabilityAnalysisRun = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(ReachabilityAnalysisRunSystemData),
     properties: ReachabilityAnalysisRunProperties,
   }),
-).annotate({
-  identifier: "ReachabilityAnalysisRun",
-}) as any as S.Schema<ReachabilityAnalysisRun>;
+).annotate({ identifier: "ReachabilityAnalysisRun" }) as any as S.Schema<ReachabilityAnalysisRun>;
 
 /** The ReachabilityAnalysisRun items on this page */
 export type ReachabilityAnalysisRunListResultValueList = Array<ReachabilityAnalysisRun>;
@@ -79871,9 +78979,7 @@ export const RouteFilterListResult = /*@__PURE__*/ S.suspend(() =>
     value: RouteFilterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteFilterListResult",
-}) as any as S.Schema<RouteFilterListResult>;
+).annotate({ identifier: "RouteFilterListResult" }) as any as S.Schema<RouteFilterListResult>;
 
 export interface ListRouteFilterRuleByRouteFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -79937,9 +79043,7 @@ export const ListRouteFiltersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRouteFiltersRequest",
-}) as any as S.Schema<ListRouteFiltersRequest>;
+).annotate({ identifier: "ListRouteFiltersRequest" }) as any as S.Schema<ListRouteFiltersRequest>;
 
 export interface ListRouteMapsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -79962,9 +79066,7 @@ export const ListRouteMapsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRouteMapsRequest",
-}) as any as S.Schema<ListRouteMapsRequest>;
+).annotate({ identifier: "ListRouteMapsRequest" }) as any as S.Schema<ListRouteMapsRequest>;
 
 /** The RouteMap child resource of a Virtual hub. */
 export interface RouteMap {
@@ -80007,9 +79109,7 @@ export const ListRouteMapsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListRouteMapsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRouteMapsResult",
-}) as any as S.Schema<ListRouteMapsResult>;
+).annotate({ identifier: "ListRouteMapsResult" }) as any as S.Schema<ListRouteMapsResult>;
 
 export interface ListRoutesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80032,9 +79132,7 @@ export const ListRoutesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRoutesRequest",
-}) as any as S.Schema<ListRoutesRequest>;
+).annotate({ identifier: "ListRoutesRequest" }) as any as S.Schema<ListRoutesRequest>;
 
 /** The Route items on this page */
 export type RouteListResultValueList = Array<Route_6>;
@@ -80054,9 +79152,7 @@ export const RouteListResult = /*@__PURE__*/ S.suspend(() =>
     value: RouteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteListResult",
-}) as any as S.Schema<RouteListResult>;
+).annotate({ identifier: "RouteListResult" }) as any as S.Schema<RouteListResult>;
 
 export interface ListRouteTableAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80073,9 +79169,7 @@ export const ListRouteTableAllRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRouteTableAllRequest",
-}) as any as S.Schema<ListRouteTableAllRequest>;
+).annotate({ identifier: "ListRouteTableAllRequest" }) as any as S.Schema<ListRouteTableAllRequest>;
 
 /** The RouteTable items on this page */
 export type RouteTableListResultValueList = Array<RouteTable_6>;
@@ -80095,9 +79189,7 @@ export const RouteTableListResult = /*@__PURE__*/ S.suspend(() =>
     value: RouteTableListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteTableListResult",
-}) as any as S.Schema<RouteTableListResult>;
+).annotate({ identifier: "RouteTableListResult" }) as any as S.Schema<RouteTableListResult>;
 
 export interface ListRouteTablesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80117,9 +79209,7 @@ export const ListRouteTablesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRouteTablesRequest",
-}) as any as S.Schema<ListRouteTablesRequest>;
+).annotate({ identifier: "ListRouteTablesRequest" }) as any as S.Schema<ListRouteTablesRequest>;
 
 export interface ListRoutingIntentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80142,9 +79232,7 @@ export const ListRoutingIntentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRoutingIntentRequest",
-}) as any as S.Schema<ListRoutingIntentRequest>;
+).annotate({ identifier: "ListRoutingIntentRequest" }) as any as S.Schema<ListRoutingIntentRequest>;
 
 /** The routing intent child resource of a Virtual hub. */
 export interface RoutingIntent {
@@ -80187,9 +79275,7 @@ export const ListRoutingIntentResult = /*@__PURE__*/ S.suspend(() =>
     value: ListRoutingIntentResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRoutingIntentResult",
-}) as any as S.Schema<ListRoutingIntentResult>;
+).annotate({ identifier: "ListRoutingIntentResult" }) as any as S.Schema<ListRoutingIntentResult>;
 
 export interface ListRoutingRuleCollectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80293,9 +79379,7 @@ export const RoutingRuleCollection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RoutingRuleCollectionPropertiesFormat),
     systemData: S.optional(RoutingRuleCollectionSystemData),
   }),
-).annotate({
-  identifier: "RoutingRuleCollection",
-}) as any as S.Schema<RoutingRuleCollection>;
+).annotate({ identifier: "RoutingRuleCollection" }) as any as S.Schema<RoutingRuleCollection>;
 
 /** The RoutingRuleCollection items on this page */
 export type RoutingRuleCollectionListResultValueList = Array<RoutingRuleCollection>;
@@ -80352,9 +79436,7 @@ export const ListRoutingRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListRoutingRulesRequest",
-}) as any as S.Schema<ListRoutingRulesRequest>;
+).annotate({ identifier: "ListRoutingRulesRequest" }) as any as S.Schema<ListRoutingRulesRequest>;
 
 /** The type of identity that created the resource. */
 export type RoutingRuleSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -80392,9 +79474,7 @@ export const RoutingRuleSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(RoutingRuleSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoutingRuleSystemData",
-}) as any as S.Schema<RoutingRuleSystemData>;
+).annotate({ identifier: "RoutingRuleSystemData" }) as any as S.Schema<RoutingRuleSystemData>;
 
 /** Network routing rule. */
 export interface RoutingRule {
@@ -80440,9 +79520,7 @@ export const RoutingRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: RoutingRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoutingRuleListResult",
-}) as any as S.Schema<RoutingRuleListResult>;
+).annotate({ identifier: "RoutingRuleListResult" }) as any as S.Schema<RoutingRuleListResult>;
 
 export interface ListScopeConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80543,9 +79621,7 @@ export const ScopeConnection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ScopeConnectionProperties),
     systemData: S.optional(ScopeConnectionSystemData),
   }),
-).annotate({
-  identifier: "ScopeConnection",
-}) as any as S.Schema<ScopeConnection>;
+).annotate({ identifier: "ScopeConnection" }) as any as S.Schema<ScopeConnection>;
 
 /** The ScopeConnection items on this page */
 export type ScopeConnectionListResultValueList = Array<ScopeConnection>;
@@ -80717,9 +79793,7 @@ export const ListSecurityPartnerProviderByResourceGroupRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListSecurityPartnerProviderByResourceGroupRequest>;
 
 /** Resource tags. */
-export type SecurityPartnerProviderTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SecurityPartnerProviderTagsMap = { [key: string]: string | undefined };
 export const SecurityPartnerProviderTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -80752,9 +79826,7 @@ export const SecurityPartnerProvider = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SecurityPartnerProviderPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityPartnerProvider",
-}) as any as S.Schema<SecurityPartnerProvider>;
+).annotate({ identifier: "SecurityPartnerProvider" }) as any as S.Schema<SecurityPartnerProvider>;
 
 /** The SecurityPartnerProvider items on this page */
 export type SecurityPartnerProviderListResultValueList = Array<SecurityPartnerProvider>;
@@ -80818,9 +79890,7 @@ export const ListSecurityRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListSecurityRulesRequest",
-}) as any as S.Schema<ListSecurityRulesRequest>;
+).annotate({ identifier: "ListSecurityRulesRequest" }) as any as S.Schema<ListSecurityRulesRequest>;
 
 export interface ListSecurityUserConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81180,9 +80250,7 @@ export const SecurityUserRule = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SecurityUserRulePropertiesFormat),
     systemData: S.optional(SecurityUserRuleSystemData),
   }),
-).annotate({
-  identifier: "SecurityUserRule",
-}) as any as S.Schema<SecurityUserRule>;
+).annotate({ identifier: "SecurityUserRule" }) as any as S.Schema<SecurityUserRule>;
 
 /** The SecurityUserRule items on this page */
 export type SecurityUserRuleListResultValueList = Array<SecurityUserRule>;
@@ -81276,9 +80344,7 @@ export const ListServiceEndpointPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListServiceEndpointPoliciesRequest>;
 
 /** Resource tags. */
-export type ServiceEndpointPolicyTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceEndpointPolicyTagsMap = { [key: string]: string | undefined };
 export const ServiceEndpointPolicyTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -81314,9 +80380,7 @@ export const ServiceEndpointPolicy = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceEndpointPolicy",
-}) as any as S.Schema<ServiceEndpointPolicy>;
+).annotate({ identifier: "ServiceEndpointPolicy" }) as any as S.Schema<ServiceEndpointPolicy>;
 
 /** The ServiceEndpointPolicy items on this page */
 export type ServiceEndpointPolicyListResultValueList = Array<ServiceEndpointPolicy>;
@@ -81470,9 +80534,7 @@ export const ServiceGatewaySystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ServiceGatewaySystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceGatewaySystemData",
-}) as any as S.Schema<ServiceGatewaySystemData>;
+).annotate({ identifier: "ServiceGatewaySystemData" }) as any as S.Schema<ServiceGatewaySystemData>;
 
 /** Resource tags. */
 export type ServiceGatewayTagsMap = { [key: string]: string | undefined };
@@ -81543,9 +80605,7 @@ export const ServiceGatewayListResult = /*@__PURE__*/ S.suspend(() =>
     value: ServiceGatewayListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceGatewayListResult",
-}) as any as S.Schema<ServiceGatewayListResult>;
+).annotate({ identifier: "ServiceGatewayListResult" }) as any as S.Schema<ServiceGatewayListResult>;
 
 export interface ListServiceGatewaysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81646,9 +80706,7 @@ export const ServiceTagInformation = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     serviceTagChangeNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceTagInformation",
-}) as any as S.Schema<ServiceTagInformation>;
+).annotate({ identifier: "ServiceTagInformation" }) as any as S.Schema<ServiceTagInformation>;
 
 /** The ServiceTagInformation items on this page */
 export type ServiceTagInformationListResultValueList = Array<ServiceTagInformation>;
@@ -81690,9 +80748,7 @@ export const ListServiceTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListServiceTagsRequest",
-}) as any as S.Schema<ListServiceTagsRequest>;
+).annotate({ identifier: "ListServiceTagsRequest" }) as any as S.Schema<ListServiceTagsRequest>;
 
 /** The list of service tag information resources. */
 export type ServiceTagsListResultValuesList = Array<ServiceTagInformation>;
@@ -81727,9 +80783,7 @@ export const ServiceTagsListResult = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(ServiceTagsListResultValuesList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceTagsListResult",
-}) as any as S.Schema<ServiceTagsListResult>;
+).annotate({ identifier: "ServiceTagsListResult" }) as any as S.Schema<ServiceTagsListResult>;
 
 export interface ListStaticCidrsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81770,9 +80824,7 @@ export const ListStaticCidrsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListStaticCidrsRequest",
-}) as any as S.Schema<ListStaticCidrsRequest>;
+).annotate({ identifier: "ListStaticCidrsRequest" }) as any as S.Schema<ListStaticCidrsRequest>;
 
 /** The type of identity that created the resource. */
 export type StaticCidrSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -81810,9 +80862,7 @@ export const StaticCidrSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(StaticCidrSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StaticCidrSystemData",
-}) as any as S.Schema<StaticCidrSystemData>;
+).annotate({ identifier: "StaticCidrSystemData" }) as any as S.Schema<StaticCidrSystemData>;
 
 /** Instance of StaticCidr resource. */
 export interface StaticCidr {
@@ -81887,9 +80937,7 @@ export const ListStaticMembersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListStaticMembersRequest",
-}) as any as S.Schema<ListStaticMembersRequest>;
+).annotate({ identifier: "ListStaticMembersRequest" }) as any as S.Schema<ListStaticMembersRequest>;
 
 /** The type of identity that created the resource. */
 export type StaticMemberSystemDataCreatedByType =
@@ -81931,9 +80979,7 @@ export const StaticMemberSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(StaticMemberSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StaticMemberSystemData",
-}) as any as S.Schema<StaticMemberSystemData>;
+).annotate({ identifier: "StaticMemberSystemData" }) as any as S.Schema<StaticMemberSystemData>;
 
 /** StaticMember Item. */
 export interface StaticMember {
@@ -81979,9 +81025,7 @@ export const StaticMemberListResult = /*@__PURE__*/ S.suspend(() =>
     value: StaticMemberListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StaticMemberListResult",
-}) as any as S.Schema<StaticMemberListResult>;
+).annotate({ identifier: "StaticMemberListResult" }) as any as S.Schema<StaticMemberListResult>;
 
 export interface ListSubgroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82004,9 +81048,7 @@ export const ListSubgroupsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListSubgroupsRequest",
-}) as any as S.Schema<ListSubgroupsRequest>;
+).annotate({ identifier: "ListSubgroupsRequest" }) as any as S.Schema<ListSubgroupsRequest>;
 
 /** The Subgroup items on this page */
 export type SubgroupListResultValueList = Array<Subgroup>;
@@ -82026,9 +81068,7 @@ export const SubgroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: SubgroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubgroupListResult",
-}) as any as S.Schema<SubgroupListResult>;
+).annotate({ identifier: "SubgroupListResult" }) as any as S.Schema<SubgroupListResult>;
 
 export interface ListSubnetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82051,9 +81091,7 @@ export const ListSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListSubnetsRequest",
-}) as any as S.Schema<ListSubnetsRequest>;
+).annotate({ identifier: "ListSubnetsRequest" }) as any as S.Schema<ListSubnetsRequest>;
 
 /** The Subnet items on this page */
 export type SubnetListResultValueList = Array<Subnet_6>;
@@ -82073,9 +81111,7 @@ export const SubnetListResult = /*@__PURE__*/ S.suspend(() =>
     value: SubnetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubnetListResult",
-}) as any as S.Schema<SubnetListResult>;
+).annotate({ identifier: "SubnetListResult" }) as any as S.Schema<SubnetListResult>;
 
 export interface ListSubscriptionNetworkManagerConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82120,9 +81156,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** An enum describing the unit of measurement. */
 export type UsageUnit = "Count";
@@ -82183,9 +81217,7 @@ export const UsagesListResult = /*@__PURE__*/ S.suspend(() =>
     value: UsagesListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsagesListResult",
-}) as any as S.Schema<UsagesListResult>;
+).annotate({ identifier: "UsagesListResult" }) as any as S.Schema<UsagesListResult>;
 
 export interface ListVerifierWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82308,9 +81340,7 @@ export const VerifierWorkspace = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VerifierWorkspaceProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VerifierWorkspace",
-}) as any as S.Schema<VerifierWorkspace>;
+).annotate({ identifier: "VerifierWorkspace" }) as any as S.Schema<VerifierWorkspace>;
 
 /** The VerifierWorkspace items on this page */
 export type VerifierWorkspaceListResultValueList = Array<VerifierWorkspace>;
@@ -82354,9 +81384,7 @@ export const ListVipSwapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListVipSwapRequest",
-}) as any as S.Schema<ListVipSwapRequest>;
+).annotate({ identifier: "ListVipSwapRequest" }) as any as S.Schema<ListVipSwapRequest>;
 
 /** SwapResource to represent slot type on the specified cloud service. */
 export interface SwapResource {
@@ -82391,9 +81419,7 @@ export const SwapResourceListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SwapResourceListResultValueList),
   }),
-).annotate({
-  identifier: "SwapResourceListResult",
-}) as any as S.Schema<SwapResourceListResult>;
+).annotate({ identifier: "SwapResourceListResult" }) as any as S.Schema<SwapResourceListResult>;
 
 export interface ListVirtualApplianceSitesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82441,9 +81467,7 @@ export const VirtualApplianceSite = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualApplianceSiteProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualApplianceSite",
-}) as any as S.Schema<VirtualApplianceSite>;
+).annotate({ identifier: "VirtualApplianceSite" }) as any as S.Schema<VirtualApplianceSite>;
 
 /** The VirtualApplianceSite items on this page */
 export type NetworkVirtualApplianceSiteListResultValueList = Array<VirtualApplianceSite>;
@@ -82487,9 +81511,7 @@ export const ListVirtualApplianceSkusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListVirtualApplianceSkusRequest>;
 
 /** Resource tags. */
-export type NetworkVirtualApplianceSkuTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkVirtualApplianceSkuTagsMap = { [key: string]: string | undefined };
 export const NetworkVirtualApplianceSkuTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82825,9 +81847,7 @@ export const ListVirtualHubsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVirtualHubsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVirtualHubsResult",
-}) as any as S.Schema<ListVirtualHubsResult>;
+).annotate({ identifier: "ListVirtualHubsResult" }) as any as S.Schema<ListVirtualHubsResult>;
 
 export interface ListVirtualHubIpConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -82875,9 +81895,7 @@ export const HubIpConfiguration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(HubIPConfigurationPropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HubIpConfiguration",
-}) as any as S.Schema<HubIpConfiguration>;
+).annotate({ identifier: "HubIpConfiguration" }) as any as S.Schema<HubIpConfiguration>;
 
 /** The HubIpConfiguration items on this page */
 export type ListVirtualHubIpConfigurationResultsValueList = Array<HubIpConfiguration>;
@@ -82963,9 +81981,7 @@ export const ListVirtualHubsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListVirtualHubsRequest",
-}) as any as S.Schema<ListVirtualHubsRequest>;
+).annotate({ identifier: "ListVirtualHubsRequest" }) as any as S.Schema<ListVirtualHubsRequest>;
 
 export interface ListVirtualNetworkAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -83047,9 +82063,7 @@ export const VirtualNetworkListResult = /*@__PURE__*/ S.suspend(() =>
     value: VirtualNetworkListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkListResult",
-}) as any as S.Schema<VirtualNetworkListResult>;
+).annotate({ identifier: "VirtualNetworkListResult" }) as any as S.Schema<VirtualNetworkListResult>;
 
 export interface ListVirtualNetworkApplianceAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -83071,9 +82085,7 @@ export const ListVirtualNetworkApplianceAllRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListVirtualNetworkApplianceAllRequest>;
 
 /** Resource tags. */
-export type VirtualNetworkApplianceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkApplianceTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkApplianceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -83106,9 +82118,7 @@ export const VirtualNetworkAppliance = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualNetworkAppliancePropertiesFormat),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkAppliance",
-}) as any as S.Schema<VirtualNetworkAppliance>;
+).annotate({ identifier: "VirtualNetworkAppliance" }) as any as S.Schema<VirtualNetworkAppliance>;
 
 /** The VirtualNetworkAppliance items on this page */
 export type VirtualNetworkApplianceListResultValueList = Array<VirtualNetworkAppliance>;
@@ -83257,9 +82267,7 @@ export const ListVirtualNetworkGatewayConnectionsRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListVirtualNetworkGatewayConnectionsRequest>;
 
 /** Resource tags. */
-export type VirtualNetworkGatewayConnectionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkGatewayConnectionTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkGatewayConnectionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -83705,9 +82713,7 @@ export const RadiusAuthServer = /*@__PURE__*/ S.suspend(() =>
     radiusServerAddress: S.optional(S.String),
     radiusServerSecret: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RadiusAuthServer",
-}) as any as S.Schema<RadiusAuthServer>;
+).annotate({ identifier: "RadiusAuthServer" }) as any as S.Schema<RadiusAuthServer>;
 
 /** The RadiusAuthServer items on this page */
 export type RadiusAuthServerListResultValueList = Array<RadiusAuthServer>;
@@ -83897,9 +82903,7 @@ export const VirtualNetworkTap = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualNetworkTapPropertiesFormat_4),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkTap",
-}) as any as S.Schema<VirtualNetworkTap>;
+).annotate({ identifier: "VirtualNetworkTap" }) as any as S.Schema<VirtualNetworkTap>;
 
 /** The VirtualNetworkTap items on this page */
 export type VirtualNetworkTapListResultValueList = Array<VirtualNetworkTap>;
@@ -83982,9 +82986,7 @@ export const VirtualNetworkUsageName = /*@__PURE__*/ S.suspend(() =>
     localizedValue: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkUsageName",
-}) as any as S.Schema<VirtualNetworkUsageName>;
+).annotate({ identifier: "VirtualNetworkUsageName" }) as any as S.Schema<VirtualNetworkUsageName>;
 
 /** Usage details for subnet. */
 export interface VirtualNetworkUsage {
@@ -84007,9 +83009,7 @@ export const VirtualNetworkUsage = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(VirtualNetworkUsageName),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkUsage",
-}) as any as S.Schema<VirtualNetworkUsage>;
+).annotate({ identifier: "VirtualNetworkUsage" }) as any as S.Schema<VirtualNetworkUsage>;
 
 /** The VirtualNetworkUsage items on this page */
 export type VirtualNetworkListUsageResultValueList = Array<VirtualNetworkUsage>;
@@ -84109,9 +83109,7 @@ export const VirtualRouterListResult = /*@__PURE__*/ S.suspend(() =>
     value: VirtualRouterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualRouterListResult",
-}) as any as S.Schema<VirtualRouterListResult>;
+).annotate({ identifier: "VirtualRouterListResult" }) as any as S.Schema<VirtualRouterListResult>;
 
 export interface ListVirtualRouterPeeringsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84159,9 +83157,7 @@ export const VirtualRouterPeering = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualRouterPeeringProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualRouterPeering",
-}) as any as S.Schema<VirtualRouterPeering>;
+).annotate({ identifier: "VirtualRouterPeering" }) as any as S.Schema<VirtualRouterPeering>;
 
 /** The VirtualRouterPeering items on this page */
 export type VirtualRouterPeeringListResultValueList = Array<VirtualRouterPeering>;
@@ -84280,9 +83276,7 @@ export const ListVirtualWANsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVirtualWANsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVirtualWANsResult",
-}) as any as S.Schema<ListVirtualWANsResult>;
+).annotate({ identifier: "ListVirtualWANsResult" }) as any as S.Schema<ListVirtualWANsResult>;
 
 export interface ListVirtualWansRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84299,9 +83293,7 @@ export const ListVirtualWansRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListVirtualWansRequest",
-}) as any as S.Schema<ListVirtualWansRequest>;
+).annotate({ identifier: "ListVirtualWansRequest" }) as any as S.Schema<ListVirtualWansRequest>;
 
 export interface ListVpnConnectionByVpnGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84346,9 +83338,7 @@ export const ListVpnConnectionsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVpnConnectionsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVpnConnectionsResult",
-}) as any as S.Schema<ListVpnConnectionsResult>;
+).annotate({ identifier: "ListVpnConnectionsResult" }) as any as S.Schema<ListVpnConnectionsResult>;
 
 export interface ListVpnGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84426,9 +83416,7 @@ export const ListVpnGatewaysResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVpnGatewaysResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVpnGatewaysResult",
-}) as any as S.Schema<ListVpnGatewaysResult>;
+).annotate({ identifier: "ListVpnGatewaysResult" }) as any as S.Schema<ListVpnGatewaysResult>;
 
 export interface ListVpnGatewaysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84445,9 +83433,7 @@ export const ListVpnGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListVpnGatewaysRequest",
-}) as any as S.Schema<ListVpnGatewaysRequest>;
+).annotate({ identifier: "ListVpnGatewaysRequest" }) as any as S.Schema<ListVpnGatewaysRequest>;
 
 export interface ListVpnLinkConnectionByVpnConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84574,9 +83560,7 @@ export const ListVpnServerConfigurationByResourceGroupRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<ListVpnServerConfigurationByResourceGroupRequest>;
 
 /** Resource tags. */
-export type VpnServerConfigurationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VpnServerConfigurationTagsMap = { [key: string]: string | undefined };
 export const VpnServerConfigurationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -84609,9 +83593,7 @@ export const VpnServerConfiguration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnServerConfigurationProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnServerConfiguration",
-}) as any as S.Schema<VpnServerConfiguration>;
+).annotate({ identifier: "VpnServerConfiguration" }) as any as S.Schema<VpnServerConfiguration>;
 
 /** The VpnServerConfiguration items on this page */
 export type ListVpnServerConfigurationsResultValueList = Array<VpnServerConfiguration>;
@@ -84824,9 +83806,7 @@ export const ListVpnSitesResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVpnSitesResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVpnSitesResult",
-}) as any as S.Schema<ListVpnSitesResult>;
+).annotate({ identifier: "ListVpnSitesResult" }) as any as S.Schema<ListVpnSitesResult>;
 
 export interface ListVpnSiteLinkByVpnSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84871,9 +83851,7 @@ export const ListVpnSiteLinksResult = /*@__PURE__*/ S.suspend(() =>
     value: ListVpnSiteLinksResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListVpnSiteLinksResult",
-}) as any as S.Schema<ListVpnSiteLinksResult>;
+).annotate({ identifier: "ListVpnSiteLinksResult" }) as any as S.Schema<ListVpnSiteLinksResult>;
 
 export interface ListVpnSitesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84890,9 +83868,7 @@ export const ListVpnSitesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListVpnSitesRequest",
-}) as any as S.Schema<ListVpnSitesRequest>;
+).annotate({ identifier: "ListVpnSitesRequest" }) as any as S.Schema<ListVpnSitesRequest>;
 
 export interface ListWebApplicationFirewallPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -84917,9 +83893,7 @@ export const ListWebApplicationFirewallPoliciesRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ListWebApplicationFirewallPoliciesRequest>;
 
 /** Resource tags. */
-export type WebApplicationFirewallPolicyTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebApplicationFirewallPolicyTagsMap = { [key: string]: string | undefined };
 export const WebApplicationFirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -85037,9 +84011,7 @@ export const AzureWebCategory = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(AzureWebCategoryPropertiesFormat),
   }),
-).annotate({
-  identifier: "AzureWebCategory",
-}) as any as S.Schema<AzureWebCategory>;
+).annotate({ identifier: "AzureWebCategory" }) as any as S.Schema<AzureWebCategory>;
 
 /** The AzureWebCategory items on this page */
 export type AzureWebCategoryListResultValueList = Array<AzureWebCategory>;
@@ -85202,9 +84174,7 @@ export const LoadBalancerHealthPerRule = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LoadBalancerHealthPerRule>;
 
 /** Resource tags. */
-export type LoadBalancersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LoadBalancersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LoadBalancersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -85273,9 +84243,7 @@ export const LoadBalancingRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(LoadBalancingRulePropertiesFormat),
   }),
-).annotate({
-  identifier: "LoadBalancingRuleInput",
-}) as any as S.Schema<LoadBalancingRuleInput>;
+).annotate({ identifier: "LoadBalancingRuleInput" }) as any as S.Schema<LoadBalancingRuleInput>;
 
 /** Object collection representing the load balancing rules Gets the provisioning. */
 export type LoadBalancerPropertiesFormatInputLoadBalancingRulesList = Array<LoadBalancingRuleInput>;
@@ -85373,9 +84341,7 @@ export const InboundNatRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(InboundNatRulePropertiesFormatInput),
   }),
-).annotate({
-  identifier: "InboundNatRuleInput",
-}) as any as S.Schema<InboundNatRuleInput>;
+).annotate({ identifier: "InboundNatRuleInput" }) as any as S.Schema<InboundNatRuleInput>;
 
 /** Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. */
 export type LoadBalancerPropertiesFormatInputInboundNatRulesList = Array<InboundNatRuleInput>;
@@ -85398,9 +84364,7 @@ export const InboundNatPoolInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InboundNatPoolPropertiesFormat),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InboundNatPoolInput",
-}) as any as S.Schema<InboundNatPoolInput>;
+).annotate({ identifier: "InboundNatPoolInput" }) as any as S.Schema<InboundNatPoolInput>;
 
 /** Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. */
 export type LoadBalancerPropertiesFormatInputInboundNatPoolsList = Array<InboundNatPoolInput>;
@@ -85423,9 +84387,7 @@ export const OutboundRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(OutboundRulePropertiesFormat),
   }),
-).annotate({
-  identifier: "OutboundRuleInput",
-}) as any as S.Schema<OutboundRuleInput>;
+).annotate({ identifier: "OutboundRuleInput" }) as any as S.Schema<OutboundRuleInput>;
 
 /** The outbound rules. */
 export type LoadBalancerPropertiesFormatInputOutboundRulesList = Array<OutboundRuleInput>;
@@ -85543,9 +84505,7 @@ export const LoadBalancersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LoadBalancersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LoadBalancersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LoadBalancersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LoadBalancersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -85683,9 +84643,7 @@ export const BgpSettingsInput = /*@__PURE__*/ S.suspend(() =>
     peerWeight: S.optional(S.Number),
     bgpPeeringAddresses: S.optional(BgpSettingsInputBgpPeeringAddressesList),
   }),
-).annotate({
-  identifier: "BgpSettingsInput",
-}) as any as S.Schema<BgpSettingsInput>;
+).annotate({ identifier: "BgpSettingsInput" }) as any as S.Schema<BgpSettingsInput>;
 
 /** Provisioning states of a resource. */
 export type LocalNetworkGatewayPropertiesFormatInputProvisioningState =
@@ -85982,9 +84940,7 @@ export const MoveIpConfigurationItem = /*@__PURE__*/ S.suspend(() =>
     sourceIpConfiguration: MoveIpConfigurationResourceReference,
     targetIpConfiguration: MoveIpConfigurationResourceReference,
   }),
-).annotate({
-  identifier: "MoveIpConfigurationItem",
-}) as any as S.Schema<MoveIpConfigurationItem>;
+).annotate({ identifier: "MoveIpConfigurationItem" }) as any as S.Schema<MoveIpConfigurationItem>;
 
 /** A list of IP configuration move items. */
 export type MoveVirtualNetworkIpConfigurationsRequestMoveIpConfigurationItemsList =
@@ -86030,9 +84986,7 @@ export const MoveVirtualNetworkIpConfigurationsResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<MoveVirtualNetworkIpConfigurationsResponse>;
 
 /** Resource tags. */
-export type NatGatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NatGatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NatGatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -86088,9 +85042,7 @@ export const NatGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NatGatewaysCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NatGatewaysCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NatGatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NatGatewaysCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -86393,9 +85345,7 @@ export const NetworkGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NetworkGroupsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type NetworkInterfacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkInterfacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NetworkInterfacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -86463,9 +85413,7 @@ export type NetworkInterfacePropertiesFormatInputNicType = "Standard" | "Elastic
 export const NetworkInterfacePropertiesFormatInputNicType = S.String;
 
 /** Resource tags. */
-export type PrivateLinkServiceInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateLinkServiceInputTagsMap = { [key: string]: string | undefined };
 export const PrivateLinkServiceInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -86572,9 +85520,7 @@ export const RouteTableInput_5 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_5),
   }),
-).annotate({
-  identifier: "RouteTableInput_5",
-}) as any as S.Schema<RouteTableInput_5>;
+).annotate({ identifier: "RouteTableInput_5" }) as any as S.Schema<RouteTableInput_5>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput_6 {
@@ -86915,9 +85861,7 @@ export const PrivateLinkServiceInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PrivateLinkServicePropertiesInput),
     extendedLocation: S.optional(AzureFirewallsCreateOrUpdateRequestExtendedLocation),
   }),
-).annotate({
-  identifier: "PrivateLinkServiceInput",
-}) as any as S.Schema<PrivateLinkServiceInput>;
+).annotate({ identifier: "PrivateLinkServiceInput" }) as any as S.Schema<PrivateLinkServiceInput>;
 
 /** Migration phase of Network Interface resource. */
 export type NetworkInterfacePropertiesFormatInputMigrationPhase =
@@ -87044,9 +85988,7 @@ export const NetworkInterfacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<NetworkInterfacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NetworkInterfacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkInterfacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NetworkInterfacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -87374,9 +86316,7 @@ export const NetworkManagerRoutingConfigurationsCreateOrUpdateResponse = /*@__PU
 }) as any as S.Schema<NetworkManagerRoutingConfigurationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type NetworkManagersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkManagersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NetworkManagersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -87502,9 +86442,7 @@ export const NetworkManagersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<NetworkManagersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NetworkManagersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkManagersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NetworkManagersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -87590,9 +86528,7 @@ export const NetworkManagersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<NetworkManagersCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type NetworkProfilesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NetworkProfilesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -87797,9 +86733,7 @@ export const NetworkProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<NetworkProfilesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NetworkProfilesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NetworkProfilesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -88398,9 +87332,7 @@ export const NspLinkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     status: S.optional(NspLinkPropertiesInputStatus),
   }),
-).annotate({
-  identifier: "NspLinkPropertiesInput",
-}) as any as S.Schema<NspLinkPropertiesInput>;
+).annotate({ identifier: "NspLinkPropertiesInput" }) as any as S.Schema<NspLinkPropertiesInput>;
 
 export interface NetworkSecurityPerimeterLinksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -89532,9 +88464,7 @@ export const NetworkWatchersConnectionAnalyzersUpdateTagsRequest = /*@__PURE__*/
 }) as any as S.Schema<NetworkWatchersConnectionAnalyzersUpdateTagsRequest>;
 
 /** Resource tags. */
-export type NetworkWatchersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkWatchersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NetworkWatchersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -89578,9 +88508,7 @@ export const NetworkWatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<NetworkWatchersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NetworkWatchersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkWatchersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NetworkWatchersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -89617,9 +88545,7 @@ export const NetworkWatchersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<NetworkWatchersCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type P2sVpnGatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type P2sVpnGatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const P2sVpnGatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -89840,9 +88766,7 @@ export const P2sVpnGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<P2sVpnGatewaysCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type P2sVpnGatewaysCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type P2sVpnGatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const P2sVpnGatewaysCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -89937,9 +88861,7 @@ export const PatchFirewallPolicyIdpsSignaturesOverrideResponse = /*@__PURE__*/ S
 }) as any as S.Schema<PatchFirewallPolicyIdpsSignaturesOverrideResponse>;
 
 /** Resource tags. */
-export type PatchNetworkManagerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchNetworkManagerRequestTagsMap = { [key: string]: string | undefined };
 export const PatchNetworkManagerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -89974,9 +88896,7 @@ export const PatchNetworkManagerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchNetworkManagerRequest>;
 
 /** Resource tags. */
-export type PatchNetworkManagerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchNetworkManagerResponseTagsMap = { [key: string]: string | undefined };
 export const PatchNetworkManagerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90060,9 +88980,7 @@ export const PatchNetworkManagerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchNetworkManagerResponse>;
 
 /** List of tags for Network Security Perimeter */
-export type PatchNetworkSecurityPerimeterRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchNetworkSecurityPerimeterRequestTagsMap = { [key: string]: string | undefined };
 export const PatchNetworkSecurityPerimeterRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90143,9 +89061,7 @@ export const PatchNetworkSecurityPerimeterResponseSystemData = /*@__PURE__*/ S.s
 }) as any as S.Schema<PatchNetworkSecurityPerimeterResponseSystemData>;
 
 /** Resource tags. */
-export type PatchNetworkSecurityPerimeterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchNetworkSecurityPerimeterResponseTagsMap = { [key: string]: string | undefined };
 export const PatchNetworkSecurityPerimeterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90273,9 +89189,7 @@ export const NetworkManagerCommit = /*@__PURE__*/ S.suspend(() =>
     configurationIds: S.optional(NetworkManagerCommitConfigurationIdsList),
     commitType: NetworkManagerCommitCommitType,
   }),
-).annotate({
-  identifier: "NetworkManagerCommit",
-}) as any as S.Schema<NetworkManagerCommit>;
+).annotate({ identifier: "NetworkManagerCommit" }) as any as S.Schema<NetworkManagerCommit>;
 
 /** Provisioning states of a resource. */
 export type PrivateDnsZoneGroupPropertiesFormatInputProvisioningState =
@@ -90401,9 +89315,7 @@ export const PrivateDnsZoneGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<PrivateDnsZoneGroupsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PrivateEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PrivateEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90592,9 +89504,7 @@ export const PrivateEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PrivateEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PrivateEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PrivateEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90640,9 +89550,7 @@ export const PrivateEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<PrivateEndpointsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PrivateLinkServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateLinkServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PrivateLinkServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90743,9 +89651,7 @@ export const PrivateLinkServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<PrivateLinkServicesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PublicIPAddressesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PublicIPAddressesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PublicIPAddressesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90810,9 +89716,7 @@ export const PublicIPAddressesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<PublicIPAddressesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PublicIPAddressesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PublicIPAddressesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PublicIPAddressesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91080,9 +89984,7 @@ export const PublicIPAddressesReserveCloudServicePublicIpAddressResponse = /*@__
 }) as any as S.Schema<PublicIPAddressesReserveCloudServicePublicIpAddressResponse>;
 
 /** Resource tags. */
-export type PublicIPPrefixesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PublicIPPrefixesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PublicIPPrefixesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91214,9 +90116,7 @@ export const PublicIPPrefixesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PublicIPPrefixesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PublicIPPrefixesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PublicIPPrefixesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PublicIPPrefixesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91391,9 +90291,7 @@ export const ResetP2SVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResetP2SVpnGatewayRequest>;
 
 /** Resource tags. */
-export type ResetP2SVpnGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResetP2SVpnGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const ResetP2SVpnGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91458,9 +90356,7 @@ export const ResetVirtualNetworkGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResetVirtualNetworkGatewayRequest>;
 
 /** Resource tags. */
-export type ResetVirtualNetworkGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResetVirtualNetworkGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const ResetVirtualNetworkGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91609,9 +90505,7 @@ export const ConnectionResetSharedKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyLength: S.Number,
   }),
-).annotate({
-  identifier: "ConnectionResetSharedKey",
-}) as any as S.Schema<ConnectionResetSharedKey>;
+).annotate({ identifier: "ConnectionResetSharedKey" }) as any as S.Schema<ConnectionResetSharedKey>;
 
 export interface ResetVirtualNetworkGatewayVpnClientSharedKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -91669,14 +90563,10 @@ export const ResetVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ResetVpnGatewayRequest",
-}) as any as S.Schema<ResetVpnGatewayRequest>;
+).annotate({ identifier: "ResetVpnGatewayRequest" }) as any as S.Schema<ResetVpnGatewayRequest>;
 
 /** Resource tags. */
-export type ResetVpnGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResetVpnGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const ResetVpnGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91708,9 +90598,7 @@ export const ResetVpnGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnGatewayProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResetVpnGatewayResponse",
-}) as any as S.Schema<ResetVpnGatewayResponse>;
+).annotate({ identifier: "ResetVpnGatewayResponse" }) as any as S.Schema<ResetVpnGatewayResponse>;
 
 export interface ResetVpnLinkConnectionConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -91849,9 +90737,7 @@ export const RouteFilterRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<RouteFilterRulesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RouteFiltersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RouteFiltersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RouteFiltersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -91875,9 +90761,7 @@ export const RouteFilterRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteFilterRuleInput",
-}) as any as S.Schema<RouteFilterRuleInput>;
+).annotate({ identifier: "RouteFilterRuleInput" }) as any as S.Schema<RouteFilterRuleInput>;
 
 /** Collection of RouteFilterRules contained within a route filter. */
 export type RouteFilterPropertiesFormatInputRulesList = Array<RouteFilterRuleInput>;
@@ -91949,9 +90833,7 @@ export const RouteFiltersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RouteFiltersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RouteFiltersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RouteFiltersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RouteFiltersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -92104,9 +90986,7 @@ export const RoutesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RoutesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RouteTablesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RouteTablesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RouteTablesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -92150,9 +91030,7 @@ export const RouteTablesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RouteTablesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RouteTablesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RouteTablesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RouteTablesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -93650,9 +92528,7 @@ export const ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse = /*@__PURE_
 }) as any as S.Schema<ServiceEndpointPolicyDefinitionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ServiceGatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceGatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServiceGatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -93691,9 +92567,7 @@ export const AddressSpaceInput = /*@__PURE__*/ S.suspend(() =>
     addressPrefixes: S.optional(AddressSpaceInputAddressPrefixesList),
     ipamPoolPrefixAllocations: S.optional(AddressSpaceInputIpamPoolPrefixAllocationsList),
   }),
-).annotate({
-  identifier: "AddressSpaceInput",
-}) as any as S.Schema<AddressSpaceInput>;
+).annotate({ identifier: "AddressSpaceInput" }) as any as S.Schema<AddressSpaceInput>;
 
 /** Route resource. */
 export type RoutePropertiesFormatInput_4 = RoutePropertiesFormatInput_2;
@@ -93749,9 +92623,7 @@ export const RouteTableInput_4 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_4),
   }),
-).annotate({
-  identifier: "RouteTableInput_4",
-}) as any as S.Schema<RouteTableInput_4>;
+).annotate({ identifier: "RouteTableInput_4" }) as any as S.Schema<RouteTableInput_4>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput_5 {
@@ -94370,9 +93242,7 @@ export const ServiceGatewaysCreateOrUpdateResponseSystemData = /*@__PURE__*/ S.s
 }) as any as S.Schema<ServiceGatewaysCreateOrUpdateResponseSystemData>;
 
 /** Resource tags. */
-export type ServiceGatewaysCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceGatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServiceGatewaysCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -94685,9 +93555,7 @@ export const StartApplicationGatewayRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface StartApplicationGatewayResponse {}
 export const StartApplicationGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "StartApplicationGatewayResponse",
-  },
+  { identifier: "StartApplicationGatewayResponse" },
 ) as any as S.Schema<StartApplicationGatewayResponse>;
 
 export interface StartExpressRouteCircuitCircuitLinkFailoverTestRequest {
@@ -95261,9 +94129,7 @@ export const StopPacketCaptureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "StopPacketCaptureRequest",
-}) as any as S.Schema<StopPacketCaptureRequest>;
+).annotate({ identifier: "StopPacketCaptureRequest" }) as any as S.Schema<StopPacketCaptureRequest>;
 
 export interface StopPacketCaptureResponse {}
 export const StopPacketCaptureResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -95535,9 +94401,7 @@ export const SubnetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SubnetsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type NetworkIntentPolicyInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkIntentPolicyInputTagsMap = { [key: string]: string | undefined };
 export const NetworkIntentPolicyInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -95558,9 +94422,7 @@ export const NetworkIntentPolicyInput = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(NetworkIntentPolicyInputTagsMap),
   }),
-).annotate({
-  identifier: "NetworkIntentPolicyInput",
-}) as any as S.Schema<NetworkIntentPolicyInput>;
+).annotate({ identifier: "NetworkIntentPolicyInput" }) as any as S.Schema<NetworkIntentPolicyInput>;
 
 /** Details of NetworkIntentPolicyConfiguration for PrepareNetworkPoliciesRequest. */
 export interface NetworkIntentPolicyConfigurationInput {
@@ -96017,9 +94879,7 @@ export const RouteTableInput = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput),
   }),
-).annotate({
-  identifier: "RouteTableInput",
-}) as any as S.Schema<RouteTableInput>;
+).annotate({ identifier: "RouteTableInput" }) as any as S.Schema<RouteTableInput>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput {
@@ -96377,9 +95237,7 @@ export const UpdateApplicationGatewayPrivateEndpointConnectionResponse = /*@__PU
 }) as any as S.Schema<UpdateApplicationGatewayPrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type UpdateApplicationGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96414,9 +95272,7 @@ export const UpdateApplicationGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateApplicationGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96575,9 +95431,7 @@ export const UpdateApplicationSecurityGroupTagsResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateApplicationSecurityGroupTagsResponse>;
 
 /** Resource tags. */
-export type UpdateAzureFirewallTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureFirewallTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureFirewallTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96612,9 +95466,7 @@ export const UpdateAzureFirewallTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAzureFirewallTagsRequest>;
 
 /** Resource tags. */
-export type UpdateAzureFirewallTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureFirewallTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureFirewallTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96667,9 +95519,7 @@ export const UpdateAzureFirewallTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAzureFirewallTagsResponse>;
 
 /** Resource tags. */
-export type UpdateBastionHostTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBastionHostTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBastionHostTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96704,9 +95554,7 @@ export const UpdateBastionHostTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBastionHostTagsRequest>;
 
 /** Resource tags. */
-export type UpdateBastionHostTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBastionHostTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBastionHostTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96755,9 +95603,7 @@ export const UpdateBastionHostTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBastionHostTagsResponse>;
 
 /** Resource tags. */
-export type UpdateConnectionMonitorTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectionMonitorTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectionMonitorTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96795,9 +95641,7 @@ export const UpdateConnectionMonitorTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConnectionMonitorTagsRequest>;
 
 /** Connection monitor tags. */
-export type UpdateConnectionMonitorTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectionMonitorTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectionMonitorTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96834,9 +95678,7 @@ export const UpdateConnectionMonitorTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConnectionMonitorTagsResponse>;
 
 /** Resource tags. */
-export type UpdateCustomIPPrefixTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomIPPrefixTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomIPPrefixTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96871,9 +95713,7 @@ export const UpdateCustomIPPrefixTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCustomIPPrefixTagsRequest>;
 
 /** Resource tags. */
-export type UpdateCustomIPPrefixTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomIPPrefixTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomIPPrefixTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96926,9 +95766,7 @@ export const UpdateCustomIPPrefixTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCustomIPPrefixTagsResponse>;
 
 /** Resource tags. */
-export type UpdateDdosCustomPolicyTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDdosCustomPolicyTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDdosCustomPolicyTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -96963,9 +95801,7 @@ export const UpdateDdosCustomPolicyTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDdosCustomPolicyTagsRequest>;
 
 /** Resource tags. */
-export type UpdateDdosCustomPolicyTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDdosCustomPolicyTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDdosCustomPolicyTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97002,9 +95838,7 @@ export const UpdateDdosCustomPolicyTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDdosCustomPolicyTagsResponse>;
 
 /** Resource tags. */
-export type UpdateDdosProtectionPlanTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDdosProtectionPlanTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDdosProtectionPlanTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97039,9 +95873,7 @@ export const UpdateDdosProtectionPlanTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDdosProtectionPlanTagsRequest>;
 
 /** Resource tags. */
-export type UpdateDdosProtectionPlanTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDdosProtectionPlanTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDdosProtectionPlanTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97078,9 +95910,7 @@ export const UpdateDdosProtectionPlanTagsResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateDdosProtectionPlanTagsResponse>;
 
 /** Resource tags. */
-export type UpdateExpressRouteCircuitTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteCircuitTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteCircuitTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97115,9 +95945,7 @@ export const UpdateExpressRouteCircuitTagsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateExpressRouteCircuitTagsRequest>;
 
 /** Resource tags. */
-export type UpdateExpressRouteCircuitTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteCircuitTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteCircuitTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97233,9 +96061,7 @@ export const UpdateExpressRouteCrossConnectionTagsResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<UpdateExpressRouteCrossConnectionTagsResponse>;
 
 /** Resource tags. */
-export type UpdateExpressRouteGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97270,9 +96096,7 @@ export const UpdateExpressRouteGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateExpressRouteGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateExpressRouteGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97336,9 +96160,7 @@ export const UpdateExpressRouteLagRequestIdentity = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateExpressRouteLagRequestIdentity>;
 
 /** Resource tags. */
-export type UpdateExpressRouteLagRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteLagRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteLagRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97376,9 +96198,7 @@ export const UpdateExpressRouteLagRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpressRouteLagRequest>;
 
 /** Resource tags. */
-export type UpdateExpressRouteLagResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRouteLagResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRouteLagResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97452,9 +96272,7 @@ export const UpdateExpressRouteLagResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpressRouteLagResponse>;
 
 /** Resource tags. */
-export type UpdateExpressRoutePortTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRoutePortTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRoutePortTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97489,9 +96307,7 @@ export const UpdateExpressRoutePortTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpressRoutePortTagsRequest>;
 
 /** Resource tags. */
-export type UpdateExpressRoutePortTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpressRoutePortTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExpressRoutePortTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97565,9 +96381,7 @@ export const UpdateExpressRoutePortTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpressRoutePortTagsResponse>;
 
 /** Resource tags. */
-export type UpdateFirewallPolicyTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirewallPolicyTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFirewallPolicyTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97602,9 +96416,7 @@ export const UpdateFirewallPolicyTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFirewallPolicyTagsRequest>;
 
 /** Resource tags. */
-export type UpdateFirewallPolicyTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirewallPolicyTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFirewallPolicyTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97678,9 +96490,7 @@ export const UpdateFirewallPolicyTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFirewallPolicyTagsResponse>;
 
 /** Resource tags. */
-export type UpdateFirstPartyServiceTagTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirstPartyServiceTagTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFirstPartyServiceTagTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97715,9 +96525,7 @@ export const UpdateFirstPartyServiceTagTagsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateFirstPartyServiceTagTagsRequest>;
 
 /** Resource tags. */
-export type UpdateFirstPartyServiceTagTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFirstPartyServiceTagTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFirstPartyServiceTagTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97754,9 +96562,7 @@ export const UpdateFirstPartyServiceTagTagsResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateFirstPartyServiceTagTagsResponse>;
 
 /** Resource tags. */
-export type UpdateFlowLogTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFlowLogTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFlowLogTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97789,14 +96595,10 @@ export const UpdateFlowLogTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFlowLogTagsRequest",
-}) as any as S.Schema<UpdateFlowLogTagsRequest>;
+).annotate({ identifier: "UpdateFlowLogTagsRequest" }) as any as S.Schema<UpdateFlowLogTagsRequest>;
 
 /** Resource tags. */
-export type UpdateFlowLogTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFlowLogTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFlowLogTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97867,9 +96669,7 @@ export const UpdateFlowLogTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFlowLogTagsResponse>;
 
 /** Resource tags. */
-export type UpdateInterconnectGroupTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInterconnectGroupTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInterconnectGroupTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97904,9 +96704,7 @@ export const UpdateInterconnectGroupTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInterconnectGroupTagsRequest>;
 
 /** Resource tags. */
-export type UpdateInterconnectGroupTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInterconnectGroupTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInterconnectGroupTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97943,9 +96741,7 @@ export const UpdateInterconnectGroupTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInterconnectGroupTagsResponse>;
 
 /** Resource tags. */
-export type UpdateIpAllocationTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpAllocationTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIpAllocationTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -97980,9 +96776,7 @@ export const UpdateIpAllocationTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIpAllocationTagsRequest>;
 
 /** Resource tags. */
-export type UpdateIpAllocationTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpAllocationTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIpAllocationTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98019,9 +96813,7 @@ export const UpdateIpAllocationTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIpAllocationTagsResponse>;
 
 /** Dictionary of <string> */
-export type UpdateIpamPoolRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpamPoolRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIpamPoolRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98038,9 +96830,7 @@ export const IpamPoolUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpamPoolUpdateProperties",
-}) as any as S.Schema<IpamPoolUpdateProperties>;
+).annotate({ identifier: "IpamPoolUpdateProperties" }) as any as S.Schema<IpamPoolUpdateProperties>;
 
 export interface UpdateIpamPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -98072,9 +96862,7 @@ export const UpdateIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateIpamPoolRequest",
-}) as any as S.Schema<UpdateIpamPoolRequest>;
+).annotate({ identifier: "UpdateIpamPoolRequest" }) as any as S.Schema<UpdateIpamPoolRequest>;
 
 /** The type of identity that created the resource. */
 export type UpdateIpamPoolResponseSystemDataCreatedByType =
@@ -98121,9 +96909,7 @@ export const UpdateIpamPoolResponseSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIpamPoolResponseSystemData>;
 
 /** Resource tags. */
-export type UpdateIpamPoolResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpamPoolResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIpamPoolResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98158,14 +96944,10 @@ export const UpdateIpamPoolResponse = /*@__PURE__*/ S.suspend(() =>
     properties: IpamPoolProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateIpamPoolResponse",
-}) as any as S.Schema<UpdateIpamPoolResponse>;
+).annotate({ identifier: "UpdateIpamPoolResponse" }) as any as S.Schema<UpdateIpamPoolResponse>;
 
 /** Resource tags. */
-export type UpdateIpGroupGroupsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpGroupGroupsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIpGroupGroupsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98200,9 +96982,7 @@ export const UpdateIpGroupGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIpGroupGroupsRequest>;
 
 /** Resource tags. */
-export type UpdateIpGroupGroupsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIpGroupGroupsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIpGroupGroupsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98239,9 +97019,7 @@ export const UpdateIpGroupGroupsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIpGroupGroupsResponse>;
 
 /** Resource tags. */
-export type UpdateLoadBalancerTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadBalancerTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateLoadBalancerTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98276,9 +97054,7 @@ export const UpdateLoadBalancerTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLoadBalancerTagsRequest>;
 
 /** Resource tags. */
-export type UpdateLoadBalancerTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLoadBalancerTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLoadBalancerTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98325,9 +97101,7 @@ export const UpdateLoadBalancerTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLoadBalancerTagsResponse>;
 
 /** Resource tags. */
-export type UpdateLocalNetworkGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLocalNetworkGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateLocalNetworkGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98362,9 +97136,7 @@ export const UpdateLocalNetworkGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateLocalNetworkGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateLocalNetworkGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLocalNetworkGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLocalNetworkGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98401,9 +97173,7 @@ export const UpdateLocalNetworkGatewayTagsResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateLocalNetworkGatewayTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNatGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNatGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNatGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98438,9 +97208,7 @@ export const UpdateNatGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNatGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateNatGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNatGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNatGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98489,9 +97257,7 @@ export const UpdateNatGatewayTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNatGatewayTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNetworkInterfaceTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkInterfaceTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkInterfaceTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98526,9 +97292,7 @@ export const UpdateNetworkInterfaceTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkInterfaceTagsRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkInterfaceTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkInterfaceTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkInterfaceTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98572,9 +97336,7 @@ export const UpdateNetworkInterfaceTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkInterfaceTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNetworkProfileTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkProfileTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkProfileTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98609,9 +97371,7 @@ export const UpdateNetworkProfileTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkProfileTagsRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkProfileTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkProfileTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkProfileTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98648,9 +97408,7 @@ export const UpdateNetworkProfileTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkProfileTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNetworkSecurityGroupTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkSecurityGroupTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkSecurityGroupTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98685,9 +97443,7 @@ export const UpdateNetworkSecurityGroupTagsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateNetworkSecurityGroupTagsRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkSecurityGroupTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkSecurityGroupTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkSecurityGroupTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98724,9 +97480,7 @@ export const UpdateNetworkSecurityGroupTagsResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateNetworkSecurityGroupTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNetworkVirtualApplianceTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkVirtualApplianceTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkVirtualApplianceTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98837,9 +97591,7 @@ export const UpdateNetworkVirtualApplianceTagsResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<UpdateNetworkVirtualApplianceTagsResponse>;
 
 /** Resource tags. */
-export type UpdateNetworkWatcherTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkWatcherTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkWatcherTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98874,9 +97626,7 @@ export const UpdateNetworkWatcherTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkWatcherTagsRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkWatcherTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkWatcherTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkWatcherTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98913,9 +97663,7 @@ export const UpdateNetworkWatcherTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkWatcherTagsResponse>;
 
 /** Resource tags. */
-export type UpdateP2sVpnGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateP2sVpnGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateP2sVpnGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -98950,9 +97698,7 @@ export const UpdateP2sVpnGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateP2sVpnGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateP2sVpnGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateP2sVpnGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateP2sVpnGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99078,9 +97824,7 @@ export const UpdatePrivateLinkServicePrivateEndpointConnectionResponse = /*@__PU
 }) as any as S.Schema<UpdatePrivateLinkServicePrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type UpdatePublicIPAddressTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicIPAddressTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicIPAddressTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99115,9 +97859,7 @@ export const UpdatePublicIPAddressTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePublicIPAddressTagsRequest>;
 
 /** Resource tags. */
-export type UpdatePublicIPAddressTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicIPAddressTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicIPAddressTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99173,9 +97915,7 @@ export const UpdatePublicIPAddressTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePublicIPAddressTagsResponse>;
 
 /** Resource tags. */
-export type UpdatePublicIPPrefixTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicIPPrefixTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicIPPrefixTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99210,9 +97950,7 @@ export const UpdatePublicIPPrefixTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePublicIPPrefixTagsRequest>;
 
 /** Resource tags. */
-export type UpdatePublicIPPrefixTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicIPPrefixTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicIPPrefixTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99268,9 +98006,7 @@ export const UpdatePublicIPPrefixTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePublicIPPrefixTagsResponse>;
 
 /** Resource tags. */
-export type UpdateRouteFilterTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRouteFilterTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateRouteFilterTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99305,9 +98041,7 @@ export const UpdateRouteFilterTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRouteFilterTagsRequest>;
 
 /** Resource tags. */
-export type UpdateRouteFilterTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRouteFilterTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRouteFilterTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99344,9 +98078,7 @@ export const UpdateRouteFilterTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRouteFilterTagsResponse>;
 
 /** Resource tags. */
-export type UpdateRouteTableTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRouteTableTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateRouteTableTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99381,9 +98113,7 @@ export const UpdateRouteTableTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRouteTableTagsRequest>;
 
 /** Resource tags. */
-export type UpdateRouteTableTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRouteTableTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRouteTableTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99420,9 +98150,7 @@ export const UpdateRouteTableTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRouteTableTagsResponse>;
 
 /** Resource tags. */
-export type UpdateSecurityPartnerProviderTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSecurityPartnerProviderTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSecurityPartnerProviderTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99496,9 +98224,7 @@ export const UpdateSecurityPartnerProviderTagsResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<UpdateSecurityPartnerProviderTagsResponse>;
 
 /** Resource tags. */
-export type UpdateServiceEndpointPolicyTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceEndpointPolicyTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceEndpointPolicyTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99533,9 +98259,7 @@ export const UpdateServiceEndpointPolicyTagsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateServiceEndpointPolicyTagsRequest>;
 
 /** Resource tags. */
-export type UpdateServiceEndpointPolicyTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceEndpointPolicyTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceEndpointPolicyTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99790,9 +98514,7 @@ export const UpdateServiceGatewayServicesResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateServiceGatewayServicesResponse>;
 
 /** Resource tags. */
-export type UpdateServiceGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99871,9 +98593,7 @@ export const UpdateServiceGatewayTagsResponseSystemData = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateServiceGatewayTagsResponseSystemData>;
 
 /** Resource tags. */
-export type UpdateServiceGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -99925,9 +98645,7 @@ export const UpdateServiceGatewayTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceGatewayTagsResponse>;
 
 /** Dictionary of <string> */
-export type UpdateVerifierWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVerifierWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVerifierWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100024,9 +98742,7 @@ export const UpdateVerifierWorkspaceResponseSystemData = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<UpdateVerifierWorkspaceResponseSystemData>;
 
 /** Resource tags. */
-export type UpdateVerifierWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVerifierWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVerifierWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100066,9 +98782,7 @@ export const UpdateVerifierWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVerifierWorkspaceResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualHubTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualHubTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualHubTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100103,9 +98817,7 @@ export const UpdateVirtualHubTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualHubTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualHubTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualHubTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualHubTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100145,9 +98857,7 @@ export const UpdateVirtualHubTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualHubTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkApplianceTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkApplianceTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkApplianceTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100297,9 +99007,7 @@ export const UpdateVirtualNetworkGatewayConnectionTagsResponse = /*@__PURE__*/ S
 }) as any as S.Schema<UpdateVirtualNetworkGatewayConnectionTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100334,9 +99042,7 @@ export const UpdateVirtualNetworkGatewayTagsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateVirtualNetworkGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100419,9 +99125,7 @@ export const UpdateVirtualNetworkGatewayTagsResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<UpdateVirtualNetworkGatewayTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100456,9 +99160,7 @@ export const UpdateVirtualNetworkTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100502,9 +99204,7 @@ export const UpdateVirtualNetworkTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkTapTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkTapTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkTapTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100539,9 +99239,7 @@ export const UpdateVirtualNetworkTapTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkTapTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkTapTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkTapTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkTapTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100578,9 +99276,7 @@ export const UpdateVirtualNetworkTapTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkTapTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualWanTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualWanTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualWanTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100615,9 +99311,7 @@ export const UpdateVirtualWanTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualWanTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualWanTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualWanTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualWanTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100654,9 +99348,7 @@ export const UpdateVirtualWanTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualWanTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVpnGatewayTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnGatewayTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnGatewayTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100691,9 +99383,7 @@ export const UpdateVpnGatewayTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVpnGatewayTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVpnGatewayTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnGatewayTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnGatewayTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100730,9 +99420,7 @@ export const UpdateVpnGatewayTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVpnGatewayTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVpnServerConfigurationTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnServerConfigurationTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnServerConfigurationTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100767,9 +99455,7 @@ export const UpdateVpnServerConfigurationTagsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<UpdateVpnServerConfigurationTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVpnServerConfigurationTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnServerConfigurationTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnServerConfigurationTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100806,9 +99492,7 @@ export const UpdateVpnServerConfigurationTagsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateVpnServerConfigurationTagsResponse>;
 
 /** Resource tags. */
-export type UpdateVpnSiteTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnSiteTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnSiteTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100838,14 +99522,10 @@ export const UpdateVpnSiteTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateVpnSiteTagsRequest",
-}) as any as S.Schema<UpdateVpnSiteTagsRequest>;
+).annotate({ identifier: "UpdateVpnSiteTagsRequest" }) as any as S.Schema<UpdateVpnSiteTagsRequest>;
 
 /** Resource tags. */
-export type UpdateVpnSiteTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVpnSiteTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVpnSiteTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -100954,9 +99634,7 @@ export const VerificationIPFlowResult = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(VerificationIPFlowResultAccess),
     ruleName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VerificationIPFlowResult",
-}) as any as S.Schema<VerificationIPFlowResult>;
+).annotate({ identifier: "VerificationIPFlowResult" }) as any as S.Schema<VerificationIPFlowResult>;
 
 export interface VirtualApplianceSitesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -101192,9 +99870,7 @@ export const RouteTableInput_7 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_7),
   }),
-).annotate({
-  identifier: "RouteTableInput_7",
-}) as any as S.Schema<RouteTableInput_7>;
+).annotate({ identifier: "RouteTableInput_7" }) as any as S.Schema<RouteTableInput_7>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput_8 {
@@ -101405,9 +100081,7 @@ export const PublicIPAddressInput_3 = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.Unknown),
     zones: S.optional(PublicIPAddressInputZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddressInput_3",
-}) as any as S.Schema<PublicIPAddressInput_3>;
+).annotate({ identifier: "PublicIPAddressInput_3" }) as any as S.Schema<PublicIPAddressInput_3>;
 
 /** Public IP address properties. */
 export interface PublicIPAddressPropertiesFormatInput_3 {
@@ -101670,9 +100344,7 @@ export const VirtualHubRouteTableV2sCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<VirtualHubRouteTableV2sCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualHubsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualHubsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualHubsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -101899,9 +100571,7 @@ export const VirtualHubsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualHubsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualHubsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualHubsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualHubsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -102019,9 +100689,7 @@ export const RouteTableInput_6 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_6),
   }),
-).annotate({
-  identifier: "RouteTableInput_6",
-}) as any as S.Schema<RouteTableInput_6>;
+).annotate({ identifier: "RouteTableInput_6" }) as any as S.Schema<RouteTableInput_6>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput_7 {
@@ -102308,9 +100976,7 @@ export const VirtualNetworkGatewayConnectionsCreateOrUpdateRequestTagsMap = /*@_
 ) as any as S.Schema<VirtualNetworkGatewayConnectionsCreateOrUpdateRequestTagsMap>;
 
 /** Resource tags. */
-export type VirtualNetworkGatewayInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkGatewayInputTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkGatewayInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -103082,9 +101748,7 @@ export const VirtualNetworkGatewayInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualNetworkGatewayInput>;
 
 /** Resource tags. */
-export type LocalNetworkGatewayInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LocalNetworkGatewayInputTagsMap = { [key: string]: string | undefined };
 export const LocalNetworkGatewayInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -103108,9 +101772,7 @@ export const LocalNetworkGatewayInput = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(LocalNetworkGatewayInputTagsMap),
     properties: LocalNetworkGatewayPropertiesFormatInput,
   }),
-).annotate({
-  identifier: "LocalNetworkGatewayInput",
-}) as any as S.Schema<LocalNetworkGatewayInput>;
+).annotate({ identifier: "LocalNetworkGatewayInput" }) as any as S.Schema<LocalNetworkGatewayInput>;
 
 /** Reference to another subresource. */
 export type VirtualNetworkGatewayConnectionPropertiesFormatInputIngressNatRulesItem =
@@ -103930,9 +102592,7 @@ export const VirtualNetworkPeeringsCreateOrUpdateResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<VirtualNetworkPeeringsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -103985,9 +102645,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104033,9 +102691,7 @@ export const VirtualNetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualNetworkTapsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkTapsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkTapsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104229,9 +102885,7 @@ export const RouteTableInput_3 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RouteTableInputTagsMap),
     properties: S.optional(RouteTablePropertiesFormatInput_3),
   }),
-).annotate({
-  identifier: "RouteTableInput_3",
-}) as any as S.Schema<RouteTableInput_3>;
+).annotate({ identifier: "RouteTableInput_3" }) as any as S.Schema<RouteTableInput_3>;
 
 /** Service Endpoint policy definitions. */
 export interface ServiceEndpointPolicyDefinitionInput_4 {
@@ -104489,9 +103143,7 @@ export const PublicIPAddressInput_2 = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.Unknown),
     zones: S.optional(PublicIPAddressInputZonesList),
   }),
-).annotate({
-  identifier: "PublicIPAddressInput_2",
-}) as any as S.Schema<PublicIPAddressInput_2>;
+).annotate({ identifier: "PublicIPAddressInput_2" }) as any as S.Schema<PublicIPAddressInput_2>;
 
 /** Properties of IP configuration. */
 export interface NetworkInterfaceIPConfigurationPropertiesFormatInput_2 {
@@ -104762,9 +103414,7 @@ export const VirtualNetworkTapsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<VirtualNetworkTapsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualNetworkTapsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkTapsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkTapsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104862,9 +103512,7 @@ export const VirtualRouterPeeringsCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<VirtualRouterPeeringsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualRoutersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualRoutersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualRoutersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104961,9 +103609,7 @@ export const VirtualRoutersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualRoutersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualRoutersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualRoutersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualRoutersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -105000,9 +103646,7 @@ export const VirtualRoutersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualRoutersCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualWansCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualWansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualWansCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -105096,9 +103740,7 @@ export const VirtualWansCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualWansCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualWansCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualWansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualWansCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -105714,9 +104356,7 @@ export const VpnConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VpnConnectionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VpnGatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VpnGatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VpnGatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -105743,9 +104383,7 @@ export const VpnConnectionInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VpnConnectionPropertiesInput),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VpnConnectionInput",
-}) as any as S.Schema<VpnConnectionInput>;
+).annotate({ identifier: "VpnConnectionInput" }) as any as S.Schema<VpnConnectionInput>;
 
 /** List of all vpn connections to the gateway. */
 export type VpnGatewayPropertiesInputConnectionsList = Array<VpnConnectionInput>;
@@ -105807,9 +104445,7 @@ export const VpnGatewayNatRuleInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(VpnGatewayNatRulePropertiesInput),
   }),
-).annotate({
-  identifier: "VpnGatewayNatRuleInput",
-}) as any as S.Schema<VpnGatewayNatRuleInput>;
+).annotate({ identifier: "VpnGatewayNatRuleInput" }) as any as S.Schema<VpnGatewayNatRuleInput>;
 
 /** List of all the nat Rules associated with the gateway. */
 export type VpnGatewayPropertiesInputNatRulesList = Array<VpnGatewayNatRuleInput>;
@@ -105889,9 +104525,7 @@ export const VpnGatewaysCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VpnGatewaysCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VpnGatewaysCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VpnGatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VpnGatewaysCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -106361,9 +104995,7 @@ export const VpnServerConfigurationsCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<VpnServerConfigurationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VpnSitesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VpnSitesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VpnSitesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -106461,9 +105093,7 @@ export const VpnSiteLinkInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(VpnSiteLinkProperties),
   }),
-).annotate({
-  identifier: "VpnSiteLinkInput",
-}) as any as S.Schema<VpnSiteLinkInput>;
+).annotate({ identifier: "VpnSiteLinkInput" }) as any as S.Schema<VpnSiteLinkInput>;
 
 /** List of all vpn site links. */
 export type VpnSitePropertiesInputVpnSiteLinksList = Array<VpnSiteLinkInput>;
@@ -106507,9 +105137,7 @@ export const VpnSitePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     vpnSiteLinks: S.optional(VpnSitePropertiesInputVpnSiteLinksList),
     o365Policy: S.optional(O365PolicyProperties),
   }),
-).annotate({
-  identifier: "VpnSitePropertiesInput",
-}) as any as S.Schema<VpnSitePropertiesInput>;
+).annotate({ identifier: "VpnSitePropertiesInput" }) as any as S.Schema<VpnSitePropertiesInput>;
 
 export interface VpnSitesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -106549,9 +105177,7 @@ export const VpnSitesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VpnSitesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VpnSitesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VpnSitesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VpnSitesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -106730,9 +105356,7 @@ export const ManagedRuleSetInput = /*@__PURE__*/ S.suspend(() =>
     ruleSetVersion: S.String,
     ruleGroupOverrides: S.optional(ManagedRuleSetInputRuleGroupOverridesList),
   }),
-).annotate({
-  identifier: "ManagedRuleSetInput",
-}) as any as S.Schema<ManagedRuleSetInput>;
+).annotate({ identifier: "ManagedRuleSetInput" }) as any as S.Schema<ManagedRuleSetInput>;
 
 /** The managed rule sets that are associated with the policy. */
 export type ManagedRulesDefinitionInputManagedRuleSetsList = Array<ManagedRuleSetInput>;

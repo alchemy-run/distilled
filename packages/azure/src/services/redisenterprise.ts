@@ -205,9 +205,7 @@ export const LinkedDatabaseInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkedDatabaseInput",
-}) as any as S.Schema<LinkedDatabaseInput>;
+).annotate({ identifier: "LinkedDatabaseInput" }) as any as S.Schema<LinkedDatabaseInput>;
 
 /** List of database resources to link with this database */
 export type DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList =
@@ -304,9 +302,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
 export type DatabaseCreatePropertiesClientProtocol = "Encrypted" | "Plaintext";
@@ -468,9 +464,7 @@ export const DatabaseCreateProperties = /*@__PURE__*/ S.suspend(() =>
     deferUpgrade: S.optional(DatabaseCreatePropertiesDeferUpgrade),
     accessKeysAuthentication: S.optional(DatabaseCreatePropertiesAccessKeysAuthentication),
   }),
-).annotate({
-  identifier: "DatabaseCreateProperties",
-}) as any as S.Schema<DatabaseCreateProperties>;
+).annotate({ identifier: "DatabaseCreateProperties" }) as any as S.Schema<DatabaseCreateProperties>;
 
 export interface CreateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -489,14 +483,10 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DatabaseCreateProperties),
   }),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 /** Resource tags. */
-export type CreateRedisEnterpriseRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateRedisEnterpriseRequestTagsMap = { [key: string]: string | undefined };
 export const CreateRedisEnterpriseRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -596,9 +586,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -759,9 +747,7 @@ export const CreateRedisEnterpriseRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateRedisEnterpriseRequest>;
 
 /** Resource tags. */
-export type CreateRedisEnterpriseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
 export const CreateRedisEnterpriseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -789,14 +775,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -904,9 +886,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -1027,9 +1007,7 @@ export const ClusterCreateProperties = /*@__PURE__*/ S.suspend(() =>
     privateEndpointConnections: S.optional(ClusterCreatePropertiesPrivateEndpointConnectionsList),
     publicNetworkAccess: S.NullOr(ClusterCreatePropertiesPublicNetworkAccess),
   }),
-).annotate({
-  identifier: "ClusterCreateProperties",
-}) as any as S.Schema<ClusterCreateProperties>;
+).annotate({ identifier: "ClusterCreateProperties" }) as any as S.Schema<ClusterCreateProperties>;
 
 export interface CreateRedisEnterpriseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1231,9 +1209,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1332,9 +1308,7 @@ export const ExportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ExportDatabaseRequest",
-}) as any as S.Schema<ExportDatabaseRequest>;
+).annotate({ identifier: "ExportDatabaseRequest" }) as any as S.Schema<ExportDatabaseRequest>;
 
 export interface ExportDatabaseResponse {}
 export const ExportDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1374,9 +1348,7 @@ export const FlushDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "FlushDatabaseRequest",
-}) as any as S.Schema<FlushDatabaseRequest>;
+).annotate({ identifier: "FlushDatabaseRequest" }) as any as S.Schema<FlushDatabaseRequest>;
 
 export interface FlushDatabaseResponse {}
 export const FlushDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1459,9 +1431,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1480,9 +1450,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DatabaseCreateProperties),
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetOperationsStatusRequest {
   /** The ID of the target subscription. */
@@ -1527,9 +1495,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1569,9 +1535,7 @@ export const OperationStatusError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusError",
-}) as any as S.Schema<OperationStatusError>;
+).annotate({ identifier: "OperationStatusError" }) as any as S.Schema<OperationStatusError>;
 
 /** The status of a long-running operation. */
 export interface OperationStatus {
@@ -1597,9 +1561,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(OperationStatusError),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1676,9 +1638,7 @@ export const GetRedisEnterpriseRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRedisEnterpriseRequest>;
 
 /** Resource tags. */
-export type GetRedisEnterpriseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
 export const GetRedisEnterpriseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1765,9 +1725,7 @@ export const ImportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ImportDatabaseRequest",
-}) as any as S.Schema<ImportDatabaseRequest>;
+).annotate({ identifier: "ImportDatabaseRequest" }) as any as S.Schema<ImportDatabaseRequest>;
 
 export interface ImportDatabaseResponse {}
 export const ImportDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1820,9 +1778,7 @@ export const AccessPolicyAssignment = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AccessPolicyAssignmentProperties),
   }),
-).annotate({
-  identifier: "AccessPolicyAssignment",
-}) as any as S.Schema<AccessPolicyAssignment>;
+).annotate({ identifier: "AccessPolicyAssignment" }) as any as S.Schema<AccessPolicyAssignment>;
 
 /** List of access policy assignments. */
 export type AccessPolicyAssignmentListValueList = Array<AccessPolicyAssignment>;
@@ -1935,9 +1891,7 @@ export const ListDatabaseKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListDatabaseKeysRequest",
-}) as any as S.Schema<ListDatabaseKeysRequest>;
+).annotate({ identifier: "ListDatabaseKeysRequest" }) as any as S.Schema<ListDatabaseKeysRequest>;
 
 /** The secret access keys used for authenticating connections to redis */
 export interface AccessKeys {
@@ -1963,9 +1917,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1985,9 +1937,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2037,9 +1987,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -2163,9 +2111,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type ListPrivateLinkResourceByClusterResponseValueList = Array<PrivateLinkResource>;
@@ -2629,9 +2575,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export interface UpdateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2650,9 +2594,7 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DatabaseCreateProperties),
   }),
-).annotate({
-  identifier: "UpdateDatabaseResponse",
-}) as any as S.Schema<UpdateDatabaseResponse>;
+).annotate({ identifier: "UpdateDatabaseResponse" }) as any as S.Schema<UpdateDatabaseResponse>;
 
 /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
 export type ClusterUpdatePropertiesInputHighAvailability = "Enabled" | "Disabled";
@@ -2756,9 +2698,7 @@ export type UpdateRedisEnterpriseRequestIdentity = CreateRedisEnterpriseRequestI
 export const UpdateRedisEnterpriseRequestIdentity = CreateRedisEnterpriseRequestIdentity;
 
 /** Resource tags. */
-export type UpdateRedisEnterpriseRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRedisEnterpriseRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateRedisEnterpriseRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2802,9 +2742,7 @@ export const UpdateRedisEnterpriseRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRedisEnterpriseRequest>;
 
 /** Resource tags. */
-export type UpdateRedisEnterpriseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRedisEnterpriseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

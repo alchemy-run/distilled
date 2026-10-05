@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Datadog's first-party OpenAPI documents into ../specs/.
  *
@@ -11,7 +11,7 @@
  * repository is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/v1.json
@@ -19,6 +19,8 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "DataDog/datadog-api-client-python";
@@ -72,7 +74,7 @@ async function fetchSpec(file: SpecFile): Promise<void> {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
-  const spec = Bun.YAML.parse(await response.text()) as Record<string, unknown>;
+  const spec = YAML.parse(await response.text()) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI document.
@@ -82,7 +84,7 @@ async function fetchSpec(file: SpecFile): Promise<void> {
 
   const outputPath = `${SPECS_DIR}/${file.output}`;
   console.log(`Writing ${outputPath}...`);
-  await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
   console.log(`  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 

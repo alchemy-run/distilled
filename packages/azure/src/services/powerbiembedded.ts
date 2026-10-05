@@ -54,13 +54,9 @@ export const CheckNameResponse = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(CheckNameResponseReason),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckNameResponse",
-}) as any as S.Schema<CheckNameResponse>;
+).annotate({ identifier: "CheckNameResponse" }) as any as S.Schema<CheckNameResponse>;
 
-export type CreateWorkspaceCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWorkspaceCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const CreateWorkspaceCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -149,9 +145,7 @@ export const WorkspaceCollection = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(AzureSku),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WorkspaceCollection",
-}) as any as S.Schema<WorkspaceCollection>;
+).annotate({ identifier: "WorkspaceCollection" }) as any as S.Schema<WorkspaceCollection>;
 
 export interface DeleteWorkspaceCollectionRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -346,9 +340,7 @@ export const WorkspaceCollectionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(WorkspaceCollectionListValueList),
   }),
-).annotate({
-  identifier: "WorkspaceCollectionList",
-}) as any as S.Schema<WorkspaceCollectionList>;
+).annotate({ identifier: "WorkspaceCollectionList" }) as any as S.Schema<WorkspaceCollectionList>;
 
 export interface ListWorkspaceCollectionBySubscriptionRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -390,9 +382,7 @@ export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-01-29",
     }),
   ),
-).annotate({
-  identifier: "ListWorkspacesRequest",
-}) as any as S.Schema<ListWorkspacesRequest>;
+).annotate({ identifier: "ListWorkspacesRequest" }) as any as S.Schema<ListWorkspacesRequest>;
 
 export interface Workspace {
   /** Workspace id */
@@ -498,9 +488,7 @@ export const RegenerateWorkspaceCollectionKeyRequest = /*@__PURE__*/ S.suspend((
   identifier: "RegenerateWorkspaceCollectionKeyRequest",
 }) as any as S.Schema<RegenerateWorkspaceCollectionKeyRequest>;
 
-export type UpdateWorkspaceCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

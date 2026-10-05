@@ -1,5 +1,3 @@
-/** Mock-transport regressions for the Railway Query SDK. */
-import { describe, expect, test } from "bun:test";
 import {
   GqlTransport,
   type CompiledOperation,
@@ -20,8 +18,11 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
+/** Mock-transport regressions for the Railway Query SDK. */
+import { describe, expect, test } from "vitest";
 
 /** Answers each request with the next response; the last one repeats. */
 const sequence = (...responses: GraphQLResponse[]) => {
@@ -274,7 +275,7 @@ describe("Railway Query SDK", () => {
     const live = (status: number, body: string) =>
       GraphQLLive.pipe(
         Layer.provideMerge(respond(status, body)),
-        Layer.provideMerge(CredentialsFromToken({ token: "t" })),
+        Layer.provideMerge(CredentialsFromToken({ token: Redacted.make("t") })),
       );
     const createProject = Query.fn(() => ({
       id: Railway.projectCreate({ input: { name: "example" } }).id,

@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** The tags that will be assigned to the attestation provider. */
-export type CreateAttestationProviderRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAttestationProviderRequestTagsMap = { [key: string]: string | undefined };
 export const CreateAttestationProviderRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -199,9 +197,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateAttestationProviderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -224,9 +220,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -371,10 +365,15 @@ export const CreateAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAttestationProviderResponse>;
 
 /** The Private Endpoint resource. */
-export interface PrivateEndpointInput {}
-export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "PrivateEndpointInput",
-}) as any as S.Schema<PrivateEndpointInput>;
+export interface PrivateEndpointInput {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
+}
+export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "PrivateEndpointInput" }) as any as S.Schema<PrivateEndpointInput>;
 
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -403,6 +402,8 @@ export interface CreatePrivateEndpointConnectionRequest {
   privateEndpointConnectionName: string;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionPropertiesInput;
+  /** Fully qualified ARM resource ID of the private endpoint connection. Required by the service. */
+  id?: string;
 }
 export const CreatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -411,6 +412,7 @@ export const CreatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
     providerName: S.String.pipe(T.Label()),
     privateEndpointConnectionName: S.String.pipe(T.Label()),
     properties: S.optional(PrivateEndpointConnectionPropertiesInput),
+    id: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -540,9 +542,7 @@ export const GetAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAttestationProviderRequest>;
 
 /** Resource tags. */
-export type GetAttestationProviderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
 export const GetAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -791,9 +791,7 @@ export const AttestationProvider = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(StatusResult),
   }),
-).annotate({
-  identifier: "AttestationProvider",
-}) as any as S.Schema<AttestationProvider>;
+).annotate({ identifier: "AttestationProvider" }) as any as S.Schema<AttestationProvider>;
 
 /** Attestation Provider array. */
 export type AttestationProviderListResultValueList = Array<AttestationProvider>;
@@ -865,9 +863,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The type of identity that created the resource. */
 export type OperationListSystemDataCreatedByType =
@@ -909,9 +905,7 @@ export const OperationListSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(OperationListSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListSystemData",
-}) as any as S.Schema<OperationListSystemData>;
+).annotate({ identifier: "OperationListSystemData" }) as any as S.Schema<OperationListSystemData>;
 
 /** Display object with properties of the operation. */
 export interface OperationsDisplayDefinition {
@@ -947,9 +941,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Log for Microsoft Azure Attestation */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -966,9 +958,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties */
 export interface OperationProperties {
@@ -979,9 +969,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Definition object with the name and properties of an operation. */
 export interface OperationsDefinition {
@@ -998,9 +986,7 @@ export const OperationsDefinition = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationsDisplayDefinition),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationsDefinition",
-}) as any as S.Schema<OperationsDefinition>;
+).annotate({ identifier: "OperationsDefinition" }) as any as S.Schema<OperationsDefinition>;
 
 /** List of supported operations. */
 export type OperationListValueList = Array<OperationsDefinition>;
@@ -1180,9 +1166,7 @@ export const PrivateLinkResourceListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateLinkResourceListResult>;
 
 /** The tags that will be assigned to the attestation provider. */
-export type UpdateAttestationProviderRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAttestationProviderRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAttestationProviderRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1250,9 +1234,7 @@ export const UpdateAttestationProviderRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAttestationProviderRequest>;
 
 /** Resource tags. */
-export type UpdateAttestationProviderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAttestationProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

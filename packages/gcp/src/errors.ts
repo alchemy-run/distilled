@@ -38,7 +38,20 @@ export class GCPParseError extends Schema.TaggedError<GCPParseError>()("GCPParse
 }).pipe(Category.withParseError) {}
 
 /**
+ * Resolving credentials failed — e.g. the workload identity token exchange
+ * was rejected. Never carries the tokens themselves.
+ */
+export class GCPCredentialsError extends Schema.TaggedError<GCPCredentialsError>()(
+  "GCPCredentialsError",
+  {
+    message: Schema.String,
+    status: Schema.optional(Schema.Number),
+    cause: Schema.optional(Schema.Unknown),
+  },
+).pipe(Category.withAuthError) {}
+
+/**
  * Errors any GCP operation may surface in addition to the per-operation
  * 4xx classes declared in each generated service module.
  */
-export type ClientErrors = UnknownGCPError | GCPParseError;
+export type ClientErrors = UnknownGCPError | GCPParseError | GCPCredentialsError;

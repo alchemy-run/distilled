@@ -70,12 +70,7 @@ export class MnmConfigMissing
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 1008,
-        message: { includes: "without initial account configuration" },
-      },
-    ],
+    [{ code: 1008, message: { includes: "without initial account configuration" } }],
   ) {}
 
 export class MnmConfigNotFound
@@ -141,17 +136,9 @@ export const CreateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     routerIps: S.optional(ConfigsCreateRequestRouterIpsList.pipe(T.Body("router_ips"))),
     warpDevices: S.optional(ConfigsCreateRequestWarpDevicesList.pipe(T.Body("warp_devices"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/mnm/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/mnm/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConfigRequest",
-}) as any as S.Schema<CreateConfigRequest>;
+).annotate({ identifier: "CreateConfigRequest" }) as any as S.Schema<CreateConfigRequest>;
 
 export type ConfigsCreateResponseRouterIpsList = Array<string>;
 export const ConfigsCreateResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -182,9 +169,7 @@ export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsCreateResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsCreateResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConfigResponse",
-}) as any as S.Schema<CreateConfigResponse>;
+).annotate({ identifier: "CreateConfigResponse" }) as any as S.Schema<CreateConfigResponse>;
 
 export type RulesCreateRequestPrefixesList = Array<string>;
 export const RulesCreateRequestPrefixesList = /*@__PURE__*/ S.Array(
@@ -252,17 +237,9 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     zscoreTarget: S.optional(RulesCreateRequestZscoreTarget.pipe(T.Body("zscore_target"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/mnm/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/mnm/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResponsePrefixesList = Array<string>;
 export const RulesCreateResponsePrefixesList = /*@__PURE__*/ S.Array(
@@ -334,9 +311,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RulesCreateResponseZscoreTarget).pipe(T.Body("zscore_target")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export interface CreateVpcFlowTokenRequest {
   accountId: string;
@@ -345,13 +320,7 @@ export const CreateVpcFlowTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/mnm/vpc-flows/token",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/mnm/vpc-flows/token", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateVpcFlowTokenRequest",
@@ -371,17 +340,9 @@ export const DeleteConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/mnm/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/mnm/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConfigRequest",
-}) as any as S.Schema<DeleteConfigRequest>;
+).annotate({ identifier: "DeleteConfigRequest" }) as any as S.Schema<DeleteConfigRequest>;
 
 export type ConfigsDeleteResponseRouterIpsList = Array<string>;
 export const ConfigsDeleteResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -412,9 +373,7 @@ export const DeleteConfigResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsDeleteResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsDeleteResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConfigResponse",
-}) as any as S.Schema<DeleteConfigResponse>;
+).annotate({ identifier: "DeleteConfigResponse" }) as any as S.Schema<DeleteConfigResponse>;
 
 export interface DeleteRuleRequest {
   accountId: string;
@@ -427,16 +386,10 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.String.pipe(T.Label("rule_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/mnm/rules/{rule_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/mnm/rules/{rule_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export type RulesDeleteResponsePrefixesList = Array<string>;
 export const RulesDeleteResponsePrefixesList = /*@__PURE__*/ S.Array(
@@ -508,9 +461,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RulesDeleteResponseZscoreTarget).pipe(T.Body("zscore_target")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface GetConfigRequest {
   accountId: string;
@@ -519,17 +470,9 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/mnm/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/mnm/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
 export type ConfigsGetResponseRouterIpsList = Array<string>;
 export const ConfigsGetResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -560,9 +503,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsGetResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsGetResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigResponse",
-}) as any as S.Schema<GetConfigResponse>;
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
 export interface GetConfigFullRequest {
   accountId: string;
@@ -571,17 +512,9 @@ export const GetConfigFullRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/mnm/config/full",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/mnm/config/full", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigFullRequest",
-}) as any as S.Schema<GetConfigFullRequest>;
+).annotate({ identifier: "GetConfigFullRequest" }) as any as S.Schema<GetConfigFullRequest>;
 
 export type ConfigsFullGetResponseRouterIpsList = Array<string>;
 export const ConfigsFullGetResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -612,9 +545,7 @@ export const GetConfigFullResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsFullGetResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsFullGetResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigFullResponse",
-}) as any as S.Schema<GetConfigFullResponse>;
+).annotate({ identifier: "GetConfigFullResponse" }) as any as S.Schema<GetConfigFullResponse>;
 
 export interface GetRuleRequest {
   accountId: string;
@@ -626,13 +557,7 @@ export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     ruleId: S.String.pipe(T.Label("rule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/mnm/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/mnm/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
 
@@ -696,9 +621,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zscoreTarget: S.optional(S.NullOr(RulesGetResponseZscoreTarget).pipe(T.Body("zscore_target"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface ListRulesRequest {
   accountId: string;
@@ -707,17 +630,9 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/mnm/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/mnm/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export type RulesListResultItemPrefixesList = Array<string>;
 export const RulesListResultItemPrefixesList = /*@__PURE__*/ S.Array(
@@ -788,9 +703,7 @@ export const RulesListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RulesListResultItemZscoreTarget).pipe(T.Body("zscore_target")),
     ),
   }),
-).annotate({
-  identifier: "RulesListResultItem",
-}) as any as S.Schema<RulesListResultItem>;
+).annotate({ identifier: "RulesListResultItem" }) as any as S.Schema<RulesListResultItem>;
 
 export type RulesListResultList = Array<RulesListResultItem>;
 export const RulesListResultList = /*@__PURE__*/ S.Array(
@@ -808,9 +721,7 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export type ConfigsEditRequestRouterIpsList = Array<string>;
 export const ConfigsEditRequestRouterIpsList = /*@__PURE__*/ S.Array(
@@ -842,17 +753,9 @@ export const PatchConfigRequest = /*@__PURE__*/ S.suspend(() =>
     routerIps: S.optional(ConfigsEditRequestRouterIpsList.pipe(T.Body("router_ips"))),
     warpDevices: S.optional(ConfigsEditRequestWarpDevicesList.pipe(T.Body("warp_devices"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/mnm/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/mnm/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchConfigRequest",
-}) as any as S.Schema<PatchConfigRequest>;
+).annotate({ identifier: "PatchConfigRequest" }) as any as S.Schema<PatchConfigRequest>;
 
 export type ConfigsEditResponseRouterIpsList = Array<string>;
 export const ConfigsEditResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -883,9 +786,7 @@ export const PatchConfigResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsEditResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsEditResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchConfigResponse",
-}) as any as S.Schema<PatchConfigResponse>;
+).annotate({ identifier: "PatchConfigResponse" }) as any as S.Schema<PatchConfigResponse>;
 
 export type RulesEditRequestPrefixesList = Array<string>;
 export const RulesEditRequestPrefixesList = /*@__PURE__*/ S.Array(
@@ -948,17 +849,9 @@ export const PatchRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     zscoreTarget: S.optional(RulesEditRequestZscoreTarget.pipe(T.Body("zscore_target"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/mnm/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/mnm/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleRequest",
-}) as any as S.Schema<PatchRuleRequest>;
+).annotate({ identifier: "PatchRuleRequest" }) as any as S.Schema<PatchRuleRequest>;
 
 export type RulesEditResponsePrefixesList = Array<string>;
 export const RulesEditResponsePrefixesList = /*@__PURE__*/ S.Array(
@@ -1020,9 +913,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zscoreTarget: S.optional(S.NullOr(RulesEditResponseZscoreTarget).pipe(T.Body("zscore_target"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleResponse",
-}) as any as S.Schema<PatchRuleResponse>;
+).annotate({ identifier: "PatchRuleResponse" }) as any as S.Schema<PatchRuleResponse>;
 
 export interface PatchRuleAdvertisementRequest {
   accountId: string;
@@ -1089,17 +980,9 @@ export const UpdateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     routerIps: S.optional(ConfigsUpdateRequestRouterIpsList.pipe(T.Body("router_ips"))),
     warpDevices: S.optional(ConfigsUpdateRequestWarpDevicesList.pipe(T.Body("warp_devices"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/mnm/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/mnm/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConfigRequest",
-}) as any as S.Schema<UpdateConfigRequest>;
+).annotate({ identifier: "UpdateConfigRequest" }) as any as S.Schema<UpdateConfigRequest>;
 
 export type ConfigsUpdateResponseRouterIpsList = Array<string>;
 export const ConfigsUpdateResponseRouterIpsList = /*@__PURE__*/ S.Array(
@@ -1130,9 +1013,7 @@ export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     routerIps: ConfigsUpdateResponseRouterIpsList.pipe(T.Body("router_ips")),
     warpDevices: ConfigsUpdateResponseWarpDevicesList.pipe(T.Body("warp_devices")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConfigResponse",
-}) as any as S.Schema<UpdateConfigResponse>;
+).annotate({ identifier: "UpdateConfigResponse" }) as any as S.Schema<UpdateConfigResponse>;
 
 export type RulesUpdateRequestPrefixesList = Array<string>;
 export const RulesUpdateRequestPrefixesList = /*@__PURE__*/ S.Array(
@@ -1200,17 +1081,9 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     zscoreTarget: S.optional(RulesUpdateRequestZscoreTarget.pipe(T.Body("zscore_target"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/mnm/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/mnm/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export type RulesUpdateResponsePrefixesList = Array<string>;
 export const RulesUpdateResponsePrefixesList = /*@__PURE__*/ S.Array(
@@ -1282,9 +1155,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(RulesUpdateResponseZscoreTarget).pipe(T.Body("zscore_target")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export type CreateConfigError =
   | MnmConfigAlreadyExists

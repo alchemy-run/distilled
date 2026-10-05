@@ -100,9 +100,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type GetManufacturingDataServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetManufacturingDataServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetManufacturingDataServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -150,9 +148,7 @@ export const DatabaseProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cosmosId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseProfile",
-}) as any as S.Schema<DatabaseProfile>;
+).annotate({ identifier: "DatabaseProfile" }) as any as S.Schema<DatabaseProfile>;
 
 /** The properties related to Azure Data Explorer (Adx) Resource */
 export interface AdxProfile {
@@ -191,9 +187,7 @@ export const MonitoringProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MonitoringProfile",
-}) as any as S.Schema<MonitoringProfile>;
+).annotate({ identifier: "MonitoringProfile" }) as any as S.Schema<MonitoringProfile>;
 
 /** The properties related to EventHub Resource */
 export interface EventHubProfile {
@@ -207,9 +201,7 @@ export const EventHubProfile = /*@__PURE__*/ S.suspend(() =>
     adxInstanceId: S.optional(S.String),
     hostName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventHubProfile",
-}) as any as S.Schema<EventHubProfile>;
+).annotate({ identifier: "EventHubProfile" }) as any as S.Schema<EventHubProfile>;
 
 /** The properties related to Azure Function App Resource */
 export interface FunctionAppProfile {
@@ -220,9 +212,7 @@ export const FunctionAppProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionAppProfile",
-}) as any as S.Schema<FunctionAppProfile>;
+).annotate({ identifier: "FunctionAppProfile" }) as any as S.Schema<FunctionAppProfile>;
 
 /** The properties related to OpenAI Resource */
 export interface OpenAIProfile {
@@ -284,9 +274,7 @@ export const MoboBrokerResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "MoboBrokerResource",
-}) as any as S.Schema<MoboBrokerResource>;
+).annotate({ identifier: "MoboBrokerResource" }) as any as S.Schema<MoboBrokerResource>;
 
 /** Associated MoboBrokerResources. */
 export type ManagedOnBehalfOfConfigurationMoboBrokerResourcesList = Array<MoboBrokerResource>;
@@ -353,9 +341,7 @@ export const UserManagedOpenAIProfile = /*@__PURE__*/ S.suspend(() =>
     embeddingModelDeploymentName: S.String,
     embeddingModelType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserManagedOpenAIProfile",
-}) as any as S.Schema<UserManagedOpenAIProfile>;
+).annotate({ identifier: "UserManagedOpenAIProfile" }) as any as S.Schema<UserManagedOpenAIProfile>;
 
 /** The properties related to Deny Assignment Exclusions */
 export interface DenyAssignmentExclusion {
@@ -369,9 +355,7 @@ export const DenyAssignmentExclusion = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "DenyAssignmentExclusion",
-}) as any as S.Schema<DenyAssignmentExclusion>;
+).annotate({ identifier: "DenyAssignmentExclusion" }) as any as S.Schema<DenyAssignmentExclusion>;
 
 /** Deny Assignments exclusion list. */
 export type MdsResourcePropertiesDenyAssignmentExclusionsList = Array<DenyAssignmentExclusion>;
@@ -465,9 +449,7 @@ export const MdsResourceProperties = /*@__PURE__*/ S.suspend(() =>
     resourceState: S.optional(ResourceState),
     redundancyState: S.optional(RedundancyState),
   }),
-).annotate({
-  identifier: "MdsResourceProperties",
-}) as any as S.Schema<MdsResourceProperties>;
+).annotate({ identifier: "MdsResourceProperties" }) as any as S.Schema<MdsResourceProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -489,14 +471,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -629,9 +607,7 @@ export const ApplicationVersion = /*@__PURE__*/ S.suspend(() =>
     isPreview: S.Boolean,
     isDeprecated: S.Boolean,
   }),
-).annotate({
-  identifier: "ApplicationVersion",
-}) as any as S.Schema<ApplicationVersion>;
+).annotate({ identifier: "ApplicationVersion" }) as any as S.Schema<ApplicationVersion>;
 
 /** The list of versions */
 export type AvailableVersionListResultVersionsList = Array<ApplicationVersion>;
@@ -742,9 +718,7 @@ export const MdsResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: MdsResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MdsResourceListResult",
-}) as any as S.Schema<MdsResourceListResult>;
+).annotate({ identifier: "MdsResourceListResult" }) as any as S.Schema<MdsResourceListResult>;
 
 export interface ListManufacturingDataServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -775,9 +749,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -797,9 +769,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -849,9 +819,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Resource tags. */
 export type ManufacturingDataServicesCreateOrUpdateRequestTagsMap = {
@@ -892,9 +860,7 @@ export const OpenAIProfileInput = /*@__PURE__*/ S.suspend(() =>
     embeddingModelSkuName: S.optional(S.String),
     embeddingModelCapacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OpenAIProfileInput",
-}) as any as S.Schema<OpenAIProfileInput>;
+).annotate({ identifier: "OpenAIProfileInput" }) as any as S.Schema<OpenAIProfileInput>;
 
 /** The properties related to User Managed OpenAI Resource */
 export interface UserManagedOpenAIProfileInput {
@@ -1193,9 +1159,7 @@ export const AzureResourceManagerCommonTypesSkuUpdate = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<AzureResourceManagerCommonTypesSkuUpdate>;
 
 /** Resource tags. */
-export type UpdateManufacturingDataServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManufacturingDataServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateManufacturingDataServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1216,9 +1180,7 @@ export const FabricProfileUpdate = /*@__PURE__*/ S.suspend(() =>
     oneLakeUri: S.optional(S.String),
     oneLakePath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FabricProfileUpdate",
-}) as any as S.Schema<FabricProfileUpdate>;
+).annotate({ identifier: "FabricProfileUpdate" }) as any as S.Schema<FabricProfileUpdate>;
 
 /** The properties related to User Managed OpenAI Resource */
 export interface UserManagedOpenAIProfileUpdate {
@@ -1320,9 +1282,7 @@ export const UpdateManufacturingDataServiceRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateManufacturingDataServiceRequest>;
 
 /** Resource tags. */
-export type UpdateManufacturingDataServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManufacturingDataServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateManufacturingDataServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

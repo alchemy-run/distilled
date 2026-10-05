@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the MongoDB Atlas Admin API v2 OpenAPI spec → a Smithy JSON
  * model in .generated-specs/.
@@ -36,7 +36,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 
 const VND_JSON = /^application\/vnd\.atlas\.(\d{4}-\d{2}-\d{2})\+json$/;
 const VND_ANY = /^application\/vnd\.atlas\.(\d{4}-\d{2}-\d{2})\+[a-z]+$/;

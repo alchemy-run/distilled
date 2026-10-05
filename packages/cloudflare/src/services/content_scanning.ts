@@ -55,11 +55,7 @@ export const CreateContentScanningRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: CreateRequestValue,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/content-upload-scan/settings",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/zones/{zone_id}/content-upload-scan/settings", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateContentScanningRequest",
@@ -108,15 +104,9 @@ export const CreatePayloadRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     body: PayloadsCreateRequestBodyList.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/content-upload-scan/payloads",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{zone_id}/content-upload-scan/payloads", code: 200 }),
   ),
-).annotate({
-  identifier: "CreatePayloadRequest",
-}) as any as S.Schema<CreatePayloadRequest>;
+).annotate({ identifier: "CreatePayloadRequest" }) as any as S.Schema<CreatePayloadRequest>;
 
 export interface PayloadsCreateResultItem {
   /** Defines the unique ID for this Content Scanning custom expression. */
@@ -129,9 +119,7 @@ export const PayloadsCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     payload: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PayloadsCreateResultItem",
-}) as any as S.Schema<PayloadsCreateResultItem>;
+).annotate({ identifier: "PayloadsCreateResultItem" }) as any as S.Schema<PayloadsCreateResultItem>;
 
 export type PayloadsCreateResultList = Array<PayloadsCreateResultItem>;
 export const PayloadsCreateResultList = /*@__PURE__*/ S.Array(
@@ -149,9 +137,7 @@ export const CreatePayloadResponse = /*@__PURE__*/ S.suspend(() =>
     result: PayloadsCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "CreatePayloadResponse",
-}) as any as S.Schema<CreatePayloadResponse>;
+).annotate({ identifier: "CreatePayloadResponse" }) as any as S.Schema<CreatePayloadResponse>;
 
 export interface DeletePayloadRequest {
   /** Defines an identifier. */
@@ -170,9 +156,7 @@ export const DeletePayloadRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeletePayloadRequest",
-}) as any as S.Schema<DeletePayloadRequest>;
+).annotate({ identifier: "DeletePayloadRequest" }) as any as S.Schema<DeletePayloadRequest>;
 
 export type PayloadsDeleteResultItem = PayloadsCreateResultItem;
 export const PayloadsDeleteResultItem = PayloadsCreateResultItem;
@@ -193,9 +177,7 @@ export const DeletePayloadResponse = /*@__PURE__*/ S.suspend(() =>
     result: PayloadsDeleteResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "DeletePayloadResponse",
-}) as any as S.Schema<DeletePayloadResponse>;
+).annotate({ identifier: "DeletePayloadResponse" }) as any as S.Schema<DeletePayloadResponse>;
 
 export interface DisableContentScanningRequest {
   /** Defines an identifier. */
@@ -205,11 +187,7 @@ export const DisableContentScanningRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/content-upload-scan/disable",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{zone_id}/content-upload-scan/disable", code: 200 }),
   ),
 ).annotate({
   identifier: "DisableContentScanningRequest",
@@ -230,11 +208,7 @@ export const EnableContentScanningRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/zones/{zone_id}/content-upload-scan/enable",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/zones/{zone_id}/content-upload-scan/enable", code: 200 }),
   ),
 ).annotate({
   identifier: "EnableContentScanningRequest",
@@ -255,11 +229,7 @@ export const GetContentScanningRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/content-upload-scan/settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/zones/{zone_id}/content-upload-scan/settings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetContentScanningRequest",
@@ -289,15 +259,9 @@ export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/content-upload-scan/settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/zones/{zone_id}/content-upload-scan/settings", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSettingsRequest",
-}) as any as S.Schema<GetSettingsRequest>;
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingsResponse {
@@ -311,9 +275,7 @@ export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     modified: S.optional(S.NullOr(S.String)),
     value: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetSettingsResponse",
-}) as any as S.Schema<GetSettingsResponse>;
+).annotate({ identifier: "GetSettingsResponse" }) as any as S.Schema<GetSettingsResponse>;
 
 export interface ListPayloadsRequest {
   /** Defines an identifier. */
@@ -323,15 +285,9 @@ export const ListPayloadsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/content-upload-scan/payloads",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/zones/{zone_id}/content-upload-scan/payloads", code: 200 }),
   ),
-).annotate({
-  identifier: "ListPayloadsRequest",
-}) as any as S.Schema<ListPayloadsRequest>;
+).annotate({ identifier: "ListPayloadsRequest" }) as any as S.Schema<ListPayloadsRequest>;
 
 export type PayloadsListResultItem = PayloadsCreateResultItem;
 export const PayloadsListResultItem = PayloadsCreateResultItem;
@@ -352,9 +308,7 @@ export const ListPayloadsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PayloadsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }),
-).annotate({
-  identifier: "ListPayloadsResponse",
-}) as any as S.Schema<ListPayloadsResponse>;
+).annotate({ identifier: "ListPayloadsResponse" }) as any as S.Schema<ListPayloadsResponse>;
 
 export type UpdateRequestValue = "enabled" | "disabled";
 export const UpdateRequestValue = S.String;
@@ -370,11 +324,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: UpdateRequestValue,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/content-upload-scan/settings",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/zones/{zone_id}/content-upload-scan/settings", code: 200 }),
   ),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
@@ -412,9 +362,7 @@ export const UpdatePayloadRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdatePayloadRequest",
-}) as any as S.Schema<UpdatePayloadRequest>;
+).annotate({ identifier: "UpdatePayloadRequest" }) as any as S.Schema<UpdatePayloadRequest>;
 
 export type UpdatePayloadResultItem = PayloadsCreateResultItem;
 export const UpdatePayloadResultItem = PayloadsCreateResultItem;
@@ -427,9 +375,7 @@ export const UpdatePayloadResultList = /*@__PURE__*/ S.Array(
 export type UpdatePayloadResponse = UpdatePayloadResultList;
 export const UpdatePayloadResponse = /*@__PURE__*/ S.suspend(() =>
   UpdatePayloadResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "UpdatePayloadResponse",
-}) as any as S.Schema<UpdatePayloadResponse>;
+).annotate({ identifier: "UpdatePayloadResponse" }) as any as S.Schema<UpdatePayloadResponse>;
 
 export type CreateContentScanningError = ContentScanningNotEntitled | Forbidden | CloudflareOpError;
 /** Update the Content Scanning status by setting the status value to `enabled` or `disabled`. This is equivalent to calling the dedicated enable and disable endpoints. */

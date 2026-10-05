@@ -3,7 +3,7 @@
  */
 
 import * as crypto from "crypto";
-import type { Checksum } from "@smithy/types";
+import type { Checksum } from "./checksum.ts";
 
 class NodeMd5 implements Checksum {
   private hash = crypto.createHash("md5");

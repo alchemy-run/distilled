@@ -39,8 +39,14 @@ export const originFromSubdomain = (subdomain: string): string => {
   return `https://${host}.zendesk.com`;
 };
 
-const basicToken = (email: string, apiToken: string): string =>
-  `Basic ${btoa(`${email}/token:${apiToken}`)}`;
+const basicToken = (
+  email: string,
+  apiToken: Redacted.Redacted<string>,
+): Redacted.Redacted<string> =>
+  Redacted.make(`Basic ${btoa(`${email}/token:${Redacted.value(apiToken)}`)}`);
+
+const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.make(`Bearer ${Redacted.value(accessToken)}`);
 
 const resolveBaseUrl = (config: {
   readonly subdomain?: string;
@@ -54,28 +60,28 @@ const resolveBaseUrl = (config: {
 /** Layer from an API token (`{email}/token`) + subdomain. */
 export const fromApiToken = (config: {
   readonly email: string;
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      authorization: Redacted.make(basicToken(config.email, config.apiToken)),
+      authorization: basicToken(config.email, config.apiToken),
       apiBaseUrl: resolveBaseUrl(config),
     }),
   );
 
 /** Layer from an OAuth access token + subdomain. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      authorization: Redacted.make(`Bearer ${config.accessToken}`),
+      authorization: bearerToken(config.accessToken),
       apiBaseUrl: resolveBaseUrl(config),
     }),
   );
@@ -90,8 +96,10 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     const subdomain = process.env.ZENDESK_SUBDOMAIN;
     const apiBaseUrl = process.env.ZENDESK_API_BASE_URL;
     const email = process.env.ZENDESK_EMAIL;
-    const apiToken = process.env.ZENDESK_API_TOKEN;
-    const accessToken = process.env.ZENDESK_ACCESS_TOKEN;
+    const apiTokenEnv = process.env.ZENDESK_API_TOKEN;
+    const apiToken = apiTokenEnv ? Redacted.make(apiTokenEnv) : undefined;
+    const accessTokenEnv = process.env.ZENDESK_ACCESS_TOKEN;
+    const accessToken = accessTokenEnv ? Redacted.make(accessTokenEnv) : undefined;
 
     if (!subdomain && !apiBaseUrl) {
       return yield* new ConfigError({
@@ -103,7 +111,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (accessToken) {
       return {
-        authorization: Redacted.make(`Bearer ${accessToken}`),
+        authorization: bearerToken(accessToken),
         apiBaseUrl: origin,
       };
     }
@@ -116,7 +124,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     }
 
     return {
-      authorization: Redacted.make(basicToken(email, apiToken)),
+      authorization: basicToken(email, apiToken),
       apiBaseUrl: origin,
     };
   }).pipe(Effect.orDie),

@@ -37,21 +37,31 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
-  readonly clientSecret: string;
+  readonly clientSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+}
+
+/** Client credentials with the secret redacted and the base URL resolved. */
+interface ResolvedClientCredentials {
+  readonly clientId: string;
+  readonly clientSecret: Redacted.Redacted<string>;
+  readonly apiBaseUrl: string;
 }
 
 /** Exchange service-account credentials for an OAuth2 access token. */
 const exchangeToken = (
-  config: Required<ClientCredentialsConfig>,
-): Effect.Effect<{ accessToken: string; expiresInSeconds: number }, ConfigError> =>
+  config: ResolvedClientCredentials,
+): Effect.Effect<
+  { accessToken: Redacted.Redacted<string>; expiresInSeconds: number },
+  ConfigError
+> =>
   Effect.gen(function* () {
     const res = yield* Effect.tryPromise(() =>
       fetch(`${config.apiBaseUrl}/api/oauth/token`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${btoa(`${config.clientId}:${config.clientSecret}`)}`,
+          Authorization: `Basic ${btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
         },
         body: "grant_type=client_credentials",
       }),
@@ -87,7 +97,7 @@ const exchangeToken = (
     }
 
     return {
-      accessToken: data.access_token,
+      accessToken: Redacted.make(data.access_token),
       expiresInSeconds:
         typeof data.expires_in === "number" && data.expires_in > 0
           ? data.expires_in
@@ -100,7 +110,7 @@ const exchangeToken = (
  * shortly before expiry, then re-exchanges.
  */
 const cachedTokenEffect = (
-  load: Effect.Effect<Required<ClientCredentialsConfig>, ConfigError>,
+  load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
 ): Effect.Effect<Config, ConfigError> => {
   let cached: Config | undefined;
   let refreshAt = 0;
@@ -113,7 +123,7 @@ const cachedTokenEffect = (
       const config = yield* load;
       const token = yield* exchangeToken(config);
       cached = {
-        accessToken: Redacted.make(token.accessToken),
+        accessToken: token.accessToken,
         apiBaseUrl: config.apiBaseUrl,
       };
       refreshAt =
@@ -139,13 +149,13 @@ export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.La
 
 /** Layer from an already-obtained bearer access token. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: Redacted.make(config.accessToken),
+      accessToken: config.accessToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
@@ -172,7 +182,7 @@ export const fromEnv = (): Layer.Layer<Credentials> =>
         }
         return Effect.succeed({
           clientId,
-          clientSecret,
+          clientSecret: Redacted.make(clientSecret),
           apiBaseUrl: process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
         });
       }),

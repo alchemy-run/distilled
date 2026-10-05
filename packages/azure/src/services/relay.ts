@@ -151,9 +151,7 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 
 export interface DeleteNamespaceResponse {}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -254,9 +252,7 @@ export const DeleteWCFRelayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWCFRelayRequest",
-}) as any as S.Schema<DeleteWCFRelayRequest>;
+).annotate({ identifier: "DeleteWCFRelayRequest" }) as any as S.Schema<DeleteWCFRelayRequest>;
 
 export interface DeleteWCFRelayResponse {}
 export const DeleteWCFRelayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -516,9 +512,7 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 
 /** Resource tags. */
 export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -536,9 +530,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Status of the connection. */
 export type PrivateLinkConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -556,9 +548,7 @@ export const ConnectionState = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(PrivateLinkConnectionStatus),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionState",
-}) as any as S.Schema<ConnectionState>;
+).annotate({ identifier: "ConnectionState" }) as any as S.Schema<ConnectionState>;
 
 /** Provisioning state of the Private Endpoint Connection. */
 export type EndPointProvisioningState =
@@ -668,9 +658,7 @@ export const RelayNamespaceProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(RelayNamespacePropertiesPublicNetworkAccess),
     minimumTlsVersion: S.optional(TlsVersion),
   }),
-).annotate({
-  identifier: "RelayNamespaceProperties",
-}) as any as S.Schema<RelayNamespaceProperties>;
+).annotate({ identifier: "RelayNamespaceProperties" }) as any as S.Schema<RelayNamespaceProperties>;
 
 /** Name of this SKU. */
 export type SkuName = "Standard";
@@ -723,9 +711,7 @@ export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RelayNamespaceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -831,9 +817,7 @@ export const NWRuleSetIpRules = /*@__PURE__*/ S.suspend(() =>
     ipMask: S.optional(S.String),
     action: S.optional(NetworkRuleIPAction),
   }),
-).annotate({
-  identifier: "NWRuleSetIpRules",
-}) as any as S.Schema<NWRuleSetIpRules>;
+).annotate({ identifier: "NWRuleSetIpRules" }) as any as S.Schema<NWRuleSetIpRules>;
 
 /** List of IpRules */
 export type NetworkRuleSetPropertiesIpRulesList = Array<NWRuleSetIpRules>;
@@ -859,9 +843,7 @@ export const NetworkRuleSetProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(PublicNetworkAccess),
     ipRules: S.optional(NetworkRuleSetPropertiesIpRulesList),
   }),
-).annotate({
-  identifier: "NetworkRuleSetProperties",
-}) as any as S.Schema<NetworkRuleSetProperties>;
+).annotate({ identifier: "NetworkRuleSetProperties" }) as any as S.Schema<NetworkRuleSetProperties>;
 
 export interface GetNamespaceNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1049,9 +1031,7 @@ export const GetWCFRelayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetWCFRelayRequest",
-}) as any as S.Schema<GetWCFRelayRequest>;
+).annotate({ identifier: "GetWCFRelayRequest" }) as any as S.Schema<GetWCFRelayRequest>;
 
 /** WCF relay type. */
 export type Relaytype = "NetTcp" | "Http";
@@ -1087,9 +1067,7 @@ export const WcfRelayProperties = /*@__PURE__*/ S.suspend(() =>
     requiresTransportSecurity: S.optional(S.Boolean),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WcfRelayProperties",
-}) as any as S.Schema<WcfRelayProperties>;
+).annotate({ identifier: "WcfRelayProperties" }) as any as S.Schema<WcfRelayProperties>;
 
 export interface GetWCFRelayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1114,9 +1092,7 @@ export const GetWCFRelayResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WcfRelayProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWCFRelayResponse",
-}) as any as S.Schema<GetWCFRelayResponse>;
+).annotate({ identifier: "GetWCFRelayResponse" }) as any as S.Schema<GetWCFRelayResponse>;
 
 export interface GetWCFRelayAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -1364,9 +1340,7 @@ export const AuthorizationRule = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AuthorizationRuleProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationRule",
-}) as any as S.Schema<AuthorizationRule>;
+).annotate({ identifier: "AuthorizationRule" }) as any as S.Schema<AuthorizationRule>;
 
 /** The AuthorizationRule items on this page */
 export type AuthorizationRuleListResultValueList = Array<AuthorizationRule>;
@@ -1439,9 +1413,7 @@ export const HybridConnection = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(HybridConnectionProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HybridConnection",
-}) as any as S.Schema<HybridConnection>;
+).annotate({ identifier: "HybridConnection" }) as any as S.Schema<HybridConnection>;
 
 /** The HybridConnection items on this page */
 export type HybridConnectionListResultValueList = Array<HybridConnection>;
@@ -1623,9 +1595,7 @@ export const RelayNamespaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: RelayNamespaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelayNamespaceListResult",
-}) as any as S.Schema<RelayNamespaceListResult>;
+).annotate({ identifier: "RelayNamespaceListResult" }) as any as S.Schema<RelayNamespaceListResult>;
 
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. */
@@ -1651,9 +1621,7 @@ export const ListNamespaceKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListNamespaceKeysRequest",
-}) as any as S.Schema<ListNamespaceKeysRequest>;
+).annotate({ identifier: "ListNamespaceKeysRequest" }) as any as S.Schema<ListNamespaceKeysRequest>;
 
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. */
@@ -1670,9 +1638,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1684,9 +1650,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1706,9 +1670,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1758,9 +1720,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -1855,9 +1815,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** A collection of private link resources */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
@@ -1978,9 +1936,7 @@ export const WcfRelaysListResult = /*@__PURE__*/ S.suspend(() =>
     value: WcfRelaysListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WcfRelaysListResult",
-}) as any as S.Schema<WcfRelaysListResult>;
+).annotate({ identifier: "WcfRelaysListResult" }) as any as S.Schema<WcfRelaysListResult>;
 
 export interface ListWCFRelayKeysRequest {
   /** The ID of the target subscription. */
@@ -2009,14 +1965,10 @@ export const ListWCFRelayKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListWCFRelayKeysRequest",
-}) as any as S.Schema<ListWCFRelayKeysRequest>;
+).annotate({ identifier: "ListWCFRelayKeysRequest" }) as any as S.Schema<ListWCFRelayKeysRequest>;
 
 /** Resource tags. */
-export type NamespacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2108,9 +2060,7 @@ export const NamespacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NamespacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NamespacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2430,9 +2380,7 @@ export const RegenerateWCFRelayKeysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegenerateWCFRelayKeysRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2468,14 +2416,10 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2510,9 +2454,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RelayNamespaceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 /** Properties of the WCF relay. */
 export interface WcfRelayPropertiesInput {
@@ -2532,9 +2474,7 @@ export const WcfRelayPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     requiresTransportSecurity: S.optional(S.Boolean),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WcfRelayPropertiesInput",
-}) as any as S.Schema<WcfRelayPropertiesInput>;
+).annotate({ identifier: "WcfRelayPropertiesInput" }) as any as S.Schema<WcfRelayPropertiesInput>;
 
 export interface WCFRelaysCreateOrUpdateRequest {
   /** The ID of the target subscription. */

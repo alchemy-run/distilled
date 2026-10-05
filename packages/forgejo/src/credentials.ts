@@ -69,10 +69,10 @@ export const CredentialsFromEnv = Layer.succeed(
 );
 
 /**
- * Convenience layer from a plain token and the instance origin (or API root).
+ * Convenience layer from a redacted token and the instance origin (or API root).
  */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly baseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(

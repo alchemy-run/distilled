@@ -22,9 +22,7 @@ export const Sku = /*@__PURE__*/ S.suspend(() =>
 /** Hybrid use benefit properties */
 export interface HybridUseBenefitPropertiesInput {}
 export const HybridUseBenefitPropertiesInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "HybridUseBenefitPropertiesInput",
-  },
+  { identifier: "HybridUseBenefitPropertiesInput" },
 ) as any as S.Schema<HybridUseBenefitPropertiesInput>;
 
 export interface CreateHybridUseBenefitRequest {
@@ -46,7 +44,7 @@ export const CreateHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -118,7 +116,7 @@ export const DeleteHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -145,7 +143,7 @@ export const GetHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -194,7 +192,7 @@ export const ListHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -227,9 +225,7 @@ export const HybridUseBenefitModel = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.Number),
     properties: S.optional(HybridUseBenefitProperties),
   }),
-).annotate({
-  identifier: "HybridUseBenefitModel",
-}) as any as S.Schema<HybridUseBenefitModel>;
+).annotate({ identifier: "HybridUseBenefitModel" }) as any as S.Schema<HybridUseBenefitModel>;
 
 /** List of hybrid use benefits */
 export type HybridUseBenefitListResultValueList = Array<HybridUseBenefitModel>;
@@ -266,7 +262,7 @@ export const ListHybridUseBenefitRevisionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",
       code: 200,
       apiVersion: "2019-12-01",
     }),
@@ -285,14 +281,12 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/operations",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/operations",
       code: 200,
       apiVersion: "2019-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display fields for an operation. */
 export interface OperationDisplay {
@@ -312,9 +306,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation response. */
 export interface OperationResponse {
@@ -331,9 +323,7 @@ export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResponse",
-}) as any as S.Schema<OperationResponse>;
+).annotate({ identifier: "OperationResponse" }) as any as S.Schema<OperationResponse>;
 
 /** List of all operations */
 export type OperationListValueList = Array<OperationResponse>;
@@ -398,7 +388,7 @@ export const UpdateHybridUseBenefitRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
+      uri: "/{scope+}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}",
       code: 200,
       apiVersion: "2019-12-01",
     }),

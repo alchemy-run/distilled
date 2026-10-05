@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** resource tags. */
-export type AccountsCreateAndUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateAndUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateAndUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65,9 +63,7 @@ export const AccountsCreateAndUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsCreateAndUpdateRequest>;
 
 /** resource tags. */
-export type AccountsCreateAndUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateAndUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateAndUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -188,9 +184,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-13",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -218,9 +212,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-13",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -316,9 +308,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetAccountResponseSystemData),
     properties: GetAccountResponseProperties,
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -437,9 +427,7 @@ export const AccountResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(AccountResourceSystemData),
     properties: AccountResourceProperties,
   }),
-).annotate({
-  identifier: "AccountResource",
-}) as any as S.Schema<AccountResource>;
+).annotate({ identifier: "AccountResource" }) as any as S.Schema<AccountResource>;
 
 /** The list of recommendations. */
 export type AccountResourceListValueList = Array<AccountResource>;
@@ -459,9 +447,7 @@ export const AccountResourceList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(AccountResourceListValueList),
   }),
-).annotate({
-  identifier: "AccountResourceList",
-}) as any as S.Schema<AccountResourceList>;
+).annotate({ identifier: "AccountResourceList" }) as any as S.Schema<AccountResourceList>;
 
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -492,9 +478,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-13",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -514,9 +498,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -566,9 +548,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** List of key value pairs that describe the resource. This will overwrite the existing tags. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -601,14 +581,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-13",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -701,9 +677,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateAccountResponseSystemData),
     properties: UpdateAccountResponseProperties,
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export type AccountsCreateAndUpdateError = AzureOpError;
 /** Create or update account resource. */

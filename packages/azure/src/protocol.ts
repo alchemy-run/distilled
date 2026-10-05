@@ -49,6 +49,7 @@ import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   AZURE_ERROR_CODE_MAP,
+  matchAzureErrorMessage,
   type AzureApiError,
   AzureParseError,
   UnknownAzureError,
@@ -87,6 +88,9 @@ interface ArmError {
   code?: string;
   message?: string;
   target?: string;
+  /** Codes/messages of `error.details[]` (e.g. a generic `ValidationError`
+   * whose real cause is a nested detail code). */
+  details?: ReadonlyArray<{ code?: string; message?: string }>;
 }
 
 /**
@@ -95,15 +99,40 @@ interface ArmError {
  * `{ code, message }` shape as a fallback (v0 parity).
  */
 const parseArmError = (body: unknown): ArmError | undefined => {
+  // Some RPs (e.g. Microsoft.GuestConfiguration) return a bare JSON string.
+  if (typeof body === "string") return body ? { message: body } : undefined;
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const inner =
     b.error !== null && typeof b.error === "object" ? (b.error as Record<string, unknown>) : b;
-  const code = typeof inner.code === "string" ? inner.code : undefined;
-  const message = typeof inner.message === "string" ? inner.message : undefined;
-  const target = typeof inner.target === "string" ? inner.target : undefined;
+  // Microsoft.Web (and other legacy RPs) return PascalCase `Code`/`Message`.
+  const field = (name: string) => {
+    const value = inner[name] ?? inner[name[0]!.toUpperCase() + name.slice(1)];
+    return typeof value === "string" ? value : undefined;
+  };
+  const code = field("code");
+  const message = field("message");
+  const target = field("target");
   if (code === undefined && message === undefined) return undefined;
-  return { code, message, target };
+  const details = Array.isArray(inner.details)
+    ? inner.details.flatMap((d: unknown) =>
+        d !== null && typeof d === "object"
+          ? [
+              {
+                code:
+                  typeof (d as { code?: unknown }).code === "string"
+                    ? ((d as { code: string }).code as string)
+                    : undefined,
+                message:
+                  typeof (d as { message?: unknown }).message === "string"
+                    ? ((d as { message: string }).message as string)
+                    : undefined,
+              },
+            ]
+          : [],
+      )
+    : undefined;
+  return { code, message, target, details };
 };
 
 // ---------------------------------------------------------------------------
@@ -125,6 +154,9 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
       baseUrl: creds.apiBaseUrl,
       headers: {
         Authorization: `Bearer ${Redacted.value(creds.bearerToken)}`,
+        // ARM speaks JSON; without this, some resource providers negotiate
+        // another media type (API Management returns policies as raw XML).
+        Accept: "application/json",
       },
     });
 
@@ -184,12 +216,30 @@ const decode = ({
       const arm = nonJson ? undefined : parseArmError(json);
 
       // 1. Match by Azure error code first for richer typed errors.
-      const AzureErrorClass = arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
+      const AzureErrorClass =
+        (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
+        (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
       if (AzureErrorClass) {
         return yield* fail(
           new AzureErrorClass({
             message: arm!.message,
             code: arm!.code,
+            target: arm!.target,
+          }),
+        );
+      }
+
+      // 1b. A generic top-level code (e.g. `ValidationError`) whose nested
+      //     `details[].code` is mapped.
+      const detail = arm?.details?.find(
+        (d) => d.code !== undefined && AZURE_ERROR_CODE_MAP[d.code],
+      );
+      if (detail !== undefined) {
+        const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
+        return yield* fail(
+          new DetailErrorClass({
+            message: detail.message ?? arm!.message,
+            code: detail.code,
             target: arm!.target,
           }),
         );

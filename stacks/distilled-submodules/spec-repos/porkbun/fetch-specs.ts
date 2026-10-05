@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Porkbun's OpenAPI spec and vendor docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * mirror snapshots the spec plus the vendor-hosted docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -28,6 +28,7 @@ const LLMS_OUTPUT = `${SPECS_DIR}/llms.txt`;
 const LLMS_FULL_OUTPUT = `${SPECS_DIR}/llms-full.txt`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -39,7 +40,7 @@ const headers = {
 };
 
 const writeText = async (path: string, text: string): Promise<void> => {
-  await Bun.write(path, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(path, text.endsWith("\n") ? text : `${text}\n`);
 };
 
 async function fetchOpenApi(): Promise<void> {
@@ -66,7 +67,7 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

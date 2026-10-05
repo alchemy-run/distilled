@@ -425,6 +425,7 @@
         "destination_organization_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The ID of the organization to move the account into.",
             "smithy.api#required": {}
           }
         }
@@ -474,7 +475,7 @@
           "uri": "/accounts/{account_id}/move",
           "code": 200
         },
-        "smithy.api#documentation": "Move an account within an organization hierarchy or an account outside an organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+        "smithy.api#documentation": "Move an account into a destination organization, either assigning a standalone account to an organization or moving it between organizations in the same hierarchy. Availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
       }
     },
     "com.cloudflare.accounts#GetAccountProfileRequest": {
@@ -545,7 +546,7 @@
           "uri": "/accounts/{account_id}/profile",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves the profile information for a specific Cloudflare account, including organization details, settings, and metadata. This endpoint is commonly used to verify account access and retrieve account-level configuration.",
+        "smithy.api#documentation": "Retrieves the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Profiles can be shared across accounts and organizations. Only available to members of an organization that contains the account.",
         "smithy.api#readonly": {}
       }
     },
@@ -608,7 +609,7 @@
           "uri": "/accounts/{account_id}/profile",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the profile information for a Cloudflare account. Allows modification of account-level settings and organizational details. Requires Account Settings Write permission.",
+        "smithy.api#documentation": "Updates the business profile (name, email, phone, address, and external metadata) associated with this account's parent organization customer record. Changes apply to every account and organization sharing that profile. Omitted or empty fields are left unchanged. Only available to members of an organization that contains the account. Requires Account Settings Write permission.",
         "smithy.api#idempotent": {}
       }
     },
@@ -658,6 +659,238 @@
           "code": 200
         },
         "smithy.api#documentation": "Creates a Stripe setup intent for adding a payment method to an account. Returns a client secret for frontend payment method collection."
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemAllocationType": {
+      "type": "enum",
+      "members": {
+        "BOOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bool"
+          }
+        },
+        "MAX_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max_count"
+          }
+        },
+        "ENUM_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enum_number"
+          }
+        },
+        "RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "range"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValueCase3List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValueCase4": {
+      "type": "structure",
+      "members": {
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValue": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "EntitlementsListResultItemAllocationValueCase3List": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValueCase3List"
+        },
+        "EntitlementsListResultItemAllocationValueCase4": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValueCase4"
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemAllocation": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemAllocationType",
+          "traits": {
+            "smithy.api#documentation": "Allocation type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemAllocationValue",
+          "traits": {
+            "smithy.api#documentation": "Contains the allocation value whose concrete type the `type` field determines: bool yields a boolean, max_count yields an integer, enum_number yields an array of numbers, range yields an object with `min` and `max`, and string yields a string.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItemFeature": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Numeric identifier of the feature.",
+            "smithy.api#required": {}
+          }
+        },
+        "feature_set": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logical grouping (set) this feature belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique string key for the feature.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the feature.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Entitlement identifier — equal to the feature key.",
+            "smithy.api#required": {}
+          }
+        },
+        "allocation": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemAllocation",
+          "traits": {
+            "smithy.api#documentation": "Represents the allocation value for an entitlement. The shape of `value` depends on `type`: `bool` uses a boolean, `max_count` uses an integer, `enum_number` uses an array of numbers, `range` uses an object with `min` and `max` integer fields, and `string` uses a string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was created. Format: `YYYY-MM-DDTHH:MM:SS.ffffff`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp when the entitlement was deleted, or empty string if not deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "edited_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "feature": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultItemFeature",
+          "traits": {
+            "smithy.api#documentation": "Describes a product feature associated with an entitlement.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.accounts#ListEntitlementsResultItem"
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlementsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.accounts#ListEntitlementsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.accounts#ListEntitlements": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.accounts#ListEntitlementsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.accounts#ListEntitlementsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/entitlements",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the list of entitlements (features and their allocations) for a given account. Each entitlement describes a product feature the account is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.accounts#EditInvoiceRequest": {
@@ -2228,11 +2461,53 @@
     "com.cloudflare.accounts#MembersCreateResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -2670,11 +2945,53 @@
     "com.cloudflare.accounts#MembersGetResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -3181,11 +3498,53 @@
     "com.cloudflare.accounts#MembersListResultItemPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -4021,11 +4380,53 @@
     "com.cloudflare.accounts#MembersUpdateResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -8208,11 +8609,53 @@
     "com.cloudflare.accounts#TokensCreateRequestPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -8425,11 +8868,53 @@
     "com.cloudflare.accounts#TokensCreateResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -8632,11 +9117,53 @@
     "com.cloudflare.accounts#TokensGetResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -8856,11 +9383,53 @@
     "com.cloudflare.accounts#TokensListResultItemPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -9015,6 +9584,12 @@
         "condition": {
           "target": "com.cloudflare.accounts#TokensListResultItemCondition"
         },
+        "creator_email_at_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available."
+          }
+        },
         "expires_on": {
           "target": "smithy.api#String",
           "traits": {
@@ -9057,6 +9632,18 @@
             "smithy.api#documentation": "List of access policies assigned to the token."
           }
         },
+        "provisioner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable."
+          }
+        },
+        "provisioner_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens."
+          }
+        },
         "status": {
           "target": "com.cloudflare.accounts#TokensListResultItemStatus",
           "traits": {
@@ -9091,11 +9678,53 @@
     "com.cloudflare.accounts#TokensUpdateRequestPoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -9331,11 +9960,53 @@
     "com.cloudflare.accounts#TokensUpdateResponsePoliciesItemPermissionGroupsItemMeta": {
       "type": "structure",
       "members": {
-        "key": {
-          "target": "smithy.api#String"
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A category used to group permission groups."
+          }
         },
-        "value": {
-          "target": "smithy.api#String"
+        "deprecated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group is deprecated."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Additional information about the permission group."
+          }
+        },
+        "editable": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates whether the permission group can be edited."
+          }
+        },
+        "eol_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The planned end-of-life date and time, when provided."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label identifying the permission group."
+          }
+        },
+        "scopes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The scope associated with the permission group."
+          }
+        },
+        "visibility": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates the permission group's availability or visibility."
+          }
         }
       }
     },
@@ -9634,6 +10305,12 @@
             "smithy.api#documentation": "Product category that this permission group belongs to."
           }
         },
+        "is_selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the caller can select this permission group when creating a token."
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -9817,6 +10494,12 @@
             "smithy.api#documentation": "Product category that this permission group belongs to."
           }
         },
+        "is_selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the caller can select this permission group when creating a token."
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -9866,7 +10549,7 @@
           "uri": "/accounts/{account_id}/tokens/permission_groups",
           "code": 200
         },
-        "smithy.api#documentation": "Find all available permission groups for Account Owned API Tokens",
+        "smithy.api#documentation": "Find all available permission groups for Account Owned API Tokens. Each permission group indicates whether the caller can select it when creating a token. Token creation performs the authoritative permission check.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -9890,6 +10573,9 @@
         },
         {
           "target": "com.cloudflare.accounts#CreateClientSecret"
+        },
+        {
+          "target": "com.cloudflare.accounts#ListEntitlements"
         },
         {
           "target": "com.cloudflare.accounts#EditInvoice"
@@ -10413,7 +11099,7 @@
           "uri": "/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "Create an account (only available for tenant admins at this time)"
+        "smithy.api#documentation": "Create an Account. To create the Account within an Organization, provide `unit.id` and omit `standalone`. To create a standalone Free Account, provide `standalone: true` and omit `unit`. Providing both fields is invalid. If you omit both fields, Cloudflare can determine the destination only when the User is an administrator of exactly one Organization. Cloudflare creates the Account in that Organization; otherwise, the request returns an error."
       },
       "errors": [
         {
@@ -10427,11 +11113,23 @@
     "com.cloudflare.accounts#CreateAccountRequest": {
       "type": "structure",
       "members": {
+        "Idempotency_Key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Account name",
             "smithy.api#required": {}
+          }
+        },
+        "standalone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` and omit `unit` to create a standalone Free Account. If provided, this field must be `true`."
           }
         },
         "type": {
@@ -10440,7 +11138,7 @@
         "unit": {
           "target": "com.cloudflare.accounts#CreateRequestUnit",
           "traits": {
-            "smithy.api#documentation": "information related to the tenant unit, and optionally, an id of the unit to create the account on. see https://developers.cloudflare.com/tenant/how-to/manage-accounts/"
+            "smithy.api#documentation": "Information related to the tenant unit. Provide its ID and omit `standalone` to create the Account within an Organization. See https://developers.cloudflare.com/tenant/how-to/manage-accounts/."
           }
         }
       },
@@ -10804,6 +11502,12 @@
         "condition": {
           "target": "com.cloudflare.accounts#TokensCreateResponseCondition"
         },
+        "creator_email_at_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available."
+          }
+        },
         "expires_on": {
           "target": "smithy.api#String",
           "traits": {
@@ -10844,6 +11548,18 @@
           "target": "com.cloudflare.accounts#TokensCreateResponsePoliciesList",
           "traits": {
             "smithy.api#documentation": "List of access policies assigned to the token."
+          }
+        },
+        "provisioner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable."
+          }
+        },
+        "provisioner_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens."
           }
         },
         "status": {
@@ -11504,6 +12220,12 @@
         "condition": {
           "target": "com.cloudflare.accounts#TokensGetResponseCondition"
         },
+        "creator_email_at_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available."
+          }
+        },
         "expires_on": {
           "target": "smithy.api#String",
           "traits": {
@@ -11546,6 +12268,18 @@
             "smithy.api#documentation": "List of access policies assigned to the token."
           }
         },
+        "provisioner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable."
+          }
+        },
+        "provisioner_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens."
+          }
+        },
         "status": {
           "target": "com.cloudflare.accounts#TokensGetResponseStatus",
           "traits": {
@@ -11572,7 +12306,7 @@
           "uri": "/accounts/{account_id}/tokens/permission_groups",
           "code": 200
         },
-        "smithy.api#documentation": "Find all available permission groups for Account Owned API Tokens",
+        "smithy.api#documentation": "Find all available permission groups for Account Owned API Tokens. Each permission group indicates whether the caller can select it when creating a token. Token creation performs the authoritative permission check.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -12108,7 +12842,7 @@
           "uri": "/accounts/{account_id}/tokens",
           "code": 200
         },
-        "smithy.api#documentation": "List all Account Owned API tokens created for this account. Results include active, disabled, and recently-expired tokens when include_expired is set to true.",
+        "smithy.api#documentation": "List Account Owned API tokens created for this account. Callers with `com.cloudflare.api.account.token.list_self` permission only receive tokens they created. Results include active, disabled, and recently-expired tokens when `include_expired` is set to true.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -12727,6 +13461,12 @@
         "condition": {
           "target": "com.cloudflare.accounts#TokensUpdateResponseCondition"
         },
+        "creator_email_at_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available."
+          }
+        },
         "expires_on": {
           "target": "smithy.api#String",
           "traits": {
@@ -12767,6 +13507,18 @@
           "target": "com.cloudflare.accounts#TokensUpdateResponsePoliciesList",
           "traits": {
             "smithy.api#documentation": "List of access policies assigned to the token."
+          }
+        },
+        "provisioner_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable."
+          }
+        },
+        "provisioner_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens."
           }
         },
         "status": {

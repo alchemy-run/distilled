@@ -312,9 +312,7 @@ export const CreateCertificateProfileResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCertificateProfileResponse>;
 
 /** Resource tags. */
-export type CreateCodeSigningAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCodeSigningAccountRequestTagsMap = { [key: string]: string | undefined };
 export const CreateCodeSigningAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -383,9 +381,7 @@ export const CreateCodeSigningAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCodeSigningAccountRequest>;
 
 /** Resource tags. */
-export type CreateCodeSigningAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateCodeSigningAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -585,9 +581,7 @@ export const GetCodeSigningAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCodeSigningAccountRequest>;
 
 /** Resource tags. */
-export type GetCodeSigningAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetCodeSigningAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -669,9 +663,7 @@ export const CertificateProfile = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CertificateProfileProperties),
   }),
-).annotate({
-  identifier: "CertificateProfile",
-}) as any as S.Schema<CertificateProfile>;
+).annotate({ identifier: "CertificateProfile" }) as any as S.Schema<CertificateProfile>;
 
 /** The CertificateProfile items on this page */
 export type CertificateProfileListResultValueList = Array<CertificateProfile>;
@@ -751,9 +743,7 @@ export const CodeSigningAccount = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(CodeSigningAccountProperties),
   }),
-).annotate({
-  identifier: "CodeSigningAccount",
-}) as any as S.Schema<CodeSigningAccount>;
+).annotate({ identifier: "CodeSigningAccount" }) as any as S.Schema<CodeSigningAccount>;
 
 /** The CodeSigningAccount items on this page */
 export type CodeSigningAccountListResultValueList = Array<CodeSigningAccount>;
@@ -806,9 +796,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-13",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -828,9 +816,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -880,9 +866,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface RevokeCertificateProfileCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -935,9 +919,7 @@ export const RevokeCertificateProfileCertificateResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<RevokeCertificateProfileCertificateResponse>;
 
 /** Resource tags. */
-export type UpdateCodeSigningAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCodeSigningAccountRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCodeSigningAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -952,9 +934,7 @@ export const AccountSkuPatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(SkuName),
   }),
-).annotate({
-  identifier: "AccountSkuPatch",
-}) as any as S.Schema<AccountSkuPatch>;
+).annotate({ identifier: "AccountSkuPatch" }) as any as S.Schema<AccountSkuPatch>;
 
 /** Properties of the artifact signing account. */
 export interface CodeSigningAccountPatchProperties {
@@ -1001,9 +981,7 @@ export const UpdateCodeSigningAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCodeSigningAccountRequest>;
 
 /** Resource tags. */
-export type UpdateCodeSigningAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCodeSigningAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCodeSigningAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

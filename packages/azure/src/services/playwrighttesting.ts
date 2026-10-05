@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -51,9 +49,7 @@ export const AccountPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     reporting: S.optional(AccountPropertiesInputReporting),
     localAuth: S.optional(AccountPropertiesInputLocalAuth),
   }),
-).annotate({
-  identifier: "AccountPropertiesInput",
-}) as any as S.Schema<AccountPropertiesInput>;
+).annotate({ identifier: "AccountPropertiesInput" }) as any as S.Schema<AccountPropertiesInput>;
 
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -124,9 +120,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -182,9 +176,7 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     localAuth: S.optional(AccountPropertiesLocalAuth),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -284,9 +276,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -314,9 +304,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -351,9 +339,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AccountProperties),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export type GetAccountQuotasRequestQuotaName = "ScalableExecution" | "Reporting";
 export const GetAccountQuotasRequestQuotaName = S.String;
@@ -382,9 +368,7 @@ export const GetAccountQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountQuotasRequest",
-}) as any as S.Schema<GetAccountQuotasRequest>;
+).annotate({ identifier: "GetAccountQuotasRequest" }) as any as S.Schema<GetAccountQuotasRequest>;
 
 /** The Playwright service account quota resource free-trial properties. */
 export interface AccountFreeTrialProperties {
@@ -423,9 +407,7 @@ export const AccountQuotaProperties = /*@__PURE__*/ S.suspend(() =>
     freeTrial: S.optional(AccountFreeTrialProperties),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "AccountQuotaProperties",
-}) as any as S.Schema<AccountQuotaProperties>;
+).annotate({ identifier: "AccountQuotaProperties" }) as any as S.Schema<AccountQuotaProperties>;
 
 export interface GetAccountQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -447,9 +429,7 @@ export const GetAccountQuotasResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AccountQuotaProperties),
   }),
-).annotate({
-  identifier: "GetAccountQuotasResponse",
-}) as any as S.Schema<GetAccountQuotasResponse>;
+).annotate({ identifier: "GetAccountQuotasResponse" }) as any as S.Schema<GetAccountQuotasResponse>;
 
 export type GetQuotasRequestQuotaName = "ScalableExecution" | "Reporting";
 export const GetQuotasRequestQuotaName = S.String;
@@ -475,9 +455,7 @@ export const GetQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetQuotasRequest",
-}) as any as S.Schema<GetQuotasRequest>;
+).annotate({ identifier: "GetQuotasRequest" }) as any as S.Schema<GetQuotasRequest>;
 
 /** The free-trial state. */
 export type FreeTrialState = "Active" | "Expired" | "NotEligible" | "NotRegistered";
@@ -495,9 +473,7 @@ export const FreeTrialProperties = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String,
     state: FreeTrialState,
   }),
-).annotate({
-  identifier: "FreeTrialProperties",
-}) as any as S.Schema<FreeTrialProperties>;
+).annotate({ identifier: "FreeTrialProperties" }) as any as S.Schema<FreeTrialProperties>;
 
 /** Offering type state. */
 export type OfferingType =
@@ -522,9 +498,7 @@ export const QuotaProperties = /*@__PURE__*/ S.suspend(() =>
     offeringType: S.optional(OfferingType),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "QuotaProperties",
-}) as any as S.Schema<QuotaProperties>;
+).annotate({ identifier: "QuotaProperties" }) as any as S.Schema<QuotaProperties>;
 
 export interface GetQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -546,9 +520,7 @@ export const GetQuotasResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
   }),
-).annotate({
-  identifier: "GetQuotasResponse",
-}) as any as S.Schema<GetQuotasResponse>;
+).annotate({ identifier: "GetQuotasResponse" }) as any as S.Schema<GetQuotasResponse>;
 
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -626,9 +598,7 @@ export const AccountListResult = /*@__PURE__*/ S.suspend(() =>
     value: AccountListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountListResult",
-}) as any as S.Schema<AccountListResult>;
+).annotate({ identifier: "AccountListResult" }) as any as S.Schema<AccountListResult>;
 
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -715,9 +685,7 @@ export const AccountQuotaListResult = /*@__PURE__*/ S.suspend(() =>
     value: AccountQuotaListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountQuotaListResult",
-}) as any as S.Schema<AccountQuotaListResult>;
+).annotate({ identifier: "AccountQuotaListResult" }) as any as S.Schema<AccountQuotaListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -729,9 +697,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -751,9 +717,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -803,9 +767,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListQuotasBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -870,9 +832,7 @@ export const QuotaListResult = /*@__PURE__*/ S.suspend(() =>
     value: QuotaListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaListResult",
-}) as any as S.Schema<QuotaListResult>;
+).annotate({ identifier: "QuotaListResult" }) as any as S.Schema<QuotaListResult>;
 
 /** Resource tags. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -903,9 +863,7 @@ export const AccountUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     reporting: S.optional(EnablementStatus),
     localAuth: S.optional(EnablementStatus),
   }),
-).annotate({
-  identifier: "AccountUpdateProperties",
-}) as any as S.Schema<AccountUpdateProperties>;
+).annotate({ identifier: "AccountUpdateProperties" }) as any as S.Schema<AccountUpdateProperties>;
 
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -934,14 +892,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -973,9 +927,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AccountProperties),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create a Account */

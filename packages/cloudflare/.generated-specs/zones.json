@@ -1513,6 +1513,238 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.zones#ListEntitlementsRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier tag.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemAllocationType": {
+      "type": "enum",
+      "members": {
+        "BOOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bool"
+          }
+        },
+        "MAX_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "max_count"
+          }
+        },
+        "ENUM_NUMBER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enum_number"
+          }
+        },
+        "RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "range"
+          }
+        },
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemAllocationValueCase3List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemAllocationValueCase4": {
+      "type": "structure",
+      "members": {
+        "max": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "min": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemAllocationValue": {
+      "type": "union",
+      "members": {
+        "String": {
+          "target": "smithy.api#String"
+        },
+        "Double": {
+          "target": "smithy.api#Double"
+        },
+        "Boolean": {
+          "target": "smithy.api#Boolean"
+        },
+        "EntitlementsListResultItemAllocationValueCase3List": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemAllocationValueCase3List"
+        },
+        "EntitlementsListResultItemAllocationValueCase4": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemAllocationValueCase4"
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemAllocation": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemAllocationType",
+          "traits": {
+            "smithy.api#documentation": "Allocation type discriminator.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemAllocationValue",
+          "traits": {
+            "smithy.api#documentation": "Contains the allocation value whose concrete type the `type` field determines: bool yields a boolean, max_count yields an integer, enum_number yields an array of numbers, range yields an object with `min` and `max`, and string yields a string.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItemFeature": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Numeric identifier of the feature.",
+            "smithy.api#required": {}
+          }
+        },
+        "feature_set": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The logical grouping (set) this feature belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique string key for the feature.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the feature.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Entitlement identifier — equal to the feature key.",
+            "smithy.api#required": {}
+          }
+        },
+        "allocation": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemAllocation",
+          "traits": {
+            "smithy.api#documentation": "Represents the allocation value for an entitlement. The shape of `value` depends on `type`: `bool` uses a boolean, `max_count` uses an integer, `enum_number` uses an array of numbers, `range` uses an object with `min` and `max` integer fields, and `string` uses a string.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was created. Format: `YYYY-MM-DDTHH:MM:SS.ffffff`.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp when the entitlement was deleted, or empty string if not deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "edited_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was last edited.",
+            "smithy.api#required": {}
+          }
+        },
+        "feature": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultItemFeature",
+          "traits": {
+            "smithy.api#documentation": "Describes a product feature associated with an entitlement.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.zones#ListEntitlementsResultItem"
+      }
+    },
+    "com.cloudflare.zones#ListEntitlementsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.zones#ListEntitlementsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.zones#ListEntitlements": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#ListEntitlementsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#ListEntitlementsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/entitlements",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns the list of entitlements (features and their allocations) for a given zone. Each entitlement describes a product feature the zone is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.zones#EnvironmentsCreateRequestEnvironmentsItemPosition": {
       "type": "structure",
       "members": {
@@ -2266,6 +2498,829 @@
         },
         "smithy.api#documentation": "Fetches the Network Error Logging (NEL) setting for a zone. NEL allows browsers to report network errors to a configured endpoint. The setting is enabled by default for free and pro zones, and disabled by default for business and enterprise zones unless the NEL product feature is enabled.",
         "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItemAction": {
+      "type": "enum",
+      "members": {
+        "SET_TRACE_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_trace_settings"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItemActionParameters": {
+      "type": "structure",
+      "members": {
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItemAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "action_parameters": {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItemActionParameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Rules language expression that selects requests.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesItem"
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRuleResponse": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Trace rules in evaluation order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#DeleteObservabilityTracingRuleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/zones/{zone_id}/observability/tracing/rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete every sampling override from a zone's managed Cloudflare Traces ruleset.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItemAction": {
+      "type": "enum",
+      "members": {
+        "SET_TRACE_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_trace_settings"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItemActionParameters": {
+      "type": "structure",
+      "members": {
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItemAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "action_parameters": {
+          "target": "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItemActionParameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Rules language expression that selects requests.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesItem"
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRuleResponse": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.cloudflare.zones#GetObservabilityTracingRuleResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Trace rules in evaluation order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#GetObservabilityTracingRuleRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#GetObservabilityTracingRuleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/observability/tracing/rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the ordered sampling overrides for a zone's managed Cloudflare Traces ruleset.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItemAction": {
+      "type": "enum",
+      "members": {
+        "SET_TRACE_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_trace_settings"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItemActionParameters": {
+      "type": "structure",
+      "members": {
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItemAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "action_parameters": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItemActionParameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Rules language expression that selects requests.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesItem"
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleRequestRulesList",
+          "traits": {
+            "smithy.api#documentation": "Trace rules in evaluation order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItemAction": {
+      "type": "enum",
+      "members": {
+        "SET_TRACE_SETTINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set_trace_settings"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItemActionParameters": {
+      "type": "structure",
+      "members": {
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItemAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "action_parameters": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItemActionParameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Rules language expression that selects requests.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesItem"
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRuleResponse": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Trace rules in evaluation order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingRuleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/zones/{zone_id}/observability/tracing/rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace all sampling overrides in a zone's managed Cloudflare Traces ruleset. Rules are evaluated in the supplied order.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponseDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponsePropagationPolicy": {
+      "type": "enum",
+      "members": {
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "REJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reject"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponseDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 100 OpenTelemetry destination identifiers that receive traces.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Cloudflare Traces is enabled for the zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "forward_context": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether trace context is sent externally or across a zone boundary.",
+            "smithy.api#required": {}
+          }
+        },
+        "persist": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether traces are persisted in Cloudflare.",
+            "smithy.api#required": {}
+          }
+        },
+        "propagation_policy": {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponsePropagationPolicy",
+          "traits": {
+            "smithy.api#documentation": "When inbound trace context may be continued. Authenticated propagation is not supported yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#DeleteObservabilityTracingSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#DeleteObservabilityTracingSettingsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#DeleteObservabilityTracingSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/zones/{zone_id}/observability/tracing/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reset the zone-level Cloudflare Traces settings to their defaults while preserving the sampling rules.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingSettingsResponseDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingSettingsResponsePropagationPolicy": {
+      "type": "enum",
+      "members": {
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "REJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reject"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": {
+          "target": "com.cloudflare.zones#GetObservabilityTracingSettingsResponseDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 100 OpenTelemetry destination identifiers that receive traces.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Cloudflare Traces is enabled for the zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "forward_context": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether trace context is sent externally or across a zone boundary.",
+            "smithy.api#required": {}
+          }
+        },
+        "persist": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether traces are persisted in Cloudflare.",
+            "smithy.api#required": {}
+          }
+        },
+        "propagation_policy": {
+          "target": "com.cloudflare.zones#GetObservabilityTracingSettingsResponsePropagationPolicy",
+          "traits": {
+            "smithy.api#documentation": "When inbound trace context may be continued. Authenticated propagation is not supported yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#GetObservabilityTracingSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#GetObservabilityTracingSettingsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#GetObservabilityTracingSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/observability/tracing/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the zone-level Cloudflare Traces settings.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequestDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequestPropagationPolicy": {
+      "type": "enum",
+      "members": {
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "REJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reject"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Specify the zone ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "destinations": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequestDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 100 OpenTelemetry destination identifiers that receive traces."
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Cloudflare Traces is enabled for the zone."
+          }
+        },
+        "forward_context": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether trace context is sent externally or across a zone boundary."
+          }
+        },
+        "persist": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether traces are persisted in Cloudflare."
+          }
+        },
+        "propagation_policy": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequestPropagationPolicy",
+          "traits": {
+            "smithy.api#documentation": "When inbound trace context may be continued. Authenticated propagation is not supported yet."
+          }
+        },
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponseDestinationsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponsePropagationPolicy": {
+      "type": "enum",
+      "members": {
+        "ACCEPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "accept"
+          }
+        },
+        "AUTHENTICATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "authenticated"
+          }
+        },
+        "REJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reject"
+          }
+        }
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "destinations": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponseDestinationsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 100 OpenTelemetry destination identifiers that receive traces.",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Cloudflare Traces is enabled for the zone.",
+            "smithy.api#required": {}
+          }
+        },
+        "forward_context": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether trace context is sent externally or across a zone boundary.",
+            "smithy.api#required": {}
+          }
+        },
+        "persist": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether traces are persisted in Cloudflare.",
+            "smithy.api#required": {}
+          }
+        },
+        "propagation_policy": {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponsePropagationPolicy",
+          "traits": {
+            "smithy.api#documentation": "When inbound trace context may be continued. Authenticated propagation is not supported yet.",
+            "smithy.api#required": {}
+          }
+        },
+        "sampling_ratio": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The ratio of requests sampled for tracing, from 0 to 1.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.zones#UpdateObservabilityTracingSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.zones#UpdateObservabilityTracingSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/zones/{zone_id}/observability/tracing/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the zone-level Cloudflare Traces settings."
       }
     },
     "com.cloudflare.zones#PlansGetResponseFrequency": {
@@ -25935,10 +26990,31 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.zones#ListEntitlements"
+        },
+        {
           "target": "com.cloudflare.zones#EditNel"
         },
         {
           "target": "com.cloudflare.zones#GetNel"
+        },
+        {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingRule"
+        },
+        {
+          "target": "com.cloudflare.zones#GetObservabilityTracingRule"
+        },
+        {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingRule"
+        },
+        {
+          "target": "com.cloudflare.zones#DeleteObservabilityTracingSettings"
+        },
+        {
+          "target": "com.cloudflare.zones#GetObservabilityTracingSettings"
+        },
+        {
+          "target": "com.cloudflare.zones#UpdateObservabilityTracingSettings"
         },
         {
           "target": "com.cloudflare.zones#SettingsBulkEdit"

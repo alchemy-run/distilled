@@ -176,7 +176,7 @@ export type ListNamespaceObjectsError =
   | InvalidIdentifier
   | MalformedParameter
   | CloudflareOpError;
-/** Returns the Durable Objects in a given namespace. */
+/** Returns the Durable Objects in a given Durable Object namespace. */
 export const listNamespaceObjects: API.PaginatedOperationMethod<
   ListNamespaceObjectsRequest,
   ListNamespaceObjectsResponse,

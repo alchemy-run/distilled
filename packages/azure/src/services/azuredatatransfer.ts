@@ -75,9 +75,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type ApprovePipelineConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApprovePipelineConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const ApprovePipelineConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -263,9 +261,7 @@ export const ConnectionProperties = /*@__PURE__*/ S.suspend(() =>
     schemas: S.optional(ConnectionPropertiesSchemasList),
     schemaUris: S.optional(ConnectionPropertiesSchemaUrisList),
   }),
-).annotate({
-  identifier: "ConnectionProperties",
-}) as any as S.Schema<ConnectionProperties>;
+).annotate({ identifier: "ConnectionProperties" }) as any as S.Schema<ConnectionProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -287,14 +283,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -354,9 +346,7 @@ export const ApprovePipelineConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApprovePipelineConnectionResponse>;
 
 /** Resource tags. */
-export type ConnectionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ConnectionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -505,9 +495,7 @@ export const ConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConnectionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ConnectionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ConnectionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -577,14 +565,10 @@ export const ConnectionsLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "ConnectionsLinkRequest",
-}) as any as S.Schema<ConnectionsLinkRequest>;
+).annotate({ identifier: "ConnectionsLinkRequest" }) as any as S.Schema<ConnectionsLinkRequest>;
 
 /** Resource tags. */
-export type ConnectionsLinkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionsLinkResponseTagsMap = { [key: string]: string | undefined };
 export const ConnectionsLinkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -623,9 +607,7 @@ export const ConnectionsLinkResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "ConnectionsLinkResponse",
-}) as any as S.Schema<ConnectionsLinkResponse>;
+).annotate({ identifier: "ConnectionsLinkResponse" }) as any as S.Schema<ConnectionsLinkResponse>;
 
 export interface DeleteConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -648,9 +630,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
+).annotate({ identifier: "DeleteConnectionRequest" }) as any as S.Schema<DeleteConnectionRequest>;
 
 export interface DeleteConnectionResponse {}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -681,9 +661,7 @@ export const DeleteFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "DeleteFlowRequest",
-}) as any as S.Schema<DeleteFlowRequest>;
+).annotate({ identifier: "DeleteFlowRequest" }) as any as S.Schema<DeleteFlowRequest>;
 
 export interface DeleteFlowResponse {}
 export const DeleteFlowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -711,9 +689,7 @@ export const DeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "DeletePipelineRequest",
-}) as any as S.Schema<DeletePipelineRequest>;
+).annotate({ identifier: "DeletePipelineRequest" }) as any as S.Schema<DeletePipelineRequest>;
 
 export interface DeletePipelineResponse {}
 export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -744,9 +720,7 @@ export const DisableFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "DisableFlowRequest",
-}) as any as S.Schema<DisableFlowRequest>;
+).annotate({ identifier: "DisableFlowRequest" }) as any as S.Schema<DisableFlowRequest>;
 
 /** Resource tags. */
 export type DisableFlowResponseTagsMap = { [key: string]: string | undefined };
@@ -773,9 +747,7 @@ export const SelectedResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     subscriptionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SelectedResource",
-}) as any as S.Schema<SelectedResource>;
+).annotate({ identifier: "SelectedResource" }) as any as S.Schema<SelectedResource>;
 
 /** Status of the current flow. */
 export type FlowStatus = "Enabled" | "Disabled";
@@ -810,9 +782,7 @@ export const MessagingOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingTier: S.optional(FlowBillingTier),
   }),
-).annotate({
-  identifier: "MessagingOptions",
-}) as any as S.Schema<MessagingOptions>;
+).annotate({ identifier: "MessagingOptions" }) as any as S.Schema<MessagingOptions>;
 
 /** Remote Calling Mode in the Azure Data Transfer API Flow, which describes how the API Flow will be invoked */
 export type ApiMode = "SDK" | "Endpoint";
@@ -870,9 +840,7 @@ export const StreamSourceAddresses = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceAddresses: S.optional(StreamSourceAddressesSourceAddressesList),
   }),
-).annotate({
-  identifier: "StreamSourceAddresses",
-}) as any as S.Schema<StreamSourceAddresses>;
+).annotate({ identifier: "StreamSourceAddresses" }) as any as S.Schema<StreamSourceAddresses>;
 
 /** The destination endpoints of the stream */
 export type FlowPropertiesDestinationEndpointsList = Array<string>;
@@ -1002,9 +970,7 @@ export const DisableFlowResponsePlan = /*@__PURE__*/ S.suspend(() =>
     promotionCode: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DisableFlowResponsePlan",
-}) as any as S.Schema<DisableFlowResponsePlan>;
+).annotate({ identifier: "DisableFlowResponsePlan" }) as any as S.Schema<DisableFlowResponsePlan>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type DisableFlowResponseIdentity = ApprovePipelineConnectionResponseIdentity;
@@ -1042,9 +1008,7 @@ export const DisableFlowResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "DisableFlowResponse",
-}) as any as S.Schema<DisableFlowResponse>;
+).annotate({ identifier: "DisableFlowResponse" }) as any as S.Schema<DisableFlowResponse>;
 
 export interface EnableFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1070,9 +1034,7 @@ export const EnableFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "EnableFlowRequest",
-}) as any as S.Schema<EnableFlowRequest>;
+).annotate({ identifier: "EnableFlowRequest" }) as any as S.Schema<EnableFlowRequest>;
 
 /** Resource tags. */
 export type EnableFlowResponseTagsMap = { [key: string]: string | undefined };
@@ -1121,9 +1083,7 @@ export const EnableFlowResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "EnableFlowResponse",
-}) as any as S.Schema<EnableFlowResponse>;
+).annotate({ identifier: "EnableFlowResponse" }) as any as S.Schema<EnableFlowResponse>;
 
 /** The type of action to be executed. */
 export type ActionType = "AllowUpdates" | "ForceDisable";
@@ -1177,9 +1137,7 @@ export const ExecutePipelineActionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExecutePipelineActionRequest>;
 
 /** Resource tags. */
-export type ExecutePipelineActionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExecutePipelineActionResponseTagsMap = { [key: string]: string | undefined };
 export const ExecutePipelineActionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1308,9 +1266,7 @@ export const ReadPipelineConnection = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(ReadPipelineConnectionSystemData),
     properties: S.optional(PipelineConnectionProperties),
   }),
-).annotate({
-  identifier: "ReadPipelineConnection",
-}) as any as S.Schema<ReadPipelineConnection>;
+).annotate({ identifier: "ReadPipelineConnection" }) as any as S.Schema<ReadPipelineConnection>;
 
 /** Connections associated with pipeline */
 export type PipelinePropertiesConnectionsList = Array<ReadPipelineConnection>;
@@ -1399,9 +1355,7 @@ export const PipelineProperties = /*@__PURE__*/ S.suspend(() =>
     quarantineDownloadStorageContainer: S.optional(S.String),
     status: S.optional(PipelineStatus),
   }),
-).annotate({
-  identifier: "PipelineProperties",
-}) as any as S.Schema<PipelineProperties>;
+).annotate({ identifier: "PipelineProperties" }) as any as S.Schema<PipelineProperties>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ExecutePipelineActionResponseIdentity = ApprovePipelineConnectionResponseIdentity;
@@ -1441,9 +1395,7 @@ export const ExecutePipelineActionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExecutePipelineActionResponse>;
 
 /** Resource tags. */
-export type FlowsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FlowsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FlowsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1545,9 +1497,7 @@ export const FlowPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     eventHubId: S.optional(S.String),
     consumerGroup: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FlowPropertiesInput",
-}) as any as S.Schema<FlowPropertiesInput>;
+).annotate({ identifier: "FlowPropertiesInput" }) as any as S.Schema<FlowPropertiesInput>;
 
 /** Plan for the resource. */
 export type FlowsCreateOrUpdateRequestPlan = DisableFlowResponsePlan;
@@ -1601,9 +1551,7 @@ export const FlowsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FlowsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FlowsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FlowsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FlowsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1683,9 +1631,7 @@ export const FlowsLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "FlowsLinkRequest",
-}) as any as S.Schema<FlowsLinkRequest>;
+).annotate({ identifier: "FlowsLinkRequest" }) as any as S.Schema<FlowsLinkRequest>;
 
 /** Resource tags. */
 export type FlowsLinkResponseTagsMap = { [key: string]: string | undefined };
@@ -1734,9 +1680,7 @@ export const FlowsLinkResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "FlowsLinkResponse",
-}) as any as S.Schema<FlowsLinkResponse>;
+).annotate({ identifier: "FlowsLinkResponse" }) as any as S.Schema<FlowsLinkResponse>;
 
 export interface GenerateFlowPassphraseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1767,9 +1711,7 @@ export const GenerateFlowPassphraseRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GenerateFlowPassphraseRequest>;
 
 /** Resource tags. */
-export type GenerateFlowPassphraseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GenerateFlowPassphraseResponseTagsMap = { [key: string]: string | undefined };
 export const GenerateFlowPassphraseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1840,14 +1782,10 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 
 /** Resource tags. */
-export type GetConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1886,9 +1824,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 
 export interface GetFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1963,9 +1899,7 @@ export const GetFlowResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "GetFlowResponse",
-}) as any as S.Schema<GetFlowResponse>;
+).annotate({ identifier: "GetFlowResponse" }) as any as S.Schema<GetFlowResponse>;
 
 export interface GetFlowDestinationEndpointPortsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2151,9 +2085,7 @@ export const GetPipelineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "GetPipelineRequest",
-}) as any as S.Schema<GetPipelineRequest>;
+).annotate({ identifier: "GetPipelineRequest" }) as any as S.Schema<GetPipelineRequest>;
 
 /** Resource tags. */
 export type GetPipelineResponseTagsMap = { [key: string]: string | undefined };
@@ -2195,9 +2127,7 @@ export const GetPipelineResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PipelineProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "GetPipelineResponse",
-}) as any as S.Schema<GetPipelineResponse>;
+).annotate({ identifier: "GetPipelineResponse" }) as any as S.Schema<GetPipelineResponse>;
 
 export interface ListAzureDataTransferApprovedSchemasRequest {
   /** The name of the pipeline to filter approved schemas. */
@@ -2236,9 +2166,7 @@ export const SchemasListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SchemasListResultValueList),
   }),
-).annotate({
-  identifier: "SchemasListResult",
-}) as any as S.Schema<SchemasListResult>;
+).annotate({ identifier: "SchemasListResult" }) as any as S.Schema<SchemasListResult>;
 
 export interface ListConnectionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2323,9 +2251,7 @@ export const ConnectionListResult = /*@__PURE__*/ S.suspend(() =>
     value: ConnectionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionListResult",
-}) as any as S.Schema<ConnectionListResult>;
+).annotate({ identifier: "ConnectionListResult" }) as any as S.Schema<ConnectionListResult>;
 
 export interface ListConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2715,9 +2641,7 @@ export const PendingConnection = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(PendingConnectionSystemData),
   }),
-).annotate({
-  identifier: "PendingConnection",
-}) as any as S.Schema<PendingConnection>;
+).annotate({ identifier: "PendingConnection" }) as any as S.Schema<PendingConnection>;
 
 /** The items on this page */
 export type PendingConnectionListResultValueList = Array<PendingConnection>;
@@ -2833,9 +2757,7 @@ export const PendingFlowSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(PendingFlowSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PendingFlowSystemData",
-}) as any as S.Schema<PendingFlowSystemData>;
+).annotate({ identifier: "PendingFlowSystemData" }) as any as S.Schema<PendingFlowSystemData>;
 
 /** Pending flow object */
 export interface PendingFlow {
@@ -2974,9 +2896,7 @@ export const PendingFlowListResult = /*@__PURE__*/ S.suspend(() =>
     value: PendingFlowListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PendingFlowListResult",
-}) as any as S.Schema<PendingFlowListResult>;
+).annotate({ identifier: "PendingFlowListResult" }) as any as S.Schema<PendingFlowListResult>;
 
 export interface ListListSchemasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3023,9 +2943,7 @@ export const ListListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "ListListSchemasRequest",
-}) as any as S.Schema<ListListSchemasRequest>;
+).annotate({ identifier: "ListListSchemasRequest" }) as any as S.Schema<ListListSchemasRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3037,9 +2955,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -3059,9 +2975,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3111,9 +3025,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPipelineByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3198,9 +3110,7 @@ export const PipelineListResult = /*@__PURE__*/ S.suspend(() =>
     value: PipelineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PipelineListResult",
-}) as any as S.Schema<PipelineListResult>;
+).annotate({ identifier: "PipelineListResult" }) as any as S.Schema<PipelineListResult>;
 
 export interface ListPipelineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3222,9 +3132,7 @@ export const ListPipelineBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPipelineBySubscriptionRequest>;
 
 /** Resource tags. */
-export type PipelinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PipelinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PipelinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3287,9 +3195,7 @@ export const PipelinePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     quarantineDownloadStorageContainer: S.optional(S.String),
     status: S.optional(PipelineStatus),
   }),
-).annotate({
-  identifier: "PipelinePropertiesInput",
-}) as any as S.Schema<PipelinePropertiesInput>;
+).annotate({ identifier: "PipelinePropertiesInput" }) as any as S.Schema<PipelinePropertiesInput>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PipelinesCreateOrUpdateRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
@@ -3333,9 +3239,7 @@ export const PipelinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PipelinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PipelinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PipelinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PipelinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3410,9 +3314,7 @@ export const RejectPipelineConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RejectPipelineConnectionRequest>;
 
 /** Resource tags. */
-export type RejectPipelineConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RejectPipelineConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const RejectPipelineConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3493,9 +3395,7 @@ export const SetFlowDestinationEndpointPortsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<SetFlowDestinationEndpointPortsRequest>;
 
 /** Resource tags. */
-export type SetFlowDestinationEndpointPortsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SetFlowDestinationEndpointPortsResponseTagsMap = { [key: string]: string | undefined };
 export const SetFlowDestinationEndpointPortsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3585,9 +3485,7 @@ export const SetFlowDestinationEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SetFlowDestinationEndpointsRequest>;
 
 /** Resource tags. */
-export type SetFlowDestinationEndpointsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SetFlowDestinationEndpointsResponseTagsMap = { [key: string]: string | undefined };
 export const SetFlowDestinationEndpointsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3665,14 +3563,10 @@ export const SetFlowPassphraseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "SetFlowPassphraseRequest",
-}) as any as S.Schema<SetFlowPassphraseRequest>;
+).annotate({ identifier: "SetFlowPassphraseRequest" }) as any as S.Schema<SetFlowPassphraseRequest>;
 
 /** Resource tags. */
-export type SetFlowPassphraseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SetFlowPassphraseResponseTagsMap = { [key: string]: string | undefined };
 export const SetFlowPassphraseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3760,9 +3654,7 @@ export const SetFlowSourceAddressesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SetFlowSourceAddressesRequest>;
 
 /** Resource tags. */
-export type SetFlowSourceAddressesResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SetFlowSourceAddressesResponseTagsMap = { [key: string]: string | undefined };
 export const SetFlowSourceAddressesResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3817,9 +3709,7 @@ export type UpdateConnectionRequestIdentity = ConnectionsCreateOrUpdateRequestId
 export const UpdateConnectionRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
 
 /** Resource tags. */
-export type UpdateConnectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3852,14 +3742,10 @@ export const UpdateConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "UpdateConnectionRequest",
-}) as any as S.Schema<UpdateConnectionRequest>;
+).annotate({ identifier: "UpdateConnectionRequest" }) as any as S.Schema<UpdateConnectionRequest>;
 
 /** Resource tags. */
-export type UpdateConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3898,9 +3784,7 @@ export const UpdateConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateConnectionResponse",
-}) as any as S.Schema<UpdateConnectionResponse>;
+).annotate({ identifier: "UpdateConnectionResponse" }) as any as S.Schema<UpdateConnectionResponse>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateFlowRequestIdentity = ConnectionsCreateOrUpdateRequestIdentity;
@@ -3943,9 +3827,7 @@ export const UpdateFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "UpdateFlowRequest",
-}) as any as S.Schema<UpdateFlowRequest>;
+).annotate({ identifier: "UpdateFlowRequest" }) as any as S.Schema<UpdateFlowRequest>;
 
 /** Resource tags. */
 export type UpdateFlowResponseTagsMap = { [key: string]: string | undefined };
@@ -3994,9 +3876,7 @@ export const UpdateFlowResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateFlowResponse",
-}) as any as S.Schema<UpdateFlowResponse>;
+).annotate({ identifier: "UpdateFlowResponse" }) as any as S.Schema<UpdateFlowResponse>;
 
 /** The flow types allowed for this pipeline. FlowTypes has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile property instead. */
 export type PipelinesPatchPropertiesFlowTypesList = Array<FlowType | (string & {})>;
@@ -4013,14 +3893,10 @@ export const PipelinesPatchProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     flowTypes: S.optional(PipelinesPatchPropertiesFlowTypesList),
   }),
-).annotate({
-  identifier: "PipelinesPatchProperties",
-}) as any as S.Schema<PipelinesPatchProperties>;
+).annotate({ identifier: "PipelinesPatchProperties" }) as any as S.Schema<PipelinesPatchProperties>;
 
 /** Resource tags. */
-export type UpdatePipelineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePipelineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePipelineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4060,14 +3936,10 @@ export const UpdatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-21",
     }),
   ),
-).annotate({
-  identifier: "UpdatePipelineRequest",
-}) as any as S.Schema<UpdatePipelineRequest>;
+).annotate({ identifier: "UpdatePipelineRequest" }) as any as S.Schema<UpdatePipelineRequest>;
 
 /** Resource tags. */
-export type UpdatePipelineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePipelineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePipelineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4106,9 +3978,7 @@ export const UpdatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PipelineProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdatePipelineResponse",
-}) as any as S.Schema<UpdatePipelineResponse>;
+).annotate({ identifier: "UpdatePipelineResponse" }) as any as S.Schema<UpdatePipelineResponse>;
 
 export interface ValidateAzureDataTransferSchemaRequest {
   /** ID associated with this schema */
@@ -4166,9 +4036,7 @@ export const ValidateSchemaResult = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ValidateSchemaStatus),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidateSchemaResult",
-}) as any as S.Schema<ValidateSchemaResult>;
+).annotate({ identifier: "ValidateSchemaResult" }) as any as S.Schema<ValidateSchemaResult>;
 
 export type ApprovePipelineConnectionError = AzureOpError;
 /** Approves a pending connection request associated with the specified Pipeline. */

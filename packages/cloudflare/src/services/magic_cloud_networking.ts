@@ -179,16 +179,12 @@ export const ApplyOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ApplyOnRampRequest",
-}) as any as S.Schema<ApplyOnRampRequest>;
+).annotate({ identifier: "ApplyOnRampRequest" }) as any as S.Schema<ApplyOnRampRequest>;
 
 export interface ApplyOnRampResponse {}
 export const ApplyOnRampResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ApplyOnRampResponse",
-}) as any as S.Schema<ApplyOnRampResponse>;
+).annotate({ identifier: "ApplyOnRampResponse" }) as any as S.Schema<ApplyOnRampResponse>;
 
 export type CatalogSyncsCreateRequestDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsCreateRequestDestinationType = S.String;
@@ -223,9 +219,7 @@ export const CreateCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCatalogSyncRequest",
-}) as any as S.Schema<CreateCatalogSyncRequest>;
+).annotate({ identifier: "CreateCatalogSyncRequest" }) as any as S.Schema<CreateCatalogSyncRequest>;
 
 export type CatalogSyncsCreateResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsCreateResponseDestinationType = S.String;
@@ -507,11 +501,7 @@ export const CreateCloudIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/cloud/providers",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/cloud/providers", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -769,17 +759,9 @@ export const CreateOnRampRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     vpc: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/magic/cloud/onramps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/magic/cloud/onramps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateOnRampRequest",
-}) as any as S.Schema<CreateOnRampRequest>;
+).annotate({ identifier: "CreateOnRampRequest" }) as any as S.Schema<CreateOnRampRequest>;
 
 export type OnRampsCreateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export const OnRampsCreateResponseCloudType = S.String;
@@ -2207,9 +2189,7 @@ export const OnRampsCreateResponseStatus = /*@__PURE__*/ S.suspend(() =>
 export type OnRampsCreateResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const OnRampsCreateResponseVpcsByIdValueCloudType = S.String;
 
-export type OnRampsCreateResponseVpcsByIdValueConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsCreateResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
 export const OnRampsCreateResponseVpcsByIdValueConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2993,17 +2973,13 @@ export const OnRampsCreateResponseVpcsByIdValueSectionsList = /*@__PURE__*/ S.Ar
   OnRampsCreateResponseVpcsByIdValueSectionsItem,
 ) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueSectionsList>;
 
-export type OnRampsCreateResponseVpcsByIdValueStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsCreateResponseVpcsByIdValueStateMap = { [key: string]: unknown | undefined };
 export const OnRampsCreateResponseVpcsByIdValueStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OnRampsCreateResponseVpcsByIdValueStateMap>;
 
-export type OnRampsCreateResponseVpcsByIdValueTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OnRampsCreateResponseVpcsByIdValueTagsMap = { [key: string]: string | undefined };
 export const OnRampsCreateResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3196,9 +3172,7 @@ export const CreateOnRampResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsCreateResponseVpcsByIdUnavailableList).pipe(T.Body("vpcs_by_id_unavailable")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateOnRampResponse",
-}) as any as S.Schema<CreateOnRampResponse>;
+).annotate({ identifier: "CreateOnRampResponse" }) as any as S.Schema<CreateOnRampResponse>;
 
 export interface DeleteCatalogSyncRequest {
   accountId: string;
@@ -3219,9 +3193,7 @@ export const DeleteCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCatalogSyncRequest",
-}) as any as S.Schema<DeleteCatalogSyncRequest>;
+).annotate({ identifier: "DeleteCatalogSyncRequest" }) as any as S.Schema<DeleteCatalogSyncRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCatalogSyncResponse {
@@ -3289,9 +3261,7 @@ export const DeleteOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteOnRampRequest",
-}) as any as S.Schema<DeleteOnRampRequest>;
+).annotate({ identifier: "DeleteOnRampRequest" }) as any as S.Schema<DeleteOnRampRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOnRampResponse {
@@ -3301,9 +3271,7 @@ export const DeleteOnRampResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteOnRampResponse",
-}) as any as S.Schema<DeleteOnRampResponse>;
+).annotate({ identifier: "DeleteOnRampResponse" }) as any as S.Schema<DeleteOnRampResponse>;
 
 export interface DiscoverAllCloudIntegrationRequest {
   accountId: string;
@@ -3378,16 +3346,12 @@ export const ExportOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportOnRampRequest",
-}) as any as S.Schema<ExportOnRampRequest>;
+).annotate({ identifier: "ExportOnRampRequest" }) as any as S.Schema<ExportOnRampRequest>;
 
 export interface ExportOnRampResponse {}
 export const ExportOnRampResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportOnRampResponse",
-}) as any as S.Schema<ExportOnRampResponse>;
+).annotate({ identifier: "ExportOnRampResponse" }) as any as S.Schema<ExportOnRampResponse>;
 
 export type ResourcesExportRequestResourceIdList = Array<string>;
 export const ResourcesExportRequestResourceIdList = /*@__PURE__*/ S.Array(
@@ -3500,16 +3464,12 @@ export const ExportResourceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportResourceRequest",
-}) as any as S.Schema<ExportResourceRequest>;
+).annotate({ identifier: "ExportResourceRequest" }) as any as S.Schema<ExportResourceRequest>;
 
 export interface ExportResourceResponse {}
 export const ExportResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ExportResourceResponse",
-}) as any as S.Schema<ExportResourceResponse>;
+).annotate({ identifier: "ExportResourceResponse" }) as any as S.Schema<ExportResourceResponse>;
 
 export interface GetCatalogSyncRequest {
   accountId: string;
@@ -3528,9 +3488,7 @@ export const GetCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCatalogSyncRequest",
-}) as any as S.Schema<GetCatalogSyncRequest>;
+).annotate({ identifier: "GetCatalogSyncRequest" }) as any as S.Schema<GetCatalogSyncRequest>;
 
 export type CatalogSyncsGetResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsGetResponseDestinationType = S.String;
@@ -3763,9 +3721,7 @@ export const GetCatalogSyncResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.String).pipe(T.Body("last_successful_update_at")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCatalogSyncResponse",
-}) as any as S.Schema<GetCatalogSyncResponse>;
+).annotate({ identifier: "GetCatalogSyncResponse" }) as any as S.Schema<GetCatalogSyncResponse>;
 
 export interface GetCloudIntegrationRequest {
   accountId: string;
@@ -3995,9 +3951,7 @@ export const GetOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOnRampRequest",
-}) as any as S.Schema<GetOnRampRequest>;
+).annotate({ identifier: "GetOnRampRequest" }) as any as S.Schema<GetOnRampRequest>;
 
 export type OnRampsGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export const OnRampsGetResponseCloudType = S.String;
@@ -5322,16 +5276,12 @@ export const OnRampsGetResponseStatus = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsGetResponseStatusLifecycleErrorsMap).pipe(T.Body("lifecycle_errors")),
     ),
   }),
-).annotate({
-  identifier: "OnRampsGetResponseStatus",
-}) as any as S.Schema<OnRampsGetResponseStatus>;
+).annotate({ identifier: "OnRampsGetResponseStatus" }) as any as S.Schema<OnRampsGetResponseStatus>;
 
 export type OnRampsGetResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const OnRampsGetResponseVpcsByIdValueCloudType = S.String;
 
-export type OnRampsGetResponseVpcsByIdValueConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsGetResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
 export const OnRampsGetResponseVpcsByIdValueConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6111,17 +6061,13 @@ export const OnRampsGetResponseVpcsByIdValueSectionsList = /*@__PURE__*/ S.Array
   OnRampsGetResponseVpcsByIdValueSectionsItem,
 ) as any as S.Schema<OnRampsGetResponseVpcsByIdValueSectionsList>;
 
-export type OnRampsGetResponseVpcsByIdValueStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsGetResponseVpcsByIdValueStateMap = { [key: string]: unknown | undefined };
 export const OnRampsGetResponseVpcsByIdValueStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OnRampsGetResponseVpcsByIdValueStateMap>;
 
-export type OnRampsGetResponseVpcsByIdValueTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OnRampsGetResponseVpcsByIdValueTagsMap = { [key: string]: string | undefined };
 export const OnRampsGetResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6312,9 +6258,7 @@ export const GetOnRampResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsGetResponseVpcsByIdUnavailableList).pipe(T.Body("vpcs_by_id_unavailable")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOnRampResponse",
-}) as any as S.Schema<GetOnRampResponse>;
+).annotate({ identifier: "GetOnRampResponse" }) as any as S.Schema<GetOnRampResponse>;
 
 export interface GetResourceRequest {
   accountId: string;
@@ -6335,16 +6279,12 @@ export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResourceRequest",
-}) as any as S.Schema<GetResourceRequest>;
+).annotate({ identifier: "GetResourceRequest" }) as any as S.Schema<GetResourceRequest>;
 
 export type ResourcesGetResponseCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const ResourcesGetResponseCloudType = S.String;
 
-export type ResourcesGetResponseConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourcesGetResponseConfigMap = { [key: string]: unknown | undefined };
 export const ResourcesGetResponseConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6373,9 +6313,7 @@ export const ResourcesGetResponseProviderIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ResourcesGetResponseProviderIdsList>;
 
-export type ResourcesGetResponseProviderNamesByIdMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesGetResponseProviderNamesByIdMap = { [key: string]: string | undefined };
 export const ResourcesGetResponseProviderNamesByIdMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7113,9 +7051,7 @@ export const ResourcesGetResponseSectionsList = /*@__PURE__*/ S.Array(
   ResourcesGetResponseSectionsItem,
 ) as any as S.Schema<ResourcesGetResponseSectionsList>;
 
-export type ResourcesGetResponseStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourcesGetResponseStateMap = { [key: string]: unknown | undefined };
 export const ResourcesGetResponseStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7202,9 +7138,7 @@ export const GetResourceResponse = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     managedBy: S.optional(S.NullOr(ResourcesGetResponseManagedByList).pipe(T.Body("managed_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResourceResponse",
-}) as any as S.Schema<GetResourceResponse>;
+).annotate({ identifier: "GetResourceResponse" }) as any as S.Schema<GetResourceResponse>;
 
 export interface InitialSetupCloudIntegrationRequest {
   accountId: string;
@@ -7382,16 +7316,10 @@ export const ListCatalogSyncsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cloud/catalog-syncs",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cloud/catalog-syncs", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCatalogSyncsRequest",
-}) as any as S.Schema<ListCatalogSyncsRequest>;
+).annotate({ identifier: "ListCatalogSyncsRequest" }) as any as S.Schema<ListCatalogSyncsRequest>;
 
 export type CatalogSyncsListResultItemDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsListResultItemDestinationType = S.String;
@@ -7645,9 +7573,7 @@ export const ListCatalogSyncsResponse = /*@__PURE__*/ S.suspend(() =>
     result: CatalogSyncsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCatalogSyncsResponse",
-}) as any as S.Schema<ListCatalogSyncsResponse>;
+).annotate({ identifier: "ListCatalogSyncsResponse" }) as any as S.Schema<ListCatalogSyncsResponse>;
 
 export interface ListCloudIntegrationsRequest {
   accountId: string;
@@ -7665,13 +7591,7 @@ export const ListCloudIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     orderBy: S.optional(S.String.pipe(T.Query("order_by"))),
     status: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cloud/providers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cloud/providers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCloudIntegrationsRequest",
@@ -7930,17 +7850,9 @@ export const ListOnRampsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Boolean.pipe(T.Query())),
     vpcs: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cloud/onramps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cloud/onramps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOnRampsRequest",
-}) as any as S.Schema<ListOnRampsRequest>;
+).annotate({ identifier: "ListOnRampsRequest" }) as any as S.Schema<ListOnRampsRequest>;
 
 export type OnRampsListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE";
 export const OnRampsListResultItemCloudType = S.String;
@@ -9281,9 +9193,7 @@ export const OnRampsListResultItemStatus = /*@__PURE__*/ S.suspend(() =>
 export type OnRampsListResultItemVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const OnRampsListResultItemVpcsByIdValueCloudType = S.String;
 
-export type OnRampsListResultItemVpcsByIdValueConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsListResultItemVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
 export const OnRampsListResultItemVpcsByIdValueConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10067,17 +9977,13 @@ export const OnRampsListResultItemVpcsByIdValueSectionsList = /*@__PURE__*/ S.Ar
   OnRampsListResultItemVpcsByIdValueSectionsItem,
 ) as any as S.Schema<OnRampsListResultItemVpcsByIdValueSectionsList>;
 
-export type OnRampsListResultItemVpcsByIdValueStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsListResultItemVpcsByIdValueStateMap = { [key: string]: unknown | undefined };
 export const OnRampsListResultItemVpcsByIdValueStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OnRampsListResultItemVpcsByIdValueStateMap>;
 
-export type OnRampsListResultItemVpcsByIdValueTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OnRampsListResultItemVpcsByIdValueTagsMap = { [key: string]: string | undefined };
 export const OnRampsListResultItemVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10269,9 +10175,7 @@ export const OnRampsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsListResultItemVpcsByIdUnavailableList).pipe(T.Body("vpcs_by_id_unavailable")),
     ),
   }),
-).annotate({
-  identifier: "OnRampsListResultItem",
-}) as any as S.Schema<OnRampsListResultItem>;
+).annotate({ identifier: "OnRampsListResultItem" }) as any as S.Schema<OnRampsListResultItem>;
 
 export type OnRampsListResultList = Array<OnRampsListResultItem>;
 export const OnRampsListResultList = /*@__PURE__*/ S.Array(
@@ -10289,9 +10193,7 @@ export const ListOnRampsResponse = /*@__PURE__*/ S.suspend(() =>
     result: OnRampsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOnRampsResponse",
-}) as any as S.Schema<ListOnRampsResponse>;
+).annotate({ identifier: "ListOnRampsResponse" }) as any as S.Schema<ListOnRampsResponse>;
 
 export type ResourcesListRequestResourceIdList = Array<string>;
 export const ResourcesListRequestResourceIdList = /*@__PURE__*/ S.Array(
@@ -10404,24 +10306,14 @@ export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(ResourcesListRequestSearchList.pipe(T.Query())),
     v2: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/magic/cloud/resources",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/magic/cloud/resources", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListResourcesRequest",
-}) as any as S.Schema<ListResourcesRequest>;
+).annotate({ identifier: "ListResourcesRequest" }) as any as S.Schema<ListResourcesRequest>;
 
 export type ResourcesListResultItemCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const ResourcesListResultItemCloudType = S.String;
 
-export type ResourcesListResultItemConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourcesListResultItemConfigMap = { [key: string]: unknown | undefined };
 export const ResourcesListResultItemConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10450,9 +10342,7 @@ export const ResourcesListResultItemProviderIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ResourcesListResultItemProviderIdsList>;
 
-export type ResourcesListResultItemProviderNamesByIdMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesListResultItemProviderNamesByIdMap = { [key: string]: string | undefined };
 export const ResourcesListResultItemProviderNamesByIdMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11191,17 +11081,13 @@ export const ResourcesListResultItemSectionsList = /*@__PURE__*/ S.Array(
   ResourcesListResultItemSectionsItem,
 ) as any as S.Schema<ResourcesListResultItemSectionsList>;
 
-export type ResourcesListResultItemStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourcesListResultItemStateMap = { [key: string]: unknown | undefined };
 export const ResourcesListResultItemStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ResourcesListResultItemStateMap>;
 
-export type ResourcesListResultItemTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesListResultItemTagsMap = { [key: string]: string | undefined };
 export const ResourcesListResultItemTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11283,9 +11169,7 @@ export const ResourcesListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(ResourcesListResultItemManagedByList).pipe(T.Body("managed_by")),
     ),
   }),
-).annotate({
-  identifier: "ResourcesListResultItem",
-}) as any as S.Schema<ResourcesListResultItem>;
+).annotate({ identifier: "ResourcesListResultItem" }) as any as S.Schema<ResourcesListResultItem>;
 
 export type ResourcesListResultList = Array<ResourcesListResultItem>;
 export const ResourcesListResultList = /*@__PURE__*/ S.Array(
@@ -11303,9 +11187,7 @@ export const ListResourcesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ResourcesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListResourcesResponse",
-}) as any as S.Schema<ListResourcesResponse>;
+).annotate({ identifier: "ListResourcesResponse" }) as any as S.Schema<ListResourcesResponse>;
 
 export type CatalogSyncsEditRequestUpdateMode = "AUTO" | "MANUAL";
 export const CatalogSyncsEditRequestUpdateMode = S.String;
@@ -11335,9 +11217,7 @@ export const PatchCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCatalogSyncRequest",
-}) as any as S.Schema<PatchCatalogSyncRequest>;
+).annotate({ identifier: "PatchCatalogSyncRequest" }) as any as S.Schema<PatchCatalogSyncRequest>;
 
 export type CatalogSyncsEditResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsEditResponseDestinationType = S.String;
@@ -11571,9 +11451,7 @@ export const PatchCatalogSyncResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(S.String).pipe(T.Body("last_successful_update_at")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCatalogSyncResponse",
-}) as any as S.Schema<PatchCatalogSyncResponse>;
+).annotate({ identifier: "PatchCatalogSyncResponse" }) as any as S.Schema<PatchCatalogSyncResponse>;
 
 export interface PatchCloudIntegrationRequest {
   accountId: string;
@@ -11837,9 +11715,7 @@ export const PatchOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchOnRampRequest",
-}) as any as S.Schema<PatchOnRampRequest>;
+).annotate({ identifier: "PatchOnRampRequest" }) as any as S.Schema<PatchOnRampRequest>;
 
 export type OnRampsEditResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export const OnRampsEditResponseCloudType = S.String;
@@ -13173,9 +13049,7 @@ export const OnRampsEditResponseStatus = /*@__PURE__*/ S.suspend(() =>
 export type OnRampsEditResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const OnRampsEditResponseVpcsByIdValueCloudType = S.String;
 
-export type OnRampsEditResponseVpcsByIdValueConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsEditResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
 export const OnRampsEditResponseVpcsByIdValueConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -13957,17 +13831,13 @@ export const OnRampsEditResponseVpcsByIdValueSectionsList = /*@__PURE__*/ S.Arra
   OnRampsEditResponseVpcsByIdValueSectionsItem,
 ) as any as S.Schema<OnRampsEditResponseVpcsByIdValueSectionsList>;
 
-export type OnRampsEditResponseVpcsByIdValueStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsEditResponseVpcsByIdValueStateMap = { [key: string]: unknown | undefined };
 export const OnRampsEditResponseVpcsByIdValueStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OnRampsEditResponseVpcsByIdValueStateMap>;
 
-export type OnRampsEditResponseVpcsByIdValueTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OnRampsEditResponseVpcsByIdValueTagsMap = { [key: string]: string | undefined };
 export const OnRampsEditResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14158,9 +14028,7 @@ export const PatchOnRampResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsEditResponseVpcsByIdUnavailableList).pipe(T.Body("vpcs_by_id_unavailable")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchOnRampResponse",
-}) as any as S.Schema<PatchOnRampResponse>;
+).annotate({ identifier: "PatchOnRampResponse" }) as any as S.Schema<PatchOnRampResponse>;
 
 export type OnRampsAddressSpacesEditRequestPrefixesList = Array<string>;
 export const OnRampsAddressSpacesEditRequestPrefixesList = /*@__PURE__*/ S.Array(
@@ -14222,16 +14090,12 @@ export const PlanOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PlanOnRampRequest",
-}) as any as S.Schema<PlanOnRampRequest>;
+).annotate({ identifier: "PlanOnRampRequest" }) as any as S.Schema<PlanOnRampRequest>;
 
 export interface PlanOnRampResponse {}
 export const PlanOnRampResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PlanOnRampResponse",
-}) as any as S.Schema<PlanOnRampResponse>;
+).annotate({ identifier: "PlanOnRampResponse" }) as any as S.Schema<PlanOnRampResponse>;
 
 export interface PolicyPreviewResourceRequest {
   accountId: string;
@@ -14360,9 +14224,7 @@ export const UpdateCatalogSyncRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateCatalogSyncRequest",
-}) as any as S.Schema<UpdateCatalogSyncRequest>;
+).annotate({ identifier: "UpdateCatalogSyncRequest" }) as any as S.Schema<UpdateCatalogSyncRequest>;
 
 export type CatalogSyncsUpdateResponseDestinationType = "NONE" | "ZERO_TRUST_LIST";
 export const CatalogSyncsUpdateResponseDestinationType = S.String;
@@ -14863,9 +14725,7 @@ export const UpdateOnRampRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateOnRampRequest",
-}) as any as S.Schema<UpdateOnRampRequest>;
+).annotate({ identifier: "UpdateOnRampRequest" }) as any as S.Schema<UpdateOnRampRequest>;
 
 export type OnRampsUpdateResponseCloudType = "AWS" | "AZURE" | "GOOGLE";
 export const OnRampsUpdateResponseCloudType = S.String;
@@ -16206,9 +16066,7 @@ export const OnRampsUpdateResponseStatus = /*@__PURE__*/ S.suspend(() =>
 export type OnRampsUpdateResponseVpcsByIdValueCloudType = "AWS" | "AZURE" | "GOOGLE" | "CLOUDFLARE";
 export const OnRampsUpdateResponseVpcsByIdValueCloudType = S.String;
 
-export type OnRampsUpdateResponseVpcsByIdValueConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsUpdateResponseVpcsByIdValueConfigMap = { [key: string]: unknown | undefined };
 export const OnRampsUpdateResponseVpcsByIdValueConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -16992,17 +16850,13 @@ export const OnRampsUpdateResponseVpcsByIdValueSectionsList = /*@__PURE__*/ S.Ar
   OnRampsUpdateResponseVpcsByIdValueSectionsItem,
 ) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueSectionsList>;
 
-export type OnRampsUpdateResponseVpcsByIdValueStateMap = {
-  [key: string]: unknown | undefined;
-};
+export type OnRampsUpdateResponseVpcsByIdValueStateMap = { [key: string]: unknown | undefined };
 export const OnRampsUpdateResponseVpcsByIdValueStateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OnRampsUpdateResponseVpcsByIdValueStateMap>;
 
-export type OnRampsUpdateResponseVpcsByIdValueTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OnRampsUpdateResponseVpcsByIdValueTagsMap = { [key: string]: string | undefined };
 export const OnRampsUpdateResponseVpcsByIdValueTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17195,9 +17049,7 @@ export const UpdateOnRampResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(OnRampsUpdateResponseVpcsByIdUnavailableList).pipe(T.Body("vpcs_by_id_unavailable")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateOnRampResponse",
-}) as any as S.Schema<UpdateOnRampResponse>;
+).annotate({ identifier: "UpdateOnRampResponse" }) as any as S.Schema<UpdateOnRampResponse>;
 
 export type ApplyOnRampError = CloudflareOpError;
 /** Apply an On-ramp (Closed Beta). */

@@ -23,9 +23,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   superCategoryId: "super_category_id",
 };
 
-export type ScansBulkCreateRequestBodyItemCustomHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ScansBulkCreateRequestBodyItemCustomHeadersMap = { [key: string]: string | undefined };
 export const ScansBulkCreateRequestBodyItemCustomHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -90,24 +88,14 @@ export const BulkCreateScansRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     body: S.optional(ScansBulkCreateRequestBodyList.pipe(T.HttpBody())),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/urlscanner/v2/bulk",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/urlscanner/v2/bulk", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkCreateScansRequest",
-}) as any as S.Schema<BulkCreateScansRequest>;
+).annotate({ identifier: "BulkCreateScansRequest" }) as any as S.Schema<BulkCreateScansRequest>;
 
 export type BulkCreateScansResponse = string;
 export const BulkCreateScansResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkCreateScansResponse",
-}) as any as S.Schema<BulkCreateScansResponse>;
+).annotate({ identifier: "BulkCreateScansResponse" }) as any as S.Schema<BulkCreateScansResponse>;
 
 export type ScansCreateRequestCountry =
   | "AF"
@@ -307,9 +295,7 @@ export type ScansCreateRequestCountry =
   | "ZW";
 export const ScansCreateRequestCountry = S.String;
 
-export type ScansCreateRequestCustomHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ScansCreateRequestCustomHeadersMap = { [key: string]: string | undefined };
 export const ScansCreateRequestCustomHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -357,24 +343,14 @@ export const CreateScanRequest = /*@__PURE__*/ S.suspend(() =>
     screenshotsResolutions: S.optional(ScansCreateRequestScreenshotsResolutionsList),
     visibility: S.optional(ScansCreateRequestVisibility),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/urlscanner/v2/scan",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/urlscanner/v2/scan", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScanRequest",
-}) as any as S.Schema<CreateScanRequest>;
+).annotate({ identifier: "CreateScanRequest" }) as any as S.Schema<CreateScanRequest>;
 
 export type CreateScanResponse = string;
 export const CreateScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateScanResponse",
-}) as any as S.Schema<CreateScanResponse>;
+).annotate({ identifier: "CreateScanResponse" }) as any as S.Schema<CreateScanResponse>;
 
 export interface DomScanRequest {
   /** Account ID. */
@@ -400,9 +376,7 @@ export const DomScanRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DomScanResponse {}
 export const DomScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DomScanResponse",
-}) as any as S.Schema<DomScanResponse>;
+).annotate({ identifier: "DomScanResponse" }) as any as S.Schema<DomScanResponse>;
 
 export interface GetResponsRequest {
   /** Account ID. */
@@ -423,16 +397,12 @@ export const GetResponsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResponsRequest",
-}) as any as S.Schema<GetResponsRequest>;
+).annotate({ identifier: "GetResponsRequest" }) as any as S.Schema<GetResponsRequest>;
 
 export interface GetResponsResponse {}
 export const GetResponsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetResponsResponse",
-}) as any as S.Schema<GetResponsResponse>;
+).annotate({ identifier: "GetResponsResponse" }) as any as S.Schema<GetResponsResponse>;
 
 export interface GetScanRequest {
   /** Account ID. */
@@ -993,9 +963,7 @@ export const ScansGetResponseData = /*@__PURE__*/ S.suspend(() =>
     performance: ScansGetResponseDataPerformanceList,
     requests: ScansGetResponseDataRequestsList,
   }),
-).annotate({
-  identifier: "ScansGetResponseData",
-}) as any as S.Schema<ScansGetResponseData>;
+).annotate({ identifier: "ScansGetResponseData" }) as any as S.Schema<ScansGetResponseData>;
 
 export type ScansGetResponseListsAsnsList = Array<string>;
 export const ScansGetResponseListsAsnsList = /*@__PURE__*/ S.Array(
@@ -1089,9 +1057,7 @@ export const ScansGetResponseLists = /*@__PURE__*/ S.suspend(() =>
     servers: ScansGetResponseListsServersList,
     urls: ScansGetResponseListsUrlsList,
   }),
-).annotate({
-  identifier: "ScansGetResponseLists",
-}) as any as S.Schema<ScansGetResponseLists>;
+).annotate({ identifier: "ScansGetResponseLists" }) as any as S.Schema<ScansGetResponseLists>;
 
 export interface ScansGetResponseMetaProcessorsAsnDataItem {
   asn: string;
@@ -1474,12 +1440,29 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlC
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceList>;
 
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef {
+  /** Stable, translatable message code. */
+  code: string;
+  params?: unknown | null;
+}
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      code: S.String,
+      params: S.optional(S.NullOr(S.Unknown)),
+    }),
+  ).annotate({
+    identifier:
+      "ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef",
+  }) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef>;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals =
   /*@__PURE__*/ S.suspend(() =>
@@ -1493,6 +1476,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlC
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals",
@@ -1525,12 +1513,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlR
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRules {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRules =
   /*@__PURE__*/ S.suspend(() =>
@@ -1544,6 +1538,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlR
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier:
@@ -1577,12 +1576,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlW
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuth {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuth =
   /*@__PURE__*/ S.suspend(() =>
@@ -1596,6 +1601,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlW
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuth",
@@ -1646,12 +1656,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEviden
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp =
   /*@__PURE__*/ S.suspend(() =>
@@ -1663,6 +1679,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp",
@@ -1695,12 +1716,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2Eviden
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2MessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2MessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2 {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1712,6 +1739,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2 =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2",
@@ -1744,12 +1776,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEviden
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp =
   /*@__PURE__*/ S.suspend(() =>
@@ -1761,6 +1799,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp",
@@ -1793,12 +1836,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEviden
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp =
   /*@__PURE__*/ S.suspend(() =>
@@ -1810,6 +1859,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp",
@@ -1842,12 +1896,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402Evide
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402MessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402MessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402 {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1859,6 +1919,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402 =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402",
@@ -1911,12 +1976,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibil
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiation {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiation =
   /*@__PURE__*/ S.suspend(() =>
@@ -1930,6 +2001,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibil
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier:
@@ -1976,12 +2052,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDn
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid =
   /*@__PURE__*/ S.suspend(() =>
@@ -1995,6 +2077,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDn
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid",
@@ -2027,12 +2114,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLi
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders =
   /*@__PURE__*/ S.suspend(() =>
@@ -2046,6 +2139,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLi
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders",
@@ -2078,12 +2176,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRo
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt =
   /*@__PURE__*/ S.suspend(() =>
@@ -2097,6 +2201,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRo
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt",
@@ -2129,12 +2238,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySi
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap =
   /*@__PURE__*/ S.suspend(() =>
@@ -2148,6 +2263,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySi
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap",
@@ -2198,12 +2318,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgent
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard =
   /*@__PURE__*/ S.suspend(() =>
@@ -2217,6 +2343,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgent
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard",
@@ -2249,12 +2380,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSki
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills =
   /*@__PURE__*/ S.suspend(() =>
@@ -2268,6 +2405,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSki
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills",
@@ -2300,12 +2442,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatal
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog =
   /*@__PURE__*/ S.suspend(() =>
@@ -2317,6 +2465,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatal
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog",
@@ -2349,12 +2502,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvide
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd =
   /*@__PURE__*/ S.suspend(() =>
@@ -2366,6 +2525,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd",
@@ -2398,12 +2562,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEv
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd =
   /*@__PURE__*/ S.suspend(() =>
@@ -2415,6 +2585,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd",
@@ -2447,12 +2622,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServe
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard =
   /*@__PURE__*/ S.suspend(() =>
@@ -2466,6 +2647,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServe
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard",
@@ -2498,12 +2684,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDis
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery =
   /*@__PURE__*/ S.suspend(() =>
@@ -2517,6 +2709,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDis
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery",
@@ -2549,12 +2746,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthPro
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource =
   /*@__PURE__*/ S.suspend(() =>
@@ -2568,6 +2771,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthPro
         ),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource",
@@ -2600,12 +2808,18 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEv
     ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem,
   ) as any as S.Schema<ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceList>;
 
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp {
   status: string;
   details?: unknown | null;
   durationMs?: number | null;
   evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceList | null;
   message?: string | null;
+  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
 }
 export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp =
   /*@__PURE__*/ S.suspend(() =>
@@ -2617,6 +2831,11 @@ export const ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp =
         S.NullOr(ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceList),
       ),
       message: S.optional(S.NullOr(S.String)),
+      messageRef: S.optional(
+        S.NullOr(
+          ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef,
+        ),
+      ),
     }),
   ).annotate({
     identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp",
@@ -2764,24 +2983,24 @@ export const ScansGetResponseMetaProcessorsPhishingV2 = /*@__PURE__*/ S.suspend(
   identifier: "ScansGetResponseMetaProcessorsPhishingV2",
 }) as any as S.Schema<ScansGetResponseMetaProcessorsPhishingV2>;
 
-export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList = Array<string>;
-export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList =
+export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList = Array<string>;
+export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList>;
+  ) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList>;
 
-export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList = Array<string>;
-export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList =
+export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList = Array<string>;
+export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList>;
+  ) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList>;
 
-export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal {
+export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal {
   aiInput?: string | null;
   aiTrain?: string | null;
   search?: string | null;
 }
-export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal =
+export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       aiInput: S.optional(S.NullOr(S.String).pipe(T.Body("ai-input"))),
@@ -2789,39 +3008,36 @@ export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSig
       search: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
-    identifier: "ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal",
-  }) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal>;
+    identifier: "ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal",
+  }) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal>;
 
-export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape {
-  allow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList;
-  disallow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList;
-  contentSignal?: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal | null;
+export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue {
+  allow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList;
+  disallow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList;
+  contentSignal?: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal | null;
   crawlDelay?: number | null;
 }
-export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape = /*@__PURE__*/ S.suspend(
+export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      allow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeAllowList,
-      disallow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeDisallowList,
+      allow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList,
+      disallow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList,
       contentSignal: S.optional(
-        S.NullOr(ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShapeContentSignal),
+        S.NullOr(ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal),
       ),
       crawlDelay: S.optional(S.NullOr(S.Number)),
     }),
 ).annotate({
-  identifier: "ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape",
-}) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape>;
+  identifier: "ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue",
+}) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue>;
 
-export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRules {
-  "": ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape;
-}
-export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRules = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    "": ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesShape.pipe(T.Body("*")),
-  }),
-).annotate({
-  identifier: "ScansGetResponseMetaProcessorsRobotsTxtDataItemRules",
-}) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRules>;
+export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap = {
+  [key: string]: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue | undefined;
+};
+export const ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue,
+) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap>;
 
 export type ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList = Array<string>;
 export const ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList = /*@__PURE__*/ S.Array(
@@ -2829,13 +3045,13 @@ export const ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList = /*@__
 ) as any as S.Schema<ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList>;
 
 export interface ScansGetResponseMetaProcessorsRobotsTxtDataItem {
-  rules: ScansGetResponseMetaProcessorsRobotsTxtDataItemRules;
+  rules: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap;
   sitemaps: ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList;
   hash?: string | null;
 }
 export const ScansGetResponseMetaProcessorsRobotsTxtDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rules: ScansGetResponseMetaProcessorsRobotsTxtDataItemRules,
+    rules: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap,
     sitemaps: ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList,
     hash: S.optional(S.NullOr(S.String)),
   }),
@@ -3007,9 +3223,7 @@ export const ScansGetResponseMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processors: ScansGetResponseMetaProcessors,
   }),
-).annotate({
-  identifier: "ScansGetResponseMeta",
-}) as any as S.Schema<ScansGetResponseMeta>;
+).annotate({ identifier: "ScansGetResponseMeta" }) as any as S.Schema<ScansGetResponseMeta>;
 
 export interface ScansGetResponsePageScreenshot {
   dhash: string;
@@ -3067,9 +3281,7 @@ export const ScansGetResponsePage = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     screenshot: S.optional(S.NullOr(ScansGetResponsePageScreenshot)),
   }),
-).annotate({
-  identifier: "ScansGetResponsePage",
-}) as any as S.Schema<ScansGetResponsePage>;
+).annotate({ identifier: "ScansGetResponsePage" }) as any as S.Schema<ScansGetResponsePage>;
 
 export interface ScansGetResponseScanner {
   colo: string;
@@ -3080,9 +3292,7 @@ export const ScansGetResponseScanner = /*@__PURE__*/ S.suspend(() =>
     colo: S.String,
     country: S.String,
   }),
-).annotate({
-  identifier: "ScansGetResponseScanner",
-}) as any as S.Schema<ScansGetResponseScanner>;
+).annotate({ identifier: "ScansGetResponseScanner" }) as any as S.Schema<ScansGetResponseScanner>;
 
 export type ScansGetResponseStatsDomainStatsItemCountriesList = Array<string>;
 export const ScansGetResponseStatsDomainStatsItemCountriesList = /*@__PURE__*/ S.Array(
@@ -3398,9 +3608,7 @@ export const ScansGetResponseStats = /*@__PURE__*/ S.suspend(() =>
     uniqASNs: S.Number,
     uniqCountries: S.Number,
   }),
-).annotate({
-  identifier: "ScansGetResponseStats",
-}) as any as S.Schema<ScansGetResponseStats>;
+).annotate({ identifier: "ScansGetResponseStats" }) as any as S.Schema<ScansGetResponseStats>;
 
 export type ScansGetResponseTaskOptionsScreenshotsResolutionsList = Array<string>;
 export const ScansGetResponseTaskOptionsScreenshotsResolutionsList = /*@__PURE__*/ S.Array(
@@ -3454,9 +3662,7 @@ export const ScansGetResponseTask = /*@__PURE__*/ S.suspend(() =>
     uuid: S.String,
     visibility: S.String,
   }),
-).annotate({
-  identifier: "ScansGetResponseTask",
-}) as any as S.Schema<ScansGetResponseTask>;
+).annotate({ identifier: "ScansGetResponseTask" }) as any as S.Schema<ScansGetResponseTask>;
 
 export type ScansGetResponseVerdictsOverallCategoriesList = Array<string>;
 export const ScansGetResponseVerdictsOverallCategoriesList = /*@__PURE__*/ S.Array(
@@ -3492,9 +3698,7 @@ export const ScansGetResponseVerdicts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     overall: ScansGetResponseVerdictsOverall,
   }),
-).annotate({
-  identifier: "ScansGetResponseVerdicts",
-}) as any as S.Schema<ScansGetResponseVerdicts>;
+).annotate({ identifier: "ScansGetResponseVerdicts" }) as any as S.Schema<ScansGetResponseVerdicts>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetScanResponse {
@@ -3518,9 +3722,7 @@ export const GetScanResponse = /*@__PURE__*/ S.suspend(() =>
     task: ScansGetResponseTask,
     verdicts: ScansGetResponseVerdicts,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetScanResponse",
-}) as any as S.Schema<GetScanResponse>;
+).annotate({ identifier: "GetScanResponse" }) as any as S.Schema<GetScanResponse>;
 
 export interface HarScanRequest {
   /** Account ID. */
@@ -3733,9 +3935,7 @@ export const ScansHarResponseLog = /*@__PURE__*/ S.suspend(() =>
     pages: ScansHarResponseLogPagesList,
     version: S.String,
   }),
-).annotate({
-  identifier: "ScansHarResponseLog",
-}) as any as S.Schema<ScansHarResponseLog>;
+).annotate({ identifier: "ScansHarResponseLog" }) as any as S.Schema<ScansHarResponseLog>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface HarScanResponse {
@@ -3745,9 +3945,7 @@ export const HarScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log: ScansHarResponseLog,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "HarScanResponse",
-}) as any as S.Schema<HarScanResponse>;
+).annotate({ identifier: "HarScanResponse" }) as any as S.Schema<HarScanResponse>;
 
 export interface ListScansRequest {
   /** Account ID. */
@@ -3763,17 +3961,9 @@ export const ListScansRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/urlscanner/v2/search",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/urlscanner/v2/search", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScansRequest",
-}) as any as S.Schema<ListScansRequest>;
+).annotate({ identifier: "ListScansRequest" }) as any as S.Schema<ListScansRequest>;
 
 export interface ScansListResponseResultsItemPage {
   asn: string;
@@ -3871,9 +4061,7 @@ export const ListScansResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: ScansListResponseResultsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListScansResponse",
-}) as any as S.Schema<ListScansResponse>;
+).annotate({ identifier: "ListScansResponse" }) as any as S.Schema<ListScansResponse>;
 
 export type ScansScreenshotRequestResolution = "desktop" | "mobile" | "tablet";
 export const ScansScreenshotRequestResolution = S.String;
@@ -3900,16 +4088,12 @@ export const ScreenshotScanRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScreenshotScanRequest",
-}) as any as S.Schema<ScreenshotScanRequest>;
+).annotate({ identifier: "ScreenshotScanRequest" }) as any as S.Schema<ScreenshotScanRequest>;
 
 export interface ScreenshotScanResponse {}
 export const ScreenshotScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ScreenshotScanResponse",
-}) as any as S.Schema<ScreenshotScanResponse>;
+).annotate({ identifier: "ScreenshotScanResponse" }) as any as S.Schema<ScreenshotScanResponse>;
 
 export type BulkCreateScansError = CloudflareOpError;
 /** Submit URLs to scan. Check limits at https://developers.cloudflare.com/security-center/investigate/scan-limits/ and take into account scans submitted in bulk have lower priority and may take longer to finish. */

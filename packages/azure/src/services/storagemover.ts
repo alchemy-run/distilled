@@ -80,9 +80,7 @@ export const UploadLimitSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     weeklyRecurrences: S.optional(UploadLimitScheduleWeeklyRecurrencesList),
   }),
-).annotate({
-  identifier: "UploadLimitSchedule",
-}) as any as S.Schema<UploadLimitSchedule>;
+).annotate({ identifier: "UploadLimitSchedule" }) as any as S.Schema<UploadLimitSchedule>;
 
 export interface AgentPropertiesInput {
   /** A description for the Agent. */
@@ -101,9 +99,7 @@ export const AgentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     arcVmUuid: S.String,
     uploadLimitSchedule: S.optional(UploadLimitSchedule),
   }),
-).annotate({
-  identifier: "AgentPropertiesInput",
-}) as any as S.Schema<AgentPropertiesInput>;
+).annotate({ identifier: "AgentPropertiesInput" }) as any as S.Schema<AgentPropertiesInput>;
 
 export interface AgentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -244,9 +240,7 @@ export const AgentProperties = /*@__PURE__*/ S.suspend(() =>
     errorDetails: S.optional(AgentPropertiesErrorDetails),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "AgentProperties",
-}) as any as S.Schema<AgentProperties>;
+).annotate({ identifier: "AgentProperties" }) as any as S.Schema<AgentProperties>;
 
 export interface AgentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -364,9 +358,7 @@ export const ConnectionProperties = /*@__PURE__*/ S.suspend(() =>
     jobList: S.optional(ConnectionPropertiesJobListList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ConnectionProperties",
-}) as any as S.Schema<ConnectionProperties>;
+).annotate({ identifier: "ConnectionProperties" }) as any as S.Schema<ConnectionProperties>;
 
 export interface ConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -416,9 +408,7 @@ export const DeleteAgentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAgentRequest",
-}) as any as S.Schema<DeleteAgentRequest>;
+).annotate({ identifier: "DeleteAgentRequest" }) as any as S.Schema<DeleteAgentRequest>;
 
 export interface DeleteAgentResponse {}
 export const DeleteAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -449,9 +439,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteConnectionRequest",
-}) as any as S.Schema<DeleteConnectionRequest>;
+).annotate({ identifier: "DeleteConnectionRequest" }) as any as S.Schema<DeleteConnectionRequest>;
 
 export interface DeleteConnectionResponse {}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -482,9 +470,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 
 export interface DeleteEndpointResponse {}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -551,9 +537,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -613,12 +597,57 @@ export interface EndpointBasePropertiesInput {
   description?: string;
   /** The Endpoint resource kind source or target. */
   endpointKind?: EndpointKind | (string & {});
+  /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  storageAccountResourceId?: string;
+  /** Blob container name (AzureStorageBlobContainer). */
+  blobContainerName?: string;
+  /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  fileShareName?: string;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
+  /** Host name or IP address of the server (NfsMount, SmbMount). */
+  host?: string;
+  /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
+  nfsVersion?: string;
+  /** Directory exported from the NFS server (NfsMount). */
+  export?: string;
+  /** SMB share name (SmbMount). */
+  shareName?: string;
+  /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
+  sourceType?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
+  multiCloudConnectorId?: string;
+  /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
+  awsS3BucketId?: string;
+  /** Source URI (S3WithHMAC). */
+  sourceUri?: string;
+  /** Description of an `Other` source type (S3WithHMAC). */
+  otherSourceTypeDescription?: string;
 }
 export const EndpointBasePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EndpointType,
     description: S.optional(S.String),
     endpointKind: S.optional(EndpointKind),
+    storageAccountResourceId: S.optional(S.String),
+    blobContainerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
+    host: S.optional(S.String),
+    nfsVersion: S.optional(S.String),
+    export: S.optional(S.String),
+    shareName: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    multiCloudConnectorId: S.optional(S.String),
+    awsS3BucketId: S.optional(S.String),
+    sourceUri: S.optional(S.String),
+    otherSourceTypeDescription: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EndpointBasePropertiesInput",
@@ -639,9 +668,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -705,6 +732,36 @@ export interface EndpointBaseProperties {
   endpointKind?: EndpointKind;
   /** The provisioning state of this resource. */
   provisioningState?: ProvisioningState;
+  /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  storageAccountResourceId?: string;
+  /** Blob container name (AzureStorageBlobContainer). */
+  blobContainerName?: string;
+  /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  fileShareName?: string;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
+  /** Host name or IP address of the server (NfsMount, SmbMount). */
+  host?: string;
+  /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
+  nfsVersion?: string;
+  /** Directory exported from the NFS server (NfsMount). */
+  export?: string;
+  /** SMB share name (SmbMount). */
+  shareName?: string;
+  /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
+  sourceType?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
+  multiCloudConnectorId?: string;
+  /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
+  awsS3BucketId?: string;
+  /** Source URI (S3WithHMAC). */
+  sourceUri?: string;
+  /** Description of an `Other` source type (S3WithHMAC). */
+  otherSourceTypeDescription?: string;
 }
 export const EndpointBaseProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -712,10 +769,23 @@ export const EndpointBaseProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     endpointKind: S.optional(EndpointKind),
     provisioningState: S.optional(ProvisioningState),
+    storageAccountResourceId: S.optional(S.String),
+    blobContainerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
+    host: S.optional(S.String),
+    nfsVersion: S.optional(S.String),
+    export: S.optional(S.String),
+    shareName: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    multiCloudConnectorId: S.optional(S.String),
+    awsS3BucketId: S.optional(S.String),
+    sourceUri: S.optional(S.String),
+    otherSourceTypeDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointBaseProperties",
-}) as any as S.Schema<EndpointBaseProperties>;
+).annotate({ identifier: "EndpointBaseProperties" }) as any as S.Schema<EndpointBaseProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -729,14 +799,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -813,9 +879,7 @@ export const GetAgentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetAgentRequest",
-}) as any as S.Schema<GetAgentRequest>;
+).annotate({ identifier: "GetAgentRequest" }) as any as S.Schema<GetAgentRequest>;
 
 export interface GetAgentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -836,9 +900,7 @@ export const GetAgentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: AgentProperties,
   }),
-).annotate({
-  identifier: "GetAgentResponse",
-}) as any as S.Schema<GetAgentResponse>;
+).annotate({ identifier: "GetAgentResponse" }) as any as S.Schema<GetAgentResponse>;
 
 export interface GetConnectionRequest {
   /** The ID of the target subscription. */
@@ -864,9 +926,7 @@ export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetConnectionRequest",
-}) as any as S.Schema<GetConnectionRequest>;
+).annotate({ identifier: "GetConnectionRequest" }) as any as S.Schema<GetConnectionRequest>;
 
 export interface GetConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -888,9 +948,7 @@ export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ConnectionProperties,
   }),
-).annotate({
-  identifier: "GetConnectionResponse",
-}) as any as S.Schema<GetConnectionResponse>;
+).annotate({ identifier: "GetConnectionResponse" }) as any as S.Schema<GetConnectionResponse>;
 
 export interface GetEndpointRequest {
   /** The ID of the target subscription. */
@@ -916,9 +974,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetEndpointResponseIdentity = EndpointsCreateOrUpdateResponseIdentity;
@@ -947,9 +1003,7 @@ export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     properties: EndpointBaseProperties,
     identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 
 export interface GetJobDefinitionRequest {
   /** The ID of the target subscription. */
@@ -978,9 +1032,7 @@ export const GetJobDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetJobDefinitionRequest",
-}) as any as S.Schema<GetJobDefinitionRequest>;
+).annotate({ identifier: "GetJobDefinitionRequest" }) as any as S.Schema<GetJobDefinitionRequest>;
 
 /** The type of the Job. */
 export type JobDefinitionPropertiesJobType =
@@ -1021,9 +1073,7 @@ export const SourceEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     sourceEndpointResourceId: S.optional(S.String),
     awsS3BucketId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SourceEndpointProperties",
-}) as any as S.Schema<SourceEndpointProperties>;
+).annotate({ identifier: "SourceEndpointProperties" }) as any as S.Schema<SourceEndpointProperties>;
 
 /** The source endpoint resource for source and target mapping. */
 export interface SourceEndpoint {
@@ -1054,9 +1104,7 @@ export const TargetEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     azureStorageAccountResourceId: S.optional(S.String),
     azureStorageBlobContainerName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TargetEndpointProperties",
-}) as any as S.Schema<TargetEndpointProperties>;
+).annotate({ identifier: "TargetEndpointProperties" }) as any as S.Schema<TargetEndpointProperties>;
 
 /** The target endpoint resource for source and target mapping. */
 export interface TargetEndpoint {
@@ -1079,9 +1127,7 @@ export const SourceTargetMap = /*@__PURE__*/ S.suspend(() =>
     sourceEndpoint: SourceEndpoint,
     targetEndpoint: TargetEndpoint,
   }),
-).annotate({
-  identifier: "SourceTargetMap",
-}) as any as S.Schema<SourceTargetMap>;
+).annotate({ identifier: "SourceTargetMap" }) as any as S.Schema<SourceTargetMap>;
 
 export type JobDefinitionPropertiesSourceTargetMapValueList = Array<SourceTargetMap>;
 export const JobDefinitionPropertiesSourceTargetMapValueList = /*@__PURE__*/ S.Array(
@@ -1263,9 +1309,7 @@ export const JobDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
     syncMode: S.optional(S.String),
     moverSyncedUntil: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobDefinitionProperties",
-}) as any as S.Schema<JobDefinitionProperties>;
+).annotate({ identifier: "JobDefinitionProperties" }) as any as S.Schema<JobDefinitionProperties>;
 
 export interface GetJobDefinitionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1287,9 +1331,7 @@ export const GetJobDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: JobDefinitionProperties,
   }),
-).annotate({
-  identifier: "GetJobDefinitionResponse",
-}) as any as S.Schema<GetJobDefinitionResponse>;
+).annotate({ identifier: "GetJobDefinitionResponse" }) as any as S.Schema<GetJobDefinitionResponse>;
 
 export interface GetJobRunRequest {
   /** The ID of the target subscription. */
@@ -1321,9 +1363,7 @@ export const GetJobRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetJobRunRequest",
-}) as any as S.Schema<GetJobRunRequest>;
+).annotate({ identifier: "GetJobRunRequest" }) as any as S.Schema<GetJobRunRequest>;
 
 /** The status of Agent's scanning of source. */
 export type JobRunScanStatus = "NotStarted" | "Scanning" | "Completed";
@@ -1472,9 +1512,7 @@ export const JobRunProperties = /*@__PURE__*/ S.suspend(() =>
     warnings: S.optional(JobRunPropertiesWarningsList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "JobRunProperties",
-}) as any as S.Schema<JobRunProperties>;
+).annotate({ identifier: "JobRunProperties" }) as any as S.Schema<JobRunProperties>;
 
 export interface GetJobRunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1496,9 +1534,7 @@ export const GetJobRunResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(JobRunProperties),
   }),
-).annotate({
-  identifier: "GetJobRunResponse",
-}) as any as S.Schema<GetJobRunResponse>;
+).annotate({ identifier: "GetJobRunResponse" }) as any as S.Schema<GetJobRunResponse>;
 
 export interface GetProjectRequest {
   /** The ID of the target subscription. */
@@ -1524,9 +1560,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Project properties. */
 export interface ProjectProperties {
@@ -1540,9 +1574,7 @@ export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
+).annotate({ identifier: "ProjectProperties" }) as any as S.Schema<ProjectProperties>;
 
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1564,9 +1596,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ProjectProperties),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetStorageMoverRequest {
   /** The ID of the target subscription. */
@@ -1589,14 +1619,10 @@ export const GetStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetStorageMoverRequest",
-}) as any as S.Schema<GetStorageMoverRequest>;
+).annotate({ identifier: "GetStorageMoverRequest" }) as any as S.Schema<GetStorageMoverRequest>;
 
 /** Resource tags. */
-export type GetStorageMoverResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageMoverResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageMoverResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1614,9 +1640,7 @@ export const StorageMoverProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "StorageMoverProperties",
-}) as any as S.Schema<StorageMoverProperties>;
+).annotate({ identifier: "StorageMoverProperties" }) as any as S.Schema<StorageMoverProperties>;
 
 export interface GetStorageMoverResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1644,9 +1668,7 @@ export const GetStorageMoverResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(StorageMoverProperties),
   }),
-).annotate({
-  identifier: "GetStorageMoverResponse",
-}) as any as S.Schema<GetStorageMoverResponse>;
+).annotate({ identifier: "GetStorageMoverResponse" }) as any as S.Schema<GetStorageMoverResponse>;
 
 /** The type of the Job. */
 export type JobDefinitionPropertiesInputJobType =
@@ -1834,9 +1856,7 @@ export const JobRunResourceId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jobRunResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobRunResourceId",
-}) as any as S.Schema<JobRunResourceId>;
+).annotate({ identifier: "JobRunResourceId" }) as any as S.Schema<JobRunResourceId>;
 
 export interface ListAgentsRequest {
   /** The ID of the target subscription. */
@@ -1859,9 +1879,7 @@ export const ListAgentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListAgentsRequest",
-}) as any as S.Schema<ListAgentsRequest>;
+).annotate({ identifier: "ListAgentsRequest" }) as any as S.Schema<ListAgentsRequest>;
 
 /** The Agent resource. */
 export interface Agent {
@@ -1926,9 +1944,7 @@ export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListConnectionsRequest",
-}) as any as S.Schema<ListConnectionsRequest>;
+).annotate({ identifier: "ListConnectionsRequest" }) as any as S.Schema<ListConnectionsRequest>;
 
 /** The Connection resource. */
 export interface Connection {
@@ -1994,9 +2010,7 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
+).annotate({ identifier: "ListEndpointsRequest" }) as any as S.Schema<ListEndpointsRequest>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type EndpointIdentity = EndpointsCreateOrUpdateResponseIdentity;
@@ -2117,9 +2131,7 @@ export const JobDefinitionList = /*@__PURE__*/ S.suspend(() =>
     value: JobDefinitionListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobDefinitionList",
-}) as any as S.Schema<JobDefinitionList>;
+).annotate({ identifier: "JobDefinitionList" }) as any as S.Schema<JobDefinitionList>;
 
 export interface ListJobRunsRequest {
   /** The ID of the target subscription. */
@@ -2148,9 +2160,7 @@ export const ListJobRunsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListJobRunsRequest",
-}) as any as S.Schema<ListJobRunsRequest>;
+).annotate({ identifier: "ListJobRunsRequest" }) as any as S.Schema<ListJobRunsRequest>;
 
 /** The Job Run resource. */
 export interface JobRun {
@@ -2205,9 +2215,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2227,9 +2235,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2279,9 +2285,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsRequest {
   /** The ID of the target subscription. */
@@ -2304,9 +2308,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 /** The Project resource. */
 export interface Project {
@@ -2424,9 +2426,7 @@ export const StorageMoverList = /*@__PURE__*/ S.suspend(() =>
     value: StorageMoverListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageMoverList",
-}) as any as S.Schema<StorageMoverList>;
+).annotate({ identifier: "StorageMoverList" }) as any as S.Schema<StorageMoverList>;
 
 export interface ListStorageMoversRequest {
   /** The ID of the target subscription. */
@@ -2446,9 +2446,7 @@ export const ListStorageMoversRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListStorageMoversRequest",
-}) as any as S.Schema<ListStorageMoversRequest>;
+).annotate({ identifier: "ListStorageMoversRequest" }) as any as S.Schema<ListStorageMoversRequest>;
 
 /** Project properties. */
 export interface ProjectPropertiesInput {
@@ -2459,9 +2457,7 @@ export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
+).annotate({ identifier: "ProjectPropertiesInput" }) as any as S.Schema<ProjectPropertiesInput>;
 
 export interface ProjectsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2581,9 +2577,7 @@ export const StopJobDefinitionJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StopJobDefinitionJobRequest>;
 
 /** Resource tags. */
-export type StorageMoversCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageMoversCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const StorageMoversCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2637,9 +2631,7 @@ export const StorageMoversCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StorageMoversCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type StorageMoversCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageMoversCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const StorageMoversCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2686,9 +2678,7 @@ export const AgentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     uploadLimitSchedule: S.optional(UploadLimitSchedule),
   }),
-).annotate({
-  identifier: "AgentUpdateProperties",
-}) as any as S.Schema<AgentUpdateProperties>;
+).annotate({ identifier: "AgentUpdateProperties" }) as any as S.Schema<AgentUpdateProperties>;
 
 export interface UpdateAgentRequest {
   /** The ID of the target subscription. */
@@ -2716,9 +2706,7 @@ export const UpdateAgentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAgentRequest",
-}) as any as S.Schema<UpdateAgentRequest>;
+).annotate({ identifier: "UpdateAgentRequest" }) as any as S.Schema<UpdateAgentRequest>;
 
 export interface UpdateAgentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2739,9 +2727,7 @@ export const UpdateAgentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: AgentProperties,
   }),
-).annotate({
-  identifier: "UpdateAgentResponse",
-}) as any as S.Schema<UpdateAgentResponse>;
+).annotate({ identifier: "UpdateAgentResponse" }) as any as S.Schema<UpdateAgentResponse>;
 
 /** The Endpoint resource, which contains information about file sources and targets. */
 export interface EndpointBaseUpdateProperties {
@@ -2749,11 +2735,20 @@ export interface EndpointBaseUpdateProperties {
   endpointType: EndpointType | (string & {});
   /** A description for the Endpoint. */
   description?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
 }
 export const EndpointBaseUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EndpointType,
     description: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "EndpointBaseUpdateProperties",
@@ -2793,9 +2788,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateEndpointResponseIdentity = EndpointsCreateOrUpdateResponseIdentity;
@@ -2824,9 +2817,7 @@ export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     properties: EndpointBaseProperties,
     identity: S.optional(EndpointsCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
+).annotate({ identifier: "UpdateEndpointResponse" }) as any as S.Schema<UpdateEndpointResponse>;
 
 /** List of connections associated to this job */
 export type JobDefinitionUpdatePropertiesConnectionsList = Array<string>;
@@ -2961,9 +2952,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2985,18 +2974,14 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ProjectProperties),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 /** The resource specific properties for the Storage Mover resource. */
 export type StorageMoverUpdateProperties = StorageMoverPropertiesInput;
 export const StorageMoverUpdateProperties = StorageMoverPropertiesInput;
 
 /** Resource tags. */
-export type UpdateStorageMoverRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageMoverRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageMoverRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3034,9 +3019,7 @@ export const UpdateStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateStorageMoverRequest>;
 
 /** Resource tags. */
-export type UpdateStorageMoverResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageMoverResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageMoverResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

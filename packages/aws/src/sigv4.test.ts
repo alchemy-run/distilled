@@ -1,10 +1,11 @@
-import { describe, expect, test } from "bun:test";
+import { createHash, createHmac } from "node:crypto";
 import * as Cache from "effect/Cache";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import * as Credentials from "./credentials.browser.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Presign from "./presign.ts";
@@ -224,6 +225,84 @@ describe("SigV4.sign", () => {
     const keys = [...new URL(signed.url).searchParams.keys()];
     expect(keys.indexOf("X-Amz-Security-Token")).toBeGreaterThan(keys.indexOf("X-Amz-Signature"));
   });
+
+  // Reference signature over an explicit canonical request (header-signed GET, no body).
+  const referenceSignature = (
+    canonicalUri: string,
+    host: string,
+    service: string,
+    payloadHash: string,
+  ) => {
+    const sha = (s: string) => createHash("sha256").update(s).digest("hex");
+    const mac = (key: string | Buffer, s: string) => createHmac("sha256", key).update(s).digest();
+    const amzHeaders = service === "s3" ? ["x-amz-content-sha256", "x-amz-date"] : ["x-amz-date"];
+    const values: Record<string, string> = {
+      host,
+      "x-amz-content-sha256": payloadHash,
+      "x-amz-date": datetime,
+    };
+    const signed = ["host", ...amzHeaders];
+    const canonicalRequest = [
+      "GET",
+      canonicalUri,
+      "",
+      signed.map((h) => `${h}:${values[h]}`).join("\n") + "\n",
+      signed.join(";"),
+      payloadHash,
+    ].join("\n");
+    const scope = `20130524/us-east-1/${service}/aws4_request`;
+    const key = mac(
+      mac(
+        mac(mac(`AWS4${Redacted.value(creds.secretAccessKey)}`, "20130524"), "us-east-1"),
+        service,
+      ),
+      "aws4_request",
+    );
+    return createHmac("sha256", key)
+      .update(["AWS4-HMAC-SHA256", datetime, scope, sha(canonicalRequest)].join("\n"))
+      .digest("hex");
+  };
+
+  for (const path of [
+    "/photos/2024/a%20b.txt",
+    "//leading-slash",
+    "/a%2Bb~c/%C3%A9%21%28x%29",
+    "/dir/100%25/",
+  ]) {
+    test(`S3 canonical URI keeps "/" and is not double-encoded: ${path}`, async () => {
+      const signed = await Effect.runPromise(
+        SigV4.sign({
+          ...creds,
+          method: "GET",
+          url: `https://examplebucket.s3.amazonaws.com${path}`,
+          service: "s3",
+          region: "us-east-1",
+          datetime,
+        }),
+      );
+      expect(new URL(signed.url).pathname).toBe(path);
+      expect(signed.headers.authorization).toContain(
+        `Signature=${referenceSignature(path, "examplebucket.s3.amazonaws.com", "s3", "UNSIGNED-PAYLOAD")}`,
+      );
+    });
+  }
+
+  test("non-S3 canonical URI double-encodes segments but keeps /", async () => {
+    const signed = await Effect.runPromise(
+      SigV4.sign({
+        ...creds,
+        method: "GET",
+        url: "https://api.example.com/objects/a%20b/c%2Bd",
+        service: "execute-api",
+        region: "us-east-1",
+        datetime,
+      }),
+    );
+    const emptyHash = createHash("sha256").update("").digest("hex");
+    expect(signed.headers.authorization).toContain(
+      `Signature=${referenceSignature("/objects/a%2520b/c%252Bd", "api.example.com", "execute-api", emptyHash)}`,
+    );
+  });
 });
 
 describe("Presign", () => {
@@ -278,6 +357,30 @@ describe("Presign", () => {
       );
       expect(new URL(changed).searchParams.get("X-Amz-Signature")).not.toBe(signature);
     }
+  });
+
+  test("presignS3Url encodes keys like the S3 greedy {Key+} label", async () => {
+    const signed = await Effect.runPromise(
+      Presign.presignS3Url({ bucket: "examplebucket", key: "/a/(x)!~.txt", datetime }).pipe(
+        Effect.provide(layer),
+      ),
+    );
+    const parsed = new URL(signed);
+    expect(parsed.pathname).toBe("//a/%28x%29%21~.txt");
+    const expected = await Effect.runPromise(
+      SigV4.sign({
+        ...creds,
+        method: "GET",
+        url: "https://examplebucket.s3.us-east-1.amazonaws.com//a/%28x%29%21~.txt?X-Amz-Expires=900",
+        service: "s3",
+        region: "us-east-1",
+        signQuery: true,
+        datetime,
+      }),
+    );
+    expect(parsed.searchParams.get("X-Amz-Signature")).toBe(
+      new URL(expected.url).searchParams.get("X-Amz-Signature"),
+    );
   });
 
   test("presignS3Url signs versions under a custom path-style endpoint", async () => {

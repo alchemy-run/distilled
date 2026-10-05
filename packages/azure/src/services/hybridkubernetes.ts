@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type ConnectedClusterCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectedClusterCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const ConnectedClusterCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -78,9 +76,7 @@ export const SystemComponentInput = /*@__PURE__*/ S.suspend(() =>
     userSpecifiedVersion: S.optional(S.String),
     majorVersion: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SystemComponentInput",
-}) as any as S.Schema<SystemComponentInput>;
+).annotate({ identifier: "SystemComponentInput" }) as any as S.Schema<SystemComponentInput>;
 
 /** List of system extensions that are installed on the cluster resource. */
 export type ArcAgentProfileInputSystemComponentsList = Array<SystemComponentInput>;
@@ -118,9 +114,7 @@ export const ArcAgentProfileInput = /*@__PURE__*/ S.suspend(() =>
     systemComponents: S.optional(ArcAgentProfileInputSystemComponentsList),
     agentErrors: S.optional(ArcAgentProfileInputAgentErrorsList),
   }),
-).annotate({
-  identifier: "ArcAgentProfileInput",
-}) as any as S.Schema<ArcAgentProfileInput>;
+).annotate({ identifier: "ArcAgentProfileInput" }) as any as S.Schema<ArcAgentProfileInput>;
 
 /** The workload identity feature webhook. */
 export interface SecurityProfileWorkloadIdentity {
@@ -144,9 +138,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workloadIdentity: S.optional(SecurityProfileWorkloadIdentity),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** OIDC Issuer Profile specifies attributes for workload identity integration. */
 export interface OidcIssuerProfileInput {
@@ -160,9 +152,7 @@ export const OidcIssuerProfileInput = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     selfHostedIssuerUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcIssuerProfileInput",
-}) as any as S.Schema<OidcIssuerProfileInput>;
+).annotate({ identifier: "OidcIssuerProfileInput" }) as any as S.Schema<OidcIssuerProfileInput>;
 
 export interface Gateway {
   /** Indicates whether the gateway for arc router connectivity is enabled. */
@@ -175,18 +165,14 @@ export const Gateway = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Gateway" }) as any as S.Schema<Gateway>;
 
 /** The configuration settings for the feature that do not contain any sensitive or secret information. */
-export type ArcAgentryConfigurationsSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type ArcAgentryConfigurationsSettingsMap = { [key: string]: string | undefined };
 export const ArcAgentryConfigurationsSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ArcAgentryConfigurationsSettingsMap>;
 
 /** The configuration settings for the feature that contain any sensitive or secret information. */
-export type ArcAgentryConfigurationsProtectedSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type ArcAgentryConfigurationsProtectedSettingsMap = { [key: string]: string | undefined };
 export const ArcAgentryConfigurationsProtectedSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -206,9 +192,7 @@ export const ArcAgentryConfigurations = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(ArcAgentryConfigurationsSettingsMap)),
     protectedSettings: S.optional(S.NullOr(ArcAgentryConfigurationsProtectedSettingsMap)),
   }),
-).annotate({
-  identifier: "ArcAgentryConfigurations",
-}) as any as S.Schema<ArcAgentryConfigurations>;
+).annotate({ identifier: "ArcAgentryConfigurations" }) as any as S.Schema<ArcAgentryConfigurations>;
 
 /** Configuration settings for customizing the behavior of the connected cluster. */
 export type ConnectedClusterPropertiesInputArcAgentryConfigurationsList =
@@ -367,9 +351,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type ConnectedClusterCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectedClusterCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const ConnectedClusterCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -414,9 +396,7 @@ export const SystemComponent = /*@__PURE__*/ S.suspend(() =>
     majorVersion: S.optional(S.Number),
     currentVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SystemComponent",
-}) as any as S.Schema<SystemComponent>;
+).annotate({ identifier: "SystemComponent" }) as any as S.Schema<SystemComponent>;
 
 /** List of system extensions that are installed on the cluster resource. */
 export type ArcAgentProfileSystemComponentsList = Array<SystemComponent>;
@@ -471,9 +451,7 @@ export const ArcAgentProfile = /*@__PURE__*/ S.suspend(() =>
     agentErrors: S.optional(ArcAgentProfileAgentErrorsList),
     agentState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArcAgentProfile",
-}) as any as S.Schema<ArcAgentProfile>;
+).annotate({ identifier: "ArcAgentProfile" }) as any as S.Schema<ArcAgentProfile>;
 
 /** OIDC Issuer Profile specifies attributes for workload identity integration. */
 export interface OidcIssuerProfile {
@@ -490,9 +468,7 @@ export const OidcIssuerProfile = /*@__PURE__*/ S.suspend(() =>
     issuerUrl: S.optional(S.String),
     selfHostedIssuerUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcIssuerProfile",
-}) as any as S.Schema<OidcIssuerProfile>;
+).annotate({ identifier: "OidcIssuerProfile" }) as any as S.Schema<OidcIssuerProfile>;
 
 /** Configuration settings for customizing the behavior of the connected cluster. */
 export type ConnectedClusterPropertiesArcAgentryConfigurationsList =
@@ -610,9 +586,7 @@ export const ConnectedClusterIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: ConnectedClusterIdentityType,
   }),
-).annotate({
-  identifier: "ConnectedClusterIdentity",
-}) as any as S.Schema<ConnectedClusterIdentity>;
+).annotate({ identifier: "ConnectedClusterIdentity" }) as any as S.Schema<ConnectedClusterIdentity>;
 
 export interface ConnectedClusterCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -706,9 +680,7 @@ export const GetConnectedClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConnectedClusterRequest>;
 
 /** Resource tags. */
-export type GetConnectedClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConnectedClusterResponseTagsMap = { [key: string]: string | undefined };
 export const GetConnectedClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -760,9 +732,7 @@ export const GetOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetOperationRequest",
-}) as any as S.Schema<GetOperationRequest>;
+).annotate({ identifier: "GetOperationRequest" }) as any as S.Schema<GetOperationRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationListValueItemDisplay {
@@ -815,9 +785,7 @@ export const OperationListValueItem = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(OperationListValueItemOrigin),
     actionType: S.optional(OperationListValueItemActionType),
   }),
-).annotate({
-  identifier: "OperationListValueItem",
-}) as any as S.Schema<OperationListValueItem>;
+).annotate({ identifier: "OperationListValueItem" }) as any as S.Schema<OperationListValueItem>;
 
 /** The list of connected cluster API operations. */
 export type OperationListValueList = Array<OperationListValueItem>;
@@ -901,9 +869,7 @@ export const ConnectedCluster = /*@__PURE__*/ S.suspend(() =>
     identity: ConnectedClusterIdentity,
     kind: S.optional(ConnectedClusterKind),
   }),
-).annotate({
-  identifier: "ConnectedCluster",
-}) as any as S.Schema<ConnectedCluster>;
+).annotate({ identifier: "ConnectedCluster" }) as any as S.Schema<ConnectedCluster>;
 
 /** The ConnectedCluster items on this page */
 export type ConnectedClusterListValueList = Array<ConnectedCluster>;
@@ -923,9 +889,7 @@ export const ConnectedClusterList = /*@__PURE__*/ S.suspend(() =>
     value: ConnectedClusterListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectedClusterList",
-}) as any as S.Schema<ConnectedClusterList>;
+).annotate({ identifier: "ConnectedClusterList" }) as any as S.Schema<ConnectedClusterList>;
 
 export interface ListConnectedClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1005,9 +969,7 @@ export const HybridConnectionConfig = /*@__PURE__*/ S.suspend(() =>
     relayTid: S.optional(S.String),
     relayType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HybridConnectionConfig",
-}) as any as S.Schema<HybridConnectionConfig>;
+).annotate({ identifier: "HybridConnectionConfig" }) as any as S.Schema<HybridConnectionConfig>;
 
 /** The credential result response. */
 export interface CredentialResult {
@@ -1021,9 +983,7 @@ export const CredentialResult = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialResult",
-}) as any as S.Schema<CredentialResult>;
+).annotate({ identifier: "CredentialResult" }) as any as S.Schema<CredentialResult>;
 
 /** Base64-encoded Kubernetes configuration file. */
 export type CredentialResultsKubeconfigsList = Array<CredentialResult>;
@@ -1043,14 +1003,10 @@ export const CredentialResults = /*@__PURE__*/ S.suspend(() =>
     hybridConnectionConfig: S.optional(HybridConnectionConfig),
     kubeconfigs: S.optional(CredentialResultsKubeconfigsList),
   }),
-).annotate({
-  identifier: "CredentialResults",
-}) as any as S.Schema<CredentialResults>;
+).annotate({ identifier: "CredentialResults" }) as any as S.Schema<CredentialResults>;
 
 /** Resource tags. */
-export type UpdateConnectedClusterRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectedClusterRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectedClusterRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1114,9 +1070,7 @@ export const UpdateConnectedClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConnectedClusterRequest>;
 
 /** Resource tags. */
-export type UpdateConnectedClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConnectedClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConnectedClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

@@ -1,12 +1,12 @@
 /**
  * Distilled typecheck benchmark runner.
  *
- *   bun run.ts                 core, aws, cloudflare, monorepo (a few minutes)
- *   bun run.ts --full          every SDK package + monorepo (longer)
- *   bun run.ts --runs 3        best of 3 clean+incremental cycles per row
- *   bun run.ts --filter aws    only targets whose name matches
- *   bun run.ts --json          JSON results on stdout
- *   bun run.ts --record        also write results/latest.json (committed)
+ *   node run.ts                 core, aws, cloudflare, monorepo (a few minutes)
+ *   node run.ts --full          every SDK package + monorepo (longer)
+ *   node run.ts --runs 3        best of 3 clean+incremental cycles per row
+ *   node run.ts --filter aws    only targets whose name matches
+ *   node run.ts --json          JSON results on stdout
+ *   node run.ts --record        also write results/latest.json (committed)
  *
  * Every target is measured four ways: `emit` (`tsc -b`, the repo's default
  * `noCheck: true`) and `check` (`tsc -b --noCheck false`, what CI runs),

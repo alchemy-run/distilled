@@ -108,9 +108,7 @@ export const DeleteExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteExperimentRequest",
-}) as any as S.Schema<DeleteExperimentRequest>;
+).annotate({ identifier: "DeleteExperimentRequest" }) as any as S.Schema<DeleteExperimentRequest>;
 
 export interface DeleteExperimentResponse {}
 export const DeleteExperimentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -138,9 +136,7 @@ export const DeleteFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFrontDoorRequest",
-}) as any as S.Schema<DeleteFrontDoorRequest>;
+).annotate({ identifier: "DeleteFrontDoorRequest" }) as any as S.Schema<DeleteFrontDoorRequest>;
 
 export interface DeleteFrontDoorResponse {}
 export const DeleteFrontDoorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -200,9 +196,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -233,9 +227,7 @@ export const DeleteRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRulesEngineRequest",
-}) as any as S.Schema<DeleteRulesEngineRequest>;
+).annotate({ identifier: "DeleteRulesEngineRequest" }) as any as S.Schema<DeleteRulesEngineRequest>;
 
 export interface DeleteRulesEngineResponse {}
 export const DeleteRulesEngineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -389,9 +381,7 @@ export const EnableFrontendEndpointHttpsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnableFrontendEndpointHttpsResponse>;
 
 /** Resource tags. */
-export type ExperimentsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExperimentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ExperimentsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -475,9 +465,7 @@ export const ExperimentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExperimentsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ExperimentsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExperimentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ExperimentsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -520,9 +508,7 @@ export const ExperimentProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     scriptFileUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExperimentProperties",
-}) as any as S.Schema<ExperimentProperties>;
+).annotate({ identifier: "ExperimentProperties" }) as any as S.Schema<ExperimentProperties>;
 
 export interface ExperimentsCreateOrUpdateResponse {
   /** Resource ID. */
@@ -552,9 +538,7 @@ export const ExperimentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExperimentsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type FrontDoorsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FrontDoorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FrontDoorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -599,9 +583,7 @@ export const RouteConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _odata_type: S.String.pipe(T.Body("@odata.type")),
   }),
-).annotate({
-  identifier: "RouteConfiguration",
-}) as any as S.Schema<RouteConfiguration>;
+).annotate({ identifier: "RouteConfiguration" }) as any as S.Schema<RouteConfiguration>;
 
 /** Defines the Web Application Firewall policy for each routing rule (if applicable) */
 export type RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink =
@@ -651,9 +633,7 @@ export const RoutingRuleProperties = /*@__PURE__*/ S.suspend(() =>
     webApplicationFirewallPolicyLink: S.optional(KeyVaultCertificateSourceParametersVault),
     resourceState: S.optional(FrontDoorResourceState),
   }),
-).annotate({
-  identifier: "RoutingRuleProperties",
-}) as any as S.Schema<RoutingRuleProperties>;
+).annotate({ identifier: "RoutingRuleProperties" }) as any as S.Schema<RoutingRuleProperties>;
 
 /** A routing rule represents a specification for traffic to treat and where to send it, along with health probe information. */
 export interface RoutingRuleInput {
@@ -670,9 +650,7 @@ export const RoutingRuleInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RoutingRuleProperties),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoutingRuleInput",
-}) as any as S.Schema<RoutingRuleInput>;
+).annotate({ identifier: "RoutingRuleInput" }) as any as S.Schema<RoutingRuleInput>;
 
 /** Routing rules associated with this Front Door. */
 export type FrontDoorPropertiesInputRoutingRulesList = Array<RoutingRuleInput>;
@@ -870,9 +848,7 @@ export const BackendPoolProperties = /*@__PURE__*/ S.suspend(() =>
     healthProbeSettings: S.optional(KeyVaultCertificateSourceParametersVault),
     resourceState: S.optional(FrontDoorResourceState),
   }),
-).annotate({
-  identifier: "BackendPoolProperties",
-}) as any as S.Schema<BackendPoolProperties>;
+).annotate({ identifier: "BackendPoolProperties" }) as any as S.Schema<BackendPoolProperties>;
 
 /** A backend pool is a collection of backends that can be routed to. */
 export interface BackendPoolInput {
@@ -889,9 +865,7 @@ export const BackendPoolInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BackendPoolProperties),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BackendPoolInput",
-}) as any as S.Schema<BackendPoolInput>;
+).annotate({ identifier: "BackendPoolInput" }) as any as S.Schema<BackendPoolInput>;
 
 /** Backend pools available to routing rules. */
 export type FrontDoorPropertiesInputBackendPoolsList = Array<BackendPoolInput>;
@@ -953,9 +927,7 @@ export const CustomHttpsConfiguration = /*@__PURE__*/ S.suspend(() =>
     keyVaultCertificateSourceParameters: S.optional(KeyVaultCertificateSourceParameters),
     frontDoorCertificateSourceParameters: S.optional(FrontDoorCertificateSourceParameters),
   }),
-).annotate({
-  identifier: "CustomHttpsConfiguration",
-}) as any as S.Schema<CustomHttpsConfiguration>;
+).annotate({ identifier: "CustomHttpsConfiguration" }) as any as S.Schema<CustomHttpsConfiguration>;
 
 /** The JSON object that contains the properties required to create a frontend endpoint. */
 export interface FrontendEndpointProperties {
@@ -1006,9 +978,7 @@ export const FrontendEndpointInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(FrontendEndpointProperties),
   }),
-).annotate({
-  identifier: "FrontendEndpointInput",
-}) as any as S.Schema<FrontendEndpointInput>;
+).annotate({ identifier: "FrontendEndpointInput" }) as any as S.Schema<FrontendEndpointInput>;
 
 /** Frontend endpoints available to routing rules. */
 export type FrontDoorPropertiesInputFrontendEndpointsList = Array<FrontendEndpointInput>;
@@ -1032,9 +1002,7 @@ export const BackendPoolsSettings = /*@__PURE__*/ S.suspend(() =>
     enforceCertificateNameCheck: S.optional(BackendPoolsSettingsEnforceCertificateNameCheck),
     sendRecvTimeoutSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackendPoolsSettings",
-}) as any as S.Schema<BackendPoolsSettings>;
+).annotate({ identifier: "BackendPoolsSettings" }) as any as S.Schema<BackendPoolsSettings>;
 
 /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
 export type FrontDoorEnabledState = "Enabled" | "Disabled";
@@ -1070,9 +1038,7 @@ export const FrontDoorPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     backendPoolsSettings: S.optional(BackendPoolsSettings),
     enabledState: S.optional(FrontDoorEnabledState),
   }),
-).annotate({
-  identifier: "FrontDoorPropertiesInput",
-}) as any as S.Schema<FrontDoorPropertiesInput>;
+).annotate({ identifier: "FrontDoorPropertiesInput" }) as any as S.Schema<FrontDoorPropertiesInput>;
 
 export interface FrontDoorsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1109,9 +1075,7 @@ export const FrontDoorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FrontDoorsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FrontDoorsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FrontDoorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FrontDoorsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1189,9 +1153,7 @@ export const HealthProbeSettingsModel = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HealthProbeSettingsModel",
-}) as any as S.Schema<HealthProbeSettingsModel>;
+).annotate({ identifier: "HealthProbeSettingsModel" }) as any as S.Schema<HealthProbeSettingsModel>;
 
 /** Health probe settings associated with this Front Door instance. */
 export type FrontDoorPropertiesHealthProbeSettingsList = Array<HealthProbeSettingsModel>;
@@ -1243,9 +1205,7 @@ export const FrontendEndpoint = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(FrontendEndpointProperties),
   }),
-).annotate({
-  identifier: "FrontendEndpoint",
-}) as any as S.Schema<FrontendEndpoint>;
+).annotate({ identifier: "FrontendEndpoint" }) as any as S.Schema<FrontendEndpoint>;
 
 /** Frontend endpoints available to routing rules. */
 export type FrontDoorPropertiesFrontendEndpointsList = Array<FrontendEndpoint>;
@@ -1301,9 +1261,7 @@ export const RulesEngineAction = /*@__PURE__*/ S.suspend(() =>
     responseHeaderActions: S.optional(RulesEngineActionResponseHeaderActionsList),
     routeConfigurationOverride: S.optional(RouteConfiguration),
   }),
-).annotate({
-  identifier: "RulesEngineAction",
-}) as any as S.Schema<RulesEngineAction>;
+).annotate({ identifier: "RulesEngineAction" }) as any as S.Schema<RulesEngineAction>;
 
 /** Match Variable */
 export type RulesEngineMatchVariable =
@@ -1417,9 +1375,7 @@ export const RulesEngineRule = /*@__PURE__*/ S.suspend(() =>
     matchConditions: S.optional(RulesEngineRuleMatchConditionsList),
     matchProcessingBehavior: S.optional(MatchProcessingBehavior),
   }),
-).annotate({
-  identifier: "RulesEngineRule",
-}) as any as S.Schema<RulesEngineRule>;
+).annotate({ identifier: "RulesEngineRule" }) as any as S.Schema<RulesEngineRule>;
 
 /** A list of rules that define a particular Rules Engine Configuration. */
 export type RulesEnginePropertiesRulesList = Array<RulesEngineRule>;
@@ -1439,9 +1395,7 @@ export const RulesEngineProperties = /*@__PURE__*/ S.suspend(() =>
     rules: S.optional(RulesEnginePropertiesRulesList),
     resourceState: S.optional(FrontDoorResourceState),
   }),
-).annotate({
-  identifier: "RulesEngineProperties",
-}) as any as S.Schema<RulesEngineProperties>;
+).annotate({ identifier: "RulesEngineProperties" }) as any as S.Schema<RulesEngineProperties>;
 
 /** A rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response. */
 export interface RulesEngine {
@@ -1470,9 +1424,7 @@ export const FrontDoorPropertiesRulesEnginesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<FrontDoorPropertiesRulesEnginesList>;
 
 /** Key-Value pair representing additional properties for frontdoor. */
-export type FrontDoorPropertiesExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type FrontDoorPropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 export const FrontDoorPropertiesExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1526,9 +1478,7 @@ export const FrontDoorProperties = /*@__PURE__*/ S.suspend(() =>
     rulesEngines: S.optional(FrontDoorPropertiesRulesEnginesList),
     extendedProperties: S.optional(FrontDoorPropertiesExtendedPropertiesMap),
   }),
-).annotate({
-  identifier: "FrontDoorProperties",
-}) as any as S.Schema<FrontDoorProperties>;
+).annotate({ identifier: "FrontDoorProperties" }) as any as S.Schema<FrontDoorProperties>;
 
 export interface FrontDoorsCreateOrUpdateResponse {
   /** Resource ID. */
@@ -1581,14 +1531,10 @@ export const GetExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetExperimentRequest",
-}) as any as S.Schema<GetExperimentRequest>;
+).annotate({ identifier: "GetExperimentRequest" }) as any as S.Schema<GetExperimentRequest>;
 
 /** Resource tags. */
-export type GetExperimentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExperimentResponseTagsMap = { [key: string]: string | undefined };
 export const GetExperimentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1617,9 +1563,7 @@ export const GetExperimentResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetExperimentResponseTagsMap),
     properties: S.optional(ExperimentProperties),
   }),
-).annotate({
-  identifier: "GetExperimentResponse",
-}) as any as S.Schema<GetExperimentResponse>;
+).annotate({ identifier: "GetExperimentResponse" }) as any as S.Schema<GetExperimentResponse>;
 
 export interface GetFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -1642,9 +1586,7 @@ export const GetFrontDoorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFrontDoorRequest",
-}) as any as S.Schema<GetFrontDoorRequest>;
+).annotate({ identifier: "GetFrontDoorRequest" }) as any as S.Schema<GetFrontDoorRequest>;
 
 /** Resource tags. */
 export type GetFrontDoorResponseTagsMap = { [key: string]: string | undefined };
@@ -1676,9 +1618,7 @@ export const GetFrontDoorResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetFrontDoorResponseTagsMap),
     properties: S.optional(FrontDoorProperties),
   }),
-).annotate({
-  identifier: "GetFrontDoorResponse",
-}) as any as S.Schema<GetFrontDoorResponse>;
+).annotate({ identifier: "GetFrontDoorResponse" }) as any as S.Schema<GetFrontDoorResponse>;
 
 export interface GetFrontendEndpointRequest {
   /** The ID of the target subscription. */
@@ -1755,9 +1695,7 @@ export const GetNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNetworkExperimentProfileRequest>;
 
 /** Resource tags. */
-export type GetNetworkExperimentProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkExperimentProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkExperimentProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1775,9 +1713,7 @@ export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
     resourceState: S.optional(NetworkExperimentResourceState),
     enabledState: S.optional(State),
   }),
-).annotate({
-  identifier: "ProfileProperties",
-}) as any as S.Schema<ProfileProperties>;
+).annotate({ identifier: "ProfileProperties" }) as any as S.Schema<ProfileProperties>;
 
 export interface GetNetworkExperimentProfileResponse {
   /** Resource ID. */
@@ -1830,9 +1766,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 /** Resource tags. */
 export type GetPolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -1977,9 +1911,7 @@ export const GroupByVariable = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variableName: VariableName,
   }),
-).annotate({
-  identifier: "GroupByVariable",
-}) as any as S.Schema<GroupByVariable>;
+).annotate({ identifier: "GroupByVariable" }) as any as S.Schema<GroupByVariable>;
 
 /** Describes the list of variables to group the rate limit requests */
 export type CustomRuleGroupByList = Array<GroupByVariable>;
@@ -2174,9 +2106,7 @@ export const ManagedRuleExclusion = /*@__PURE__*/ S.suspend(() =>
     selectorMatchOperator: ManagedRuleExclusionSelectorMatchOperator,
     selector: S.String,
   }),
-).annotate({
-  identifier: "ManagedRuleExclusion",
-}) as any as S.Schema<ManagedRuleExclusion>;
+).annotate({ identifier: "ManagedRuleExclusion" }) as any as S.Schema<ManagedRuleExclusion>;
 
 /** Describes the exclusions that are applied to all rules in the set. */
 export type ManagedRuleSetExclusionsList = Array<ManagedRuleExclusion>;
@@ -2225,9 +2155,7 @@ export const ManagedRuleOverride = /*@__PURE__*/ S.suspend(() =>
     sensitivity: S.optional(SensitivityType),
     exclusions: S.optional(ManagedRuleOverrideExclusionsList),
   }),
-).annotate({
-  identifier: "ManagedRuleOverride",
-}) as any as S.Schema<ManagedRuleOverride>;
+).annotate({ identifier: "ManagedRuleOverride" }) as any as S.Schema<ManagedRuleOverride>;
 
 /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
 export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
@@ -2250,9 +2178,7 @@ export const ManagedRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
     exclusions: S.optional(ManagedRuleGroupOverrideExclusionsList),
     rules: S.optional(ManagedRuleGroupOverrideRulesList),
   }),
-).annotate({
-  identifier: "ManagedRuleGroupOverride",
-}) as any as S.Schema<ManagedRuleGroupOverride>;
+).annotate({ identifier: "ManagedRuleGroupOverride" }) as any as S.Schema<ManagedRuleGroupOverride>;
 
 /** Defines the rule group overrides to apply to the rule set. */
 export type ManagedRuleSetRuleGroupOverridesList = Array<ManagedRuleGroupOverride>;
@@ -2365,9 +2291,7 @@ export const ManagedRuleSetScope = /*@__PURE__*/ S.suspend(() =>
     ruleSetVersion: S.String,
     ruleGroupScopes: S.optional(ManagedRuleSetScopeRuleGroupScopesList),
   }),
-).annotate({
-  identifier: "ManagedRuleSetScope",
-}) as any as S.Schema<ManagedRuleSetScope>;
+).annotate({ identifier: "ManagedRuleSetScope" }) as any as S.Schema<ManagedRuleSetScope>;
 
 /** Scope(s) of the exception. */
 export type ManagedRuleSetExceptionScopesList = Array<ManagedRuleSetScope>;
@@ -2399,9 +2323,7 @@ export const ManagedRuleSetException = /*@__PURE__*/ S.suspend(() =>
     matchValues: ManagedRuleSetExceptionMatchValuesList,
     scopes: ManagedRuleSetExceptionScopesList,
   }),
-).annotate({
-  identifier: "ManagedRuleSetException",
-}) as any as S.Schema<ManagedRuleSetException>;
+).annotate({ identifier: "ManagedRuleSetException" }) as any as S.Schema<ManagedRuleSetException>;
 
 /** List of exceptions. */
 export type ManagedRuleSetExceptionListExceptionsList = Array<ManagedRuleSetException>;
@@ -2434,9 +2356,7 @@ export const ManagedRuleSetList = /*@__PURE__*/ S.suspend(() =>
     managedRuleSets: S.optional(ManagedRuleSetListManagedRuleSetsList),
     exceptionsList: S.optional(ManagedRuleSetExceptionList),
   }),
-).annotate({
-  identifier: "ManagedRuleSetList",
-}) as any as S.Schema<ManagedRuleSetList>;
+).annotate({ identifier: "ManagedRuleSetList" }) as any as S.Schema<ManagedRuleSetList>;
 
 /** Defines the Resource ID for a Frontend Endpoint. */
 export type FrontendEndpointLink = KeyVaultCertificateSourceParametersVault;
@@ -2565,9 +2485,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export type GetReportLatencyScorecardsRequestAggregationInterval = "Daily" | "Weekly" | "Monthly";
 export const GetReportLatencyScorecardsRequestAggregationInterval = S.String;
@@ -2610,9 +2528,7 @@ export const GetReportLatencyScorecardsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetReportLatencyScorecardsRequest>;
 
 /** Resource tags. */
-export type GetReportLatencyScorecardsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetReportLatencyScorecardsResponseTagsMap = { [key: string]: string | undefined };
 export const GetReportLatencyScorecardsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2783,9 +2699,7 @@ export const GetReportTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetReportTimeseriesRequest>;
 
 /** Resource tags. */
-export type GetReportTimeseriesResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetReportTimeseriesResponseTagsMap = { [key: string]: string | undefined };
 export const GetReportTimeseriesResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2811,9 +2725,7 @@ export const TimeseriesDataPoint = /*@__PURE__*/ S.suspend(() =>
     dateTimeUTC: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TimeseriesDataPoint",
-}) as any as S.Schema<TimeseriesDataPoint>;
+).annotate({ identifier: "TimeseriesDataPoint" }) as any as S.Schema<TimeseriesDataPoint>;
 
 /** The set of data points for the timeseries */
 export type TimeseriesPropertiesTimeseriesDataList = Array<TimeseriesDataPoint>;
@@ -2848,9 +2760,7 @@ export const TimeseriesProperties = /*@__PURE__*/ S.suspend(() =>
     country: S.optional(S.String),
     timeseriesData: S.optional(TimeseriesPropertiesTimeseriesDataList),
   }),
-).annotate({
-  identifier: "TimeseriesProperties",
-}) as any as S.Schema<TimeseriesProperties>;
+).annotate({ identifier: "TimeseriesProperties" }) as any as S.Schema<TimeseriesProperties>;
 
 export interface GetReportTimeseriesResponse {
   /** Resource ID. */
@@ -2903,9 +2813,7 @@ export const GetRulesEngineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetRulesEngineRequest",
-}) as any as S.Schema<GetRulesEngineRequest>;
+).annotate({ identifier: "GetRulesEngineRequest" }) as any as S.Schema<GetRulesEngineRequest>;
 
 export interface GetRulesEngineResponse {
   /** Resource ID. */
@@ -2924,9 +2832,7 @@ export const GetRulesEngineResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(RulesEngineProperties),
   }),
-).annotate({
-  identifier: "GetRulesEngineResponse",
-}) as any as S.Schema<GetRulesEngineResponse>;
+).annotate({ identifier: "GetRulesEngineResponse" }) as any as S.Schema<GetRulesEngineResponse>;
 
 export interface ListExperimentByProfileRequest {
   /** The ID of the target subscription. */
@@ -3079,9 +2985,7 @@ export const FrontDoorListResult = /*@__PURE__*/ S.suspend(() =>
     value: FrontDoorListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FrontDoorListResult",
-}) as any as S.Schema<FrontDoorListResult>;
+).annotate({ identifier: "FrontDoorListResult" }) as any as S.Schema<FrontDoorListResult>;
 
 export interface ListFrontDoorsRequest {
   /** The ID of the target subscription. */
@@ -3098,9 +3002,7 @@ export const ListFrontDoorsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListFrontDoorsRequest",
-}) as any as S.Schema<ListFrontDoorsRequest>;
+).annotate({ identifier: "ListFrontDoorsRequest" }) as any as S.Schema<ListFrontDoorsRequest>;
 
 export interface ListFrontendEndpointByFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -3169,9 +3071,7 @@ export const ListManagedRuleSetsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListManagedRuleSetsRequest>;
 
 /** Resource tags. */
-export type ManagedRuleSetDefinitionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ManagedRuleSetDefinitionTagsMap = { [key: string]: string | undefined };
 export const ManagedRuleSetDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3198,9 +3098,7 @@ export const ManagedRuleDefinition = /*@__PURE__*/ S.suspend(() =>
     defaultSensitivity: S.optional(SensitivityType),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedRuleDefinition",
-}) as any as S.Schema<ManagedRuleDefinition>;
+).annotate({ identifier: "ManagedRuleDefinition" }) as any as S.Schema<ManagedRuleDefinition>;
 
 /** List of rules within the managed rule group. */
 export type ManagedRuleGroupDefinitionRulesList = Array<ManagedRuleDefinition>;
@@ -3282,9 +3180,7 @@ export const ManagedRuleSetDefinition = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ManagedRuleSetDefinitionTagsMap),
     properties: S.optional(ManagedRuleSetDefinitionProperties),
   }),
-).annotate({
-  identifier: "ManagedRuleSetDefinition",
-}) as any as S.Schema<ManagedRuleSetDefinition>;
+).annotate({ identifier: "ManagedRuleSetDefinition" }) as any as S.Schema<ManagedRuleSetDefinition>;
 
 /** The ManagedRuleSetDefinition items on this page */
 export type ManagedRuleSetDefinitionListValueList = Array<ManagedRuleSetDefinition>;
@@ -3423,14 +3319,10 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 /** Resource tags. */
-export type WebApplicationFirewallPolicyTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebApplicationFirewallPolicyTagsMap = { [key: string]: string | undefined };
 export const WebApplicationFirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3537,9 +3429,7 @@ export const ListPreconfiguredEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPreconfiguredEndpointsRequest>;
 
 /** Resource tags. */
-export type PreconfiguredEndpointTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PreconfiguredEndpointTagsMap = { [key: string]: string | undefined };
 export const PreconfiguredEndpointTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3595,9 +3485,7 @@ export const PreconfiguredEndpoint = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(PreconfiguredEndpointTagsMap),
     properties: S.optional(PreconfiguredEndpointProperties),
   }),
-).annotate({
-  identifier: "PreconfiguredEndpoint",
-}) as any as S.Schema<PreconfiguredEndpoint>;
+).annotate({ identifier: "PreconfiguredEndpoint" }) as any as S.Schema<PreconfiguredEndpoint>;
 
 /** The PreconfiguredEndpoint items on this page */
 export type PreconfiguredEndpointListValueList = Array<PreconfiguredEndpoint>;
@@ -3664,9 +3552,7 @@ export const RulesEngineListResult = /*@__PURE__*/ S.suspend(() =>
     value: RulesEngineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RulesEngineListResult",
-}) as any as S.Schema<RulesEngineListResult>;
+).annotate({ identifier: "RulesEngineListResult" }) as any as S.Schema<RulesEngineListResult>;
 
 /** Resource tags. */
 export type NetworkExperimentProfilesCreateOrUpdateRequestTagsMap = {
@@ -3754,9 +3640,7 @@ export const NetworkExperimentProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<NetworkExperimentProfilesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3822,9 +3706,7 @@ export const PoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3955,9 +3837,7 @@ export const RulesEnginesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RulesEnginesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type UpdateExperimentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExperimentRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExperimentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4009,14 +3889,10 @@ export const UpdateExperimentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateExperimentRequest",
-}) as any as S.Schema<UpdateExperimentRequest>;
+).annotate({ identifier: "UpdateExperimentRequest" }) as any as S.Schema<UpdateExperimentRequest>;
 
 /** Resource tags. */
-export type UpdateExperimentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExperimentResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExperimentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4045,9 +3921,7 @@ export const UpdateExperimentResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateExperimentResponseTagsMap),
     properties: S.optional(ExperimentProperties),
   }),
-).annotate({
-  identifier: "UpdateExperimentResponse",
-}) as any as S.Schema<UpdateExperimentResponse>;
+).annotate({ identifier: "UpdateExperimentResponse" }) as any as S.Schema<UpdateExperimentResponse>;
 
 /** Defines the properties of an experiment */
 export interface ProfileUpdateProperties {
@@ -4058,14 +3932,10 @@ export const ProfileUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabledState: S.optional(State),
   }),
-).annotate({
-  identifier: "ProfileUpdateProperties",
-}) as any as S.Schema<ProfileUpdateProperties>;
+).annotate({ identifier: "ProfileUpdateProperties" }) as any as S.Schema<ProfileUpdateProperties>;
 
 /** Resource tags. */
-export type UpdateNetworkExperimentProfileRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkExperimentProfileRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkExperimentProfileRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4103,9 +3973,7 @@ export const UpdateNetworkExperimentProfileRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateNetworkExperimentProfileRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkExperimentProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkExperimentProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkExperimentProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4172,9 +4040,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePolicyRequest",
-}) as any as S.Schema<UpdatePolicyRequest>;
+).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
 
 /** Resource tags. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -4212,9 +4078,7 @@ export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "UpdatePolicyResponse",
-}) as any as S.Schema<UpdatePolicyResponse>;
+).annotate({ identifier: "UpdatePolicyResponse" }) as any as S.Schema<UpdatePolicyResponse>;
 
 export interface ValidateFrontDoorCustomDomainRequest {
   /** The ID of the target subscription. */

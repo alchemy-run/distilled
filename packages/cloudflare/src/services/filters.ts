@@ -38,9 +38,7 @@ export const BulkDeleteFiltersRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/filters", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkDeleteFiltersRequest",
-}) as any as S.Schema<BulkDeleteFiltersRequest>;
+).annotate({ identifier: "BulkDeleteFiltersRequest" }) as any as S.Schema<BulkDeleteFiltersRequest>;
 
 export interface BulkDeleteResultItem {
   /** The unique identifier of the filter. */
@@ -50,9 +48,7 @@ export const BulkDeleteResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BulkDeleteResultItem",
-}) as any as S.Schema<BulkDeleteResultItem>;
+).annotate({ identifier: "BulkDeleteResultItem" }) as any as S.Schema<BulkDeleteResultItem>;
 
 export type BulkDeleteResultList = Array<BulkDeleteResultItem>;
 export const BulkDeleteResultList = /*@__PURE__*/ S.Array(
@@ -107,9 +103,7 @@ export const BulkPutFiltersRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/filters", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutFiltersRequest",
-}) as any as S.Schema<BulkPutFiltersRequest>;
+).annotate({ identifier: "BulkPutFiltersRequest" }) as any as S.Schema<BulkPutFiltersRequest>;
 
 export interface BulkUpdateResultItem {
   /** The unique identifier of the filter. */
@@ -131,9 +125,7 @@ export const BulkUpdateResultItem = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.NullOr(S.Boolean)),
     ref: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BulkUpdateResultItem",
-}) as any as S.Schema<BulkUpdateResultItem>;
+).annotate({ identifier: "BulkUpdateResultItem" }) as any as S.Schema<BulkUpdateResultItem>;
 
 export type BulkUpdateResultList = Array<BulkUpdateResultItem>;
 export const BulkUpdateResultList = /*@__PURE__*/ S.Array(
@@ -151,9 +143,7 @@ export const BulkPutFiltersResponse = /*@__PURE__*/ S.suspend(() =>
     result: BulkUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutFiltersResponse",
-}) as any as S.Schema<BulkPutFiltersResponse>;
+).annotate({ identifier: "BulkPutFiltersResponse" }) as any as S.Schema<BulkPutFiltersResponse>;
 
 export type CreateRequestBodyItem = BulkUpdateRequestBodyItem;
 export const CreateRequestBodyItem = BulkUpdateRequestBodyItem;
@@ -175,9 +165,7 @@ export const CreateFilterRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/filters", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFilterRequest",
-}) as any as S.Schema<CreateFilterRequest>;
+).annotate({ identifier: "CreateFilterRequest" }) as any as S.Schema<CreateFilterRequest>;
 
 export type CreateResultItem = BulkUpdateResultItem;
 export const CreateResultItem = BulkUpdateResultItem;
@@ -198,9 +186,7 @@ export const CreateFilterResponse = /*@__PURE__*/ S.suspend(() =>
     result: CreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFilterResponse",
-}) as any as S.Schema<CreateFilterResponse>;
+).annotate({ identifier: "CreateFilterResponse" }) as any as S.Schema<CreateFilterResponse>;
 
 export interface DeleteFilterRequest {
   /** Defines an identifier. */
@@ -213,17 +199,9 @@ export const DeleteFilterRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     filterId: S.String.pipe(T.Label("filter_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/filters/{filter_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/filters/{filter_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteFilterRequest",
-}) as any as S.Schema<DeleteFilterRequest>;
+).annotate({ identifier: "DeleteFilterRequest" }) as any as S.Schema<DeleteFilterRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteFilterResponse {
@@ -234,9 +212,7 @@ export const DeleteFilterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteFilterResponse",
-}) as any as S.Schema<DeleteFilterResponse>;
+).annotate({ identifier: "DeleteFilterResponse" }) as any as S.Schema<DeleteFilterResponse>;
 
 export interface GetFilterRequest {
   /** Defines an identifier. */
@@ -249,17 +225,9 @@ export const GetFilterRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     filterId: S.String.pipe(T.Label("filter_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/filters/{filter_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/filters/{filter_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetFilterRequest",
-}) as any as S.Schema<GetFilterRequest>;
+).annotate({ identifier: "GetFilterRequest" }) as any as S.Schema<GetFilterRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetFilterResponse {
@@ -282,9 +250,7 @@ export const GetFilterResponse = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.NullOr(S.Boolean)),
     ref: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetFilterResponse",
-}) as any as S.Schema<GetFilterResponse>;
+).annotate({ identifier: "GetFilterResponse" }) as any as S.Schema<GetFilterResponse>;
 
 export interface ListFiltersRequest {
   /** Defines an identifier. */
@@ -317,9 +283,7 @@ export const ListFiltersRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/filters", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFiltersRequest",
-}) as any as S.Schema<ListFiltersRequest>;
+).annotate({ identifier: "ListFiltersRequest" }) as any as S.Schema<ListFiltersRequest>;
 
 export type ListResultItem = BulkUpdateResultItem;
 export const ListResultItem = BulkUpdateResultItem;
@@ -340,9 +304,7 @@ export const ListFiltersResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFiltersResponse",
-}) as any as S.Schema<ListFiltersResponse>;
+).annotate({ identifier: "ListFiltersResponse" }) as any as S.Schema<ListFiltersResponse>;
 
 export interface UpdateFilterRequest {
   /** Defines an identifier. */
@@ -367,17 +329,9 @@ export const UpdateFilterRequest = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.Boolean),
     ref: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/filters/{filter_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/filters/{filter_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateFilterRequest",
-}) as any as S.Schema<UpdateFilterRequest>;
+).annotate({ identifier: "UpdateFilterRequest" }) as any as S.Schema<UpdateFilterRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateFilterResponse {
@@ -400,9 +354,7 @@ export const UpdateFilterResponse = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.NullOr(S.Boolean)),
     ref: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateFilterResponse",
-}) as any as S.Schema<UpdateFilterResponse>;
+).annotate({ identifier: "UpdateFilterResponse" }) as any as S.Schema<UpdateFilterResponse>;
 
 export type BulkDeleteFiltersError = CloudflareOpError;
 /** Deletes one or more existing filters. */

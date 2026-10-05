@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Argo CD API spec into ../specs/.
  *
@@ -8,7 +8,7 @@
  * docs snapshot.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/swagger.json
@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "argoproj/argo-cd";
@@ -84,7 +85,7 @@ async function main() {
   }
 
   console.log(`Writing ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   for (const file of DOC_FILES) {
     const url = rawUrl(file.path);
@@ -94,7 +95,7 @@ async function main() {
     }
     const docPath = `${DOCS_DIR}/${file.output}`;
     console.log(`Writing ${docPath}...`);
-    await Bun.write(docPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(docPath, text.endsWith("\n") ? text : `${text}\n`);
   }
 
   console.log(

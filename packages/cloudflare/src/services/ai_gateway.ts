@@ -226,10 +226,7 @@ export class RouteAlreadyExists
     }),
     [
       { code: 7005, message: { includes: "already exists" } },
-      {
-        status: 500,
-        message: { includes: "UNIQUE constraint failed: routes.name" },
-      },
+      { status: 500, message: { includes: "UNIQUE constraint failed: routes.name" } },
     ],
   ) {}
 
@@ -242,8 +239,288 @@ export class RouteNotFound
     [{ code: 7005, message: { includes: "not found" } }],
   ) {}
 
+export type CreateRequestDlpCase0Action = "BLOCK" | "FLAG";
+export const CreateRequestDlpCase0Action = S.String;
+
+export type CreateRequestDlpCase0ProfilesList = Array<string>;
+export const CreateRequestDlpCase0ProfilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateRequestDlpCase0ProfilesList>;
+
+export interface CreateRequestDlpCase0 {
+  action: CreateRequestDlpCase0Action | (string & {});
+  enabled: boolean;
+  profiles: CreateRequestDlpCase0ProfilesList;
+}
+export const CreateRequestDlpCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: CreateRequestDlpCase0Action,
+    enabled: S.Boolean,
+    profiles: CreateRequestDlpCase0ProfilesList,
+  }),
+).annotate({ identifier: "CreateRequestDlpCase0" }) as any as S.Schema<CreateRequestDlpCase0>;
+
+export type CreateRequestDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
+export const CreateRequestDlpCase1PoliciesItemAction = S.String;
+
+export type CreateRequestDlpCase1PoliciesItemCheckItem = "REQUEST" | "RESPONSE";
+export const CreateRequestDlpCase1PoliciesItemCheckItem = S.String;
+
+export type CreateRequestDlpCase1PoliciesItemCheckList = Array<
+  CreateRequestDlpCase1PoliciesItemCheckItem | (string & {})
+>;
+export const CreateRequestDlpCase1PoliciesItemCheckList = /*@__PURE__*/ S.Array(
+  CreateRequestDlpCase1PoliciesItemCheckItem,
+) as any as S.Schema<CreateRequestDlpCase1PoliciesItemCheckList>;
+
+export type CreateRequestDlpCase1PoliciesItemProfilesList = Array<string>;
+export const CreateRequestDlpCase1PoliciesItemProfilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateRequestDlpCase1PoliciesItemProfilesList>;
+
+export interface CreateRequestDlpCase1PoliciesItem {
+  id: string;
+  action: CreateRequestDlpCase1PoliciesItemAction | (string & {});
+  check: CreateRequestDlpCase1PoliciesItemCheckList;
+  enabled: boolean;
+  profiles: CreateRequestDlpCase1PoliciesItemProfilesList;
+}
+export const CreateRequestDlpCase1PoliciesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    action: CreateRequestDlpCase1PoliciesItemAction,
+    check: CreateRequestDlpCase1PoliciesItemCheckList,
+    enabled: S.Boolean,
+    profiles: CreateRequestDlpCase1PoliciesItemProfilesList,
+  }),
+).annotate({
+  identifier: "CreateRequestDlpCase1PoliciesItem",
+}) as any as S.Schema<CreateRequestDlpCase1PoliciesItem>;
+
+export type CreateRequestDlpCase1PoliciesList = Array<CreateRequestDlpCase1PoliciesItem>;
+export const CreateRequestDlpCase1PoliciesList = /*@__PURE__*/ S.Array(
+  CreateRequestDlpCase1PoliciesItem,
+) as any as S.Schema<CreateRequestDlpCase1PoliciesList>;
+
+export interface CreateRequestDlpCase1 {
+  enabled: boolean;
+  policies: CreateRequestDlpCase1PoliciesList;
+}
+export const CreateRequestDlpCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    policies: CreateRequestDlpCase1PoliciesList,
+  }),
+).annotate({ identifier: "CreateRequestDlpCase1" }) as any as S.Schema<CreateRequestDlpCase1>;
+
+export type CreateRequestDlp = CreateRequestDlpCase0 | CreateRequestDlpCase1;
+export const CreateRequestDlp = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([
+    ["action", "enabled", "profiles"],
+    ["enabled", "policies"],
+  ]),
+);
+
+export type CreateRequestGuardrailsPromptP1 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptP1 = S.String;
+
+export type CreateRequestGuardrailsPromptS1 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS1 = S.String;
+
+export type CreateRequestGuardrailsPromptS10 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS10 = S.String;
+
+export type CreateRequestGuardrailsPromptS11 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS11 = S.String;
+
+export type CreateRequestGuardrailsPromptS12 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS12 = S.String;
+
+export type CreateRequestGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS13 = S.String;
+
+export type CreateRequestGuardrailsPromptS2 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS2 = S.String;
+
+export type CreateRequestGuardrailsPromptS3 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS3 = S.String;
+
+export type CreateRequestGuardrailsPromptS4 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS4 = S.String;
+
+export type CreateRequestGuardrailsPromptS5 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS5 = S.String;
+
+export type CreateRequestGuardrailsPromptS6 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS6 = S.String;
+
+export type CreateRequestGuardrailsPromptS7 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS7 = S.String;
+
+export type CreateRequestGuardrailsPromptS8 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS8 = S.String;
+
+export type CreateRequestGuardrailsPromptS9 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsPromptS9 = S.String;
+
+export interface CreateRequestGuardrailsPrompt {
+  p1?: CreateRequestGuardrailsPromptP1 | (string & {});
+  s1?: CreateRequestGuardrailsPromptS1 | (string & {});
+  s10?: CreateRequestGuardrailsPromptS10 | (string & {});
+  s11?: CreateRequestGuardrailsPromptS11 | (string & {});
+  s12?: CreateRequestGuardrailsPromptS12 | (string & {});
+  s13?: CreateRequestGuardrailsPromptS13 | (string & {});
+  s2?: CreateRequestGuardrailsPromptS2 | (string & {});
+  s3?: CreateRequestGuardrailsPromptS3 | (string & {});
+  s4?: CreateRequestGuardrailsPromptS4 | (string & {});
+  s5?: CreateRequestGuardrailsPromptS5 | (string & {});
+  s6?: CreateRequestGuardrailsPromptS6 | (string & {});
+  s7?: CreateRequestGuardrailsPromptS7 | (string & {});
+  s8?: CreateRequestGuardrailsPromptS8 | (string & {});
+  s9?: CreateRequestGuardrailsPromptS9 | (string & {});
+}
+export const CreateRequestGuardrailsPrompt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    p1: S.optional(CreateRequestGuardrailsPromptP1.pipe(T.Body("P1"))),
+    s1: S.optional(CreateRequestGuardrailsPromptS1.pipe(T.Body("S1"))),
+    s10: S.optional(CreateRequestGuardrailsPromptS10.pipe(T.Body("S10"))),
+    s11: S.optional(CreateRequestGuardrailsPromptS11.pipe(T.Body("S11"))),
+    s12: S.optional(CreateRequestGuardrailsPromptS12.pipe(T.Body("S12"))),
+    s13: S.optional(CreateRequestGuardrailsPromptS13.pipe(T.Body("S13"))),
+    s2: S.optional(CreateRequestGuardrailsPromptS2.pipe(T.Body("S2"))),
+    s3: S.optional(CreateRequestGuardrailsPromptS3.pipe(T.Body("S3"))),
+    s4: S.optional(CreateRequestGuardrailsPromptS4.pipe(T.Body("S4"))),
+    s5: S.optional(CreateRequestGuardrailsPromptS5.pipe(T.Body("S5"))),
+    s6: S.optional(CreateRequestGuardrailsPromptS6.pipe(T.Body("S6"))),
+    s7: S.optional(CreateRequestGuardrailsPromptS7.pipe(T.Body("S7"))),
+    s8: S.optional(CreateRequestGuardrailsPromptS8.pipe(T.Body("S8"))),
+    s9: S.optional(CreateRequestGuardrailsPromptS9.pipe(T.Body("S9"))),
+  }),
+).annotate({
+  identifier: "CreateRequestGuardrailsPrompt",
+}) as any as S.Schema<CreateRequestGuardrailsPrompt>;
+
+export type CreateRequestGuardrailsResponseP1 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseP1 = S.String;
+
+export type CreateRequestGuardrailsResponseS1 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS1 = S.String;
+
+export type CreateRequestGuardrailsResponseS10 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS10 = S.String;
+
+export type CreateRequestGuardrailsResponseS11 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS11 = S.String;
+
+export type CreateRequestGuardrailsResponseS12 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS12 = S.String;
+
+export type CreateRequestGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS13 = S.String;
+
+export type CreateRequestGuardrailsResponseS2 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS2 = S.String;
+
+export type CreateRequestGuardrailsResponseS3 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS3 = S.String;
+
+export type CreateRequestGuardrailsResponseS4 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS4 = S.String;
+
+export type CreateRequestGuardrailsResponseS5 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS5 = S.String;
+
+export type CreateRequestGuardrailsResponseS6 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS6 = S.String;
+
+export type CreateRequestGuardrailsResponseS7 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS7 = S.String;
+
+export type CreateRequestGuardrailsResponseS8 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS8 = S.String;
+
+export type CreateRequestGuardrailsResponseS9 = "FLAG" | "BLOCK";
+export const CreateRequestGuardrailsResponseS9 = S.String;
+
+export interface CreateRequestGuardrailsResponse {
+  p1?: CreateRequestGuardrailsResponseP1 | (string & {});
+  s1?: CreateRequestGuardrailsResponseS1 | (string & {});
+  s10?: CreateRequestGuardrailsResponseS10 | (string & {});
+  s11?: CreateRequestGuardrailsResponseS11 | (string & {});
+  s12?: CreateRequestGuardrailsResponseS12 | (string & {});
+  s13?: CreateRequestGuardrailsResponseS13 | (string & {});
+  s2?: CreateRequestGuardrailsResponseS2 | (string & {});
+  s3?: CreateRequestGuardrailsResponseS3 | (string & {});
+  s4?: CreateRequestGuardrailsResponseS4 | (string & {});
+  s5?: CreateRequestGuardrailsResponseS5 | (string & {});
+  s6?: CreateRequestGuardrailsResponseS6 | (string & {});
+  s7?: CreateRequestGuardrailsResponseS7 | (string & {});
+  s8?: CreateRequestGuardrailsResponseS8 | (string & {});
+  s9?: CreateRequestGuardrailsResponseS9 | (string & {});
+}
+export const CreateRequestGuardrailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    p1: S.optional(CreateRequestGuardrailsResponseP1.pipe(T.Body("P1"))),
+    s1: S.optional(CreateRequestGuardrailsResponseS1.pipe(T.Body("S1"))),
+    s10: S.optional(CreateRequestGuardrailsResponseS10.pipe(T.Body("S10"))),
+    s11: S.optional(CreateRequestGuardrailsResponseS11.pipe(T.Body("S11"))),
+    s12: S.optional(CreateRequestGuardrailsResponseS12.pipe(T.Body("S12"))),
+    s13: S.optional(CreateRequestGuardrailsResponseS13.pipe(T.Body("S13"))),
+    s2: S.optional(CreateRequestGuardrailsResponseS2.pipe(T.Body("S2"))),
+    s3: S.optional(CreateRequestGuardrailsResponseS3.pipe(T.Body("S3"))),
+    s4: S.optional(CreateRequestGuardrailsResponseS4.pipe(T.Body("S4"))),
+    s5: S.optional(CreateRequestGuardrailsResponseS5.pipe(T.Body("S5"))),
+    s6: S.optional(CreateRequestGuardrailsResponseS6.pipe(T.Body("S6"))),
+    s7: S.optional(CreateRequestGuardrailsResponseS7.pipe(T.Body("S7"))),
+    s8: S.optional(CreateRequestGuardrailsResponseS8.pipe(T.Body("S8"))),
+    s9: S.optional(CreateRequestGuardrailsResponseS9.pipe(T.Body("S9"))),
+  }),
+).annotate({
+  identifier: "CreateRequestGuardrailsResponse",
+}) as any as S.Schema<CreateRequestGuardrailsResponse>;
+
+export interface CreateRequestGuardrails {
+  prompt: CreateRequestGuardrailsPrompt;
+  response: CreateRequestGuardrailsResponse;
+}
+export const CreateRequestGuardrails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    prompt: CreateRequestGuardrailsPrompt,
+    response: CreateRequestGuardrailsResponse,
+  }),
+).annotate({ identifier: "CreateRequestGuardrails" }) as any as S.Schema<CreateRequestGuardrails>;
+
 export type CreateRequestLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const CreateRequestLogManagementStrategy = S.String;
+
+export type CreateRequestOtelItemHeadersMap = { [key: string]: string | undefined };
+export const CreateRequestOtelItemHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateRequestOtelItemHeadersMap>;
+
+export type CreateRequestOtelItemContentType = "json" | "protobuf";
+export const CreateRequestOtelItemContentType = S.String;
+
+export interface CreateRequestOtelItem {
+  headers: CreateRequestOtelItemHeadersMap;
+  url: string;
+  authorization?: string;
+  contentType?: CreateRequestOtelItemContentType | (string & {});
+}
+export const CreateRequestOtelItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headers: CreateRequestOtelItemHeadersMap,
+    url: S.String,
+    authorization: S.optional(S.String),
+    contentType: S.optional(CreateRequestOtelItemContentType.pipe(T.Body("content_type"))),
+  }),
+).annotate({ identifier: "CreateRequestOtelItem" }) as any as S.Schema<CreateRequestOtelItem>;
+
+export type CreateRequestOtelList = Array<CreateRequestOtelItem>;
+export const CreateRequestOtelList = /*@__PURE__*/ S.Array(
+  CreateRequestOtelItem,
+) as any as S.Schema<CreateRequestOtelList>;
 
 export type CreateRequestRateLimitingTechnique = "fixed" | "sliding";
 export const CreateRequestRateLimitingTechnique = S.String;
@@ -251,12 +528,174 @@ export const CreateRequestRateLimitingTechnique = S.String;
 export type CreateRequestRetryBackoff = "constant" | "linear" | "exponential";
 export const CreateRequestRetryBackoff = S.String;
 
+export type CreateRequestSpendLimitsRulesItemLimitType = "cost";
+export const CreateRequestSpendLimitsRulesItemLimitType = S.String;
+
+export type CreateRequestSpendLimitsRulesItemMetadataModeMode = "partition";
+export const CreateRequestSpendLimitsRulesItemMetadataModeMode = S.String;
+
+export interface CreateRequestSpendLimitsRulesItemMetadataMode {
+  mode: CreateRequestSpendLimitsRulesItemMetadataModeMode;
+}
+export const CreateRequestSpendLimitsRulesItemMetadataMode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: CreateRequestSpendLimitsRulesItemMetadataModeMode,
+  }),
+).annotate({
+  identifier: "CreateRequestSpendLimitsRulesItemMetadataMode",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataMode>;
+
+export type CreateRequestSpendLimitsRulesItemMetadataCase1Mode = "filter";
+export const CreateRequestSpendLimitsRulesItemMetadataCase1Mode = S.String;
+
+export type CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList = Array<string>;
+export const CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList>;
+
+export interface CreateRequestSpendLimitsRulesItemMetadataCase1 {
+  mode: CreateRequestSpendLimitsRulesItemMetadataCase1Mode;
+  values: CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList;
+}
+export const CreateRequestSpendLimitsRulesItemMetadataCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: CreateRequestSpendLimitsRulesItemMetadataCase1Mode,
+    values: CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList,
+  }),
+).annotate({
+  identifier: "CreateRequestSpendLimitsRulesItemMetadataCase1",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemMetadataCase1>;
+
+export type CreateRequestSpendLimitsRulesItemMetadata =
+  | CreateRequestSpendLimitsRulesItemMetadataMode
+  | CreateRequestSpendLimitsRulesItemMetadataCase1;
+export const CreateRequestSpendLimitsRulesItemMetadata = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([["mode"], ["mode", "values"]], { key: "mode", values: ["partition", "filter"] }),
+);
+
+export type CreateRequestSpendLimitsRulesItemModelMode = "filter";
+export const CreateRequestSpendLimitsRulesItemModelMode = S.String;
+
+export type CreateRequestSpendLimitsRulesItemModelValuesList = Array<string>;
+export const CreateRequestSpendLimitsRulesItemModelValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateRequestSpendLimitsRulesItemModelValuesList>;
+
+export interface CreateRequestSpendLimitsRulesItemModel {
+  mode: CreateRequestSpendLimitsRulesItemModelMode | (string & {});
+  values: CreateRequestSpendLimitsRulesItemModelValuesList;
+}
+export const CreateRequestSpendLimitsRulesItemModel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: CreateRequestSpendLimitsRulesItemModelMode,
+    values: CreateRequestSpendLimitsRulesItemModelValuesList,
+  }),
+).annotate({
+  identifier: "CreateRequestSpendLimitsRulesItemModel",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemModel>;
+
+export type CreateRequestSpendLimitsRulesItemProviderMode = "filter";
+export const CreateRequestSpendLimitsRulesItemProviderMode = S.String;
+
+export type CreateRequestSpendLimitsRulesItemProviderValuesList = Array<string>;
+export const CreateRequestSpendLimitsRulesItemProviderValuesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateRequestSpendLimitsRulesItemProviderValuesList>;
+
+export interface CreateRequestSpendLimitsRulesItemProvider {
+  mode: CreateRequestSpendLimitsRulesItemProviderMode | (string & {});
+  values: CreateRequestSpendLimitsRulesItemProviderValuesList;
+}
+export const CreateRequestSpendLimitsRulesItemProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mode: CreateRequestSpendLimitsRulesItemProviderMode,
+    values: CreateRequestSpendLimitsRulesItemProviderValuesList,
+  }),
+).annotate({
+  identifier: "CreateRequestSpendLimitsRulesItemProvider",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItemProvider>;
+
+export type CreateRequestSpendLimitsRulesItemTechnique = "fixed" | "sliding";
+export const CreateRequestSpendLimitsRulesItemTechnique = S.String;
+
+export interface CreateRequestSpendLimitsRulesItem {
+  /** exclusiveMinimum */
+  limit: number;
+  limitType: CreateRequestSpendLimitsRulesItemLimitType | (string & {});
+  /** exclusiveMinimum */
+  window: number;
+  id?: string;
+  enabled?: boolean;
+  metadata?: CreateRequestSpendLimitsRulesItemMetadata;
+  model?: CreateRequestSpendLimitsRulesItemModel;
+  provider?: CreateRequestSpendLimitsRulesItemProvider;
+  technique?: CreateRequestSpendLimitsRulesItemTechnique | (string & {});
+}
+export const CreateRequestSpendLimitsRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.Number,
+    limitType: CreateRequestSpendLimitsRulesItemLimitType,
+    window: S.Number,
+    id: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    metadata: S.optional(CreateRequestSpendLimitsRulesItemMetadata),
+    model: S.optional(CreateRequestSpendLimitsRulesItemModel),
+    provider: S.optional(CreateRequestSpendLimitsRulesItemProvider),
+    technique: S.optional(CreateRequestSpendLimitsRulesItemTechnique),
+  }),
+).annotate({
+  identifier: "CreateRequestSpendLimitsRulesItem",
+}) as any as S.Schema<CreateRequestSpendLimitsRulesItem>;
+
+export type CreateRequestSpendLimitsRulesList = Array<CreateRequestSpendLimitsRulesItem>;
+export const CreateRequestSpendLimitsRulesList = /*@__PURE__*/ S.Array(
+  CreateRequestSpendLimitsRulesItem,
+) as any as S.Schema<CreateRequestSpendLimitsRulesList>;
+
+export interface CreateRequestSpendLimits {
+  enabled?: boolean;
+  rules?: CreateRequestSpendLimitsRulesList;
+}
+export const CreateRequestSpendLimits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    rules: S.optional(CreateRequestSpendLimitsRulesList),
+  }),
+).annotate({ identifier: "CreateRequestSpendLimits" }) as any as S.Schema<CreateRequestSpendLimits>;
+
+export interface CreateRequestStripeUsageEventsItem {
+  payload: string;
+}
+export const CreateRequestStripeUsageEventsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payload: S.String,
+  }),
+).annotate({
+  identifier: "CreateRequestStripeUsageEventsItem",
+}) as any as S.Schema<CreateRequestStripeUsageEventsItem>;
+
+export type CreateRequestStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
+export const CreateRequestStripeUsageEventsList = /*@__PURE__*/ S.Array(
+  CreateRequestStripeUsageEventsItem,
+) as any as S.Schema<CreateRequestStripeUsageEventsList>;
+
+export interface CreateRequestStripe {
+  authorization: string;
+  usageEvents: CreateRequestStripeUsageEventsList;
+}
+export const CreateRequestStripe = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorization: S.String,
+    usageEvents: CreateRequestStripeUsageEventsList.pipe(T.Body("usage_events")),
+  }),
+).annotate({ identifier: "CreateRequestStripe" }) as any as S.Schema<CreateRequestStripe>;
+
 export type CreateRequestWorkersAiBillingMode = "postpaid" | "unified";
 export const CreateRequestWorkersAiBillingMode = S.String;
 
 export interface CreateAiGatewayRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
@@ -266,10 +705,14 @@ export interface CreateAiGatewayRequest {
   authentication?: boolean;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean;
+  dlp?: CreateRequestDlp;
+  guardrails?: CreateRequestGuardrails;
+  logClassification?: boolean;
   logManagement?: number;
   logManagementStrategy?: CreateRequestLogManagementStrategy | (string & {});
   logpush?: boolean;
   logpushPublicKey?: string;
+  otel?: CreateRequestOtelList;
   rateLimitingTechnique?: CreateRequestRateLimitingTechnique | (string & {});
   /** Backoff strategy for retry delays */
   retryBackoff?: CreateRequestRetryBackoff | (string & {});
@@ -277,7 +720,9 @@ export interface CreateAiGatewayRequest {
   retryDelay?: number;
   /** Maximum number of retry attempts for failed requests (1-5) */
   retryMaxAttempts?: number;
+  spendLimits?: CreateRequestSpendLimits;
   storeId?: string;
+  stripe?: CreateRequestStripe;
   /** Controls how Workers AI inference calls routed through this gateway are billed. 'postpaid' bills the account directly through Workers AI; 'unified' deducts credits via AI Gateway using neuron-based pricing and delegates billing to AI Gateway. */
   workersAiBillingMode?: CreateRequestWorkersAiBillingMode | (string & {});
   zdr?: boolean;
@@ -293,35 +738,33 @@ export const CreateAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     rateLimitingLimit: S.NullOr(S.Number).pipe(T.Body("rate_limiting_limit")),
     authentication: S.optional(S.Boolean),
     byokOnly: S.optional(S.Boolean.pipe(T.Body("byok_only"))),
+    dlp: S.optional(CreateRequestDlp),
+    guardrails: S.optional(CreateRequestGuardrails),
+    logClassification: S.optional(S.Boolean.pipe(T.Body("log_classification"))),
     logManagement: S.optional(S.Number.pipe(T.Body("log_management"))),
     logManagementStrategy: S.optional(
       CreateRequestLogManagementStrategy.pipe(T.Body("log_management_strategy")),
     ),
     logpush: S.optional(S.Boolean),
     logpushPublicKey: S.optional(S.String.pipe(T.Body("logpush_public_key"))),
+    otel: S.optional(CreateRequestOtelList),
     rateLimitingTechnique: S.optional(
       CreateRequestRateLimitingTechnique.pipe(T.Body("rate_limiting_technique")),
     ),
     retryBackoff: S.optional(CreateRequestRetryBackoff.pipe(T.Body("retry_backoff"))),
     retryDelay: S.optional(S.Number.pipe(T.Body("retry_delay"))),
     retryMaxAttempts: S.optional(S.Number.pipe(T.Body("retry_max_attempts"))),
+    spendLimits: S.optional(CreateRequestSpendLimits.pipe(T.Body("spend_limits"))),
     storeId: S.optional(S.String.pipe(T.Body("store_id"))),
+    stripe: S.optional(CreateRequestStripe),
     workersAiBillingMode: S.optional(
       CreateRequestWorkersAiBillingMode.pipe(T.Body("workers_ai_billing_mode")),
     ),
     zdr: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai-gateway/gateways",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai-gateway/gateways", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAiGatewayRequest",
-}) as any as S.Schema<CreateAiGatewayRequest>;
+).annotate({ identifier: "CreateAiGatewayRequest" }) as any as S.Schema<CreateAiGatewayRequest>;
 
 export type CreateResponseDlpCase0Action = "BLOCK" | "FLAG";
 export const CreateResponseDlpCase0Action = S.String;
@@ -342,9 +785,7 @@ export const CreateResponseDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: CreateResponseDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "CreateResponseDlpCase0",
-}) as any as S.Schema<CreateResponseDlpCase0>;
+).annotate({ identifier: "CreateResponseDlpCase0" }) as any as S.Schema<CreateResponseDlpCase0>;
 
 export type CreateResponseDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const CreateResponseDlpCase1PoliciesItemAction = S.String;
@@ -396,9 +837,7 @@ export const CreateResponseDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: CreateResponseDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "CreateResponseDlpCase1",
-}) as any as S.Schema<CreateResponseDlpCase1>;
+).annotate({ identifier: "CreateResponseDlpCase1" }) as any as S.Schema<CreateResponseDlpCase1>;
 
 export type CreateResponseDlp = CreateResponseDlpCase0 | CreateResponseDlpCase1;
 export const CreateResponseDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -575,16 +1014,12 @@ export const CreateResponseGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: CreateResponseGuardrailsPrompt,
     response: CreateResponseGuardrailsResponse,
   }),
-).annotate({
-  identifier: "CreateResponseGuardrails",
-}) as any as S.Schema<CreateResponseGuardrails>;
+).annotate({ identifier: "CreateResponseGuardrails" }) as any as S.Schema<CreateResponseGuardrails>;
 
 export type CreateResponseLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const CreateResponseLogManagementStrategy = S.String;
 
-export type CreateResponseOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateResponseOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const CreateResponseOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -608,9 +1043,7 @@ export const CreateResponseOtelItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(CreateResponseOtelItemContentType).pipe(T.Body("content_type")),
     ),
   }),
-).annotate({
-  identifier: "CreateResponseOtelItem",
-}) as any as S.Schema<CreateResponseOtelItem>;
+).annotate({ identifier: "CreateResponseOtelItem" }) as any as S.Schema<CreateResponseOtelItem>;
 
 export type CreateResponseOtelList = Array<CreateResponseOtelItem>;
 export const CreateResponseOtelList = /*@__PURE__*/ S.Array(
@@ -724,20 +1157,12 @@ export const CreateResponseSpendLimits = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResponseSpendLimits",
 }) as any as S.Schema<CreateResponseSpendLimits>;
 
-export interface CreateResponseStripeUsageEventsItem {
-  payload: string;
-}
-export const CreateResponseStripeUsageEventsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    payload: S.String,
-  }),
-).annotate({
-  identifier: "CreateResponseStripeUsageEventsItem",
-}) as any as S.Schema<CreateResponseStripeUsageEventsItem>;
+export type CreateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const CreateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type CreateResponseStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type CreateResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const CreateResponseStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<CreateResponseStripeUsageEventsList>;
 
 export interface CreateResponseStripe {
@@ -749,16 +1174,14 @@ export const CreateResponseStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: CreateResponseStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "CreateResponseStripe",
-}) as any as S.Schema<CreateResponseStripe>;
+).annotate({ identifier: "CreateResponseStripe" }) as any as S.Schema<CreateResponseStripe>;
 
 export type CreateResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const CreateResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAiGatewayResponse {
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number;
@@ -830,9 +1253,7 @@ export const CreateAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zdr: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAiGatewayResponse",
-}) as any as S.Schema<CreateAiGatewayResponse>;
+).annotate({ identifier: "CreateAiGatewayResponse" }) as any as S.Schema<CreateAiGatewayResponse>;
 
 export type BillingSpendingLimitCreateRequestDuration = "daily" | "weekly" | "monthly";
 export const BillingSpendingLimitCreateRequestDuration = S.String;
@@ -879,18 +1300,17 @@ export interface CreateBillingTopupRequest {
   accountId: string;
   /** Top-up amount in cents (min 1000). */
   amount: number;
+  /** Stripe PaymentMethod to charge instead of the customer's default payment method. */
+  paymentMethodId?: string;
 }
 export const CreateBillingTopupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     amount: S.Number,
+    paymentMethodId: S.optional(S.String.pipe(T.Body("payment_method_id"))),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai-gateway/billing/topup",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/ai-gateway/billing/topup", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -970,6 +1390,7 @@ export interface CreateCustomProviderRequest {
   curlExample?: string;
   description?: string;
   enable?: boolean;
+  /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
   headers?: string;
   jsExample?: string;
   link?: string;
@@ -1014,6 +1435,7 @@ export interface CreateCustomProviderResponse {
   curlExample?: string | null;
   description?: string | null;
   enable?: boolean | null;
+  /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
   headers?: string | null;
   jsExample?: string | null;
   link?: string | null;
@@ -1094,7 +1516,7 @@ export const DatasetsCreateRequestFiltersList = /*@__PURE__*/ S.Array(
 
 export interface CreateDatasetRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   enable: boolean;
   filters: DatasetsCreateRequestFiltersList;
@@ -1116,9 +1538,7 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDatasetRequest",
-}) as any as S.Schema<CreateDatasetRequest>;
+).annotate({ identifier: "CreateDatasetRequest" }) as any as S.Schema<CreateDatasetRequest>;
 
 export type DatasetsCreateResponseFiltersItemKey =
   | "created_at"
@@ -1176,7 +1596,7 @@ export interface CreateDatasetResponse {
   createdAt: string;
   enable: boolean;
   filters: DatasetsCreateResponseFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -1191,9 +1611,7 @@ export const CreateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.String.pipe(T.Body("modified_at")),
     name: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDatasetResponse",
-}) as any as S.Schema<CreateDatasetResponse>;
+).annotate({ identifier: "CreateDatasetResponse" }) as any as S.Schema<CreateDatasetResponse>;
 
 export interface CreateDeploymentDynamicRoutingRequest {
   accountId: string;
@@ -1509,10 +1927,7 @@ export const DynamicRoutingCreateDeploymentResponseElementsItem = /*@__PURE__*/ 
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -1776,10 +2191,7 @@ export const DynamicRoutingCreateRequestElementsItem = /*@__PURE__*/ S.Unknown.p
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -2061,10 +2473,7 @@ export const DynamicRoutingCreateResponseElementsItem = /*@__PURE__*/ S.Unknown.
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -2134,7 +2543,7 @@ export const EvaluationsCreateRequestEvaluationTypeIdsList = /*@__PURE__*/ S.Arr
 
 export interface CreateEvaluationRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   datasetIds: EvaluationsCreateRequestDatasetIdsList;
   evaluationTypeIds: EvaluationsCreateRequestEvaluationTypeIdsList;
@@ -2158,9 +2567,7 @@ export const CreateEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEvaluationRequest",
-}) as any as S.Schema<CreateEvaluationRequest>;
+).annotate({ identifier: "CreateEvaluationRequest" }) as any as S.Schema<CreateEvaluationRequest>;
 
 export type EvaluationsCreateResponseDatasetsItemFiltersItemKey =
   | "created_at"
@@ -2223,7 +2630,7 @@ export interface EvaluationsCreateResponseDatasetsItem {
   createdAt: string;
   enable: boolean;
   filters: EvaluationsCreateResponseDatasetsItemFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -2286,7 +2693,7 @@ export interface CreateEvaluationResponse {
   id: string;
   createdAt: string;
   datasets: EvaluationsCreateResponseDatasetsList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -2306,19 +2713,18 @@ export const CreateEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
     results: EvaluationsCreateResponseResultsList,
     totalLogs: S.Number.pipe(T.Body("total_logs")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEvaluationResponse",
-}) as any as S.Schema<CreateEvaluationResponse>;
+).annotate({ identifier: "CreateEvaluationResponse" }) as any as S.Schema<CreateEvaluationResponse>;
 
 export interface CreateProviderConfigRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   alias: string;
   defaultConfig: boolean;
   providerSlug: string;
   rateLimit?: number;
   rateLimitPeriod?: number;
+  /** Provider API key to store in the Secrets Store configured on the gateway. */
   secret?: string;
   secretId?: string;
 }
@@ -2351,7 +2757,7 @@ export interface CreateProviderConfigResponse {
   id: string;
   alias: string;
   defaultConfig: boolean;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   providerSlug: string;
@@ -2619,10 +3025,7 @@ export const DynamicRoutingCreateVersionRequestElementsItem = /*@__PURE__*/ S.Un
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -2894,10 +3297,7 @@ export const DynamicRoutingCreateVersionResponseElementsItem = /*@__PURE__*/ S.U
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -3005,7 +3405,7 @@ export const CreditBalanceBillingResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAiGatewayRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
 }
 export const DeleteAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3021,9 +3421,7 @@ export const DeleteAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAiGatewayRequest",
-}) as any as S.Schema<DeleteAiGatewayRequest>;
+).annotate({ identifier: "DeleteAiGatewayRequest" }) as any as S.Schema<DeleteAiGatewayRequest>;
 
 export type DeleteResponseDlpCase0Action = "BLOCK" | "FLAG";
 export const DeleteResponseDlpCase0Action = S.String;
@@ -3044,9 +3442,7 @@ export const DeleteResponseDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: DeleteResponseDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "DeleteResponseDlpCase0",
-}) as any as S.Schema<DeleteResponseDlpCase0>;
+).annotate({ identifier: "DeleteResponseDlpCase0" }) as any as S.Schema<DeleteResponseDlpCase0>;
 
 export type DeleteResponseDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const DeleteResponseDlpCase1PoliciesItemAction = S.String;
@@ -3098,9 +3494,7 @@ export const DeleteResponseDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: DeleteResponseDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "DeleteResponseDlpCase1",
-}) as any as S.Schema<DeleteResponseDlpCase1>;
+).annotate({ identifier: "DeleteResponseDlpCase1" }) as any as S.Schema<DeleteResponseDlpCase1>;
 
 export type DeleteResponseDlp = DeleteResponseDlpCase0 | DeleteResponseDlpCase1;
 export const DeleteResponseDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -3277,16 +3671,12 @@ export const DeleteResponseGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: DeleteResponseGuardrailsPrompt,
     response: DeleteResponseGuardrailsResponse,
   }),
-).annotate({
-  identifier: "DeleteResponseGuardrails",
-}) as any as S.Schema<DeleteResponseGuardrails>;
+).annotate({ identifier: "DeleteResponseGuardrails" }) as any as S.Schema<DeleteResponseGuardrails>;
 
 export type DeleteResponseLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const DeleteResponseLogManagementStrategy = S.String;
 
-export type DeleteResponseOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeleteResponseOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const DeleteResponseOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3310,9 +3700,7 @@ export const DeleteResponseOtelItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(DeleteResponseOtelItemContentType).pipe(T.Body("content_type")),
     ),
   }),
-).annotate({
-  identifier: "DeleteResponseOtelItem",
-}) as any as S.Schema<DeleteResponseOtelItem>;
+).annotate({ identifier: "DeleteResponseOtelItem" }) as any as S.Schema<DeleteResponseOtelItem>;
 
 export type DeleteResponseOtelList = Array<DeleteResponseOtelItem>;
 export const DeleteResponseOtelList = /*@__PURE__*/ S.Array(
@@ -3420,12 +3808,12 @@ export const DeleteResponseSpendLimits = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResponseSpendLimits",
 }) as any as S.Schema<DeleteResponseSpendLimits>;
 
-export type DeleteResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
-export const DeleteResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
+export type DeleteResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const DeleteResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type DeleteResponseStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type DeleteResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const DeleteResponseStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<DeleteResponseStripeUsageEventsList>;
 
 export interface DeleteResponseStripe {
@@ -3437,16 +3825,14 @@ export const DeleteResponseStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: DeleteResponseStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "DeleteResponseStripe",
-}) as any as S.Schema<DeleteResponseStripe>;
+).annotate({ identifier: "DeleteResponseStripe" }) as any as S.Schema<DeleteResponseStripe>;
 
 export type DeleteResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const DeleteResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAiGatewayResponse {
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number;
@@ -3518,9 +3904,7 @@ export const DeleteAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zdr: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAiGatewayResponse",
-}) as any as S.Schema<DeleteAiGatewayResponse>;
+).annotate({ identifier: "DeleteAiGatewayResponse" }) as any as S.Schema<DeleteAiGatewayResponse>;
 
 export interface DeleteBillingSpendingLimitRequest {
   accountId: string;
@@ -3607,6 +3991,7 @@ export interface DeleteCustomProviderResponse {
   curlExample?: string | null;
   description?: string | null;
   enable?: boolean | null;
+  /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
   headers?: string | null;
   jsExample?: string | null;
   link?: string | null;
@@ -3637,7 +4022,7 @@ export const DeleteCustomProviderResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteDatasetRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -3655,9 +4040,7 @@ export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDatasetRequest",
-}) as any as S.Schema<DeleteDatasetRequest>;
+).annotate({ identifier: "DeleteDatasetRequest" }) as any as S.Schema<DeleteDatasetRequest>;
 
 export type DatasetsDeleteResponseFiltersItemKey =
   | "created_at"
@@ -3715,7 +4098,7 @@ export interface DeleteDatasetResponse {
   createdAt: string;
   enable: boolean;
   filters: DatasetsDeleteResponseFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -3730,9 +4113,7 @@ export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.String.pipe(T.Body("modified_at")),
     name: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDatasetResponse",
-}) as any as S.Schema<DeleteDatasetResponse>;
+).annotate({ identifier: "DeleteDatasetResponse" }) as any as S.Schema<DeleteDatasetResponse>;
 
 export interface DeleteDynamicRoutingRequest {
   accountId: string;
@@ -3989,10 +4370,7 @@ export const DynamicRoutingDeleteResponseElementsItem = /*@__PURE__*/ S.Unknown.
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -4026,7 +4404,7 @@ export const DeleteDynamicRoutingResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteEvaluationRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -4044,9 +4422,7 @@ export const DeleteEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteEvaluationRequest",
-}) as any as S.Schema<DeleteEvaluationRequest>;
+).annotate({ identifier: "DeleteEvaluationRequest" }) as any as S.Schema<DeleteEvaluationRequest>;
 
 export type EvaluationsDeleteResponseDatasetsItemFiltersItemKey =
   | "created_at"
@@ -4109,7 +4485,7 @@ export interface EvaluationsDeleteResponseDatasetsItem {
   createdAt: string;
   enable: boolean;
   filters: EvaluationsDeleteResponseDatasetsItemFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -4148,7 +4524,7 @@ export interface DeleteEvaluationResponse {
   id: string;
   createdAt: string;
   datasets: EvaluationsDeleteResponseDatasetsList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -4168,9 +4544,7 @@ export const DeleteEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
     results: EvaluationsDeleteResponseResultsList,
     totalLogs: S.Number.pipe(T.Body("total_logs")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteEvaluationResponse",
-}) as any as S.Schema<DeleteEvaluationResponse>;
+).annotate({ identifier: "DeleteEvaluationResponse" }) as any as S.Schema<DeleteEvaluationResponse>;
 
 export type LogsDeleteRequestFiltersList = Array<string>;
 export const LogsDeleteRequestFiltersList = /*@__PURE__*/ S.Array(
@@ -4196,7 +4570,7 @@ export const LogsDeleteRequestOrderByDirection = S.String;
 
 export interface DeleteLogRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   filters?: LogsDeleteRequestFiltersList;
   limit?: number;
@@ -4222,16 +4596,12 @@ export const DeleteLogRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLogRequest",
-}) as any as S.Schema<DeleteLogRequest>;
+).annotate({ identifier: "DeleteLogRequest" }) as any as S.Schema<DeleteLogRequest>;
 
 export interface DeleteLogResponse {}
 export const DeleteLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLogResponse",
-}) as any as S.Schema<DeleteLogResponse>;
+).annotate({ identifier: "DeleteLogResponse" }) as any as S.Schema<DeleteLogResponse>;
 
 export interface DeleteProviderConfigRequest {
   /** Identifier. */
@@ -4266,7 +4636,7 @@ export const DeleteProviderConfigResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetAiGatewayRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
 }
 export const GetAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4275,16 +4645,10 @@ export const GetAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-gateway/gateways/{id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-gateway/gateways/{id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAiGatewayRequest",
-}) as any as S.Schema<GetAiGatewayRequest>;
+).annotate({ identifier: "GetAiGatewayRequest" }) as any as S.Schema<GetAiGatewayRequest>;
 
 export type GetResponseDlpCase0Action = "BLOCK" | "FLAG";
 export const GetResponseDlpCase0Action = S.String;
@@ -4305,9 +4669,7 @@ export const GetResponseDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: GetResponseDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "GetResponseDlpCase0",
-}) as any as S.Schema<GetResponseDlpCase0>;
+).annotate({ identifier: "GetResponseDlpCase0" }) as any as S.Schema<GetResponseDlpCase0>;
 
 export type GetResponseDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const GetResponseDlpCase1PoliciesItemAction = S.String;
@@ -4359,9 +4721,7 @@ export const GetResponseDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: GetResponseDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "GetResponseDlpCase1",
-}) as any as S.Schema<GetResponseDlpCase1>;
+).annotate({ identifier: "GetResponseDlpCase1" }) as any as S.Schema<GetResponseDlpCase1>;
 
 export type GetResponseDlp = GetResponseDlpCase0 | GetResponseDlpCase1;
 export const GetResponseDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -4538,16 +4898,12 @@ export const GetResponseGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: GetResponseGuardrailsPrompt,
     response: GetResponseGuardrailsResponse,
   }),
-).annotate({
-  identifier: "GetResponseGuardrails",
-}) as any as S.Schema<GetResponseGuardrails>;
+).annotate({ identifier: "GetResponseGuardrails" }) as any as S.Schema<GetResponseGuardrails>;
 
 export type GetResponseLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const GetResponseLogManagementStrategy = S.String;
 
-export type GetResponseOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetResponseOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const GetResponseOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4569,9 +4925,7 @@ export const GetResponseOtelItem = /*@__PURE__*/ S.suspend(() =>
     authorization: S.optional(S.NullOr(S.String)),
     contentType: S.optional(S.NullOr(GetResponseOtelItemContentType).pipe(T.Body("content_type"))),
   }),
-).annotate({
-  identifier: "GetResponseOtelItem",
-}) as any as S.Schema<GetResponseOtelItem>;
+).annotate({ identifier: "GetResponseOtelItem" }) as any as S.Schema<GetResponseOtelItem>;
 
 export type GetResponseOtelList = Array<GetResponseOtelItem>;
 export const GetResponseOtelList = /*@__PURE__*/ S.Array(
@@ -4675,16 +5029,14 @@ export const GetResponseSpendLimits = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.NullOr(S.Boolean)),
     rules: S.optional(S.NullOr(GetResponseSpendLimitsRulesList)),
   }),
-).annotate({
-  identifier: "GetResponseSpendLimits",
-}) as any as S.Schema<GetResponseSpendLimits>;
+).annotate({ identifier: "GetResponseSpendLimits" }) as any as S.Schema<GetResponseSpendLimits>;
 
-export type GetResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
-export const GetResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
+export type GetResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const GetResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type GetResponseStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type GetResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const GetResponseStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<GetResponseStripeUsageEventsList>;
 
 export interface GetResponseStripe {
@@ -4696,16 +5048,14 @@ export const GetResponseStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: GetResponseStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "GetResponseStripe",
-}) as any as S.Schema<GetResponseStripe>;
+).annotate({ identifier: "GetResponseStripe" }) as any as S.Schema<GetResponseStripe>;
 
 export type GetResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const GetResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAiGatewayResponse {
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number;
@@ -4777,9 +5127,7 @@ export const GetAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zdr: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAiGatewayResponse",
-}) as any as S.Schema<GetAiGatewayResponse>;
+).annotate({ identifier: "GetAiGatewayResponse" }) as any as S.Schema<GetAiGatewayResponse>;
 
 export interface GetBillingSpendingLimitRequest {
   accountId: string;
@@ -4885,9 +5233,7 @@ export const GetCustomProviderRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCustomProviderRequest",
-}) as any as S.Schema<GetCustomProviderRequest>;
+).annotate({ identifier: "GetCustomProviderRequest" }) as any as S.Schema<GetCustomProviderRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCustomProviderResponse {
@@ -4901,6 +5247,7 @@ export interface GetCustomProviderResponse {
   curlExample?: string | null;
   description?: string | null;
   enable?: boolean | null;
+  /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
   headers?: string | null;
   jsExample?: string | null;
   link?: string | null;
@@ -4931,7 +5278,7 @@ export const GetCustomProviderResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetDatasetRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -4949,9 +5296,7 @@ export const GetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetRequest",
-}) as any as S.Schema<GetDatasetRequest>;
+).annotate({ identifier: "GetDatasetRequest" }) as any as S.Schema<GetDatasetRequest>;
 
 export type DatasetsGetResponseFiltersItemKey =
   | "created_at"
@@ -5009,7 +5354,7 @@ export interface GetDatasetResponse {
   createdAt: string;
   enable: boolean;
   filters: DatasetsGetResponseFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -5024,9 +5369,7 @@ export const GetDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.String.pipe(T.Body("modified_at")),
     name: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetResponse",
-}) as any as S.Schema<GetDatasetResponse>;
+).annotate({ identifier: "GetDatasetResponse" }) as any as S.Schema<GetDatasetResponse>;
 
 export interface GetDynamicRoutingRequest {
   accountId: string;
@@ -5047,9 +5390,7 @@ export const GetDynamicRoutingRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDynamicRoutingRequest",
-}) as any as S.Schema<GetDynamicRoutingRequest>;
+).annotate({ identifier: "GetDynamicRoutingRequest" }) as any as S.Schema<GetDynamicRoutingRequest>;
 
 export type DynamicRoutingGetResponseDeployment = DynamicRoutingCreateResponseDeployment;
 export const DynamicRoutingGetResponseDeployment = DynamicRoutingCreateResponseDeployment;
@@ -5286,10 +5627,7 @@ export const DynamicRoutingGetResponseElementsItem = /*@__PURE__*/ S.Unknown.pip
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -5348,7 +5686,7 @@ export const GetDynamicRoutingResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetEvaluationRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -5366,9 +5704,7 @@ export const GetEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEvaluationRequest",
-}) as any as S.Schema<GetEvaluationRequest>;
+).annotate({ identifier: "GetEvaluationRequest" }) as any as S.Schema<GetEvaluationRequest>;
 
 export type EvaluationsGetResponseDatasetsItemFiltersItemKey =
   | "created_at"
@@ -5428,7 +5764,7 @@ export interface EvaluationsGetResponseDatasetsItem {
   createdAt: string;
   enable: boolean;
   filters: EvaluationsGetResponseDatasetsItemFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -5467,7 +5803,7 @@ export interface GetEvaluationResponse {
   id: string;
   createdAt: string;
   datasets: EvaluationsGetResponseDatasetsList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -5487,13 +5823,11 @@ export const GetEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
     results: EvaluationsGetResponseResultsList,
     totalLogs: S.Number.pipe(T.Body("total_logs")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEvaluationResponse",
-}) as any as S.Schema<GetEvaluationResponse>;
+).annotate({ identifier: "GetEvaluationResponse" }) as any as S.Schema<GetEvaluationResponse>;
 
 export interface GetLogRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -5573,7 +5907,7 @@ export const GetLogResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetUrlRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   provider: string;
 }
@@ -5859,10 +6193,7 @@ export const DynamicRoutingGetVersionResponseElementsItem = /*@__PURE__*/ S.Unkn
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -6154,17 +6485,9 @@ export const ListAiGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/ai-gateway/gateways",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/ai-gateway/gateways", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAiGatewaysRequest",
-}) as any as S.Schema<ListAiGatewaysRequest>;
+).annotate({ identifier: "ListAiGatewaysRequest" }) as any as S.Schema<ListAiGatewaysRequest>;
 
 export type ListResultItemDlpCase0Action = "BLOCK" | "FLAG";
 export const ListResultItemDlpCase0Action = S.String;
@@ -6185,9 +6508,7 @@ export const ListResultItemDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: ListResultItemDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "ListResultItemDlpCase0",
-}) as any as S.Schema<ListResultItemDlpCase0>;
+).annotate({ identifier: "ListResultItemDlpCase0" }) as any as S.Schema<ListResultItemDlpCase0>;
 
 export type ListResultItemDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const ListResultItemDlpCase1PoliciesItemAction = S.String;
@@ -6239,9 +6560,7 @@ export const ListResultItemDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: ListResultItemDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "ListResultItemDlpCase1",
-}) as any as S.Schema<ListResultItemDlpCase1>;
+).annotate({ identifier: "ListResultItemDlpCase1" }) as any as S.Schema<ListResultItemDlpCase1>;
 
 export type ListResultItemDlp = ListResultItemDlpCase0 | ListResultItemDlpCase1;
 export const ListResultItemDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -6418,16 +6737,12 @@ export const ListResultItemGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: ListResultItemGuardrailsPrompt,
     response: ListResultItemGuardrailsResponse,
   }),
-).annotate({
-  identifier: "ListResultItemGuardrails",
-}) as any as S.Schema<ListResultItemGuardrails>;
+).annotate({ identifier: "ListResultItemGuardrails" }) as any as S.Schema<ListResultItemGuardrails>;
 
 export type ListResultItemLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const ListResultItemLogManagementStrategy = S.String;
 
-export type ListResultItemOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListResultItemOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const ListResultItemOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6451,9 +6766,7 @@ export const ListResultItemOtelItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(ListResultItemOtelItemContentType).pipe(T.Body("content_type")),
     ),
   }),
-).annotate({
-  identifier: "ListResultItemOtelItem",
-}) as any as S.Schema<ListResultItemOtelItem>;
+).annotate({ identifier: "ListResultItemOtelItem" }) as any as S.Schema<ListResultItemOtelItem>;
 
 export type ListResultItemOtelList = Array<ListResultItemOtelItem>;
 export const ListResultItemOtelList = /*@__PURE__*/ S.Array(
@@ -6561,12 +6874,12 @@ export const ListResultItemSpendLimits = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListResultItemSpendLimits",
 }) as any as S.Schema<ListResultItemSpendLimits>;
 
-export type ListResultItemStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
-export const ListResultItemStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
+export type ListResultItemStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const ListResultItemStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type ListResultItemStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type ListResultItemStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const ListResultItemStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<ListResultItemStripeUsageEventsList>;
 
 export interface ListResultItemStripe {
@@ -6578,15 +6891,13 @@ export const ListResultItemStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: ListResultItemStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "ListResultItemStripe",
-}) as any as S.Schema<ListResultItemStripe>;
+).annotate({ identifier: "ListResultItemStripe" }) as any as S.Schema<ListResultItemStripe>;
 
 export type ListResultItemWorkersAiBillingMode = "postpaid" | "unified";
 export const ListResultItemWorkersAiBillingMode = S.String;
 
 export interface ListResultItem {
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number;
@@ -6676,9 +6987,7 @@ export const ListAiGatewaysResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAiGatewaysResponse",
-}) as any as S.Schema<ListAiGatewaysResponse>;
+).annotate({ identifier: "ListAiGatewaysResponse" }) as any as S.Schema<ListAiGatewaysResponse>;
 
 export interface ListCustomProvidersRequest {
   accountId: string;
@@ -6721,6 +7030,7 @@ export interface CustomProvidersListResultItem {
   curlExample?: string | null;
   description?: string | null;
   enable?: boolean | null;
+  /** JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials. */
   headers?: string | null;
   jsExample?: string | null;
   link?: string | null;
@@ -6771,7 +7081,7 @@ export const ListCustomProvidersResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListDatasetsRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   enable?: boolean;
   name?: string;
@@ -6798,9 +7108,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 
 export type DatasetsListResultItemFiltersItemKey =
   | "created_at"
@@ -6857,7 +7165,7 @@ export interface DatasetsListResultItem {
   createdAt: string;
   enable: boolean;
   filters: DatasetsListResultItemFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -6872,9 +7180,7 @@ export const DatasetsListResultItem = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.String.pipe(T.Body("modified_at")),
     name: S.String,
   }),
-).annotate({
-  identifier: "DatasetsListResultItem",
-}) as any as S.Schema<DatasetsListResultItem>;
+).annotate({ identifier: "DatasetsListResultItem" }) as any as S.Schema<DatasetsListResultItem>;
 
 export type DatasetsListResultList = Array<DatasetsListResultItem>;
 export const DatasetsListResultList = /*@__PURE__*/ S.Array(
@@ -6892,9 +7198,7 @@ export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
     result: DatasetsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
+).annotate({ identifier: "ListDatasetsResponse" }) as any as S.Schema<ListDatasetsResponse>;
 
 export interface ListDeploymentsDynamicRoutingRequest {
   accountId: string;
@@ -7237,10 +7541,7 @@ export const DynamicRoutingListResponseDataRoutesItemElementsItem = /*@__PURE__*
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -7338,7 +7639,7 @@ export const ListDynamicRoutingsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListEvaluationsRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   name?: string;
   page?: number;
@@ -7365,9 +7666,7 @@ export const ListEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEvaluationsRequest",
-}) as any as S.Schema<ListEvaluationsRequest>;
+).annotate({ identifier: "ListEvaluationsRequest" }) as any as S.Schema<ListEvaluationsRequest>;
 
 export type EvaluationsListResultItemDatasetsItemFiltersItemKey =
   | "created_at"
@@ -7430,7 +7729,7 @@ export interface EvaluationsListResultItemDatasetsItem {
   createdAt: string;
   enable: boolean;
   filters: EvaluationsListResultItemDatasetsItemFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -7468,7 +7767,7 @@ export interface EvaluationsListResultItem {
   id: string;
   createdAt: string;
   datasets: EvaluationsListResultItemDatasetsList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -7508,9 +7807,7 @@ export const ListEvaluationsResponse = /*@__PURE__*/ S.suspend(() =>
     result: EvaluationsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEvaluationsResponse",
-}) as any as S.Schema<ListEvaluationsResponse>;
+).annotate({ identifier: "ListEvaluationsResponse" }) as any as S.Schema<ListEvaluationsResponse>;
 
 export type EvaluationTypesListRequestOrderByDirection = "asc" | "desc";
 export const EvaluationTypesListRequestOrderByDirection = S.String;
@@ -7611,7 +7908,7 @@ export const LogsListRequestOrderByDirection = S.String;
 
 export interface ListLogsRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   cached?: boolean;
   direction?: LogsListRequestDirection | (string & {});
@@ -7629,6 +7926,7 @@ export interface ListLogsRequest {
   minTokensIn?: number;
   minTokensOut?: number;
   minTotalTokens?: number;
+  /** Model filter. */
   model?: string;
   modelType?: string;
   orderBy?: LogsListRequestOrderBy | (string & {});
@@ -7638,6 +7936,7 @@ export interface ListLogsRequest {
   provider?: string;
   requestContentType?: string;
   responseContentType?: string;
+  /** Free-text search over log metadata. */
   search?: string;
   startDate?: string;
   success?: boolean;
@@ -7685,9 +7984,7 @@ export const ListLogsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLogsRequest",
-}) as any as S.Schema<ListLogsRequest>;
+).annotate({ identifier: "ListLogsRequest" }) as any as S.Schema<ListLogsRequest>;
 
 export interface LogsListResultItem {
   id: string;
@@ -7732,9 +8029,7 @@ export const LogsListResultItem = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.NullOr(S.Number).pipe(T.Body("status_code"))),
     step: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LogsListResultItem",
-}) as any as S.Schema<LogsListResultItem>;
+).annotate({ identifier: "LogsListResultItem" }) as any as S.Schema<LogsListResultItem>;
 
 export type LogsListResultList = Array<LogsListResultItem>;
 export const LogsListResultList = /*@__PURE__*/ S.Array(
@@ -7752,13 +8047,11 @@ export const ListLogsResponse = /*@__PURE__*/ S.suspend(() =>
     result: LogsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLogsResponse",
-}) as any as S.Schema<ListLogsResponse>;
+).annotate({ identifier: "ListLogsResponse" }) as any as S.Schema<ListLogsResponse>;
 
 export interface ListProviderConfigsRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   page?: number;
   perPage?: number;
@@ -7786,7 +8079,7 @@ export interface ProviderConfigsListResultItem {
   id: string;
   alias: string;
   defaultConfig: boolean;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   providerSlug: string;
@@ -8177,10 +8470,7 @@ export const DynamicRoutingUpdateResponseRouteElementsItem = /*@__PURE__*/ S.Unk
       ["id", "outputs", "properties", "type"],
       ["id", "outputs", "type"],
     ],
-    {
-      key: "type",
-      values: ["start", "conditional", "percentage", "rate", "model", "end"],
-    },
+    { key: "type", values: ["start", "conditional", "percentage", "rate", "model", "end"] },
   ),
 );
 
@@ -8256,7 +8546,7 @@ export const LogsEditRequestMetadata = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases
 
 export interface PatchLogRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
   feedback?: number;
@@ -8280,20 +8570,16 @@ export const PatchLogRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchLogRequest",
-}) as any as S.Schema<PatchLogRequest>;
+).annotate({ identifier: "PatchLogRequest" }) as any as S.Schema<PatchLogRequest>;
 
 export type PatchLogResponse = unknown;
 export const PatchLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchLogResponse",
-}) as any as S.Schema<PatchLogResponse>;
+).annotate({ identifier: "PatchLogResponse" }) as any as S.Schema<PatchLogResponse>;
 
 export interface RequestLogRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -8311,20 +8597,16 @@ export const RequestLogRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestLogRequest",
-}) as any as S.Schema<RequestLogRequest>;
+).annotate({ identifier: "RequestLogRequest" }) as any as S.Schema<RequestLogRequest>;
 
 export interface RequestLogResponse {}
 export const RequestLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RequestLogResponse",
-}) as any as S.Schema<RequestLogResponse>;
+).annotate({ identifier: "RequestLogResponse" }) as any as S.Schema<RequestLogResponse>;
 
 export interface ResponseLogRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
 }
@@ -8342,16 +8624,12 @@ export const ResponseLogRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ResponseLogRequest",
-}) as any as S.Schema<ResponseLogRequest>;
+).annotate({ identifier: "ResponseLogRequest" }) as any as S.Schema<ResponseLogRequest>;
 
 export interface ResponseLogResponse {}
 export const ResponseLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ResponseLogResponse",
-}) as any as S.Schema<ResponseLogResponse>;
+).annotate({ identifier: "ResponseLogResponse" }) as any as S.Schema<ResponseLogResponse>;
 
 export interface StatusBillingTopupRequest {
   accountId: string;
@@ -8411,9 +8689,7 @@ export const UpdateRequestDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: UpdateRequestDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "UpdateRequestDlpCase0",
-}) as any as S.Schema<UpdateRequestDlpCase0>;
+).annotate({ identifier: "UpdateRequestDlpCase0" }) as any as S.Schema<UpdateRequestDlpCase0>;
 
 export type UpdateRequestDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const UpdateRequestDlpCase1PoliciesItemAction = S.String;
@@ -8466,9 +8742,7 @@ export const UpdateRequestDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: UpdateRequestDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "UpdateRequestDlpCase1",
-}) as any as S.Schema<UpdateRequestDlpCase1>;
+).annotate({ identifier: "UpdateRequestDlpCase1" }) as any as S.Schema<UpdateRequestDlpCase1>;
 
 export type UpdateRequestDlp = UpdateRequestDlpCase0 | UpdateRequestDlpCase1;
 export const UpdateRequestDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -8645,16 +8919,12 @@ export const UpdateRequestGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: UpdateRequestGuardrailsPrompt,
     response: UpdateRequestGuardrailsResponse,
   }),
-).annotate({
-  identifier: "UpdateRequestGuardrails",
-}) as any as S.Schema<UpdateRequestGuardrails>;
+).annotate({ identifier: "UpdateRequestGuardrails" }) as any as S.Schema<UpdateRequestGuardrails>;
 
 export type UpdateRequestLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const UpdateRequestLogManagementStrategy = S.String;
 
-export type UpdateRequestOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateRequestOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const UpdateRequestOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8676,9 +8946,7 @@ export const UpdateRequestOtelItem = /*@__PURE__*/ S.suspend(() =>
     authorization: S.optional(S.String),
     contentType: S.optional(UpdateRequestOtelItemContentType.pipe(T.Body("content_type"))),
   }),
-).annotate({
-  identifier: "UpdateRequestOtelItem",
-}) as any as S.Schema<UpdateRequestOtelItem>;
+).annotate({ identifier: "UpdateRequestOtelItem" }) as any as S.Schema<UpdateRequestOtelItem>;
 
 export type UpdateRequestOtelList = Array<UpdateRequestOtelItem>;
 export const UpdateRequestOtelList = /*@__PURE__*/ S.Array(
@@ -8782,16 +9050,14 @@ export const UpdateRequestSpendLimits = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     rules: S.optional(UpdateRequestSpendLimitsRulesList),
   }),
-).annotate({
-  identifier: "UpdateRequestSpendLimits",
-}) as any as S.Schema<UpdateRequestSpendLimits>;
+).annotate({ identifier: "UpdateRequestSpendLimits" }) as any as S.Schema<UpdateRequestSpendLimits>;
 
-export type UpdateRequestStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
-export const UpdateRequestStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
+export type UpdateRequestStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const UpdateRequestStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type UpdateRequestStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type UpdateRequestStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const UpdateRequestStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<UpdateRequestStripeUsageEventsList>;
 
 export interface UpdateRequestStripe {
@@ -8803,16 +9069,14 @@ export const UpdateRequestStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: UpdateRequestStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "UpdateRequestStripe",
-}) as any as S.Schema<UpdateRequestStripe>;
+).annotate({ identifier: "UpdateRequestStripe" }) as any as S.Schema<UpdateRequestStripe>;
 
 export type UpdateRequestWorkersAiBillingMode = "postpaid" | "unified";
 export const UpdateRequestWorkersAiBillingMode = S.String;
 
 export interface UpdateAiGatewayRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number | null;
@@ -8880,16 +9144,10 @@ export const UpdateAiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     zdr: S.optional(S.Boolean),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/ai-gateway/gateways/{id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/ai-gateway/gateways/{id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAiGatewayRequest",
-}) as any as S.Schema<UpdateAiGatewayRequest>;
+).annotate({ identifier: "UpdateAiGatewayRequest" }) as any as S.Schema<UpdateAiGatewayRequest>;
 
 export type UpdateResponseDlpCase0Action = "BLOCK" | "FLAG";
 export const UpdateResponseDlpCase0Action = S.String;
@@ -8910,9 +9168,7 @@ export const UpdateResponseDlpCase0 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     profiles: UpdateResponseDlpCase0ProfilesList,
   }),
-).annotate({
-  identifier: "UpdateResponseDlpCase0",
-}) as any as S.Schema<UpdateResponseDlpCase0>;
+).annotate({ identifier: "UpdateResponseDlpCase0" }) as any as S.Schema<UpdateResponseDlpCase0>;
 
 export type UpdateResponseDlpCase1PoliciesItemAction = "FLAG" | "BLOCK";
 export const UpdateResponseDlpCase1PoliciesItemAction = S.String;
@@ -8964,9 +9220,7 @@ export const UpdateResponseDlpCase1 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     policies: UpdateResponseDlpCase1PoliciesList,
   }),
-).annotate({
-  identifier: "UpdateResponseDlpCase1",
-}) as any as S.Schema<UpdateResponseDlpCase1>;
+).annotate({ identifier: "UpdateResponseDlpCase1" }) as any as S.Schema<UpdateResponseDlpCase1>;
 
 export type UpdateResponseDlp = UpdateResponseDlpCase0 | UpdateResponseDlpCase1;
 export const UpdateResponseDlp = /*@__PURE__*/ S.Unknown.pipe(
@@ -9143,16 +9397,12 @@ export const UpdateResponseGuardrails = /*@__PURE__*/ S.suspend(() =>
     prompt: UpdateResponseGuardrailsPrompt,
     response: UpdateResponseGuardrailsResponse,
   }),
-).annotate({
-  identifier: "UpdateResponseGuardrails",
-}) as any as S.Schema<UpdateResponseGuardrails>;
+).annotate({ identifier: "UpdateResponseGuardrails" }) as any as S.Schema<UpdateResponseGuardrails>;
 
 export type UpdateResponseLogManagementStrategy = "STOP_INSERTING" | "DELETE_OLDEST";
 export const UpdateResponseLogManagementStrategy = S.String;
 
-export type UpdateResponseOtelItemHeadersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateResponseOtelItemHeadersMap = { [key: string]: unknown | undefined };
 export const UpdateResponseOtelItemHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9176,9 +9426,7 @@ export const UpdateResponseOtelItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(UpdateResponseOtelItemContentType).pipe(T.Body("content_type")),
     ),
   }),
-).annotate({
-  identifier: "UpdateResponseOtelItem",
-}) as any as S.Schema<UpdateResponseOtelItem>;
+).annotate({ identifier: "UpdateResponseOtelItem" }) as any as S.Schema<UpdateResponseOtelItem>;
 
 export type UpdateResponseOtelList = Array<UpdateResponseOtelItem>;
 export const UpdateResponseOtelList = /*@__PURE__*/ S.Array(
@@ -9286,12 +9534,12 @@ export const UpdateResponseSpendLimits = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResponseSpendLimits",
 }) as any as S.Schema<UpdateResponseSpendLimits>;
 
-export type UpdateResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
-export const UpdateResponseStripeUsageEventsItem = CreateResponseStripeUsageEventsItem;
+export type UpdateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
+export const UpdateResponseStripeUsageEventsItem = CreateRequestStripeUsageEventsItem;
 
-export type UpdateResponseStripeUsageEventsList = Array<CreateResponseStripeUsageEventsItem>;
+export type UpdateResponseStripeUsageEventsList = Array<CreateRequestStripeUsageEventsItem>;
 export const UpdateResponseStripeUsageEventsList = /*@__PURE__*/ S.Array(
-  CreateResponseStripeUsageEventsItem,
+  CreateRequestStripeUsageEventsItem,
 ) as any as S.Schema<UpdateResponseStripeUsageEventsList>;
 
 export interface UpdateResponseStripe {
@@ -9303,16 +9551,14 @@ export const UpdateResponseStripe = /*@__PURE__*/ S.suspend(() =>
     authorization: S.String,
     usageEvents: UpdateResponseStripeUsageEventsList.pipe(T.Body("usage_events")),
   }),
-).annotate({
-  identifier: "UpdateResponseStripe",
-}) as any as S.Schema<UpdateResponseStripe>;
+).annotate({ identifier: "UpdateResponseStripe" }) as any as S.Schema<UpdateResponseStripe>;
 
 export type UpdateResponseWorkersAiBillingMode = "postpaid" | "unified";
 export const UpdateResponseWorkersAiBillingMode = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateAiGatewayResponse {
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   id: string;
   cacheInvalidateOnUpdate: boolean;
   cacheTtl: number;
@@ -9384,9 +9630,7 @@ export const UpdateAiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     zdr: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAiGatewayResponse",
-}) as any as S.Schema<UpdateAiGatewayResponse>;
+).annotate({ identifier: "UpdateAiGatewayResponse" }) as any as S.Schema<UpdateAiGatewayResponse>;
 
 export type DatasetsUpdateRequestFiltersItemKey =
   | "created_at"
@@ -9440,7 +9684,7 @@ export const DatasetsUpdateRequestFiltersList = /*@__PURE__*/ S.Array(
 
 export interface UpdateDatasetRequest {
   accountId: string;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   id: string;
   enable: boolean;
@@ -9464,9 +9708,7 @@ export const UpdateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateDatasetRequest",
-}) as any as S.Schema<UpdateDatasetRequest>;
+).annotate({ identifier: "UpdateDatasetRequest" }) as any as S.Schema<UpdateDatasetRequest>;
 
 export type DatasetsUpdateResponseFiltersItemKey =
   | "created_at"
@@ -9524,7 +9766,7 @@ export interface UpdateDatasetResponse {
   createdAt: string;
   enable: boolean;
   filters: DatasetsUpdateResponseFiltersList;
-  /** gateway id */
+  /** Unique identifier of the AI Gateway within the account. */
   gatewayId: string;
   modifiedAt: string;
   name: string;
@@ -9539,9 +9781,7 @@ export const UpdateDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedAt: S.String.pipe(T.Body("modified_at")),
     name: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateDatasetResponse",
-}) as any as S.Schema<UpdateDatasetResponse>;
+).annotate({ identifier: "UpdateDatasetResponse" }) as any as S.Schema<UpdateDatasetResponse>;
 
 export type BillingUsageHistoryRequestValueGroupingWindow = "day" | "hour";
 export const BillingUsageHistoryRequestValueGroupingWindow = S.String;
@@ -9611,7 +9851,7 @@ export const UsageHistoryBillingResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UsageHistoryBillingResponse>;
 
 export type CreateAiGatewayError = GatewayAlreadyExists | CloudflareOpError;
-/** Creates a new AI Gateway. */
+/** Creates an AI Gateway in the account with the specified caching, rate limiting, logging, and authentication settings. The gateway ID appears in request URLs and must be unique within the account. */
 export const createAiGateway: API.OperationMethod<
   CreateAiGatewayRequest,
   CreateAiGatewayResponse,
@@ -9659,7 +9899,7 @@ export const createBillingTopup: API.OperationMethod<
 }));
 
 export type CreateBillingTopupConfigError = CloudflareOpError;
-/** Configure auto top-up with a balance threshold and top-up amount. */
+/** Configure auto top-up with a balance threshold and top-up amount. Dashboard sessions only: API token, OAuth, and service credentials are rejected with 403. */
 export const createBillingTopupConfig: API.OperationMethod<
   CreateBillingTopupConfigRequest,
   CreateBillingTopupConfigResponse,
@@ -9674,7 +9914,7 @@ export const createBillingTopupConfig: API.OperationMethod<
 }));
 
 export type CreateCustomProviderError = CloudflareOpError;
-/** Creates a new AI Gateway. */
+/** Creates an account-level custom provider that forwards AI Gateway requests to the HTTPS base URL you supply. Requests reference the provider as `custom-{slug}`, so the slug must be unique within the account. */
 export const createCustomProvider: API.OperationMethod<
   CreateCustomProviderRequest,
   CreateCustomProviderResponse,
@@ -9689,7 +9929,7 @@ export const createCustomProvider: API.OperationMethod<
 }));
 
 export type CreateDatasetError = GatewayNotFound | DatasetNameAlreadyExists | CloudflareOpError;
-/** Creates a new AI Gateway. */
+/** Creates a dataset that selects gateway logs matching the specified filters for use in evaluations. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const createDataset: API.OperationMethod<
   CreateDatasetRequest,
   CreateDatasetResponse,
@@ -9704,7 +9944,7 @@ export const createDataset: API.OperationMethod<
 }));
 
 export type CreateDeploymentDynamicRoutingError = RouteNotFound | CloudflareOpError;
-/** Create a new AI Gateway Dynamic Route Deployment. */
+/** Deploys the specified version of a dynamic route so that it serves traffic. Deploy an earlier version to roll back. */
 export const createDeploymentDynamicRouting: API.OperationMethod<
   CreateDeploymentDynamicRoutingRequest,
   CreateDeploymentDynamicRoutingResponse,
@@ -9719,7 +9959,7 @@ export const createDeploymentDynamicRouting: API.OperationMethod<
 }));
 
 export type CreateDynamicRoutingError = RouteAlreadyExists | GatewayNotFound | CloudflareOpError;
-/** Create a new AI Gateway Dynamic Route. */
+/** Creates a dynamic route on an AI Gateway from the specified routing elements. Clients call the route by using `dynamic/{name}` as the model name. */
 export const createDynamicRouting: API.OperationMethod<
   CreateDynamicRoutingRequest,
   CreateDynamicRoutingResponse,
@@ -9737,7 +9977,7 @@ export type CreateEvaluationError =
   | GatewayNotFound
   | EvaluationNameAlreadyExists
   | CloudflareOpError;
-/** Creates a new AI Gateway. */
+/** Creates an evaluation that scores the logs in a dataset with the specified evaluator types. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const createEvaluation: API.OperationMethod<
   CreateEvaluationRequest,
   CreateEvaluationResponse,
@@ -9756,7 +9996,7 @@ export type CreateProviderConfigError =
   | ProviderConfigAlreadyExists
   | GatewayNotFound
   | CloudflareOpError;
-/** Creates a new AI Gateway. */
+/** Stores an upstream AI provider API key for an AI Gateway in the Secrets Store configured on the gateway, with an optional rate limit. Pass `secret` to store a new key, or omit it to use an existing Secrets Store secret. */
 export const createProviderConfig: API.OperationMethod<
   CreateProviderConfigRequest,
   CreateProviderConfigResponse,
@@ -9777,7 +10017,7 @@ export const createProviderConfig: API.OperationMethod<
 }));
 
 export type CreateVersionDynamicRoutingError = RouteNotFound | CloudflareOpError;
-/** Create a new AI Gateway Dynamic Route Version. */
+/** Creates a new version of a dynamic route from the specified routing elements. The version does not serve traffic until you deploy it. */
 export const createVersionDynamicRouting: API.OperationMethod<
   CreateVersionDynamicRoutingRequest,
   CreateVersionDynamicRoutingResponse,
@@ -9807,7 +10047,7 @@ export const creditBalanceBilling: API.OperationMethod<
 }));
 
 export type DeleteAiGatewayError = GatewayNotFound | CloudflareOpError;
-/** Deletes an AI Gateway dataset. */
+/** Permanently deletes an AI Gateway, its configuration, and its stored logs. */
 export const deleteAiGateway: API.OperationMethod<
   DeleteAiGatewayRequest,
   DeleteAiGatewayResponse,
@@ -9837,7 +10077,7 @@ export const deleteBillingSpendingLimit: API.OperationMethod<
 }));
 
 export type DeleteBillingTopupConfigError = CloudflareOpError;
-/** Remove the auto top-up configuration for the account. */
+/** Remove the auto top-up configuration for the account. Dashboard sessions only: API token, OAuth, and service credentials are rejected with 403. */
 export const deleteBillingTopupConfig: API.OperationMethod<
   DeleteBillingTopupConfigRequest,
   DeleteBillingTopupConfigResponse,
@@ -9852,7 +10092,7 @@ export const deleteBillingTopupConfig: API.OperationMethod<
 }));
 
 export type DeleteCustomProviderError = CloudflareOpError;
-/** Deletes an AI Gateway dataset. */
+/** Deletes a custom provider and every pricing rule that belongs to it. */
 export const deleteCustomProvider: API.OperationMethod<
   DeleteCustomProviderRequest,
   DeleteCustomProviderResponse,
@@ -9867,7 +10107,7 @@ export const deleteCustomProvider: API.OperationMethod<
 }));
 
 export type DeleteDatasetError = DatasetNotFound | CloudflareOpError;
-/** Deletes an AI Gateway dataset. */
+/** Deletes a dataset. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const deleteDataset: API.OperationMethod<
   DeleteDatasetRequest,
   DeleteDatasetResponse,
@@ -9882,7 +10122,7 @@ export const deleteDataset: API.OperationMethod<
 }));
 
 export type DeleteDynamicRoutingError = RouteNotFound | GatewayNotFound | CloudflareOpError;
-/** Delete an AI Gateway Dynamic Route. */
+/** Deletes a dynamic route from an AI Gateway. */
 export const deleteDynamicRouting: API.OperationMethod<
   DeleteDynamicRoutingRequest,
   DeleteDynamicRoutingResponse,
@@ -9897,7 +10137,7 @@ export const deleteDynamicRouting: API.OperationMethod<
 }));
 
 export type DeleteEvaluationError = EvaluationNotFound | CloudflareOpError;
-/** Deletes an AI Gateway dataset. */
+/** Deletes an evaluation and its results. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const deleteEvaluation: API.OperationMethod<
   DeleteEvaluationRequest,
   DeleteEvaluationResponse,
@@ -9941,7 +10181,7 @@ export const deleteProviderConfig: API.OperationMethod<
 }));
 
 export type GetAiGatewayError = GatewayNotFound | CloudflareOpError;
-/** Retrieves details for a specific AI Gateway dataset. */
+/** Retrieves the configuration of an AI Gateway. */
 export const getAiGateway: API.OperationMethod<
   GetAiGatewayRequest,
   GetAiGatewayResponse,
@@ -9986,7 +10226,7 @@ export const getBillingTopupConfig: API.OperationMethod<
 }));
 
 export type GetCustomProviderError = CloudflareOpError;
-/** Retrieves details for a specific AI Gateway dataset. */
+/** Retrieves a custom provider, including its slug, base URL, and custom headers. */
 export const getCustomProvider: API.OperationMethod<
   GetCustomProviderRequest,
   GetCustomProviderResponse,
@@ -10001,7 +10241,7 @@ export const getCustomProvider: API.OperationMethod<
 }));
 
 export type GetDatasetError = DatasetNotFound | CloudflareOpError;
-/** Retrieves details for a specific AI Gateway dataset. */
+/** Retrieves a dataset and its log filters. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const getDataset: API.OperationMethod<
   GetDatasetRequest,
   GetDatasetResponse,
@@ -10016,7 +10256,7 @@ export const getDataset: API.OperationMethod<
 }));
 
 export type GetDynamicRoutingError = RouteNotFound | GatewayNotFound | CloudflareOpError;
-/** Get an AI Gateway Dynamic Route. */
+/** Retrieves a dynamic route with its routing elements, active version, and current deployment. */
 export const getDynamicRouting: API.OperationMethod<
   GetDynamicRoutingRequest,
   GetDynamicRoutingResponse,
@@ -10031,7 +10271,7 @@ export const getDynamicRouting: API.OperationMethod<
 }));
 
 export type GetEvaluationError = EvaluationNotFound | CloudflareOpError;
-/** Retrieves details for a specific AI Gateway dataset. */
+/** Retrieves an evaluation and its results. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const getEvaluation: API.OperationMethod<
   GetEvaluationRequest,
   GetEvaluationResponse,
@@ -10076,7 +10316,7 @@ export const getUrl: API.OperationMethod<
 }));
 
 export type GetVersionDynamicRoutingError = CloudflareOpError;
-/** Get an AI Gateway Dynamic Route Version. */
+/** Retrieves a saved version of a dynamic route, including its routing elements. */
 export const getVersionDynamicRouting: API.OperationMethod<
   GetVersionDynamicRoutingRequest,
   GetVersionDynamicRoutingResponse,
@@ -10121,7 +10361,7 @@ export const invoicePreviewBilling: API.OperationMethod<
 }));
 
 export type ListAiGatewaysError = CloudflareOpError;
-/** Lists all AI Gateway evaluator types configured for the account. */
+/** Lists the AI Gateways in the account. Use `search` to filter by gateway ID. */
 export const listAiGateways: API.PaginatedOperationMethod<
   ListAiGatewaysRequest,
   ListAiGatewaysResponse,
@@ -10147,7 +10387,7 @@ export const listAiGateways: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListCustomProvidersError = CloudflareOpError;
-/** Lists all AI Gateway evaluator types configured for the account. */
+/** Lists the custom providers configured for the account, ordered by position and then name. */
 export const listCustomProviders: API.PaginatedOperationMethod<
   ListCustomProvidersRequest,
   ListCustomProvidersResponse,
@@ -10173,7 +10413,7 @@ export const listCustomProviders: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListDatasetsError = GatewayNotFound | CloudflareOpError;
-/** Lists all AI Gateway evaluator types configured for the account. */
+/** Lists the datasets defined for an AI Gateway. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const listDatasets: API.PaginatedOperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
@@ -10199,7 +10439,7 @@ export const listDatasets: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListDeploymentsDynamicRoutingError = CloudflareOpError;
-/** List all AI Gateway Dynamic Route Deployments. */
+/** Lists the deployment history of a dynamic route. */
 export const listDeploymentsDynamicRouting: API.OperationMethod<
   ListDeploymentsDynamicRoutingRequest,
   ListDeploymentsDynamicRoutingResponse,
@@ -10214,7 +10454,7 @@ export const listDeploymentsDynamicRouting: API.OperationMethod<
 }));
 
 export type ListDynamicRoutingsError = GatewayNotFound | CloudflareOpError;
-/** List all AI Gateway Dynamic Routes. */
+/** Lists the dynamic routes configured on an AI Gateway. */
 export const listDynamicRoutings: API.OperationMethod<
   ListDynamicRoutingsRequest,
   ListDynamicRoutingsResponse,
@@ -10229,7 +10469,7 @@ export const listDynamicRoutings: API.OperationMethod<
 }));
 
 export type ListEvaluationsError = CloudflareOpError;
-/** Lists all AI Gateway evaluator types configured for the account. */
+/** Lists the evaluations run on an AI Gateway. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const listEvaluations: API.PaginatedOperationMethod<
   ListEvaluationsRequest,
   ListEvaluationsResponse,
@@ -10255,7 +10495,7 @@ export const listEvaluations: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListEvaluationTypesError = CloudflareOpError;
-/** Lists all available evaluator types for scoring AI gateway responses. */
+/** Lists the evaluator types that evaluations can use to score AI Gateway responses. Evaluations are deprecated and unavailable to new accounts. */
 export const listEvaluationTypes: API.PaginatedOperationMethod<
   ListEvaluationTypesRequest,
   ListEvaluationTypesResponse,
@@ -10307,7 +10547,7 @@ export const listLogs: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListProviderConfigsError = CloudflareOpError;
-/** Lists all AI Gateway evaluator types configured for the account. */
+/** Lists the provider keys stored for an AI Gateway. Responses show a masked preview of each key, never the key itself. */
 export const listProviderConfigs: API.PaginatedOperationMethod<
   ListProviderConfigsRequest,
   ListProviderConfigsResponse,
@@ -10333,7 +10573,7 @@ export const listProviderConfigs: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListVersionsDynamicRoutingError = CloudflareOpError;
-/** List all AI Gateway Dynamic Route Versions. */
+/** Lists the saved versions of a dynamic route. */
 export const listVersionsDynamicRouting: API.OperationMethod<
   ListVersionsDynamicRoutingRequest,
   ListVersionsDynamicRoutingResponse,
@@ -10348,7 +10588,7 @@ export const listVersionsDynamicRouting: API.OperationMethod<
 }));
 
 export type PatchDynamicRoutingError = RouteNotFound | RouteAlreadyExists | CloudflareOpError;
-/** Update an AI Gateway Dynamic Route. */
+/** Updates the name of a dynamic route. To change routing behaviour, create and deploy a new version. */
 export const patchDynamicRouting: API.OperationMethod<
   PatchDynamicRoutingRequest,
   PatchDynamicRoutingResponse,
@@ -10423,7 +10663,7 @@ export const statusBillingTopup: API.OperationMethod<
 }));
 
 export type UpdateAiGatewayError = GatewayNotFound | CloudflareOpError;
-/** Updates an existing AI Gateway dataset. */
+/** Updates the configuration of an AI Gateway, such as its caching, rate limiting, logging, and authentication settings. */
 export const updateAiGateway: API.OperationMethod<
   UpdateAiGatewayRequest,
   UpdateAiGatewayResponse,
@@ -10438,7 +10678,7 @@ export const updateAiGateway: API.OperationMethod<
 }));
 
 export type UpdateDatasetError = DatasetNotFound | CloudflareOpError;
-/** Updates an existing AI Gateway dataset. */
+/** Replaces the name, log filters, and enabled state of a dataset. Evaluations and datasets are deprecated and unavailable to new accounts. */
 export const updateDataset: API.OperationMethod<
   UpdateDatasetRequest,
   UpdateDatasetResponse,

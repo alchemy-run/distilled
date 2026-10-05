@@ -30,9 +30,7 @@ export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
+).annotate({ identifier: "DeleteGatewayRequest" }) as any as S.Schema<DeleteGatewayRequest>;
 
 export interface DeleteGatewayResponse {}
 export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -60,9 +58,7 @@ export const DeleteLicenseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteLicenseRequest",
-}) as any as S.Schema<DeleteLicenseRequest>;
+).annotate({ identifier: "DeleteLicenseRequest" }) as any as S.Schema<DeleteLicenseRequest>;
 
 export interface DeleteLicenseResponse {}
 export const DeleteLicenseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -126,9 +122,7 @@ export const DeleteMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteMachineRequest",
-}) as any as S.Schema<DeleteMachineRequest>;
+).annotate({ identifier: "DeleteMachineRequest" }) as any as S.Schema<DeleteMachineRequest>;
 
 export interface DeleteMachineResponse {}
 export const DeleteMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -198,9 +192,7 @@ export const DeleteMachineRunCommandRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteMachineRunCommandResponse {}
 export const DeleteMachineRunCommandResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteMachineRunCommandResponse",
-  },
+  { identifier: "DeleteMachineRunCommandResponse" },
 ) as any as S.Schema<DeleteMachineRunCommandResponse>;
 
 export interface DeletePrivateEndpointConnectionRequest {
@@ -269,9 +261,7 @@ export const DeletePrivateLinkScopeResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<DeletePrivateLinkScopeResponse>;
 
 /** Resource tags. */
-export type GatewaysCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GatewaysCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const GatewaysCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -308,9 +298,7 @@ export const GatewayPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     allowedFeatures: S.optional(GatewayPropertiesInputAllowedFeaturesList),
     gatewayBypass: S.optional(GatewayPropertiesInputGatewayBypassList),
   }),
-).annotate({
-  identifier: "GatewayPropertiesInput",
-}) as any as S.Schema<GatewayPropertiesInput>;
+).annotate({ identifier: "GatewayPropertiesInput" }) as any as S.Schema<GatewayPropertiesInput>;
 
 export interface GatewaysCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -381,9 +369,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type GatewaysCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GatewaysCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const GatewaysCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -437,9 +423,7 @@ export const GatewayProperties = /*@__PURE__*/ S.suspend(() =>
     allowedFeatures: S.optional(GatewayPropertiesAllowedFeaturesList),
     gatewayBypass: S.optional(GatewayPropertiesGatewayBypassList),
   }),
-).annotate({
-  identifier: "GatewayProperties",
-}) as any as S.Schema<GatewayProperties>;
+).annotate({ identifier: "GatewayProperties" }) as any as S.Schema<GatewayProperties>;
 
 export interface GatewaysCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -517,9 +501,7 @@ export const ExtensionValueProperties = /*@__PURE__*/ S.suspend(() =>
     extensionType: S.optional(S.String),
     publisher: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionValueProperties",
-}) as any as S.Schema<ExtensionValueProperties>;
+).annotate({ identifier: "ExtensionValueProperties" }) as any as S.Schema<ExtensionValueProperties>;
 
 export interface GetExtensionMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -661,9 +643,7 @@ export const GetGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetGatewayRequest",
-}) as any as S.Schema<GetGatewayRequest>;
+).annotate({ identifier: "GetGatewayRequest" }) as any as S.Schema<GetGatewayRequest>;
 
 /** Resource tags. */
 export type GetGatewayResponseTagsMap = { [key: string]: string | undefined };
@@ -698,9 +678,7 @@ export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(GatewayProperties),
   }),
-).annotate({
-  identifier: "GetGatewayResponse",
-}) as any as S.Schema<GetGatewayResponse>;
+).annotate({ identifier: "GetGatewayResponse" }) as any as S.Schema<GetGatewayResponse>;
 
 export interface GetLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -723,9 +701,7 @@ export const GetLicenseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetLicenseRequest",
-}) as any as S.Schema<GetLicenseRequest>;
+).annotate({ identifier: "GetLicenseRequest" }) as any as S.Schema<GetLicenseRequest>;
 
 /** Resource tags. */
 export type GetLicenseResponseTagsMap = { [key: string]: string | undefined };
@@ -772,9 +748,7 @@ export const VolumeLicenseDetails = /*@__PURE__*/ S.suspend(() =>
     programYear: S.optional(ProgramYear),
     invoiceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeLicenseDetails",
-}) as any as S.Schema<VolumeLicenseDetails>;
+).annotate({ identifier: "VolumeLicenseDetails" }) as any as S.Schema<VolumeLicenseDetails>;
 
 /** A list of volume license details. */
 export type LicenseDetailsVolumeLicenseDetailsList = Array<VolumeLicenseDetails>;
@@ -832,9 +806,7 @@ export const LicenseProperties = /*@__PURE__*/ S.suspend(() =>
     licenseType: S.optional(LicenseType),
     licenseDetails: S.optional(LicenseDetails),
   }),
-).annotate({
-  identifier: "LicenseProperties",
-}) as any as S.Schema<LicenseProperties>;
+).annotate({ identifier: "LicenseProperties" }) as any as S.Schema<LicenseProperties>;
 
 export interface GetLicenseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -862,9 +834,7 @@ export const GetLicenseResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LicenseProperties),
   }),
-).annotate({
-  identifier: "GetLicenseResponse",
-}) as any as S.Schema<GetLicenseResponse>;
+).annotate({ identifier: "GetLicenseResponse" }) as any as S.Schema<GetLicenseResponse>;
 
 export type GetLicenseProfileRequestLicenseProfileName = "default";
 export const GetLicenseProfileRequestLicenseProfileName = S.String;
@@ -893,14 +863,10 @@ export const GetLicenseProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetLicenseProfileRequest",
-}) as any as S.Schema<GetLicenseProfileRequest>;
+).annotate({ identifier: "GetLicenseProfileRequest" }) as any as S.Schema<GetLicenseProfileRequest>;
 
 /** Resource tags. */
-export type GetLicenseProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetLicenseProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetLicenseProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1010,9 +976,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1115,9 +1079,7 @@ export const ProductFeatureError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ProductFeatureErrorDetailsList),
     additionalInfo: S.optional(ProductFeatureErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "ProductFeatureError",
-}) as any as S.Schema<ProductFeatureError>;
+).annotate({ identifier: "ProductFeatureError" }) as any as S.Schema<ProductFeatureError>;
 
 /** Product Feature */
 export interface ProductFeature {
@@ -1205,9 +1167,7 @@ export const LicenseProfileProperties = /*@__PURE__*/ S.suspend(() =>
     productProfile: S.optional(LicenseProfileArmProductProfileProperties),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "LicenseProfileProperties",
-}) as any as S.Schema<LicenseProfileProperties>;
+).annotate({ identifier: "LicenseProfileProperties" }) as any as S.Schema<LicenseProfileProperties>;
 
 export interface GetLicenseProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1266,9 +1226,7 @@ export const GetMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetMachineRequest",
-}) as any as S.Schema<GetMachineRequest>;
+).annotate({ identifier: "GetMachineRequest" }) as any as S.Schema<GetMachineRequest>;
 
 /** Resource tags. */
 export type GetMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -1317,9 +1275,7 @@ export const ConfigurationExtension = /*@__PURE__*/ S.suspend(() =>
     publisher: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationExtension",
-}) as any as S.Schema<ConfigurationExtension>;
+).annotate({ identifier: "ConfigurationExtension" }) as any as S.Schema<ConfigurationExtension>;
 
 /** Array of extensions that are allowed to be installed or updated. */
 export type AgentConfigurationExtensionsAllowListList = Array<ConfigurationExtension>;
@@ -1373,9 +1329,7 @@ export const AgentConfiguration = /*@__PURE__*/ S.suspend(() =>
     guestConfigurationEnabled: S.optional(S.String),
     configMode: S.optional(AgentConfigurationMode),
   }),
-).annotate({
-  identifier: "AgentConfiguration",
-}) as any as S.Schema<AgentConfiguration>;
+).annotate({ identifier: "AgentConfiguration" }) as any as S.Schema<AgentConfiguration>;
 
 /** Describes the status and behavior of a service. */
 export interface ServiceStatus {
@@ -1403,9 +1357,7 @@ export const ServiceStatuses = /*@__PURE__*/ S.suspend(() =>
     extensionService: S.optional(ServiceStatus),
     guestConfigurationService: S.optional(ServiceStatus),
   }),
-).annotate({
-  identifier: "ServiceStatuses",
-}) as any as S.Schema<ServiceStatuses>;
+).annotate({ identifier: "ServiceStatuses" }) as any as S.Schema<ServiceStatuses>;
 
 /** Describes the firmware of the machine */
 export interface Processor {
@@ -1442,9 +1394,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
     numberOfCpuSockets: S.optional(S.Number),
     processors: S.optional(HardwareProfileProcessorsList),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** Describes a disk on the machine */
 export interface Disk {
@@ -1504,9 +1454,7 @@ export const FirmwareProfile = /*@__PURE__*/ S.suspend(() =>
     serialNumber: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirmwareProfile",
-}) as any as S.Schema<FirmwareProfile>;
+).annotate({ identifier: "FirmwareProfile" }) as any as S.Schema<FirmwareProfile>;
 
 /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
 export interface CloudMetadata {
@@ -1602,9 +1550,7 @@ export const PatchSettingsStatusError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(PatchSettingsStatusErrorDetailsList),
     additionalInfo: S.optional(PatchSettingsStatusErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "PatchSettingsStatusError",
-}) as any as S.Schema<PatchSettingsStatusError>;
+).annotate({ identifier: "PatchSettingsStatusError" }) as any as S.Schema<PatchSettingsStatusError>;
 
 /** Status of the hotpatch capability enrollment or disenrollment. */
 export interface PatchSettingsStatus {
@@ -1618,9 +1564,7 @@ export const PatchSettingsStatus = /*@__PURE__*/ S.suspend(() =>
     hotpatchEnablementStatus: S.optional(HotpatchEnablementStatus),
     error: S.optional(PatchSettingsStatusError),
   }),
-).annotate({
-  identifier: "PatchSettingsStatus",
-}) as any as S.Schema<PatchSettingsStatus>;
+).annotate({ identifier: "PatchSettingsStatus" }) as any as S.Schema<PatchSettingsStatus>;
 
 /** Specifies the patch settings. */
 export interface PatchSettings {
@@ -1906,9 +1850,7 @@ export const MachinePropertiesExtensionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MachinePropertiesExtensionsList>;
 
 /** Detected properties from the machine. */
-export type MachinePropertiesDetectedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type MachinePropertiesDetectedPropertiesMap = { [key: string]: string | undefined };
 export const MachinePropertiesDetectedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1966,9 +1908,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     ipAddresses: S.optional(NetworkInterfaceIpAddressesList),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 
 /** The list of network interfaces. */
 export type NetworkProfileNetworkInterfacesList = Array<NetworkInterface>;
@@ -2107,9 +2047,7 @@ export const MachineProperties = /*@__PURE__*/ S.suspend(() =>
     detectedProperties: S.optional(MachinePropertiesDetectedPropertiesMap),
     networkProfile: S.optional(NetworkProfile),
   }),
-).annotate({
-  identifier: "MachineProperties",
-}) as any as S.Schema<MachineProperties>;
+).annotate({ identifier: "MachineProperties" }) as any as S.Schema<MachineProperties>;
 
 /** Resource tags. */
 export type MachineExtensionTagsMap = { [key: string]: string | undefined };
@@ -2119,18 +2057,14 @@ export const MachineExtensionTagsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<MachineExtensionTagsMap>;
 
 /** Json formatted public settings for the extension. */
-export type MachineExtensionPropertiesSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MachineExtensionPropertiesSettingsMap = { [key: string]: unknown | undefined };
 export const MachineExtensionPropertiesSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<MachineExtensionPropertiesSettingsMap>;
 
 /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-export type MachineExtensionPropertiesProtectedSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MachineExtensionPropertiesProtectedSettingsMap = { [key: string]: unknown | undefined };
 export const MachineExtensionPropertiesProtectedSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2203,9 +2137,7 @@ export const MachineExtension = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MachineExtensionProperties),
   }),
-).annotate({
-  identifier: "MachineExtension",
-}) as any as S.Schema<MachineExtension>;
+).annotate({ identifier: "MachineExtension" }) as any as S.Schema<MachineExtension>;
 
 /** The list of extensions affiliated to the machine */
 export type GetMachineResponseResourcesList = Array<MachineExtension>;
@@ -2233,9 +2165,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetMachineResponseIdentityUserAssignedIdentitiesMap = {
@@ -2306,9 +2236,7 @@ export const GetMachineResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(GetMachineResponseIdentity),
     kind: S.optional(ArcKindEnum),
   }),
-).annotate({
-  identifier: "GetMachineResponse",
-}) as any as S.Schema<GetMachineResponse>;
+).annotate({ identifier: "GetMachineResponse" }) as any as S.Schema<GetMachineResponse>;
 
 export interface GetMachineExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2339,9 +2267,7 @@ export const GetMachineExtensionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMachineExtensionRequest>;
 
 /** Resource tags. */
-export type GetMachineExtensionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export const GetMachineExtensionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2406,9 +2332,7 @@ export const GetMachineRunCommandRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMachineRunCommandRequest>;
 
 /** Resource tags. */
-export type GetMachineRunCommandResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMachineRunCommandResponseTagsMap = { [key: string]: string | undefined };
 export const GetMachineRunCommandResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2464,9 +2388,7 @@ export const RunCommandInputParameter = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "RunCommandInputParameter",
-}) as any as S.Schema<RunCommandInputParameter>;
+).annotate({ identifier: "RunCommandInputParameter" }) as any as S.Schema<RunCommandInputParameter>;
 
 /** The parameters used by the script. */
 export type MachineRunCommandPropertiesParametersList = Array<RunCommandInputParameter>;
@@ -2516,9 +2438,7 @@ export const ExtensionsResourceStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionsResourceStatus",
-}) as any as S.Schema<ExtensionsResourceStatus>;
+).annotate({ identifier: "ExtensionsResourceStatus" }) as any as S.Schema<ExtensionsResourceStatus>;
 
 /** The status information. */
 export type MachineRunCommandInstanceViewStatusesList = Array<ExtensionsResourceStatus>;
@@ -2660,9 +2580,7 @@ export const GetNetworkProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkProfileRequest",
-}) as any as S.Schema<GetNetworkProfileRequest>;
+).annotate({ identifier: "GetNetworkProfileRequest" }) as any as S.Schema<GetNetworkProfileRequest>;
 
 export interface GetNetworkSecurityPerimeterConfigurationByPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2733,9 +2651,7 @@ export const AccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(AccessRuleDirection),
     addressPrefixes: S.optional(AccessRulePropertiesAddressPrefixesList),
   }),
-).annotate({
-  identifier: "AccessRuleProperties",
-}) as any as S.Schema<AccessRuleProperties>;
+).annotate({ identifier: "AccessRuleProperties" }) as any as S.Schema<AccessRuleProperties>;
 
 /** Access rule. */
 export interface AccessRule {
@@ -2794,9 +2710,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** Provisioning issues. */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -2821,9 +2735,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** Property that impacts a resource's logging behavior and its connectivity with other resources and public networks. */
 export type AccessMode = "enforced" | "audit" | "learning";
@@ -2841,9 +2753,7 @@ export const ResourceAssociation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     accessMode: S.optional(AccessMode),
   }),
-).annotate({
-  identifier: "ResourceAssociation",
-}) as any as S.Schema<ResourceAssociation>;
+).annotate({ identifier: "ResourceAssociation" }) as any as S.Schema<ResourceAssociation>;
 
 /** Collection of access rules for the profile */
 export type NetworkSecurityPerimeterProfileAccessRulesList = Array<AccessRule>;
@@ -2971,9 +2881,7 @@ export const PrivateEndpointProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpointProperty",
-}) as any as S.Schema<PrivateEndpointProperty>;
+).annotate({ identifier: "PrivateEndpointProperty" }) as any as S.Schema<PrivateEndpointProperty>;
 
 /** State of the private endpoint connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
@@ -3155,9 +3063,7 @@ export const GetPrivateLinkScopeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPrivateLinkScopeRequest>;
 
 /** Resource tags. */
-export type GetPrivateLinkScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateLinkScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateLinkScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3213,9 +3119,7 @@ export const ServiceExtension = /*@__PURE__*/ S.suspend(() =>
     serviceExtensionType: S.optional(S.String),
     serviceExtensionPublicNetworkAccess: S.optional(ServiceExtensionPublicNetworkAccess),
   }),
-).annotate({
-  identifier: "ServiceExtension",
-}) as any as S.Schema<ServiceExtension>;
+).annotate({ identifier: "ServiceExtension" }) as any as S.Schema<ServiceExtension>;
 
 /** Enable private link validation for an Azure Arc Extension. */
 export type HybridComputePrivateLinkScopePropertiesServiceExtensionsList = Array<ServiceExtension>;
@@ -3329,9 +3233,7 @@ export const ConnectionDetail = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     memberName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionDetail",
-}) as any as S.Schema<ConnectionDetail>;
+).annotate({ identifier: "ConnectionDetail" }) as any as S.Schema<ConnectionDetail>;
 
 /** List of Private Endpoint Connection details. */
 export type PrivateLinkScopeValidationDetailsConnectionDetailsList = Array<ConnectionDetail>;
@@ -3412,9 +3314,7 @@ export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "GetSettingsRequest",
-}) as any as S.Schema<GetSettingsRequest>;
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
 
 /** Settings Gateway properties */
 export interface SettingsGatewayProperties {
@@ -3441,9 +3341,7 @@ export const SettingsProperties = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     gatewayProperties: S.optional(SettingsGatewayProperties),
   }),
-).annotate({
-  identifier: "SettingsProperties",
-}) as any as S.Schema<SettingsProperties>;
+).annotate({ identifier: "SettingsProperties" }) as any as S.Schema<SettingsProperties>;
 
 export interface GetSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3465,9 +3363,7 @@ export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SettingsProperties),
   }),
-).annotate({
-  identifier: "GetSettingsResponse",
-}) as any as S.Schema<GetSettingsResponse>;
+).annotate({ identifier: "GetSettingsResponse" }) as any as S.Schema<GetSettingsResponse>;
 
 /** Defines when it is acceptable to reboot a VM during a software update operation. */
 export type VMGuestPatchRebootSetting = "IfRequired" | "Never" | "Always";
@@ -3543,9 +3439,7 @@ export const WindowsParameters = /*@__PURE__*/ S.suspend(() =>
     patchNameMasksToInclude: S.optional(WindowsParametersPatchNameMasksToIncludeList),
     patchNameMasksToExclude: S.optional(WindowsParametersPatchNameMasksToExcludeList),
   }),
-).annotate({
-  identifier: "WindowsParameters",
-}) as any as S.Schema<WindowsParameters>;
+).annotate({ identifier: "WindowsParameters" }) as any as S.Schema<WindowsParameters>;
 
 export type VMGuestPatchClassificationLinux = "Critical" | "Security" | "Other";
 export const VMGuestPatchClassificationLinux = S.String;
@@ -3585,9 +3479,7 @@ export const LinuxParameters = /*@__PURE__*/ S.suspend(() =>
     packageNameMasksToInclude: S.optional(LinuxParametersPackageNameMasksToIncludeList),
     packageNameMasksToExclude: S.optional(LinuxParametersPackageNameMasksToExcludeList),
   }),
-).annotate({
-  identifier: "LinuxParameters",
-}) as any as S.Schema<LinuxParameters>;
+).annotate({ identifier: "LinuxParameters" }) as any as S.Schema<LinuxParameters>;
 
 export interface InstallMachinePatchesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3753,9 +3645,7 @@ export type LicenseProfilesCreateOrUpdateRequestLicenseProfileName = "default";
 export const LicenseProfilesCreateOrUpdateRequestLicenseProfileName = S.String;
 
 /** Resource tags. */
-export type LicenseProfilesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LicenseProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LicenseProfilesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3801,9 +3691,7 @@ export const ProductFeatureInput = /*@__PURE__*/ S.suspend(() =>
     subscriptionStatus: S.optional(LicenseProfileSubscriptionStatus),
     error: S.optional(LicenseProfileArmProductProfilePropertiesInputError),
   }),
-).annotate({
-  identifier: "ProductFeatureInput",
-}) as any as S.Schema<ProductFeatureInput>;
+).annotate({ identifier: "ProductFeatureInput" }) as any as S.Schema<ProductFeatureInput>;
 
 /** The list of product features. */
 export type LicenseProfileArmProductProfilePropertiesInputProductFeaturesList =
@@ -3891,9 +3779,7 @@ export const LicenseProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<LicenseProfilesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LicenseProfilesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LicenseProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LicenseProfilesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3930,9 +3816,7 @@ export const LicenseProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<LicenseProfilesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type LicensesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LicensesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LicensesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3968,9 +3852,7 @@ export const LicenseDetailsInput = /*@__PURE__*/ S.suspend(() =>
     processors: S.optional(S.Number),
     volumeLicenseDetails: S.optional(LicenseDetailsInputVolumeLicenseDetailsList),
   }),
-).annotate({
-  identifier: "LicenseDetailsInput",
-}) as any as S.Schema<LicenseDetailsInput>;
+).annotate({ identifier: "LicenseDetailsInput" }) as any as S.Schema<LicenseDetailsInput>;
 
 /** Describes the properties of a License Profile. */
 export interface LicensePropertiesInput {
@@ -3987,9 +3869,7 @@ export const LicensePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     licenseType: S.optional(LicenseType),
     licenseDetails: S.optional(LicenseDetailsInput),
   }),
-).annotate({
-  identifier: "LicensePropertiesInput",
-}) as any as S.Schema<LicensePropertiesInput>;
+).annotate({ identifier: "LicensePropertiesInput" }) as any as S.Schema<LicensePropertiesInput>;
 
 export interface LicensesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4026,9 +3906,7 @@ export const LicensesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LicensesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LicensesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LicensesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LicensesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4133,9 +4011,7 @@ export const ExtensionValueListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ExtensionValueListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionValueListResult",
-}) as any as S.Schema<ExtensionValueListResult>;
+).annotate({ identifier: "ExtensionValueListResult" }) as any as S.Schema<ExtensionValueListResult>;
 
 export interface ListExtensionMetadataV2Request {
   /** The location of the Extension being received. */
@@ -4183,9 +4059,7 @@ export const ExtensionValueV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ExtensionValueV2Properties),
   }),
-).annotate({
-  identifier: "ExtensionValueV2",
-}) as any as S.Schema<ExtensionValueV2>;
+).annotate({ identifier: "ExtensionValueV2" }) as any as S.Schema<ExtensionValueV2>;
 
 /** The ExtensionValueV2 items on this page */
 export type ExtensionValueListResultV2ValueList = Array<ExtensionValueV2>;
@@ -4240,9 +4114,7 @@ export const ExtensionPublisher = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionPublisher",
-}) as any as S.Schema<ExtensionPublisher>;
+).annotate({ identifier: "ExtensionPublisher" }) as any as S.Schema<ExtensionPublisher>;
 
 /** The ExtensionPublisher items on this page */
 export type ExtensionPublisherListResultValueList = Array<ExtensionPublisher>;
@@ -4284,9 +4156,7 @@ export const ListExtensionTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "ListExtensionTypeRequest",
-}) as any as S.Schema<ListExtensionTypeRequest>;
+).annotate({ identifier: "ListExtensionTypeRequest" }) as any as S.Schema<ListExtensionTypeRequest>;
 
 /** Describes an Extension Type. */
 export interface ExtensionType {
@@ -4320,9 +4190,7 @@ export const ExtensionTypeListResult = /*@__PURE__*/ S.suspend(() =>
     value: ExtensionTypeListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionTypeListResult",
-}) as any as S.Schema<ExtensionTypeListResult>;
+).annotate({ identifier: "ExtensionTypeListResult" }) as any as S.Schema<ExtensionTypeListResult>;
 
 export interface ListGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4400,9 +4268,7 @@ export const GatewaysListResult = /*@__PURE__*/ S.suspend(() =>
     value: GatewaysListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GatewaysListResult",
-}) as any as S.Schema<GatewaysListResult>;
+).annotate({ identifier: "GatewaysListResult" }) as any as S.Schema<GatewaysListResult>;
 
 export interface ListGatewayBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4463,9 +4329,7 @@ export const LicensesListResult = /*@__PURE__*/ S.suspend(() =>
     value: LicensesListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LicensesListResult",
-}) as any as S.Schema<LicensesListResult>;
+).annotate({ identifier: "LicensesListResult" }) as any as S.Schema<LicensesListResult>;
 
 export interface ListLicenseBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4633,9 +4497,7 @@ export const MachineIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(MachineIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "MachineIdentity",
-}) as any as S.Schema<MachineIdentity>;
+).annotate({ identifier: "MachineIdentity" }) as any as S.Schema<MachineIdentity>;
 
 /** Describes a hybrid machine. */
 export interface Machine {
@@ -4693,9 +4555,7 @@ export const MachineListResult = /*@__PURE__*/ S.suspend(() =>
     value: MachineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineListResult",
-}) as any as S.Schema<MachineListResult>;
+).annotate({ identifier: "MachineListResult" }) as any as S.Schema<MachineListResult>;
 
 export interface ListMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4828,9 +4688,7 @@ export const MachineRunCommand = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MachineRunCommandProperties),
   }),
-).annotate({
-  identifier: "MachineRunCommand",
-}) as any as S.Schema<MachineRunCommand>;
+).annotate({ identifier: "MachineRunCommand" }) as any as S.Schema<MachineRunCommand>;
 
 /** The MachineRunCommand items on this page */
 export type MachineRunCommandsListResultValueList = Array<MachineRunCommand>;
@@ -4938,9 +4796,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Describes the properties of a Hybrid Compute Operation Value Display. */
 export interface OperationValueDisplay {
@@ -4960,9 +4816,7 @@ export const OperationValueDisplay = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     provider: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationValueDisplay",
-}) as any as S.Schema<OperationValueDisplay>;
+).annotate({ identifier: "OperationValueDisplay" }) as any as S.Schema<OperationValueDisplay>;
 
 /** Describes the properties of a Compute Operation value. */
 export interface OperationValue {
@@ -5002,9 +4856,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionByPrivateLinkScopeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5124,9 +4976,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -5173,9 +5023,7 @@ export const ListPrivateLinkScopeByResourceGroupRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ListPrivateLinkScopeByResourceGroupRequest>;
 
 /** Resource tags. */
-export type HybridComputePrivateLinkScopeTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HybridComputePrivateLinkScopeTagsMap = { [key: string]: string | undefined };
 export const HybridComputePrivateLinkScopeTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5254,18 +5102,14 @@ export const ListPrivateLinkScopesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPrivateLinkScopesRequest>;
 
 /** Resource tags. */
-export type MachineExtensionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachineExtensionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const MachineExtensionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<MachineExtensionsCreateOrUpdateRequestTagsMap>;
 
 /** Json formatted public settings for the extension. */
-export type MachineExtensionPropertiesInputSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MachineExtensionPropertiesInputSettingsMap = { [key: string]: unknown | undefined };
 export const MachineExtensionPropertiesInputSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5355,9 +5199,7 @@ export const MachineExtensionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<MachineExtensionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type MachineExtensionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachineExtensionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const MachineExtensionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5394,9 +5236,7 @@ export const MachineExtensionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<MachineExtensionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type MachineRunCommandsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachineRunCommandsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const MachineRunCommandsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5496,9 +5336,7 @@ export const MachineRunCommandsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<MachineRunCommandsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type MachineRunCommandsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachineRunCommandsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const MachineRunCommandsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5674,9 +5512,7 @@ export const MachineAssessPatchesResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MachineAssessPatchesResult>;
 
 /** Resource tags. */
-export type MachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const MachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5705,9 +5541,7 @@ export const AgentUpgradeInput = /*@__PURE__*/ S.suspend(() =>
     correlationId: S.optional(S.String),
     enableAutomaticUpgrade: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AgentUpgradeInput",
-}) as any as S.Schema<AgentUpgradeInput>;
+).annotate({ identifier: "AgentUpgradeInput" }) as any as S.Schema<AgentUpgradeInput>;
 
 /** Specifies the patch settings. */
 export interface PatchSettingsInput {
@@ -5724,9 +5558,7 @@ export const PatchSettingsInput = /*@__PURE__*/ S.suspend(() =>
     patchMode: S.optional(PatchModeTypes),
     enableHotpatching: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PatchSettingsInput",
-}) as any as S.Schema<PatchSettingsInput>;
+).annotate({ identifier: "PatchSettingsInput" }) as any as S.Schema<PatchSettingsInput>;
 
 /** Specifies the windows configuration for update management. */
 export interface OSProfileWindowsConfigurationInput {
@@ -5872,9 +5704,7 @@ export const MachinePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     hardwareResourceId: S.optional(S.String),
     mssqlDiscovered: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachinePropertiesInput",
-}) as any as S.Schema<MachinePropertiesInput>;
+).annotate({ identifier: "MachinePropertiesInput" }) as any as S.Schema<MachinePropertiesInput>;
 
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = LicenseProfileArmProductProfilePropertiesInputError;
@@ -5951,9 +5781,7 @@ export const MachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type MachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const MachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6088,9 +5916,7 @@ export const SettingsPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gatewayProperties: S.optional(SettingsGatewayProperties),
   }),
-).annotate({
-  identifier: "SettingsPropertiesInput",
-}) as any as S.Schema<SettingsPropertiesInput>;
+).annotate({ identifier: "SettingsPropertiesInput" }) as any as S.Schema<SettingsPropertiesInput>;
 
 export interface PatchSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6125,9 +5951,7 @@ export const PatchSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "PatchSettingsRequest",
-}) as any as S.Schema<PatchSettingsRequest>;
+).annotate({ identifier: "PatchSettingsRequest" }) as any as S.Schema<PatchSettingsRequest>;
 
 export interface PatchSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6149,9 +5973,7 @@ export const PatchSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SettingsProperties),
   }),
-).annotate({
-  identifier: "PatchSettingsResponse",
-}) as any as S.Schema<PatchSettingsResponse>;
+).annotate({ identifier: "PatchSettingsResponse" }) as any as S.Schema<PatchSettingsResponse>;
 
 /** State of the private endpoint connection. */
 export interface PrivateLinkServiceConnectionStatePropertyInput {
@@ -6241,9 +6063,7 @@ export const PrivateEndpointConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type PrivateLinkScopesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateLinkScopesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PrivateLinkScopesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6320,9 +6140,7 @@ export const PrivateLinkScopesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<PrivateLinkScopesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PrivateLinkScopesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateLinkScopesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PrivateLinkScopesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6388,9 +6206,7 @@ export const SetupExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "SetupExtensionsRequest",
-}) as any as S.Schema<SetupExtensionsRequest>;
+).annotate({ identifier: "SetupExtensionsRequest" }) as any as S.Schema<SetupExtensionsRequest>;
 
 /** The list of extensions */
 export type SetupExtensionRequestExtensionsList = Array<MachineExtensionProperties>;
@@ -6406,9 +6222,7 @@ export const SetupExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     extensions: S.optional(SetupExtensionRequestExtensionsList),
   }),
-).annotate({
-  identifier: "SetupExtensionRequest",
-}) as any as S.Schema<SetupExtensionRequest>;
+).annotate({ identifier: "SetupExtensionRequest" }) as any as S.Schema<SetupExtensionRequest>;
 
 /** Resource tags */
 export type UpdateGatewayRequestTagsMap = { [key: string]: string | undefined };
@@ -6441,9 +6255,7 @@ export const GatewayUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     allowedFeatures: S.optional(GatewayUpdatePropertiesAllowedFeaturesList),
     gatewayBypass: S.optional(GatewayUpdatePropertiesGatewayBypassList),
   }),
-).annotate({
-  identifier: "GatewayUpdateProperties",
-}) as any as S.Schema<GatewayUpdateProperties>;
+).annotate({ identifier: "GatewayUpdateProperties" }) as any as S.Schema<GatewayUpdateProperties>;
 
 export interface UpdateGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6472,14 +6284,10 @@ export const UpdateGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateGatewayRequest",
-}) as any as S.Schema<UpdateGatewayRequest>;
+).annotate({ identifier: "UpdateGatewayRequest" }) as any as S.Schema<UpdateGatewayRequest>;
 
 /** Resource tags. */
-export type UpdateGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6511,9 +6319,7 @@ export const UpdateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(GatewayProperties),
   }),
-).annotate({
-  identifier: "UpdateGatewayResponse",
-}) as any as S.Schema<UpdateGatewayResponse>;
+).annotate({ identifier: "UpdateGatewayResponse" }) as any as S.Schema<UpdateGatewayResponse>;
 
 /** Resource tags */
 export type UpdateLicenseRequestTagsMap = { [key: string]: string | undefined };
@@ -6557,9 +6363,7 @@ export const LicenseUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     licenseType: S.optional(LicenseType),
     licenseDetails: S.optional(LicenseUpdatePropertiesLicenseDetails),
   }),
-).annotate({
-  identifier: "LicenseUpdateProperties",
-}) as any as S.Schema<LicenseUpdateProperties>;
+).annotate({ identifier: "LicenseUpdateProperties" }) as any as S.Schema<LicenseUpdateProperties>;
 
 export interface UpdateLicenseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6588,14 +6392,10 @@ export const UpdateLicenseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateLicenseRequest",
-}) as any as S.Schema<UpdateLicenseRequest>;
+).annotate({ identifier: "UpdateLicenseRequest" }) as any as S.Schema<UpdateLicenseRequest>;
 
 /** Resource tags. */
-export type UpdateLicenseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLicenseResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLicenseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6627,17 +6427,13 @@ export const UpdateLicenseResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LicenseProperties),
   }),
-).annotate({
-  identifier: "UpdateLicenseResponse",
-}) as any as S.Schema<UpdateLicenseResponse>;
+).annotate({ identifier: "UpdateLicenseResponse" }) as any as S.Schema<UpdateLicenseResponse>;
 
 export type UpdateLicenseProfileRequestLicenseProfileName = "default";
 export const UpdateLicenseProfileRequestLicenseProfileName = S.String;
 
 /** Resource tags */
-export type UpdateLicenseProfileRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLicenseProfileRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateLicenseProfileRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6668,9 +6464,7 @@ export const ProductFeatureUpdate = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     subscriptionStatus: S.optional(LicenseProfileSubscriptionStatusUpdate),
   }),
-).annotate({
-  identifier: "ProductFeatureUpdate",
-}) as any as S.Schema<ProductFeatureUpdate>;
+).annotate({ identifier: "ProductFeatureUpdate" }) as any as S.Schema<ProductFeatureUpdate>;
 
 /** The list of product feature updates. */
 export type ProductProfileUpdatePropertiesProductFeaturesList = Array<ProductFeatureUpdate>;
@@ -6750,9 +6544,7 @@ export const UpdateLicenseProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateLicenseProfileRequest>;
 
 /** Resource tags. */
-export type UpdateLicenseProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLicenseProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLicenseProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6890,14 +6682,10 @@ export const UpdateMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateMachineRequest",
-}) as any as S.Schema<UpdateMachineRequest>;
+).annotate({ identifier: "UpdateMachineRequest" }) as any as S.Schema<UpdateMachineRequest>;
 
 /** Resource tags. */
-export type UpdateMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6974,23 +6762,17 @@ export const UpdateMachineResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateMachineResponseIdentity),
     kind: S.optional(ArcKindEnum),
   }),
-).annotate({
-  identifier: "UpdateMachineResponse",
-}) as any as S.Schema<UpdateMachineResponse>;
+).annotate({ identifier: "UpdateMachineResponse" }) as any as S.Schema<UpdateMachineResponse>;
 
 /** Resource tags */
-export type UpdateMachineExtensionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMachineExtensionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMachineExtensionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<UpdateMachineExtensionRequestTagsMap>;
 
 /** Json formatted public settings for the extension. */
-export type MachineExtensionUpdatePropertiesSettingsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MachineExtensionUpdatePropertiesSettingsMap = { [key: string]: unknown | undefined };
 export const MachineExtensionUpdatePropertiesSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7074,9 +6856,7 @@ export const UpdateMachineExtensionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMachineExtensionRequest>;
 
 /** Resource tags. */
-export type UpdateMachineExtensionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMachineExtensionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7113,9 +6893,7 @@ export const UpdateMachineExtensionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMachineExtensionResponse>;
 
 /** Resource tags */
-export type UpdatePrivateLinkScopeTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateLinkScopeTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateLinkScopeTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7150,9 +6928,7 @@ export const UpdatePrivateLinkScopeTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePrivateLinkScopeTagsRequest>;
 
 /** Resource tags. */
-export type UpdatePrivateLinkScopeTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateLinkScopeTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateLinkScopeTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7221,9 +6997,7 @@ export const UpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateSettingsRequest",
-}) as any as S.Schema<UpdateSettingsRequest>;
+).annotate({ identifier: "UpdateSettingsRequest" }) as any as S.Schema<UpdateSettingsRequest>;
 
 export interface UpdateSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7245,9 +7019,7 @@ export const UpdateSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SettingsProperties),
   }),
-).annotate({
-  identifier: "UpdateSettingsResponse",
-}) as any as S.Schema<UpdateSettingsResponse>;
+).annotate({ identifier: "UpdateSettingsResponse" }) as any as S.Schema<UpdateSettingsResponse>;
 
 /** Describes the Machine Extension Target Version Properties */
 export interface ExtensionTargetProperties {
@@ -7295,9 +7067,7 @@ export const UpgradeExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-15",
     }),
   ),
-).annotate({
-  identifier: "UpgradeExtensionsRequest",
-}) as any as S.Schema<UpgradeExtensionsRequest>;
+).annotate({ identifier: "UpgradeExtensionsRequest" }) as any as S.Schema<UpgradeExtensionsRequest>;
 
 export interface UpgradeExtensionsResponse {}
 export const UpgradeExtensionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7305,9 +7075,7 @@ export const UpgradeExtensionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UpgradeExtensionsResponse>;
 
 /** Resource tags. */
-export type ValidateLicenseLicenseRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateLicenseLicenseRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateLicenseLicenseRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7342,9 +7110,7 @@ export const ValidateLicenseLicenseRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ValidateLicenseLicenseRequest>;
 
 /** Resource tags. */
-export type ValidateLicenseLicenseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateLicenseLicenseResponseTagsMap = { [key: string]: string | undefined };
 export const ValidateLicenseLicenseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

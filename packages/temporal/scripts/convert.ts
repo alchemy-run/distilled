@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Temporal OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -51,7 +51,7 @@ const dropDuplicateHttpBindings = (spec: { paths?: Record<string, Record<string,
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "temporal",

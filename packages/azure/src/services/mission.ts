@@ -62,9 +62,7 @@ export const RequestMetadata = /*@__PURE__*/ S.suspend(() =>
     approvalCallbackPayload: S.optional(S.String),
     approvalStatus: S.optional(RequestMetadataApprovalStatus),
   }),
-).annotate({
-  identifier: "RequestMetadata",
-}) as any as S.Schema<RequestMetadata>;
+).annotate({ identifier: "RequestMetadata" }) as any as S.Schema<RequestMetadata>;
 
 /** Approval Base model. */
 export interface ApprovalPropertiesInput {
@@ -93,9 +91,7 @@ export const ApprovalPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     stateChangedAt: S.optional(S.String),
     requestMetadata: RequestMetadata,
   }),
-).annotate({
-  identifier: "ApprovalPropertiesInput",
-}) as any as S.Schema<ApprovalPropertiesInput>;
+).annotate({ identifier: "ApprovalPropertiesInput" }) as any as S.Schema<ApprovalPropertiesInput>;
 
 export interface ApprovalCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -113,7 +109,7 @@ export const ApprovalCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -212,9 +208,7 @@ export const MandatoryApprover = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     approverEntraId: S.String,
   }),
-).annotate({
-  identifier: "MandatoryApprover",
-}) as any as S.Schema<MandatoryApprover>;
+).annotate({ identifier: "MandatoryApprover" }) as any as S.Schema<MandatoryApprover>;
 
 /** List of mandatory approvers for the approval request */
 export type ApprovalPropertiesMandatoryApproversList = Array<MandatoryApprover>;
@@ -273,9 +267,7 @@ export const ApprovalProperties = /*@__PURE__*/ S.suspend(() =>
     approvedByEntraIds: S.optional(ApprovalPropertiesApprovedByEntraIdsList),
     requestMetadata: RequestMetadata,
   }),
-).annotate({
-  identifier: "ApprovalProperties",
-}) as any as S.Schema<ApprovalProperties>;
+).annotate({ identifier: "ApprovalProperties" }) as any as S.Schema<ApprovalProperties>;
 
 export interface ApprovalCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -316,9 +308,7 @@ export const SubnetConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     networkPrefixSize: S.Number,
     subnetDelegation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubnetConfigurationInput",
-}) as any as S.Schema<SubnetConfigurationInput>;
+).annotate({ identifier: "SubnetConfigurationInput" }) as any as S.Schema<SubnetConfigurationInput>;
 
 /** Subnet Configurations. */
 export type EnclaveVirtualNetworkModelInputSubnetConfigurationsList =
@@ -397,9 +387,7 @@ export const CheckAddressSpaceAvailabilityResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<CheckAddressSpaceAvailabilityResponse>;
 
 /** Resource tags. */
-export type CommunityCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommunityCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CommunityCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -460,9 +448,7 @@ export const GovernedServiceItemInput = /*@__PURE__*/ S.suspend(() =>
     enforcement: S.optional(GovernedServiceItemInputEnforcement),
     policyAction: S.optional(GovernedServiceItemInputPolicyAction),
   }),
-).annotate({
-  identifier: "GovernedServiceItemInput",
-}) as any as S.Schema<GovernedServiceItemInput>;
+).annotate({ identifier: "GovernedServiceItemInput" }) as any as S.Schema<GovernedServiceItemInput>;
 
 /** List of services governed by a community. */
 export type CommunityPropertiesInputGovernedServiceListList = Array<GovernedServiceItemInput>;
@@ -513,9 +499,7 @@ export const RoleAssignmentItem = /*@__PURE__*/ S.suspend(() =>
     principals: S.optional(RoleAssignmentItemPrincipalsList),
     condition: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleAssignmentItem",
-}) as any as S.Schema<RoleAssignmentItem>;
+).annotate({ identifier: "RoleAssignmentItem" }) as any as S.Schema<RoleAssignmentItem>;
 
 /** Community role assignments */
 export type CommunityPropertiesInputCommunityRoleAssignmentsList = Array<RoleAssignmentItem>;
@@ -583,9 +567,7 @@ export const ApprovalSettings = /*@__PURE__*/ S.suspend(() =>
     communityMaintenanceMode: S.optional(ApprovalSettingConfiguration),
     enclaveMaintenanceMode: S.optional(ApprovalSettingConfiguration),
   }),
-).annotate({
-  identifier: "ApprovalSettings",
-}) as any as S.Schema<ApprovalSettings>;
+).annotate({ identifier: "ApprovalSettings" }) as any as S.Schema<ApprovalSettings>;
 
 /** Current mode of Maintenance Mode Configuration */
 export type MaintenanceModeConfigurationModelMode =
@@ -647,9 +629,7 @@ export const MonitoringDestination = /*@__PURE__*/ S.suspend(() =>
     customWorkspaceResourceId: S.optional(S.String),
     diagnosticSettingsName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MonitoringDestination",
-}) as any as S.Schema<MonitoringDestination>;
+).annotate({ identifier: "MonitoringDestination" }) as any as S.Schema<MonitoringDestination>;
 
 /** Log Analytics workspace destinations where diagnostic logs will be stored. */
 export type MonitoringSettingsModelDiagnosticDestinationsList = Array<MonitoringDestination>;
@@ -669,9 +649,7 @@ export const MonitoringSettingsModel = /*@__PURE__*/ S.suspend(() =>
     diagnosticDestinations: S.optional(MonitoringSettingsModelDiagnosticDestinationsList),
     flowLogDestination: S.optional(MonitoringDestination),
   }),
-).annotate({
-  identifier: "MonitoringSettingsModel",
-}) as any as S.Schema<MonitoringSettingsModel>;
+).annotate({ identifier: "MonitoringSettingsModel" }) as any as S.Schema<MonitoringSettingsModel>;
 
 /** Address spaces list */
 export type CommunityPropertiesInputAddressSpacesList = Array<string>;
@@ -715,9 +693,7 @@ export const CommunityPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     monitoringSettings: S.optional(MonitoringSettingsModel),
     addressSpaces: S.optional(CommunityPropertiesInputAddressSpacesList),
   }),
-).annotate({
-  identifier: "CommunityPropertiesInput",
-}) as any as S.Schema<CommunityPropertiesInput>;
+).annotate({ identifier: "CommunityPropertiesInput" }) as any as S.Schema<CommunityPropertiesInput>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -794,9 +770,7 @@ export const CommunityCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CommunityCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CommunityCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommunityCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CommunityCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -823,9 +797,7 @@ export const MoboBrokerResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoboBrokerResource",
-}) as any as S.Schema<MoboBrokerResource>;
+).annotate({ identifier: "MoboBrokerResource" }) as any as S.Schema<MoboBrokerResource>;
 
 /** Managed-On-Behalf-Of broker resources */
 export type CommunityPropertiesManagedOnBehalfOfConfigurationMoboBrokerResourcesList =
@@ -892,9 +864,7 @@ export const GovernedServiceItem = /*@__PURE__*/ S.suspend(() =>
     policyAction: S.optional(GovernedServiceItemPolicyAction),
     initiatives: S.optional(GovernedServiceItemInitiativesList),
   }),
-).annotate({
-  identifier: "GovernedServiceItem",
-}) as any as S.Schema<GovernedServiceItem>;
+).annotate({ identifier: "GovernedServiceItem" }) as any as S.Schema<GovernedServiceItem>;
 
 /** List of services governed by a community. */
 export type CommunityPropertiesGovernedServiceListList = Array<GovernedServiceItem>;
@@ -948,9 +918,7 @@ export const DedicatedHubProperties = /*@__PURE__*/ S.suspend(() =>
     designation: S.optional(Designation),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "DedicatedHubProperties",
-}) as any as S.Schema<DedicatedHubProperties>;
+).annotate({ identifier: "DedicatedHubProperties" }) as any as S.Schema<DedicatedHubProperties>;
 
 /** DedicatedHub Model Resource */
 export interface DedicatedHubResource {
@@ -979,9 +947,7 @@ export const DedicatedHubResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DedicatedHubProperties),
   }),
-).annotate({
-  identifier: "DedicatedHubResource",
-}) as any as S.Schema<DedicatedHubResource>;
+).annotate({ identifier: "DedicatedHubResource" }) as any as S.Schema<DedicatedHubResource>;
 
 /** DedicatedHub List. */
 export type CommunityPropertiesDedicatedHubListList = Array<DedicatedHubResource>;
@@ -1046,9 +1012,7 @@ export const CommunityProperties = /*@__PURE__*/ S.suspend(() =>
     monitoringSettings: S.optional(MonitoringSettingsModel),
     addressSpaces: S.optional(CommunityPropertiesAddressSpacesList),
   }),
-).annotate({
-  identifier: "CommunityProperties",
-}) as any as S.Schema<CommunityProperties>;
+).annotate({ identifier: "CommunityProperties" }) as any as S.Schema<CommunityProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -1062,14 +1026,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -1129,9 +1089,7 @@ export const CommunityCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CommunityCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type CommunityEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommunityEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CommunityEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1254,9 +1212,7 @@ export const CommunityEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<CommunityEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CommunityEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommunityEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CommunityEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1386,9 +1342,7 @@ export const ApprovalActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "ApprovalActionResponse",
-}) as any as S.Schema<ApprovalActionResponse>;
+).annotate({ identifier: "ApprovalActionResponse" }) as any as S.Schema<ApprovalActionResponse>;
 
 /** Resource request action indicating action which needed to be performed upon calling approval-deletion-callback post action */
 export type CommunityEndpointsHandleApprovalDeletionRequestResourceRequestAction =
@@ -1431,9 +1385,7 @@ export const CommunityEndpointsHandleApprovalDeletionRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<CommunityEndpointsHandleApprovalDeletionRequest>;
 
 /** Resource tags. */
-export type DedicatedHubCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DedicatedHubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DedicatedHubCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1490,9 +1442,7 @@ export const DedicatedHubCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DedicatedHubCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DedicatedHubCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DedicatedHubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DedicatedHubCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1541,14 +1491,12 @@ export const DeleteApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApprovalRequest",
-}) as any as S.Schema<DeleteApprovalRequest>;
+).annotate({ identifier: "DeleteApprovalRequest" }) as any as S.Schema<DeleteApprovalRequest>;
 
 export interface DeleteApprovalResponse {}
 export const DeleteApprovalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1576,9 +1524,7 @@ export const DeleteCommunityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCommunityRequest",
-}) as any as S.Schema<DeleteCommunityRequest>;
+).annotate({ identifier: "DeleteCommunityRequest" }) as any as S.Schema<DeleteCommunityRequest>;
 
 export interface DeleteCommunityResponse {}
 export const DeleteCommunityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1615,9 +1561,7 @@ export const DeleteCommunityEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteCommunityEndpointResponse {}
 export const DeleteCommunityEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteCommunityEndpointResponse",
-  },
+  { identifier: "DeleteCommunityEndpointResponse" },
 ) as any as S.Schema<DeleteCommunityEndpointResponse>;
 
 export interface DeleteDedicatedHubRequest {
@@ -1680,9 +1624,7 @@ export const DeleteEnclaveConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteEnclaveConnectionResponse {}
 export const DeleteEnclaveConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteEnclaveConnectionResponse",
-  },
+  { identifier: "DeleteEnclaveConnectionResponse" },
 ) as any as S.Schema<DeleteEnclaveConnectionResponse>;
 
 export interface DeleteEnclaveEndpointRequest {
@@ -1742,9 +1684,7 @@ export const DeleteTransitHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTransitHubRequest",
-}) as any as S.Schema<DeleteTransitHubRequest>;
+).annotate({ identifier: "DeleteTransitHubRequest" }) as any as S.Schema<DeleteTransitHubRequest>;
 
 export interface DeleteTransitHubResponse {}
 export const DeleteTransitHubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1805,9 +1745,7 @@ export const DeleteWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkloadRequest",
-}) as any as S.Schema<DeleteWorkloadRequest>;
+).annotate({ identifier: "DeleteWorkloadRequest" }) as any as S.Schema<DeleteWorkloadRequest>;
 
 export interface DeleteWorkloadResponse {}
 export const DeleteWorkloadResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1815,9 +1753,7 @@ export const DeleteWorkloadResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteWorkloadResponse>;
 
 /** Resource tags. */
-export type EnclaveConnectionCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveConnectionCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EnclaveConnectionCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1880,9 +1816,7 @@ export const EnclaveConnectionCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<EnclaveConnectionCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type EnclaveConnectionCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveConnectionCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EnclaveConnectionCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2055,9 +1989,7 @@ export const EnclaveConnectionHandleApprovalDeletionRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<EnclaveConnectionHandleApprovalDeletionRequest>;
 
 /** Resource tags. */
-export type EnclaveEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EnclaveEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2158,9 +2090,7 @@ export const EnclaveEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<EnclaveEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type EnclaveEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EnclaveEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2334,14 +2264,12 @@ export const GetApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetApprovalRequest",
-}) as any as S.Schema<GetApprovalRequest>;
+).annotate({ identifier: "GetApprovalRequest" }) as any as S.Schema<GetApprovalRequest>;
 
 export interface GetApprovalResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2363,9 +2291,7 @@ export const GetApprovalResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApprovalProperties),
   }),
-).annotate({
-  identifier: "GetApprovalResponse",
-}) as any as S.Schema<GetApprovalResponse>;
+).annotate({ identifier: "GetApprovalResponse" }) as any as S.Schema<GetApprovalResponse>;
 
 export interface GetCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2388,9 +2314,7 @@ export const GetCommunityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetCommunityRequest",
-}) as any as S.Schema<GetCommunityRequest>;
+).annotate({ identifier: "GetCommunityRequest" }) as any as S.Schema<GetCommunityRequest>;
 
 /** Resource tags. */
 export type GetCommunityResponseTagsMap = { [key: string]: string | undefined };
@@ -2432,9 +2356,7 @@ export const GetCommunityResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CommunityProperties),
     identity: S.optional(CommunityCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "GetCommunityResponse",
-}) as any as S.Schema<GetCommunityResponse>;
+).annotate({ identifier: "GetCommunityResponse" }) as any as S.Schema<GetCommunityResponse>;
 
 export interface GetCommunityEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2465,9 +2387,7 @@ export const GetCommunityEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCommunityEndpointRequest>;
 
 /** Resource tags. */
-export type GetCommunityEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCommunityEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetCommunityEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2527,14 +2447,10 @@ export const GetDedicatedHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetDedicatedHubRequest",
-}) as any as S.Schema<GetDedicatedHubRequest>;
+).annotate({ identifier: "GetDedicatedHubRequest" }) as any as S.Schema<GetDedicatedHubRequest>;
 
 /** Resource tags. */
-export type GetDedicatedHubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDedicatedHubResponseTagsMap = { [key: string]: string | undefined };
 export const GetDedicatedHubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2566,9 +2482,7 @@ export const GetDedicatedHubResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DedicatedHubProperties),
   }),
-).annotate({
-  identifier: "GetDedicatedHubResponse",
-}) as any as S.Schema<GetDedicatedHubResponse>;
+).annotate({ identifier: "GetDedicatedHubResponse" }) as any as S.Schema<GetDedicatedHubResponse>;
 
 export interface GetEnclaveConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2596,9 +2510,7 @@ export const GetEnclaveConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEnclaveConnectionRequest>;
 
 /** Resource tags. */
-export type GetEnclaveConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEnclaveConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetEnclaveConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2663,9 +2575,7 @@ export const GetEnclaveEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEnclaveEndpointRequest>;
 
 /** Resource tags. */
-export type GetEnclaveEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEnclaveEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetEnclaveEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2725,14 +2635,10 @@ export const GetTransitHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetTransitHubRequest",
-}) as any as S.Schema<GetTransitHubRequest>;
+).annotate({ identifier: "GetTransitHubRequest" }) as any as S.Schema<GetTransitHubRequest>;
 
 /** Resource tags. */
-export type GetTransitHubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTransitHubResponseTagsMap = { [key: string]: string | undefined };
 export const GetTransitHubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2763,9 +2669,7 @@ export const TransitOptionParams = /*@__PURE__*/ S.suspend(() =>
     scaleUnits: S.optional(S.Number),
     remoteVirtualNetworkId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransitOptionParams",
-}) as any as S.Schema<TransitOptionParams>;
+).annotate({ identifier: "TransitOptionParams" }) as any as S.Schema<TransitOptionParams>;
 
 /** TransitOption Properties */
 export interface TransitOption {
@@ -2812,9 +2716,7 @@ export const TransitHubProperties = /*@__PURE__*/ S.suspend(() =>
     resourceCollection: S.optional(TransitHubPropertiesResourceCollectionList),
     securityProvider: S.optional(SecurityProvider),
   }),
-).annotate({
-  identifier: "TransitHubProperties",
-}) as any as S.Schema<TransitHubProperties>;
+).annotate({ identifier: "TransitHubProperties" }) as any as S.Schema<TransitHubProperties>;
 
 export interface GetTransitHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2842,9 +2744,7 @@ export const GetTransitHubResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(TransitHubProperties),
   }),
-).annotate({
-  identifier: "GetTransitHubResponse",
-}) as any as S.Schema<GetTransitHubResponse>;
+).annotate({ identifier: "GetTransitHubResponse" }) as any as S.Schema<GetTransitHubResponse>;
 
 export interface GetVirtualEnclaveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2867,14 +2767,10 @@ export const GetVirtualEnclaveRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualEnclaveRequest",
-}) as any as S.Schema<GetVirtualEnclaveRequest>;
+).annotate({ identifier: "GetVirtualEnclaveRequest" }) as any as S.Schema<GetVirtualEnclaveRequest>;
 
 /** Resource tags. */
-export type GetVirtualEnclaveResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualEnclaveResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualEnclaveResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2904,9 +2800,7 @@ export const SubnetConfiguration = /*@__PURE__*/ S.suspend(() =>
     addressPrefix: S.optional(S.String),
     networkSecurityGroupResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubnetConfiguration",
-}) as any as S.Schema<SubnetConfiguration>;
+).annotate({ identifier: "SubnetConfiguration" }) as any as S.Schema<SubnetConfiguration>;
 
 /** Subnet Configurations. */
 export type EnclaveVirtualNetworkModelSubnetConfigurationsList = Array<SubnetConfiguration>;
@@ -3132,9 +3026,7 @@ export const VirtualEnclaveProperties = /*@__PURE__*/ S.suspend(() =>
     approvalSettings: S.optional(VirtualEnclaveApprovalSettings),
     monitoringSettings: S.optional(MonitoringSettingsModel),
   }),
-).annotate({
-  identifier: "VirtualEnclaveProperties",
-}) as any as S.Schema<VirtualEnclaveProperties>;
+).annotate({ identifier: "VirtualEnclaveProperties" }) as any as S.Schema<VirtualEnclaveProperties>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetVirtualEnclaveResponseIdentity = CommunityCreateOrUpdateResponseIdentity;
@@ -3197,9 +3089,7 @@ export const GetWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkloadRequest",
-}) as any as S.Schema<GetWorkloadRequest>;
+).annotate({ identifier: "GetWorkloadRequest" }) as any as S.Schema<GetWorkloadRequest>;
 
 /** Resource tags. */
 export type GetWorkloadResponseTagsMap = { [key: string]: string | undefined };
@@ -3252,9 +3142,7 @@ export const WorkloadProperties = /*@__PURE__*/ S.suspend(() =>
     resourceGroupCollection: S.optional(WorkloadPropertiesResourceGroupCollectionList),
     managedOnBehalfOfConfiguration: S.optional(WorkloadPropertiesManagedOnBehalfOfConfiguration),
   }),
-).annotate({
-  identifier: "WorkloadProperties",
-}) as any as S.Schema<WorkloadProperties>;
+).annotate({ identifier: "WorkloadProperties" }) as any as S.Schema<WorkloadProperties>;
 
 export interface GetWorkloadResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3282,9 +3170,7 @@ export const GetWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WorkloadProperties),
   }),
-).annotate({
-  identifier: "GetWorkloadResponse",
-}) as any as S.Schema<GetWorkloadResponse>;
+).annotate({ identifier: "GetWorkloadResponse" }) as any as S.Schema<GetWorkloadResponse>;
 
 export interface ListApprovalByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3296,7 +3182,7 @@ export const ListApprovalByParentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -3326,9 +3212,7 @@ export const ApprovalResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApprovalProperties),
   }),
-).annotate({
-  identifier: "ApprovalResource",
-}) as any as S.Schema<ApprovalResource>;
+).annotate({ identifier: "ApprovalResource" }) as any as S.Schema<ApprovalResource>;
 
 /** The ApprovalResource items on this page */
 export type ApprovalResourceListResultValueList = Array<ApprovalResource>;
@@ -3415,9 +3299,7 @@ export const CommunityResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CommunityProperties),
     identity: S.optional(CommunityCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "CommunityResource",
-}) as any as S.Schema<CommunityResource>;
+).annotate({ identifier: "CommunityResource" }) as any as S.Schema<CommunityResource>;
 
 /** The CommunityResource items on this page */
 export type CommunityResourceListResultValueList = Array<CommunityResource>;
@@ -3486,9 +3368,7 @@ export const ListCommunityEndpointByCommunityResourceRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListCommunityEndpointByCommunityResourceRequest>;
 
 /** Resource tags. */
-export type CommunityEndpointResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommunityEndpointResourceTagsMap = { [key: string]: string | undefined };
 export const CommunityEndpointResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3661,9 +3541,7 @@ export const ListEnclaveConnectionByResourceGroupRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListEnclaveConnectionByResourceGroupRequest>;
 
 /** Resource tags. */
-export type EnclaveConnectionResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveConnectionResourceTagsMap = { [key: string]: string | undefined };
 export const EnclaveConnectionResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3767,9 +3645,7 @@ export const ListEnclaveEndpointByEnclaveResourceRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListEnclaveEndpointByEnclaveResourceRequest>;
 
 /** Resource tags. */
-export type EnclaveEndpointResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnclaveEndpointResourceTagsMap = { [key: string]: string | undefined };
 export const EnclaveEndpointResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3802,9 +3678,7 @@ export const EnclaveEndpointResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EnclaveEndpointProperties),
   }),
-).annotate({
-  identifier: "EnclaveEndpointResource",
-}) as any as S.Schema<EnclaveEndpointResource>;
+).annotate({ identifier: "EnclaveEndpointResource" }) as any as S.Schema<EnclaveEndpointResource>;
 
 /** The EnclaveEndpointResource items on this page */
 export type EnclaveEndpointResourceListResultValueList = Array<EnclaveEndpointResource>;
@@ -3860,9 +3734,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -3882,9 +3754,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3934,9 +3804,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListTransitHubByCommunityResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3997,9 +3865,7 @@ export const TransitHubResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(TransitHubProperties),
   }),
-).annotate({
-  identifier: "TransitHubResource",
-}) as any as S.Schema<TransitHubResource>;
+).annotate({ identifier: "TransitHubResource" }) as any as S.Schema<TransitHubResource>;
 
 /** The TransitHubResource items on this page */
 export type TransitHubResourceListResultValueList = Array<TransitHubResource>;
@@ -4108,9 +3974,7 @@ export const EnclaveResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualEnclaveProperties),
     identity: S.optional(CommunityCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "EnclaveResource",
-}) as any as S.Schema<EnclaveResource>;
+).annotate({ identifier: "EnclaveResource" }) as any as S.Schema<EnclaveResource>;
 
 /** The EnclaveResource items on this page */
 export type EnclaveResourceListResultValueList = Array<EnclaveResource>;
@@ -4212,9 +4076,7 @@ export const WorkloadResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WorkloadProperties),
   }),
-).annotate({
-  identifier: "WorkloadResource",
-}) as any as S.Schema<WorkloadResource>;
+).annotate({ identifier: "WorkloadResource" }) as any as S.Schema<WorkloadResource>;
 
 /** The WorkloadResource items on this page */
 export type WorkloadResourceListResultValueList = Array<WorkloadResource>;
@@ -4280,7 +4142,7 @@ export const NotifyApprovalInitiatorRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}/notifyInitiator",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}/notifyInitiator",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -4290,9 +4152,7 @@ export const NotifyApprovalInitiatorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NotifyApprovalInitiatorRequest>;
 
 /** Resource tags. */
-export type TransitHubCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TransitHubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const TransitHubCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4355,9 +4215,7 @@ export const TransitHubCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TransitHubCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type TransitHubCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TransitHubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const TransitHubCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4472,14 +4330,12 @@ export const UpdateApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApprovalRequest",
-}) as any as S.Schema<UpdateApprovalRequest>;
+).annotate({ identifier: "UpdateApprovalRequest" }) as any as S.Schema<UpdateApprovalRequest>;
 
 export interface UpdateApprovalResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4501,9 +4357,7 @@ export const UpdateApprovalResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApprovalProperties),
   }),
-).annotate({
-  identifier: "UpdateApprovalResponse",
-}) as any as S.Schema<UpdateApprovalResponse>;
+).annotate({ identifier: "UpdateApprovalResponse" }) as any as S.Schema<UpdateApprovalResponse>;
 
 /** DNS Servers. */
 export type CommunityPatchPropertiesInputDnsServersList = Array<string>;
@@ -4688,9 +4542,7 @@ export const CommunityPatchPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CommunityPatchPropertiesInput>;
 
 /** Resource tags. */
-export type UpdateCommunityRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4768,14 +4620,10 @@ export const UpdateCommunityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCommunityRequest",
-}) as any as S.Schema<UpdateCommunityRequest>;
+).annotate({ identifier: "UpdateCommunityRequest" }) as any as S.Schema<UpdateCommunityRequest>;
 
 /** Resource tags. */
-export type UpdateCommunityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4814,9 +4662,7 @@ export const UpdateCommunityResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CommunityProperties),
     identity: S.optional(CommunityCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateCommunityResponse",
-}) as any as S.Schema<UpdateCommunityResponse>;
+).annotate({ identifier: "UpdateCommunityResponse" }) as any as S.Schema<UpdateCommunityResponse>;
 
 /** Community Endpoint Rule Collection. */
 export type CommunityEndpointPatchPropertiesRuleCollectionList =
@@ -4842,9 +4688,7 @@ export const CommunityEndpointPatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CommunityEndpointPatchProperties>;
 
 /** Resource tags. */
-export type UpdateCommunityEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4885,9 +4729,7 @@ export const UpdateCommunityEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCommunityEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateCommunityEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4928,9 +4770,7 @@ export type DedicatedHubPatchProperties = DedicatedHubPropertiesInput;
 export const DedicatedHubPatchProperties = DedicatedHubPropertiesInput;
 
 /** Resource tags. */
-export type UpdateDedicatedHubRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHubRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHubRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4971,9 +4811,7 @@ export const UpdateDedicatedHubRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDedicatedHubRequest>;
 
 /** Resource tags. */
-export type UpdateDedicatedHubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHubResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5023,9 +4861,7 @@ export const EnclaveConnectionPatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnclaveConnectionPatchProperties>;
 
 /** Resource tags. */
-export type UpdateEnclaveConnectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnclaveConnectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEnclaveConnectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5063,9 +4899,7 @@ export const UpdateEnclaveConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEnclaveConnectionRequest>;
 
 /** Resource tags. */
-export type UpdateEnclaveConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnclaveConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEnclaveConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5125,9 +4959,7 @@ export const EnclaveEndpointPatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnclaveEndpointPatchProperties>;
 
 /** Resource tags. */
-export type UpdateEnclaveEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnclaveEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEnclaveEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5168,9 +5000,7 @@ export const UpdateEnclaveEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEnclaveEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateEnclaveEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnclaveEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEnclaveEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5211,9 +5041,7 @@ export type TransitHubPatchProperties = TransitHubPropertiesInput;
 export const TransitHubPatchProperties = TransitHubPropertiesInput;
 
 /** Resource tags. */
-export type UpdateTransitHubRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTransitHubRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateTransitHubRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5249,14 +5077,10 @@ export const UpdateTransitHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTransitHubRequest",
-}) as any as S.Schema<UpdateTransitHubRequest>;
+).annotate({ identifier: "UpdateTransitHubRequest" }) as any as S.Schema<UpdateTransitHubRequest>;
 
 /** Resource tags. */
-export type UpdateTransitHubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTransitHubResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateTransitHubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5288,9 +5112,7 @@ export const UpdateTransitHubResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(TransitHubProperties),
   }),
-).annotate({
-  identifier: "UpdateTransitHubResponse",
-}) as any as S.Schema<UpdateTransitHubResponse>;
+).annotate({ identifier: "UpdateTransitHubResponse" }) as any as S.Schema<UpdateTransitHubResponse>;
 
 /** Resource Visibility Mode */
 export type ResourceVisibilityMode = "Enabled" | "Disabled";
@@ -5393,9 +5215,7 @@ export const VirtualEnclavePatchPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualEnclavePatchPropertiesInput>;
 
 /** Resource tags. */
-export type UpdateVirtualEnclaveRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualEnclaveRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualEnclaveRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5436,9 +5256,7 @@ export const UpdateVirtualEnclaveRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualEnclaveRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualEnclaveResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualEnclaveResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualEnclaveResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5496,14 +5314,10 @@ export const WorkloadPatchProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceGroupCollection: S.optional(WorkloadPatchPropertiesResourceGroupCollectionList),
   }),
-).annotate({
-  identifier: "WorkloadPatchProperties",
-}) as any as S.Schema<WorkloadPatchProperties>;
+).annotate({ identifier: "WorkloadPatchProperties" }) as any as S.Schema<WorkloadPatchProperties>;
 
 /** Resource tags. */
-export type UpdateWorkloadRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkloadRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkloadRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5539,14 +5353,10 @@ export const UpdateWorkloadRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkloadRequest",
-}) as any as S.Schema<UpdateWorkloadRequest>;
+).annotate({ identifier: "UpdateWorkloadRequest" }) as any as S.Schema<UpdateWorkloadRequest>;
 
 /** Resource tags. */
-export type UpdateWorkloadResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkloadResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkloadResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5578,14 +5388,10 @@ export const UpdateWorkloadResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WorkloadProperties),
   }),
-).annotate({
-  identifier: "UpdateWorkloadResponse",
-}) as any as S.Schema<UpdateWorkloadResponse>;
+).annotate({ identifier: "UpdateWorkloadResponse" }) as any as S.Schema<UpdateWorkloadResponse>;
 
 /** Resource tags. */
-export type VirtualEnclaveCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualEnclaveCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualEnclaveCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5730,9 +5536,7 @@ export const VirtualEnclaveCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualEnclaveCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualEnclaveCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualEnclaveCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualEnclaveCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5861,9 +5665,7 @@ export const VirtualEnclaveHandleApprovalDeletionRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<VirtualEnclaveHandleApprovalDeletionRequest>;
 
 /** Resource tags. */
-export type WorkloadCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkloadCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkloadCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5884,9 +5686,7 @@ export const WorkloadPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceGroupCollection: S.optional(WorkloadPropertiesInputResourceGroupCollectionList),
   }),
-).annotate({
-  identifier: "WorkloadPropertiesInput",
-}) as any as S.Schema<WorkloadPropertiesInput>;
+).annotate({ identifier: "WorkloadPropertiesInput" }) as any as S.Schema<WorkloadPropertiesInput>;
 
 export interface WorkloadCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5926,9 +5726,7 @@ export const WorkloadCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkloadCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkloadCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkloadCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkloadCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

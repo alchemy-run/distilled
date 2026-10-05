@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Vanta's OpenAPI specs into ../specs/.
  *
@@ -8,7 +8,7 @@
  * convert never crawls the live developer site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/<name>.json
@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const BASE = "https://developer.vanta.com";
 
@@ -94,7 +95,7 @@ async function main() {
     );
     // 2-space indent + trailing newline so a whitespace-only change upstream
     // produces no diff.
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
   }
 
   for (const doc of DOCS) {
@@ -104,7 +105,7 @@ async function main() {
       throw new Error(`${doc.url} returned an empty document`);
     }
     const outputPath = `${SPECS_DIR}/${doc.output}`;
-    await Bun.write(outputPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(outputPath, text.endsWith("\n") ? text : `${text}\n`);
     console.log(`Writing ${outputPath}...`);
   }
 

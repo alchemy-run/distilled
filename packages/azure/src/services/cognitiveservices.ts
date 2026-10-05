@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type CapabilityHostPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CapabilityHostPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const CapabilityHostPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -152,9 +150,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type CapabilityHostPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CapabilityHostPropertiesTagsMap = { [key: string]: string | undefined };
 export const CapabilityHostPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -233,9 +229,7 @@ export const CapabilityHostProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     enablePublicHostingEnvironment: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CapabilityHostProperties",
-}) as any as S.Schema<CapabilityHostProperties>;
+).annotate({ identifier: "CapabilityHostProperties" }) as any as S.Schema<CapabilityHostProperties>;
 
 export interface AccountCapabilityHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -337,14 +331,10 @@ export const RaiBlocklistProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RaiBlocklistProperties",
-}) as any as S.Schema<RaiBlocklistProperties>;
+).annotate({ identifier: "RaiBlocklistProperties" }) as any as S.Schema<RaiBlocklistProperties>;
 
 /** Resource tags. */
-export type AddRaiBlocklistItemBatchResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AddRaiBlocklistItemBatchResponseTagsMap = { [key: string]: string | undefined };
 export const AddRaiBlocklistItemBatchResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -381,9 +371,7 @@ export const AddRaiBlocklistItemBatchResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddRaiBlocklistItemBatchResponse>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgenticApplicationPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgenticApplicationPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const AgenticApplicationPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -401,9 +389,7 @@ export const AgentReferenceProperties = /*@__PURE__*/ S.suspend(() =>
     agentId: S.optional(S.NullOr(S.String)),
     agentName: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AgentReferenceProperties",
-}) as any as S.Schema<AgentReferenceProperties>;
+).annotate({ identifier: "AgentReferenceProperties" }) as any as S.Schema<AgentReferenceProperties>;
 
 /** The list of agent definitions comprising this application, returned as references to the objects under the parent project; use this to obtain a flat list of all agent-version pairs represented by this application. */
 export type AgenticApplicationPropertiesInputAgentsList = Array<AgentReferenceProperties>;
@@ -443,9 +429,7 @@ export const AssignedIdentityInput = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.String,
     subject: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AssignedIdentityInput",
-}) as any as S.Schema<AssignedIdentityInput>;
+).annotate({ identifier: "AssignedIdentityInput" }) as any as S.Schema<AssignedIdentityInput>;
 
 /** Authorization scheme type. */
 export type BuiltInAuthorizationScheme = "Default" | "OrganizationScope" | "Channels" | "Custom";
@@ -486,9 +470,7 @@ export const TrafficRoutingRule = /*@__PURE__*/ S.suspend(() =>
     deploymentId: S.optional(S.NullOr(S.String)),
     trafficPercentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TrafficRoutingRule",
-}) as any as S.Schema<TrafficRoutingRule>;
+).annotate({ identifier: "TrafficRoutingRule" }) as any as S.Schema<TrafficRoutingRule>;
 
 /** Gets or sets the collection of traffic routing rules. */
 export type ApplicationTrafficRoutingPolicyRulesList = Array<TrafficRoutingRule>;
@@ -576,7 +558,7 @@ export const AgentApplicationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -584,9 +566,7 @@ export const AgentApplicationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<AgentApplicationsCreateOrUpdateRequest>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgenticApplicationPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgenticApplicationPropertiesTagsMap = { [key: string]: string | undefined };
 export const AgenticApplicationPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -635,9 +615,7 @@ export const AssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     subject: S.optional(S.NullOr(S.String)),
     provisioningState: S.optional(IdentityProvisioningState),
   }),
-).annotate({
-  identifier: "AssignedIdentity",
-}) as any as S.Schema<AssignedIdentity>;
+).annotate({ identifier: "AssignedIdentity" }) as any as S.Schema<AssignedIdentity>;
 
 /** Provisioning state of an agentic application. */
 export type AgenticApplicationProvisioningState =
@@ -717,9 +695,7 @@ export const AgentApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<AgentApplicationsCreateOrUpdateResponse>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgentDeploymentPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentDeploymentPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const AgentDeploymentPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -753,9 +729,7 @@ export const AgentProtocolVersion = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(AgentProtocol),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AgentProtocolVersion",
-}) as any as S.Schema<AgentProtocolVersion>;
+).annotate({ identifier: "AgentProtocolVersion" }) as any as S.Schema<AgentProtocolVersion>;
 
 /** Gets or sets the supported protocol types and versions exposed by this deployment. */
 export type AgentDeploymentPropertiesInputProtocolsList = Array<AgentProtocolVersion>;
@@ -778,9 +752,7 @@ export const VersionedAgentReference = /*@__PURE__*/ S.suspend(() =>
     agentName: S.optional(S.NullOr(S.String)),
     agentVersion: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VersionedAgentReference",
-}) as any as S.Schema<VersionedAgentReference>;
+).annotate({ identifier: "VersionedAgentReference" }) as any as S.Schema<VersionedAgentReference>;
 
 /** Returns a flat list of agent:version deployed in this deployment. */
 export type AgentDeploymentPropertiesInputAgentsList = Array<VersionedAgentReference>;
@@ -856,7 +828,7 @@ export const AgentDeploymentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -864,9 +836,7 @@ export const AgentDeploymentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<AgentDeploymentsCreateOrUpdateRequest>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgentDeploymentPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentDeploymentPropertiesTagsMap = { [key: string]: string | undefined };
 export const AgentDeploymentPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -979,9 +949,7 @@ export const DeploymentModel = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.String),
     sourceAccount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentModel",
-}) as any as S.Schema<DeploymentModel>;
+).annotate({ identifier: "DeploymentModel" }) as any as S.Schema<DeploymentModel>;
 
 /** Dictionary, Model Capacity Calculator Workload Parameters. */
 export interface ModelCapacityCalculatorWorkloadRequestParam {
@@ -1130,9 +1098,7 @@ export const DomainAvailability = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainAvailability",
-}) as any as S.Schema<DomainAvailability>;
+).annotate({ identifier: "DomainAvailability" }) as any as S.Schema<DomainAvailability>;
 
 /** The SKU of the resource. */
 export type CheckSkuAvailabilityRequestSkusList = Array<string>;
@@ -1195,9 +1161,7 @@ export const SkuAvailability = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SkuAvailability",
-}) as any as S.Schema<SkuAvailability>;
+).annotate({ identifier: "SkuAvailability" }) as any as S.Schema<SkuAvailability>;
 
 /** Check SKU availability result list. */
 export type SkuAvailabilityListResultValueList = Array<SkuAvailability>;
@@ -1238,9 +1202,7 @@ export const CommitmentPeriodInput = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(S.String),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CommitmentPeriodInput",
-}) as any as S.Schema<CommitmentPeriodInput>;
+).annotate({ identifier: "CommitmentPeriodInput" }) as any as S.Schema<CommitmentPeriodInput>;
 
 /** Properties of Cognitive Services account commitment plan. */
 export interface CommitmentPlanPropertiesInput {
@@ -1271,9 +1233,7 @@ export const CommitmentPlanPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CommitmentPlanPropertiesInput>;
 
 /** Resource tags. */
-export type CommitmentPlansCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommitmentPlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CommitmentPlansCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1372,9 +1332,7 @@ export const CommitmentQuota = /*@__PURE__*/ S.suspend(() =>
     quantity: S.optional(S.Number),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitmentQuota",
-}) as any as S.Schema<CommitmentQuota>;
+).annotate({ identifier: "CommitmentQuota" }) as any as S.Schema<CommitmentQuota>;
 
 /** Cognitive Services account commitment period. */
 export interface CommitmentPeriod {
@@ -1397,9 +1355,7 @@ export const CommitmentPeriod = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String),
     endDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommitmentPeriod",
-}) as any as S.Schema<CommitmentPeriod>;
+).annotate({ identifier: "CommitmentPeriod" }) as any as S.Schema<CommitmentPeriod>;
 
 /** The list of ProvisioningIssue. */
 export type CommitmentPlanPropertiesProvisioningIssuesList = Array<string>;
@@ -1440,14 +1396,10 @@ export const CommitmentPlanProperties = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(CommitmentPeriod),
     provisioningIssues: S.optional(CommitmentPlanPropertiesProvisioningIssuesList),
   }),
-).annotate({
-  identifier: "CommitmentPlanProperties",
-}) as any as S.Schema<CommitmentPlanProperties>;
+).annotate({ identifier: "CommitmentPlanProperties" }) as any as S.Schema<CommitmentPlanProperties>;
 
 /** Resource tags. */
-export type CommitmentPlansCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommitmentPlansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CommitmentPlansCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1588,9 +1540,7 @@ export const CommitmentPlansCreateOrUpdateAssociationResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<CommitmentPlansCreateOrUpdateAssociationResponse>;
 
 /** Resource tags. */
-export type CommitmentPlansCreateOrUpdatePlanRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommitmentPlansCreateOrUpdatePlanRequestTagsMap = { [key: string]: string | undefined };
 export const CommitmentPlansCreateOrUpdatePlanRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1724,9 +1674,7 @@ export const VirtualNetworkRule = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String),
     ignoreMissingVnetServiceEndpoint: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VirtualNetworkRule",
-}) as any as S.Schema<VirtualNetworkRule>;
+).annotate({ identifier: "VirtualNetworkRule" }) as any as S.Schema<VirtualNetworkRule>;
 
 /** The list of virtual network rules. */
 export type NetworkRuleSetVirtualNetworkRulesList = Array<VirtualNetworkRule>;
@@ -1771,9 +1719,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyVaultUri: S.optional(S.String),
     identityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** Enumerates the possible value of keySource for Encryption */
 export type EncryptionKeySource = "Microsoft.CognitiveServices" | "Microsoft.KeyVault";
@@ -1804,9 +1750,7 @@ export const UserOwnedStorage = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     identityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserOwnedStorage",
-}) as any as S.Schema<UserOwnedStorage>;
+).annotate({ identifier: "UserOwnedStorage" }) as any as S.Schema<UserOwnedStorage>;
 
 /** The storage accounts for this resource. */
 export type AccountPropertiesInputUserOwnedStorageList = Array<UserOwnedStorage>;
@@ -1826,9 +1770,7 @@ export const UserOwnedAmlWorkspace = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     identityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserOwnedAmlWorkspace",
-}) as any as S.Schema<UserOwnedAmlWorkspace>;
+).annotate({ identifier: "UserOwnedAmlWorkspace" }) as any as S.Schema<UserOwnedAmlWorkspace>;
 
 /** Whether or not public endpoint access is allowed for this account. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
@@ -1914,9 +1856,7 @@ export const MultiRegionSettings = /*@__PURE__*/ S.suspend(() =>
     routingMethod: S.optional(RoutingMethods),
     regions: S.optional(MultiRegionSettingsRegionsList),
   }),
-).annotate({
-  identifier: "MultiRegionSettings",
-}) as any as S.Schema<MultiRegionSettings>;
+).annotate({ identifier: "MultiRegionSettings" }) as any as S.Schema<MultiRegionSettings>;
 
 /** Cognitive Services Rai Monitor Config. */
 export interface RaiMonitorConfig {
@@ -1930,9 +1870,7 @@ export const RaiMonitorConfig = /*@__PURE__*/ S.suspend(() =>
     adxStorageResourceId: S.optional(S.String),
     identityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RaiMonitorConfig",
-}) as any as S.Schema<RaiMonitorConfig>;
+).annotate({ identifier: "RaiMonitorConfig" }) as any as S.Schema<RaiMonitorConfig>;
 
 /** Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent scenarios. 'none' means no network injection. */
 export type ScenarioType = "none" | "agent";
@@ -1953,9 +1891,7 @@ export const NetworkInjection = /*@__PURE__*/ S.suspend(() =>
     subnetArmId: S.optional(S.String),
     useMicrosoftManagedNetwork: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NetworkInjection",
-}) as any as S.Schema<NetworkInjection>;
+).annotate({ identifier: "NetworkInjection" }) as any as S.Schema<NetworkInjection>;
 
 export type AccountPropertiesInputNetworkInjectionsList = Array<NetworkInjection>;
 export const AccountPropertiesInputNetworkInjectionsList = /*@__PURE__*/ S.Array(
@@ -2029,9 +1965,7 @@ export const AccountPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     defaultProject: S.optional(S.String),
     associatedProjects: S.optional(AccountPropertiesInputAssociatedProjectsList),
   }),
-).annotate({
-  identifier: "AccountPropertiesInput",
-}) as any as S.Schema<AccountPropertiesInput>;
+).annotate({ identifier: "AccountPropertiesInput" }) as any as S.Schema<AccountPropertiesInput>;
 
 /** Resource tags. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -2116,9 +2050,7 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** Gets the status of the cognitive services account at the time the operation was called. */
 export type ProvisioningState =
@@ -2295,9 +2227,7 @@ export const RequestMatchPattern = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     method: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RequestMatchPattern",
-}) as any as S.Schema<RequestMatchPattern>;
+).annotate({ identifier: "RequestMatchPattern" }) as any as S.Schema<RequestMatchPattern>;
 
 export type ThrottlingRuleMatchPatternsList = Array<RequestMatchPattern>;
 export const ThrottlingRuleMatchPatternsList = /*@__PURE__*/ S.Array(
@@ -2368,9 +2298,7 @@ export const AccountPropertiesAllowedFqdnListList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AccountPropertiesAllowedFqdnListList>;
 
 /** Dictionary of <string> */
-export type AccountPropertiesEndpointsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountPropertiesEndpointsMap = { [key: string]: string | undefined };
 export const AccountPropertiesEndpointsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2535,14 +2463,10 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     defaultProject: S.optional(S.String),
     associatedProjects: S.optional(AccountPropertiesAssociatedProjectsList),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 /** Resource tags. */
-export type CreateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2560,14 +2484,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-export type IdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 export const IdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -2631,9 +2551,7 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 /** Authentication type of the connection target */
 export type ConnectionAuthType =
@@ -2783,9 +2701,7 @@ export type ConnectionCategory =
 export const ConnectionCategory = S.String;
 
 /** Store user metadata for this connection */
-export type ConnectionPropertiesV2InputMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionPropertiesV2InputMetadataMap = { [key: string]: string | undefined };
 export const ConnectionPropertiesV2InputMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2822,6 +2738,8 @@ export interface ConnectionPropertiesV2Input {
   /** The connection URL to be used. */
   target?: string;
   useWorkspaceManagedIdentity?: boolean;
+  /** Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only. */
+  credentials?: unknown;
 }
 export const ConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2836,6 +2754,7 @@ export const ConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(() =>
     sharedUserList: S.optional(ConnectionPropertiesV2InputSharedUserListList),
     target: S.optional(S.String),
     useWorkspaceManagedIdentity: S.optional(S.Boolean),
+    credentials: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ConnectionPropertiesV2Input",
@@ -2884,9 +2803,7 @@ export type ConnectionGroup =
 export const ConnectionGroup = S.String;
 
 /** Store user metadata for this connection */
-export type ConnectionPropertiesV2MetadataMap = {
-  [key: string]: string | undefined;
-};
+export type ConnectionPropertiesV2MetadataMap = { [key: string]: string | undefined };
 export const ConnectionPropertiesV2MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2938,9 +2855,7 @@ export const ConnectionPropertiesV2 = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(S.String),
     useWorkspaceManagedIdentity: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConnectionPropertiesV2",
-}) as any as S.Schema<ConnectionPropertiesV2>;
+).annotate({ identifier: "ConnectionPropertiesV2" }) as any as S.Schema<ConnectionPropertiesV2>;
 
 export interface CreateAccountConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2978,9 +2893,7 @@ export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
+).annotate({ identifier: "ProjectPropertiesInput" }) as any as S.Schema<ProjectPropertiesInput>;
 
 /** Resource tags. */
 export type CreateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -3025,14 +2938,10 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** The list of endpoint for this Cognitive Services Project. */
-export type ProjectPropertiesEndpointsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectPropertiesEndpointsMap = { [key: string]: string | undefined };
 export const ProjectPropertiesEndpointsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3059,14 +2968,10 @@ export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(ProjectPropertiesEndpointsMap),
     isDefault: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
+).annotate({ identifier: "ProjectProperties" }) as any as S.Schema<ProjectProperties>;
 
 /** Resource tags. */
-export type CreateProjectResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateProjectResponseTagsMap = { [key: string]: string | undefined };
 export const CreateProjectResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3104,9 +3009,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 export interface CreateProjectConnectionRequest {
   /** The ID of the target subscription. */
@@ -3286,9 +3189,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3360,9 +3261,7 @@ export const DeleteAccountConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAccountConnectionResponse {}
 export const DeleteAccountConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAccountConnectionResponse",
-  },
+  { identifier: "DeleteAccountConnectionResponse" },
 ) as any as S.Schema<DeleteAccountConnectionResponse>;
 
 export interface DeleteAgentApplicationRequest {
@@ -3389,7 +3288,7 @@ export const DeleteAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3428,7 +3327,7 @@ export const DeleteAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3564,9 +3463,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3627,7 +3524,7 @@ export const DeleteManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3665,7 +3562,7 @@ export const DeleteOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3736,9 +3633,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3816,9 +3711,7 @@ export const DeleteProjectConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteProjectConnectionResponse {}
 export const DeleteProjectConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteProjectConnectionResponse",
-  },
+  { identifier: "DeleteProjectConnectionResponse" },
 ) as any as S.Schema<DeleteProjectConnectionResponse>;
 
 export interface DeleteRaiBlocklistRequest {
@@ -3948,7 +3841,7 @@ export const DeleteRaiExternalSafetyProviderRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3986,9 +3879,7 @@ export const DeleteRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRaiPolicyRequest",
-}) as any as S.Schema<DeleteRaiPolicyRequest>;
+).annotate({ identifier: "DeleteRaiPolicyRequest" }) as any as S.Schema<DeleteRaiPolicyRequest>;
 
 export interface DeleteRaiPolicyResponse {}
 export const DeleteRaiPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4052,9 +3943,7 @@ export const DeleteRaiTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRaiTopicRequest",
-}) as any as S.Schema<DeleteRaiTopicRequest>;
+).annotate({ identifier: "DeleteRaiTopicRequest" }) as any as S.Schema<DeleteRaiTopicRequest>;
 
 export interface DeleteRaiTopicResponse {}
 export const DeleteRaiTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4076,7 +3965,7 @@ export const DeleteSubscriptionRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4163,9 +4052,7 @@ export const DeploymentRouting = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(DeploymentRoutingMode),
     models: S.optional(DeploymentRoutingModelsList),
   }),
-).annotate({
-  identifier: "DeploymentRouting",
-}) as any as S.Schema<DeploymentRouting>;
+).annotate({ identifier: "DeploymentRouting" }) as any as S.Schema<DeploymentRouting>;
 
 /** Properties of Cognitive Services account deployment. */
 export interface DeploymentPropertiesInput {
@@ -4211,9 +4098,7 @@ export const DeploymentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeploymentPropertiesInput>;
 
 /** Resource tags. */
-export type DeploymentsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4283,14 +4168,10 @@ export const DeploymentScaleSettings = /*@__PURE__*/ S.suspend(() =>
     capacity: S.optional(S.Number),
     activeCapacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DeploymentScaleSettings",
-}) as any as S.Schema<DeploymentScaleSettings>;
+).annotate({ identifier: "DeploymentScaleSettings" }) as any as S.Schema<DeploymentScaleSettings>;
 
 /** The capabilities. */
-export type DeploymentPropertiesCapabilitiesMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentPropertiesCapabilitiesMap = { [key: string]: string | undefined };
 export const DeploymentPropertiesCapabilitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4354,14 +4235,10 @@ export const DeploymentProperties = /*@__PURE__*/ S.suspend(() =>
     deploymentState: S.optional(S.NullOr(DeploymentState)),
     routing: S.optional(DeploymentRouting),
   }),
-).annotate({
-  identifier: "DeploymentProperties",
-}) as any as S.Schema<DeploymentProperties>;
+).annotate({ identifier: "DeploymentProperties" }) as any as S.Schema<DeploymentProperties>;
 
 /** Resource tags. */
-export type DeploymentsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4424,7 +4301,7 @@ export const DisableAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/disable",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4433,9 +4310,7 @@ export const DisableAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DisableAgentApplicationResponse {}
 export const DisableAgentApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DisableAgentApplicationResponse",
-  },
+  { identifier: "DisableAgentApplicationResponse" },
 ) as any as S.Schema<DisableAgentApplicationResponse>;
 
 export interface EnableAgentApplicationRequest {
@@ -4462,7 +4337,7 @@ export const EnableAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/enable",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4504,9 +4379,7 @@ export const EncryptionScopePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EncryptionScopePropertiesInput>;
 
 /** Resource tags. */
-export type EncryptionScopesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EncryptionScopesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EncryptionScopesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4586,9 +4459,7 @@ export const EncryptionScopeProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EncryptionScopeProperties>;
 
 /** Resource tags. */
-export type EncryptionScopesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EncryptionScopesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EncryptionScopesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4645,9 +4516,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -4694,9 +4563,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetAccountCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -4826,7 +4693,7 @@ export const GetAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4884,7 +4751,7 @@ export const GetAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4939,14 +4806,10 @@ export const GetCommitmentPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetCommitmentPlanRequest",
-}) as any as S.Schema<GetCommitmentPlanRequest>;
+).annotate({ identifier: "GetCommitmentPlanRequest" }) as any as S.Schema<GetCommitmentPlanRequest>;
 
 /** Resource tags. */
-export type GetCommitmentPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCommitmentPlanResponseTagsMap = { [key: string]: string | undefined };
 export const GetCommitmentPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5020,9 +4883,7 @@ export const GetCommitmentPlanAssociationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCommitmentPlanAssociationRequest>;
 
 /** Resource tags. */
-export type GetCommitmentPlanAssociationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCommitmentPlanAssociationResponseTagsMap = { [key: string]: string | undefined };
 export const GetCommitmentPlanAssociationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5084,9 +4945,7 @@ export const GetCommitmentPlanPlanRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCommitmentPlanPlanRequest>;
 
 /** Resource tags. */
-export type GetCommitmentPlanPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCommitmentPlanPlanResponseTagsMap = { [key: string]: string | undefined };
 export const GetCommitmentPlanPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5160,9 +5019,7 @@ export const GetDefenderForAISettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDefenderForAISettingsRequest>;
 
 /** Resource tags. */
-export type GetDefenderForAISettingsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDefenderForAISettingsResponseTagsMap = { [key: string]: string | undefined };
 export const GetDefenderForAISettingsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5222,14 +5079,10 @@ export const GetDeletedAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeletedAccountRequest",
-}) as any as S.Schema<GetDeletedAccountRequest>;
+).annotate({ identifier: "GetDeletedAccountRequest" }) as any as S.Schema<GetDeletedAccountRequest>;
 
 /** Resource tags. */
-export type GetDeletedAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeletedAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeletedAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5301,14 +5154,10 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** Resource tags. */
-export type GetDeploymentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5343,9 +5192,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetDeploymentResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 
 export interface GetEncryptionScopeRequest {
   /** The ID of the target subscription. */
@@ -5376,9 +5223,7 @@ export const GetEncryptionScopeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEncryptionScopeRequest>;
 
 /** Resource tags. */
-export type GetEncryptionScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEncryptionScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetEncryptionScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5435,7 +5280,7 @@ export const GetManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -5474,6 +5319,8 @@ export interface OutboundRule {
   /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
   errorInformation?: string;
   parentRuleNames?: OutboundRuleParentRuleNamesList;
+  /** Rule destination (polymorphic on `type`). */
+  destination?: unknown;
 }
 export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5482,13 +5329,12 @@ export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
     type: RuleType,
     errorInformation: S.optional(S.String),
     parentRuleNames: S.optional(OutboundRuleParentRuleNamesList),
+    destination: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "OutboundRule" }) as any as S.Schema<OutboundRule>;
 
 /** Dictionary of <OutboundRule> */
-export type ManagedNetworkSettingsExOutboundRulesMap = {
-  [key: string]: OutboundRule | undefined;
-};
+export type ManagedNetworkSettingsExOutboundRulesMap = { [key: string]: OutboundRule | undefined };
 export const ManagedNetworkSettingsExOutboundRulesMap = /*@__PURE__*/ S.Record(
   S.String,
   OutboundRule,
@@ -5563,9 +5409,7 @@ export const ManagedNetworkSettingsEx = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ManagedNetworkProvisioningState),
     changeableIsolationModes: S.optional(ManagedNetworkSettingsExChangeableIsolationModesList),
   }),
-).annotate({
-  identifier: "ManagedNetworkSettingsEx",
-}) as any as S.Schema<ManagedNetworkSettingsEx>;
+).annotate({ identifier: "ManagedNetworkSettingsEx" }) as any as S.Schema<ManagedNetworkSettingsEx>;
 
 /** The properties of the managed network settings of a cognitive services account. */
 export interface ManagedNetworkSettingsProperties {
@@ -5688,9 +5532,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** NetworkSecurityPerimeters for inbound rules */
 export type NetworkSecurityPerimeterAccessRulePropertiesNetworkSecurityPerimetersList =
@@ -5796,9 +5638,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** List of Provisioning Issues */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -5935,12 +5775,10 @@ export const GetOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
-).annotate({
-  identifier: "GetOutboundRuleRequest",
-}) as any as S.Schema<GetOutboundRuleRequest>;
+).annotate({ identifier: "GetOutboundRuleRequest" }) as any as S.Schema<GetOutboundRuleRequest>;
 
 export interface GetOutboundRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5962,9 +5800,7 @@ export const GetOutboundRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: OutboundRule,
   }),
-).annotate({
-  identifier: "GetOutboundRuleResponse",
-}) as any as S.Schema<GetOutboundRuleResponse>;
+).annotate({ identifier: "GetOutboundRuleResponse" }) as any as S.Schema<GetOutboundRuleResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -6048,9 +5884,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Resource tags. */
 export type GetProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -6091,9 +5925,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetProjectCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -6277,9 +6109,7 @@ export const GetQuotaTierRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaTierRequest",
-}) as any as S.Schema<GetQuotaTierRequest>;
+).annotate({ identifier: "GetQuotaTierRequest" }) as any as S.Schema<GetQuotaTierRequest>;
 
 /** Gets the tier upgrade policy for the subscription. */
 export type TierUpgradePolicy = "OnceUpgradeIsAvailable" | "NoAutoUpgrade";
@@ -6329,9 +6159,7 @@ export const QuotaTierProperties = /*@__PURE__*/ S.suspend(() =>
     assignmentDate: S.optional(S.String),
     tierUpgradeEligibilityInfo: S.optional(S.NullOr(QuotaTierUpgradeEligibilityInfo)),
   }),
-).annotate({
-  identifier: "QuotaTierProperties",
-}) as any as S.Schema<QuotaTierProperties>;
+).annotate({ identifier: "QuotaTierProperties" }) as any as S.Schema<QuotaTierProperties>;
 
 export interface GetQuotaTierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -6353,9 +6181,7 @@ export const GetQuotaTierResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaTierProperties),
   }),
-).annotate({
-  identifier: "GetQuotaTierResponse",
-}) as any as S.Schema<GetQuotaTierResponse>;
+).annotate({ identifier: "GetQuotaTierResponse" }) as any as S.Schema<GetQuotaTierResponse>;
 
 export interface GetRaiBlocklistRequest {
   /** The ID of the target subscription. */
@@ -6381,14 +6207,10 @@ export const GetRaiBlocklistRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRaiBlocklistRequest",
-}) as any as S.Schema<GetRaiBlocklistRequest>;
+).annotate({ identifier: "GetRaiBlocklistRequest" }) as any as S.Schema<GetRaiBlocklistRequest>;
 
 /** Resource tags. */
-export type GetRaiBlocklistResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRaiBlocklistResponseTagsMap = { [key: string]: string | undefined };
 export const GetRaiBlocklistResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6420,9 +6242,7 @@ export const GetRaiBlocklistResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetRaiBlocklistResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetRaiBlocklistResponse",
-}) as any as S.Schema<GetRaiBlocklistResponse>;
+).annotate({ identifier: "GetRaiBlocklistResponse" }) as any as S.Schema<GetRaiBlocklistResponse>;
 
 export interface GetRaiBlocklistItemRequest {
   /** The ID of the target subscription. */
@@ -6456,9 +6276,7 @@ export const GetRaiBlocklistItemRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRaiBlocklistItemRequest>;
 
 /** Resource tags. */
-export type GetRaiBlocklistItemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRaiBlocklistItemResponseTagsMap = { [key: string]: string | undefined };
 export const GetRaiBlocklistItemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6587,7 +6405,7 @@ export const GetRaiExternalSafetyProviderRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -6632,9 +6450,7 @@ export const RaiExternalSafetyProviderSchemaProperties = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<RaiExternalSafetyProviderSchemaProperties>;
 
 /** Resource tags. */
-export type GetRaiExternalSafetyProviderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRaiExternalSafetyProviderResponseTagsMap = { [key: string]: string | undefined };
 export const GetRaiExternalSafetyProviderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6694,9 +6510,7 @@ export const GetRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRaiPolicyRequest",
-}) as any as S.Schema<GetRaiPolicyRequest>;
+).annotate({ identifier: "GetRaiPolicyRequest" }) as any as S.Schema<GetRaiPolicyRequest>;
 
 /** Content Filters policy type. */
 export type RaiPolicyType = "UserManaged" | "SystemManaged";
@@ -6738,9 +6552,7 @@ export const RaiPolicyContentFilter = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(RaiPolicyContentSource),
     action: S.optional(RaiActionType),
   }),
-).annotate({
-  identifier: "RaiPolicyContentFilter",
-}) as any as S.Schema<RaiPolicyContentFilter>;
+).annotate({ identifier: "RaiPolicyContentFilter" }) as any as S.Schema<RaiPolicyContentFilter>;
 
 /** The list of Content Filters. */
 export type RaiPolicyPropertiesContentFiltersList = Array<RaiPolicyContentFilter>;
@@ -6763,9 +6575,7 @@ export const CustomBlocklistConfig = /*@__PURE__*/ S.suspend(() =>
     blocking: S.optional(S.Boolean),
     source: S.optional(RaiPolicyContentSource),
   }),
-).annotate({
-  identifier: "CustomBlocklistConfig",
-}) as any as S.Schema<CustomBlocklistConfig>;
+).annotate({ identifier: "CustomBlocklistConfig" }) as any as S.Schema<CustomBlocklistConfig>;
 
 /** The list of custom Blocklist. */
 export type RaiPolicyPropertiesCustomBlocklistsList = Array<CustomBlocklistConfig>;
@@ -6788,9 +6598,7 @@ export const SafetyProviderConfig = /*@__PURE__*/ S.suspend(() =>
     blocking: S.optional(S.Boolean),
     source: S.optional(RaiPolicyContentSource),
   }),
-).annotate({
-  identifier: "SafetyProviderConfig",
-}) as any as S.Schema<SafetyProviderConfig>;
+).annotate({ identifier: "SafetyProviderConfig" }) as any as S.Schema<SafetyProviderConfig>;
 
 /** The list of Safety Providers. */
 export type RaiPolicyPropertiesSafetyProvidersList = Array<SafetyProviderConfig>;
@@ -6822,9 +6630,7 @@ export const RaiPolicyProperties = /*@__PURE__*/ S.suspend(() =>
     customBlocklists: S.optional(RaiPolicyPropertiesCustomBlocklistsList),
     safetyProviders: S.optional(RaiPolicyPropertiesSafetyProvidersList),
   }),
-).annotate({
-  identifier: "RaiPolicyProperties",
-}) as any as S.Schema<RaiPolicyProperties>;
+).annotate({ identifier: "RaiPolicyProperties" }) as any as S.Schema<RaiPolicyProperties>;
 
 /** Resource tags. */
 export type GetRaiPolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -6859,9 +6665,7 @@ export const GetRaiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetRaiPolicyResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetRaiPolicyResponse",
-}) as any as S.Schema<GetRaiPolicyResponse>;
+).annotate({ identifier: "GetRaiPolicyResponse" }) as any as S.Schema<GetRaiPolicyResponse>;
 
 export interface GetRaiToolLabelRequest {
   /** The ID of the target subscription. */
@@ -6887,9 +6691,7 @@ export const GetRaiToolLabelRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRaiToolLabelRequest",
-}) as any as S.Schema<GetRaiToolLabelRequest>;
+).annotate({ identifier: "GetRaiToolLabelRequest" }) as any as S.Schema<GetRaiToolLabelRequest>;
 
 /** Dictionary of label key-value pairs for the account scope. */
 export type RaiToolLabelPropertiesAccountScopeLabelValuesMap = {
@@ -6959,14 +6761,10 @@ export const RaiToolLabelProperties = /*@__PURE__*/ S.suspend(() =>
     accountScope: S.optional(RaiToolLabelPropertiesAccountScope),
     projectScopes: S.optional(RaiToolLabelPropertiesProjectScopesList),
   }),
-).annotate({
-  identifier: "RaiToolLabelProperties",
-}) as any as S.Schema<RaiToolLabelProperties>;
+).annotate({ identifier: "RaiToolLabelProperties" }) as any as S.Schema<RaiToolLabelProperties>;
 
 /** Resource tags. */
-export type GetRaiToolLabelResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRaiToolLabelResponseTagsMap = { [key: string]: string | undefined };
 export const GetRaiToolLabelResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6998,9 +6796,7 @@ export const GetRaiToolLabelResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetRaiToolLabelResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetRaiToolLabelResponse",
-}) as any as S.Schema<GetRaiToolLabelResponse>;
+).annotate({ identifier: "GetRaiToolLabelResponse" }) as any as S.Schema<GetRaiToolLabelResponse>;
 
 export interface GetRaiTopicRequest {
   /** The ID of the target subscription. */
@@ -7026,9 +6822,7 @@ export const GetRaiTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRaiTopicRequest",
-}) as any as S.Schema<GetRaiTopicRequest>;
+).annotate({ identifier: "GetRaiTopicRequest" }) as any as S.Schema<GetRaiTopicRequest>;
 
 /** RAI Custom Topic properties. */
 export interface RaiTopicProperties {
@@ -7060,9 +6854,7 @@ export const RaiTopicProperties = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RaiTopicProperties",
-}) as any as S.Schema<RaiTopicProperties>;
+).annotate({ identifier: "RaiTopicProperties" }) as any as S.Schema<RaiTopicProperties>;
 
 /** Resource tags. */
 export type GetRaiTopicResponseTagsMap = { [key: string]: string | undefined };
@@ -7097,9 +6889,7 @@ export const GetRaiTopicResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetRaiTopicResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetRaiTopicResponse",
-}) as any as S.Schema<GetRaiTopicResponse>;
+).annotate({ identifier: "GetRaiTopicResponse" }) as any as S.Schema<GetRaiTopicResponse>;
 
 export interface GetSubscriptionRaiPolicyRequest {
   /** The ID of the target subscription. */
@@ -7116,7 +6906,7 @@ export const GetSubscriptionRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -7124,9 +6914,7 @@ export const GetSubscriptionRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSubscriptionRaiPolicyRequest>;
 
 /** Resource tags. */
-export type GetSubscriptionRaiPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSubscriptionRaiPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetSubscriptionRaiPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7250,9 +7038,7 @@ export const AccountListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(AccountListResultValueList),
   }),
-).annotate({
-  identifier: "AccountListResult",
-}) as any as S.Schema<AccountListResult>;
+).annotate({ identifier: "AccountListResult" }) as any as S.Schema<AccountListResult>;
 
 export interface ListAccountCapabilityHostsRequest {
   /** The ID of the target subscription. */
@@ -7423,9 +7209,7 @@ export const ListAccountKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountKeysRequest",
-}) as any as S.Schema<ListAccountKeysRequest>;
+).annotate({ identifier: "ListAccountKeysRequest" }) as any as S.Schema<ListAccountKeysRequest>;
 
 /** The access keys for the cognitive services account. */
 export interface ApiKeys {
@@ -7462,9 +7246,7 @@ export const ListAccountModelsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountModelsRequest",
-}) as any as S.Schema<ListAccountModelsRequest>;
+).annotate({ identifier: "ListAccountModelsRequest" }) as any as S.Schema<ListAccountModelsRequest>;
 
 /** The array of allowed values for capacity. */
 export type CapacityConfigAllowedValuesList = Array<number>;
@@ -7512,9 +7294,7 @@ export const BillingMeterInfo = /*@__PURE__*/ S.suspend(() =>
     meterId: S.optional(S.String),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingMeterInfo",
-}) as any as S.Schema<BillingMeterInfo>;
+).annotate({ identifier: "BillingMeterInfo" }) as any as S.Schema<BillingMeterInfo>;
 
 /** The list of billing meter info. */
 export type ModelSkuCostList = Array<BillingMeterInfo>;
@@ -7562,9 +7342,7 @@ export const AccountModelCapabilitiesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<AccountModelCapabilitiesMap>;
 
 /** The capabilities for finetune models. */
-export type AccountModelFinetuneCapabilitiesMap = {
-  [key: string]: string | undefined;
-};
+export type AccountModelFinetuneCapabilitiesMap = { [key: string]: string | undefined };
 export const AccountModelFinetuneCapabilitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7589,9 +7367,7 @@ export const ModelDeprecationInfo = /*@__PURE__*/ S.suspend(() =>
     inference: S.optional(S.String),
     deprecationStatus: S.optional(DeprecationStatus),
   }),
-).annotate({
-  identifier: "ModelDeprecationInfo",
-}) as any as S.Schema<ModelDeprecationInfo>;
+).annotate({ identifier: "ModelDeprecationInfo" }) as any as S.Schema<ModelDeprecationInfo>;
 
 /** Configuration for model replacement. */
 export interface ReplacementConfig {
@@ -7611,9 +7387,7 @@ export const ReplacementConfig = /*@__PURE__*/ S.suspend(() =>
     autoUpgradeStartDate: S.optional(S.String),
     upgradeOnExpiryLeadTimeDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReplacementConfig",
-}) as any as S.Schema<ReplacementConfig>;
+).annotate({ identifier: "ReplacementConfig" }) as any as S.Schema<ReplacementConfig>;
 
 /** Model lifecycle status. */
 export type ModelLifecycleStatus =
@@ -7665,9 +7439,7 @@ export const AccountModelSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(AccountModelSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountModelSystemData",
-}) as any as S.Schema<AccountModelSystemData>;
+).annotate({ identifier: "AccountModelSystemData" }) as any as S.Schema<AccountModelSystemData>;
 
 /** Cognitive Services account Model. */
 export interface AccountModel {
@@ -7749,9 +7521,7 @@ export const AccountModelListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(AccountModelListResultValueList),
   }),
-).annotate({
-  identifier: "AccountModelListResult",
-}) as any as S.Schema<AccountModelListResult>;
+).annotate({ identifier: "AccountModelListResult" }) as any as S.Schema<AccountModelListResult>;
 
 export interface ListAccountsRequest {
   /** The ID of the target subscription. */
@@ -7768,9 +7538,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export interface ListAccountSkusRequest {
   /** The ID of the target subscription. */
@@ -7793,9 +7561,7 @@ export const ListAccountSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountSkusRequest",
-}) as any as S.Schema<ListAccountSkusRequest>;
+).annotate({ identifier: "ListAccountSkusRequest" }) as any as S.Schema<ListAccountSkusRequest>;
 
 /** Cognitive Services resource type and SKU. */
 export interface AccountSku {
@@ -7826,9 +7592,7 @@ export const AccountSkuListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AccountSkuListResultValueList),
   }),
-).annotate({
-  identifier: "AccountSkuListResult",
-}) as any as S.Schema<AccountSkuListResult>;
+).annotate({ identifier: "AccountSkuListResult" }) as any as S.Schema<AccountSkuListResult>;
 
 export interface ListAccountUsagesRequest {
   /** The ID of the target subscription. */
@@ -7854,9 +7618,7 @@ export const ListAccountUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountUsagesRequest",
-}) as any as S.Schema<ListAccountUsagesRequest>;
+).annotate({ identifier: "ListAccountUsagesRequest" }) as any as S.Schema<ListAccountUsagesRequest>;
 
 /** The unit of the metric. */
 export type UnitType =
@@ -7944,9 +7706,7 @@ export const UsageListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(UsageListResultValueList),
   }),
-).annotate({
-  identifier: "UsageListResult",
-}) as any as S.Schema<UsageListResult>;
+).annotate({ identifier: "UsageListResult" }) as any as S.Schema<UsageListResult>;
 
 export interface ListAgentApplicationAgentsRequest {
   /** The ID of the target subscription. */
@@ -7972,7 +7732,7 @@ export const ListAgentApplicationAgentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/listAgents",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8071,7 +7831,7 @@ export const ListAgentApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8099,9 +7859,7 @@ export const AgentApplication = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: AgenticApplicationProperties,
   }),
-).annotate({
-  identifier: "AgentApplication",
-}) as any as S.Schema<AgentApplication>;
+).annotate({ identifier: "AgentApplication" }) as any as S.Schema<AgentApplication>;
 
 /** An array of objects of type Agent Application. */
 export type AgentApplicationResourceArmPaginatedResultValueList = Array<AgentApplication>;
@@ -8169,7 +7927,7 @@ export const ListAgentDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8197,9 +7955,7 @@ export const AgentDeployment = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: AgentDeploymentProperties,
   }),
-).annotate({
-  identifier: "AgentDeployment",
-}) as any as S.Schema<AgentDeployment>;
+).annotate({ identifier: "AgentDeployment" }) as any as S.Schema<AgentDeployment>;
 
 /** An array of objects of type Agent Deployment. */
 export type AgentDeploymentResourceArmPaginatedResultValueList = Array<AgentDeployment>;
@@ -8249,9 +8005,7 @@ export const ListCommitmentPlanAssociationsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListCommitmentPlanAssociationsRequest>;
 
 /** Resource tags. */
-export type CommitmentPlanAccountAssociationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CommitmentPlanAccountAssociationTagsMap = { [key: string]: string | undefined };
 export const CommitmentPlanAccountAssociationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8396,9 +8150,7 @@ export const CommitmentPlanListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(CommitmentPlanListResultValueList),
   }),
-).annotate({
-  identifier: "CommitmentPlanListResult",
-}) as any as S.Schema<CommitmentPlanListResult>;
+).annotate({ identifier: "CommitmentPlanListResult" }) as any as S.Schema<CommitmentPlanListResult>;
 
 export interface ListCommitmentPlanPlansBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -8530,9 +8282,7 @@ export const CommitmentTierListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(CommitmentTierListResultValueList),
   }),
-).annotate({
-  identifier: "CommitmentTierListResult",
-}) as any as S.Schema<CommitmentTierListResult>;
+).annotate({ identifier: "CommitmentTierListResult" }) as any as S.Schema<CommitmentTierListResult>;
 
 export interface ListDefenderForAISettingsRequest {
   /** The ID of the target subscription. */
@@ -8593,9 +8343,7 @@ export const DefenderForAISetting = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(DefenderForAISettingTagsMap),
   }),
-).annotate({
-  identifier: "DefenderForAISetting",
-}) as any as S.Schema<DefenderForAISetting>;
+).annotate({ identifier: "DefenderForAISetting" }) as any as S.Schema<DefenderForAISetting>;
 
 /** The list of Defender for AI Settings. */
 export type DefenderForAISettingResultValueList = Array<DefenderForAISetting>;
@@ -8659,9 +8407,7 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 /** Resource tags. */
 export type DeploymentTagsMap = { [key: string]: string | undefined };
@@ -8720,9 +8466,7 @@ export const DeploymentListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(DeploymentListResultValueList),
   }),
-).annotate({
-  identifier: "DeploymentListResult",
-}) as any as S.Schema<DeploymentListResult>;
+).annotate({ identifier: "DeploymentListResult" }) as any as S.Schema<DeploymentListResult>;
 
 export interface ListDeploymentSkusRequest {
   /** The ID of the target subscription. */
@@ -8787,9 +8531,7 @@ export const DeploymentSkuListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(DeploymentSkuListResultValueList),
   }),
-).annotate({
-  identifier: "DeploymentSkuListResult",
-}) as any as S.Schema<DeploymentSkuListResult>;
+).annotate({ identifier: "DeploymentSkuListResult" }) as any as S.Schema<DeploymentSkuListResult>;
 
 export interface ListEncryptionScopesRequest {
   /** The ID of the target subscription. */
@@ -8850,9 +8592,7 @@ export const EncryptionScope = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(EncryptionScopeTagsMap),
   }),
-).annotate({
-  identifier: "EncryptionScope",
-}) as any as S.Schema<EncryptionScope>;
+).annotate({ identifier: "EncryptionScope" }) as any as S.Schema<EncryptionScope>;
 
 /** The list of EncryptionScope. */
 export type EncryptionScopeListResultValueList = Array<EncryptionScope>;
@@ -8979,9 +8719,7 @@ export const ModelCapacityListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ModelCapacityListResultValueList),
   }),
-).annotate({
-  identifier: "ModelCapacityListResult",
-}) as any as S.Schema<ModelCapacityListResult>;
+).annotate({ identifier: "ModelCapacityListResult" }) as any as S.Schema<ModelCapacityListResult>;
 
 export interface ListManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -9001,7 +8739,7 @@ export const ListManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -9052,9 +8790,7 @@ export const ManagedNetworkListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ManagedNetworkListResultValueList),
   }),
-).annotate({
-  identifier: "ManagedNetworkListResult",
-}) as any as S.Schema<ManagedNetworkListResult>;
+).annotate({ identifier: "ManagedNetworkListResult" }) as any as S.Schema<ManagedNetworkListResult>;
 
 export interface ListModelCapacitiesRequest {
   /** The ID of the target subscription. */
@@ -9102,9 +8838,7 @@ export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListModelsRequest",
-}) as any as S.Schema<ListModelsRequest>;
+).annotate({ identifier: "ListModelsRequest" }) as any as S.Schema<ListModelsRequest>;
 
 /** Cognitive Services Model. */
 export interface Model {
@@ -9144,9 +8878,7 @@ export const ModelListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ModelListResultValueList),
   }),
-).annotate({
-  identifier: "ModelListResult",
-}) as any as S.Schema<ModelListResult>;
+).annotate({ identifier: "ModelListResult" }) as any as S.Schema<ModelListResult>;
 
 export interface ListNetworkSecurityPerimeterConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -9231,9 +8963,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -9253,9 +8983,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -9305,9 +9033,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOutboundRuleRequest {
   /** The ID of the target subscription. */
@@ -9330,12 +9056,10 @@ export const ListOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
-).annotate({
-  identifier: "ListOutboundRuleRequest",
-}) as any as S.Schema<ListOutboundRuleRequest>;
+).annotate({ identifier: "ListOutboundRuleRequest" }) as any as S.Schema<ListOutboundRuleRequest>;
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface OutboundRuleBasicResource {
@@ -9380,9 +9104,7 @@ export const OutboundRuleListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(OutboundRuleListResultValueList),
   }),
-).annotate({
-  identifier: "OutboundRuleListResult",
-}) as any as S.Schema<OutboundRuleListResult>;
+).annotate({ identifier: "OutboundRuleListResult" }) as any as S.Schema<OutboundRuleListResult>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -9508,9 +9230,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -9580,9 +9300,7 @@ export const ProjectCapabilityHost = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ProjectCapabilityHostProperties,
   }),
-).annotate({
-  identifier: "ProjectCapabilityHost",
-}) as any as S.Schema<ProjectCapabilityHost>;
+).annotate({ identifier: "ProjectCapabilityHost" }) as any as S.Schema<ProjectCapabilityHost>;
 
 /** An array of objects of type Project Capability Host. */
 export type ProjectCapabilityHostResourceArmPaginatedResultValueList = Array<ProjectCapabilityHost>;
@@ -9664,9 +9382,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -9728,9 +9444,7 @@ export const ProjectListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ProjectListResultValueList),
   }),
-).annotate({
-  identifier: "ProjectListResult",
-}) as any as S.Schema<ProjectListResult>;
+).annotate({ identifier: "ProjectListResult" }) as any as S.Schema<ProjectListResult>;
 
 export interface ListQuotaTierBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -9792,9 +9506,7 @@ export const QuotaTierListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(QuotaTierListResultValueList),
   }),
-).annotate({
-  identifier: "QuotaTierListResult",
-}) as any as S.Schema<QuotaTierListResult>;
+).annotate({ identifier: "QuotaTierListResult" }) as any as S.Schema<QuotaTierListResult>;
 
 export interface ListRaiBlocklistItemsRequest {
   /** The ID of the target subscription. */
@@ -9858,9 +9570,7 @@ export const RaiBlocklistItem = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(RaiBlocklistItemTagsMap),
   }),
-).annotate({
-  identifier: "RaiBlocklistItem",
-}) as any as S.Schema<RaiBlocklistItem>;
+).annotate({ identifier: "RaiBlocklistItem" }) as any as S.Schema<RaiBlocklistItem>;
 
 /** The list of RaiBlocklistItems. */
 export type RaiBlockListItemsResultValueList = Array<RaiBlocklistItem>;
@@ -9880,9 +9590,7 @@ export const RaiBlockListItemsResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(RaiBlockListItemsResultValueList),
   }),
-).annotate({
-  identifier: "RaiBlockListItemsResult",
-}) as any as S.Schema<RaiBlockListItemsResult>;
+).annotate({ identifier: "RaiBlockListItemsResult" }) as any as S.Schema<RaiBlockListItemsResult>;
 
 export interface ListRaiBlocklistsRequest {
   /** The ID of the target subscription. */
@@ -9905,9 +9613,7 @@ export const ListRaiBlocklistsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListRaiBlocklistsRequest",
-}) as any as S.Schema<ListRaiBlocklistsRequest>;
+).annotate({ identifier: "ListRaiBlocklistsRequest" }) as any as S.Schema<ListRaiBlocklistsRequest>;
 
 /** Resource tags. */
 export type RaiBlocklistTagsMap = { [key: string]: string | undefined };
@@ -9963,9 +9669,7 @@ export const RaiBlockListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(RaiBlockListResultValueList),
   }),
-).annotate({
-  identifier: "RaiBlockListResult",
-}) as any as S.Schema<RaiBlockListResult>;
+).annotate({ identifier: "RaiBlockListResult" }) as any as S.Schema<RaiBlockListResult>;
 
 export interface ListRaiContentFiltersRequest {
   /** The ID of the target subscription. */
@@ -10010,9 +9714,7 @@ export const RaiContentFilter = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RaiContentFilterProperties),
   }),
-).annotate({
-  identifier: "RaiContentFilter",
-}) as any as S.Schema<RaiContentFilter>;
+).annotate({ identifier: "RaiContentFilter" }) as any as S.Schema<RaiContentFilter>;
 
 /** The list of RaiContentFilter. */
 export type RaiContentFilterListResultValueList = Array<RaiContentFilter>;
@@ -10048,7 +9750,7 @@ export const ListRaiExternalSafetyProvidersRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -10056,9 +9758,7 @@ export const ListRaiExternalSafetyProvidersRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListRaiExternalSafetyProvidersRequest>;
 
 /** Resource tags. */
-export type RaiExternalSafetyProviderSchemaTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiExternalSafetyProviderSchemaTagsMap = { [key: string]: string | undefined };
 export const RaiExternalSafetyProviderSchemaTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10138,9 +9838,7 @@ export const ListRaiPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListRaiPoliciesRequest",
-}) as any as S.Schema<ListRaiPoliciesRequest>;
+).annotate({ identifier: "ListRaiPoliciesRequest" }) as any as S.Schema<ListRaiPoliciesRequest>;
 
 /** Resource tags. */
 export type RaiPolicyTagsMap = { [key: string]: string | undefined };
@@ -10196,9 +9894,7 @@ export const RaiPolicyListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(RaiPolicyListResultValueList),
   }),
-).annotate({
-  identifier: "RaiPolicyListResult",
-}) as any as S.Schema<RaiPolicyListResult>;
+).annotate({ identifier: "RaiPolicyListResult" }) as any as S.Schema<RaiPolicyListResult>;
 
 export interface ListRaiToolLabelsRequest {
   /** The ID of the target subscription. */
@@ -10221,9 +9917,7 @@ export const ListRaiToolLabelsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListRaiToolLabelsRequest",
-}) as any as S.Schema<ListRaiToolLabelsRequest>;
+).annotate({ identifier: "ListRaiToolLabelsRequest" }) as any as S.Schema<ListRaiToolLabelsRequest>;
 
 /** Resource tags. */
 export type RaiToolLabelTagsMap = { [key: string]: string | undefined };
@@ -10279,9 +9973,7 @@ export const RaiToolLabelResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(RaiToolLabelResultValueList),
   }),
-).annotate({
-  identifier: "RaiToolLabelResult",
-}) as any as S.Schema<RaiToolLabelResult>;
+).annotate({ identifier: "RaiToolLabelResult" }) as any as S.Schema<RaiToolLabelResult>;
 
 export interface ListRaiTopicsRequest {
   /** The ID of the target subscription. */
@@ -10304,9 +9996,7 @@ export const ListRaiTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListRaiTopicsRequest",
-}) as any as S.Schema<ListRaiTopicsRequest>;
+).annotate({ identifier: "ListRaiTopicsRequest" }) as any as S.Schema<ListRaiTopicsRequest>;
 
 /** Resource tags. */
 export type RaiTopicTagsMap = { [key: string]: string | undefined };
@@ -10379,9 +10069,7 @@ export const ListResourceSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListResourceSkusRequest",
-}) as any as S.Schema<ListResourceSkusRequest>;
+).annotate({ identifier: "ListResourceSkusRequest" }) as any as S.Schema<ListResourceSkusRequest>;
 
 /** The set of locations that the SKU is available. */
 export type ResourceSkuLocationsList = Array<string>;
@@ -10448,9 +10136,7 @@ export const ResourceSkuRestrictions = /*@__PURE__*/ S.suspend(() =>
     restrictionInfo: S.optional(ResourceSkuRestrictionInfo),
     reasonCode: S.optional(ResourceSkuRestrictionsReasonCode),
   }),
-).annotate({
-  identifier: "ResourceSkuRestrictions",
-}) as any as S.Schema<ResourceSkuRestrictions>;
+).annotate({ identifier: "ResourceSkuRestrictions" }) as any as S.Schema<ResourceSkuRestrictions>;
 
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -10502,9 +10188,7 @@ export const ResourceSkuListResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceSkuListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuListResult",
-}) as any as S.Schema<ResourceSkuListResult>;
+).annotate({ identifier: "ResourceSkuListResult" }) as any as S.Schema<ResourceSkuListResult>;
 
 export interface ListUsagesRequest {
   /** The ID of the target subscription. */
@@ -10527,9 +10211,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
   /** The ID of the target subscription. */
@@ -10591,16 +10273,17 @@ export interface OutboundRuleInput {
   status?: RuleStatus | (string & {});
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   type: RuleType | (string & {});
+  /** Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag. */
+  destination?: unknown;
 }
 export const OutboundRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     category: S.optional(RuleCategory),
     status: S.optional(RuleStatus),
     type: RuleType,
+    destination: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OutboundRuleInput",
-}) as any as S.Schema<OutboundRuleInput>;
+).annotate({ identifier: "OutboundRuleInput" }) as any as S.Schema<OutboundRuleInput>;
 
 export interface OutboundRuleCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -10629,7 +10312,7 @@ export const OutboundRuleCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -10730,7 +10413,7 @@ export const PatchManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -10785,14 +10468,10 @@ export const PauseDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "PauseDeploymentRequest",
-}) as any as S.Schema<PauseDeploymentRequest>;
+).annotate({ identifier: "PauseDeploymentRequest" }) as any as S.Schema<PauseDeploymentRequest>;
 
 /** Resource tags. */
-export type PauseDeploymentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PauseDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export const PauseDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10827,9 +10506,7 @@ export const PauseDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(PauseDeploymentResponseTagsMap),
   }),
-).annotate({
-  identifier: "PauseDeploymentResponse",
-}) as any as S.Schema<PauseDeploymentResponse>;
+).annotate({ identifier: "PauseDeploymentResponse" }) as any as S.Schema<PauseDeploymentResponse>;
 
 /** Dictionary of <OutboundRule> */
 export type ManagedNetworkSettingsInputOutboundRulesMap = {
@@ -10889,12 +10566,10 @@ export const PostOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/batchOutboundRules",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
-).annotate({
-  identifier: "PostOutboundRuleRequest",
-}) as any as S.Schema<PostOutboundRuleRequest>;
+).annotate({ identifier: "PostOutboundRuleRequest" }) as any as S.Schema<PostOutboundRuleRequest>;
 
 /** The Private Endpoint resource. */
 export type PrivateEndpointConnectionPropertiesInputPrivateEndpoint = UserAssignedIdentityInput;
@@ -11143,7 +10818,7 @@ export const ProvisionManagedNetworkProvisionManagedNetworkRequest = /*@__PURE__
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/provision",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11207,7 +10882,7 @@ export const PutManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11247,9 +10922,7 @@ export const QuotaTierPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tierUpgradePolicy: S.optional(TierUpgradePolicy),
   }),
-).annotate({
-  identifier: "QuotaTierPropertiesInput",
-}) as any as S.Schema<QuotaTierPropertiesInput>;
+).annotate({ identifier: "QuotaTierPropertiesInput" }) as any as S.Schema<QuotaTierPropertiesInput>;
 
 export interface QuotaTiersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -11301,9 +10974,7 @@ export const QuotaTiersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QuotaTiersCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RaiBlocklistItemsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiBlocklistItemsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RaiBlocklistItemsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11347,9 +11018,7 @@ export const RaiBlocklistItemsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<RaiBlocklistItemsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RaiBlocklistItemsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiBlocklistItemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RaiBlocklistItemsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11386,9 +11055,7 @@ export const RaiBlocklistItemsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<RaiBlocklistItemsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RaiBlocklistsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiBlocklistsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RaiBlocklistsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11429,9 +11096,7 @@ export const RaiBlocklistsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiBlocklistsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RaiBlocklistsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiBlocklistsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RaiBlocklistsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11516,7 +11181,7 @@ export const RaiExternalSafetyProviderCreateOrUpdateRequest = /*@__PURE__*/ S.su
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11563,9 +11228,7 @@ export const RaiExternalSafetyProviderCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<RaiExternalSafetyProviderCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RaiPoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RaiPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11606,9 +11269,7 @@ export const RaiPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiPoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RaiPoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RaiPoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11645,9 +11306,7 @@ export const RaiPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiPoliciesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RaiToolLabelsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiToolLabelsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RaiToolLabelsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11688,9 +11347,7 @@ export const RaiToolLabelsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiToolLabelsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RaiToolLabelsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiToolLabelsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RaiToolLabelsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11727,9 +11384,7 @@ export const RaiToolLabelsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiToolLabelsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RaiTopicsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RaiTopicsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11770,9 +11425,7 @@ export const RaiTopicsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RaiTopicsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RaiTopicsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RaiTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RaiTopicsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11864,14 +11517,10 @@ export const ResumeDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ResumeDeploymentRequest",
-}) as any as S.Schema<ResumeDeploymentRequest>;
+).annotate({ identifier: "ResumeDeploymentRequest" }) as any as S.Schema<ResumeDeploymentRequest>;
 
 /** Resource tags. */
-export type ResumeDeploymentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResumeDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export const ResumeDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11906,9 +11555,7 @@ export const ResumeDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(ResumeDeploymentResponseTagsMap),
   }),
-).annotate({
-  identifier: "ResumeDeploymentResponse",
-}) as any as S.Schema<ResumeDeploymentResponse>;
+).annotate({ identifier: "ResumeDeploymentResponse" }) as any as S.Schema<ResumeDeploymentResponse>;
 
 export interface StartAgentDeploymentRequest {
   /** The ID of the target subscription. */
@@ -11937,7 +11584,7 @@ export const StartAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/start",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11976,7 +11623,7 @@ export const StopAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/stop",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -12018,7 +11665,7 @@ export const SubscriptionRaiPolicyCreateOrUpdateRequest = /*@__PURE__*/ S.suspen
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -12180,14 +11827,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12231,9 +11874,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export interface UpdateAccountConnectionRequest {
   /** The ID of the target subscription. */
@@ -12291,9 +11932,7 @@ export const UpdateAccountConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccountConnectionResponse>;
 
 /** Resource tags. */
-export type UpdateCommitmentPlanPlanRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommitmentPlanPlanRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCommitmentPlanPlanRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12331,9 +11970,7 @@ export const UpdateCommitmentPlanPlanRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCommitmentPlanPlanRequest>;
 
 /** Resource tags. */
-export type UpdateCommitmentPlanPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommitmentPlanPlanResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCommitmentPlanPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12379,9 +12016,7 @@ export const UpdateCommitmentPlanPlanResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCommitmentPlanPlanResponse>;
 
 /** Resource tags. */
-export type UpdateDefenderForAISettingsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDefenderForAISettingsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDefenderForAISettingsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12422,9 +12057,7 @@ export const UpdateDefenderForAISettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDefenderForAISettingsRequest>;
 
 /** Resource tags. */
-export type UpdateDefenderForAISettingsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDefenderForAISettingsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDefenderForAISettingsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12461,9 +12094,7 @@ export const UpdateDefenderForAISettingsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDefenderForAISettingsResponse>;
 
 /** Resource tags. */
-export type UpdateDeploymentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeploymentRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDeploymentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12499,14 +12130,10 @@ export const UpdateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDeploymentRequest",
-}) as any as S.Schema<UpdateDeploymentRequest>;
+).annotate({ identifier: "UpdateDeploymentRequest" }) as any as S.Schema<UpdateDeploymentRequest>;
 
 /** Resource tags. */
-export type UpdateDeploymentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12541,9 +12168,7 @@ export const UpdateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(UpdateDeploymentResponseTagsMap),
   }),
-).annotate({
-  identifier: "UpdateDeploymentResponse",
-}) as any as S.Schema<UpdateDeploymentResponse>;
+).annotate({ identifier: "UpdateDeploymentResponse" }) as any as S.Schema<UpdateDeploymentResponse>;
 
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -12588,14 +12213,10 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** Resource tags. */
-export type UpdateProjectResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProjectResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12633,9 +12254,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 export interface UpdateProjectConnectionRequest {
   /** The ID of the target subscription. */
@@ -12716,9 +12335,7 @@ export const UpdateQuotaTierRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateQuotaTierRequest",
-}) as any as S.Schema<UpdateQuotaTierRequest>;
+).annotate({ identifier: "UpdateQuotaTierRequest" }) as any as S.Schema<UpdateQuotaTierRequest>;
 
 export interface UpdateQuotaTierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -12740,9 +12357,7 @@ export const UpdateQuotaTierResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaTierProperties),
   }),
-).annotate({
-  identifier: "UpdateQuotaTierResponse",
-}) as any as S.Schema<UpdateQuotaTierResponse>;
+).annotate({ identifier: "UpdateQuotaTierResponse" }) as any as S.Schema<UpdateQuotaTierResponse>;
 
 export type AccountCapabilityHostsCreateOrUpdateError = AzureOpError;
 /** Create or update account capabilityHost. Create or update account capabilityHost. */

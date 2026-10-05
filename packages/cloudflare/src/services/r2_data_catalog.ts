@@ -115,16 +115,12 @@ export const CreateCredentialRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCredentialRequest",
-}) as any as S.Schema<CreateCredentialRequest>;
+).annotate({ identifier: "CreateCredentialRequest" }) as any as S.Schema<CreateCredentialRequest>;
 
 export type CreateCredentialResponse = unknown;
 export const CreateCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCredentialResponse",
-}) as any as S.Schema<CreateCredentialResponse>;
+).annotate({ identifier: "CreateCredentialResponse" }) as any as S.Schema<CreateCredentialResponse>;
 
 export interface DeleteRequest {
   /** Use this to identify the account. */
@@ -486,16 +482,10 @@ export const GetR2DataCatalogRequest = /*@__PURE__*/ S.suspend(() =>
     bucketName: S.String.pipe(T.Label("bucket_name")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/r2-catalog/{bucket_name}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/r2-catalog/{bucket_name}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetR2DataCatalogRequest",
-}) as any as S.Schema<GetR2DataCatalogRequest>;
+).annotate({ identifier: "GetR2DataCatalogRequest" }) as any as S.Schema<GetR2DataCatalogRequest>;
 
 export type GetResponseStatus = "active" | "inactive";
 export const GetResponseStatus = S.String;
@@ -593,9 +583,7 @@ export const GetR2DataCatalogResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(GetResponseMaintenanceConfig).pipe(T.Body("maintenance_config")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetR2DataCatalogResponse",
-}) as any as S.Schema<GetR2DataCatalogResponse>;
+).annotate({ identifier: "GetR2DataCatalogResponse" }) as any as S.Schema<GetR2DataCatalogResponse>;
 
 export interface ListNamespacesRequest {
   /** Use this to identify the account. */
@@ -631,9 +619,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export type NamespacesListResponseNamespacesItemList = Array<string>;
 export const NamespacesListResponseNamespacesItemList = /*@__PURE__*/ S.Array(
@@ -701,9 +687,7 @@ export const ListNamespacesResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     nextPageToken: S.optional(S.NullOr(S.String).pipe(T.Body("next_page_token"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListNamespacesResponse",
-}) as any as S.Schema<ListNamespacesResponse>;
+).annotate({ identifier: "ListNamespacesResponse" }) as any as S.Schema<ListNamespacesResponse>;
 
 export interface ListNamespaceTablesRequest {
   /** Use this to identify the account. */
@@ -858,13 +842,7 @@ export const ListR2DataCatalogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/r2-catalog",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/r2-catalog", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListR2DataCatalogsRequest",
@@ -1005,9 +983,9 @@ export type MaintenanceConfigsUpdateRequestCompactionTargetSizeMb = "64" | "128"
 export const MaintenanceConfigsUpdateRequestCompactionTargetSizeMb = S.String;
 
 export interface MaintenanceConfigsUpdateRequestCompaction {
-  /** Updates the state optionally. */
+  /** Specifies the state of maintenance operations. */
   state?: MaintenanceConfigsUpdateRequestCompactionState | (string & {});
-  /** Updates the target file size optionally. */
+  /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb?: MaintenanceConfigsUpdateRequestCompactionTargetSizeMb | (string & {});
 }
 export const MaintenanceConfigsUpdateRequestCompaction = /*@__PURE__*/ S.suspend(() =>
@@ -1029,7 +1007,7 @@ export interface MaintenanceConfigsUpdateRequestSnapshotExpiration {
   maxSnapshotAge?: string;
   /** Updates the minimum number of snapshots to retain optionally. */
   minSnapshotsToKeep?: number;
-  /** Updates the state optionally. */
+  /** Specifies the state of maintenance operations. */
   state?: MaintenanceConfigsUpdateRequestSnapshotExpirationState | (string & {});
 }
 export const MaintenanceConfigsUpdateRequestSnapshotExpiration = /*@__PURE__*/ S.suspend(() =>
@@ -1182,7 +1160,7 @@ export interface NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirati
   maxSnapshotAge?: string;
   /** Updates the minimum number of snapshots to retain optionally. */
   minSnapshotsToKeep?: number;
-  /** Updates the state optionally. */
+  /** Specifies the state of maintenance operations. */
   state?: NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirationState | (string & {});
 }
 export const NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpiration =

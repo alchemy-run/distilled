@@ -1,0 +1,25 @@
+{
+  "description": "AutomationRuleCondition (polymorphic on `conditionType`) and AutomationRuleAction (polymorphic on `actionType`) lose their subtype payloads (`conditionProperties`, `actionConfiguration`) in conversion. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#AutomationRuleCondition/members/conditionProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Condition properties (shape depends on `conditionType`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#AutomationRuleAction/members/actionConfiguration",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Action configuration (shape depends on `actionType`)."
+        }
+      }
+    }
+  ]
+}

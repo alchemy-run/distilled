@@ -8,7 +8,7 @@
     "declarationMap": false,
     "sourceMap": false,
     "composite": false,
-    "types": ["bun"],
+    "types": ["node"],
     // Resolve the SDKs from source, the same way their own tsconfigs do, so
     // the benches typecheck without a `tsc -b` of every package first.
     "paths": {

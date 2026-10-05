@@ -46,7 +46,7 @@ export const GenerateOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/generateAccessToken",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/generateAccessToken",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -70,9 +70,7 @@ export const DiskAccessToken = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "DiskAccessToken",
-}) as any as S.Schema<DiskAccessToken>;
+).annotate({ identifier: "DiskAccessToken" }) as any as S.Schema<DiskAccessToken>;
 
 export interface GetOfferRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -87,14 +85,12 @@ export const GetOfferRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetOfferRequest",
-}) as any as S.Schema<GetOfferRequest>;
+).annotate({ identifier: "GetOfferRequest" }) as any as S.Schema<GetOfferRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -187,9 +183,7 @@ export const TermsAndConditions = /*@__PURE__*/ S.suspend(() =>
     legalTermsType: S.optional(S.String),
     privacyPolicyUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TermsAndConditions",
-}) as any as S.Schema<TermsAndConditions>;
+).annotate({ identifier: "TermsAndConditions" }) as any as S.Schema<TermsAndConditions>;
 
 /** The category ids */
 export type OfferContentCategoryIdsList = Array<string>;
@@ -275,9 +269,7 @@ export const SkuOperatingSystem = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     name: S.String,
   }),
-).annotate({
-  identifier: "SkuOperatingSystem",
-}) as any as S.Schema<SkuOperatingSystem>;
+).annotate({ identifier: "SkuOperatingSystem" }) as any as S.Schema<SkuOperatingSystem>;
 
 /** Offer launch type Enum */
 export type OfferLaunchType = "Trusted" | "Unknown";
@@ -304,9 +296,7 @@ export const MarketplaceSkuVersion = /*@__PURE__*/ S.suspend(() =>
     stageName: S.optional(S.String),
     launchType: S.optional(OfferLaunchType),
   }),
-).annotate({
-  identifier: "MarketplaceSkuVersion",
-}) as any as S.Schema<MarketplaceSkuVersion>;
+).annotate({ identifier: "MarketplaceSkuVersion" }) as any as S.Schema<MarketplaceSkuVersion>;
 
 /** The marketplace sku version */
 export type MarketplaceSkuMarketplaceSkuVersionsList = Array<MarketplaceSkuVersion>;
@@ -382,9 +372,7 @@ export const OfferProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
     marketplaceSkus: S.optional(OfferPropertiesMarketplaceSkusList),
   }),
-).annotate({
-  identifier: "OfferProperties",
-}) as any as S.Schema<OfferProperties>;
+).annotate({ identifier: "OfferProperties" }) as any as S.Schema<OfferProperties>;
 
 export interface GetOfferResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -406,9 +394,7 @@ export const GetOfferResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OfferProperties),
   }),
-).annotate({
-  identifier: "GetOfferResponse",
-}) as any as S.Schema<GetOfferResponse>;
+).annotate({ identifier: "GetOfferResponse" }) as any as S.Schema<GetOfferResponse>;
 
 export interface GetOfferAccessTokenRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -426,7 +412,7 @@ export const GetOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/getAccessToken",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/getAccessToken",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -448,14 +434,12 @@ export const GetPublisherRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers/{publisherName}",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/publishers/{publisherName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetPublisherRequest",
-}) as any as S.Schema<GetPublisherRequest>;
+).annotate({ identifier: "GetPublisherRequest" }) as any as S.Schema<GetPublisherRequest>;
 
 /** Publisher properties */
 export interface PublisherProperties {
@@ -466,9 +450,7 @@ export const PublisherProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "PublisherProperties",
-}) as any as S.Schema<PublisherProperties>;
+).annotate({ identifier: "PublisherProperties" }) as any as S.Schema<PublisherProperties>;
 
 export interface GetPublisherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -490,9 +472,7 @@ export const GetPublisherResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PublisherProperties),
   }),
-).annotate({
-  identifier: "GetPublisherResponse",
-}) as any as S.Schema<GetPublisherResponse>;
+).annotate({ identifier: "GetPublisherResponse" }) as any as S.Schema<GetPublisherResponse>;
 
 export interface ListOfferBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -554,9 +534,7 @@ export const OfferListResult = /*@__PURE__*/ S.suspend(() =>
     value: OfferListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfferListResult",
-}) as any as S.Schema<OfferListResult>;
+).annotate({ identifier: "OfferListResult" }) as any as S.Schema<OfferListResult>;
 
 export interface ListOffersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -583,14 +561,12 @@ export const ListOffersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers",
       code: 200,
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOffersRequest",
-}) as any as S.Schema<ListOffersRequest>;
+).annotate({ identifier: "ListOffersRequest" }) as any as S.Schema<ListOffersRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -602,9 +578,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -624,9 +598,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -676,9 +648,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPublisherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -740,9 +710,7 @@ export const PublisherListResult = /*@__PURE__*/ S.suspend(() =>
     value: PublisherListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PublisherListResult",
-}) as any as S.Schema<PublisherListResult>;
+).annotate({ identifier: "PublisherListResult" }) as any as S.Schema<PublisherListResult>;
 
 export interface ListPublishersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -769,14 +737,12 @@ export const ListPublishersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/publishers",
       code: 200,
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListPublishersRequest",
-}) as any as S.Schema<ListPublishersRequest>;
+).annotate({ identifier: "ListPublishersRequest" }) as any as S.Schema<ListPublishersRequest>;
 
 export type GenerateOfferAccessTokenError = AzureOpError;
 /** A long-running resource action. */

@@ -54,18 +54,14 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json --noCheck false",
-    "test": "bun test test"
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsc -p tsconfig.json --noCheck false"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@distilled.cloud/aws": "workspace:*",
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

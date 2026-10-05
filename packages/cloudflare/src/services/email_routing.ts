@@ -99,13 +99,7 @@ export const AccountRulesListForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AccountRulesListForAccountRequest",
@@ -122,6 +116,7 @@ export const AccountRulesListResultItemActionsItemValueList = /*@__PURE__*/ S.Ar
 export interface AccountRulesListResultItemActionsItem {
   /** Type of supported action. */
   type: AccountRulesListResultItemActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: AccountRulesListResultItemActionsItemValueList | null;
 }
 export const AccountRulesListResultItemActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -229,9 +224,7 @@ export const AccountRulesListResultList = /*@__PURE__*/ S.Array(
 export type AccountRulesListResponse = AccountRulesListResultList;
 export const AccountRulesListResponse = /*@__PURE__*/ S.suspend(() =>
   AccountRulesListResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AccountRulesListResponse",
-}) as any as S.Schema<AccountRulesListResponse>;
+).annotate({ identifier: "AccountRulesListResponse" }) as any as S.Schema<AccountRulesListResponse>;
 
 export interface AccountRulesListForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -250,13 +243,7 @@ export const AccountRulesListForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AccountRulesListForZoneRequest",
@@ -274,16 +261,10 @@ export const CreateAddressRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/email/routing/addresses",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/email/routing/addresses", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAddressRequest",
-}) as any as S.Schema<CreateAddressRequest>;
+).annotate({ identifier: "CreateAddressRequest" }) as any as S.Schema<CreateAddressRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAddressResponse {
@@ -309,9 +290,7 @@ export const CreateAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     verified: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAddressResponse",
-}) as any as S.Schema<CreateAddressResponse>;
+).annotate({ identifier: "CreateAddressResponse" }) as any as S.Schema<CreateAddressResponse>;
 
 export interface CreateDnsRequest {
   /** Identifier. */
@@ -324,17 +303,9 @@ export const CreateDnsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     name: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/email/routing/dns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDnsRequest",
-}) as any as S.Schema<CreateDnsRequest>;
+).annotate({ identifier: "CreateDnsRequest" }) as any as S.Schema<CreateDnsRequest>;
 
 export type DnsCreateResponseStatus =
   | "ready"
@@ -377,9 +348,7 @@ export const CreateDnsResponse = /*@__PURE__*/ S.suspend(() =>
     supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDnsResponse",
-}) as any as S.Schema<CreateDnsResponse>;
+).annotate({ identifier: "CreateDnsResponse" }) as any as S.Schema<CreateDnsResponse>;
 
 export type RulesCreateRequestActionsItemType = "drop" | "forward" | "worker";
 export const RulesCreateRequestActionsItemType = S.String;
@@ -392,6 +361,7 @@ export const RulesCreateRequestActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesCreateRequestActionsItem {
   /** Type of supported action. */
   type: RulesCreateRequestActionsItemType | (string & {});
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesCreateRequestActionsItemValueList;
 }
 export const RulesCreateRequestActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -469,17 +439,9 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     source: S.optional(RulesCreateRequestSource),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResponseActionsItemType = "drop" | "forward" | "worker";
 export const RulesCreateResponseActionsItemType = S.String;
@@ -492,6 +454,7 @@ export const RulesCreateResponseActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesCreateResponseActionsItem {
   /** Type of supported action. */
   type: RulesCreateResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesCreateResponseActionsItemValueList | null;
 }
 export const RulesCreateResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -570,9 +533,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesCreateResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export interface DeleteAddressRequest {
   /** Identifier. */
@@ -593,9 +554,7 @@ export const DeleteAddressRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAddressRequest",
-}) as any as S.Schema<DeleteAddressRequest>;
+).annotate({ identifier: "DeleteAddressRequest" }) as any as S.Schema<DeleteAddressRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAddressResponse {
@@ -621,9 +580,7 @@ export const DeleteAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     verified: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAddressResponse",
-}) as any as S.Schema<DeleteAddressResponse>;
+).annotate({ identifier: "DeleteAddressResponse" }) as any as S.Schema<DeleteAddressResponse>;
 
 export interface DeleteDnsRequest {
   /** Identifier. */
@@ -633,17 +590,9 @@ export const DeleteDnsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/email/routing/dns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDnsRequest",
-}) as any as S.Schema<DeleteDnsRequest>;
+).annotate({ identifier: "DeleteDnsRequest" }) as any as S.Schema<DeleteDnsRequest>;
 
 export type DnsDeleteResponseStatus =
   | "ready"
@@ -686,9 +635,7 @@ export const DnsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DnsDeleteResponse",
-}) as any as S.Schema<DnsDeleteResponse>;
+).annotate({ identifier: "DnsDeleteResponse" }) as any as S.Schema<DnsDeleteResponse>;
 
 export interface DeleteRuleRequest {
   /** Identifier. */
@@ -709,9 +656,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export type RulesDeleteResponseActionsItemType = "drop" | "forward" | "worker";
 export const RulesDeleteResponseActionsItemType = S.String;
@@ -724,6 +669,7 @@ export const RulesDeleteResponseActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesDeleteResponseActionsItem {
   /** Type of supported action. */
   type: RulesDeleteResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesDeleteResponseActionsItemValueList | null;
 }
 export const RulesDeleteResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -802,9 +748,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesDeleteResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface DisableEmailRoutingRequest {
   /** Identifier. */
@@ -814,13 +758,7 @@ export const DisableEmailRoutingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/email/routing/disable",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/disable", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DisableEmailRoutingRequest",
@@ -888,13 +826,7 @@ export const EditRequest = /*@__PURE__*/ S.suspend(() =>
     skipWizard: S.optional(S.Boolean.pipe(T.Body("skip_wizard"))),
     supportSubaddress: S.optional(S.Boolean.pipe(T.Body("support_subaddress"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/email/routing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/email/routing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "EditRequest" }) as any as S.Schema<EditRequest>;
 
@@ -966,9 +898,7 @@ export const EditAddressRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditAddressRequest",
-}) as any as S.Schema<EditAddressRequest>;
+).annotate({ identifier: "EditAddressRequest" }) as any as S.Schema<EditAddressRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditAddressResponse {
@@ -994,9 +924,7 @@ export const EditAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     verified: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditAddressResponse",
-}) as any as S.Schema<EditAddressResponse>;
+).annotate({ identifier: "EditAddressResponse" }) as any as S.Schema<EditAddressResponse>;
 
 export interface EnableEmailRoutingRequest {
   /** Identifier. */
@@ -1006,13 +934,7 @@ export const EnableEmailRoutingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/email/routing/enable",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/enable", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "EnableEmailRoutingRequest",
@@ -1082,9 +1004,7 @@ export const GetAddressRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAddressRequest",
-}) as any as S.Schema<GetAddressRequest>;
+).annotate({ identifier: "GetAddressRequest" }) as any as S.Schema<GetAddressRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAddressResponse {
@@ -1110,9 +1030,7 @@ export const GetAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     verified: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAddressResponse",
-}) as any as S.Schema<GetAddressResponse>;
+).annotate({ identifier: "GetAddressResponse" }) as any as S.Schema<GetAddressResponse>;
 
 export interface GetDnsRequest {
   /** Identifier. */
@@ -1125,13 +1043,7 @@ export const GetDnsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     subdomain: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing/dns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetDnsRequest" }) as any as S.Schema<GetDnsRequest>;
 
@@ -1176,9 +1088,7 @@ export const DnsGetResultItem = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(DnsGetResultItemType)),
   }),
-).annotate({
-  identifier: "DnsGetResultItem",
-}) as any as S.Schema<DnsGetResultItem>;
+).annotate({ identifier: "DnsGetResultItem" }) as any as S.Schema<DnsGetResultItem>;
 
 export type DnsGetResultList = Array<DnsGetResultItem>;
 export const DnsGetResultList = /*@__PURE__*/ S.Array(
@@ -1198,17 +1108,9 @@ export const GetEmailRoutingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEmailRoutingRequest",
-}) as any as S.Schema<GetEmailRoutingRequest>;
+).annotate({ identifier: "GetEmailRoutingRequest" }) as any as S.Schema<GetEmailRoutingRequest>;
 
 export type GetResponseStatus =
   | "ready"
@@ -1251,9 +1153,7 @@ export const GetEmailRoutingResponse = /*@__PURE__*/ S.suspend(() =>
     supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEmailRoutingResponse",
-}) as any as S.Schema<GetEmailRoutingResponse>;
+).annotate({ identifier: "GetEmailRoutingResponse" }) as any as S.Schema<GetEmailRoutingResponse>;
 
 export interface GetRuleRequest {
   /** Identifier. */
@@ -1287,6 +1187,7 @@ export const RulesGetResponseActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesGetResponseActionsItem {
   /** Type of supported action. */
   type: RulesGetResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesGetResponseActionsItemValueList | null;
 }
 export const RulesGetResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1365,9 +1266,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesGetResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface GetRuleCatchAllRequest {
   /** Identifier. */
@@ -1378,16 +1277,10 @@ export const GetRuleCatchAllRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing/rules/catch_all",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing/rules/catch_all", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleCatchAllRequest",
-}) as any as S.Schema<GetRuleCatchAllRequest>;
+).annotate({ identifier: "GetRuleCatchAllRequest" }) as any as S.Schema<GetRuleCatchAllRequest>;
 
 export type RulesCatchAllsGetResponseActionsItemType = "drop" | "forward" | "worker";
 export const RulesCatchAllsGetResponseActionsItemType = S.String;
@@ -1400,6 +1293,7 @@ export const RulesCatchAllsGetResponseActionsItemValueList = /*@__PURE__*/ S.Arr
 export interface RulesCatchAllsGetResponseActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsGetResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesCatchAllsGetResponseActionsItemValueList | null;
 }
 export const RulesCatchAllsGetResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1466,9 +1360,7 @@ export const GetRuleCatchAllResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesCatchAllsGetResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleCatchAllResponse",
-}) as any as S.Schema<GetRuleCatchAllResponse>;
+).annotate({ identifier: "GetRuleCatchAllResponse" }) as any as S.Schema<GetRuleCatchAllResponse>;
 
 export type AddressesListRequestDirection = "asc" | "desc";
 export const AddressesListRequestDirection = S.String;
@@ -1494,16 +1386,10 @@ export const ListAddressesRequest = /*@__PURE__*/ S.suspend(() =>
     verified: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/email/routing/addresses",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/email/routing/addresses", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAddressesRequest",
-}) as any as S.Schema<ListAddressesRequest>;
+).annotate({ identifier: "ListAddressesRequest" }) as any as S.Schema<ListAddressesRequest>;
 
 export interface AddressesListResultItem {
   /** Destination address identifier. */
@@ -1528,9 +1414,7 @@ export const AddressesListResultItem = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     verified: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AddressesListResultItem",
-}) as any as S.Schema<AddressesListResultItem>;
+).annotate({ identifier: "AddressesListResultItem" }) as any as S.Schema<AddressesListResultItem>;
 
 export type AddressesListResultList = Array<AddressesListResultItem>;
 export const AddressesListResultList = /*@__PURE__*/ S.Array(
@@ -1548,9 +1432,7 @@ export const ListAddressesResponse = /*@__PURE__*/ S.suspend(() =>
     result: AddressesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAddressesResponse",
-}) as any as S.Schema<ListAddressesResponse>;
+).annotate({ identifier: "ListAddressesResponse" }) as any as S.Schema<ListAddressesResponse>;
 
 export interface ListRulesRequest {
   /** Identifier. */
@@ -1567,17 +1449,9 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     enabled: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export type ListRulesResponseResultList = Array<GetRuleResponse>;
 export const ListRulesResponseResultList = /*@__PURE__*/ S.Array(
@@ -1595,9 +1469,7 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListRulesResponseResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export interface PatchDnsRequest {
   /** Identifier. */
@@ -1610,17 +1482,9 @@ export const PatchDnsRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     name: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/email/routing/dns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDnsRequest",
-}) as any as S.Schema<PatchDnsRequest>;
+).annotate({ identifier: "PatchDnsRequest" }) as any as S.Schema<PatchDnsRequest>;
 
 export type DnsEditResponseStatus =
   | "ready"
@@ -1663,9 +1527,7 @@ export const PatchDnsResponse = /*@__PURE__*/ S.suspend(() =>
     supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDnsResponse",
-}) as any as S.Schema<PatchDnsResponse>;
+).annotate({ identifier: "PatchDnsResponse" }) as any as S.Schema<PatchDnsResponse>;
 
 export type RulesCatchAllsUpdateRequestActionsItemType = "drop" | "forward" | "worker";
 export const RulesCatchAllsUpdateRequestActionsItemType = S.String;
@@ -1678,6 +1540,7 @@ export const RulesCatchAllsUpdateRequestActionsItemValueList = /*@__PURE__*/ S.A
 export interface RulesCatchAllsUpdateRequestActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsUpdateRequestActionsItemType | (string & {});
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesCatchAllsUpdateRequestActionsItemValueList;
 }
 export const RulesCatchAllsUpdateRequestActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1745,16 +1608,10 @@ export const PutRuleCatchAllRequest = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(RulesCatchAllsUpdateRequestSource),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/email/routing/rules/catch_all",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/email/routing/rules/catch_all", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutRuleCatchAllRequest",
-}) as any as S.Schema<PutRuleCatchAllRequest>;
+).annotate({ identifier: "PutRuleCatchAllRequest" }) as any as S.Schema<PutRuleCatchAllRequest>;
 
 export type RulesCatchAllsUpdateResponseActionsItemType = "drop" | "forward" | "worker";
 export const RulesCatchAllsUpdateResponseActionsItemType = S.String;
@@ -1767,6 +1624,7 @@ export const RulesCatchAllsUpdateResponseActionsItemValueList = /*@__PURE__*/ S.
 export interface RulesCatchAllsUpdateResponseActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsUpdateResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesCatchAllsUpdateResponseActionsItemValueList | null;
 }
 export const RulesCatchAllsUpdateResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1835,9 +1693,7 @@ export const PutRuleCatchAllResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesCatchAllsUpdateResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutRuleCatchAllResponse",
-}) as any as S.Schema<PutRuleCatchAllResponse>;
+).annotate({ identifier: "PutRuleCatchAllResponse" }) as any as S.Schema<PutRuleCatchAllResponse>;
 
 export interface RulesListForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1856,13 +1712,7 @@ export const RulesListForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "RulesListForAccountRequest",
@@ -1879,6 +1729,7 @@ export const RulesListResultItemActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesListResultItemActionsItem {
   /** Type of supported action. */
   type: RulesListResultItemActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesListResultItemActionsItemValueList | null;
 }
 export const RulesListResultItemActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1962,9 +1813,7 @@ export const RulesListResultItem = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     zone: S.optional(S.NullOr(AccountRulesListResultItemZone)),
   }),
-).annotate({
-  identifier: "RulesListResultItem",
-}) as any as S.Schema<RulesListResultItem>;
+).annotate({ identifier: "RulesListResultItem" }) as any as S.Schema<RulesListResultItem>;
 
 export type RulesListResultList = Array<RulesListResultItem>;
 export const RulesListResultList = /*@__PURE__*/ S.Array(
@@ -1974,9 +1823,7 @@ export const RulesListResultList = /*@__PURE__*/ S.Array(
 export type RulesListResponse = RulesListResultList;
 export const RulesListResponse = /*@__PURE__*/ S.suspend(() =>
   RulesListResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RulesListResponse",
-}) as any as S.Schema<RulesListResponse>;
+).annotate({ identifier: "RulesListResponse" }) as any as S.Schema<RulesListResponse>;
 
 export interface RulesListForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1995,17 +1842,9 @@ export const RulesListForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/routing/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/routing/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RulesListForZoneRequest",
-}) as any as S.Schema<RulesListForZoneRequest>;
+).annotate({ identifier: "RulesListForZoneRequest" }) as any as S.Schema<RulesListForZoneRequest>;
 
 export interface UnlockRequest {
   /** Identifier. */
@@ -2018,13 +1857,7 @@ export const UnlockRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     name: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/email/routing/unlock",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/unlock", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "UnlockRequest" }) as any as S.Schema<UnlockRequest>;
 
@@ -2088,13 +1921,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     skipWizard: S.optional(S.Boolean.pipe(T.Body("skip_wizard"))),
     supportSubaddress: S.optional(S.Boolean.pipe(T.Body("support_subaddress"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/email/routing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/email/routing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
@@ -2152,6 +1979,7 @@ export const RulesUpdateRequestActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesUpdateRequestActionsItem {
   /** Type of supported action. */
   type: RulesUpdateRequestActionsItemType | (string & {});
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesUpdateRequestActionsItemValueList;
 }
 export const RulesUpdateRequestActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -2240,9 +2068,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export type RulesUpdateResponseActionsItemType = "drop" | "forward" | "worker";
 export const RulesUpdateResponseActionsItemType = S.String;
@@ -2255,6 +2081,7 @@ export const RulesUpdateResponseActionsItemValueList = /*@__PURE__*/ S.Array(
 export interface RulesUpdateResponseActionsItem {
   /** Type of supported action. */
   type: RulesUpdateResponseActionsItemType;
+  /** List of values for the action. Currently limited to a single value. */
   value?: RulesUpdateResponseActionsItemValueList | null;
 }
 export const RulesUpdateResponseActionsItem = /*@__PURE__*/ S.suspend(() =>
@@ -2333,9 +2160,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     source: S.optional(S.NullOr(RulesUpdateResponseSource)),
     tag: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export type AccountRulesListForAccountError = CloudflareOpError;
 /** Lists existing routing rules across all zones in the account or zone. */
@@ -2383,7 +2208,7 @@ export const createAddress: API.OperationMethod<
 }));
 
 export type CreateDnsError = CloudflareOpError;
-/** Enable you Email Routing zone. Add and lock the necessary MX and SPF records. */
+/** Enable your Email Routing zone. Add and lock the necessary MX and SPF records. */
 export const createDns: API.OperationMethod<
   CreateDnsRequest,
   CreateDnsResponse,
@@ -2451,7 +2276,7 @@ export const deleteDns: API.OperationMethod<
 }));
 
 export type DeleteRuleError = EmailRoutingRuleNotFound | CloudflareOpError;
-/** Delete a specific routing rule. */
+/** Deletes a routing rule so matching incoming messages are no longer forwarded by it. */
 export const deleteRule: API.OperationMethod<
   DeleteRuleRequest,
   DeleteRuleResponse,
@@ -2597,7 +2422,7 @@ export const getRuleCatchAll: API.OperationMethod<
 }));
 
 export type ListAddressesError = CloudflareOpError;
-/** Lists existing destination addresses. */
+/** Lists destination addresses configured for Email Routing in an account. */
 export const listAddresses: API.PaginatedOperationMethod<
   ListAddressesRequest,
   ListAddressesResponse,
@@ -2734,7 +2559,7 @@ export const unlock: API.OperationMethod<
 }));
 
 export type UpdateError = CloudflareOpError;
-/** Update the settings for your Email Routing zone. */
+/** Apply the provided settings to your Email Routing zone. Omitted settings retain their current values, as with PATCH. */
 export const update: API.OperationMethod<
   UpdateRequest,
   UpdateResponse,

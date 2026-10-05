@@ -65,8 +65,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/convert.ts && bun scripts/generate.ts",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/convert.ts && node --conditions=bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-auth0",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-auth0"
@@ -75,8 +75,6 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

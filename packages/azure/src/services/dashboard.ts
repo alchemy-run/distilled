@@ -266,9 +266,7 @@ export const SubscriptionTerm = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String),
     endDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionTerm",
-}) as any as S.Schema<SubscriptionTerm>;
+).annotate({ identifier: "SubscriptionTerm" }) as any as S.Schema<SubscriptionTerm>;
 
 /** SaaS subscription details of a Grafana instance */
 export interface SaasSubscriptionDetails {
@@ -288,9 +286,7 @@ export const SaasSubscriptionDetails = /*@__PURE__*/ S.suspend(() =>
     publisherId: S.optional(S.String),
     term: S.optional(SubscriptionTerm),
   }),
-).annotate({
-  identifier: "SaasSubscriptionDetails",
-}) as any as S.Schema<SaasSubscriptionDetails>;
+).annotate({ identifier: "SaasSubscriptionDetails" }) as any as S.Schema<SaasSubscriptionDetails>;
 
 /** Available enterprise promotion for the subscription */
 export type MarketplaceTrialQuotaAvailablePromotion = "None" | "FreeTrial";
@@ -314,9 +310,7 @@ export const MarketplaceTrialQuota = /*@__PURE__*/ S.suspend(() =>
     trialStartAt: S.optional(S.String),
     trialEndAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarketplaceTrialQuota",
-}) as any as S.Schema<MarketplaceTrialQuota>;
+).annotate({ identifier: "MarketplaceTrialQuota" }) as any as S.Schema<MarketplaceTrialQuota>;
 
 /** Enterprise details of a Grafana instance */
 export interface EnterpriseDetails {
@@ -330,9 +324,7 @@ export const EnterpriseDetails = /*@__PURE__*/ S.suspend(() =>
     saasSubscriptionDetails: S.optional(SaasSubscriptionDetails),
     marketplaceTrialQuota: S.optional(MarketplaceTrialQuota),
   }),
-).annotate({
-  identifier: "EnterpriseDetails",
-}) as any as S.Schema<EnterpriseDetails>;
+).annotate({ identifier: "EnterpriseDetails" }) as any as S.Schema<EnterpriseDetails>;
 
 /** Indicate the state for enable or disable traffic over the public interface. */
 export type ManagedGrafanaPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -387,9 +379,7 @@ export const GrafanaIntegrations = /*@__PURE__*/ S.suspend(() =>
       GrafanaIntegrationsAzureMonitorWorkspaceIntegrationsList,
     ),
   }),
-).annotate({
-  identifier: "GrafanaIntegrations",
-}) as any as S.Schema<GrafanaIntegrations>;
+).annotate({ identifier: "GrafanaIntegrations" }) as any as S.Schema<GrafanaIntegrations>;
 
 /** The AutoRenew setting of the Enterprise subscription */
 export type MarketplaceAutoRenew = "Disabled" | "Enabled";
@@ -407,9 +397,7 @@ export const EnterpriseConfigurations = /*@__PURE__*/ S.suspend(() =>
     marketplacePlanId: S.optional(S.String),
     marketplaceAutoRenew: S.optional(MarketplaceAutoRenew),
   }),
-).annotate({
-  identifier: "EnterpriseConfigurations",
-}) as any as S.Schema<EnterpriseConfigurations>;
+).annotate({ identifier: "EnterpriseConfigurations" }) as any as S.Schema<EnterpriseConfigurations>;
 
 /** The StartTLSPolicy setting of the SMTP configuration https://pkg.go.dev/github.com/go-mail/mail#StartTLSPolicy */
 export type StartTLSPolicy = "OpportunisticStartTLS" | "MandatoryStartTLS" | "NoStartTLS";
@@ -517,9 +505,7 @@ export const GrafanaConfigurations = /*@__PURE__*/ S.suspend(() =>
     security: S.optional(Security),
     unifiedAlertingScreenshots: S.optional(UnifiedAlertingScreenshots),
   }),
-).annotate({
-  identifier: "GrafanaConfigurations",
-}) as any as S.Schema<GrafanaConfigurations>;
+).annotate({ identifier: "GrafanaConfigurations" }) as any as S.Schema<GrafanaConfigurations>;
 
 /** Plugin of Grafana */
 export type GrafanaPluginInput = PrivateEndpointConnectionPropertiesInputPrivateEndpoint;
@@ -673,9 +659,7 @@ export const CreateGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateGrafanaRequest",
-}) as any as S.Schema<CreateGrafanaRequest>;
+).annotate({ identifier: "CreateGrafanaRequest" }) as any as S.Schema<CreateGrafanaRequest>;
 
 export type ProvisioningState =
   | "Accepted"
@@ -817,14 +801,10 @@ export const ManagedGrafanaProperties = /*@__PURE__*/ S.suspend(() =>
     grafanaPlugins: S.optional(ManagedGrafanaPropertiesGrafanaPluginsMap),
     grafanaMajorVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedGrafanaProperties",
-}) as any as S.Schema<ManagedGrafanaProperties>;
+).annotate({ identifier: "ManagedGrafanaProperties" }) as any as S.Schema<ManagedGrafanaProperties>;
 
 /** Resource tags. */
-export type CreateGrafanaResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateGrafanaResponseTagsMap = { [key: string]: string | undefined };
 export const CreateGrafanaResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -842,14 +822,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -907,14 +883,10 @@ export const CreateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     identity: S.optional(CreateGrafanaResponseIdentity),
   }),
-).annotate({
-  identifier: "CreateGrafanaResponse",
-}) as any as S.Schema<CreateGrafanaResponse>;
+).annotate({ identifier: "CreateGrafanaResponse" }) as any as S.Schema<CreateGrafanaResponse>;
 
 /** Resource tags. */
-export type CreateIntegrationFabricRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIntegrationFabricRequestTagsMap = { [key: string]: string | undefined };
 export const CreateIntegrationFabricRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -981,9 +953,7 @@ export const CreateIntegrationFabricRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateIntegrationFabricRequest>;
 
 /** Resource tags. */
-export type CreateIntegrationFabricResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
 export const CreateIntegrationFabricResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1046,9 +1016,7 @@ export const CreateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateIntegrationFabricResponse>;
 
 /** Resource tags. */
-export type CreateManagedDashboardRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateManagedDashboardRequestTagsMap = { [key: string]: string | undefined };
 export const CreateManagedDashboardRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1095,9 +1063,7 @@ export const CreateManagedDashboardRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateManagedDashboardRequest>;
 
 /** Resource tags. */
-export type CreateManagedDashboardResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateManagedDashboardResponseTagsMap = { [key: string]: string | undefined };
 export const CreateManagedDashboardResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1147,9 +1113,7 @@ export const CreateManagedDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateManagedDashboardResponse>;
 
 /** Resource tags. */
-export type CreateManagedPrivateEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateManagedPrivateEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const CreateManagedPrivateEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1224,9 +1188,7 @@ export const CreateManagedPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateManagedPrivateEndpointRequest>;
 
 /** Resource tags. */
-export type CreateManagedPrivateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const CreateManagedPrivateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1347,9 +1309,7 @@ export const DeleteGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGrafanaRequest",
-}) as any as S.Schema<DeleteGrafanaRequest>;
+).annotate({ identifier: "DeleteGrafanaRequest" }) as any as S.Schema<DeleteGrafanaRequest>;
 
 export interface DeleteGrafanaResponse {}
 export const DeleteGrafanaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1386,9 +1346,7 @@ export const DeleteIntegrationFabricRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteIntegrationFabricResponse {}
 export const DeleteIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteIntegrationFabricResponse",
-  },
+  { identifier: "DeleteIntegrationFabricResponse" },
 ) as any as S.Schema<DeleteIntegrationFabricResponse>;
 
 export interface DeleteManagedDashboardRequest {
@@ -1534,9 +1492,7 @@ export const GrafanaAvailablePlugin = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     author: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GrafanaAvailablePlugin",
-}) as any as S.Schema<GrafanaAvailablePlugin>;
+).annotate({ identifier: "GrafanaAvailablePlugin" }) as any as S.Schema<GrafanaAvailablePlugin>;
 
 export type GrafanaAvailablePluginListResponseValueList = Array<GrafanaAvailablePlugin>;
 export const GrafanaAvailablePluginListResponseValueList = /*@__PURE__*/ S.Array(
@@ -1577,9 +1533,7 @@ export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDashboardRequest",
-}) as any as S.Schema<GetDashboardRequest>;
+).annotate({ identifier: "GetDashboardRequest" }) as any as S.Schema<GetDashboardRequest>;
 
 /** Resource tags. */
 export type GetDashboardResponseTagsMap = { [key: string]: string | undefined };
@@ -1614,9 +1568,7 @@ export const GetDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ManagedDashboardProperties),
   }),
-).annotate({
-  identifier: "GetDashboardResponse",
-}) as any as S.Schema<GetDashboardResponse>;
+).annotate({ identifier: "GetDashboardResponse" }) as any as S.Schema<GetDashboardResponse>;
 
 export interface GetGrafanaRequest {
   /** The ID of the target subscription. */
@@ -1639,9 +1591,7 @@ export const GetGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetGrafanaRequest",
-}) as any as S.Schema<GetGrafanaRequest>;
+).annotate({ identifier: "GetGrafanaRequest" }) as any as S.Schema<GetGrafanaRequest>;
 
 /** Resource tags. */
 export type GetGrafanaResponseTagsMap = { [key: string]: string | undefined };
@@ -1686,9 +1636,7 @@ export const GetGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     identity: S.optional(CreateGrafanaResponseIdentity),
   }),
-).annotate({
-  identifier: "GetGrafanaResponse",
-}) as any as S.Schema<GetGrafanaResponse>;
+).annotate({ identifier: "GetGrafanaResponse" }) as any as S.Schema<GetGrafanaResponse>;
 
 export interface GetIntegrationFabricRequest {
   /** The ID of the target subscription. */
@@ -1719,9 +1667,7 @@ export const GetIntegrationFabricRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationFabricRequest>;
 
 /** Resource tags. */
-export type GetIntegrationFabricResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationFabricResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1785,9 +1731,7 @@ export const GetManagedPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetManagedPrivateEndpointRequest>;
 
 /** Resource tags. */
-export type GetManagedPrivateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetManagedPrivateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2013,9 +1957,7 @@ export const ManagedDashboard = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ManagedDashboardProperties),
   }),
-).annotate({
-  identifier: "ManagedDashboard",
-}) as any as S.Schema<ManagedDashboard>;
+).annotate({ identifier: "ManagedDashboard" }) as any as S.Schema<ManagedDashboard>;
 
 /** The ManagedDashboard items on this page */
 export type ManagedDashboardListResponseValueList = Array<ManagedDashboard>;
@@ -2057,9 +1999,7 @@ export const ListDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListDashboardsRequest",
-}) as any as S.Schema<ListDashboardsRequest>;
+).annotate({ identifier: "ListDashboardsRequest" }) as any as S.Schema<ListDashboardsRequest>;
 
 export interface ListGrafanaRequest {
   /** The ID of the target subscription. */
@@ -2076,9 +2016,7 @@ export const ListGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListGrafanaRequest",
-}) as any as S.Schema<ListGrafanaRequest>;
+).annotate({ identifier: "ListGrafanaRequest" }) as any as S.Schema<ListGrafanaRequest>;
 
 /** Resource tags. */
 export type ManagedGrafanaTagsMap = { [key: string]: string | undefined };
@@ -2228,9 +2166,7 @@ export const IntegrationFabric = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(IntegrationFabricProperties),
   }),
-).annotate({
-  identifier: "IntegrationFabric",
-}) as any as S.Schema<IntegrationFabric>;
+).annotate({ identifier: "IntegrationFabric" }) as any as S.Schema<IntegrationFabric>;
 
 /** The IntegrationFabric items on this page */
 export type IntegrationFabricListResponseValueList = Array<IntegrationFabric>;
@@ -2280,9 +2216,7 @@ export const ListManagedPrivateEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListManagedPrivateEndpointsRequest>;
 
 /** Resource tags. */
-export type ManagedPrivateEndpointModelTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ManagedPrivateEndpointModelTagsMap = { [key: string]: string | undefined };
 export const ManagedPrivateEndpointModelTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2351,9 +2285,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2373,9 +2305,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2425,9 +2355,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -2522,9 +2450,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -2701,14 +2627,10 @@ export const UpdateGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGrafanaRequest",
-}) as any as S.Schema<UpdateGrafanaRequest>;
+).annotate({ identifier: "UpdateGrafanaRequest" }) as any as S.Schema<UpdateGrafanaRequest>;
 
 /** Resource tags. */
-export type UpdateGrafanaResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGrafanaResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateGrafanaResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2750,14 +2672,10 @@ export const UpdateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     identity: S.optional(CreateGrafanaResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateGrafanaResponse",
-}) as any as S.Schema<UpdateGrafanaResponse>;
+).annotate({ identifier: "UpdateGrafanaResponse" }) as any as S.Schema<UpdateGrafanaResponse>;
 
 /** The new tags of the Integration Fabric resource. */
-export type UpdateIntegrationFabricRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntegrationFabricRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIntegrationFabricRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2816,9 +2734,7 @@ export const UpdateIntegrationFabricRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIntegrationFabricRequest>;
 
 /** Resource tags. */
-export type UpdateIntegrationFabricResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIntegrationFabricResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2854,9 +2770,7 @@ export const UpdateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIntegrationFabricResponse>;
 
 /** The new tags of the managed dashboard resource. */
-export type UpdateManagedDashboardRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManagedDashboardRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateManagedDashboardRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2891,9 +2805,7 @@ export const UpdateManagedDashboardRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateManagedDashboardRequest>;
 
 /** Resource tags. */
-export type UpdateManagedDashboardResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManagedDashboardResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateManagedDashboardResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2930,9 +2842,7 @@ export const UpdateManagedDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateManagedDashboardResponse>;
 
 /** The new tags of the managed private endpoint. */
-export type UpdateManagedPrivateEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManagedPrivateEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateManagedPrivateEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2970,9 +2880,7 @@ export const UpdateManagedPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateManagedPrivateEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateManagedPrivateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateManagedPrivateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

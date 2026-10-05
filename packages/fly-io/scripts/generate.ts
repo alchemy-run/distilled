@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn Smithy JSON models in .generated-specs into Effect SDKs.
@@ -249,7 +249,7 @@ const machinesSpec = restSpec({
 
 runGeneratorCli({
   description: "Generate the Fly.io Effect SDK from Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {
     const ns = namespaceOf(model);

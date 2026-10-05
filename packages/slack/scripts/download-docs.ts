@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Download the Slack Web API reference as JSON.
  *
@@ -31,13 +31,13 @@
  * and the run continues.
  *
  * Usage:
- *   bun scripts/download-docs.ts
- *   bun scripts/download-docs.ts --concurrency 16
- *   bun scripts/download-docs.ts --limit 20        # smoke test
- *   bun scripts/download-docs.ts --force
+ *   node scripts/download-docs.ts
+ *   node scripts/download-docs.ts --concurrency 16
+ *   node scripts/download-docs.ts --limit 20        # smoke test
+ *   node scripts/download-docs.ts --force
  */
 
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Data, Effect } from "effect";
 import { Command, Flag } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
@@ -171,7 +171,7 @@ const downloadDocs = Command.make(
       const path = yield* Path.Path;
 
       // The slack/ folder is the parent of this scripts/ dir.
-      const root = path.resolve(import.meta.dir, "..");
+      const root = path.resolve(import.meta.dirname, "..");
       const outDir = path.resolve(root, config.out);
 
       yield* Console.log(`💬 Slack Web API docs downloader`);
@@ -263,7 +263,7 @@ const downloadDocs = Command.make(
         `\n✅ Done. ${ok} downloaded${failed > 0 ? `, ⚠️  ${failed} failed (see warnings above)` : ""}.`,
       );
       yield* Console.log(`   Output saved under: ${outDir}`);
-      yield* Console.log(`   Next: bun run generate`);
+      yield* Console.log(`   Next: pnpm run generate`);
     }),
 ).pipe(
   Command.withDescription("Download the Slack Web API method reference (JSON twins) into ./specs"),
@@ -275,4 +275,4 @@ const downloadDocs = Command.make(
 
 const program = Command.run(downloadDocs, { version: "1.0.0" });
 
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));

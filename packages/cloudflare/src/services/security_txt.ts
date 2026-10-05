@@ -45,16 +45,10 @@ export const DeleteSecurityTxtRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/security-center/securitytxt",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/security-center/securitytxt", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSecurityTxtRequest",
-}) as any as S.Schema<DeleteSecurityTxtRequest>;
+).annotate({ identifier: "DeleteSecurityTxtRequest" }) as any as S.Schema<DeleteSecurityTxtRequest>;
 
 export interface DeleteSecurityTxtResponse {}
 export const DeleteSecurityTxtResponse = /*@__PURE__*/ S.suspend(() =>
@@ -71,17 +65,9 @@ export const GetSecurityTxtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/security-center/securitytxt",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/security-center/securitytxt", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSecurityTxtRequest",
-}) as any as S.Schema<GetSecurityTxtRequest>;
+).annotate({ identifier: "GetSecurityTxtRequest" }) as any as S.Schema<GetSecurityTxtRequest>;
 
 export type GetResponseAcknowledgmentsList = Array<string>;
 export const GetResponseAcknowledgmentsList = /*@__PURE__*/ S.Array(
@@ -137,16 +123,12 @@ export const SecurityTxtFile = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(S.NullOr(GetResponsePolicyList)),
     preferredLanguages: S.optional(S.NullOr(S.String).pipe(T.Body("preferred_languages"))),
   }),
-).annotate({
-  identifier: "SecurityTxtFile",
-}) as any as S.Schema<SecurityTxtFile>;
+).annotate({ identifier: "SecurityTxtFile" }) as any as S.Schema<SecurityTxtFile>;
 
 export type GetSecurityTxtResponse = SecurityTxtFile;
 export const GetSecurityTxtResponse = /*@__PURE__*/ S.suspend(() =>
   SecurityTxtFile.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSecurityTxtResponse",
-}) as any as S.Schema<GetSecurityTxtResponse>;
+).annotate({ identifier: "GetSecurityTxtResponse" }) as any as S.Schema<GetSecurityTxtResponse>;
 
 export type UpdateRequestAcknowledgmentsList = Array<string>;
 export const UpdateRequestAcknowledgmentsList = /*@__PURE__*/ S.Array(
@@ -204,24 +186,14 @@ export const PutSecurityTxtRequest = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(UpdateRequestPolicyList),
     preferredLanguages: S.optional(S.String.pipe(T.Body("preferred_languages"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/security-center/securitytxt",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/security-center/securitytxt", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSecurityTxtRequest",
-}) as any as S.Schema<PutSecurityTxtRequest>;
+).annotate({ identifier: "PutSecurityTxtRequest" }) as any as S.Schema<PutSecurityTxtRequest>;
 
 export interface PutSecurityTxtResponse {}
 export const PutSecurityTxtResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSecurityTxtResponse",
-}) as any as S.Schema<PutSecurityTxtResponse>;
+).annotate({ identifier: "PutSecurityTxtResponse" }) as any as S.Schema<PutSecurityTxtResponse>;
 
 export type DeleteSecurityTxtError = Forbidden | CloudflareOpError;
 /** Removes the security.txt file configuration for a zone. The /.well-known/security.txt endpoint will no longer be served. */

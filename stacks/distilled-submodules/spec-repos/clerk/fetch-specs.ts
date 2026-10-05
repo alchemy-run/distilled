@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Clerk's Backend API OpenAPI spec into ../specs/.
  *
@@ -11,13 +11,15 @@
  * writes it as deterministic JSON.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "clerk/openapi-specs";
@@ -57,7 +59,7 @@ async function main() {
   }
 
   const text = await response.text();
-  const spec = Bun.YAML.parse(text) as Record<string, unknown>;
+  const spec = YAML.parse(text) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still parseable YAML, but it is not an OpenAPI document.
@@ -68,7 +70,7 @@ async function main() {
   console.log(`Writing ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff. YAML dates stringify as ISO strings, which is stable.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

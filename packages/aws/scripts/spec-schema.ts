@@ -279,7 +279,7 @@ export type ServiceSpec = typeof ServiceSpec.Type;
  * @returns The parsed ServiceSpec, or a default empty spec if no patch file exists
  */
 export const loadServiceSpecPatch = (serviceSdkId: string, baseDir?: string): ServiceSpec => {
-  const root = baseDir ?? path.join(__dirname, "..");
+  const root = baseDir ?? path.join(import.meta.dirname, "..");
   const specPath = path.join(
     root,
     "patches",

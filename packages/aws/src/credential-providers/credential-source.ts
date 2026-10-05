@@ -1,12 +1,13 @@
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 /**
  * What every provider in this directory produces — an
  * `Effect<AwsCredentialIdentity, CredentialSourceError>` that needs nothing
  * from the environment it runs in — and how several of them are combined
  * into a chain.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 
 /**
  * A single credential source could not produce credentials.
@@ -22,6 +23,28 @@ export class CredentialSourceError extends Data.TaggedError("AWS::CredentialSour
 }> {}
 
 export type CredentialSource = Effect.Effect<AwsCredentialIdentity, CredentialSourceError, never>;
+
+/**
+ * A secret a provider takes from the caller — a token, for instance. An
+ * `Effect` is re-run on every credential resolution, for a secret that has
+ * to be refreshed or that lives in a secret store.
+ */
+export type Secret = Redacted.Redacted<string> | Effect.Effect<Redacted.Redacted<string>, unknown>;
+
+/**
+ * Resolve a {@link Secret}. A failing `Effect` is a final failure: the chain
+ * does not move on to another source.
+ */
+export const resolveSecret = (
+  secret: Secret,
+  message: string,
+): Effect.Effect<Redacted.Redacted<string>, CredentialSourceError> =>
+  Redacted.isRedacted(secret)
+    ? Effect.succeed(secret)
+    : Effect.mapError(
+        secret,
+        (cause) => new CredentialSourceError({ message, cause, tryNextLink: false }),
+      );
 
 /** `process.env[name]`, or `undefined` where there is no `process`. */
 export const env = (name: string): string | undefined =>

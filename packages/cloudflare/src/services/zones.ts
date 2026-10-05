@@ -69,12 +69,7 @@ export class CustomNameserverSetNotFound
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 1001,
-        message: { includes: "Custom Nameserver set doesn't exist" },
-      },
-    ],
+    [{ code: 1001, message: { includes: "Custom Nameserver set doesn't exist" } }],
   ) {}
 
 export class DomainNotRegistered
@@ -155,14 +150,7 @@ export class ZoneHoldsRequireEnterprise
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 1005,
-        message: {
-          includes: "Zone holds are only available on Enterprise zones",
-        },
-      },
-    ],
+    [{ code: 1005, message: { includes: "Zone holds are only available on Enterprise zones" } }],
   ) {}
 
 export interface EnvironmentsCreateRequestEnvironmentsItemPosition {
@@ -216,17 +204,9 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     environments: EnvironmentsCreateRequestEnvironmentsList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/environments",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/environments", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 export interface EnvironmentsCreateResponseEnvironmentsItemPosition {
   after?: string | null;
@@ -295,9 +275,7 @@ export const CreateHoldRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/hold", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateHoldRequest",
-}) as any as S.Schema<CreateHoldRequest>;
+).annotate({ identifier: "CreateHoldRequest" }) as any as S.Schema<CreateHoldRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHoldResponse {
@@ -311,9 +289,7 @@ export const CreateHoldResponse = /*@__PURE__*/ S.suspend(() =>
     holdAfter: S.optional(S.NullOr(S.String).pipe(T.Body("hold_after"))),
     includeSubdomains: S.optional(S.NullOr(S.Unknown).pipe(T.Body("include_subdomains"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateHoldResponse",
-}) as any as S.Schema<CreateHoldResponse>;
+).annotate({ identifier: "CreateHoldResponse" }) as any as S.Schema<CreateHoldResponse>;
 
 export type SubscriptionsCreateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export const SubscriptionsCreateRequestFrequency = S.String;
@@ -380,13 +356,7 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(SubscriptionsCreateRequestFrequency),
     ratePlan: S.optional(SubscriptionsCreateRequestRatePlan.pipe(T.Body("rate_plan"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/subscription",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/subscription", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateSubscriptionRequest",
@@ -500,9 +470,7 @@ export const CreateRequestAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateRequestAccount",
-}) as any as S.Schema<CreateRequestAccount>;
+).annotate({ identifier: "CreateRequestAccount" }) as any as S.Schema<CreateRequestAccount>;
 
 export type CreateRequestType = "full" | "partial" | "secondary" | "internal";
 export const CreateRequestType = S.String;
@@ -522,9 +490,7 @@ export const CreateZoneRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/zones", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateZoneRequest",
-}) as any as S.Schema<CreateZoneRequest>;
+).annotate({ identifier: "CreateZoneRequest" }) as any as S.Schema<CreateZoneRequest>;
 
 export interface CreateResponseAccount {
   /** Identifier */
@@ -537,9 +503,7 @@ export const CreateResponseAccount = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateResponseAccount",
-}) as any as S.Schema<CreateResponseAccount>;
+).annotate({ identifier: "CreateResponseAccount" }) as any as S.Schema<CreateResponseAccount>;
 
 export interface CreateResponseMeta {
   /** The zone is only configured for CDN. */
@@ -566,9 +530,7 @@ export const CreateResponseMeta = /*@__PURE__*/ S.suspend(() =>
     phishingDetected: S.optional(S.NullOr(S.Boolean).pipe(T.Body("phishing_detected"))),
     step: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CreateResponseMeta",
-}) as any as S.Schema<CreateResponseMeta>;
+).annotate({ identifier: "CreateResponseMeta" }) as any as S.Schema<CreateResponseMeta>;
 
 export type CreateResponseNameServersList = Array<string>;
 export const CreateResponseNameServersList = /*@__PURE__*/ S.Array(
@@ -594,9 +556,7 @@ export const CreateResponseOwner = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateResponseOwner",
-}) as any as S.Schema<CreateResponseOwner>;
+).annotate({ identifier: "CreateResponseOwner" }) as any as S.Schema<CreateResponseOwner>;
 
 export interface CreateResponsePlan {
   /** Identifier */
@@ -633,9 +593,7 @@ export const CreateResponsePlan = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     price: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CreateResponsePlan",
-}) as any as S.Schema<CreateResponsePlan>;
+).annotate({ identifier: "CreateResponsePlan" }) as any as S.Schema<CreateResponsePlan>;
 
 export type CreateResponsePermissionsList = Array<string>;
 export const CreateResponsePermissionsList = /*@__PURE__*/ S.Array(
@@ -656,9 +614,7 @@ export const CreateResponseTenant = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateResponseTenant",
-}) as any as S.Schema<CreateResponseTenant>;
+).annotate({ identifier: "CreateResponseTenant" }) as any as S.Schema<CreateResponseTenant>;
 
 export interface CreateResponseTenantUnit {
   /** Identifier */
@@ -668,9 +624,7 @@ export const CreateResponseTenantUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateResponseTenantUnit",
-}) as any as S.Schema<CreateResponseTenantUnit>;
+).annotate({ identifier: "CreateResponseTenantUnit" }) as any as S.Schema<CreateResponseTenantUnit>;
 
 export type CreateResponseType = "full" | "partial" | "secondary" | "internal";
 export const CreateResponseType = S.String;
@@ -759,9 +713,7 @@ export const CreateZoneResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     verificationKey: S.optional(S.NullOr(S.String).pipe(T.Body("verification_key"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateZoneResponse",
-}) as any as S.Schema<CreateZoneResponse>;
+).annotate({ identifier: "CreateZoneResponse" }) as any as S.Schema<CreateZoneResponse>;
 
 export interface DeleteEnvironmentRequest {
   zoneId: string;
@@ -780,9 +732,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export type EnvironmentsDeleteResponseEnvironmentsItemPosition =
   EnvironmentsCreateResponseEnvironmentsItemPosition;
@@ -824,9 +774,7 @@ export const DeleteHoldRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/hold", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteHoldRequest",
-}) as any as S.Schema<DeleteHoldRequest>;
+).annotate({ identifier: "DeleteHoldRequest" }) as any as S.Schema<DeleteHoldRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHoldResponse {
@@ -840,9 +788,141 @@ export const DeleteHoldResponse = /*@__PURE__*/ S.suspend(() =>
     holdAfter: S.optional(S.NullOr(S.String).pipe(T.Body("hold_after"))),
     includeSubdomains: S.optional(S.NullOr(S.Unknown).pipe(T.Body("include_subdomains"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "DeleteHoldResponse" }) as any as S.Schema<DeleteHoldResponse>;
+
+export interface DeleteObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const DeleteObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/observability/tracing/rules", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
-  identifier: "DeleteHoldResponse",
-}) as any as S.Schema<DeleteHoldResponse>;
+  identifier: "DeleteObservabilityTracingRuleRequest",
+}) as any as S.Schema<DeleteObservabilityTracingRuleRequest>;
+
+export type DeleteObservabilityTracingRuleResponseRulesItemAction = "set_trace_settings";
+export const DeleteObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export interface DeleteObservabilityTracingRuleResponseRulesItemActionParameters {
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const DeleteObservabilityTracingRuleResponseRulesItemActionParameters =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+    }),
+  ).annotate({
+    identifier: "DeleteObservabilityTracingRuleResponseRulesItemActionParameters",
+  }) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesItemActionParameters>;
+
+export interface DeleteObservabilityTracingRuleResponseRulesItem {
+  action: DeleteObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const DeleteObservabilityTracingRuleResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: DeleteObservabilityTracingRuleResponseRulesItemAction,
+    actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+      T.Body("action_parameters"),
+    ),
+    description: S.String,
+    enabled: S.Boolean,
+    expression: S.String,
+  }),
+).annotate({
+  identifier: "DeleteObservabilityTracingRuleResponseRulesItem",
+}) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesItem>;
+
+export type DeleteObservabilityTracingRuleResponseRulesList =
+  Array<DeleteObservabilityTracingRuleResponseRulesItem>;
+export const DeleteObservabilityTracingRuleResponseRulesList = /*@__PURE__*/ S.Array(
+  DeleteObservabilityTracingRuleResponseRulesItem,
+) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: DeleteObservabilityTracingRuleResponseRulesList;
+}
+export const DeleteObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: DeleteObservabilityTracingRuleResponseRulesList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteObservabilityTracingRuleResponse",
+}) as any as S.Schema<DeleteObservabilityTracingRuleResponse>;
+
+export interface DeleteObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const DeleteObservabilityTracingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/zones/{zone_id}/observability/tracing/settings",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteObservabilityTracingSettingsRequest",
+}) as any as S.Schema<DeleteObservabilityTracingSettingsRequest>;
+
+export type DeleteObservabilityTracingSettingsResponseDestinationsList = Array<string>;
+export const DeleteObservabilityTracingSettingsResponseDestinationsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeleteObservabilityTracingSettingsResponseDestinationsList>;
+
+export type DeleteObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const DeleteObservabilityTracingSettingsResponsePropagationPolicy = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: DeleteObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: DeleteObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const DeleteObservabilityTracingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinations: DeleteObservabilityTracingSettingsResponseDestinationsList,
+    enabled: S.Boolean,
+    forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+    persist: S.Boolean,
+    propagationPolicy: DeleteObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+      T.Body("propagation_policy"),
+    ),
+    samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteObservabilityTracingSettingsResponse",
+}) as any as S.Schema<DeleteObservabilityTracingSettingsResponse>;
 
 export interface DeleteZoneRequest {
   /** Identifier */
@@ -854,9 +934,7 @@ export const DeleteZoneRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteZoneRequest",
-}) as any as S.Schema<DeleteZoneRequest>;
+).annotate({ identifier: "DeleteZoneRequest" }) as any as S.Schema<DeleteZoneRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneResponse {
@@ -867,9 +945,7 @@ export const DeleteZoneResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteZoneResponse",
-}) as any as S.Schema<DeleteZoneResponse>;
+).annotate({ identifier: "DeleteZoneResponse" }) as any as S.Schema<DeleteZoneResponse>;
 
 export interface EditNelRequestValue {
   /** Whether Network Error Logging is enabled for the zone. When enabled, browsers report network errors to Cloudflare's NEL endpoint. */
@@ -879,9 +955,7 @@ export const EditNelRequestValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "EditNelRequestValue",
-}) as any as S.Schema<EditNelRequestValue>;
+).annotate({ identifier: "EditNelRequestValue" }) as any as S.Schema<EditNelRequestValue>;
 
 export interface EditNelRequest {
   /** Identifier of the zone. */
@@ -894,13 +968,7 @@ export const EditNelRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: EditNelRequestValue,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/nel",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/nel", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "EditNelRequest" }) as any as S.Schema<EditNelRequest>;
 
@@ -928,9 +996,7 @@ export const EditNelResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.String.pipe(T.Body("modified_on")),
     value: EditNelRequestValue,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditNelResponse",
-}) as any as S.Schema<EditNelResponse>;
+).annotate({ identifier: "EditNelResponse" }) as any as S.Schema<EditNelResponse>;
 
 export interface EditTransformationsAllowedOriginRequest {
   /** Identifier. */
@@ -998,11 +1064,7 @@ export const EditTransformationsC2paRequest = /*@__PURE__*/ S.suspend(() =>
     value: EditTransformationsC2paRequestValue,
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/transformations_c2pa",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/transformations_c2pa", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1047,9 +1109,7 @@ export const GetCtAlertingRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ct/alerting", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtAlertingRequest",
-}) as any as S.Schema<GetCtAlertingRequest>;
+).annotate({ identifier: "GetCtAlertingRequest" }) as any as S.Schema<GetCtAlertingRequest>;
 
 export type CtAlertingGetResponseEmailsList = Array<string>;
 export const CtAlertingGetResponseEmailsList = /*@__PURE__*/ S.Array(
@@ -1068,9 +1128,7 @@ export const GetCtAlertingResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     emails: S.optional(S.NullOr(CtAlertingGetResponseEmailsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtAlertingResponse",
-}) as any as S.Schema<GetCtAlertingResponse>;
+).annotate({ identifier: "GetCtAlertingResponse" }) as any as S.Schema<GetCtAlertingResponse>;
 
 export interface GetCustomNameserverRequest {
   /** Identifier. */
@@ -1126,9 +1184,7 @@ export const GetHoldResponse = /*@__PURE__*/ S.suspend(() =>
     holdAfter: S.optional(S.NullOr(S.String).pipe(T.Body("hold_after"))),
     includeSubdomains: S.optional(S.NullOr(S.Unknown).pipe(T.Body("include_subdomains"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHoldResponse",
-}) as any as S.Schema<GetHoldResponse>;
+).annotate({ identifier: "GetHoldResponse" }) as any as S.Schema<GetHoldResponse>;
 
 export interface GetNelRequest {
   /** Identifier of the zone. */
@@ -1138,13 +1194,7 @@ export const GetNelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/nel",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/nel", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetNelRequest" }) as any as S.Schema<GetNelRequest>;
 
@@ -1173,6 +1223,126 @@ export const GetNelResponse = /*@__PURE__*/ S.suspend(() =>
     value: EditNelRequestValue,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetNelResponse" }) as any as S.Schema<GetNelResponse>;
+
+export interface GetObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const GetObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/observability/tracing/rules", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingRuleRequest",
+}) as any as S.Schema<GetObservabilityTracingRuleRequest>;
+
+export type GetObservabilityTracingRuleResponseRulesItemAction = "set_trace_settings";
+export const GetObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export type GetObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const GetObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface GetObservabilityTracingRuleResponseRulesItem {
+  action: GetObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const GetObservabilityTracingRuleResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: GetObservabilityTracingRuleResponseRulesItemAction,
+    actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+      T.Body("action_parameters"),
+    ),
+    description: S.String,
+    enabled: S.Boolean,
+    expression: S.String,
+  }),
+).annotate({
+  identifier: "GetObservabilityTracingRuleResponseRulesItem",
+}) as any as S.Schema<GetObservabilityTracingRuleResponseRulesItem>;
+
+export type GetObservabilityTracingRuleResponseRulesList =
+  Array<GetObservabilityTracingRuleResponseRulesItem>;
+export const GetObservabilityTracingRuleResponseRulesList = /*@__PURE__*/ S.Array(
+  GetObservabilityTracingRuleResponseRulesItem,
+) as any as S.Schema<GetObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: GetObservabilityTracingRuleResponseRulesList;
+}
+export const GetObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: GetObservabilityTracingRuleResponseRulesList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingRuleResponse",
+}) as any as S.Schema<GetObservabilityTracingRuleResponse>;
+
+export interface GetObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const GetObservabilityTracingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/observability/tracing/settings", code: 200 }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingSettingsRequest",
+}) as any as S.Schema<GetObservabilityTracingSettingsRequest>;
+
+export type GetObservabilityTracingSettingsResponseDestinationsList = Array<string>;
+export const GetObservabilityTracingSettingsResponseDestinationsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetObservabilityTracingSettingsResponseDestinationsList>;
+
+export type GetObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const GetObservabilityTracingSettingsResponsePropagationPolicy = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: GetObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: GetObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const GetObservabilityTracingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinations: GetObservabilityTracingSettingsResponseDestinationsList,
+    enabled: S.Boolean,
+    forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+    persist: S.Boolean,
+    propagationPolicy: GetObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+      T.Body("propagation_policy"),
+    ),
+    samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingSettingsResponse",
+}) as any as S.Schema<GetObservabilityTracingSettingsResponse>;
 
 export interface GetPlanRequest {
   /** Identifier */
@@ -1231,9 +1401,7 @@ export const GetPlanResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     price: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPlanResponse",
-}) as any as S.Schema<GetPlanResponse>;
+).annotate({ identifier: "GetPlanResponse" }) as any as S.Schema<GetPlanResponse>;
 
 export interface GetRatePlanRequest {
   /** Identifier */
@@ -1243,17 +1411,9 @@ export const GetRatePlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/available_rate_plans",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/available_rate_plans", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRatePlanRequest",
-}) as any as S.Schema<GetRatePlanRequest>;
+).annotate({ identifier: "GetRatePlanRequest" }) as any as S.Schema<GetRatePlanRequest>;
 
 export type RatePlansGetResultItemComponentsItemName =
   | "zones"
@@ -1311,9 +1471,7 @@ export const RatePlansGetResultItem = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(S.NullOr(RatePlansGetResultItemFrequency)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RatePlansGetResultItem",
-}) as any as S.Schema<RatePlansGetResultItem>;
+).annotate({ identifier: "RatePlansGetResultItem" }) as any as S.Schema<RatePlansGetResultItem>;
 
 export type RatePlansGetResultList = Array<RatePlansGetResultItem>;
 export const RatePlansGetResultList = /*@__PURE__*/ S.Array(
@@ -1331,9 +1489,7 @@ export const GetRatePlanResponse = /*@__PURE__*/ S.suspend(() =>
     result: RatePlansGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRatePlanResponse",
-}) as any as S.Schema<GetRatePlanResponse>;
+).annotate({ identifier: "GetRatePlanResponse" }) as any as S.Schema<GetRatePlanResponse>;
 
 export interface GetSettingRequest {
   /** Identifier */
@@ -1346,17 +1502,9 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     settingId: S.String.pipe(T.Label("setting_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/{setting_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/{setting_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingRequest",
-}) as any as S.Schema<GetSettingRequest>;
+).annotate({ identifier: "GetSettingRequest" }) as any as S.Schema<GetSettingRequest>;
 
 export type SettingsGetResultZeroRTTId = "0rtt";
 export const SettingsGetResultZeroRTTId = S.String;
@@ -1381,9 +1529,7 @@ export const SettingsGetResultZeroRTT = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultZeroRTT",
-}) as any as S.Schema<SettingsGetResultZeroRTT>;
+).annotate({ identifier: "SettingsGetResultZeroRTT" }) as any as S.Schema<SettingsGetResultZeroRTT>;
 
 export type SettingsGetResultAdvancedDDoSId = "advanced_ddos";
 export const SettingsGetResultAdvancedDDoSId = S.String;
@@ -1552,9 +1698,7 @@ export const SettingsGetResultBrotli = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultBrotli",
-}) as any as S.Schema<SettingsGetResultBrotli>;
+).annotate({ identifier: "SettingsGetResultBrotli" }) as any as S.Schema<SettingsGetResultBrotli>;
 
 export type SettingsGetResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export const SettingsGetResultZonesBrowserCacheTTL2Id = S.String;
@@ -1754,9 +1898,7 @@ export const SettingsGetResultCiphers = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultCiphers",
-}) as any as S.Schema<SettingsGetResultCiphers>;
+).annotate({ identifier: "SettingsGetResultCiphers" }) as any as S.Schema<SettingsGetResultCiphers>;
 
 export type SettingsGetResultZonesCNAMEFlatteningId = "cname_flattening";
 export const SettingsGetResultZonesCNAMEFlatteningId = S.String;
@@ -1994,9 +2136,7 @@ export const SettingsGetResultHTTP2 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultHTTP2",
-}) as any as S.Schema<SettingsGetResultHTTP2>;
+).annotate({ identifier: "SettingsGetResultHTTP2" }) as any as S.Schema<SettingsGetResultHTTP2>;
 
 export type SettingsGetResultHTTP3Id = "http3";
 export const SettingsGetResultHTTP3Id = S.String;
@@ -2021,9 +2161,7 @@ export const SettingsGetResultHTTP3 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultHTTP3",
-}) as any as S.Schema<SettingsGetResultHTTP3>;
+).annotate({ identifier: "SettingsGetResultHTTP3" }) as any as S.Schema<SettingsGetResultHTTP3>;
 
 export type SettingsGetResultImageResizingId = "image_resizing";
 export const SettingsGetResultImageResizingId = S.String;
@@ -2102,9 +2240,7 @@ export const SettingsGetResultIPV6 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultIPV6",
-}) as any as S.Schema<SettingsGetResultIPV6>;
+).annotate({ identifier: "SettingsGetResultIPV6" }) as any as S.Schema<SettingsGetResultIPV6>;
 
 export type SettingsGetResultZonesMaxUploadId = "max_upload";
 export const SettingsGetResultZonesMaxUploadId = S.String;
@@ -2244,9 +2380,7 @@ export const SettingsGetResultNEL = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultNEL",
-}) as any as S.Schema<SettingsGetResultNEL>;
+).annotate({ identifier: "SettingsGetResultNEL" }) as any as S.Schema<SettingsGetResultNEL>;
 
 export type SettingsGetResultZonesOpportunisticEncryption2Id = "opportunistic_encryption";
 export const SettingsGetResultZonesOpportunisticEncryption2Id = S.String;
@@ -3030,9 +3164,7 @@ export const SettingsGetResultTLS13 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultTLS13",
-}) as any as S.Schema<SettingsGetResultTLS13>;
+).annotate({ identifier: "SettingsGetResultTLS13" }) as any as S.Schema<SettingsGetResultTLS13>;
 
 export type SettingsGetResultTLSClientAuthId = "tls_client_auth";
 export const SettingsGetResultTLSClientAuthId = S.String;
@@ -3241,9 +3373,7 @@ export const SettingsGetResultWebP = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsGetResultWebP",
-}) as any as S.Schema<SettingsGetResultWebP>;
+).annotate({ identifier: "SettingsGetResultWebP" }) as any as S.Schema<SettingsGetResultWebP>;
 
 export type SettingsGetResultWebsocketId = "websockets";
 export const SettingsGetResultWebsocketId = S.String;
@@ -3486,9 +3616,7 @@ export const SettingsGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetSettingResponse = SettingsGetResult;
 export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
   SettingsGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingResponse",
-}) as any as S.Schema<GetSettingResponse>;
+).annotate({ identifier: "GetSettingResponse" }) as any as S.Schema<GetSettingResponse>;
 
 export interface GetSubscriptionRequest {
   /** Identifier */
@@ -3498,17 +3626,9 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/subscription",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/subscription", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export type SubscriptionsGetResponseFrequency =
   | "weekly"
@@ -3606,9 +3726,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     ratePlan: S.optional(S.NullOr(SubscriptionsGetResponseRatePlan).pipe(T.Body("rate_plan"))),
     state: S.optional(S.NullOr(SubscriptionsGetResponseState)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface GetTransformationsAllowedOriginRequest {
   /** Identifier. */
@@ -3667,11 +3785,7 @@ export const GetTransformationsC2paRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/transformations_c2pa",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/transformations_c2pa", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -3839,9 +3953,128 @@ export const GetZoneResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     verificationKey: S.optional(S.NullOr(S.String).pipe(T.Body("verification_key"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetZoneResponse" }) as any as S.Schema<GetZoneResponse>;
+
+export interface ListEntitlementsRequest {
+  /** Identifier tag. */
+  zoneId: string;
+}
+export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/entitlements", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListEntitlementsRequest" }) as any as S.Schema<ListEntitlementsRequest>;
+
+export type ListEntitlementsResultItemAllocationType =
+  | "bool"
+  | "max_count"
+  | "enum_number"
+  | "range"
+  | "string";
+export const ListEntitlementsResultItemAllocationType = S.String;
+
+export type ListEntitlementsResultItemAllocationValueCase3List = Array<number>;
+export const ListEntitlementsResultItemAllocationValueCase3List = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ListEntitlementsResultItemAllocationValueCase3List>;
+
+export interface ListEntitlementsResultItemAllocationValueCase4 {
+  max: number;
+  min: number;
+}
+export const ListEntitlementsResultItemAllocationValueCase4 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    max: S.Number,
+    min: S.Number,
+  }),
 ).annotate({
-  identifier: "GetZoneResponse",
-}) as any as S.Schema<GetZoneResponse>;
+  identifier: "ListEntitlementsResultItemAllocationValueCase4",
+}) as any as S.Schema<ListEntitlementsResultItemAllocationValueCase4>;
+
+export type ListEntitlementsResultItemAllocationValue =
+  | string
+  | number
+  | boolean
+  | ListEntitlementsResultItemAllocationValueCase3List
+  | ListEntitlementsResultItemAllocationValueCase4;
+export const ListEntitlementsResultItemAllocationValue = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], [], [], [], ["max", "min"]]),
+);
+
+export interface ListEntitlementsResultItemAllocation {
+  /** Allocation type discriminator. */
+  type: ListEntitlementsResultItemAllocationType;
+  /** Contains the allocation value whose concrete type the `type` field determines: bool yields a boolean, max_count yields an integer, enum_number yields an array of numbers, range yields an object with `min` and `max`, and string yields a string. */
+  value: ListEntitlementsResultItemAllocationValue;
+}
+export const ListEntitlementsResultItemAllocation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: ListEntitlementsResultItemAllocationType,
+    value: ListEntitlementsResultItemAllocationValue,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItemAllocation",
+}) as any as S.Schema<ListEntitlementsResultItemAllocation>;
+
+export interface ListEntitlementsResultItemFeature {
+  /** Numeric identifier of the feature. */
+  id: number;
+  /** The logical grouping (set) this feature belongs to. */
+  featureSet: string;
+  /** Unique string key for the feature. */
+  key: string;
+  /** Human-readable name of the feature. */
+  name: string;
+}
+export const ListEntitlementsResultItemFeature = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    featureSet: S.String.pipe(T.Body("feature_set")),
+    key: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItemFeature",
+}) as any as S.Schema<ListEntitlementsResultItemFeature>;
+
+export interface ListEntitlementsResultItem {
+  /** Entitlement identifier — equal to the feature key. */
+  id: string;
+  /** Represents the allocation value for an entitlement. The shape of `value` depends on `type`: `bool` uses a boolean, `max_count` uses an integer, `enum_number` uses an array of numbers, `range` uses an object with `min` and `max` integer fields, and `string` uses a string. */
+  allocation: ListEntitlementsResultItemAllocation;
+  /** ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was created. Format: `YYYY-MM-DDTHH:MM:SS.ffffff`. */
+  createdDate: string;
+  /** ISO 8601 timestamp when the entitlement was deleted, or empty string if not deleted. */
+  deletedDate: string;
+  /** ISO 8601 timestamp (microsecond precision, no timezone offset) when the entitlement was last edited. */
+  editedDate: string;
+  /** Describes a product feature associated with an entitlement. */
+  feature: ListEntitlementsResultItemFeature;
+}
+export const ListEntitlementsResultItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    allocation: ListEntitlementsResultItemAllocation,
+    createdDate: S.String.pipe(T.Body("created_date")),
+    deletedDate: S.String.pipe(T.Body("deleted_date")),
+    editedDate: S.String.pipe(T.Body("edited_date")),
+    feature: ListEntitlementsResultItemFeature,
+  }),
+).annotate({
+  identifier: "ListEntitlementsResultItem",
+}) as any as S.Schema<ListEntitlementsResultItem>;
+
+export type ListEntitlementsResultList = Array<ListEntitlementsResultItem>;
+export const ListEntitlementsResultList = /*@__PURE__*/ S.Array(
+  ListEntitlementsResultItem,
+) as any as S.Schema<ListEntitlementsResultList>;
+
+export type ListEntitlementsResponse = ListEntitlementsResultList;
+export const ListEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListEntitlementsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListEntitlementsResponse" }) as any as S.Schema<ListEntitlementsResponse>;
 
 export interface ListEnvironmentsRequest {
   zoneId: string;
@@ -3850,17 +4083,9 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/environments",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/environments", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 export type EnvironmentsListResponseEnvironmentsItemPosition =
   EnvironmentsCreateResponseEnvironmentsItemPosition;
@@ -3884,9 +4109,7 @@ export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environments: EnvironmentsListResponseEnvironmentsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 
 export interface ListPlansRequest {
   /** Identifier */
@@ -3896,17 +4119,9 @@ export const ListPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/available_plans",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/available_plans", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPlansRequest",
-}) as any as S.Schema<ListPlansRequest>;
+).annotate({ identifier: "ListPlansRequest" }) as any as S.Schema<ListPlansRequest>;
 
 export type PlansListResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export const PlansListResultItemFrequency = S.String;
@@ -3943,9 +4158,7 @@ export const PlansListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     price: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PlansListResultItem",
-}) as any as S.Schema<PlansListResultItem>;
+).annotate({ identifier: "PlansListResultItem" }) as any as S.Schema<PlansListResultItem>;
 
 export type PlansListResultList = Array<PlansListResultItem>;
 export const PlansListResultList = /*@__PURE__*/ S.Array(
@@ -3963,9 +4176,7 @@ export const ListPlansResponse = /*@__PURE__*/ S.suspend(() =>
     result: PlansListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPlansResponse",
-}) as any as S.Schema<ListPlansResponse>;
+).annotate({ identifier: "ListPlansResponse" }) as any as S.Schema<ListPlansResponse>;
 
 export interface ListSettingsRequest {
   /** Identifier */
@@ -3977,9 +4188,7 @@ export const ListSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSettingsRequest",
-}) as any as S.Schema<ListSettingsRequest>;
+).annotate({ identifier: "ListSettingsRequest" }) as any as S.Schema<ListSettingsRequest>;
 
 export type ListSettingsResultItemZeroRTTId = "0rtt";
 export const ListSettingsResultItemZeroRTTId = S.String;
@@ -6035,9 +6244,7 @@ export const ListSettingsResultList = /*@__PURE__*/ S.Array(
 export type ListSettingsResponse = ListSettingsResultList;
 export const ListSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSettingsResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSettingsResponse",
-}) as any as S.Schema<ListSettingsResponse>;
+).annotate({ identifier: "ListSettingsResponse" }) as any as S.Schema<ListSettingsResponse>;
 
 export interface ListRequestAccount {
   /** Filter by an account ID. */
@@ -6050,9 +6257,7 @@ export const ListRequestAccount = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRequestAccount",
-}) as any as S.Schema<ListRequestAccount>;
+).annotate({ identifier: "ListRequestAccount" }) as any as S.Schema<ListRequestAccount>;
 
 export type ListRequestDirection = "asc" | "desc";
 export const ListRequestDirection = S.String;
@@ -6107,9 +6312,7 @@ export const ListZonesRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/zones", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListZonesRequest",
-}) as any as S.Schema<ListZonesRequest>;
+).annotate({ identifier: "ListZonesRequest" }) as any as S.Schema<ListZonesRequest>;
 
 export type ListResultItemAccount = CreateResponseAccount;
 export const ListResultItemAccount = CreateResponseAccount;
@@ -6251,9 +6454,7 @@ export const ListZonesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListZonesResponse",
-}) as any as S.Schema<ListZonesResponse>;
+).annotate({ identifier: "ListZonesResponse" }) as any as S.Schema<ListZonesResponse>;
 
 export type CtAlertingEditRequestEmailsList = Array<string>;
 export const CtAlertingEditRequestEmailsList = /*@__PURE__*/ S.Array(
@@ -6274,17 +6475,9 @@ export const PatchCtAlertingRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     emails: S.optional(CtAlertingEditRequestEmailsList),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/ct/alerting",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/ct/alerting", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCtAlertingRequest",
-}) as any as S.Schema<PatchCtAlertingRequest>;
+).annotate({ identifier: "PatchCtAlertingRequest" }) as any as S.Schema<PatchCtAlertingRequest>;
 
 export type CtAlertingEditResponseEmailsList = Array<string>;
 export const CtAlertingEditResponseEmailsList = /*@__PURE__*/ S.Array(
@@ -6303,9 +6496,7 @@ export const PatchCtAlertingResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     emails: S.optional(S.NullOr(CtAlertingEditResponseEmailsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchCtAlertingResponse",
-}) as any as S.Schema<PatchCtAlertingResponse>;
+).annotate({ identifier: "PatchCtAlertingResponse" }) as any as S.Schema<PatchCtAlertingResponse>;
 
 export type EnvironmentsEditRequestEnvironmentsItemPosition =
   EnvironmentsCreateRequestEnvironmentsItemPosition;
@@ -6330,17 +6521,9 @@ export const PatchEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     environments: EnvironmentsEditRequestEnvironmentsList,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/environments",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/environments", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchEnvironmentRequest",
-}) as any as S.Schema<PatchEnvironmentRequest>;
+).annotate({ identifier: "PatchEnvironmentRequest" }) as any as S.Schema<PatchEnvironmentRequest>;
 
 export type EnvironmentsEditResponseEnvironmentsItemPosition =
   EnvironmentsCreateResponseEnvironmentsItemPosition;
@@ -6364,9 +6547,7 @@ export const PatchEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environments: EnvironmentsEditResponseEnvironmentsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchEnvironmentResponse",
-}) as any as S.Schema<PatchEnvironmentResponse>;
+).annotate({ identifier: "PatchEnvironmentResponse" }) as any as S.Schema<PatchEnvironmentResponse>;
 
 export interface PatchHoldRequest {
   /** Identifier. */
@@ -6384,9 +6565,7 @@ export const PatchHoldRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/hold", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHoldRequest",
-}) as any as S.Schema<PatchHoldRequest>;
+).annotate({ identifier: "PatchHoldRequest" }) as any as S.Schema<PatchHoldRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchHoldResponse {
@@ -6400,9 +6579,7 @@ export const PatchHoldResponse = /*@__PURE__*/ S.suspend(() =>
     holdAfter: S.optional(S.NullOr(S.String).pipe(T.Body("hold_after"))),
     includeSubdomains: S.optional(S.NullOr(S.Unknown).pipe(T.Body("include_subdomains"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHoldResponse",
-}) as any as S.Schema<PatchHoldResponse>;
+).annotate({ identifier: "PatchHoldResponse" }) as any as S.Schema<PatchHoldResponse>;
 
 export interface PatchSettingRequest {
   /** Identifier */
@@ -6421,17 +6598,9 @@ export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     value: S.optional(S.Unknown),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/{setting_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/{setting_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingRequest",
-}) as any as S.Schema<PatchSettingRequest>;
+).annotate({ identifier: "PatchSettingRequest" }) as any as S.Schema<PatchSettingRequest>;
 
 export type SettingsEditResultZeroRTTId = "0rtt";
 export const SettingsEditResultZeroRTTId = S.String;
@@ -6617,9 +6786,7 @@ export const SettingsEditResultBrotli = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultBrotli",
-}) as any as S.Schema<SettingsEditResultBrotli>;
+).annotate({ identifier: "SettingsEditResultBrotli" }) as any as S.Schema<SettingsEditResultBrotli>;
 
 export type SettingsEditResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export const SettingsEditResultZonesBrowserCacheTTL2Id = S.String;
@@ -7059,9 +7226,7 @@ export const SettingsEditResultHTTP2 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultHTTP2",
-}) as any as S.Schema<SettingsEditResultHTTP2>;
+).annotate({ identifier: "SettingsEditResultHTTP2" }) as any as S.Schema<SettingsEditResultHTTP2>;
 
 export type SettingsEditResultHTTP3Id = "http3";
 export const SettingsEditResultHTTP3Id = S.String;
@@ -7086,9 +7251,7 @@ export const SettingsEditResultHTTP3 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultHTTP3",
-}) as any as S.Schema<SettingsEditResultHTTP3>;
+).annotate({ identifier: "SettingsEditResultHTTP3" }) as any as S.Schema<SettingsEditResultHTTP3>;
 
 export type SettingsEditResultImageResizingId = "image_resizing";
 export const SettingsEditResultImageResizingId = S.String;
@@ -7167,9 +7330,7 @@ export const SettingsEditResultIPV6 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultIPV6",
-}) as any as S.Schema<SettingsEditResultIPV6>;
+).annotate({ identifier: "SettingsEditResultIPV6" }) as any as S.Schema<SettingsEditResultIPV6>;
 
 export type SettingsEditResultZonesMaxUploadId = "max_upload";
 export const SettingsEditResultZonesMaxUploadId = S.String;
@@ -7301,9 +7462,7 @@ export const SettingsEditResultNEL = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultNEL",
-}) as any as S.Schema<SettingsEditResultNEL>;
+).annotate({ identifier: "SettingsEditResultNEL" }) as any as S.Schema<SettingsEditResultNEL>;
 
 export type SettingsEditResultZonesOpportunisticEncryption2Id = "opportunistic_encryption";
 export const SettingsEditResultZonesOpportunisticEncryption2Id = S.String;
@@ -8054,9 +8213,7 @@ export const SettingsEditResultTLS13 = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultTLS13",
-}) as any as S.Schema<SettingsEditResultTLS13>;
+).annotate({ identifier: "SettingsEditResultTLS13" }) as any as S.Schema<SettingsEditResultTLS13>;
 
 export type SettingsEditResultTLSClientAuthId = "tls_client_auth";
 export const SettingsEditResultTLSClientAuthId = S.String;
@@ -8265,9 +8422,7 @@ export const SettingsEditResultWebP = /*@__PURE__*/ S.suspend(() =>
     editable: S.optional(S.NullOr(S.Boolean)),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }),
-).annotate({
-  identifier: "SettingsEditResultWebP",
-}) as any as S.Schema<SettingsEditResultWebP>;
+).annotate({ identifier: "SettingsEditResultWebP" }) as any as S.Schema<SettingsEditResultWebP>;
 
 export type SettingsEditResultWebsocketId = "websockets";
 export const SettingsEditResultWebsocketId = S.String;
@@ -8510,9 +8665,7 @@ export const SettingsEditResult = /*@__PURE__*/ S.Unknown.pipe(
 export type PatchSettingResponse = SettingsEditResult;
 export const PatchSettingResponse = /*@__PURE__*/ S.suspend(() =>
   SettingsEditResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingResponse",
-}) as any as S.Schema<PatchSettingResponse>;
+).annotate({ identifier: "PatchSettingResponse" }) as any as S.Schema<PatchSettingResponse>;
 
 export type EditRequestType = "full" | "partial" | "secondary" | "internal";
 export const EditRequestType = S.String;
@@ -8543,9 +8696,7 @@ export const PatchZoneRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchZoneRequest",
-}) as any as S.Schema<PatchZoneRequest>;
+).annotate({ identifier: "PatchZoneRequest" }) as any as S.Schema<PatchZoneRequest>;
 
 export type EditResponseAccount = CreateResponseAccount;
 export const EditResponseAccount = CreateResponseAccount;
@@ -8668,9 +8819,7 @@ export const PatchZoneResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     verificationKey: S.optional(S.NullOr(S.String).pipe(T.Body("verification_key"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchZoneResponse",
-}) as any as S.Schema<PatchZoneResponse>;
+).annotate({ identifier: "PatchZoneResponse" }) as any as S.Schema<PatchZoneResponse>;
 
 export interface PutCustomNameserverRequest {
   /** Identifier. */
@@ -10839,9 +10988,7 @@ export const SettingsBulkEditRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SettingsBulkEditRequest",
-}) as any as S.Schema<SettingsBulkEditRequest>;
+).annotate({ identifier: "SettingsBulkEditRequest" }) as any as S.Schema<SettingsBulkEditRequest>;
 
 export type SettingsBulkEditResultItemZeroRTTId = "0rtt";
 export const SettingsBulkEditResultItemZeroRTTId = S.String;
@@ -12904,9 +13051,7 @@ export const SettingsBulkEditResultList = /*@__PURE__*/ S.Array(
 export type SettingsBulkEditResponse = SettingsBulkEditResultList;
 export const SettingsBulkEditResponse = /*@__PURE__*/ S.suspend(() =>
   SettingsBulkEditResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SettingsBulkEditResponse",
-}) as any as S.Schema<SettingsBulkEditResponse>;
+).annotate({ identifier: "SettingsBulkEditResponse" }) as any as S.Schema<SettingsBulkEditResponse>;
 
 export interface TriggerActivationCheckRequest {
   /** Identifier. */
@@ -12916,13 +13061,7 @@ export const TriggerActivationCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/activation_check",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/activation_check", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TriggerActivationCheckRequest",
@@ -12964,17 +13103,9 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     environments: EnvironmentsUpdateRequestEnvironmentsList,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/environments",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/environments", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 export type EnvironmentsUpdateResponseEnvironmentsItemPosition =
   EnvironmentsCreateResponseEnvironmentsItemPosition;
@@ -13002,6 +13133,200 @@ export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateEnvironmentResponse",
 }) as any as S.Schema<UpdateEnvironmentResponse>;
+
+export type UpdateObservabilityTracingRuleRequestRulesItemAction = "set_trace_settings";
+export const UpdateObservabilityTracingRuleRequestRulesItemAction = S.String;
+
+export type UpdateObservabilityTracingRuleRequestRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const UpdateObservabilityTracingRuleRequestRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface UpdateObservabilityTracingRuleRequestRulesItem {
+  action: UpdateObservabilityTracingRuleRequestRulesItemAction | (string & {});
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const UpdateObservabilityTracingRuleRequestRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: UpdateObservabilityTracingRuleRequestRulesItemAction,
+    actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+      T.Body("action_parameters"),
+    ),
+    description: S.String,
+    enabled: S.Boolean,
+    expression: S.String,
+  }),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleRequestRulesItem",
+}) as any as S.Schema<UpdateObservabilityTracingRuleRequestRulesItem>;
+
+export type UpdateObservabilityTracingRuleRequestRulesList =
+  Array<UpdateObservabilityTracingRuleRequestRulesItem>;
+export const UpdateObservabilityTracingRuleRequestRulesList = /*@__PURE__*/ S.Array(
+  UpdateObservabilityTracingRuleRequestRulesItem,
+) as any as S.Schema<UpdateObservabilityTracingRuleRequestRulesList>;
+
+export interface UpdateObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+  /** Trace rules in evaluation order. */
+  rules: UpdateObservabilityTracingRuleRequestRulesList;
+}
+export const UpdateObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    rules: UpdateObservabilityTracingRuleRequestRulesList,
+  })
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/observability/tracing/rules", code: 200 }))
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleRequest",
+}) as any as S.Schema<UpdateObservabilityTracingRuleRequest>;
+
+export type UpdateObservabilityTracingRuleResponseRulesItemAction = "set_trace_settings";
+export const UpdateObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export type UpdateObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const UpdateObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface UpdateObservabilityTracingRuleResponseRulesItem {
+  action: UpdateObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const UpdateObservabilityTracingRuleResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    action: UpdateObservabilityTracingRuleResponseRulesItemAction,
+    actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+      T.Body("action_parameters"),
+    ),
+    description: S.String,
+    enabled: S.Boolean,
+    expression: S.String,
+  }),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleResponseRulesItem",
+}) as any as S.Schema<UpdateObservabilityTracingRuleResponseRulesItem>;
+
+export type UpdateObservabilityTracingRuleResponseRulesList =
+  Array<UpdateObservabilityTracingRuleResponseRulesItem>;
+export const UpdateObservabilityTracingRuleResponseRulesList = /*@__PURE__*/ S.Array(
+  UpdateObservabilityTracingRuleResponseRulesItem,
+) as any as S.Schema<UpdateObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: UpdateObservabilityTracingRuleResponseRulesList;
+}
+export const UpdateObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: UpdateObservabilityTracingRuleResponseRulesList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleResponse",
+}) as any as S.Schema<UpdateObservabilityTracingRuleResponse>;
+
+export type UpdateObservabilityTracingSettingsRequestDestinationsList = Array<string>;
+export const UpdateObservabilityTracingSettingsRequestDestinationsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateObservabilityTracingSettingsRequestDestinationsList>;
+
+export type UpdateObservabilityTracingSettingsRequestPropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const UpdateObservabilityTracingSettingsRequestPropagationPolicy = S.String;
+
+export interface UpdateObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations?: UpdateObservabilityTracingSettingsRequestDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled?: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext?: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist?: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy?: UpdateObservabilityTracingSettingsRequestPropagationPolicy | (string & {});
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio?: number;
+}
+export const UpdateObservabilityTracingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+    destinations: S.optional(UpdateObservabilityTracingSettingsRequestDestinationsList),
+    enabled: S.optional(S.Boolean),
+    forwardContext: S.optional(S.Boolean.pipe(T.Body("forward_context"))),
+    persist: S.optional(S.Boolean),
+    propagationPolicy: S.optional(
+      UpdateObservabilityTracingSettingsRequestPropagationPolicy.pipe(T.Body("propagation_policy")),
+    ),
+    samplingRatio: S.optional(S.Number.pipe(T.Body("sampling_ratio"))),
+  })
+    .pipe(
+      T.Http({
+        method: "PATCH",
+        uri: "/zones/{zone_id}/observability/tracing/settings",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingSettingsRequest",
+}) as any as S.Schema<UpdateObservabilityTracingSettingsRequest>;
+
+export type UpdateObservabilityTracingSettingsResponseDestinationsList = Array<string>;
+export const UpdateObservabilityTracingSettingsResponseDestinationsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateObservabilityTracingSettingsResponseDestinationsList>;
+
+export type UpdateObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const UpdateObservabilityTracingSettingsResponsePropagationPolicy = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: UpdateObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: UpdateObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const UpdateObservabilityTracingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    destinations: UpdateObservabilityTracingSettingsResponseDestinationsList,
+    enabled: S.Boolean,
+    forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+    persist: S.Boolean,
+    propagationPolicy: UpdateObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+      T.Body("propagation_policy"),
+    ),
+    samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingSettingsResponse",
+}) as any as S.Schema<UpdateObservabilityTracingSettingsResponse>;
 
 export type SubscriptionsUpdateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export const SubscriptionsUpdateRequestFrequency = S.String;
@@ -13068,13 +13393,7 @@ export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(SubscriptionsUpdateRequestFrequency),
     ratePlan: S.optional(SubscriptionsUpdateRequestRatePlan.pipe(T.Body("rate_plan"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/subscription",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/subscription", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateSubscriptionRequest",
@@ -13294,6 +13613,36 @@ export const deleteHold: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteObservabilityTracingRuleError = CloudflareOpError;
+/** Delete every sampling override from a zone's managed Cloudflare Traces ruleset. */
+export const deleteObservabilityTracingRule: API.OperationMethod<
+  DeleteObservabilityTracingRuleRequest,
+  DeleteObservabilityTracingRuleResponse,
+  DeleteObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityTracingRuleRequest,
+  output: DeleteObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteObservabilityTracingSettingsError = CloudflareOpError;
+/** Reset the zone-level Cloudflare Traces settings to their defaults while preserving the sampling rules. */
+export const deleteObservabilityTracingSettings: API.OperationMethod<
+  DeleteObservabilityTracingSettingsRequest,
+  DeleteObservabilityTracingSettingsResponse,
+  DeleteObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityTracingSettingsRequest,
+  output: DeleteObservabilityTracingSettingsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteZoneError = InvalidZoneIdentifier | CloudflareOpError;
 /** Deletes an existing zone. */
 export const deleteZone: API.OperationMethod<
@@ -13414,6 +13763,36 @@ export const getNel: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetObservabilityTracingRuleError = CloudflareOpError;
+/** Retrieve the ordered sampling overrides for a zone's managed Cloudflare Traces ruleset. */
+export const getObservabilityTracingRule: API.OperationMethod<
+  GetObservabilityTracingRuleRequest,
+  GetObservabilityTracingRuleResponse,
+  GetObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetObservabilityTracingRuleRequest,
+  output: GetObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetObservabilityTracingSettingsError = CloudflareOpError;
+/** Retrieve the zone-level Cloudflare Traces settings. */
+export const getObservabilityTracingSettings: API.OperationMethod<
+  GetObservabilityTracingSettingsRequest,
+  GetObservabilityTracingSettingsResponse,
+  GetObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetObservabilityTracingSettingsRequest,
+  output: GetObservabilityTracingSettingsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetPlanError = CloudflareOpError;
 /** Details of the available plan that the zone can subscribe to. */
 export const getPlan: API.OperationMethod<
@@ -13520,6 +13899,21 @@ export const getZone: API.OperationMethod<
   input: GetZoneRequest,
   output: GetZoneResponse,
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListEntitlementsError = CloudflareOpError;
+/** Returns the list of entitlements (features and their allocations) for a given zone. Each entitlement describes a product feature the zone is permitted to use and the allocation value (boolean, count, range, enum, or string) that governs its behaviour. */
+export const listEntitlements: API.OperationMethod<
+  ListEntitlementsRequest,
+  ListEntitlementsResponse,
+  ListEntitlementsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListEntitlementsRequest,
+  output: ListEntitlementsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -13772,6 +14166,36 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: UpdateEnvironmentResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateObservabilityTracingRuleError = CloudflareOpError;
+/** Replace all sampling overrides in a zone's managed Cloudflare Traces ruleset. Rules are evaluated in the supplied order. */
+export const updateObservabilityTracingRule: API.OperationMethod<
+  UpdateObservabilityTracingRuleRequest,
+  UpdateObservabilityTracingRuleResponse,
+  UpdateObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateObservabilityTracingRuleRequest,
+  output: UpdateObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateObservabilityTracingSettingsError = CloudflareOpError;
+/** Update the zone-level Cloudflare Traces settings. */
+export const updateObservabilityTracingSettings: API.OperationMethod<
+  UpdateObservabilityTracingSettingsRequest,
+  UpdateObservabilityTracingSettingsResponse,
+  UpdateObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateObservabilityTracingSettingsRequest,
+  output: UpdateObservabilityTracingSettingsResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

@@ -1,0 +1,36 @@
+{
+  "description": "The spec models the site extension install PUT without a body, but Microsoft.Web answers a bodyless PUT with an empty 400; it requires a JSON body (`{}`). Declaring an optional `properties` member makes the client send `{}`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#SiteExtensionInstallProperties",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#documentation": "Site extension install request properties (none are required)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#InstallWebAppSiteExtensionRequest/members/properties",
+      "value": {
+        "target": "com.azure.web#SiteExtensionInstallProperties",
+        "traits": {
+          "smithy.api#documentation": "Install properties; the request body must be present even when empty."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.web#InstallWebAppSiteExtensionSlotRequest/members/properties",
+      "value": {
+        "target": "com.azure.web#SiteExtensionInstallProperties",
+        "traits": {
+          "smithy.api#documentation": "Install properties; the request body must be present even when empty."
+        }
+      }
+    }
+  ]
+}

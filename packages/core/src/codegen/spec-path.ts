@@ -72,7 +72,7 @@ const tailWithinSpecs = (specPath: string): string | undefined => {
 /**
  * Resolve a package-relative spec path to an absolute one.
  *
- * @param root      absolute package root (`path.resolve(import.meta.dir, "..")`)
+ * @param root      absolute package root (`path.resolve(import.meta.dirname, "..")`)
  * @param specPath  the production path, relative to `root` (or absolute)
  */
 export const resolveSpecPath = (root: string, specPath: string): string => {

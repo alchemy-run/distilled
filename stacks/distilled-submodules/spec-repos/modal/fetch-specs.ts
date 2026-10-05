@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Modal's public gRPC protobufs into ../specs/.
  *
@@ -8,7 +8,7 @@
  * raw.githubusercontent.com — the upstream repository is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/api.proto
@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "modal-labs/modal-client";
@@ -77,7 +78,7 @@ async function main() {
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing ${outputPath}...`);
     const body = text.endsWith("\n") ? text : `${text}\n`;
-    await Bun.write(outputPath, body);
+    await writeFile(outputPath, body);
   }
 
   console.log("Done!");

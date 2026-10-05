@@ -51,9 +51,7 @@ export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailability",
-}) as any as S.Schema<NameAvailability>;
+).annotate({ identifier: "NameAvailability" }) as any as S.Schema<NameAvailability>;
 
 export interface DeleteWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -76,9 +74,7 @@ export const DeleteWebPubSubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWebPubSubRequest",
-}) as any as S.Schema<DeleteWebPubSubRequest>;
+).annotate({ identifier: "DeleteWebPubSubRequest" }) as any as S.Schema<DeleteWebPubSubRequest>;
 
 export interface DeleteWebPubSubResponse {}
 export const DeleteWebPubSubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -253,9 +249,7 @@ export const DeleteWebPubSubReplicasRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteWebPubSubReplicasResponse {}
 export const DeleteWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteWebPubSubReplicasResponse",
-  },
+  { identifier: "DeleteWebPubSubReplicasResponse" },
 ) as any as S.Schema<DeleteWebPubSubReplicasResponse>;
 
 export interface DeleteWebPubSubSharedPrivateLinkResourceRequest {
@@ -314,9 +308,7 @@ export const GetWebPubSubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetWebPubSubRequest",
-}) as any as S.Schema<GetWebPubSubRequest>;
+).annotate({ identifier: "GetWebPubSubRequest" }) as any as S.Schema<GetWebPubSubRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -407,9 +399,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Group IDs */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -563,9 +553,7 @@ export const WebPubSubTlsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientCertEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WebPubSubTlsSettings",
-}) as any as S.Schema<WebPubSubTlsSettings>;
+).annotate({ identifier: "WebPubSubTlsSettings" }) as any as S.Schema<WebPubSubTlsSettings>;
 
 /** Live trace category configuration of a Microsoft.SignalRService resource. */
 export interface LiveTraceCategory {
@@ -579,9 +567,7 @@ export const LiveTraceCategory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     enabled: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LiveTraceCategory",
-}) as any as S.Schema<LiveTraceCategory>;
+).annotate({ identifier: "LiveTraceCategory" }) as any as S.Schema<LiveTraceCategory>;
 
 /** Gets or sets the list of category configurations. */
 export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
@@ -601,9 +587,7 @@ export const LiveTraceConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.String),
     categories: S.optional(LiveTraceConfigurationCategoriesList),
   }),
-).annotate({
-  identifier: "LiveTraceConfiguration",
-}) as any as S.Schema<LiveTraceConfiguration>;
+).annotate({ identifier: "LiveTraceConfiguration" }) as any as S.Schema<LiveTraceConfiguration>;
 
 /** Resource log category configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogCategory {
@@ -617,9 +601,7 @@ export const ResourceLogCategory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     enabled: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceLogCategory",
-}) as any as S.Schema<ResourceLogCategory>;
+).annotate({ identifier: "ResourceLogCategory" }) as any as S.Schema<ResourceLogCategory>;
 
 /** Gets or sets the list of category configurations. */
 export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
@@ -636,9 +618,7 @@ export const ResourceLogConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     categories: S.optional(ResourceLogConfigurationCategoriesList),
   }),
-).annotate({
-  identifier: "ResourceLogConfiguration",
-}) as any as S.Schema<ResourceLogConfiguration>;
+).annotate({ identifier: "ResourceLogConfiguration" }) as any as S.Schema<ResourceLogConfiguration>;
 
 /** Azure Networking ACL Action. */
 export type ACLAction = "Allow" | "Deny";
@@ -701,9 +681,7 @@ export const PrivateEndpointACL = /*@__PURE__*/ S.suspend(() =>
     deny: S.optional(PrivateEndpointACLDenyList),
     name: S.String,
   }),
-).annotate({
-  identifier: "PrivateEndpointACL",
-}) as any as S.Schema<PrivateEndpointACL>;
+).annotate({ identifier: "PrivateEndpointACL" }) as any as S.Schema<PrivateEndpointACL>;
 
 /** ACLs for requests from private endpoints */
 export type WebPubSubNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>;
@@ -746,9 +724,7 @@ export const WebPubSubNetworkACLs = /*@__PURE__*/ S.suspend(() =>
     privateEndpoints: S.optional(WebPubSubNetworkACLsPrivateEndpointsList),
     ipRules: S.optional(WebPubSubNetworkACLsIpRulesList),
   }),
-).annotate({
-  identifier: "WebPubSubNetworkACLs",
-}) as any as S.Schema<WebPubSubNetworkACLs>;
+).annotate({ identifier: "WebPubSubNetworkACLs" }) as any as S.Schema<WebPubSubNetworkACLs>;
 
 /** SocketIO settings for the resource */
 export interface WebPubSubSocketIOSettings {
@@ -820,9 +796,7 @@ export const WebPubSubProperties = /*@__PURE__*/ S.suspend(() =>
     resourceStopped: S.optional(S.String),
     socketIO: S.optional(WebPubSubSocketIOSettings),
   }),
-).annotate({
-  identifier: "WebPubSubProperties",
-}) as any as S.Schema<WebPubSubProperties>;
+).annotate({ identifier: "WebPubSubProperties" }) as any as S.Schema<WebPubSubProperties>;
 
 /** The kind of the service */
 export type ServiceKind = "WebPubSub" | "SocketIO";
@@ -874,9 +848,7 @@ export const ManagedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedIdentity",
-}) as any as S.Schema<ManagedIdentity>;
+).annotate({ identifier: "ManagedIdentity" }) as any as S.Schema<ManagedIdentity>;
 
 export interface GetWebPubSubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -909,9 +881,7 @@ export const GetWebPubSubResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "GetWebPubSubResponse",
-}) as any as S.Schema<GetWebPubSubResponse>;
+).annotate({ identifier: "GetWebPubSubResponse" }) as any as S.Schema<GetWebPubSubResponse>;
 
 export interface GetWebPubSubCustomCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1022,9 +992,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** Properties of a custom domain. */
 export interface CustomDomainProperties {
@@ -1039,9 +1007,7 @@ export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
     domainName: S.String,
     customCertificate: ResourceReference,
   }),
-).annotate({
-  identifier: "CustomDomainProperties",
-}) as any as S.Schema<CustomDomainProperties>;
+).annotate({ identifier: "CustomDomainProperties" }) as any as S.Schema<CustomDomainProperties>;
 
 export interface GetWebPubSubCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1090,9 +1056,7 @@ export const GetWebPubSubHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetWebPubSubHubRequest",
-}) as any as S.Schema<GetWebPubSubHubRequest>;
+).annotate({ identifier: "GetWebPubSubHubRequest" }) as any as S.Schema<GetWebPubSubHubRequest>;
 
 /** Gets or sets the list of system events. */
 export type EventHandlerSystemEventsList = Array<string>;
@@ -1113,9 +1077,7 @@ export const ManagedIdentitySettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedIdentitySettings",
-}) as any as S.Schema<ManagedIdentitySettings>;
+).annotate({ identifier: "ManagedIdentitySettings" }) as any as S.Schema<ManagedIdentitySettings>;
 
 /** Upstream auth settings. If not set, no auth is used for upstream messages. */
 export interface UpstreamAuthSettings {
@@ -1127,9 +1089,7 @@ export const UpstreamAuthSettings = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(UpstreamAuthType),
     managedIdentity: S.optional(ManagedIdentitySettings),
   }),
-).annotate({
-  identifier: "UpstreamAuthSettings",
-}) as any as S.Schema<UpstreamAuthSettings>;
+).annotate({ identifier: "UpstreamAuthSettings" }) as any as S.Schema<UpstreamAuthSettings>;
 
 /** Properties of event handler. */
 export interface EventHandler {
@@ -1162,14 +1122,18 @@ export const EventListenerFilterType = S.String;
 /** A base class for event filter which determines whether an event should be sent to an event listener. */
 export interface EventListenerFilter {
   type: EventListenerFilterType | (string & {});
+  /** EventNameFilter: system events to forward (`connected`, `disconnected`). */
+  systemEvents?: EventHandlerSystemEventsList;
+  /** EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name). */
+  userEventPattern?: string;
 }
 export const EventListenerFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventListenerFilterType,
+    systemEvents: S.optional(EventHandlerSystemEventsList),
+    userEventPattern: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventListenerFilter",
-}) as any as S.Schema<EventListenerFilter>;
+).annotate({ identifier: "EventListenerFilter" }) as any as S.Schema<EventListenerFilter>;
 
 export type EventListenerEndpointType = "EventHub";
 export const EventListenerEndpointType = S.String;
@@ -1177,14 +1141,18 @@ export const EventListenerEndpointType = S.String;
 /** An endpoint specifying where Web PubSub should send events to. */
 export interface EventListenerEndpoint {
   type: EventListenerEndpointType | (string & {});
+  /** EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`. */
+  fullyQualifiedNamespace?: string;
+  /** EventHubEndpoint: name of the event hub. */
+  eventHubName?: string;
 }
 export const EventListenerEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventListenerEndpointType,
+    fullyQualifiedNamespace: S.optional(S.String),
+    eventHubName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventListenerEndpoint",
-}) as any as S.Schema<EventListenerEndpoint>;
+).annotate({ identifier: "EventListenerEndpoint" }) as any as S.Schema<EventListenerEndpoint>;
 
 /** A setting defines which kinds of events should be sent to which endpoint. */
 export interface EventListener {
@@ -1222,9 +1190,7 @@ export const WebPubSubHubProperties = /*@__PURE__*/ S.suspend(() =>
     anonymousConnectPolicy: S.optional(S.String),
     webSocketKeepAliveIntervalInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WebPubSubHubProperties",
-}) as any as S.Schema<WebPubSubHubProperties>;
+).annotate({ identifier: "WebPubSubHubProperties" }) as any as S.Schema<WebPubSubHubProperties>;
 
 export interface GetWebPubSubHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1245,9 +1211,7 @@ export const GetWebPubSubHubResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: WebPubSubHubProperties,
   }),
-).annotate({
-  identifier: "GetWebPubSubHubResponse",
-}) as any as S.Schema<GetWebPubSubHubResponse>;
+).annotate({ identifier: "GetWebPubSubHubResponse" }) as any as S.Schema<GetWebPubSubHubResponse>;
 
 export interface GetWebPubSubPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1329,9 +1293,7 @@ export const GetWebPubSubReplicasRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWebPubSubReplicasRequest>;
 
 /** Resource tags. */
-export type GetWebPubSubReplicasResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetWebPubSubReplicasResponseTagsMap = { [key: string]: string | undefined };
 export const GetWebPubSubReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1350,9 +1312,7 @@ export const ReplicaProperties = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaProperties",
-}) as any as S.Schema<ReplicaProperties>;
+).annotate({ identifier: "ReplicaProperties" }) as any as S.Schema<ReplicaProperties>;
 
 export interface GetWebPubSubReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1500,9 +1460,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes a operation. */
 export interface OperationDisplay {
@@ -1522,9 +1480,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Specifications of the Dimension of metrics. */
 export interface Dimension {
@@ -1582,9 +1538,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     category: S.optional(S.String),
     dimensions: S.optional(MetricSpecificationDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1604,9 +1558,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Logs for Azure Monitoring. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1626,9 +1578,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties. */
 export interface OperationProperties {
@@ -1638,9 +1588,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** REST API operation supported by resource provider. */
 export interface Operation {
@@ -1701,9 +1649,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** Localizable String object containing the name and a localized value. */
 export interface SignalRServiceUsageName {
@@ -1717,9 +1663,7 @@ export const SignalRServiceUsageName = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     localizedValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRServiceUsageName",
-}) as any as S.Schema<SignalRServiceUsageName>;
+).annotate({ identifier: "SignalRServiceUsageName" }) as any as S.Schema<SignalRServiceUsageName>;
 
 /** Object that describes a specific usage of the resources. */
 export interface SignalRServiceUsage {
@@ -1741,9 +1685,7 @@ export const SignalRServiceUsage = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(SignalRServiceUsageName),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRServiceUsage",
-}) as any as S.Schema<SignalRServiceUsage>;
+).annotate({ identifier: "SignalRServiceUsage" }) as any as S.Schema<SignalRServiceUsage>;
 
 /** List of the resource usages */
 export type SignalRServiceUsageListValueList = Array<SignalRServiceUsage>;
@@ -1763,9 +1705,7 @@ export const SignalRServiceUsageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SignalRServiceUsageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRServiceUsageList",
-}) as any as S.Schema<SignalRServiceUsageList>;
+).annotate({ identifier: "SignalRServiceUsageList" }) as any as S.Schema<SignalRServiceUsageList>;
 
 export interface ListWebPubSubByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1828,9 +1768,7 @@ export const WebPubSubResource = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "WebPubSubResource",
-}) as any as S.Schema<WebPubSubResource>;
+).annotate({ identifier: "WebPubSubResource" }) as any as S.Schema<WebPubSubResource>;
 
 /** List of the resources */
 export type WebPubSubResourceListValueList = Array<WebPubSubResource>;
@@ -1850,9 +1788,7 @@ export const WebPubSubResourceList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WebPubSubResourceListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebPubSubResourceList",
-}) as any as S.Schema<WebPubSubResourceList>;
+).annotate({ identifier: "WebPubSubResourceList" }) as any as S.Schema<WebPubSubResourceList>;
 
 export interface ListWebPubSubBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1918,9 +1854,7 @@ export const CustomCertificate = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: CustomCertificateProperties,
   }),
-).annotate({
-  identifier: "CustomCertificate",
-}) as any as S.Schema<CustomCertificate>;
+).annotate({ identifier: "CustomCertificate" }) as any as S.Schema<CustomCertificate>;
 
 /** List of custom certificates of this resource. */
 export type CustomCertificateListValueList = Array<CustomCertificate>;
@@ -1940,9 +1874,7 @@ export const CustomCertificateList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CustomCertificateListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomCertificateList",
-}) as any as S.Schema<CustomCertificateList>;
+).annotate({ identifier: "CustomCertificateList" }) as any as S.Schema<CustomCertificateList>;
 
 export interface ListWebPubSubCustomDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2009,9 +1941,7 @@ export const CustomDomainList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CustomDomainListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainList",
-}) as any as S.Schema<CustomDomainList>;
+).annotate({ identifier: "CustomDomainList" }) as any as S.Schema<CustomDomainList>;
 
 export interface ListWebPubSubHubsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2034,9 +1964,7 @@ export const ListWebPubSubHubsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWebPubSubHubsRequest",
-}) as any as S.Schema<ListWebPubSubHubsRequest>;
+).annotate({ identifier: "ListWebPubSubHubsRequest" }) as any as S.Schema<ListWebPubSubHubsRequest>;
 
 /** A hub setting */
 export interface WebPubSubHub {
@@ -2078,9 +2006,7 @@ export const WebPubSubHubList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WebPubSubHubListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebPubSubHubList",
-}) as any as S.Schema<WebPubSubHubList>;
+).annotate({ identifier: "WebPubSubHubList" }) as any as S.Schema<WebPubSubHubList>;
 
 export interface ListWebPubSubKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2103,9 +2029,7 @@ export const ListWebPubSubKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWebPubSubKeysRequest",
-}) as any as S.Schema<ListWebPubSubKeysRequest>;
+).annotate({ identifier: "ListWebPubSubKeysRequest" }) as any as S.Schema<ListWebPubSubKeysRequest>;
 
 /** A class represents the access keys of the resource. */
 export interface WebPubSubKeys {
@@ -2297,9 +2221,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** List of PrivateLinkResource */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
@@ -2319,9 +2241,7 @@ export const PrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PrivateLinkResourceListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResourceList",
-}) as any as S.Schema<PrivateLinkResourceList>;
+).annotate({ identifier: "PrivateLinkResourceList" }) as any as S.Schema<PrivateLinkResourceList>;
 
 export interface ListWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2593,9 +2513,7 @@ export const ListWebPubSubSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWebPubSubSkusRequest",
-}) as any as S.Schema<ListWebPubSubSkusRequest>;
+).annotate({ identifier: "ListWebPubSubSkusRequest" }) as any as S.Schema<ListWebPubSubSkusRequest>;
 
 /** The type of access key. */
 export type KeyType = "Primary" | "Secondary" | "Salt";
@@ -2649,9 +2567,7 @@ export const RestartWebPubSubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "RestartWebPubSubRequest",
-}) as any as S.Schema<RestartWebPubSubRequest>;
+).annotate({ identifier: "RestartWebPubSubRequest" }) as any as S.Schema<RestartWebPubSubRequest>;
 
 export interface RestartWebPubSubResponse {}
 export const RestartWebPubSubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2694,9 +2610,7 @@ export const RestartWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RestartWebPubSubReplicasResponse>;
 
 /** Resource tags. */
-export type UpdateWebPubSubRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebPubSubRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWebPubSubRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2716,9 +2630,7 @@ export const ResourceSkuInput = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(WebPubSubSkuTier),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ResourceSkuInput",
-}) as any as S.Schema<ResourceSkuInput>;
+).annotate({ identifier: "ResourceSkuInput" }) as any as S.Schema<ResourceSkuInput>;
 
 /** A class that describes the properties of the resource */
 export interface WebPubSubPropertiesInput {
@@ -2751,9 +2663,7 @@ export const WebPubSubPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     resourceStopped: S.optional(S.String),
     socketIO: S.optional(WebPubSubSocketIOSettings),
   }),
-).annotate({
-  identifier: "WebPubSubPropertiesInput",
-}) as any as S.Schema<WebPubSubPropertiesInput>;
+).annotate({ identifier: "WebPubSubPropertiesInput" }) as any as S.Schema<WebPubSubPropertiesInput>;
 
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityPropertyInput {}
@@ -2783,9 +2693,7 @@ export const ManagedIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ManagedIdentityType),
     userAssignedIdentities: S.optional(ManagedIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedIdentityInput",
-}) as any as S.Schema<ManagedIdentityInput>;
+).annotate({ identifier: "ManagedIdentityInput" }) as any as S.Schema<ManagedIdentityInput>;
 
 export interface UpdateWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2822,14 +2730,10 @@ export const UpdateWebPubSubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWebPubSubRequest",
-}) as any as S.Schema<UpdateWebPubSubRequest>;
+).annotate({ identifier: "UpdateWebPubSubRequest" }) as any as S.Schema<UpdateWebPubSubRequest>;
 
 /** Resource tags. */
-export type UpdateWebPubSubResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebPubSubResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWebPubSubResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2866,9 +2770,7 @@ export const UpdateWebPubSubResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "UpdateWebPubSubResponse",
-}) as any as S.Schema<UpdateWebPubSubResponse>;
+).annotate({ identifier: "UpdateWebPubSubResponse" }) as any as S.Schema<UpdateWebPubSubResponse>;
 
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -2938,9 +2840,7 @@ export const UpdateWebPubSubPrivateEndpointConnectionResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateWebPubSubPrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type UpdateWebPubSubReplicasRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebPubSubReplicasRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWebPubSubReplicasRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2957,9 +2857,7 @@ export const ReplicaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaPropertiesInput",
-}) as any as S.Schema<ReplicaPropertiesInput>;
+).annotate({ identifier: "ReplicaPropertiesInput" }) as any as S.Schema<ReplicaPropertiesInput>;
 
 export interface UpdateWebPubSubReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3000,9 +2898,7 @@ export const UpdateWebPubSubReplicasRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWebPubSubReplicasRequest>;
 
 /** Resource tags. */
-export type UpdateWebPubSubReplicasResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebPubSubReplicasResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWebPubSubReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3040,9 +2936,7 @@ export const UpdateWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWebPubSubReplicasResponse>;
 
 /** Resource tags. */
-export type WebPubSubCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebPubSubCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WebPubSubCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3088,9 +2982,7 @@ export const WebPubSubCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WebPubSubCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WebPubSubCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebPubSubCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WebPubSubCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3325,9 +3217,7 @@ export const WebPubSubHubsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WebPubSubHubsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type WebPubSubReplicasCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebPubSubReplicasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WebPubSubReplicasCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3372,9 +3262,7 @@ export const WebPubSubReplicasCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<WebPubSubReplicasCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WebPubSubReplicasCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebPubSubReplicasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WebPubSubReplicasCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

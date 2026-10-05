@@ -29,15 +29,15 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "SentryCredentials",
 ) {}
 
-/** Layer from a plain auth token + optional base URL. */
+/** Layer from a redacted auth token + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

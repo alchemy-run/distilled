@@ -7,13 +7,11 @@
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.spec-repos.json"
   },
   "dependencies": {
-    "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
     "alchemy": "catalog:",
     "effect": "catalog:"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
     "graphql": "catalog:",
     "typescript": "catalog:",
     "yaml": "catalog:"

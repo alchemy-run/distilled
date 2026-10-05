@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** The resource tags. */
-export type CreateControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -44,14 +42,10 @@ export const CreateControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-15",
     }),
   ),
-).annotate({
-  identifier: "CreateControllerRequest",
-}) as any as S.Schema<CreateControllerRequest>;
+).annotate({ identifier: "CreateControllerRequest" }) as any as S.Schema<CreateControllerRequest>;
 
 /** The resource tags. */
-export type CreateControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -113,9 +107,7 @@ export const CreateControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateControllerResponseTagsMap),
     properties: S.optional(DelegatedControllerProperties),
   }),
-).annotate({
-  identifier: "CreateControllerResponse",
-}) as any as S.Schema<CreateControllerResponse>;
+).annotate({ identifier: "CreateControllerResponse" }) as any as S.Schema<CreateControllerResponse>;
 
 /** The kind of workbook. Choices are user and shared. */
 export type CreateOrchestratorInstanceServiceRequestKind = "Kubernetes";
@@ -138,9 +130,7 @@ export const OrchestratorIdentityInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OrchestratorIdentityInput>;
 
 /** The resource tags. */
-export type CreateOrchestratorInstanceServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrchestratorInstanceServiceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateOrchestratorInstanceServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -249,9 +239,7 @@ export const OrchestratorIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(OrchestratorIdentityType),
   }),
-).annotate({
-  identifier: "OrchestratorIdentity",
-}) as any as S.Schema<OrchestratorIdentity>;
+).annotate({ identifier: "OrchestratorIdentity" }) as any as S.Schema<OrchestratorIdentity>;
 
 /** The resource tags. */
 export type CreateOrchestratorInstanceServiceResponseTagsMap = {
@@ -364,9 +352,7 @@ export const DeleteControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteControllerRequest",
-}) as any as S.Schema<DeleteControllerRequest>;
+).annotate({ identifier: "DeleteControllerRequest" }) as any as S.Schema<DeleteControllerRequest>;
 
 export interface DeleteControllerResponse {}
 export const DeleteControllerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -469,9 +455,7 @@ export const GetControllerDetailsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetControllerDetailsRequest>;
 
 /** The resource tags. */
-export type GetControllerDetailsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetControllerDetailsResponseTagsMap = { [key: string]: string | undefined };
 export const GetControllerDetailsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -530,9 +514,7 @@ export const GetDelegatedSubnetServiceDetailsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetDelegatedSubnetServiceDetailsRequest>;
 
 /** The resource tags. */
-export type GetDelegatedSubnetServiceDetailsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDelegatedSubnetServiceDetailsResponseTagsMap = { [key: string]: string | undefined };
 export const GetDelegatedSubnetServiceDetailsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -736,9 +718,7 @@ export const DelegatedController = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(DelegatedControllerTagsMap),
     properties: S.optional(DelegatedControllerProperties),
   }),
-).annotate({
-  identifier: "DelegatedController",
-}) as any as S.Schema<DelegatedController>;
+).annotate({ identifier: "DelegatedController" }) as any as S.Schema<DelegatedController>;
 
 /** An array of Delegated controller resources. */
 export type DelegatedControllersValueList = Array<DelegatedController>;
@@ -758,9 +738,7 @@ export const DelegatedControllers = /*@__PURE__*/ S.suspend(() =>
     value: DelegatedControllersValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DelegatedControllers",
-}) as any as S.Schema<DelegatedControllers>;
+).annotate({ identifier: "DelegatedControllers" }) as any as S.Schema<DelegatedControllers>;
 
 export interface ListDelegatedNetworkBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -834,9 +812,7 @@ export const DelegatedSubnet = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(DelegatedSubnetTagsMap),
     properties: S.optional(DelegatedSubnetProperties),
   }),
-).annotate({
-  identifier: "DelegatedSubnet",
-}) as any as S.Schema<DelegatedSubnet>;
+).annotate({ identifier: "DelegatedSubnet" }) as any as S.Schema<DelegatedSubnet>;
 
 /** An array of DelegatedSubnet resources. */
 export type DelegatedSubnetsValueList = Array<DelegatedSubnet>;
@@ -856,9 +832,7 @@ export const DelegatedSubnets = /*@__PURE__*/ S.suspend(() =>
     value: DelegatedSubnetsValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DelegatedSubnets",
-}) as any as S.Schema<DelegatedSubnets>;
+).annotate({ identifier: "DelegatedSubnets" }) as any as S.Schema<DelegatedSubnets>;
 
 export interface ListDelegatedSubnetServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -889,9 +863,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -911,9 +883,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -963,9 +933,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOrchestratorInstanceServiceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1072,9 +1040,7 @@ export const ListOrchestratorInstanceServiceBySubscriptionRequest = /*@__PURE__*
 }) as any as S.Schema<ListOrchestratorInstanceServiceBySubscriptionRequest>;
 
 /** The resource tags. */
-export type PatchControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchControllerRequestTagsMap = { [key: string]: string | undefined };
 export const PatchControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1104,14 +1070,10 @@ export const PatchControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-03-15",
     }),
   ),
-).annotate({
-  identifier: "PatchControllerRequest",
-}) as any as S.Schema<PatchControllerRequest>;
+).annotate({ identifier: "PatchControllerRequest" }) as any as S.Schema<PatchControllerRequest>;
 
 /** The resource tags. */
-export type PatchControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchControllerResponseTagsMap = { [key: string]: string | undefined };
 export const PatchControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1140,9 +1102,7 @@ export const PatchControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(PatchControllerResponseTagsMap),
     properties: S.optional(DelegatedControllerProperties),
   }),
-).annotate({
-  identifier: "PatchControllerResponse",
-}) as any as S.Schema<PatchControllerResponse>;
+).annotate({ identifier: "PatchControllerResponse" }) as any as S.Schema<PatchControllerResponse>;
 
 /** The resource tags. */
 export type PatchDelegatedSubnetServiceDetailsRequestTagsMap = {
@@ -1218,9 +1178,7 @@ export const PatchDelegatedSubnetServiceDetailsResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<PatchDelegatedSubnetServiceDetailsResponse>;
 
 /** The resource tags. */
-export type PatchOrchestratorInstanceServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchOrchestratorInstanceServiceRequestTagsMap = { [key: string]: string | undefined };
 export const PatchOrchestratorInstanceServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1259,9 +1217,7 @@ export type PatchOrchestratorInstanceServiceResponseKind = "Kubernetes";
 export const PatchOrchestratorInstanceServiceResponseKind = S.String;
 
 /** The resource tags. */
-export type PatchOrchestratorInstanceServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchOrchestratorInstanceServiceResponseTagsMap = { [key: string]: string | undefined };
 export const PatchOrchestratorInstanceServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1301,9 +1257,7 @@ export const PatchOrchestratorInstanceServiceResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PatchOrchestratorInstanceServiceResponse>;
 
 /** The resource tags. */
-export type PutDelegatedSubnetServiceDetailsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutDelegatedSubnetServiceDetailsRequestTagsMap = { [key: string]: string | undefined };
 export const PutDelegatedSubnetServiceDetailsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1366,9 +1320,7 @@ export const PutDelegatedSubnetServiceDetailsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<PutDelegatedSubnetServiceDetailsRequest>;
 
 /** The resource tags. */
-export type PutDelegatedSubnetServiceDetailsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutDelegatedSubnetServiceDetailsResponseTagsMap = { [key: string]: string | undefined };
 export const PutDelegatedSubnetServiceDetailsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

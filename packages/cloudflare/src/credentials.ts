@@ -22,19 +22,19 @@ export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 export interface ApiTokenConfig {
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }
 
 export interface ApiKeyConfig {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly email: string;
   readonly apiBaseUrl?: string;
 }
 
 export interface OAuthConfig {
-  readonly accessToken: string;
-  readonly refreshToken?: string;
+  readonly accessToken: Redacted.Redacted<string>;
+  readonly refreshToken?: Redacted.Redacted<string>;
   readonly expiresAt?: number;
 }
 
@@ -83,21 +83,21 @@ const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT
 
 export const apiTokenCredentials = (config: ApiTokenConfig): ApiTokenCredentials => ({
   type: "apiToken",
-  apiToken: Redacted.make(config.apiToken),
+  apiToken: config.apiToken,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
   type: "apiKey",
-  apiKey: Redacted.make(config.apiKey),
+  apiKey: config.apiKey,
   email: config.email,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const oauthCredentials = (config: OAuthConfig, apiBaseUrl?: string): OAuthCredentials => ({
   type: "oauth",
-  accessToken: Redacted.make(config.accessToken),
-  refreshToken: config.refreshToken ? Redacted.make(config.refreshToken) : undefined,
+  accessToken: config.accessToken,
+  refreshToken: config.refreshToken,
   expiresAt: config.expiresAt,
   apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
 });
@@ -181,9 +181,21 @@ const fromConfigError = (message: string) => () =>
     message,
   });
 
+/**
+ * An empty variable counts as unset. `resolveFromEnv` picks the auth mode
+ * with truthiness checks, and a `Redacted` wrapping `""` is truthy, so
+ * without this filter an empty CLOUDFLARE_API_TOKEN would win and send
+ * `Authorization: Bearer ` with no token.
+ */
+const redactNonEmpty = (value: Option.Option<string>): Option.Option<Redacted.Redacted<string>> =>
+  value.pipe(
+    Option.filter((v) => v.length > 0),
+    Option.map(Redacted.make),
+  );
+
 const envConfig = Config.all({
-  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")),
-  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")),
+  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")).pipe(Config.map(redactNonEmpty)),
+  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")).pipe(Config.map(redactNonEmpty)),
   email: Config.option(Config.String("CLOUDFLARE_EMAIL")),
   apiBaseUrl: Config.String("CLOUDFLARE_API_BASE_URL").pipe(
     Config.withDefault(DEFAULT_API_BASE_URL),
@@ -250,11 +262,11 @@ export const formatHeaders = (credentials: ResolvedCredentials): Record<string, 
 };
 
 /**
- * Convenience layer from a plain token + optional base URL (kept for local
+ * Convenience layer from a redacted token + optional base URL (kept for local
  * tests; distilled's equivalent is `fromApiToken`).
  */
 export const credentials = (config: {
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly baseUrl?: string;
 }): Layer.Layer<Credentials> =>
   fromApiToken({ apiToken: config.apiToken, apiBaseUrl: config.baseUrl });

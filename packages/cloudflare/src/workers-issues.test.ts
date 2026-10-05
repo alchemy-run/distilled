@@ -212,7 +212,6 @@ describe("Workers Issues schema constraints", () => {
 
   test("Issues requires a boolean enabled member when present", () => {
     for (const schema of [
-      Workers.ObservabilityIssues,
       Workers.PutScriptObservabilityIssues,
       Platforms.PutDispatchNamespaceScriptObservabilityIssues,
     ]) {

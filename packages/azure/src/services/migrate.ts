@@ -12,10 +12,16 @@ export type { AzureOpError, AzureOpContext };
 export interface AssessmentScopeParameters {
   /** Gets or sets the server group id. */
   serverGroupId?: string;
+  /** Scope type, e.g. `ServerGroupId` or `AzureResourceGraphQuery`. */
+  scopeType?: string;
+  /** Azure Resource Graph query selecting the assessed resources. */
+  azureResourceGraphQuery?: string;
 }
 export const AssessmentScopeParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serverGroupId: S.optional(S.String),
+    scopeType: S.optional(S.String),
+    azureResourceGraphQuery: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AssessmentScopeParameters",
@@ -24,10 +30,6 @@ export const AssessmentScopeParameters = /*@__PURE__*/ S.suspend(() =>
 /** Environment Type for Azure. */
 export type AzureEnvironmentType = "Unknown" | "DevTest" | "Production";
 export const AzureEnvironmentType = S.String;
-
-/** Licensing Program for Azure. */
-export type LicensingProgram = "Default" | "EA";
-export const LicensingProgram = S.String;
 
 /** Currency for Azure. */
 export type AzureCurrency =
@@ -59,10 +61,6 @@ export type AzureCurrency =
   | "CNY";
 export const AzureCurrency = S.String;
 
-/** Assessment Sizing Criteria. */
-export type AssessmentSizingCriterion = "PerformanceBased" | "AsOnPremises";
-export const AssessmentSizingCriterion = S.String;
-
 /** Time Range for Performance Data. */
 export type TimeRange = "Day" | "Week" | "Month" | "Custom";
 export const TimeRange = S.String;
@@ -89,9 +87,7 @@ export const PerfDataSettings = /*@__PURE__*/ S.suspend(() =>
     perfDataEndTime: S.optional(S.String),
     percentile: Percentile,
   }),
-).annotate({
-  identifier: "PerfDataSettings",
-}) as any as S.Schema<PerfDataSettings>;
+).annotate({ identifier: "PerfDataSettings" }) as any as S.Schema<PerfDataSettings>;
 
 /** Azure VM Category. */
 export type AzureVmCategory =
@@ -105,6 +101,18 @@ export type AzureVmCategory =
   | "Isolated";
 export const AzureVmCategory = S.String;
 
+/** Consolidation Type. */
+export type ConsolidationType = "Full" | "AsOnSource";
+export const ConsolidationType = S.String;
+
+/** Pricing Tier for Azure. */
+export type PricingTier = "Standard" | "Free";
+export const PricingTier = S.String;
+
+/** Assessment Sizing Criteria. */
+export type AssessmentSizingCriterion = "PerformanceBased" | "AsOnPremises";
+export const AssessmentSizingCriterion = S.String;
+
 /** Savings Options for Azure. */
 export type SavingsOptions =
   | "None"
@@ -114,13 +122,41 @@ export type SavingsOptions =
   | "ThreeYearsReserved";
 export const SavingsOptions = S.String;
 
-/** Consolidation Type. */
-export type ConsolidationType = "Full" | "AsOnSource";
-export const ConsolidationType = S.String;
+/** AKS assessment savings settings. */
+export interface AKSAssessmentSavingsSettings {
+  /** Savings options (reserved instances or savings plans). */
+  savingsOptions?: SavingsOptions | (string & {});
+  /** Azure offer code, e.g. `MSAZR0003P` (pay-as-you-go). */
+  azureOfferCode?: string;
+}
+export const AKSAssessmentSavingsSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    savingsOptions: S.optional(SavingsOptions),
+    azureOfferCode: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AKSAssessmentSavingsSettings",
+}) as any as S.Schema<AKSAssessmentSavingsSettings>;
 
-/** Pricing Tier for Azure. */
-export type PricingTier = "Standard" | "Free";
-export const PricingTier = S.String;
+/** Licensing Program for Azure. */
+export type LicensingProgram = "Default" | "EA";
+export const LicensingProgram = S.String;
+
+/** AKS assessment billing settings. */
+export interface AKSAssessmentBillingSettings {
+  /** Licensing program (`Default` or `EA`). */
+  licensingProgram?: LicensingProgram | (string & {});
+  /** Subscription the prices are computed for. */
+  subscriptionId?: string;
+}
+export const AKSAssessmentBillingSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    licensingProgram: S.optional(LicensingProgram),
+    subscriptionId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AKSAssessmentBillingSettings",
+}) as any as S.Schema<AKSAssessmentBillingSettings>;
 
 /** Data model of AKS Assessment Settings. */
 export interface AKSAssessmentSettings {
@@ -128,45 +164,43 @@ export interface AKSAssessmentSettings {
   azureLocation: string;
   /** Gets or sets environment type. */
   environmentType: AzureEnvironmentType | (string & {});
-  /** Gets or sets licensing program. */
-  licensingProgram: LicensingProgram | (string & {});
   /** Gets or sets currency. */
   currency: AzureCurrency | (string & {});
   /** Gets or sets discount percentage. */
   discountPercentage?: number;
-  /** Gets or sets sizing criteria. */
-  sizingCriteria: AssessmentSizingCriterion | (string & {});
   /** Gets or sets performance data settings. */
   performanceData?: PerfDataSettings;
   /** Gets or sets scaling factor. */
   scalingFactor?: number;
   /** Gets or sets azure VM category. */
   category: AzureVmCategory | (string & {});
-  /** Gets or sets savings options. */
-  savingsOptions: SavingsOptions | (string & {});
   /** Gets or sets consolidation type. */
   consolidation: ConsolidationType | (string & {});
   /** Gets or sets pricing tier. */
   pricingTier: PricingTier | (string & {});
+  /** Gets or sets sizing criteria. */
+  sizingCriterion: AssessmentSizingCriterion | (string & {});
+  /** Savings settings. */
+  savingsSettings?: AKSAssessmentSavingsSettings;
+  /** Billing settings. */
+  billingSettings?: AKSAssessmentBillingSettings;
 }
 export const AKSAssessmentSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     azureLocation: S.String,
     environmentType: AzureEnvironmentType,
-    licensingProgram: LicensingProgram,
     currency: AzureCurrency,
     discountPercentage: S.optional(S.Number),
-    sizingCriteria: AssessmentSizingCriterion,
     performanceData: S.optional(PerfDataSettings),
     scalingFactor: S.optional(S.Number),
     category: AzureVmCategory,
-    savingsOptions: SavingsOptions,
     consolidation: ConsolidationType,
     pricingTier: PricingTier,
+    sizingCriterion: AssessmentSizingCriterion,
+    savingsSettings: S.optional(AKSAssessmentSavingsSettings),
+    billingSettings: S.optional(AKSAssessmentBillingSettings),
   }),
-).annotate({
-  identifier: "AKSAssessmentSettings",
-}) as any as S.Schema<AKSAssessmentSettings>;
+).annotate({ identifier: "AKSAssessmentSettings" }) as any as S.Schema<AKSAssessmentSettings>;
 
 /** ARM model of AKS Assessment Properties. */
 export interface AKSAssessmentPropertiesInput {
@@ -208,7 +242,7 @@ export const CreateAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -298,9 +332,7 @@ export const AKSAssessmentDetails = /*@__PURE__*/ S.suspend(() =>
     machineCount: S.Number,
     totalMonthlyCost: S.Number,
   }),
-).annotate({
-  identifier: "AKSAssessmentDetails",
-}) as any as S.Schema<AKSAssessmentDetails>;
+).annotate({ identifier: "AKSAssessmentDetails" }) as any as S.Schema<AKSAssessmentDetails>;
 
 /** ARM model of AKS Assessment Properties. */
 export interface AKSAssessmentProperties {
@@ -320,9 +352,7 @@ export const AKSAssessmentProperties = /*@__PURE__*/ S.suspend(() =>
     settings: AKSAssessmentSettings,
     details: S.optional(AKSAssessmentDetails),
   }),
-).annotate({
-  identifier: "AKSAssessmentProperties",
-}) as any as S.Schema<AKSAssessmentProperties>;
+).annotate({ identifier: "AKSAssessmentProperties" }) as any as S.Schema<AKSAssessmentProperties>;
 
 export interface CreateAksAssessmentOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -352,9 +382,7 @@ export const CreateAksAssessmentOperationResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateAksAssessmentOperationResponse>;
 
 /** Resource tags. */
-export type CreateAssessmentProjectsOperationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAssessmentProjectsOperationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateAssessmentProjectsOperationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -402,9 +430,7 @@ export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(S.String),
     customerStorageAccountArmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
+).annotate({ identifier: "ProjectPropertiesInput" }) as any as S.Schema<ProjectPropertiesInput>;
 
 export interface CreateAssessmentProjectsOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -464,9 +490,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -591,9 +615,7 @@ export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
     privateEndpointConnections: S.optional(ProjectPropertiesPrivateEndpointConnectionsList),
     customerStorageAccountArmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
+).annotate({ identifier: "ProjectProperties" }) as any as S.Schema<ProjectProperties>;
 
 export interface CreateAssessmentProjectsOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1474,9 +1496,7 @@ export const AvsEstimatedNode = /*@__PURE__*/ S.suspend(() =>
     pricingModel: S.optional(AzureReservedInstance),
     fttRaidLevel: S.optional(FttAndRaidLevel),
   }),
-).annotate({
-  identifier: "AvsEstimatedNode",
-}) as any as S.Schema<AvsEstimatedNode>;
+).annotate({ identifier: "AvsEstimatedNode" }) as any as S.Schema<AvsEstimatedNode>;
 
 /** Estimated AVS SKU for Assessment. */
 export type AvsAssessmentPropertiesAvsEstimatedNodesList = Array<AvsEstimatedNode>;
@@ -1529,9 +1549,7 @@ export const AvsEstimatedNetwork = /*@__PURE__*/ S.suspend(() =>
     monthlyPrice: S.optional(S.Number),
     networkType: S.optional(NetworkSkuType),
   }),
-).annotate({
-  identifier: "AvsEstimatedNetwork",
-}) as any as S.Schema<AvsEstimatedNetwork>;
+).annotate({ identifier: "AvsEstimatedNetwork" }) as any as S.Schema<AvsEstimatedNetwork>;
 
 /** Estimated External Storage for Assessment. */
 export type AvsAssessmentPropertiesAvsEstimatedNetworksList = Array<AvsEstimatedNetwork>;
@@ -1540,9 +1558,7 @@ export const AvsAssessmentPropertiesAvsEstimatedNetworksList = /*@__PURE__*/ S.A
 ) as any as S.Schema<AvsAssessmentPropertiesAvsEstimatedNetworksList>;
 
 /** Cloud suitability summary for all the machines in the assessment. */
-export type AvsAssessmentPropertiesSuitabilitySummaryMap = {
-  [key: string]: number | undefined;
-};
+export type AvsAssessmentPropertiesSuitabilitySummaryMap = { [key: string]: number | undefined };
 export const AvsAssessmentPropertiesSuitabilitySummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1711,9 +1727,7 @@ export const AvsAssessmentProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AssessmentStatus),
     schemaVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvsAssessmentProperties",
-}) as any as S.Schema<AvsAssessmentProperties>;
+).annotate({ identifier: "AvsAssessmentProperties" }) as any as S.Schema<AvsAssessmentProperties>;
 
 export interface CreateAvsAssessmentsOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1762,9 +1776,7 @@ export const GroupPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     supportedAssessmentTypes: S.optional(GroupPropertiesInputSupportedAssessmentTypesList),
     groupType: S.optional(GroupType),
   }),
-).annotate({
-  identifier: "GroupPropertiesInput",
-}) as any as S.Schema<GroupPropertiesInput>;
+).annotate({ identifier: "GroupPropertiesInput" }) as any as S.Schema<GroupPropertiesInput>;
 
 export interface CreateGroupsOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1845,9 +1857,7 @@ export const GroupProperties = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     groupType: S.optional(GroupType),
   }),
-).annotate({
-  identifier: "GroupProperties",
-}) as any as S.Schema<GroupProperties>;
+).annotate({ identifier: "GroupProperties" }) as any as S.Schema<GroupProperties>;
 
 export interface CreateGroupsOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1950,9 +1960,7 @@ export const HypervClusterPropertiesHostFqdnListList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HypervClusterPropertiesHostFqdnListList>;
 
 /** Gets the message parameters. */
-export type HealthErrorDetailsMessageParametersMap = {
-  [key: string]: string | undefined;
-};
+export type HealthErrorDetailsMessageParametersMap = { [key: string]: string | undefined };
 export const HealthErrorDetailsMessageParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2019,9 +2027,7 @@ export const HealthErrorDetails = /*@__PURE__*/ S.suspend(() =>
     runAsAccountId: S.optional(S.String),
     discoveryScope: S.optional(HealthErrorDetailsDiscoveryScope),
   }),
-).annotate({
-  identifier: "HealthErrorDetails",
-}) as any as S.Schema<HealthErrorDetails>;
+).annotate({ identifier: "HealthErrorDetails" }) as any as S.Schema<HealthErrorDetails>;
 
 /** Gets the errors. */
 export type HypervClusterPropertiesErrorsList = Array<HealthErrorDetails>;
@@ -2062,9 +2068,7 @@ export const HypervClusterProperties = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(HypervClusterPropertiesErrorsList),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "HypervClusterProperties",
-}) as any as S.Schema<HypervClusterProperties>;
+).annotate({ identifier: "HypervClusterProperties" }) as any as S.Schema<HypervClusterProperties>;
 
 export interface CreateHypervClusterControllerClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2319,9 +2323,7 @@ export const HypervHostProperties = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(HypervHostPropertiesErrorsList),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "HypervHostProperties",
-}) as any as S.Schema<HypervHostProperties>;
+).annotate({ identifier: "HypervHostProperties" }) as any as S.Schema<HypervHostProperties>;
 
 export interface CreateHypervHostControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2348,9 +2350,7 @@ export const CreateHypervHostControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateHypervHostControllerResponse>;
 
 /** Resource tags. */
-export type CreateHypervSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateHypervSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateHypervSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2380,9 +2380,7 @@ export const SiteSpnProperties = /*@__PURE__*/ S.suspend(() =>
     aadAuthority: S.optional(S.String),
     rawCertData: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteSpnProperties",
-}) as any as S.Schema<SiteSpnProperties>;
+).annotate({ identifier: "SiteSpnProperties" }) as any as S.Schema<SiteSpnProperties>;
 
 /** Class for site agent properties. */
 export interface SiteAgentPropertiesInput {
@@ -2396,9 +2394,7 @@ export const SiteAgentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     keyVaultUri: S.optional(S.String),
     keyVaultId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteAgentPropertiesInput",
-}) as any as S.Schema<SiteAgentPropertiesInput>;
+).annotate({ identifier: "SiteAgentPropertiesInput" }) as any as S.Schema<SiteAgentPropertiesInput>;
 
 /** The properties of VMwareSiteResource */
 export interface SitePropertiesInput {
@@ -2421,9 +2417,7 @@ export const SitePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     discoverySolutionId: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "SitePropertiesInput",
-}) as any as S.Schema<SitePropertiesInput>;
+).annotate({ identifier: "SitePropertiesInput" }) as any as S.Schema<SitePropertiesInput>;
 
 export interface CreateHypervSitesControllerRequest {
   /** The ID of the target subscription. */
@@ -2460,9 +2454,7 @@ export const CreateHypervSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateHypervSitesControllerRequest>;
 
 /** Resource tags. */
-export type CreateHypervSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateHypervSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateHypervSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2489,9 +2481,7 @@ export const SiteAgentProperties = /*@__PURE__*/ S.suspend(() =>
     keyVaultUri: S.optional(S.String),
     keyVaultId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteAgentProperties",
-}) as any as S.Schema<SiteAgentProperties>;
+).annotate({ identifier: "SiteAgentProperties" }) as any as S.Schema<SiteAgentProperties>;
 
 /** The properties of VMwareSiteResource */
 export interface SiteProperties {
@@ -2617,9 +2607,7 @@ export const CollectorPropertiesBase = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.String),
     updatedTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CollectorPropertiesBase",
-}) as any as S.Schema<CollectorPropertiesBase>;
+).annotate({ identifier: "CollectorPropertiesBase" }) as any as S.Schema<CollectorPropertiesBase>;
 
 export interface CreateImportCollectorsOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2646,9 +2634,7 @@ export const CreateImportCollectorsOperationResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<CreateImportCollectorsOperationResponse>;
 
 /** Resource tags. */
-export type CreateImportSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateImportSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateImportSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2705,9 +2691,7 @@ export const CreateImportSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateImportSitesControllerRequest>;
 
 /** Resource tags. */
-export type CreateImportSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateImportSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateImportSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2731,9 +2715,7 @@ export const ImportSiteProperties = /*@__PURE__*/ S.suspend(() =>
     serviceEndpoint: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "ImportSiteProperties",
-}) as any as S.Schema<ImportSiteProperties>;
+).annotate({ identifier: "ImportSiteProperties" }) as any as S.Schema<ImportSiteProperties>;
 
 export interface CreateImportSitesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2766,9 +2748,7 @@ export const CreateImportSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateImportSitesControllerResponse>;
 
 /** Resource tags. */
-export type CreateMasterSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMasterSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateMasterSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2841,9 +2821,7 @@ export const CreateMasterSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateMasterSitesControllerRequest>;
 
 /** Resource tags. */
-export type CreateMasterSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMasterSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateMasterSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2985,9 +2963,7 @@ export const MasterSiteProperties = /*@__PURE__*/ S.suspend(() =>
     nestedSites: S.optional(MasterSitePropertiesNestedSitesList),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "MasterSiteProperties",
-}) as any as S.Schema<MasterSiteProperties>;
+).annotate({ identifier: "MasterSiteProperties" }) as any as S.Schema<MasterSiteProperties>;
 
 export interface CreateMasterSitesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3250,9 +3226,7 @@ export const PrivateLinkServiceProxy = /*@__PURE__*/ S.suspend(() =>
     remotePrivateEndpointConnection: S.optional(ResourceId),
     remotePrivateLinkServiceConnectionState: S.optional(PrivateLinkServiceConnectionState_2),
   }),
-).annotate({
-  identifier: "PrivateLinkServiceProxy",
-}) as any as S.Schema<PrivateLinkServiceProxy>;
+).annotate({ identifier: "PrivateLinkServiceProxy" }) as any as S.Schema<PrivateLinkServiceProxy>;
 
 export type PrivateEndpointDetailsPrivateLinkServiceProxiesList = Array<PrivateLinkServiceProxy>;
 export const PrivateEndpointDetailsPrivateLinkServiceProxiesList = /*@__PURE__*/ S.Array(
@@ -3275,9 +3249,7 @@ export const IpConfiguration = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     memberName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpConfiguration",
-}) as any as S.Schema<IpConfiguration>;
+).annotate({ identifier: "IpConfiguration" }) as any as S.Schema<IpConfiguration>;
 
 export type PrivateEndpointDetailsConnectionDetailsList = Array<IpConfiguration>;
 export const PrivateEndpointDetailsConnectionDetailsList = /*@__PURE__*/ S.Array(
@@ -3304,9 +3276,7 @@ export const PrivateEndpointDetails = /*@__PURE__*/ S.suspend(() =>
     privateLinkServiceProxies: S.optional(PrivateEndpointDetailsPrivateLinkServiceProxiesList),
     connectionDetails: S.optional(PrivateEndpointDetailsConnectionDetailsList),
   }),
-).annotate({
-  identifier: "PrivateEndpointDetails",
-}) as any as S.Schema<PrivateEndpointDetails>;
+).annotate({ identifier: "PrivateEndpointDetails" }) as any as S.Schema<PrivateEndpointDetails>;
 
 export type PrivateEndpointConnectionProxyPropertiesStatus =
   | "Succeeded"
@@ -3452,9 +3422,7 @@ export const CreateServerCollectorsOperationResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<CreateServerCollectorsOperationResponse>;
 
 /** Resource tags. */
-export type CreateServerSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateServerSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3478,9 +3446,7 @@ export const SitesPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     applianceName: S.optional(S.String),
     discoverySolutionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SitesPropertiesInput",
-}) as any as S.Schema<SitesPropertiesInput>;
+).annotate({ identifier: "SitesPropertiesInput" }) as any as S.Schema<SitesPropertiesInput>;
 
 export interface CreateServerSitesControllerRequest {
   /** The ID of the target subscription. */
@@ -3517,9 +3483,7 @@ export const CreateServerSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateServerSitesControllerRequest>;
 
 /** Resource tags. */
-export type CreateServerSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateServerSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateServerSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3560,9 +3524,7 @@ export const CreateServerSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateServerSitesControllerResponse>;
 
 /** Resource tags. */
-export type CreateSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3603,9 +3565,7 @@ export const CreateSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSitesControllerRequest>;
 
 /** Resource tags. */
-export type CreateSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3704,9 +3664,7 @@ export type SolutionSummaryInput = PrivateEndpointConnectionProxyPropertiesInput
 export const SolutionSummaryInput = PrivateEndpointConnectionProxyPropertiesInput;
 
 /** Gets or sets the extended details reported by the solution. */
-export type SolutionDetailsExtendedDetailsMap = {
-  [key: string]: string | undefined;
-};
+export type SolutionDetailsExtendedDetailsMap = { [key: string]: string | undefined };
 export const SolutionDetailsExtendedDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3727,9 +3685,7 @@ export const SolutionDetails = /*@__PURE__*/ S.suspend(() =>
     assessmentCount: S.optional(S.Number),
     extendedDetails: S.optional(SolutionDetailsExtendedDetailsMap),
   }),
-).annotate({
-  identifier: "SolutionDetails",
-}) as any as S.Schema<SolutionDetails>;
+).annotate({ identifier: "SolutionDetails" }) as any as S.Schema<SolutionDetails>;
 
 /** Class for solution properties. */
 export interface SolutionPropertiesInput {
@@ -3758,9 +3714,7 @@ export const SolutionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     summary: S.optional(PrivateEndpointConnectionProxyPropertiesInput),
     details: S.optional(SolutionDetails),
   }),
-).annotate({
-  identifier: "SolutionPropertiesInput",
-}) as any as S.Schema<SolutionPropertiesInput>;
+).annotate({ identifier: "SolutionPropertiesInput" }) as any as S.Schema<SolutionPropertiesInput>;
 
 export interface CreateSolutionsControllerRequest {
   /** The ID of the target subscription. */
@@ -3789,7 +3743,7 @@ export const CreateSolutionsControllerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -3860,9 +3814,7 @@ export const SolutionSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SolutionSummary",
-}) as any as S.Schema<SolutionSummary>;
+).annotate({ identifier: "SolutionSummary" }) as any as S.Schema<SolutionSummary>;
 
 /** Class for solution properties. */
 export interface SolutionProperties {
@@ -3891,9 +3843,7 @@ export const SolutionProperties = /*@__PURE__*/ S.suspend(() =>
     summary: S.optional(SolutionSummary),
     details: S.optional(SolutionDetails),
   }),
-).annotate({
-  identifier: "SolutionProperties",
-}) as any as S.Schema<SolutionProperties>;
+).annotate({ identifier: "SolutionProperties" }) as any as S.Schema<SolutionProperties>;
 
 /** Solution REST Resource. */
 export interface Solution {
@@ -4489,9 +4439,7 @@ export const SqlSitePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ),
     discoveryScenario: S.optional(SqlSitePropertiesDiscoveryScenario),
   }),
-).annotate({
-  identifier: "SqlSitePropertiesInput",
-}) as any as S.Schema<SqlSitePropertiesInput>;
+).annotate({ identifier: "SqlSitePropertiesInput" }) as any as S.Schema<SqlSitePropertiesInput>;
 
 export interface CreateSqlSitesControllerRequest {
   /** The ID of the target subscription. */
@@ -4539,9 +4487,7 @@ export const SiteApplianceProperties = /*@__PURE__*/ S.suspend(() =>
     agentDetails: S.optional(SiteAgentProperties),
     applianceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteApplianceProperties",
-}) as any as S.Schema<SiteApplianceProperties>;
+).annotate({ identifier: "SiteApplianceProperties" }) as any as S.Schema<SiteApplianceProperties>;
 
 /** Gets or sets the appliance details used by service to communicate to the appliance. */
 export type SqlSitePropertiesSiteAppliancePropertiesCollectionList = Array<SiteApplianceProperties>;
@@ -4569,9 +4515,7 @@ export const SqlSiteProperties = /*@__PURE__*/ S.suspend(() =>
     serviceEndpoint: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "SqlSiteProperties",
-}) as any as S.Schema<SqlSiteProperties>;
+).annotate({ identifier: "SqlSiteProperties" }) as any as S.Schema<SqlSiteProperties>;
 
 export interface CreateSqlSitesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -4618,9 +4562,7 @@ export const VcenterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     friendlyName: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "VcenterPropertiesInput",
-}) as any as S.Schema<VcenterPropertiesInput>;
+).annotate({ identifier: "VcenterPropertiesInput" }) as any as S.Schema<VcenterPropertiesInput>;
 
 export interface CreateVcenterControllerRequest {
   /** The ID of the target subscription. */
@@ -4698,9 +4640,7 @@ export const VcenterProperties = /*@__PURE__*/ S.suspend(() =>
     friendlyName: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "VcenterProperties",
-}) as any as S.Schema<VcenterProperties>;
+).annotate({ identifier: "VcenterProperties" }) as any as S.Schema<VcenterProperties>;
 
 export interface CreateVcenterControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -4790,9 +4730,7 @@ export const AppSvcNativeSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isolationRequired: S.Boolean,
   }),
-).annotate({
-  identifier: "AppSvcNativeSettings",
-}) as any as S.Schema<AppSvcNativeSettings>;
+).annotate({ identifier: "AppSvcNativeSettings" }) as any as S.Schema<AppSvcNativeSettings>;
 
 /** App service container settings. */
 export type AppSvcContainerSettings = AppSvcNativeSettings;
@@ -5298,9 +5236,7 @@ export const WebAppSiteProperties = /*@__PURE__*/ S.suspend(() =>
     serviceEndpoint: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "WebAppSiteProperties",
-}) as any as S.Schema<WebAppSiteProperties>;
+).annotate({ identifier: "WebAppSiteProperties" }) as any as S.Schema<WebAppSiteProperties>;
 
 export interface CreateWebAppSitesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5347,7 +5283,7 @@ export const DeleteAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -6196,7 +6132,7 @@ export const DeleteSolutionsControllerSolutionRequest = /*@__PURE__*/ S.suspend(
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -6386,9 +6322,7 @@ export const DeleteVcenterControllerRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteVcenterControllerResponse {}
 export const DeleteVcenterControllerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteVcenterControllerResponse",
-  },
+  { identifier: "DeleteVcenterControllerResponse" },
 ) as any as S.Schema<DeleteVcenterControllerResponse>;
 
 export interface DeleteVmwareCollectorsOperationRequest {
@@ -6724,7 +6658,7 @@ export const DownloadAksAssessmentOperationUrlRequest = /*@__PURE__*/ S.suspend(
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/downloadUrl",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -7661,7 +7595,7 @@ export const GetAksAssessmentOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -7719,7 +7653,7 @@ export const GetAksClusterOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters/{clusterName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -7874,18 +7808,14 @@ export const RecordOfStringArrayValueList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RecordOfStringArrayValueList>;
 
 /** Data Model for Dictionary<string, string[]>. */
-export type RecordOfStringArray = {
-  [key: string]: RecordOfStringArrayValueList | undefined;
-};
+export type RecordOfStringArray = { [key: string]: RecordOfStringArrayValueList | undefined };
 export const RecordOfStringArray = /*@__PURE__*/ S.Record(
   S.String,
   RecordOfStringArrayValueList,
 ) as any as S.Schema<RecordOfStringArray>;
 
 /** Gets the mapping of Assessment Options in graph representation. */
-export type OptionsArmPropertiesBaseEdgesMap = {
-  [key: string]: RecordOfStringArray | undefined;
-};
+export type OptionsArmPropertiesBaseEdgesMap = { [key: string]: RecordOfStringArray | undefined };
 export const OptionsArmPropertiesBaseEdgesMap = /*@__PURE__*/ S.Record(
   S.String,
   RecordOfStringArray,
@@ -7900,9 +7830,7 @@ export const OptionsArmPropertiesBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     edges: OptionsArmPropertiesBaseEdgesMap,
   }),
-).annotate({
-  identifier: "OptionsArmPropertiesBase",
-}) as any as S.Schema<OptionsArmPropertiesBase>;
+).annotate({ identifier: "OptionsArmPropertiesBase" }) as any as S.Schema<OptionsArmPropertiesBase>;
 
 export interface GetAksOptionsOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7955,7 +7883,7 @@ export const GetAksSummaryOperationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries/{summaryName}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -7993,27 +7921,21 @@ export const SummaryDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SummaryDetails" }) as any as S.Schema<SummaryDetails>;
 
 /** Gets SKU summary. */
-export type AKSAssessmentSummarySkuSummaryMap = {
-  [key: string]: SummaryDetails | undefined;
-};
+export type AKSAssessmentSummarySkuSummaryMap = { [key: string]: SummaryDetails | undefined };
 export const AKSAssessmentSummarySkuSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   SummaryDetails,
 ) as any as S.Schema<AKSAssessmentSummarySkuSummaryMap>;
 
 /** Gets web app summary. */
-export type AKSAssessmentSummaryWebAppSummaryMap = {
-  [key: string]: SummaryDetails | undefined;
-};
+export type AKSAssessmentSummaryWebAppSummaryMap = { [key: string]: SummaryDetails | undefined };
 export const AKSAssessmentSummaryWebAppSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   SummaryDetails,
 ) as any as S.Schema<AKSAssessmentSummaryWebAppSummaryMap>;
 
 /** Gets web server summary. */
-export type AKSAssessmentSummaryWebServerSummaryMap = {
-  [key: string]: number | undefined;
-};
+export type AKSAssessmentSummaryWebServerSummaryMap = { [key: string]: number | undefined };
 export const AKSAssessmentSummaryWebServerSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -8046,9 +7968,7 @@ export const AKSAssessmentSummary = /*@__PURE__*/ S.suspend(() =>
     machineCount: S.Number,
     totalMonthlyCost: S.Number,
   }),
-).annotate({
-  identifier: "AKSAssessmentSummary",
-}) as any as S.Schema<AKSAssessmentSummary>;
+).annotate({ identifier: "AKSAssessmentSummary" }) as any as S.Schema<AKSAssessmentSummary>;
 
 /** ARM model of AKS Summary Properties. */
 export interface AKSSummaryProperties {
@@ -8077,9 +7997,7 @@ export const AKSSummaryProperties = /*@__PURE__*/ S.suspend(() =>
     confidenceScore: S.Number,
     aksAssessmentSummary: AKSAssessmentSummary,
   }),
-).annotate({
-  identifier: "AKSSummaryProperties",
-}) as any as S.Schema<AKSSummaryProperties>;
+).annotate({ identifier: "AKSSummaryProperties" }) as any as S.Schema<AKSSummaryProperties>;
 
 export interface GetAksSummaryOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8332,9 +8250,7 @@ export const AssessedDisk = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AssessedDisk" }) as any as S.Schema<AssessedDisk>;
 
 /** Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object. */
-export type AssessedMachinePropertiesDisksMap = {
-  [key: string]: AssessedDisk | undefined;
-};
+export type AssessedMachinePropertiesDisksMap = { [key: string]: AssessedDisk | undefined };
 export const AssessedMachinePropertiesDisksMap = /*@__PURE__*/ S.Record(
   S.String,
   AssessedDisk,
@@ -8402,9 +8318,7 @@ export const ProductSupportStatus = /*@__PURE__*/ S.suspend(() =>
     extendedSecurityUpdateYear2EndDate: S.optional(S.String),
     extendedSecurityUpdateYear3EndDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductSupportStatus",
-}) as any as S.Schema<ProductSupportStatus>;
+).annotate({ identifier: "ProductSupportStatus" }) as any as S.Schema<ProductSupportStatus>;
 
 export type AzureNetworkAdapterSuitabilityDetail =
   | "None"
@@ -8462,9 +8376,7 @@ export const AssessedNetworkAdapter = /*@__PURE__*/ S.suspend(() =>
     megabytesPerSecondReceived: S.optional(S.Number),
     megabytesPerSecondTransmitted: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssessedNetworkAdapter",
-}) as any as S.Schema<AssessedNetworkAdapter>;
+).annotate({ identifier: "AssessedNetworkAdapter" }) as any as S.Schema<AssessedNetworkAdapter>;
 
 /** List of Network Adapters that were assessed as part of this machine's assessment. */
 export type AssessedMachinePropertiesNetworkAdaptersMap = {
@@ -9274,9 +9186,7 @@ export const AzureSqlPaasSkuDTO = /*@__PURE__*/ S.suspend(() =>
     cores: S.optional(S.Number),
     azureSqlTargetType: S.optional(TargetType),
   }),
-).annotate({
-  identifier: "AzureSqlPaasSkuDTO",
-}) as any as S.Schema<AzureSqlPaasSkuDTO>;
+).annotate({ identifier: "AzureSqlPaasSkuDTO" }) as any as S.Schema<AzureSqlPaasSkuDTO>;
 
 /** Gets the replica azure SQL PAAS SKU. */
 export type SqlAssessmentV2PaasSuitabilityDataReplicaAzureSqlSkuList = Array<AzureSqlPaasSkuDTO>;
@@ -9324,9 +9234,7 @@ export const AzureManagedDiskSkuDTO = /*@__PURE__*/ S.suspend(() =>
     recommendedThroughputInMbps: S.optional(S.Number),
     recommendedIops: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AzureManagedDiskSkuDTO",
-}) as any as S.Schema<AzureManagedDiskSkuDTO>;
+).annotate({ identifier: "AzureManagedDiskSkuDTO" }) as any as S.Schema<AzureManagedDiskSkuDTO>;
 
 /** Gets the list of shared data disks. */
 export type SharedResourcesDTOSharedDataDisksList = Array<AzureManagedDiskSkuDTO>;
@@ -9358,9 +9266,7 @@ export const AzureQuorumWitnessDTO = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quorumWitnessType: S.optional(AzureQuorumWitnessDTOQuorumWitnessType),
   }),
-).annotate({
-  identifier: "AzureQuorumWitnessDTO",
-}) as any as S.Schema<AzureQuorumWitnessDTO>;
+).annotate({ identifier: "AzureQuorumWitnessDTO" }) as any as S.Schema<AzureQuorumWitnessDTO>;
 
 /** Shared Resources. */
 export interface SharedResourcesDTO {
@@ -9383,9 +9289,7 @@ export const SharedResourcesDTO = /*@__PURE__*/ S.suspend(() =>
     numberOfMounts: S.optional(S.Number),
     quorumWitness: S.optional(AzureQuorumWitnessDTO),
   }),
-).annotate({
-  identifier: "SharedResourcesDTO",
-}) as any as S.Schema<SharedResourcesDTO>;
+).annotate({ identifier: "SharedResourcesDTO" }) as any as S.Schema<SharedResourcesDTO>;
 
 /** Gets the collection of cost components. */
 export type SqlAssessmentV2PaasSuitabilityDataCostComponentsList = Array<CostComponent>;
@@ -9440,9 +9344,7 @@ export const SqlMigrationGuideline = /*@__PURE__*/ S.suspend(() =>
     migrationGuidelineCategory: S.optional(SqlMigrationGuidelineCategory),
     migrationGuidelineContext: S.optional(SqlMigrationGuidelineMigrationGuidelineContextList),
   }),
-).annotate({
-  identifier: "SqlMigrationGuideline",
-}) as any as S.Schema<SqlMigrationGuideline>;
+).annotate({ identifier: "SqlMigrationGuideline" }) as any as S.Schema<SqlMigrationGuideline>;
 
 /** Gets the list of migration guidelines applicable to this target. */
 export type SqlAssessmentV2PaasSuitabilityDataMigrationGuidelinesList =
@@ -9505,9 +9407,7 @@ export const ImpactedAssessmentObject = /*@__PURE__*/ S.suspend(() =>
     objectName: S.optional(S.String),
     objectType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImpactedAssessmentObject",
-}) as any as S.Schema<ImpactedAssessmentObject>;
+).annotate({ identifier: "ImpactedAssessmentObject" }) as any as S.Schema<ImpactedAssessmentObject>;
 
 /** Gets the list of impacted objects. */
 export type SqlAssessmentMigrationIssueImpactedObjectsList = Array<ImpactedAssessmentObject>;
@@ -9830,9 +9730,7 @@ export const AzureSqlIaasSkuDTO = /*@__PURE__*/ S.suspend(() =>
     logDiskSizes: S.optional(AzureSqlIaasSkuDTOLogDiskSizesList),
     azureSqlTargetType: S.optional(TargetType),
   }),
-).annotate({
-  identifier: "AzureSqlIaasSkuDTO",
-}) as any as S.Schema<AzureSqlIaasSkuDTO>;
+).annotate({ identifier: "AzureSqlIaasSkuDTO" }) as any as S.Schema<AzureSqlIaasSkuDTO>;
 
 /** Gets the replica azure SQL IAAS SKU. */
 export type SqlAssessmentV2IaasSuitabilityDataReplicaAzureSqlSkuList = Array<AzureSqlIaasSkuDTO>;
@@ -10327,14 +10225,10 @@ export const AssessedDiskData = /*@__PURE__*/ S.suspend(() =>
     numberOfReadOperationsPerSecond: S.optional(S.Number),
     numberOfWriteOperationsPerSecond: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssessedDiskData",
-}) as any as S.Schema<AssessedDiskData>;
+).annotate({ identifier: "AssessedDiskData" }) as any as S.Schema<AssessedDiskData>;
 
 /** Gets the list of data disks that were assessed as part of this assessment. */
-export type AssessedSqlMachinePropertiesDisksMap = {
-  [key: string]: AssessedDiskData | undefined;
-};
+export type AssessedSqlMachinePropertiesDisksMap = { [key: string]: AssessedDiskData | undefined };
 export const AssessedSqlMachinePropertiesDisksMap = /*@__PURE__*/ S.Record(
   S.String,
   AssessedDiskData,
@@ -10701,7 +10595,7 @@ export const GetAssessedWebApplicationOperationRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps/{assessedWorkload}",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -10792,9 +10686,7 @@ export const SuitabilityResult = /*@__PURE__*/ S.suspend(() =>
     failedChecks: SuitabilityResultFailedChecksList,
     suggestedMigrationTool: SuggestedMigrationTool,
   }),
-).annotate({
-  identifier: "SuitabilityResult",
-}) as any as S.Schema<SuitabilityResult>;
+).annotate({ identifier: "SuitabilityResult" }) as any as S.Schema<SuitabilityResult>;
 
 /** Data model of Cores and Memory Compute Resource. */
 export interface ComputeResource {
@@ -10808,9 +10700,7 @@ export const ComputeResource = /*@__PURE__*/ S.suspend(() =>
     cores: S.Number,
     memory: S.Number,
   }),
-).annotate({
-  identifier: "ComputeResource",
-}) as any as S.Schema<ComputeResource>;
+).annotate({ identifier: "ComputeResource" }) as any as S.Schema<ComputeResource>;
 
 /** Data model of Recommendation Result. */
 export interface RecommendationResult {
@@ -10842,9 +10732,7 @@ export const RecommendationResult = /*@__PURE__*/ S.suspend(() =>
     nodePoolArmSkuName: S.String,
     approxMonthlyCost: S.Number,
   }),
-).annotate({
-  identifier: "RecommendationResult",
-}) as any as S.Schema<RecommendationResult>;
+).annotate({ identifier: "RecommendationResult" }) as any as S.Schema<RecommendationResult>;
 
 /** Data model of Assessed Web App. */
 export interface AssessedWebApp {
@@ -10963,9 +10851,7 @@ export const AssessmentResult = /*@__PURE__*/ S.suspend(() =>
     webAppSkuName: S.String,
     webAppSkuSize: S.String,
   }),
-).annotate({
-  identifier: "AssessmentResult",
-}) as any as S.Schema<AssessmentResult>;
+).annotate({ identifier: "AssessmentResult" }) as any as S.Schema<AssessmentResult>;
 
 export type AzureWebAppSuitabilityIssueCategory = "Unknown" | "Issue" | "Info";
 export const AzureWebAppSuitabilityIssueCategory = S.String;
@@ -10991,9 +10877,7 @@ export const WebAppMigrationIssues = /*@__PURE__*/ S.suspend(() =>
     issueCategory: AzureWebAppSuitabilityIssueCategory,
     issueDescriptionList: WebAppMigrationIssuesIssueDescriptionListList,
   }),
-).annotate({
-  identifier: "WebAppMigrationIssues",
-}) as any as S.Schema<WebAppMigrationIssues>;
+).annotate({ identifier: "WebAppMigrationIssues" }) as any as S.Schema<WebAppMigrationIssues>;
 
 /** Gets or sets the web app migration issues. */
 export type TargetSpecificResultMigrationIssuesList = Array<WebAppMigrationIssues>;
@@ -11013,9 +10897,7 @@ export const TargetSpecificResult = /*@__PURE__*/ S.suspend(() =>
     assessmentResult: AssessmentResult,
     migrationIssues: TargetSpecificResultMigrationIssuesList,
   }),
-).annotate({
-  identifier: "TargetSpecificResult",
-}) as any as S.Schema<TargetSpecificResult>;
+).annotate({ identifier: "TargetSpecificResult" }) as any as S.Schema<TargetSpecificResult>;
 
 /** Gets or sets the target specific result. */
 export type AssessedWebAppV2PropertiesTargetSpecificResultMap = {
@@ -11151,9 +11033,7 @@ export const VmFamilyOptions = /*@__PURE__*/ S.suspend(() =>
     targetLocations: S.optional(VmFamilyOptionsTargetLocationsList),
     category: S.optional(VmFamilyOptionsCategoryList),
   }),
-).annotate({
-  identifier: "VmFamilyOptions",
-}) as any as S.Schema<VmFamilyOptions>;
+).annotate({ identifier: "VmFamilyOptions" }) as any as S.Schema<VmFamilyOptions>;
 
 /** Dictionary of VM families grouped by vm family name describing the targeted azure locations of VM family and the category of the family. */
 export type AssessmentOptionsPropertiesVmFamiliesList = Array<VmFamilyOptions>;
@@ -11341,9 +11221,7 @@ export const GetAssessmentProjectsOperationRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetAssessmentProjectsOperationRequest>;
 
 /** Resource tags. */
-export type GetAssessmentProjectsOperationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAssessmentProjectsOperationResponseTagsMap = { [key: string]: string | undefined };
 export const GetAssessmentProjectsOperationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11617,14 +11495,10 @@ export const AvsAssessedDisk = /*@__PURE__*/ S.suspend(() =>
     estimatedDiskSizeInGB: S.optional(S.Number),
     suitabilityDetail: S.optional(AzureDiskSuitabilityDetail),
   }),
-).annotate({
-  identifier: "AvsAssessedDisk",
-}) as any as S.Schema<AvsAssessedDisk>;
+).annotate({ identifier: "AvsAssessedDisk" }) as any as S.Schema<AvsAssessedDisk>;
 
 /** List of Disks that were assessed as part of this machine's assessment. */
-export type AvsAssessedMachinePropertiesDisksMap = {
-  [key: string]: AvsAssessedDisk | undefined;
-};
+export type AvsAssessedMachinePropertiesDisksMap = { [key: string]: AvsAssessedDisk | undefined };
 export const AvsAssessedMachinePropertiesDisksMap = /*@__PURE__*/ S.Record(
   S.String,
   AvsAssessedDisk,
@@ -12065,9 +11939,7 @@ export const GetDatabaseInstancesControllerDatabaseInstanceRequest = /*@__PURE__
 }) as any as S.Schema<GetDatabaseInstancesControllerDatabaseInstanceRequest>;
 
 /** Gets or sets the extended properties of the database server. */
-export type DatabaseInstanceDiscoveryDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseInstanceDiscoveryDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const DatabaseInstanceDiscoveryDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12137,9 +12009,7 @@ export const DatabaseInstanceSummary = /*@__PURE__*/ S.suspend(() =>
     databasesAssessedCount: S.optional(S.Number),
     migrationReadyCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DatabaseInstanceSummary",
-}) as any as S.Schema<DatabaseInstanceSummary>;
+).annotate({ identifier: "DatabaseInstanceSummary" }) as any as S.Schema<DatabaseInstanceSummary>;
 
 /** Gets or sets the database instances summary per solution. The key of dictionary is the solution name and value is the corresponding database instance summary object. */
 export type DatabaseInstancePropertiesSummaryMap = {
@@ -12187,9 +12057,7 @@ export const DatabaseInstance = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DatabaseInstanceProperties),
   }),
-).annotate({
-  identifier: "DatabaseInstance",
-}) as any as S.Schema<DatabaseInstance>;
+).annotate({ identifier: "DatabaseInstance" }) as any as S.Schema<DatabaseInstance>;
 
 export interface GetDatabasesControllerDatabaseRequest {
   /** The ID of the target subscription. */
@@ -12220,9 +12088,7 @@ export const GetDatabasesControllerDatabaseRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetDatabasesControllerDatabaseRequest>;
 
 /** Gets or sets the extended properties of the database. */
-export type DatabaseAssessmentDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseAssessmentDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const DatabaseAssessmentDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12301,9 +12167,7 @@ export const DatabaseProperties = /*@__PURE__*/ S.suspend(() =>
     assessmentData: S.optional(DatabasePropertiesAssessmentDataList),
     lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseProperties",
-}) as any as S.Schema<DatabaseProperties>;
+).annotate({ identifier: "DatabaseProperties" }) as any as S.Schema<DatabaseProperties>;
 
 /** Database REST resource. */
 export interface Database {
@@ -12380,9 +12244,7 @@ export const MigrateEventProperties = /*@__PURE__*/ S.suspend(() =>
     solution: S.optional(S.String),
     clientRequestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MigrateEventProperties",
-}) as any as S.Schema<MigrateEventProperties>;
+).annotate({ identifier: "MigrateEventProperties" }) as any as S.Schema<MigrateEventProperties>;
 
 /** MigrateEvent REST resource. */
 export interface MigrateEvent {
@@ -12636,9 +12498,7 @@ export const GetHypervJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-06",
     }),
   ),
-).annotate({
-  identifier: "GetHypervJobRequest",
-}) as any as S.Schema<GetHypervJobRequest>;
+).annotate({ identifier: "GetHypervJobRequest" }) as any as S.Schema<GetHypervJobRequest>;
 
 /** Error contract returned when some exception occurs in Rest API. */
 export interface ErrorDetails {
@@ -12736,9 +12596,7 @@ export const GetHypervJobResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(JobProperties),
   }),
-).annotate({
-  identifier: "GetHypervJobResponse",
-}) as any as S.Schema<GetHypervJobResponse>;
+).annotate({ identifier: "GetHypervJobResponse" }) as any as S.Schema<GetHypervJobResponse>;
 
 export interface GetHypervJobsControllerRequest {
   /** The ID of the target subscription. */
@@ -12898,9 +12756,7 @@ export const HypervNetworkAdapter = /*@__PURE__*/ S.suspend(() =>
     networkName: S.optional(S.String),
     ipAddressType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervNetworkAdapter",
-}) as any as S.Schema<HypervNetworkAdapter>;
+).annotate({ identifier: "HypervNetworkAdapter" }) as any as S.Schema<HypervNetworkAdapter>;
 
 /** Network adapters attached to the machine. */
 export type HypervMachinePropertiesNetworkAdaptersList = Array<HypervNetworkAdapter>;
@@ -12973,9 +12829,7 @@ export const ApplicationDiscovery = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(ApplicationDiscoveryErrorsList),
     hydratedRunAsAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationDiscovery",
-}) as any as S.Schema<ApplicationDiscovery>;
+).annotate({ identifier: "ApplicationDiscovery" }) as any as S.Schema<ApplicationDiscovery>;
 
 /** DependencyMap DiscoveryScope Status */
 export type DependencyMapDiscoveryScopeStatus =
@@ -13010,9 +12864,7 @@ export const DependencyMapDiscovery = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(DependencyMapDiscoveryErrorsList),
     hydratedRunAsAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DependencyMapDiscovery",
-}) as any as S.Schema<DependencyMapDiscovery>;
+).annotate({ identifier: "DependencyMapDiscovery" }) as any as S.Schema<DependencyMapDiscovery>;
 
 /** Static DiscoveryScopeStatus */
 export type StaticDiscoveryScopeStatus =
@@ -13047,9 +12899,7 @@ export const StaticDiscovery = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(StaticDiscoveryErrorsList),
     hydratedRunAsAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StaticDiscovery",
-}) as any as S.Schema<StaticDiscovery>;
+).annotate({ identifier: "StaticDiscovery" }) as any as S.Schema<StaticDiscovery>;
 
 /** SQL metadata discovery pipe */
 export type SqlMetadataDiscoveryPipe =
@@ -13123,9 +12973,7 @@ export const WebAppDiscovery = /*@__PURE__*/ S.suspend(() =>
     totalWebApplicationCount: S.optional(S.Number),
     discoveryScopeStatus: S.optional(DiscoveryScopeStatus),
   }),
-).annotate({
-  identifier: "WebAppDiscovery",
-}) as any as S.Schema<WebAppDiscovery>;
+).annotate({ identifier: "WebAppDiscovery" }) as any as S.Schema<WebAppDiscovery>;
 
 /** Shallow Discovery Status. */
 export type ShallowDiscoveryStatus =
@@ -13157,9 +13005,7 @@ export const OracleDiscovery = /*@__PURE__*/ S.suspend(() =>
     shallowDiscoveryStatus: S.optional(ShallowDiscoveryStatus),
     discoveryScopeStatus: S.optional(DiscoveryScopeStatus),
   }),
-).annotate({
-  identifier: "OracleDiscovery",
-}) as any as S.Schema<OracleDiscovery>;
+).annotate({ identifier: "OracleDiscovery" }) as any as S.Schema<OracleDiscovery>;
 
 /** Data related to a machine's spring boot discovery. */
 export interface SpringBootDiscovery {
@@ -13179,9 +13025,7 @@ export const SpringBootDiscovery = /*@__PURE__*/ S.suspend(() =>
     shallowDiscoveryStatus: S.optional(ShallowDiscoveryStatus),
     discoveryScopeStatus: S.optional(DiscoveryScopeStatus),
   }),
-).annotate({
-  identifier: "SpringBootDiscovery",
-}) as any as S.Schema<SpringBootDiscovery>;
+).annotate({ identifier: "SpringBootDiscovery" }) as any as S.Schema<SpringBootDiscovery>;
 
 /** Application in the guest virtual machine. */
 export interface Application {
@@ -13311,9 +13155,7 @@ export const SqlServerApplication = /*@__PURE__*/ S.suspend(() =>
     isTcpIpEnabled: S.optional(S.Boolean),
     namedPipeName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlServerApplication",
-}) as any as S.Schema<SqlServerApplication>;
+).annotate({ identifier: "SqlServerApplication" }) as any as S.Schema<SqlServerApplication>;
 
 /** Gets or sets SQLServers of the AppsAndRoles. */
 export type AppsAndRolesSqlServersList = Array<SqlServerApplication>;
@@ -13339,9 +13181,7 @@ export const SharePointServer = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SharePointServer",
-}) as any as S.Schema<SharePointServer>;
+).annotate({ identifier: "SharePointServer" }) as any as S.Schema<SharePointServer>;
 
 /** Gets or sets SharePointServers of the AppsAndRoles. */
 export type AppsAndRolesSharePointServersList = Array<SharePointServer>;
@@ -13512,18 +13352,14 @@ export const ProductSupportStatus_2 = /*@__PURE__*/ S.suspend(() =>
     supportEndDate: S.optional(S.String),
     esuYear: S.optional(EsuYear),
   }),
-).annotate({
-  identifier: "ProductSupportStatus_2",
-}) as any as S.Schema<ProductSupportStatus_2>;
+).annotate({ identifier: "ProductSupportStatus_2" }) as any as S.Schema<ProductSupportStatus_2>;
 
 /** Second level object returned as part of Machine REST resource. */
 export type OperatingSystem = GuestOsDetails;
 export const OperatingSystem = GuestOsDetails;
 
 /** Gets or sets tags on the resource. */
-export type HypervMachinePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HypervMachinePropertiesTagsMap = { [key: string]: string | undefined };
 export const HypervMachinePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13709,9 +13545,7 @@ export const HypervMachineProperties = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "HypervMachineProperties",
-}) as any as S.Schema<HypervMachineProperties>;
+).annotate({ identifier: "HypervMachineProperties" }) as any as S.Schema<HypervMachineProperties>;
 
 export interface GetHypervMachinesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -13778,9 +13612,7 @@ export const OperationStatusError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationStatusError",
-}) as any as S.Schema<OperationStatusError>;
+).annotate({ identifier: "OperationStatusError" }) as any as S.Schema<OperationStatusError>;
 
 /** Class for operation result properties. */
 export interface OperationStatusProperties {
@@ -13822,9 +13654,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(OperationStatusError),
     properties: S.optional(OperationStatusProperties),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface GetHypervRunAsAccountsControllerRequest {
   /** The ID of the target subscription. */
@@ -13878,9 +13708,7 @@ export const RunAsAccountProperties = /*@__PURE__*/ S.suspend(() =>
     applianceName: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "RunAsAccountProperties",
-}) as any as S.Schema<RunAsAccountProperties>;
+).annotate({ identifier: "RunAsAccountProperties" }) as any as S.Schema<RunAsAccountProperties>;
 
 export interface GetHypervRunAsAccountsControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -13932,9 +13760,7 @@ export const GetHypervSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetHypervSitesControllerRequest>;
 
 /** Resource tags. */
-export type GetHypervSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetHypervSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetHypervSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14127,9 +13953,7 @@ export const IisApplicationUnit = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(DirectoryPath),
     directories: S.optional(IisApplicationUnitDirectoriesList),
   }),
-).annotate({
-  identifier: "IisApplicationUnit",
-}) as any as S.Schema<IisApplicationUnit>;
+).annotate({ identifier: "IisApplicationUnit" }) as any as S.Schema<IisApplicationUnit>;
 
 /** Gets the list of application units for the web site. */
 export type IisWebApplicationPropertiesApplicationsList = Array<IisApplicationUnit>;
@@ -14192,9 +14016,7 @@ export const FrontEndBinding = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.String),
     ipAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FrontEndBinding",
-}) as any as S.Schema<FrontEndBinding>;
+).annotate({ identifier: "FrontEndBinding" }) as any as S.Schema<FrontEndBinding>;
 
 /** Gets the front end bindings for the application. */
 export type IisWebApplicationPropertiesBindingsList = Array<FrontEndBinding>;
@@ -14214,9 +14036,7 @@ export const WebApplicationFramework = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebApplicationFramework",
-}) as any as S.Schema<WebApplicationFramework>;
+).annotate({ identifier: "WebApplicationFramework" }) as any as S.Schema<WebApplicationFramework>;
 
 /** Gets the Error details. */
 export type IisWebApplicationPropertiesFrameworksList = Array<WebApplicationFramework>;
@@ -14305,9 +14125,7 @@ export const IisWebApplicationPropertiesDirectoriesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<IisWebApplicationPropertiesDirectoriesList>;
 
 /** Gets or sets tags on the resource. */
-export type IisWebApplicationPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IisWebApplicationPropertiesTagsMap = { [key: string]: string | undefined };
 export const IisWebApplicationPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14540,9 +14358,7 @@ export const IisWebServerProperties = /*@__PURE__*/ S.suspend(() =>
     hasErrors: S.optional(S.Boolean),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "IisWebServerProperties",
-}) as any as S.Schema<IisWebServerProperties>;
+).annotate({ identifier: "IisWebServerProperties" }) as any as S.Schema<IisWebServerProperties>;
 
 export interface GetIisWebServersControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14920,9 +14736,7 @@ export const JobErrorSummary = /*@__PURE__*/ S.suspend(() =>
     errorCount: S.optional(S.Number),
     warningCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobErrorSummary",
-}) as any as S.Schema<JobErrorSummary>;
+).annotate({ identifier: "JobErrorSummary" }) as any as S.Schema<JobErrorSummary>;
 
 /** ImportMachines JobProperties */
 export interface ImportMachinesJobProperties {
@@ -14982,9 +14796,7 @@ export const ImportMachinesJob = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportMachinesJob",
-}) as any as S.Schema<ImportMachinesJob>;
+).annotate({ identifier: "ImportMachinesJob" }) as any as S.Schema<ImportMachinesJob>;
 
 export interface GetImportMachinesControllerRequest {
   /** The ID of the target subscription. */
@@ -15053,9 +14865,7 @@ export const WebRoleImportDisk = /*@__PURE__*/ S.suspend(() =>
     lun: S.optional(S.Number),
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebRoleImportDisk",
-}) as any as S.Schema<WebRoleImportDisk>;
+).annotate({ identifier: "WebRoleImportDisk" }) as any as S.Schema<WebRoleImportDisk>;
 
 /** Disks attached to the machine. */
 export type ImportMachinePropertiesDisksList = Array<WebRoleImportDisk>;
@@ -15068,9 +14878,7 @@ export type WebRoleOperatingSystem = GuestOsDetails;
 export const WebRoleOperatingSystem = GuestOsDetails;
 
 /** machine tags */
-export type ImportMachinePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ImportMachinePropertiesTagsMap = { [key: string]: string | undefined };
 export const ImportMachinePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15178,9 +14986,7 @@ export const ImportMachineProperties = /*@__PURE__*/ S.suspend(() =>
     tags: ImportMachinePropertiesTagsMap,
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "ImportMachineProperties",
-}) as any as S.Schema<ImportMachineProperties>;
+).annotate({ identifier: "ImportMachineProperties" }) as any as S.Schema<ImportMachineProperties>;
 
 export interface GetImportMachinesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -15232,9 +15038,7 @@ export const GetImportSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetImportSitesControllerRequest>;
 
 /** Resource tags. */
-export type GetImportSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetImportSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetImportSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15378,9 +15182,7 @@ export const VmwareNetworkAdapter = /*@__PURE__*/ S.suspend(() =>
     networkName: S.optional(S.String),
     ipAddressType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmwareNetworkAdapter",
-}) as any as S.Schema<VmwareNetworkAdapter>;
+).annotate({ identifier: "VmwareNetworkAdapter" }) as any as S.Schema<VmwareNetworkAdapter>;
 
 /** Network adapters attached to the machine. */
 export type VmwareMachinePropertiesNetworkAdaptersList = Array<VmwareNetworkAdapter>;
@@ -15401,9 +15203,7 @@ export const VmwareMachinePropertiesErrorsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<VmwareMachinePropertiesErrorsList>;
 
 /** Gets or sets tags on the VMware machine. */
-export type VmwareMachinePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VmwareMachinePropertiesTagsMap = { [key: string]: string | undefined };
 export const VmwareMachinePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15580,9 +15380,7 @@ export const VmwareMachineProperties = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "VmwareMachineProperties",
-}) as any as S.Schema<VmwareMachineProperties>;
+).annotate({ identifier: "VmwareMachineProperties" }) as any as S.Schema<VmwareMachineProperties>;
 
 export interface GetMachinesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -15649,9 +15447,7 @@ export const DiscoveryDetailsMacAddressesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DiscoveryDetailsMacAddressesList>;
 
 /** Gets or sets the ISV specific extended information. */
-export type DiscoveryDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type DiscoveryDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const DiscoveryDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15711,9 +15507,7 @@ export const DiscoveryDetails = /*@__PURE__*/ S.suspend(() =>
     macAddresses: S.optional(DiscoveryDetailsMacAddressesList),
     extendedInfo: S.optional(DiscoveryDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "DiscoveryDetails",
-}) as any as S.Schema<DiscoveryDetails>;
+).annotate({ identifier: "DiscoveryDetails" }) as any as S.Schema<DiscoveryDetails>;
 
 /** Gets or sets the discovery details of the machine published by various sources. */
 export type MachinePropertiesDiscoveryDataList = Array<DiscoveryDetails>;
@@ -15722,9 +15516,7 @@ export const MachinePropertiesDiscoveryDataList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MachinePropertiesDiscoveryDataList>;
 
 /** Gets or sets the target storage type. */
-export type AssessmentDetailsTargetStorageTypeMap = {
-  [key: string]: string | undefined;
-};
+export type AssessmentDetailsTargetStorageTypeMap = { [key: string]: string | undefined };
 export const AssessmentDetailsTargetStorageTypeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15743,9 +15535,7 @@ export const AssessmentDetailsMacAddressesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AssessmentDetailsMacAddressesList>;
 
 /** Gets or sets the ISV specific extended information. */
-export type AssessmentDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type AssessmentDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const AssessmentDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15808,9 +15598,7 @@ export const AssessmentDetails = /*@__PURE__*/ S.suspend(() =>
     macAddresses: S.optional(AssessmentDetailsMacAddressesList),
     extendedInfo: S.optional(AssessmentDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "AssessmentDetails",
-}) as any as S.Schema<AssessmentDetails>;
+).annotate({ identifier: "AssessmentDetails" }) as any as S.Schema<AssessmentDetails>;
 
 /** Gets or sets the assessment details of the machine published by various sources. */
 export type MachinePropertiesAssessmentDataList = Array<AssessmentDetails>;
@@ -15831,9 +15619,7 @@ export const MigrationDetailsMacAddressesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MigrationDetailsMacAddressesList>;
 
 /** Gets or sets the ISV specific extended information. */
-export type MigrationDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type MigrationDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const MigrationDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15896,9 +15682,7 @@ export const MigrationDetails = /*@__PURE__*/ S.suspend(() =>
     macAddresses: S.optional(MigrationDetailsMacAddressesList),
     extendedInfo: S.optional(MigrationDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "MigrationDetails",
-}) as any as S.Schema<MigrationDetails>;
+).annotate({ identifier: "MigrationDetails" }) as any as S.Schema<MigrationDetails>;
 
 /** Gets or sets the migration details of the machine published by various sources. */
 export type MachinePropertiesMigrationDataList = Array<MigrationDetails>;
@@ -15924,9 +15708,7 @@ export const MachineProperties_2 = /*@__PURE__*/ S.suspend(() =>
     migrationData: S.optional(MachinePropertiesMigrationDataList),
     lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineProperties_2",
-}) as any as S.Schema<MachineProperties_2>;
+).annotate({ identifier: "MachineProperties_2" }) as any as S.Schema<MachineProperties_2>;
 
 /** Machine REST resource. */
 export interface Machine_2 {
@@ -15988,9 +15770,7 @@ export const WorkloadSummary = /*@__PURE__*/ S.suspend(() =>
     oracleInstances: S.optional(S.Number),
     springApps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkloadSummary",
-}) as any as S.Schema<WorkloadSummary>;
+).annotate({ identifier: "WorkloadSummary" }) as any as S.Schema<WorkloadSummary>;
 
 /** List of errors for this machine. */
 export type MachinePropertiesErrorsList = Array<Error>;
@@ -16049,9 +15829,7 @@ export const NetworkAdapter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "NetworkAdapter" }) as any as S.Schema<NetworkAdapter>;
 
 /** Network adapters attached to the machine discovered in private data center. */
-export type MachinePropertiesNetworkAdaptersMap = {
-  [key: string]: NetworkAdapter | undefined;
-};
+export type MachinePropertiesNetworkAdaptersMap = { [key: string]: NetworkAdapter | undefined };
 export const MachinePropertiesNetworkAdaptersMap = /*@__PURE__*/ S.Record(
   S.String,
   NetworkAdapter,
@@ -16141,9 +15919,7 @@ export const MachineProperties = /*@__PURE__*/ S.suspend(() =>
     webApplications: S.optional(MachinePropertiesWebApplicationsList),
     updatedTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineProperties",
-}) as any as S.Schema<MachineProperties>;
+).annotate({ identifier: "MachineProperties" }) as any as S.Schema<MachineProperties>;
 
 export interface GetMachinesOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -16195,9 +15971,7 @@ export const GetMasterSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMasterSitesControllerRequest>;
 
 /** Resource tags. */
-export type GetMasterSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMasterSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetMasterSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16759,9 +16533,7 @@ export const PrivateLinkResource_2 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PrivateLinkResourceProperties_2),
   }),
-).annotate({
-  identifier: "PrivateLinkResource_2",
-}) as any as S.Schema<PrivateLinkResource_2>;
+).annotate({ identifier: "PrivateLinkResource_2" }) as any as S.Schema<PrivateLinkResource_2>;
 
 export interface GetPrivateLinkResourceControllerPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -17278,9 +17050,7 @@ export const ServerNetworkAdapter = /*@__PURE__*/ S.suspend(() =>
     networkName: S.optional(S.String),
     ipAddressType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerNetworkAdapter",
-}) as any as S.Schema<ServerNetworkAdapter>;
+).annotate({ identifier: "ServerNetworkAdapter" }) as any as S.Schema<ServerNetworkAdapter>;
 
 /** Gets or sets the network adapters of the server. */
 export type ServerPropertiesNetworkAdaptersList = Array<ServerNetworkAdapter>;
@@ -17338,9 +17108,7 @@ export const ProcessorInfo_2 = /*@__PURE__*/ S.suspend(() =>
     numberOfSockets: S.optional(S.Number),
     numberOfCoresPerSocket: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProcessorInfo_2",
-}) as any as S.Schema<ProcessorInfo_2>;
+).annotate({ identifier: "ProcessorInfo_2" }) as any as S.Schema<ProcessorInfo_2>;
 
 /** Gets the appliance names. */
 export type ServerPropertiesApplianceNamesList = Array<string>;
@@ -17484,9 +17252,7 @@ export const ServerProperties = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "ServerProperties",
-}) as any as S.Schema<ServerProperties>;
+).annotate({ identifier: "ServerProperties" }) as any as S.Schema<ServerProperties>;
 
 export interface GetServersControllerMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -17538,9 +17304,7 @@ export const GetServerSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetServerSitesControllerRequest>;
 
 /** Resource tags. */
-export type GetServerSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServerSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetServerSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17668,9 +17432,7 @@ export const GetSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSitesControllerRequest>;
 
 /** Resource tags. */
-export type GetSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17769,7 +17531,7 @@ export const GetSolutionsControllerSolutionRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -17884,9 +17646,7 @@ export const SqlPaaSTargetOptions = /*@__PURE__*/ S.suspend(() =>
     serviceTier: S.optional(AzureSqlServiceTier),
     targetLocations: S.optional(SqlPaaSTargetOptionsTargetLocationsList),
   }),
-).annotate({
-  identifier: "SqlPaaSTargetOptions",
-}) as any as S.Schema<SqlPaaSTargetOptions>;
+).annotate({ identifier: "SqlPaaSTargetOptions" }) as any as S.Schema<SqlPaaSTargetOptions>;
 
 /** Gets or sets the list of SQL target SKU properties for dropdowns. */
 export type SqlAssessmentOptionsPropertiesSqlSkusList = Array<SqlPaaSTargetOptions>;
@@ -18114,9 +17874,7 @@ export const GetSqlAssessmentV2SummaryOperationRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetSqlAssessmentV2SummaryOperationRequest>;
 
 /** Sql assessment summary data */
-export type SqlAssessmentV2SummaryDataSuitabilitySummaryMap = {
-  [key: string]: number | undefined;
-};
+export type SqlAssessmentV2SummaryDataSuitabilitySummaryMap = { [key: string]: number | undefined };
 export const SqlAssessmentV2SummaryDataSuitabilitySummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -18398,9 +18156,7 @@ export const SqlDatabaseReplicaInfo = /*@__PURE__*/ S.suspend(() =>
     sqlServerName: S.optional(S.String),
     sqlServerArmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlDatabaseReplicaInfo",
-}) as any as S.Schema<SqlDatabaseReplicaInfo>;
+).annotate({ identifier: "SqlDatabaseReplicaInfo" }) as any as S.Schema<SqlDatabaseReplicaInfo>;
 
 /** Class which represents the SQL availability replica properties of type AG. */
 export interface SqlAvailabilityGroupReplicaInfo {
@@ -18812,9 +18568,7 @@ export const SqlDatabasePropertiesV2 = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "SqlDatabasePropertiesV2",
-}) as any as S.Schema<SqlDatabasePropertiesV2>;
+).annotate({ identifier: "SqlDatabasePropertiesV2" }) as any as S.Schema<SqlDatabasePropertiesV2>;
 
 export interface GetSqlDatabasesControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -19091,9 +18845,7 @@ export const SqlMachineOverview = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     fciRole: S.optional(SqlMachineOverviewFciRole),
   }),
-).annotate({
-  identifier: "SqlMachineOverview",
-}) as any as S.Schema<SqlMachineOverview>;
+).annotate({ identifier: "SqlMachineOverview" }) as any as S.Schema<SqlMachineOverview>;
 
 /** Gets the Machine Overview properties of all machines on which the SQL server is deployed. */
 export type SqlServerPropertiesMachineOverviewListList = Array<SqlMachineOverview>;
@@ -19132,9 +18884,7 @@ export const SqlFciProperties = /*@__PURE__*/ S.suspend(() =>
     isMultiSubnet: S.optional(S.Boolean),
     sharedDiskCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SqlFciProperties",
-}) as any as S.Schema<SqlFciProperties>;
+).annotate({ identifier: "SqlFciProperties" }) as any as S.Schema<SqlFciProperties>;
 
 /** Gets the list of machine ARM Ids on which the SQL server is deployed. */
 export type SqlServerPropertiesMachineArmIdsList = Array<string>;
@@ -19269,9 +19019,7 @@ export const SqlServerProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(SqlServerStatus),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "SqlServerProperties",
-}) as any as S.Schema<SqlServerProperties>;
+).annotate({ identifier: "SqlServerProperties" }) as any as S.Schema<SqlServerProperties>;
 
 export interface GetSqlServersControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -19412,9 +19160,7 @@ export const TomcatWebApplicationPropertiesDirectoriesList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<TomcatWebApplicationPropertiesDirectoriesList>;
 
 /** Gets tags that can be used with ODATA. */
-export type TomcatWebApplicationPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TomcatWebApplicationPropertiesTagsMap = { [key: string]: string | undefined };
 export const TomcatWebApplicationPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19630,9 +19376,7 @@ export const TomcatEngineUnit = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     hosts: S.optional(TomcatEngineUnitHostsList),
   }),
-).annotate({
-  identifier: "TomcatEngineUnit",
-}) as any as S.Schema<TomcatEngineUnit>;
+).annotate({ identifier: "TomcatEngineUnit" }) as any as S.Schema<TomcatEngineUnit>;
 
 /** Tomcat service data. */
 export interface TomcatServiceUnit {
@@ -19649,9 +19393,7 @@ export const TomcatServiceUnit = /*@__PURE__*/ S.suspend(() =>
     connectors: S.optional(TomcatServiceUnitConnectorsList),
     engine: S.optional(TomcatEngineUnit),
   }),
-).annotate({
-  identifier: "TomcatServiceUnit",
-}) as any as S.Schema<TomcatServiceUnit>;
+).annotate({ identifier: "TomcatServiceUnit" }) as any as S.Schema<TomcatServiceUnit>;
 
 /** Gets or sets the services defined in the server. */
 export type TomcatWebServerPropertiesServicesList = Array<TomcatServiceUnit>;
@@ -19995,9 +19737,7 @@ export const VirtualDesktopUser = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(VirtualDesktopUserProperties),
   }),
-).annotate({
-  identifier: "VirtualDesktopUser",
-}) as any as S.Schema<VirtualDesktopUser>;
+).annotate({ identifier: "VirtualDesktopUser" }) as any as S.Schema<VirtualDesktopUser>;
 
 export interface GetVmwareCollectorsOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -20113,9 +19853,7 @@ export const VmwareDatastore = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VMwareDatastoreType),
     symbolicName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmwareDatastore",
-}) as any as S.Schema<VmwareDatastore>;
+).annotate({ identifier: "VmwareDatastore" }) as any as S.Schema<VmwareDatastore>;
 
 /** Gets the data stores. */
 export type VmwareHostPropertiesDatastoresList = Array<VmwareDatastore>;
@@ -20156,9 +19894,7 @@ export const VmwareHostProperties = /*@__PURE__*/ S.suspend(() =>
     applianceNames: S.optional(VmwareHostPropertiesApplianceNamesList),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "VmwareHostProperties",
-}) as any as S.Schema<VmwareHostProperties>;
+).annotate({ identifier: "VmwareHostProperties" }) as any as S.Schema<VmwareHostProperties>;
 
 export interface GetVmwareHostControllerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -20327,9 +20063,7 @@ export const WebAppTargetOptions = /*@__PURE__*/ S.suspend(() =>
     webAppTier: S.optional(AzureWebAppTier),
     targetLocations: S.optional(WebAppTargetOptionsTargetLocationsList),
   }),
-).annotate({
-  identifier: "WebAppTargetOptions",
-}) as any as S.Schema<WebAppTargetOptions>;
+).annotate({ identifier: "WebAppTargetOptions" }) as any as S.Schema<WebAppTargetOptions>;
 
 /** Gets the list of web app target options. */
 export type WebAppAssessmentOptionsPropertiesWebAppSkusList = Array<WebAppTargetOptions>;
@@ -20542,18 +20276,14 @@ export const GetWebAppAssessmentV2SummaryOperationRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<GetWebAppAssessmentV2SummaryOperationRequest>;
 
 /** Web server summary data */
-export type DiscoveredEntitiesSummaryWebServerSummaryMap = {
-  [key: string]: number | undefined;
-};
+export type DiscoveredEntitiesSummaryWebServerSummaryMap = { [key: string]: number | undefined };
 export const DiscoveredEntitiesSummaryWebServerSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<DiscoveredEntitiesSummaryWebServerSummaryMap>;
 
 /** Web app summary data */
-export type DiscoveredEntitiesSummaryWebAppSummaryMap = {
-  [key: string]: number | undefined;
-};
+export type DiscoveredEntitiesSummaryWebAppSummaryMap = { [key: string]: number | undefined };
 export const DiscoveredEntitiesSummaryWebAppSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -20594,9 +20324,7 @@ export const WebAppAssessmentV2SummaryPropertiesAssessmentSummaryMap = /*@__PURE
 ) as any as S.Schema<WebAppAssessmentV2SummaryPropertiesAssessmentSummaryMap>;
 
 /** Web app readiness summary data */
-export type TargetSpecificSummaryReadinessSummaryMap = {
-  [key: string]: number | undefined;
-};
+export type TargetSpecificSummaryReadinessSummaryMap = { [key: string]: number | undefined };
 export const TargetSpecificSummaryReadinessSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -20623,9 +20351,7 @@ export const WebAppSkuDetails = /*@__PURE__*/ S.suspend(() =>
     skuSize: S.String,
     appServicePlanCount: S.Number,
   }),
-).annotate({
-  identifier: "WebAppSkuDetails",
-}) as any as S.Schema<WebAppSkuDetails>;
+).annotate({ identifier: "WebAppSkuDetails" }) as any as S.Schema<WebAppSkuDetails>;
 
 /** Web app recommendation sku details data */
 export type TargetSpecificSummaryRecommendationResultSkuDetailsMap = {
@@ -20650,9 +20376,7 @@ export const TargetSpecificSummary = /*@__PURE__*/ S.suspend(() =>
       TargetSpecificSummaryRecommendationResultSkuDetailsMap,
     ),
   }),
-).annotate({
-  identifier: "TargetSpecificSummary",
-}) as any as S.Schema<TargetSpecificSummary>;
+).annotate({ identifier: "TargetSpecificSummary" }) as any as S.Schema<TargetSpecificSummary>;
 
 /** Gets the target specific summary. */
 export type WebAppAssessmentV2SummaryPropertiesTargetSpecificSummaryMap = {
@@ -21170,9 +20894,7 @@ export const WebServerDiscoveryDetailsPortListList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<WebServerDiscoveryDetailsPortListList>;
 
-export type WebServerDiscoveryDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type WebServerDiscoveryDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const WebServerDiscoveryDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21238,13 +20960,9 @@ export const WebServerSummary = /*@__PURE__*/ S.suspend(() =>
     migratingCount: S.optional(S.Number),
     migratedCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WebServerSummary",
-}) as any as S.Schema<WebServerSummary>;
+).annotate({ identifier: "WebServerSummary" }) as any as S.Schema<WebServerSummary>;
 
-export type WebServerPropertiesSummaryMap = {
-  [key: string]: WebServerSummary | undefined;
-};
+export type WebServerPropertiesSummaryMap = { [key: string]: WebServerSummary | undefined };
 export const WebServerPropertiesSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   WebServerSummary,
@@ -21262,9 +20980,7 @@ export const WebServerProperties = /*@__PURE__*/ S.suspend(() =>
     summary: S.optional(WebServerPropertiesSummaryMap),
     lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebServerProperties",
-}) as any as S.Schema<WebServerProperties>;
+).annotate({ identifier: "WebServerProperties" }) as any as S.Schema<WebServerProperties>;
 
 /** Class representing a web server. */
 export interface WebServer {
@@ -21310,9 +21026,7 @@ export const GetWebSitesControllerWebSiteRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWebSitesControllerWebSiteRequest",
 }) as any as S.Schema<GetWebSitesControllerWebSiteRequest>;
 
-export type WebSiteDiscoveryDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type WebSiteDiscoveryDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const WebSiteDiscoveryDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21343,9 +21057,7 @@ export const WebSiteDiscoveryDetails = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     extendedInfo: S.optional(WebSiteDiscoveryDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "WebSiteDiscoveryDetails",
-}) as any as S.Schema<WebSiteDiscoveryDetails>;
+).annotate({ identifier: "WebSiteDiscoveryDetails" }) as any as S.Schema<WebSiteDiscoveryDetails>;
 
 export type WebSitePropertiesDiscoveryDataList = Array<WebSiteDiscoveryDetails>;
 export const WebSitePropertiesDiscoveryDataList = /*@__PURE__*/ S.Array(
@@ -21367,9 +21079,7 @@ export const WebSiteAssessmentDetailsErrorListList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<WebSiteAssessmentDetailsErrorListList>;
 
-export type WebSiteAssessmentDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type WebSiteAssessmentDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const WebSiteAssessmentDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21418,18 +21128,14 @@ export const WebSiteAssessmentDetails = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     extendedInfo: S.optional(WebSiteAssessmentDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "WebSiteAssessmentDetails",
-}) as any as S.Schema<WebSiteAssessmentDetails>;
+).annotate({ identifier: "WebSiteAssessmentDetails" }) as any as S.Schema<WebSiteAssessmentDetails>;
 
 export type WebSitePropertiesAssessmentDataList = Array<WebSiteAssessmentDetails>;
 export const WebSitePropertiesAssessmentDataList = /*@__PURE__*/ S.Array(
   WebSiteAssessmentDetails,
 ) as any as S.Schema<WebSitePropertiesAssessmentDataList>;
 
-export type WebSiteMigrationDetailsExtendedInfoMap = {
-  [key: string]: string | undefined;
-};
+export type WebSiteMigrationDetailsExtendedInfoMap = { [key: string]: string | undefined };
 export const WebSiteMigrationDetailsExtendedInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21466,9 +21172,7 @@ export const WebSiteMigrationDetails = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     extendedInfo: S.optional(WebSiteMigrationDetailsExtendedInfoMap),
   }),
-).annotate({
-  identifier: "WebSiteMigrationDetails",
-}) as any as S.Schema<WebSiteMigrationDetails>;
+).annotate({ identifier: "WebSiteMigrationDetails" }) as any as S.Schema<WebSiteMigrationDetails>;
 
 export type WebSitePropertiesMigrationDataList = Array<WebSiteMigrationDetails>;
 export const WebSitePropertiesMigrationDataList = /*@__PURE__*/ S.Array(
@@ -21489,9 +21193,7 @@ export const WebSiteProperties = /*@__PURE__*/ S.suspend(() =>
     migrationData: S.optional(WebSitePropertiesMigrationDataList),
     lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebSiteProperties",
-}) as any as S.Schema<WebSiteProperties>;
+).annotate({ identifier: "WebSiteProperties" }) as any as S.Schema<WebSiteProperties>;
 
 /** Class representing a web site. */
 export interface WebSite {
@@ -21670,9 +21372,7 @@ export const SiteErrorSummary = /*@__PURE__*/ S.suspend(() =>
     discoveryScopeErrorSummaries: DiscoveryScopeErrorSummary,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteErrorSummary",
-}) as any as S.Schema<SiteErrorSummary>;
+).annotate({ identifier: "SiteErrorSummary" }) as any as S.Schema<SiteErrorSummary>;
 
 export interface HypervSitesControllerComputeusageRequest {
   /** The ID of the target subscription. */
@@ -21717,9 +21417,7 @@ export const HypervSiteUsage = /*@__PURE__*/ S.suspend(() =>
     hostCount: S.optional(S.Number),
     clusterCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HypervSiteUsage",
-}) as any as S.Schema<HypervSiteUsage>;
+).annotate({ identifier: "HypervSiteUsage" }) as any as S.Schema<HypervSiteUsage>;
 
 export interface HypervSitesControllerSummaryRequest {
   /** The ID of the target subscription. */
@@ -21843,9 +21541,7 @@ export const ImportJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: ImportJobListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportJobListResult",
-}) as any as S.Schema<ImportJobListResult>;
+).annotate({ identifier: "ImportJobListResult" }) as any as S.Schema<ImportJobListResult>;
 
 export interface ImportMachinesControllerListByImportSiteRequest {
   /** The ID of the target subscription. */
@@ -21925,9 +21621,7 @@ export const ImportMachineListResult = /*@__PURE__*/ S.suspend(() =>
     value: ImportMachineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportMachineListResult",
-}) as any as S.Schema<ImportMachineListResult>;
+).annotate({ identifier: "ImportMachineListResult" }) as any as S.Schema<ImportMachineListResult>;
 
 export interface ListAksAssessmentOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -21959,7 +21653,7 @@ export const ListAksAssessmentOperationByAssessmentProjectRequest = /*@__PURE__*
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -22010,9 +21704,7 @@ export const AKSAssessmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: AKSAssessmentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AKSAssessmentListResult",
-}) as any as S.Schema<AKSAssessmentListResult>;
+).annotate({ identifier: "AKSAssessmentListResult" }) as any as S.Schema<AKSAssessmentListResult>;
 
 export interface ListAksClusterOperationByAksAssessmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22038,7 +21730,7 @@ export const ListAksClusterOperationByAksAssessmentRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/clusters",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -22089,9 +21781,7 @@ export const AKSClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: AKSClusterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AKSClusterListResult",
-}) as any as S.Schema<AKSClusterListResult>;
+).annotate({ identifier: "AKSClusterListResult" }) as any as S.Schema<AKSClusterListResult>;
 
 export interface ListAksCostDetailOperationByAksAssessmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22117,7 +21807,7 @@ export const ListAksCostDetailOperationByAksAssessmentRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/costDetails",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -22168,9 +21858,7 @@ export const AKSCostDetailListResult = /*@__PURE__*/ S.suspend(() =>
     value: AKSCostDetailListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AKSCostDetailListResult",
-}) as any as S.Schema<AKSCostDetailListResult>;
+).annotate({ identifier: "AKSCostDetailListResult" }) as any as S.Schema<AKSCostDetailListResult>;
 
 export interface ListAksOptionsOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22221,9 +21909,7 @@ export const AKSAssessmentOptions = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(OptionsArmPropertiesBase),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AKSAssessmentOptions",
-}) as any as S.Schema<AKSAssessmentOptions>;
+).annotate({ identifier: "AKSAssessmentOptions" }) as any as S.Schema<AKSAssessmentOptions>;
 
 /** The AKSAssessmentOptions items on this page */
 export type AKSAssessmentOptionsListResultValueList = Array<AKSAssessmentOptions>;
@@ -22268,7 +21954,7 @@ export const ListAksSummaryOperationByAksAssessmentRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/summaries",
       code: 200,
-      apiVersion: "2024-01-15",
+      apiVersion: "2024-03-03-preview",
     }),
   ),
 ).annotate({
@@ -22319,9 +22005,7 @@ export const AKSSummaryListResult = /*@__PURE__*/ S.suspend(() =>
     value: AKSSummaryListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AKSSummaryListResult",
-}) as any as S.Schema<AKSSummaryListResult>;
+).annotate({ identifier: "AKSSummaryListResult" }) as any as S.Schema<AKSSummaryListResult>;
 
 export interface ListAssessedMachinesOperationByAssessmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -22387,9 +22071,7 @@ export const AssessedMachine = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessedMachineProperties),
   }),
-).annotate({
-  identifier: "AssessedMachine",
-}) as any as S.Schema<AssessedMachine>;
+).annotate({ identifier: "AssessedMachine" }) as any as S.Schema<AssessedMachine>;
 
 /** The AssessedMachine items on this page */
 export type AssessedMachineListResultValueList = Array<AssessedMachine>;
@@ -22478,9 +22160,7 @@ export const AssessedSqlDatabaseV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessedSqlDatabaseV2Properties),
   }),
-).annotate({
-  identifier: "AssessedSqlDatabaseV2",
-}) as any as S.Schema<AssessedSqlDatabaseV2>;
+).annotate({ identifier: "AssessedSqlDatabaseV2" }) as any as S.Schema<AssessedSqlDatabaseV2>;
 
 /** The AssessedSqlDatabaseV2 items on this page */
 export type AssessedSqlDatabaseV2ListResultValueList = Array<AssessedSqlDatabaseV2>;
@@ -22569,9 +22249,7 @@ export const AssessedSqlInstanceV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessedSqlInstanceV2Properties),
   }),
-).annotate({
-  identifier: "AssessedSqlInstanceV2",
-}) as any as S.Schema<AssessedSqlInstanceV2>;
+).annotate({ identifier: "AssessedSqlInstanceV2" }) as any as S.Schema<AssessedSqlInstanceV2>;
 
 /** The AssessedSqlInstanceV2 items on this page */
 export type AssessedSqlInstanceV2ListResultValueList = Array<AssessedSqlInstanceV2>;
@@ -22660,9 +22338,7 @@ export const AssessedSqlMachine = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessedSqlMachineProperties),
   }),
-).annotate({
-  identifier: "AssessedSqlMachine",
-}) as any as S.Schema<AssessedSqlMachine>;
+).annotate({ identifier: "AssessedSqlMachine" }) as any as S.Schema<AssessedSqlMachine>;
 
 /** The AssessedSqlMachine items on this page */
 export type AssessedSqlMachineListResultValueList = Array<AssessedSqlMachine>;
@@ -22811,7 +22487,7 @@ export const ListAssessedWebApplicationOperationByAksAssessmentRequest = /*@__PU
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/aksAssessments/{assessmentName}/assessedWebApps",
         code: 200,
-        apiVersion: "2024-01-15",
+        apiVersion: "2024-03-03-preview",
       }),
     ),
 ).annotate({
@@ -22842,9 +22518,7 @@ export const AssessedWebApplication = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssessedWebApp),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssessedWebApplication",
-}) as any as S.Schema<AssessedWebApplication>;
+).annotate({ identifier: "AssessedWebApplication" }) as any as S.Schema<AssessedWebApplication>;
 
 /** The AssessedWebApplication items on this page */
 export type AssessedWebApplicationListResultValueList = Array<AssessedWebApplication>;
@@ -22933,9 +22607,7 @@ export const AssessedWebAppV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessedWebAppV2Properties),
   }),
-).annotate({
-  identifier: "AssessedWebAppV2",
-}) as any as S.Schema<AssessedWebAppV2>;
+).annotate({ identifier: "AssessedWebAppV2" }) as any as S.Schema<AssessedWebAppV2>;
 
 /** The AssessedWebAppV2 items on this page */
 export type AssessedWebAppV2ListResultValueList = Array<AssessedWebAppV2>;
@@ -23006,9 +22678,7 @@ export const AssessmentOptions = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessmentOptionsProperties),
   }),
-).annotate({
-  identifier: "AssessmentOptions",
-}) as any as S.Schema<AssessmentOptions>;
+).annotate({ identifier: "AssessmentOptions" }) as any as S.Schema<AssessmentOptions>;
 
 /** The AssessmentOptions items on this page */
 export type AssessmentOptionsListResultValueList = Array<AssessmentOptions>;
@@ -23088,9 +22758,7 @@ export const AssessmentProject = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ProjectProperties),
   }),
-).annotate({
-  identifier: "AssessmentProject",
-}) as any as S.Schema<AssessmentProject>;
+).annotate({ identifier: "AssessmentProject" }) as any as S.Schema<AssessmentProject>;
 
 /** The AssessmentProject items on this page */
 export type AssessmentProjectListResultValueList = Array<AssessmentProject>;
@@ -23180,9 +22848,7 @@ export const AssessmentProjectSummary = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AssessmentProjectSummaryProperties),
   }),
-).annotate({
-  identifier: "AssessmentProjectSummary",
-}) as any as S.Schema<AssessmentProjectSummary>;
+).annotate({ identifier: "AssessmentProjectSummary" }) as any as S.Schema<AssessmentProjectSummary>;
 
 /** The AssessmentProjectSummary items on this page */
 export type AssessmentProjectSummaryListResultValueList = Array<AssessmentProjectSummary>;
@@ -23275,9 +22941,7 @@ export const AssessmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: AssessmentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssessmentListResult",
-}) as any as S.Schema<AssessmentListResult>;
+).annotate({ identifier: "AssessmentListResult" }) as any as S.Schema<AssessmentListResult>;
 
 export interface ListAvsAssessedMachinesOperationByAvsAssessmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -23343,9 +23007,7 @@ export const AvsAssessedMachine = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AvsAssessedMachineProperties),
   }),
-).annotate({
-  identifier: "AvsAssessedMachine",
-}) as any as S.Schema<AvsAssessedMachine>;
+).annotate({ identifier: "AvsAssessedMachine" }) as any as S.Schema<AvsAssessedMachine>;
 
 /** The AvsAssessedMachine items on this page */
 export type AvsAssessedMachineListResultValueList = Array<AvsAssessedMachine>;
@@ -23416,9 +23078,7 @@ export const AvsAssessmentOptions = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AvsAssessmentOptionsProperties),
   }),
-).annotate({
-  identifier: "AvsAssessmentOptions",
-}) as any as S.Schema<AvsAssessmentOptions>;
+).annotate({ identifier: "AvsAssessmentOptions" }) as any as S.Schema<AvsAssessmentOptions>;
 
 /** The AvsAssessmentOptions items on this page */
 export type AvsAssessmentOptionsListResultValueList = Array<AvsAssessmentOptions>;
@@ -23511,9 +23171,7 @@ export const AvsAssessmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: AvsAssessmentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvsAssessmentListResult",
-}) as any as S.Schema<AvsAssessmentListResult>;
+).annotate({ identifier: "AvsAssessmentListResult" }) as any as S.Schema<AvsAssessmentListResult>;
 
 export interface ListDatabaseInstancesControllerDatabaseInstancesRequest {
   /** The ID of the target subscription. */
@@ -23617,9 +23275,7 @@ export const DatabaseCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DatabaseCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseCollection",
-}) as any as S.Schema<DatabaseCollection>;
+).annotate({ identifier: "DatabaseCollection" }) as any as S.Schema<DatabaseCollection>;
 
 export interface ListEventsControllerEventsRequest {
   /** The ID of the target subscription. */
@@ -23667,9 +23323,7 @@ export const EventCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(EventCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventCollection",
-}) as any as S.Schema<EventCollection>;
+).annotate({ identifier: "EventCollection" }) as any as S.Schema<EventCollection>;
 
 export interface ListGroupsOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -23737,9 +23391,7 @@ export const GroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: GroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupListResult",
-}) as any as S.Schema<GroupListResult>;
+).annotate({ identifier: "GroupListResult" }) as any as S.Schema<GroupListResult>;
 
 export interface ListHypervClusterControllerByHypervSiteRequest {
   /** The ID of the target subscription. */
@@ -23810,9 +23462,7 @@ export const HypervClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: HypervClusterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervClusterListResult",
-}) as any as S.Schema<HypervClusterListResult>;
+).annotate({ identifier: "HypervClusterListResult" }) as any as S.Schema<HypervClusterListResult>;
 
 export interface ListHypervCollectorsOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -23860,9 +23510,7 @@ export const HypervCollector = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CollectorPropertiesBaseWithAgent),
   }),
-).annotate({
-  identifier: "HypervCollector",
-}) as any as S.Schema<HypervCollector>;
+).annotate({ identifier: "HypervCollector" }) as any as S.Schema<HypervCollector>;
 
 /** The HypervCollector items on this page */
 export type HypervCollectorListResultValueList = Array<HypervCollector>;
@@ -23955,9 +23603,7 @@ export const HypervHostListResult = /*@__PURE__*/ S.suspend(() =>
     value: HypervHostListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervHostListResult",
-}) as any as S.Schema<HypervHostListResult>;
+).annotate({ identifier: "HypervHostListResult" }) as any as S.Schema<HypervHostListResult>;
 
 export interface ListHypervJobByHypervSiteRequest {
   /** The ID of the target subscription. */
@@ -24006,9 +23652,7 @@ export const HypervJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: HypervJobListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervJobListResult",
-}) as any as S.Schema<HypervJobListResult>;
+).annotate({ identifier: "HypervJobListResult" }) as any as S.Schema<HypervJobListResult>;
 
 export interface ListHypervJobsControllerByVmwareSiteRequest {
   /** The ID of the target subscription. */
@@ -24057,9 +23701,7 @@ export const VmwareJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: VmwareJobListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmwareJobListResult",
-}) as any as S.Schema<VmwareJobListResult>;
+).annotate({ identifier: "VmwareJobListResult" }) as any as S.Schema<VmwareJobListResult>;
 
 export interface ListHypervMachinesControllerByHypervSiteRequest {
   /** The ID of the target subscription. */
@@ -24139,9 +23781,7 @@ export const HypervMachineListResult = /*@__PURE__*/ S.suspend(() =>
     value: HypervMachineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervMachineListResult",
-}) as any as S.Schema<HypervMachineListResult>;
+).annotate({ identifier: "HypervMachineListResult" }) as any as S.Schema<HypervMachineListResult>;
 
 export interface ListHypervRunAsAccountsControllerByHypervSiteRequest {
   /** The ID of the target subscription. */
@@ -24291,9 +23931,7 @@ export const HypervSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: HypervSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HypervSiteListResult",
-}) as any as S.Schema<HypervSiteListResult>;
+).annotate({ identifier: "HypervSiteListResult" }) as any as S.Schema<HypervSiteListResult>;
 
 export interface ListHypervSiteBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -24401,9 +24039,7 @@ export const SiteHealthSummary = /*@__PURE__*/ S.suspend(() =>
     affectedResources: S.optional(SiteHealthSummaryAffectedResourcesList),
     fabricLayoutUpdateSources: S.optional(SiteHealthSummaryFabricLayoutUpdateSourcesList),
   }),
-).annotate({
-  identifier: "SiteHealthSummary",
-}) as any as S.Schema<SiteHealthSummary>;
+).annotate({ identifier: "SiteHealthSummary" }) as any as S.Schema<SiteHealthSummary>;
 
 /** Gets the list of SiteHealthSummary. */
 export type SiteHealthSummaryCollectionValueList = Array<SiteHealthSummary>;
@@ -24564,9 +24200,7 @@ export const IisWebApplications = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(IisWebApplicationProperties),
   }),
-).annotate({
-  identifier: "IisWebApplications",
-}) as any as S.Schema<IisWebApplications>;
+).annotate({ identifier: "IisWebApplications" }) as any as S.Schema<IisWebApplications>;
 
 /** The IisWebApplications items on this page */
 export type IisWebApplicationsListResultValueList = Array<IisWebApplications>;
@@ -24671,9 +24305,7 @@ export const IisWebServersListResult = /*@__PURE__*/ S.suspend(() =>
     value: IisWebServersListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IisWebServersListResult",
-}) as any as S.Schema<IisWebServersListResult>;
+).annotate({ identifier: "IisWebServersListResult" }) as any as S.Schema<IisWebServersListResult>;
 
 export interface ListImportCollectorsOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24721,9 +24353,7 @@ export const ImportCollector = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CollectorPropertiesBase),
   }),
-).annotate({
-  identifier: "ImportCollector",
-}) as any as S.Schema<ImportCollector>;
+).annotate({ identifier: "ImportCollector" }) as any as S.Schema<ImportCollector>;
 
 /** The ImportCollector items on this page */
 export type ImportCollectorListResultValueList = Array<ImportCollector>;
@@ -24793,9 +24423,7 @@ export const DeleteImportMachinesJob = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DeleteImportedMachinesJobProperties),
   }),
-).annotate({
-  identifier: "DeleteImportMachinesJob",
-}) as any as S.Schema<DeleteImportMachinesJob>;
+).annotate({ identifier: "DeleteImportMachinesJob" }) as any as S.Schema<DeleteImportMachinesJob>;
 
 /** The DeleteImportMachinesJob items on this page */
 export type PagedDeleteImportMachinesJobValueList = Array<DeleteImportMachinesJob>;
@@ -24909,9 +24537,7 @@ export const PagedImportMachinesJob = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PagedImportMachinesJobValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PagedImportMachinesJob",
-}) as any as S.Schema<PagedImportMachinesJob>;
+).annotate({ identifier: "PagedImportMachinesJob" }) as any as S.Schema<PagedImportMachinesJob>;
 
 export interface ListImportSitesControllerByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -24989,9 +24615,7 @@ export const ImportSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: ImportSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportSiteListResult",
-}) as any as S.Schema<ImportSiteListResult>;
+).annotate({ identifier: "ImportSiteListResult" }) as any as S.Schema<ImportSiteListResult>;
 
 export interface ListImportSitesControllerBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -25070,9 +24694,7 @@ export const MachineResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(VmwareMachineProperties),
   }),
-).annotate({
-  identifier: "MachineResource",
-}) as any as S.Schema<MachineResource>;
+).annotate({ identifier: "MachineResource" }) as any as S.Schema<MachineResource>;
 
 /** The MachineResource items on this page */
 export type MachineResourceListResultValueList = Array<MachineResource>;
@@ -25145,9 +24767,7 @@ export const MachineCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MachineCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineCollection",
-}) as any as S.Schema<MachineCollection>;
+).annotate({ identifier: "MachineCollection" }) as any as S.Schema<MachineCollection>;
 
 export interface ListMachinesOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -25227,9 +24847,7 @@ export const MachineListResult = /*@__PURE__*/ S.suspend(() =>
     value: MachineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineListResult",
-}) as any as S.Schema<MachineListResult>;
+).annotate({ identifier: "MachineListResult" }) as any as S.Schema<MachineListResult>;
 
 export interface ListMasterSitesControllerByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -25307,9 +24925,7 @@ export const MasterSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: MasterSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MasterSiteListResult",
-}) as any as S.Schema<MasterSiteListResult>;
+).annotate({ identifier: "MasterSiteListResult" }) as any as S.Schema<MasterSiteListResult>;
 
 export interface ListMasterSitesControllerBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -25340,9 +24956,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-01-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -25362,9 +24976,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -25414,9 +25026,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionControllerByMasterSiteRequest {
   /** The ID of the target subscription. */
@@ -25642,9 +25252,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -25714,9 +25322,7 @@ export const PrivateLinkResource_3 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties_3),
   }),
-).annotate({
-  identifier: "PrivateLinkResource_3",
-}) as any as S.Schema<PrivateLinkResource_3>;
+).annotate({ identifier: "PrivateLinkResource_3" }) as any as S.Schema<PrivateLinkResource_3>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList_2 = Array<PrivateLinkResource_3>;
@@ -25752,7 +25358,7 @@ export const ListProjectBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/migrateProjects",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -25799,9 +25405,7 @@ export type ProjectSummaryRefreshSummaryState = "Started" | "InProgress" | "Comp
 export const ProjectSummaryRefreshSummaryState = S.String;
 
 /** Extended summary. */
-export type ProjectSummaryExtendedSummaryMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectSummaryExtendedSummaryMap = { [key: string]: string | undefined };
 export const ProjectSummaryExtendedSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -25828,9 +25432,7 @@ export const ProjectSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ProjectSummary" }) as any as S.Schema<ProjectSummary>;
 
 /** Project summary. */
-export type MigrateProjectPropertiesSummaryMap = {
-  [key: string]: ProjectSummary | undefined;
-};
+export type MigrateProjectPropertiesSummaryMap = { [key: string]: ProjectSummary | undefined };
 export const MigrateProjectPropertiesSummaryMap = /*@__PURE__*/ S.Record(
   S.String,
   ProjectSummary,
@@ -25885,9 +25487,7 @@ export const MigrateProjectProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(MigrateProjectPropertiesPublicNetworkAccess),
     privateEndpointConnections: S.optional(MigrateProjectPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "MigrateProjectProperties",
-}) as any as S.Schema<MigrateProjectProperties>;
+).annotate({ identifier: "MigrateProjectProperties" }) as any as S.Schema<MigrateProjectProperties>;
 
 /** The type of identity that created the resource. */
 export type MigrateProjectSystemDataCreatedByType =
@@ -25929,9 +25529,7 @@ export const MigrateProjectSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(MigrateProjectSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MigrateProjectSystemData",
-}) as any as S.Schema<MigrateProjectSystemData>;
+).annotate({ identifier: "MigrateProjectSystemData" }) as any as S.Schema<MigrateProjectSystemData>;
 
 /** Migrate project. */
 export interface MigrateProject {
@@ -25948,6 +25546,8 @@ export interface MigrateProject {
   type?: string;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: MigrateProjectSystemData;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25958,6 +25558,7 @@ export const MigrateProject = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(MigrateProjectSystemData),
+    tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
   }),
 ).annotate({ identifier: "MigrateProject" }) as any as S.Schema<MigrateProject>;
 
@@ -25978,9 +25579,7 @@ export const ProjectResultList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ProjectResultListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectResultList",
-}) as any as S.Schema<ProjectResultList>;
+).annotate({ identifier: "ProjectResultList" }) as any as S.Schema<ProjectResultList>;
 
 export interface ListProjectsRequest {
   /** The ID of the target subscription. */
@@ -25997,12 +25596,10 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export interface ListRunAsAccountsControllerByVmwareSiteRequest {
   /** The ID of the target subscription. */
@@ -26153,9 +25750,7 @@ export const ServerJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: ServerJobListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerJobListResult",
-}) as any as S.Schema<ServerJobListResult>;
+).annotate({ identifier: "ServerJobListResult" }) as any as S.Schema<ServerJobListResult>;
 
 export interface ListServerRunAsAccountsControllerByServerSiteResourceRequest {
   /** The ID of the target subscription. */
@@ -26287,9 +25882,7 @@ export const ServerListResult = /*@__PURE__*/ S.suspend(() =>
     value: ServerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerListResult",
-}) as any as S.Schema<ServerListResult>;
+).annotate({ identifier: "ServerListResult" }) as any as S.Schema<ServerListResult>;
 
 export interface ListServerSitesControllerByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -26347,9 +25940,7 @@ export const ServerSiteResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SiteProperties),
   }),
-).annotate({
-  identifier: "ServerSiteResource",
-}) as any as S.Schema<ServerSiteResource>;
+).annotate({ identifier: "ServerSiteResource" }) as any as S.Schema<ServerSiteResource>;
 
 /** The ServerSiteResource items on this page */
 export type ServerSiteResourceListResultValueList = Array<ServerSiteResource>;
@@ -26550,9 +26141,7 @@ export const VmwareSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: VmwareSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmwareSiteListResult",
-}) as any as S.Schema<VmwareSiteListResult>;
+).annotate({ identifier: "VmwareSiteListResult" }) as any as S.Schema<VmwareSiteListResult>;
 
 export interface ListSitesControllerBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -26616,7 +26205,7 @@ export const ListSolutionsControllerSolutionsRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -26641,9 +26230,7 @@ export const SolutionsCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SolutionsCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SolutionsCollection",
-}) as any as S.Schema<SolutionsCollection>;
+).annotate({ identifier: "SolutionsCollection" }) as any as S.Schema<SolutionsCollection>;
 
 export interface ListSqlAssessmentOptionsOperationByAssessmentProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -26692,9 +26279,7 @@ export const SqlAssessmentOptions = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SqlAssessmentOptionsProperties),
   }),
-).annotate({
-  identifier: "SqlAssessmentOptions",
-}) as any as S.Schema<SqlAssessmentOptions>;
+).annotate({ identifier: "SqlAssessmentOptions" }) as any as S.Schema<SqlAssessmentOptions>;
 
 /** The SqlAssessmentOptions items on this page */
 export type SqlAssessmentOptionsListResultValueList = Array<SqlAssessmentOptions>;
@@ -26767,9 +26352,7 @@ export const SqlAssessmentV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SqlAssessmentV2Properties),
   }),
-).annotate({
-  identifier: "SqlAssessmentV2",
-}) as any as S.Schema<SqlAssessmentV2>;
+).annotate({ identifier: "SqlAssessmentV2" }) as any as S.Schema<SqlAssessmentV2>;
 
 /** The SqlAssessmentV2 items on this page */
 export type SqlAssessmentV2ListResultValueList = Array<SqlAssessmentV2>;
@@ -26846,9 +26429,7 @@ export const SqlAssessmentV2Summary = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SqlAssessmentV2SummaryProperties),
   }),
-).annotate({
-  identifier: "SqlAssessmentV2Summary",
-}) as any as S.Schema<SqlAssessmentV2Summary>;
+).annotate({ identifier: "SqlAssessmentV2Summary" }) as any as S.Schema<SqlAssessmentV2Summary>;
 
 /** The SqlAssessmentV2Summary items on this page */
 export type SqlAssessmentV2SummaryListResultValueList = Array<SqlAssessmentV2Summary>;
@@ -26933,9 +26514,7 @@ export const SqlAvailabilityGroup = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SqlAvailabilityGroupProperties),
   }),
-).annotate({
-  identifier: "SqlAvailabilityGroup",
-}) as any as S.Schema<SqlAvailabilityGroup>;
+).annotate({ identifier: "SqlAvailabilityGroup" }) as any as S.Schema<SqlAvailabilityGroup>;
 
 /** The SqlAvailabilityGroup items on this page */
 export type SqlAvailabilityGroupListResultValueList = Array<SqlAvailabilityGroup>;
@@ -27006,9 +26585,7 @@ export const SqlCollectorListResult = /*@__PURE__*/ S.suspend(() =>
     value: SqlCollectorListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlCollectorListResult",
-}) as any as S.Schema<SqlCollectorListResult>;
+).annotate({ identifier: "SqlCollectorListResult" }) as any as S.Schema<SqlCollectorListResult>;
 
 export interface ListSqlDatabasesControllerBySqlSiteRequest {
   /** The ID of the target subscription. */
@@ -27091,9 +26668,7 @@ export const SqlDatabaseV2ListResult = /*@__PURE__*/ S.suspend(() =>
     value: SqlDatabaseV2ListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlDatabaseV2ListResult",
-}) as any as S.Schema<SqlDatabaseV2ListResult>;
+).annotate({ identifier: "SqlDatabaseV2ListResult" }) as any as S.Schema<SqlDatabaseV2ListResult>;
 
 export interface ListSqlDiscoverySiteDataSourceControllerBySqlSiteRequest {
   /** The ID of the target subscription. */
@@ -27221,9 +26796,7 @@ export const SqlJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: SqlJobListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlJobListResult",
-}) as any as S.Schema<SqlJobListResult>;
+).annotate({ identifier: "SqlJobListResult" }) as any as S.Schema<SqlJobListResult>;
 
 export interface ListSqlRunAsAccountsControllerBySqlSiteRequest {
   /** The ID of the target subscription. */
@@ -27360,9 +26933,7 @@ export const SqlServerV2ListResult = /*@__PURE__*/ S.suspend(() =>
     value: SqlServerV2ListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlServerV2ListResult",
-}) as any as S.Schema<SqlServerV2ListResult>;
+).annotate({ identifier: "SqlServerV2ListResult" }) as any as S.Schema<SqlServerV2ListResult>;
 
 export interface ListSqlSitesControllerByMasterSiteRequest {
   /** The ID of the target subscription. */
@@ -27430,9 +27001,7 @@ export const SqlSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: SqlSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlSiteListResult",
-}) as any as S.Schema<SqlSiteListResult>;
+).annotate({ identifier: "SqlSiteListResult" }) as any as S.Schema<SqlSiteListResult>;
 
 export interface ListTomcatWebApplicationsControllerByWebAppSiteRequest {
   /** The ID of the target subscription. */
@@ -27495,9 +27064,7 @@ export const TomcatWebApplications = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TomcatWebApplicationProperties),
   }),
-).annotate({
-  identifier: "TomcatWebApplications",
-}) as any as S.Schema<TomcatWebApplications>;
+).annotate({ identifier: "TomcatWebApplications" }) as any as S.Schema<TomcatWebApplications>;
 
 /** The TomcatWebApplications items on this page */
 export type TomcatWebApplicationsListResultValueList = Array<TomcatWebApplications>;
@@ -27582,9 +27149,7 @@ export const TomcatWebServers = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TomcatWebServerProperties),
   }),
-).annotate({
-  identifier: "TomcatWebServers",
-}) as any as S.Schema<TomcatWebServers>;
+).annotate({ identifier: "TomcatWebServers" }) as any as S.Schema<TomcatWebServers>;
 
 /** The TomcatWebServers items on this page */
 export type TomcatWebServersListResultValueList = Array<TomcatWebServers>;
@@ -27677,9 +27242,7 @@ export const VcenterListResult = /*@__PURE__*/ S.suspend(() =>
     value: VcenterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VcenterListResult",
-}) as any as S.Schema<VcenterListResult>;
+).annotate({ identifier: "VcenterListResult" }) as any as S.Schema<VcenterListResult>;
 
 export interface ListVirtualDesktopUserControllerVirtualDesktopUsersRequest {
   /** The ID of the target subscription. */
@@ -27849,9 +27412,7 @@ export const VmwareHostListResult = /*@__PURE__*/ S.suspend(() =>
     value: VmwareHostListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmwareHostListResult",
-}) as any as S.Schema<VmwareHostListResult>;
+).annotate({ identifier: "VmwareHostListResult" }) as any as S.Schema<VmwareHostListResult>;
 
 export interface ListVmwareSoftwareInventoriesControllerByMachineResourceRequest {
   /** The ID of the target subscription. */
@@ -27955,9 +27516,7 @@ export const WebAppAssessmentOptions = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppAssessmentOptionsProperties),
   }),
-).annotate({
-  identifier: "WebAppAssessmentOptions",
-}) as any as S.Schema<WebAppAssessmentOptions>;
+).annotate({ identifier: "WebAppAssessmentOptions" }) as any as S.Schema<WebAppAssessmentOptions>;
 
 /** The WebAppAssessmentOptions items on this page */
 export type WebAppAssessmentOptionsListResultValueList = Array<WebAppAssessmentOptions>;
@@ -28030,9 +27589,7 @@ export const WebAppAssessmentV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppAssessmentV2Properties),
   }),
-).annotate({
-  identifier: "WebAppAssessmentV2",
-}) as any as S.Schema<WebAppAssessmentV2>;
+).annotate({ identifier: "WebAppAssessmentV2" }) as any as S.Schema<WebAppAssessmentV2>;
 
 /** The WebAppAssessmentV2 items on this page */
 export type WebAppAssessmentV2ListResultValueList = Array<WebAppAssessmentV2>;
@@ -28181,9 +27738,7 @@ export const WebAppCollector = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppCollectorPropertiesBaseWithAgent),
   }),
-).annotate({
-  identifier: "WebAppCollector",
-}) as any as S.Schema<WebAppCollector>;
+).annotate({ identifier: "WebAppCollector" }) as any as S.Schema<WebAppCollector>;
 
 /** The WebAppCollector items on this page */
 export type WebAppCollectorListResultValueList = Array<WebAppCollector>;
@@ -28323,9 +27878,7 @@ export const WebAppExtendedMachine = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppExtendedMachineProperties),
   }),
-).annotate({
-  identifier: "WebAppExtendedMachine",
-}) as any as S.Schema<WebAppExtendedMachine>;
+).annotate({ identifier: "WebAppExtendedMachine" }) as any as S.Schema<WebAppExtendedMachine>;
 
 /** The WebAppExtendedMachine items on this page */
 export type WebAppExtendedMachineListResultValueList = Array<WebAppExtendedMachine>;
@@ -28420,9 +27973,7 @@ export const WebApplicationPropertiesDirectoriesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<WebApplicationPropertiesDirectoriesList>;
 
 /** Gets tags that can be used with ODATA. */
-export type WebApplicationPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WebApplicationPropertiesTagsMap = { [key: string]: string | undefined };
 export const WebApplicationPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -28515,9 +28066,7 @@ export const WebApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     hasErrors: S.optional(S.Boolean),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "WebApplicationProperties",
-}) as any as S.Schema<WebApplicationProperties>;
+).annotate({ identifier: "WebApplicationProperties" }) as any as S.Schema<WebApplicationProperties>;
 
 /** Web application REST Resource. */
 export interface WebApplication {
@@ -28560,9 +28109,7 @@ export const WebApplicationListResult = /*@__PURE__*/ S.suspend(() =>
     value: WebApplicationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebApplicationListResult",
-}) as any as S.Schema<WebApplicationListResult>;
+).annotate({ identifier: "WebApplicationListResult" }) as any as S.Schema<WebApplicationListResult>;
 
 export interface ListWebAppRunAsAccountsControllerByWebAppSiteRequest {
   /** The ID of the target subscription. */
@@ -28683,9 +28230,7 @@ export const WebAppServicePlanV2 = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppServicePlanV2Properties),
   }),
-).annotate({
-  identifier: "WebAppServicePlanV2",
-}) as any as S.Schema<WebAppServicePlanV2>;
+).annotate({ identifier: "WebAppServicePlanV2" }) as any as S.Schema<WebAppServicePlanV2>;
 
 /** The WebAppServicePlanV2 items on this page */
 export type WebAppServicePlanV2ListResultValueList = Array<WebAppServicePlanV2>;
@@ -28775,9 +28320,7 @@ export const WebAppSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: WebAppSiteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebAppSiteListResult",
-}) as any as S.Schema<WebAppSiteListResult>;
+).annotate({ identifier: "WebAppSiteListResult" }) as any as S.Schema<WebAppSiteListResult>;
 
 export interface ListWebServersControllerByWebAppSiteRequest {
   /** The ID of the target subscription. */
@@ -28894,9 +28437,7 @@ export const WebServerProperties_2 = /*@__PURE__*/ S.suspend(() =>
     hasErrors: S.optional(S.Boolean),
     provisioningState: S.optional(ProvisioningState_2),
   }),
-).annotate({
-  identifier: "WebServerProperties_2",
-}) as any as S.Schema<WebServerProperties_2>;
+).annotate({ identifier: "WebServerProperties_2" }) as any as S.Schema<WebServerProperties_2>;
 
 /** Web application REST Resource. */
 export interface WebServer_2 {
@@ -28939,9 +28480,7 @@ export const WebServerListResult = /*@__PURE__*/ S.suspend(() =>
     value: WebServerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebServerListResult",
-}) as any as S.Schema<WebServerListResult>;
+).annotate({ identifier: "WebServerListResult" }) as any as S.Schema<WebServerListResult>;
 
 export interface ListWebServersControllerWebServersRequest {
   /** The ID of the target subscription. */
@@ -28989,9 +28528,7 @@ export const WebServerCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WebServerCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebServerCollection",
-}) as any as S.Schema<WebServerCollection>;
+).annotate({ identifier: "WebServerCollection" }) as any as S.Schema<WebServerCollection>;
 
 export interface ListWebSitesControllerWebSitesRequest {
   /** The ID of the target subscription. */
@@ -29039,9 +28576,7 @@ export const WebSiteCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WebSiteCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebSiteCollection",
-}) as any as S.Schema<WebSiteCollection>;
+).annotate({ identifier: "WebSiteCollection" }) as any as S.Schema<WebSiteCollection>;
 
 export interface MasterSitesControllerErrorSummaryRequest {
   /** The ID of the target subscription. */
@@ -29089,7 +28624,7 @@ export const MigrateProjectsControllerDeleteMigrateProjectRequest = /*@__PURE__*
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -29121,7 +28656,7 @@ export const MigrateProjectsControllerGetMigrateProjectRequest = /*@__PURE__*/ S
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -29166,6 +28701,8 @@ export interface MigrateProjectsControllerPatchMigrateProjectRequest {
   eTag?: string;
   /** Azure location in which project is created. */
   location?: string;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProjectsControllerPatchMigrateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29175,12 +28712,13 @@ export const MigrateProjectsControllerPatchMigrateProjectRequest = /*@__PURE__*/
     properties: S.optional(MigrateProjectPropertiesInput),
     eTag: S.optional(S.String),
     location: S.optional(S.String),
+    tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
   }).pipe(
     T.Http({
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -29199,6 +28737,8 @@ export interface MigrateProjectsControllerPutMigrateProjectRequest {
   eTag?: string;
   /** Azure location in which project is created. */
   location?: string;
+  /** Resource tags. */
+  tags?: CreateAssessmentProjectsOperationRequestTagsMap;
 }
 export const MigrateProjectsControllerPutMigrateProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29208,12 +28748,13 @@ export const MigrateProjectsControllerPutMigrateProjectRequest = /*@__PURE__*/ S
     properties: S.optional(MigrateProjectPropertiesInput),
     eTag: S.optional(S.String),
     location: S.optional(S.String),
+    tags: S.optional(CreateAssessmentProjectsOperationRequestTagsMap),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -29306,9 +28847,7 @@ export const RefreshSummaryResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isRefreshed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RefreshSummaryResult",
-}) as any as S.Schema<RefreshSummaryResult>;
+).annotate({ identifier: "RefreshSummaryResult" }) as any as S.Schema<RefreshSummaryResult>;
 
 export interface RefreshServerSitesControllerSiteRequest {
   /** The ID of the target subscription. */
@@ -29484,9 +29023,7 @@ export const RegistrationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isRegistered: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RegistrationResult",
-}) as any as S.Schema<RegistrationResult>;
+).annotate({ identifier: "RegistrationResult" }) as any as S.Schema<RegistrationResult>;
 
 export interface ServerDependencyMapControllerClientGroupMembersRequest {
   /** The ID of the target subscription. */
@@ -29644,9 +29181,7 @@ export const ServerSiteUsageResponse = /*@__PURE__*/ S.suspend(() =>
     runAsAccounts: S.Number,
     serverCount: S.Number,
   }),
-).annotate({
-  identifier: "ServerSiteUsageResponse",
-}) as any as S.Schema<ServerSiteUsageResponse>;
+).annotate({ identifier: "ServerSiteUsageResponse" }) as any as S.Schema<ServerSiteUsageResponse>;
 
 export interface ServerSitesControllerSummaryRequest {
   /** The ID of the target subscription. */
@@ -29685,9 +29220,7 @@ export const ServerSiteUsage = /*@__PURE__*/ S.suspend(() =>
     runAsAccountCount: S.optional(S.Number),
     serverCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ServerSiteUsage",
-}) as any as S.Schema<ServerSiteUsage>;
+).annotate({ identifier: "ServerSiteUsage" }) as any as S.Schema<ServerSiteUsage>;
 
 export interface SitesControllerComputeErrorSummaryRequest {
   /** The ID of the target subscription. */
@@ -29754,9 +29287,7 @@ export const VmwareSiteUsage = /*@__PURE__*/ S.suspend(() =>
     runAsAccountCount: S.optional(S.Number),
     vCenterCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VmwareSiteUsage",
-}) as any as S.Schema<VmwareSiteUsage>;
+).annotate({ identifier: "VmwareSiteUsage" }) as any as S.Schema<VmwareSiteUsage>;
 
 export interface SitesControllerSummaryRequest {
   /** The ID of the target subscription. */
@@ -29965,9 +29496,7 @@ export const StopMachinesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StopMachinesControllerResponse>;
 
 /** Resource tags. */
-export type UpdateAssessmentProjectsOperationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAssessmentProjectsOperationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAssessmentProjectsOperationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30094,9 +29623,7 @@ export const GroupBodyProperties = /*@__PURE__*/ S.suspend(() =>
     operationType: S.optional(GroupUpdateOperation),
     machines: S.optional(GroupBodyPropertiesMachinesList),
   }),
-).annotate({
-  identifier: "GroupBodyProperties",
-}) as any as S.Schema<GroupBodyProperties>;
+).annotate({ identifier: "GroupBodyProperties" }) as any as S.Schema<GroupBodyProperties>;
 
 export interface UpdateGroupsOperationMachinesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -30218,9 +29745,7 @@ export const UpdateHypervDependencyMapControllerDependencyMapStatusResponse =
   }) as any as S.Schema<UpdateHypervDependencyMapControllerDependencyMapStatusResponse>;
 
 /** Gets or sets tags on the resource. */
-export type HypervMachineUpdatePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HypervMachineUpdatePropertiesTagsMap = { [key: string]: string | undefined };
 export const HypervMachineUpdatePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30339,9 +29864,7 @@ export const MachineMetadata = /*@__PURE__*/ S.suspend(() =>
     dependencyMapping: S.String,
     tags: MachineMetadataTagsMap,
   }),
-).annotate({
-  identifier: "MachineMetadata",
-}) as any as S.Schema<MachineMetadata>;
+).annotate({ identifier: "MachineMetadata" }) as any as S.Schema<MachineMetadata>;
 
 /** The list of Machine MetaData. */
 export type UpdateHypervMachinesControllerPropertiesRequestValueList = Array<MachineMetadata>;
@@ -30385,9 +29908,7 @@ export const UpdateHypervMachinesControllerPropertiesResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateHypervMachinesControllerPropertiesResponse>;
 
 /** Resource tags. */
-export type UpdateHypervSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHypervSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateHypervSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30428,9 +29949,7 @@ export const UpdateHypervSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateHypervSitesControllerRequest>;
 
 /** Resource tags. */
-export type UpdateHypervSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHypervSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateHypervSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30467,9 +29986,7 @@ export const UpdateHypervSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateHypervSitesControllerResponse>;
 
 /** Gets or sets tags on the resource. */
-export type IisWebApplicationsUpdatePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IisWebApplicationsUpdatePropertiesTagsMap = { [key: string]: string | undefined };
 export const IisWebApplicationsUpdatePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30546,9 +30063,7 @@ export const UpdateIisWebApplicationsControllerResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateIisWebApplicationsControllerResponse>;
 
 /** Resource tags. */
-export type UpdateImportSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateImportSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateImportSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30589,9 +30104,7 @@ export const UpdateImportSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateImportSitesControllerRequest>;
 
 /** Resource tags. */
-export type UpdateImportSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateImportSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateImportSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30628,9 +30141,7 @@ export const UpdateImportSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateImportSitesControllerResponse>;
 
 /** Gets or sets tags on the VMware machine. */
-export type MachineResourceUpdatePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MachineResourceUpdatePropertiesTagsMap = { [key: string]: string | undefined };
 export const MachineResourceUpdatePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30728,9 +30239,7 @@ export const UpdateMachinesControllerResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMachinesControllerResponse>;
 
 /** Resource tags. */
-export type UpdateMasterSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMasterSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMasterSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30795,9 +30304,7 @@ export const UpdateMasterSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMasterSitesControllerRequest>;
 
 /** Resource tags. */
-export type UpdateMasterSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMasterSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMasterSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30974,9 +30481,7 @@ export const ServerUpdatePropertiesInputDisksList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ServerUpdatePropertiesInputDisksList>;
 
 /** Gets or sets tags on the Server machine. */
-export type ServerUpdatePropertiesInputTagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ServerUpdatePropertiesInputTagsMap = { [key: string]: unknown | undefined };
 export const ServerUpdatePropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31092,9 +30597,7 @@ export const UpdateServersControllerMachineResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateServersControllerMachineResponse>;
 
 /** Resource tags. */
-export type UpdateServerSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServerSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServerSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31135,9 +30638,7 @@ export const UpdateServerSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServerSitesControllerRequest>;
 
 /** Resource tags. */
-export type UpdateServerSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServerSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServerSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31258,9 +30759,7 @@ export const UpdateServerSitesControllerPropertiesResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<UpdateServerSitesControllerPropertiesResponse>;
 
 /** Resource tags. */
-export type UpdateSitesControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSitesControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSitesControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31301,9 +30800,7 @@ export const UpdateSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSitesControllerRequest>;
 
 /** Resource tags. */
-export type UpdateSitesControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSitesControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSitesControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31369,7 +30866,7 @@ export const UpdateSolutionsControllerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/solutions/{solutionName}",
       code: 200,
-      apiVersion: "2023-01-01",
+      apiVersion: "2020-05-01",
     }),
   ),
 ).annotate({
@@ -31377,9 +30874,7 @@ export const UpdateSolutionsControllerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSolutionsControllerRequest>;
 
 /** Gets or sets tags on the resource. */
-export type SqlServerV2UpdatePropertiesTagsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SqlServerV2UpdatePropertiesTagsMap = { [key: string]: unknown | undefined };
 export const SqlServerV2UpdatePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -31771,9 +31266,7 @@ export const RunAsAccountMachineInput = /*@__PURE__*/ S.suspend(() =>
     machineId: S.optional(S.String),
     runAsAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunAsAccountMachineInput",
-}) as any as S.Schema<RunAsAccountMachineInput>;
+).annotate({ identifier: "RunAsAccountMachineInput" }) as any as S.Schema<RunAsAccountMachineInput>;
 
 /** Gets or sets the machine collection. */
 export type UpdateVmwarePropertiesControllerRunAsAccountRequestMachinesList =
@@ -31837,9 +31330,7 @@ export const TagsMachineInput = /*@__PURE__*/ S.suspend(() =>
     machineId: S.optional(S.String),
     tags: S.optional(TagsMachineInputTagsMap),
   }),
-).annotate({
-  identifier: "TagsMachineInput",
-}) as any as S.Schema<TagsMachineInput>;
+).annotate({ identifier: "TagsMachineInput" }) as any as S.Schema<TagsMachineInput>;
 
 /** Gets or sets the machine collection. */
 export type UpdateVmwarePropertiesControllerTagsRequestMachinesList = Array<TagsMachineInput>;
@@ -31901,9 +31392,7 @@ export const WebAppProperties = /*@__PURE__*/ S.suspend(() =>
     webAppArmId: S.optional(S.String),
     tags: S.optional(WebAppPropertiesTagsMap),
   }),
-).annotate({
-  identifier: "WebAppProperties",
-}) as any as S.Schema<WebAppProperties>;
+).annotate({ identifier: "WebAppProperties" }) as any as S.Schema<WebAppProperties>;
 
 /** Gets or sets the list of web app properties. */
 export type UpdateWebAppPropertiesControllerPropertiesRequestWebAppsList = Array<WebAppProperties>;
@@ -32135,9 +31624,7 @@ export const WebAppSiteUsage = /*@__PURE__*/ S.suspend(() =>
     webApplicationCount: S.optional(S.Number),
     runAsAccountCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WebAppSiteUsage",
-}) as any as S.Schema<WebAppSiteUsage>;
+).annotate({ identifier: "WebAppSiteUsage" }) as any as S.Schema<WebAppSiteUsage>;
 
 export type CreateAksAssessmentOperationError = AzureOpError;
 /** Create a AKSAssessment */

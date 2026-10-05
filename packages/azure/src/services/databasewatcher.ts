@@ -62,7 +62,7 @@ export const AlertRuleResourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -205,7 +205,7 @@ export const CreateSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -289,7 +289,7 @@ export const DeleteAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -298,9 +298,7 @@ export const DeleteAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAlertRuleResourceResponse {}
 export const DeleteAlertRuleResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAlertRuleResourceResponse",
-  },
+  { identifier: "DeleteAlertRuleResourceResponse" },
 ) as any as S.Schema<DeleteAlertRuleResourceResponse>;
 
 export interface DeleteSharedPrivateLinkResourceRequest {
@@ -324,7 +322,7 @@ export const DeleteSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(()
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -359,12 +357,10 @@ export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "DeleteTargetRequest",
-}) as any as S.Schema<DeleteTargetRequest>;
+).annotate({ identifier: "DeleteTargetRequest" }) as any as S.Schema<DeleteTargetRequest>;
 
 export interface DeleteTargetResponse {}
 export const DeleteTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -389,12 +385,10 @@ export const DeleteWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "DeleteWatcherRequest",
-}) as any as S.Schema<DeleteWatcherRequest>;
+).annotate({ identifier: "DeleteWatcherRequest" }) as any as S.Schema<DeleteWatcherRequest>;
 
 export interface DeleteWatcherResponse {}
 export const DeleteWatcherResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -422,7 +416,7 @@ export const GetAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -474,7 +468,7 @@ export const GetHealthValidationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -518,9 +512,7 @@ export const ValidationIssue = /*@__PURE__*/ S.suspend(() =>
     relatedResourceId: S.optional(S.String),
     relatedResourceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidationIssue",
-}) as any as S.Schema<ValidationIssue>;
+).annotate({ identifier: "ValidationIssue" }) as any as S.Schema<ValidationIssue>;
 
 /** The list of issues found by health validation. */
 export type HealthValidationPropertiesIssuesList = Array<ValidationIssue>;
@@ -598,7 +590,7 @@ export const GetSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -650,12 +642,10 @@ export const GetTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "GetTargetRequest",
-}) as any as S.Schema<GetTargetRequest>;
+).annotate({ identifier: "GetTargetRequest" }) as any as S.Schema<GetTargetRequest>;
 
 /** The type of authentication to use when connecting to a target. */
 export type TargetAuthenticationType = "Aad" | "Sql";
@@ -690,6 +680,18 @@ export interface TargetProperties {
   connectionServerName: string;
   /** The provisioning state of the resource. */
   provisioningState?: AzureResourceManagerResourceProvisioningState;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -698,10 +700,14 @@ export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
     targetVault: S.optional(VaultSecret),
     connectionServerName: S.String,
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TargetProperties",
-}) as any as S.Schema<TargetProperties>;
+).annotate({ identifier: "TargetProperties" }) as any as S.Schema<TargetProperties>;
 
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -723,9 +729,7 @@ export const GetTargetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TargetProperties),
   }),
-).annotate({
-  identifier: "GetTargetResponse",
-}) as any as S.Schema<GetTargetResponse>;
+).annotate({ identifier: "GetTargetResponse" }) as any as S.Schema<GetTargetResponse>;
 
 export interface GetWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -745,12 +749,10 @@ export const GetWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "GetWatcherRequest",
-}) as any as S.Schema<GetWatcherRequest>;
+).annotate({ identifier: "GetWatcherRequest" }) as any as S.Schema<GetWatcherRequest>;
 
 /** Resource tags. */
 export type GetWatcherResponseTagsMap = { [key: string]: string | undefined };
@@ -818,9 +820,7 @@ export const WatcherProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(DatabaseWatcherProvisioningState),
     defaultAlertRuleIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherProperties",
-}) as any as S.Schema<WatcherProperties>;
+).annotate({ identifier: "WatcherProperties" }) as any as S.Schema<WatcherProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -842,14 +842,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -904,9 +900,7 @@ export const GetWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
   }),
-).annotate({
-  identifier: "GetWatcherResponse",
-}) as any as S.Schema<GetWatcherResponse>;
+).annotate({ identifier: "GetWatcherResponse" }) as any as S.Schema<GetWatcherResponse>;
 
 export interface ListAlertRuleResourceByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -926,7 +920,7 @@ export const ListAlertRuleResourceByParentRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -954,9 +948,7 @@ export const AlertRuleResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AlertRuleResourceProperties),
   }),
-).annotate({
-  identifier: "AlertRuleResource",
-}) as any as S.Schema<AlertRuleResource>;
+).annotate({ identifier: "AlertRuleResource" }) as any as S.Schema<AlertRuleResource>;
 
 /** The AlertRuleResource items on this page */
 export type AlertRuleResourceListResultValueList = Array<AlertRuleResource>;
@@ -998,7 +990,7 @@ export const ListHealthValidationByParentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1026,9 +1018,7 @@ export const HealthValidation = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(HealthValidationProperties),
   }),
-).annotate({
-  identifier: "HealthValidation",
-}) as any as S.Schema<HealthValidation>;
+).annotate({ identifier: "HealthValidation" }) as any as S.Schema<HealthValidation>;
 
 /** The HealthValidation items on this page */
 export type HealthValidationListResultValueList = Array<HealthValidation>;
@@ -1062,9 +1052,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-02",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1084,9 +1072,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1136,9 +1122,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListSharedPrivateLinkResourceByWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1158,7 +1142,7 @@ export const ListSharedPrivateLinkResourceByWatcherRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1230,7 +1214,7 @@ export const ListTargetByWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1278,9 +1262,7 @@ export const TargetListResult = /*@__PURE__*/ S.suspend(() =>
     value: TargetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TargetListResult",
-}) as any as S.Schema<TargetListResult>;
+).annotate({ identifier: "TargetListResult" }) as any as S.Schema<TargetListResult>;
 
 export interface ListWatcherByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1297,7 +1279,7 @@ export const ListWatcherByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1365,9 +1347,7 @@ export const WatcherListResult = /*@__PURE__*/ S.suspend(() =>
     value: WatcherListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherListResult",
-}) as any as S.Schema<WatcherListResult>;
+).annotate({ identifier: "WatcherListResult" }) as any as S.Schema<WatcherListResult>;
 
 export interface ListWatcherBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1381,7 +1361,7 @@ export const ListWatcherBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1409,7 +1389,7 @@ export const StartHealthValidationValidationRequest = /*@__PURE__*/ S.suspend(()
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1458,12 +1438,10 @@ export const StartWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "StartWatcherRequest",
-}) as any as S.Schema<StartWatcherRequest>;
+).annotate({ identifier: "StartWatcherRequest" }) as any as S.Schema<StartWatcherRequest>;
 
 /** Resource tags. */
 export type StartWatcherResponseTagsMap = { [key: string]: string | undefined };
@@ -1505,9 +1483,7 @@ export const StartWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
   }),
-).annotate({
-  identifier: "StartWatcherResponse",
-}) as any as S.Schema<StartWatcherResponse>;
+).annotate({ identifier: "StartWatcherResponse" }) as any as S.Schema<StartWatcherResponse>;
 
 export interface StopWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1527,12 +1503,10 @@ export const StopWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "StopWatcherRequest",
-}) as any as S.Schema<StopWatcherRequest>;
+).annotate({ identifier: "StopWatcherRequest" }) as any as S.Schema<StopWatcherRequest>;
 
 /** Resource tags. */
 export type StopWatcherResponseTagsMap = { [key: string]: string | undefined };
@@ -1574,9 +1548,7 @@ export const StopWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
   }),
-).annotate({
-  identifier: "StopWatcherResponse",
-}) as any as S.Schema<StopWatcherResponse>;
+).annotate({ identifier: "StopWatcherResponse" }) as any as S.Schema<StopWatcherResponse>;
 
 /** The generic properties of a target. */
 export interface TargetPropertiesInput {
@@ -1588,6 +1560,18 @@ export interface TargetPropertiesInput {
   targetVault?: VaultSecret;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1595,10 +1579,14 @@ export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetAuthenticationType: TargetAuthenticationType,
     targetVault: S.optional(VaultSecret),
     connectionServerName: S.String,
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TargetPropertiesInput",
-}) as any as S.Schema<TargetPropertiesInput>;
+).annotate({ identifier: "TargetPropertiesInput" }) as any as S.Schema<TargetPropertiesInput>;
 
 export interface TargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1624,7 +1612,7 @@ export const TargetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1662,9 +1650,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -1718,9 +1704,7 @@ export const DatastoreUpdate = /*@__PURE__*/ S.suspend(() =>
     kustoManagementUrl: S.optional(S.String),
     kustoOfferingType: S.optional(KustoOfferingType),
   }),
-).annotate({
-  identifier: "DatastoreUpdate",
-}) as any as S.Schema<DatastoreUpdate>;
+).annotate({ identifier: "DatastoreUpdate" }) as any as S.Schema<DatastoreUpdate>;
 
 /** The updatable properties of the Watcher. */
 export interface WatcherUpdateProperties {
@@ -1734,9 +1718,7 @@ export const WatcherUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(DatastoreUpdate),
     defaultAlertRuleIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherUpdateProperties",
-}) as any as S.Schema<WatcherUpdateProperties>;
+).annotate({ identifier: "WatcherUpdateProperties" }) as any as S.Schema<WatcherUpdateProperties>;
 
 export interface UpdateWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1765,17 +1747,13 @@ export const UpdateWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
-).annotate({
-  identifier: "UpdateWatcherRequest",
-}) as any as S.Schema<UpdateWatcherRequest>;
+).annotate({ identifier: "UpdateWatcherRequest" }) as any as S.Schema<UpdateWatcherRequest>;
 
 /** Resource tags. */
-export type UpdateWatcherResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWatcherResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWatcherResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1814,14 +1792,10 @@ export const UpdateWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateWatcherResponse",
-}) as any as S.Schema<UpdateWatcherResponse>;
+).annotate({ identifier: "UpdateWatcherResponse" }) as any as S.Schema<UpdateWatcherResponse>;
 
 /** Resource tags. */
-export type WatchersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WatchersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WatchersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1839,9 +1813,7 @@ export const WatcherPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(Datastore),
     defaultAlertRuleIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatcherPropertiesInput",
-}) as any as S.Schema<WatcherPropertiesInput>;
+).annotate({ identifier: "WatcherPropertiesInput" }) as any as S.Schema<WatcherPropertiesInput>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WatchersCreateOrUpdateRequestIdentity = UpdateWatcherRequestIdentity;
@@ -1877,7 +1849,7 @@ export const WatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1885,9 +1857,7 @@ export const WatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WatchersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WatchersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WatchersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WatchersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

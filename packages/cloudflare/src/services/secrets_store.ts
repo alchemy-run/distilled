@@ -151,17 +151,9 @@ export const CreateStoreRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/secrets_store/stores",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/secrets_store/stores", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStoreRequest",
-}) as any as S.Schema<CreateStoreRequest>;
+).annotate({ identifier: "CreateStoreRequest" }) as any as S.Schema<CreateStoreRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateStoreResponse {
@@ -184,9 +176,7 @@ export const CreateStoreResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStoreResponse",
-}) as any as S.Schema<CreateStoreResponse>;
+).annotate({ identifier: "CreateStoreResponse" }) as any as S.Schema<CreateStoreResponse>;
 
 export type StoresSecretsCreateRequestBodyItemScopesItem =
   | "workers"
@@ -249,9 +239,7 @@ export const CreateStoreSecretRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStoreSecretRequest",
-}) as any as S.Schema<CreateStoreSecretRequest>;
+).annotate({ identifier: "CreateStoreSecretRequest" }) as any as S.Schema<CreateStoreSecretRequest>;
 
 export type StoresSecretsCreateResultItemStatus = "pending" | "active" | "deleted";
 export const StoresSecretsCreateResultItemStatus = S.String;
@@ -343,16 +331,12 @@ export const DeleteStoreRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStoreRequest",
-}) as any as S.Schema<DeleteStoreRequest>;
+).annotate({ identifier: "DeleteStoreRequest" }) as any as S.Schema<DeleteStoreRequest>;
 
 export type DeleteStoreResponse = unknown;
 export const DeleteStoreResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStoreResponse",
-}) as any as S.Schema<DeleteStoreResponse>;
+).annotate({ identifier: "DeleteStoreResponse" }) as any as S.Schema<DeleteStoreResponse>;
 
 export interface DeleteStoreSecretRequest {
   accountId: string;
@@ -373,9 +357,7 @@ export const DeleteStoreSecretRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStoreSecretRequest",
-}) as any as S.Schema<DeleteStoreSecretRequest>;
+).annotate({ identifier: "DeleteStoreSecretRequest" }) as any as S.Schema<DeleteStoreSecretRequest>;
 
 export type DeleteStoreSecretResponse = unknown;
 export const DeleteStoreSecretResponse = /*@__PURE__*/ S.suspend(() =>
@@ -490,17 +472,9 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/secrets_store/quota",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/secrets_store/quota", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 export interface QuotaGetResponseSecrets {
   /** The number of secrets the account is entitled to use. */
@@ -513,9 +487,7 @@ export const QuotaGetResponseSecrets = /*@__PURE__*/ S.suspend(() =>
     quota: S.Number,
     usage: S.Number,
   }),
-).annotate({
-  identifier: "QuotaGetResponseSecrets",
-}) as any as S.Schema<QuotaGetResponseSecrets>;
+).annotate({ identifier: "QuotaGetResponseSecrets" }) as any as S.Schema<QuotaGetResponseSecrets>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetQuotaResponse {
@@ -525,9 +497,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secrets: QuotaGetResponseSecrets,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface GetStoreRequest {
   accountId: string;
@@ -546,9 +516,7 @@ export const GetStoreRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStoreRequest",
-}) as any as S.Schema<GetStoreRequest>;
+).annotate({ identifier: "GetStoreRequest" }) as any as S.Schema<GetStoreRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetStoreResponse {
@@ -571,9 +539,7 @@ export const GetStoreResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStoreResponse",
-}) as any as S.Schema<GetStoreResponse>;
+).annotate({ identifier: "GetStoreResponse" }) as any as S.Schema<GetStoreResponse>;
 
 export interface GetStoreSecretRequest {
   accountId: string;
@@ -594,9 +560,7 @@ export const GetStoreSecretRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStoreSecretRequest",
-}) as any as S.Schema<GetStoreSecretRequest>;
+).annotate({ identifier: "GetStoreSecretRequest" }) as any as S.Schema<GetStoreSecretRequest>;
 
 export type StoresSecretsGetResponseStatus = "pending" | "active" | "deleted";
 export const StoresSecretsGetResponseStatus = S.String;
@@ -644,9 +608,7 @@ export const GetStoreSecretResponse = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.NullOr(S.String)),
     scopes: S.optional(S.NullOr(StoresSecretsGetResponseScopesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStoreSecretResponse",
-}) as any as S.Schema<GetStoreSecretResponse>;
+).annotate({ identifier: "GetStoreSecretResponse" }) as any as S.Schema<GetStoreSecretResponse>;
 
 export type StoresListRequestDirection = "asc" | "desc";
 export const StoresListRequestDirection = S.String;
@@ -673,17 +635,9 @@ export const ListStoresRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/secrets_store/stores",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/secrets_store/stores", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStoresRequest",
-}) as any as S.Schema<ListStoresRequest>;
+).annotate({ identifier: "ListStoresRequest" }) as any as S.Schema<ListStoresRequest>;
 
 export interface StoresListResultItem {
   /** Store Identifier. */
@@ -705,9 +659,7 @@ export const StoresListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
   }),
-).annotate({
-  identifier: "StoresListResultItem",
-}) as any as S.Schema<StoresListResultItem>;
+).annotate({ identifier: "StoresListResultItem" }) as any as S.Schema<StoresListResultItem>;
 
 export type StoresListResultList = Array<StoresListResultItem>;
 export const StoresListResultList = /*@__PURE__*/ S.Array(
@@ -725,9 +677,7 @@ export const ListStoresResponse = /*@__PURE__*/ S.suspend(() =>
     result: StoresListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStoresResponse",
-}) as any as S.Schema<ListStoresResponse>;
+).annotate({ identifier: "ListStoresResponse" }) as any as S.Schema<ListStoresResponse>;
 
 export type StoresSecretsListRequestDirection = "asc" | "desc";
 export const StoresSecretsListRequestDirection = S.String;
@@ -786,9 +736,7 @@ export const ListStoreSecretsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStoreSecretsRequest",
-}) as any as S.Schema<ListStoreSecretsRequest>;
+).annotate({ identifier: "ListStoreSecretsRequest" }) as any as S.Schema<ListStoreSecretsRequest>;
 
 export type StoresSecretsListResultItemStatus = "pending" | "active" | "deleted";
 export const StoresSecretsListResultItemStatus = S.String;
@@ -855,9 +803,7 @@ export const ListStoreSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     result: StoresSecretsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStoreSecretsResponse",
-}) as any as S.Schema<ListStoreSecretsResponse>;
+).annotate({ identifier: "ListStoreSecretsResponse" }) as any as S.Schema<ListStoreSecretsResponse>;
 
 export type StoresSecretsEditRequestScopesItem =
   | "workers"
@@ -903,9 +849,7 @@ export const PatchStoreSecretRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchStoreSecretRequest",
-}) as any as S.Schema<PatchStoreSecretRequest>;
+).annotate({ identifier: "PatchStoreSecretRequest" }) as any as S.Schema<PatchStoreSecretRequest>;
 
 export type StoresSecretsEditResponseStatus = "pending" | "active" | "deleted";
 export const StoresSecretsEditResponseStatus = S.String;
@@ -953,9 +897,7 @@ export const PatchStoreSecretResponse = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.NullOr(S.String)),
     scopes: S.optional(S.NullOr(StoresSecretsEditResponseScopesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchStoreSecretResponse",
-}) as any as S.Schema<PatchStoreSecretResponse>;
+).annotate({ identifier: "PatchStoreSecretResponse" }) as any as S.Schema<PatchStoreSecretResponse>;
 
 export type BulkDeleteStoreSecretsError =
   | StoreNotFound

@@ -78,9 +78,7 @@ export const AffectedMoveResource = /*@__PURE__*/ S.suspend(() =>
     sourceId: S.optional(S.String),
     moveResources: S.optional(AffectedMoveResourceMoveResourcesList),
   }),
-).annotate({
-  identifier: "AffectedMoveResource",
-}) as any as S.Schema<AffectedMoveResource>;
+).annotate({ identifier: "AffectedMoveResource" }) as any as S.Schema<AffectedMoveResource>;
 
 /** The affected move resources. */
 export type MoveErrorInfoMoveResourcesList = Array<AffectedMoveResource>;
@@ -139,9 +137,7 @@ export const OperationStatusError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(OperationStatusErrorDetailsList),
     additionalInfo: S.optional(OperationStatusErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "OperationStatusError",
-}) as any as S.Schema<OperationStatusError>;
+).annotate({ identifier: "OperationStatusError" }) as any as S.Schema<OperationStatusError>;
 
 /** Operation status REST resource. */
 export interface OperationStatus {
@@ -170,14 +166,10 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(OperationStatusError),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 /** Resource tags. */
-export type CreateMoveCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMoveCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const CreateMoveCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -301,9 +293,7 @@ export const MoveResourceErrorBody = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(S.String),
     details: S.optional(MoveResourceErrorBodyDetailsList),
   }),
-).annotate({
-  identifier: "MoveResourceErrorBody",
-}) as any as S.Schema<MoveResourceErrorBody>;
+).annotate({ identifier: "MoveResourceErrorBody" }) as any as S.Schema<MoveResourceErrorBody>;
 
 /** An error response from the azure resource mover service. */
 export interface MoveResourceError {
@@ -314,9 +304,7 @@ export const MoveResourceError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(MoveResourceErrorBody),
   }),
-).annotate({
-  identifier: "MoveResourceError",
-}) as any as S.Schema<MoveResourceError>;
+).annotate({ identifier: "MoveResourceError" }) as any as S.Schema<MoveResourceError>;
 
 /** Defines the move collection properties. */
 export interface MoveCollectionProperties {
@@ -343,9 +331,7 @@ export const MoveCollectionProperties = /*@__PURE__*/ S.suspend(() =>
     moveType: S.optional(MoveType),
     errors: S.optional(MoveResourceError),
   }),
-).annotate({
-  identifier: "MoveCollectionProperties",
-}) as any as S.Schema<MoveCollectionProperties>;
+).annotate({ identifier: "MoveCollectionProperties" }) as any as S.Schema<MoveCollectionProperties>;
 
 /** The type of identity that created the resource. */
 export type MoveCollectionSystemDataCreatedByType =
@@ -387,9 +373,7 @@ export const MoveCollectionSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(MoveCollectionSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoveCollectionSystemData",
-}) as any as S.Schema<MoveCollectionSystemData>;
+).annotate({ identifier: "MoveCollectionSystemData" }) as any as S.Schema<MoveCollectionSystemData>;
 
 /** Define the move collection. */
 export interface MoveCollection {
@@ -439,9 +423,7 @@ export const ResourceSettings = /*@__PURE__*/ S.suspend(() =>
     targetResourceName: S.optional(S.String),
     targetResourceGroupName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSettings",
-}) as any as S.Schema<ResourceSettings>;
+).annotate({ identifier: "ResourceSettings" }) as any as S.Schema<ResourceSettings>;
 
 /** Defines the dependency override of the move resource. */
 export interface MoveResourceDependencyOverride {
@@ -566,9 +548,7 @@ export const MoveResourceStatus = /*@__PURE__*/ S.suspend(() =>
     jobStatus: S.optional(JobStatus),
     errors: S.optional(MoveResourceError),
   }),
-).annotate({
-  identifier: "MoveResourceStatus",
-}) as any as S.Schema<MoveResourceStatus>;
+).annotate({ identifier: "MoveResourceStatus" }) as any as S.Schema<MoveResourceStatus>;
 
 /** Defines the resolution type. */
 export type ResolutionType = "Manual" | "Automatic";
@@ -627,9 +607,7 @@ export const MoveResourceDependency = /*@__PURE__*/ S.suspend(() =>
     automaticResolution: S.optional(AutomaticResolutionProperties),
     isOptional: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoveResourceDependency",
-}) as any as S.Schema<MoveResourceDependency>;
+).annotate({ identifier: "MoveResourceDependency" }) as any as S.Schema<MoveResourceDependency>;
 
 /** Gets or sets the move resource dependencies. */
 export type MoveResourcePropertiesDependsOnList = Array<MoveResourceDependency>;
@@ -681,9 +659,7 @@ export const MoveResourceProperties = /*@__PURE__*/ S.suspend(() =>
     isResolveRequired: S.optional(S.Boolean),
     errors: S.optional(MoveResourceError),
   }),
-).annotate({
-  identifier: "MoveResourceProperties",
-}) as any as S.Schema<MoveResourceProperties>;
+).annotate({ identifier: "MoveResourceProperties" }) as any as S.Schema<MoveResourceProperties>;
 
 /** The type of identity that created the resource. */
 export type MoveResourceSystemDataCreatedByType =
@@ -725,9 +701,7 @@ export const MoveResourceSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(MoveResourceSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoveResourceSystemData",
-}) as any as S.Schema<MoveResourceSystemData>;
+).annotate({ identifier: "MoveResourceSystemData" }) as any as S.Schema<MoveResourceSystemData>;
 
 /** Defines the move resource. */
 export interface MoveResource {
@@ -825,9 +799,7 @@ export const GetMoveCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetMoveCollectionRequest",
-}) as any as S.Schema<GetMoveCollectionRequest>;
+).annotate({ identifier: "GetMoveCollectionRequest" }) as any as S.Schema<GetMoveCollectionRequest>;
 
 export interface GetMoveResourceRequest {
   /** The Subscription ID. */
@@ -853,9 +825,7 @@ export const GetMoveResourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetMoveResourceRequest",
-}) as any as S.Schema<GetMoveResourceRequest>;
+).annotate({ identifier: "GetMoveResourceRequest" }) as any as S.Schema<GetMoveResourceRequest>;
 
 export interface GetOperationsDiscoveryRequest {}
 export const GetOperationsDiscoveryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -910,9 +880,7 @@ export const OperationsDiscovery = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationsDiscovery",
-}) as any as S.Schema<OperationsDiscovery>;
+).annotate({ identifier: "OperationsDiscovery" }) as any as S.Schema<OperationsDiscovery>;
 
 /** Gets or sets the ClientDiscovery details. */
 export type OperationsDiscoveryCollectionValueList = Array<OperationsDiscovery>;
@@ -985,9 +953,7 @@ export const UnresolvedDependency = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnresolvedDependency",
-}) as any as S.Schema<UnresolvedDependency>;
+).annotate({ identifier: "UnresolvedDependency" }) as any as S.Schema<UnresolvedDependency>;
 
 /** Gets or sets the list of unresolved dependencies. */
 export type UnresolvedDependencyCollectionValueList = Array<UnresolvedDependency>;
@@ -1027,9 +993,7 @@ export const SummaryCollection = /*@__PURE__*/ S.suspend(() =>
     fieldName: S.optional(S.String),
     summary: S.optional(SummaryCollectionSummaryList),
   }),
-).annotate({
-  identifier: "SummaryCollection",
-}) as any as S.Schema<SummaryCollection>;
+).annotate({ identifier: "SummaryCollection" }) as any as S.Schema<SummaryCollection>;
 
 /** Unresolved dependency collection. */
 export interface UnresolvedDependencyCollection {
@@ -1124,9 +1088,7 @@ export const ListMoveResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListMoveResourcesRequest",
-}) as any as S.Schema<ListMoveResourcesRequest>;
+).annotate({ identifier: "ListMoveResourcesRequest" }) as any as S.Schema<ListMoveResourcesRequest>;
 
 /** Gets the list of move resources. */
 export type MoveResourceCollectionValueList = Array<MoveResource>;
@@ -1152,9 +1114,7 @@ export const MoveResourceCollection = /*@__PURE__*/ S.suspend(() =>
     summaryCollection: S.optional(SummaryCollection),
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MoveResourceCollection",
-}) as any as S.Schema<MoveResourceCollection>;
+).annotate({ identifier: "MoveResourceCollection" }) as any as S.Schema<MoveResourceCollection>;
 
 /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
 export type MoveCollectionsBulkRemoveRequestMoveResourcesList = Array<string>;
@@ -1312,9 +1272,7 @@ export const MoveCollectionResultList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MoveCollectionResultListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MoveCollectionResultList",
-}) as any as S.Schema<MoveCollectionResultList>;
+).annotate({ identifier: "MoveCollectionResultList" }) as any as S.Schema<MoveCollectionResultList>;
 
 export interface MoveCollectionsListMoveCollectionsBySubscriptionRequest {
   /** The Subscription ID. */
@@ -1400,9 +1358,7 @@ export const MoveCollectionsResolveDependenciesRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<MoveCollectionsResolveDependenciesRequest>;
 
 /** Gets or sets the Resource tags. */
-export type UpdateMoveCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMoveCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMoveCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

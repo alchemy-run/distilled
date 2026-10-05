@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Customer.io's first-party OpenAPI specs to ../specs/.
  *
@@ -7,7 +7,7 @@
  * versioned URL, so the mirror simply snapshots them.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/journeys-app.json
@@ -28,6 +28,7 @@ const SPECS = [
 ] as const;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -58,7 +59,7 @@ const fetchSpec = async (url: string, outputPath: string) => {
   console.log(`Writing spec to ${outputPath}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 };

@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AvailabilitySetsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AvailabilitySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AvailabilitySetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -46,9 +44,7 @@ export const ExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedLocation",
-}) as any as S.Schema<ExtendedLocation>;
+).annotate({ identifier: "ExtendedLocation" }) as any as S.Schema<ExtendedLocation>;
 
 export interface AvailabilitySetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80,7 +76,7 @@ export const AvailabilitySetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -122,9 +118,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AvailabilitySetsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AvailabilitySetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AvailabilitySetsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -195,9 +189,7 @@ export const AvailabilitySetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<AvailabilitySetsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type CloudsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CloudsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -218,9 +210,7 @@ export const CloudPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     uuid: S.optional(S.String),
     vmmServerId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudPropertiesInput",
-}) as any as S.Schema<CloudPropertiesInput>;
+).annotate({ identifier: "CloudPropertiesInput" }) as any as S.Schema<CloudPropertiesInput>;
 
 export interface CloudsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -252,7 +242,7 @@ export const CloudsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -260,9 +250,7 @@ export const CloudsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CloudsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CloudsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -312,9 +300,7 @@ export const StorageQosPolicy = /*@__PURE__*/ S.suspend(() =>
     bandwidthLimit: S.optional(S.Number),
     policyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageQosPolicy",
-}) as any as S.Schema<StorageQosPolicy>;
+).annotate({ identifier: "StorageQosPolicy" }) as any as S.Schema<StorageQosPolicy>;
 
 /** List of QoS policies available for the cloud. */
 export type CloudPropertiesStorageQoSPoliciesList = Array<StorageQosPolicy>;
@@ -349,9 +335,7 @@ export const CloudProperties = /*@__PURE__*/ S.suspend(() =>
     storageQoSPolicies: S.optional(CloudPropertiesStorageQoSPoliciesList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "CloudProperties",
-}) as any as S.Schema<CloudProperties>;
+).annotate({ identifier: "CloudProperties" }) as any as S.Schema<CloudProperties>;
 
 export interface CloudsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -398,9 +382,7 @@ export const GuestCredential = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "GuestCredential",
-}) as any as S.Schema<GuestCredential>;
+).annotate({ identifier: "GuestCredential" }) as any as S.Schema<GuestCredential>;
 
 /** HTTP Proxy configuration for the VM. */
 export interface HttpProxyConfiguration {
@@ -411,9 +393,7 @@ export const HttpProxyConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     httpsProxy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HttpProxyConfiguration",
-}) as any as S.Schema<HttpProxyConfiguration>;
+).annotate({ identifier: "HttpProxyConfiguration" }) as any as S.Schema<HttpProxyConfiguration>;
 
 /** Guest agent provisioning action. */
 export type ProvisioningAction = "install" | "uninstall" | "repair";
@@ -454,14 +434,12 @@ export const CreateGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateGuestAgentRequest",
-}) as any as S.Schema<CreateGuestAgentRequest>;
+).annotate({ identifier: "CreateGuestAgentRequest" }) as any as S.Schema<CreateGuestAgentRequest>;
 
 /** Defines the resource properties. */
 export interface GuestAgentProperties {
@@ -493,9 +471,7 @@ export const GuestAgentProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     privateLinkScopeResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestAgentProperties",
-}) as any as S.Schema<GuestAgentProperties>;
+).annotate({ identifier: "GuestAgentProperties" }) as any as S.Schema<GuestAgentProperties>;
 
 export interface CreateGuestAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -517,9 +493,7 @@ export const CreateGuestAgentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GuestAgentProperties),
   }),
-).annotate({
-  identifier: "CreateGuestAgentResponse",
-}) as any as S.Schema<CreateGuestAgentResponse>;
+).annotate({ identifier: "CreateGuestAgentResponse" }) as any as S.Schema<CreateGuestAgentResponse>;
 
 /** The inventory type */
 export type InventoryType =
@@ -569,7 +543,7 @@ export const CreateInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -597,9 +571,7 @@ export const InventoryItemProperties = /*@__PURE__*/ S.suspend(() =>
     inventoryItemName: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "InventoryItemProperties",
-}) as any as S.Schema<InventoryItemProperties>;
+).annotate({ identifier: "InventoryItemProperties" }) as any as S.Schema<InventoryItemProperties>;
 
 export interface CreateInventoryItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -644,9 +616,9 @@ export const CreateVirtualMachineInstanceCheckpointRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -681,7 +653,7 @@ export const DeleteAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -714,12 +686,10 @@ export const DeleteCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCloudRequest",
-}) as any as S.Schema<DeleteCloudRequest>;
+).annotate({ identifier: "DeleteCloudRequest" }) as any as S.Schema<DeleteCloudRequest>;
 
 export interface DeleteCloudResponse {}
 export const DeleteCloudResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -736,14 +706,12 @@ export const DeleteGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGuestAgentRequest",
-}) as any as S.Schema<DeleteGuestAgentRequest>;
+).annotate({ identifier: "DeleteGuestAgentRequest" }) as any as S.Schema<DeleteGuestAgentRequest>;
 
 export interface DeleteGuestAgentResponse {}
 export const DeleteGuestAgentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -771,7 +739,7 @@ export const DeleteInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -799,9 +767,9 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -828,9 +796,9 @@ export const DeleteVirtualMachineInstanceCheckpointRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -865,7 +833,7 @@ export const DeleteVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -900,7 +868,7 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -933,12 +901,10 @@ export const DeleteVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVmmServerRequest",
-}) as any as S.Schema<DeleteVmmServerRequest>;
+).annotate({ identifier: "DeleteVmmServerRequest" }) as any as S.Schema<DeleteVmmServerRequest>;
 
 export interface DeleteVmmServerResponse {}
 export const DeleteVmmServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -963,7 +929,7 @@ export const GetAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -971,9 +937,7 @@ export const GetAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAvailabilitySetRequest>;
 
 /** Resource tags. */
-export type GetAvailabilitySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export const GetAvailabilitySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1030,12 +994,10 @@ export const GetCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetCloudRequest",
-}) as any as S.Schema<GetCloudRequest>;
+).annotate({ identifier: "GetCloudRequest" }) as any as S.Schema<GetCloudRequest>;
 
 /** Resource tags. */
 export type GetCloudResponseTagsMap = { [key: string]: string | undefined };
@@ -1073,9 +1035,7 @@ export const GetCloudResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CloudProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "GetCloudResponse",
-}) as any as S.Schema<GetCloudResponse>;
+).annotate({ identifier: "GetCloudResponse" }) as any as S.Schema<GetCloudResponse>;
 
 export interface GetGuestAgentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1087,14 +1047,12 @@ export const GetGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetGuestAgentRequest",
-}) as any as S.Schema<GetGuestAgentRequest>;
+).annotate({ identifier: "GetGuestAgentRequest" }) as any as S.Schema<GetGuestAgentRequest>;
 
 export interface GetGuestAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1116,9 +1074,7 @@ export const GetGuestAgentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GuestAgentProperties),
   }),
-).annotate({
-  identifier: "GetGuestAgentResponse",
-}) as any as S.Schema<GetGuestAgentResponse>;
+).annotate({ identifier: "GetGuestAgentResponse" }) as any as S.Schema<GetGuestAgentResponse>;
 
 export interface GetInventoryItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1141,12 +1097,10 @@ export const GetInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetInventoryItemRequest",
-}) as any as S.Schema<GetInventoryItemRequest>;
+).annotate({ identifier: "GetInventoryItemRequest" }) as any as S.Schema<GetInventoryItemRequest>;
 
 export interface GetInventoryItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1171,9 +1125,7 @@ export const GetInventoryItemResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InventoryItemProperties),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetInventoryItemResponse",
-}) as any as S.Schema<GetInventoryItemResponse>;
+).annotate({ identifier: "GetInventoryItemResponse" }) as any as S.Schema<GetInventoryItemResponse>;
 
 export interface GetVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1185,9 +1137,9 @@ export const GetVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1206,9 +1158,7 @@ export const AvailabilitySetListItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailabilitySetListItem",
-}) as any as S.Schema<AvailabilitySetListItem>;
+).annotate({ identifier: "AvailabilitySetListItem" }) as any as S.Schema<AvailabilitySetListItem>;
 
 /** Availability Sets in vm. */
 export type VirtualMachineInstancePropertiesAvailabilitySetsList = Array<AvailabilitySetListItem>;
@@ -1265,9 +1215,7 @@ export const OsProfileForVmInstance = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.Number),
     runOnceCommands: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OsProfileForVmInstance",
-}) as any as S.Schema<OsProfileForVmInstance>;
+).annotate({ identifier: "OsProfileForVmInstance" }) as any as S.Schema<OsProfileForVmInstance>;
 
 /** Limit CPU for migration. */
 export type LimitCpuForMigration = "true" | "false";
@@ -1308,9 +1256,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
     dynamicMemoryMinMB: S.optional(S.Number),
     isHighlyAvailable: S.optional(IsHighlyAvailable),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** Gets the nic ipv4 addresses. */
 export type NetworkInterfaceIpv4AddressesList = Array<string>;
@@ -1367,9 +1313,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     macAddressType: S.optional(AllocationMethod),
     nicId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 
 /** Gets or sets the list of network interfaces associated with the virtual machine. */
 export type NetworkProfileNetworkInterfacesList = Array<NetworkInterface>;
@@ -1400,9 +1344,7 @@ export const StorageQosPolicyDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageQosPolicyDetails",
-}) as any as S.Schema<StorageQosPolicyDetails>;
+).annotate({ identifier: "StorageQosPolicyDetails" }) as any as S.Schema<StorageQosPolicyDetails>;
 
 /** Create diff disk. */
 export type CreateDiffDisk = "true" | "false";
@@ -1540,9 +1482,7 @@ export const InfrastructureProfile = /*@__PURE__*/ S.suspend(() =>
     generation: S.optional(S.Number),
     biosGuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InfrastructureProfile",
-}) as any as S.Schema<InfrastructureProfile>;
+).annotate({ identifier: "InfrastructureProfile" }) as any as S.Schema<InfrastructureProfile>;
 
 /** Defines the resource properties. */
 export interface VirtualMachineInstanceProperties {
@@ -1623,7 +1563,7 @@ export const GetVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1631,9 +1571,7 @@ export const GetVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineTemplateRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineTemplateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineTemplateResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineTemplateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1770,17 +1708,13 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualNetworkRequest",
-}) as any as S.Schema<GetVirtualNetworkRequest>;
+).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1807,9 +1741,7 @@ export const VirtualNetworkProperties = /*@__PURE__*/ S.suspend(() =>
     networkName: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "VirtualNetworkProperties",
-}) as any as S.Schema<VirtualNetworkProperties>;
+).annotate({ identifier: "VirtualNetworkProperties" }) as any as S.Schema<VirtualNetworkProperties>;
 
 export interface GetVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1854,9 +1786,9 @@ export const GetVmInstanceHybridIdentityMetadatasRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1924,12 +1856,10 @@ export const GetVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetVmmServerRequest",
-}) as any as S.Schema<GetVmmServerRequest>;
+).annotate({ identifier: "GetVmmServerRequest" }) as any as S.Schema<GetVmmServerRequest>;
 
 /** Resource tags. */
 export type GetVmmServerResponseTagsMap = { [key: string]: string | undefined };
@@ -1982,9 +1912,7 @@ export const VmmServerProperties = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "VmmServerProperties",
-}) as any as S.Schema<VmmServerProperties>;
+).annotate({ identifier: "VmmServerProperties" }) as any as S.Schema<VmmServerProperties>;
 
 export interface GetVmmServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2015,9 +1943,7 @@ export const GetVmmServerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VmmServerProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "GetVmmServerResponse",
-}) as any as S.Schema<GetVmmServerResponse>;
+).annotate({ identifier: "GetVmmServerResponse" }) as any as S.Schema<GetVmmServerResponse>;
 
 export interface ListAvailabilitySetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2034,7 +1960,7 @@ export const ListAvailabilitySetByResourceGroupRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2078,9 +2004,7 @@ export const AvailabilitySet = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AvailabilitySetProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "AvailabilitySet",
-}) as any as S.Schema<AvailabilitySet>;
+).annotate({ identifier: "AvailabilitySet" }) as any as S.Schema<AvailabilitySet>;
 
 /** The AvailabilitySet items on this page */
 export type AvailabilitySetListResultValueList = Array<AvailabilitySet>;
@@ -2116,7 +2040,7 @@ export const ListAvailabilitySetBySubscriptionRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2138,7 +2062,7 @@ export const ListCloudByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2202,9 +2126,7 @@ export const CloudListResult = /*@__PURE__*/ S.suspend(() =>
     value: CloudListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudListResult",
-}) as any as S.Schema<CloudListResult>;
+).annotate({ identifier: "CloudListResult" }) as any as S.Schema<CloudListResult>;
 
 export interface ListCloudBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2218,7 +2140,7 @@ export const ListCloudBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/clouds",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2235,9 +2157,9 @@ export const ListGuestAgentByVirtualMachineInstanceRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2285,9 +2207,7 @@ export const GuestAgentListResult = /*@__PURE__*/ S.suspend(() =>
     value: GuestAgentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestAgentListResult",
-}) as any as S.Schema<GuestAgentListResult>;
+).annotate({ identifier: "GuestAgentListResult" }) as any as S.Schema<GuestAgentListResult>;
 
 export interface ListInventoryItemByVmmServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2307,7 +2227,7 @@ export const ListInventoryItemByVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2358,9 +2278,7 @@ export const InventoryItemListResult = /*@__PURE__*/ S.suspend(() =>
     value: InventoryItemListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InventoryItemListResult",
-}) as any as S.Schema<InventoryItemListResult>;
+).annotate({ identifier: "InventoryItemListResult" }) as any as S.Schema<InventoryItemListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2369,12 +2287,10 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.ScVmm/operations",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2394,9 +2310,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2446,9 +2360,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListVirtualMachineInstancesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2460,9 +2372,9 @@ export const ListVirtualMachineInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2493,9 +2405,7 @@ export const VirtualMachineInstance = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualMachineInstanceProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "VirtualMachineInstance",
-}) as any as S.Schema<VirtualMachineInstance>;
+).annotate({ identifier: "VirtualMachineInstance" }) as any as S.Schema<VirtualMachineInstance>;
 
 /** The VirtualMachineInstance items on this page */
 export type VirtualMachineInstanceListResultValueList = Array<VirtualMachineInstance>;
@@ -2534,7 +2444,7 @@ export const ListVirtualMachineTemplateByResourceGroupRequest = /*@__PURE__*/ S.
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2542,9 +2452,7 @@ export const ListVirtualMachineTemplateByResourceGroupRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>;
 
 /** Resource tags. */
-export type VirtualMachineTemplateTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineTemplateTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineTemplateTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2580,9 +2488,7 @@ export const VirtualMachineTemplate = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VirtualMachineTemplateProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "VirtualMachineTemplate",
-}) as any as S.Schema<VirtualMachineTemplate>;
+).annotate({ identifier: "VirtualMachineTemplate" }) as any as S.Schema<VirtualMachineTemplate>;
 
 /** The VirtualMachineTemplate items on this page */
 export type VirtualMachineTemplateListResultValueList = Array<VirtualMachineTemplate>;
@@ -2618,7 +2524,7 @@ export const ListVirtualMachineTemplateBySubscriptionRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2640,7 +2546,7 @@ export const ListVirtualNetworkByResourceGroupRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2704,9 +2610,7 @@ export const VirtualNetworkListResult = /*@__PURE__*/ S.suspend(() =>
     value: VirtualNetworkListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkListResult",
-}) as any as S.Schema<VirtualNetworkListResult>;
+).annotate({ identifier: "VirtualNetworkListResult" }) as any as S.Schema<VirtualNetworkListResult>;
 
 export interface ListVirtualNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2720,7 +2624,7 @@ export const ListVirtualNetworkBySubscriptionRequest = /*@__PURE__*/ S.suspend((
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualNetworks",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2738,9 +2642,9 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceReques
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2810,7 +2714,7 @@ export const ListVmmServerByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2874,9 +2778,7 @@ export const VmmServerListResult = /*@__PURE__*/ S.suspend(() =>
     value: VmmServerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmmServerListResult",
-}) as any as S.Schema<VmmServerListResult>;
+).annotate({ identifier: "VmmServerListResult" }) as any as S.Schema<VmmServerListResult>;
 
 export interface ListVmmServerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2890,7 +2792,7 @@ export const ListVmmServerBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/vmmServers",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2907,9 +2809,9 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2936,9 +2838,9 @@ export const RestoreVirtualMachineInstanceCheckpointRequest = /*@__PURE__*/ S.su
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2962,9 +2864,9 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2991,9 +2893,9 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3008,9 +2910,7 @@ export const StopVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StopVirtualMachineInstanceResponse>;
 
 /** Resource tags. */
-export type UpdateAvailabilitySetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAvailabilitySetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAvailabilitySetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3037,7 +2937,7 @@ export const UpdateAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3045,9 +2945,7 @@ export const UpdateAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAvailabilitySetRequest>;
 
 /** Resource tags. */
-export type UpdateAvailabilitySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAvailabilitySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3114,12 +3012,10 @@ export const UpdateCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCloudRequest",
-}) as any as S.Schema<UpdateCloudRequest>;
+).annotate({ identifier: "UpdateCloudRequest" }) as any as S.Schema<UpdateCloudRequest>;
 
 /** Resource tags. */
 export type UpdateCloudResponseTagsMap = { [key: string]: string | undefined };
@@ -3157,9 +3053,7 @@ export const UpdateCloudResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CloudProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateCloudResponse",
-}) as any as S.Schema<UpdateCloudResponse>;
+).annotate({ identifier: "UpdateCloudResponse" }) as any as S.Schema<UpdateCloudResponse>;
 
 /** Availability Sets in vm. */
 export type VirtualMachineInstanceUpdatePropertiesAvailabilitySetsList =
@@ -3192,9 +3086,7 @@ export const HardwareProfileUpdate = /*@__PURE__*/ S.suspend(() =>
     dynamicMemoryMaxMB: S.optional(S.Number),
     dynamicMemoryMinMB: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HardwareProfileUpdate",
-}) as any as S.Schema<HardwareProfileUpdate>;
+).annotate({ identifier: "HardwareProfileUpdate" }) as any as S.Schema<HardwareProfileUpdate>;
 
 /** Network Interface Update model */
 export interface NetworkInterfaceUpdate {
@@ -3223,9 +3115,7 @@ export const NetworkInterfaceUpdate = /*@__PURE__*/ S.suspend(() =>
     macAddressType: S.optional(AllocationMethod),
     nicId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterfaceUpdate",
-}) as any as S.Schema<NetworkInterfaceUpdate>;
+).annotate({ identifier: "NetworkInterfaceUpdate" }) as any as S.Schema<NetworkInterfaceUpdate>;
 
 /** Gets or sets the list of network interfaces associated with the virtual machine. */
 export type NetworkProfileUpdateNetworkInterfacesList = Array<NetworkInterfaceUpdate>;
@@ -3242,9 +3132,7 @@ export const NetworkProfileUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkInterfaces: S.optional(NetworkProfileUpdateNetworkInterfacesList),
   }),
-).annotate({
-  identifier: "NetworkProfileUpdate",
-}) as any as S.Schema<NetworkProfileUpdate>;
+).annotate({ identifier: "NetworkProfileUpdate" }) as any as S.Schema<NetworkProfileUpdate>;
 
 /** Virtual Disk Update model */
 export interface VirtualDiskUpdate {
@@ -3276,9 +3164,7 @@ export const VirtualDiskUpdate = /*@__PURE__*/ S.suspend(() =>
     vhdType: S.optional(S.String),
     storageQoSPolicy: S.optional(StorageQosPolicyDetails),
   }),
-).annotate({
-  identifier: "VirtualDiskUpdate",
-}) as any as S.Schema<VirtualDiskUpdate>;
+).annotate({ identifier: "VirtualDiskUpdate" }) as any as S.Schema<VirtualDiskUpdate>;
 
 /** Gets or sets the list of virtual disks associated with the virtual machine. */
 export type StorageProfileUpdateDisksList = Array<VirtualDiskUpdate>;
@@ -3295,9 +3181,7 @@ export const StorageProfileUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disks: S.optional(StorageProfileUpdateDisksList),
   }),
-).annotate({
-  identifier: "StorageProfileUpdate",
-}) as any as S.Schema<StorageProfileUpdate>;
+).annotate({ identifier: "StorageProfileUpdate" }) as any as S.Schema<StorageProfileUpdate>;
 
 /** Specifies the vmmServer infrastructure specific update settings for the virtual machine instance. */
 export interface InfrastructureProfileUpdate {
@@ -3350,9 +3234,9 @@ export const UpdateVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3387,9 +3271,7 @@ export const UpdateVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateVirtualMachineInstanceResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineTemplateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineTemplateRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineTemplateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3416,7 +3298,7 @@ export const UpdateVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3424,9 +3306,7 @@ export const UpdateVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineTemplateRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineTemplateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineTemplateResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineTemplateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3466,9 +3346,7 @@ export const UpdateVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateVirtualMachineTemplateResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3495,7 +3373,7 @@ export const UpdateVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3503,9 +3381,7 @@ export const UpdateVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3545,9 +3421,7 @@ export const UpdateVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkResponse>;
 
 /** Resource tags. */
-export type UpdateVmmServerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVmmServerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVmmServerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3574,17 +3448,13 @@ export const UpdateVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateVmmServerRequest",
-}) as any as S.Schema<UpdateVmmServerRequest>;
+).annotate({ identifier: "UpdateVmmServerRequest" }) as any as S.Schema<UpdateVmmServerRequest>;
 
 /** Resource tags. */
-export type UpdateVmmServerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVmmServerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVmmServerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3619,9 +3489,7 @@ export const UpdateVmmServerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VmmServerProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateVmmServerResponse",
-}) as any as S.Schema<UpdateVmmServerResponse>;
+).annotate({ identifier: "UpdateVmmServerResponse" }) as any as S.Schema<UpdateVmmServerResponse>;
 
 /** Availability Sets in vm. */
 export type VirtualMachineInstancePropertiesInputAvailabilitySetsList =
@@ -3689,9 +3557,7 @@ export const NetworkProfileInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkInterfaces: S.optional(NetworkProfileInputNetworkInterfacesList),
   }),
-).annotate({
-  identifier: "NetworkProfileInput",
-}) as any as S.Schema<NetworkProfileInput>;
+).annotate({ identifier: "NetworkProfileInput" }) as any as S.Schema<NetworkProfileInput>;
 
 /** Virtual disk model */
 export interface VirtualDiskInput {
@@ -3729,9 +3595,7 @@ export const VirtualDiskInput = /*@__PURE__*/ S.suspend(() =>
     storageQoSPolicy: S.optional(StorageQosPolicyDetails),
     createDiffDisk: S.optional(S.Boolean.pipe(T.StringEncoded())),
   }),
-).annotate({
-  identifier: "VirtualDiskInput",
-}) as any as S.Schema<VirtualDiskInput>;
+).annotate({ identifier: "VirtualDiskInput" }) as any as S.Schema<VirtualDiskInput>;
 
 /** Gets or sets the list of virtual disks associated with the virtual machine. */
 export type StorageProfileInputDisksList = Array<VirtualDiskInput>;
@@ -3748,9 +3612,7 @@ export const StorageProfileInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disks: S.optional(StorageProfileInputDisksList),
   }),
-).annotate({
-  identifier: "StorageProfileInput",
-}) as any as S.Schema<StorageProfileInput>;
+).annotate({ identifier: "StorageProfileInput" }) as any as S.Schema<StorageProfileInput>;
 
 /** Specifies the vmmServer infrastructure specific settings for the virtual machine instance. */
 export interface InfrastructureProfileInput {
@@ -3833,9 +3695,9 @@ export const VirtualMachineInstancesCreateOrUpdateRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3927,7 +3789,7 @@ export const VirtualMachineTemplatesCreateOrUpdateRequest = /*@__PURE__*/ S.susp
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3977,9 +3839,7 @@ export const VirtualMachineTemplatesCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<VirtualMachineTemplatesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4034,7 +3894,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -4042,9 +3902,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4084,9 +3942,7 @@ export const VirtualNetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VmmServersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VmmServersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VmmServersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4107,9 +3963,7 @@ export const VmmServerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     fqdn: S.String,
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VmmServerPropertiesInput",
-}) as any as S.Schema<VmmServerPropertiesInput>;
+).annotate({ identifier: "VmmServerPropertiesInput" }) as any as S.Schema<VmmServerPropertiesInput>;
 
 export interface VmmServersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4141,7 +3995,7 @@ export const VmmServersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -4149,9 +4003,7 @@ export const VmmServersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VmmServersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VmmServersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VmmServersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VmmServersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

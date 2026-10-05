@@ -46,16 +46,8 @@ export interface GetAiSecurityRequest {
 export const GetAiSecurityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/ai-security/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAiSecurityRequest",
-}) as any as S.Schema<GetAiSecurityRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ai-security/settings", code: 200 })),
+).annotate({ identifier: "GetAiSecurityRequest" }) as any as S.Schema<GetAiSecurityRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAiSecurityResponse {
@@ -66,9 +58,7 @@ export const GetAiSecurityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GetAiSecurityResponse",
-}) as any as S.Schema<GetAiSecurityResponse>;
+).annotate({ identifier: "GetAiSecurityResponse" }) as any as S.Schema<GetAiSecurityResponse>;
 
 export interface GetCustomTopicRequest {
   /** Defines the zone. */
@@ -77,16 +67,8 @@ export interface GetCustomTopicRequest {
 export const GetCustomTopicRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/ai-security/custom-topics",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCustomTopicRequest",
-}) as any as S.Schema<GetCustomTopicRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ai-security/custom-topics", code: 200 })),
+).annotate({ identifier: "GetCustomTopicRequest" }) as any as S.Schema<GetCustomTopicRequest>;
 
 export interface CustomTopicsGetResponseTopicsItem {
   /** Unique label identifier. Must contain only lowercase letters (a–z), digits (0–9), and hyphens. */
@@ -117,9 +99,7 @@ export const GetCustomTopicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     topics: S.optional(S.NullOr(CustomTopicsGetResponseTopicsList)),
   }),
-).annotate({
-  identifier: "GetCustomTopicResponse",
-}) as any as S.Schema<GetCustomTopicResponse>;
+).annotate({ identifier: "GetCustomTopicResponse" }) as any as S.Schema<GetCustomTopicResponse>;
 
 export interface PutAiSecurityRequest {
   /** Defines the zone. */
@@ -131,16 +111,8 @@ export const PutAiSecurityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/ai-security/settings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutAiSecurityRequest",
-}) as any as S.Schema<PutAiSecurityRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/ai-security/settings", code: 200 })),
+).annotate({ identifier: "PutAiSecurityRequest" }) as any as S.Schema<PutAiSecurityRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutAiSecurityResponse {
@@ -151,9 +123,7 @@ export const PutAiSecurityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "PutAiSecurityResponse",
-}) as any as S.Schema<PutAiSecurityResponse>;
+).annotate({ identifier: "PutAiSecurityResponse" }) as any as S.Schema<PutAiSecurityResponse>;
 
 export type CustomTopicsUpdateRequestTopicsItem = CustomTopicsGetResponseTopicsItem;
 export const CustomTopicsUpdateRequestTopicsItem = CustomTopicsGetResponseTopicsItem;
@@ -173,16 +143,8 @@ export const PutCustomTopicRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
     topics: S.optional(CustomTopicsUpdateRequestTopicsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/ai-security/custom-topics",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutCustomTopicRequest",
-}) as any as S.Schema<PutCustomTopicRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/ai-security/custom-topics", code: 200 })),
+).annotate({ identifier: "PutCustomTopicRequest" }) as any as S.Schema<PutCustomTopicRequest>;
 
 export type CustomTopicsUpdateResponseTopicsItem = CustomTopicsGetResponseTopicsItem;
 export const CustomTopicsUpdateResponseTopicsItem = CustomTopicsGetResponseTopicsItem;
@@ -201,9 +163,7 @@ export const PutCustomTopicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     topics: S.optional(S.NullOr(CustomTopicsUpdateResponseTopicsList)),
   }),
-).annotate({
-  identifier: "PutCustomTopicResponse",
-}) as any as S.Schema<PutCustomTopicResponse>;
+).annotate({ identifier: "PutCustomTopicResponse" }) as any as S.Schema<PutCustomTopicResponse>;
 
 export type GetAiSecurityError =
   | AiSecurityNotEntitled

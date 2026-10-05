@@ -176,12 +176,7 @@ export class IndicatorFeedsNotEntitled
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        status: 403,
-        message: { includes: "does not have permission to create a feed" },
-      },
-    ],
+    [{ status: 403, message: { includes: "does not have permission to create a feed" } }],
   ) {}
 
 export type AttackSurfaceReportIssuesClassRequestIssueClassList = Array<string>;
@@ -346,11 +341,7 @@ export const CreateIndicatorFeedRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/intel/indicator-feeds",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/intel/indicator-feeds", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -492,11 +483,7 @@ export const CreateMiscategorizationRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/intel/miscategorization",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/intel/miscategorization", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -530,17 +517,9 @@ export const CreateSinkholeRequest = /*@__PURE__*/ S.suspend(() =>
     r2Id: S.optional(S.String.pipe(T.Body("r2_id"))),
     r2Secret: S.optional(S.String.pipe(T.Body("r2_secret"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/intel/sinkholes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/intel/sinkholes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSinkholeRequest",
-}) as any as S.Schema<CreateSinkholeRequest>;
+).annotate({ identifier: "CreateSinkholeRequest" }) as any as S.Schema<CreateSinkholeRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSinkholeResponse {
@@ -569,9 +548,7 @@ export const CreateSinkholeResponse = /*@__PURE__*/ S.suspend(() =>
     r2Bucket: S.optional(S.NullOr(S.String).pipe(T.Body("r2_bucket"))),
     r2Id: S.optional(S.NullOr(S.String).pipe(T.Body("r2_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSinkholeResponse",
-}) as any as S.Schema<CreateSinkholeResponse>;
+).annotate({ identifier: "CreateSinkholeResponse" }) as any as S.Schema<CreateSinkholeResponse>;
 
 export interface CreateSinkholesIngressRequest {
   /** An identifier for the resource. */
@@ -645,9 +622,7 @@ export const DataIndicatorFeedRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DataIndicatorFeedRequest",
-}) as any as S.Schema<DataIndicatorFeedRequest>;
+).annotate({ identifier: "DataIndicatorFeedRequest" }) as any as S.Schema<DataIndicatorFeedRequest>;
 
 export interface DataIndicatorFeedResponse {}
 export const DataIndicatorFeedResponse = /*@__PURE__*/ S.suspend(() =>
@@ -713,16 +688,12 @@ export const DeleteSinkholeRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSinkholeRequest",
-}) as any as S.Schema<DeleteSinkholeRequest>;
+).annotate({ identifier: "DeleteSinkholeRequest" }) as any as S.Schema<DeleteSinkholeRequest>;
 
 export type DeleteSinkholeResponse = unknown;
 export const DeleteSinkholeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSinkholeResponse",
-}) as any as S.Schema<DeleteSinkholeResponse>;
+).annotate({ identifier: "DeleteSinkholeResponse" }) as any as S.Schema<DeleteSinkholeResponse>;
 
 export interface DeleteSinkholesIngressRequest {
   /** An identifier for the resource. */
@@ -796,13 +767,7 @@ export const GetAsnRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     asn: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/asn/{asn}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/asn/{asn}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetAsnRequest" }) as any as S.Schema<GetAsnRequest>;
 
@@ -822,16 +787,10 @@ export const GetAsnSubnetRequest = /*@__PURE__*/ S.suspend(() =>
     asn: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/asn/{asn}/subnets",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/asn/{asn}/subnets", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAsnSubnetRequest",
-}) as any as S.Schema<GetAsnSubnetRequest>;
+).annotate({ identifier: "GetAsnSubnetRequest" }) as any as S.Schema<GetAsnSubnetRequest>;
 
 export type AsnSubnetsGetResponseSubnetsList = Array<string>;
 export const AsnSubnetsGetResponseSubnetsList = /*@__PURE__*/ S.Array(
@@ -859,9 +818,7 @@ export const GetAsnSubnetResponse = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.NullOr(S.Number).pipe(T.Body("per_page"))),
     subnets: S.optional(S.NullOr(AsnSubnetsGetResponseSubnetsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAsnSubnetResponse",
-}) as any as S.Schema<GetAsnSubnetResponse>;
+).annotate({ identifier: "GetAsnSubnetResponse" }) as any as S.Schema<GetAsnSubnetResponse>;
 
 export interface GetAttackSurfaceReportIssueTypeRequest {
   /** Identifier. */
@@ -919,17 +876,9 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
     skipDns: S.optional(S.Boolean.pipe(T.Query("skip_dns"))),
     skipRanking: S.optional(S.Boolean.pipe(T.Query("skip_ranking"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/domain",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/domain", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export interface DomainsGetResponseAdditionalInformation {
   /** Suspected DGA malware family. */
@@ -1071,9 +1020,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     riskScore: S.optional(S.NullOr(S.Number).pipe(T.Body("risk_score"))),
     riskTypes: S.optional(S.NullOr(DomainsGetResponseRiskTypesList).pipe(T.Body("risk_types"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export type DomainsBulksGetRequestDomainList = Array<string>;
 export const DomainsBulksGetRequestDomainList = /*@__PURE__*/ S.Array(
@@ -1097,17 +1044,9 @@ export const GetDomainBulkRequest = /*@__PURE__*/ S.suspend(() =>
     includeRanking: S.optional(S.Boolean.pipe(T.Query("include_ranking"))),
     skipRanking: S.optional(S.Boolean.pipe(T.Query("skip_ranking"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/domain/bulk",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/domain/bulk", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainBulkRequest",
-}) as any as S.Schema<GetDomainBulkRequest>;
+).annotate({ identifier: "GetDomainBulkRequest" }) as any as S.Schema<GetDomainBulkRequest>;
 
 export type DomainsBulksGetResultItemAdditionalInformation =
   DomainsGetResponseAdditionalInformation;
@@ -1214,9 +1153,7 @@ export const DomainsBulksGetResultList = /*@__PURE__*/ S.Array(
 export type GetDomainBulkResponse = DomainsBulksGetResultList;
 export const GetDomainBulkResponse = /*@__PURE__*/ S.suspend(() =>
   DomainsBulksGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainBulkResponse",
-}) as any as S.Schema<GetDomainBulkResponse>;
+).annotate({ identifier: "GetDomainBulkResponse" }) as any as S.Schema<GetDomainBulkResponse>;
 
 export interface GetDomainHistoryRequest {
   /** Identifier. */
@@ -1228,17 +1165,9 @@ export const GetDomainHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     domain: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/domain-history",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/domain-history", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainHistoryRequest",
-}) as any as S.Schema<GetDomainHistoryRequest>;
+).annotate({ identifier: "GetDomainHistoryRequest" }) as any as S.Schema<GetDomainHistoryRequest>;
 
 export type DomainHistoryGetResultItemCategorizationsItemCategoriesItem =
   DomainsGetResponseApplication;
@@ -1293,9 +1222,7 @@ export const DomainHistoryGetResultList = /*@__PURE__*/ S.Array(
 export type GetDomainHistoryResponse = DomainHistoryGetResultList;
 export const GetDomainHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   DomainHistoryGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDomainHistoryResponse",
-}) as any as S.Schema<GetDomainHistoryResponse>;
+).annotate({ identifier: "GetDomainHistoryResponse" }) as any as S.Schema<GetDomainHistoryResponse>;
 
 export interface GetIndicatorFeedRequest {
   /** Identifier */
@@ -1316,9 +1243,7 @@ export const GetIndicatorFeedRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndicatorFeedRequest",
-}) as any as S.Schema<GetIndicatorFeedRequest>;
+).annotate({ identifier: "GetIndicatorFeedRequest" }) as any as S.Schema<GetIndicatorFeedRequest>;
 
 export interface IndicatorFeedsGetResponseLastUploadSummaryPersisted {
   domainsAdded?: number | null;
@@ -1453,9 +1378,7 @@ export const GetIndicatorFeedResponse = /*@__PURE__*/ S.suspend(() =>
     providerId: S.optional(S.NullOr(S.Number).pipe(T.Body("provider_id"))),
     providerName: S.optional(S.NullOr(S.String).pipe(T.Body("provider_name"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndicatorFeedResponse",
-}) as any as S.Schema<GetIndicatorFeedResponse>;
+).annotate({ identifier: "GetIndicatorFeedResponse" }) as any as S.Schema<GetIndicatorFeedResponse>;
 
 export interface GetIpRequest {
   /** Identifier. */
@@ -1469,13 +1392,7 @@ export const GetIpRequest = /*@__PURE__*/ S.suspend(() =>
     ipv4: S.optional(S.String.pipe(T.Query())),
     ipv6: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/ip",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/ip", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetIpRequest" }) as any as S.Schema<GetIpRequest>;
 
@@ -1522,9 +1439,7 @@ export const IpsGetResultItem = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.NullOr(S.String)),
     riskTypes: S.optional(S.NullOr(IpsGetResultItemRiskTypesList).pipe(T.Body("risk_types"))),
   }),
-).annotate({
-  identifier: "IpsGetResultItem",
-}) as any as S.Schema<IpsGetResultItem>;
+).annotate({ identifier: "IpsGetResultItem" }) as any as S.Schema<IpsGetResultItem>;
 
 export type IpsGetResultList = Array<IpsGetResultItem>;
 export const IpsGetResultList = /*@__PURE__*/ S.Array(
@@ -1554,9 +1469,7 @@ export const GetSinkholeRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSinkholeRequest",
-}) as any as S.Schema<GetSinkholeRequest>;
+).annotate({ identifier: "GetSinkholeRequest" }) as any as S.Schema<GetSinkholeRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkholeResponse {
@@ -1585,9 +1498,7 @@ export const GetSinkholeResponse = /*@__PURE__*/ S.suspend(() =>
     r2Bucket: S.optional(S.NullOr(S.String).pipe(T.Body("r2_bucket"))),
     r2Id: S.optional(S.NullOr(S.String).pipe(T.Body("r2_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSinkholeResponse",
-}) as any as S.Schema<GetSinkholeResponse>;
+).annotate({ identifier: "GetSinkholeResponse" }) as any as S.Schema<GetSinkholeResponse>;
 
 export interface GetSinkholesIngressRequest {
   /** An identifier for the resource. */
@@ -1652,13 +1563,7 @@ export const GetUrlRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     url: S.String.pipe(T.Query()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/url",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/url", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetUrlRequest" }) as any as S.Schema<GetUrlRequest>;
 
@@ -1725,13 +1630,7 @@ export const GetWhoiRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     domain: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/whois",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/whois", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetWhoiRequest" }) as any as S.Schema<GetWhoiRequest>;
 
@@ -1929,9 +1828,7 @@ export const GetWhoiResponse = /*@__PURE__*/ S.suspend(() =>
     updatedDateRaw: S.optional(S.NullOr(S.String).pipe(T.Body("updated_date_raw"))),
     whoisServer: S.optional(S.NullOr(S.String).pipe(T.Body("whois_server"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWhoiResponse",
-}) as any as S.Schema<GetWhoiResponse>;
+).annotate({ identifier: "GetWhoiResponse" }) as any as S.Schema<GetWhoiResponse>;
 
 export type AttackSurfaceReportIssuesListRequestIssueClassList = Array<string>;
 export const AttackSurfaceReportIssuesListRequestIssueClassList = /*@__PURE__*/ S.Array(
@@ -2206,13 +2103,7 @@ export const ListDnsRequest = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/dns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/dns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "ListDnsRequest" }) as any as S.Schema<ListDnsRequest>;
 
@@ -2259,9 +2150,7 @@ export const ListDnsResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(DnsListResponseReverseRecordsList).pipe(T.Body("reverse_records")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDnsResponse",
-}) as any as S.Schema<ListDnsResponse>;
+).annotate({ identifier: "ListDnsResponse" }) as any as S.Schema<ListDnsResponse>;
 
 export interface ListIndicatorFeedPermissionsRequest {
   /** Identifier */
@@ -2334,13 +2223,7 @@ export const ListIndicatorFeedsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/indicator-feeds",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/indicator-feeds", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListIndicatorFeedsRequest",
@@ -2407,17 +2290,9 @@ export const ListSinkholesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/intel/sinkholes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/intel/sinkholes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSinkholesRequest",
-}) as any as S.Schema<ListSinkholesRequest>;
+).annotate({ identifier: "ListSinkholesRequest" }) as any as S.Schema<ListSinkholesRequest>;
 
 export interface SinkholesListResultItem {
   /** The unique identifier for the sinkhole. */
@@ -2445,9 +2320,7 @@ export const SinkholesListResultItem = /*@__PURE__*/ S.suspend(() =>
     r2Bucket: S.optional(S.NullOr(S.String).pipe(T.Body("r2_bucket"))),
     r2Id: S.optional(S.NullOr(S.String).pipe(T.Body("r2_id"))),
   }),
-).annotate({
-  identifier: "SinkholesListResultItem",
-}) as any as S.Schema<SinkholesListResultItem>;
+).annotate({ identifier: "SinkholesListResultItem" }) as any as S.Schema<SinkholesListResultItem>;
 
 export type SinkholesListResultList = Array<SinkholesListResultItem>;
 export const SinkholesListResultList = /*@__PURE__*/ S.Array(
@@ -2465,9 +2338,7 @@ export const ListSinkholesResponse = /*@__PURE__*/ S.suspend(() =>
     result: SinkholesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSinkholesResponse",
-}) as any as S.Schema<ListSinkholesResponse>;
+).annotate({ identifier: "ListSinkholesResponse" }) as any as S.Schema<ListSinkholesResponse>;
 
 export type IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload = "1";
 export const IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload = S.String;
@@ -2904,16 +2775,12 @@ export const UpdateSinkholeRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSinkholeRequest",
-}) as any as S.Schema<UpdateSinkholeRequest>;
+).annotate({ identifier: "UpdateSinkholeRequest" }) as any as S.Schema<UpdateSinkholeRequest>;
 
 export type UpdateSinkholeResponse = unknown;
 export const UpdateSinkholeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSinkholeResponse",
-}) as any as S.Schema<UpdateSinkholeResponse>;
+).annotate({ identifier: "UpdateSinkholeResponse" }) as any as S.Schema<UpdateSinkholeResponse>;
 
 export interface UpdateSinkholesIngressRequest {
   /** An identifier for the resource. */

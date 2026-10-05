@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const source = path.join(root, "specs");
 const destination = path.join(root, ".generated-specs");
 await fs.mkdir(destination, { recursive: true });

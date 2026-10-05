@@ -21,9 +21,7 @@ export const PrivateIPAddress = /*@__PURE__*/ S.suspend(() =>
     ipAddress: S.optional(S.String),
     subnetResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateIPAddress",
-}) as any as S.Schema<PrivateIPAddress>;
+).annotate({ identifier: "PrivateIPAddress" }) as any as S.Schema<PrivateIPAddress>;
 
 /** List of the SQL virtual machine instance resource id's that are enrolled into the availability group listener. */
 export type LoadBalancerConfigurationSqlVirtualMachineInstancesList = Array<string>;
@@ -142,9 +140,7 @@ export const AgConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     replicas: S.optional(AgConfigurationReplicasList),
   }),
-).annotate({
-  identifier: "AgConfiguration",
-}) as any as S.Schema<AgConfiguration>;
+).annotate({ identifier: "AgConfiguration" }) as any as S.Schema<AgConfiguration>;
 
 /** The properties of an availability group listener. */
 export interface AvailabilityGroupListenerPropertiesInput {
@@ -380,9 +376,7 @@ export const DeleteSqlVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteSqlVirtualMachineResponse {}
 export const DeleteSqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteSqlVirtualMachineResponse",
-  },
+  { identifier: "DeleteSqlVirtualMachineResponse" },
 ) as any as S.Schema<DeleteSqlVirtualMachineResponse>;
 
 export interface DeleteSqlVirtualMachineGroupRequest {
@@ -536,9 +530,7 @@ export const GetSqlVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSqlVirtualMachineRequest>;
 
 /** Resource tags. */
-export type GetSqlVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -575,9 +567,7 @@ export const WsfcDomainCredentials = /*@__PURE__*/ S.suspend(() =>
     clusterOperatorAccountPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
     sqlServiceAccountPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "WsfcDomainCredentials",
-}) as any as S.Schema<WsfcDomainCredentials>;
+).annotate({ identifier: "WsfcDomainCredentials" }) as any as S.Schema<WsfcDomainCredentials>;
 
 /** Day of week to apply the patch on. */
 export type DayOfWeek =
@@ -616,9 +606,7 @@ export const AutoPatchingSettings = /*@__PURE__*/ S.suspend(() =>
     maintenanceWindowDuration: S.optional(S.Number),
     additionalVmPatch: S.optional(AutoPatchingSettingsAdditionalVmPatch),
   }),
-).annotate({
-  identifier: "AutoPatchingSettings",
-}) as any as S.Schema<AutoPatchingSettings>;
+).annotate({ identifier: "AutoPatchingSettings" }) as any as S.Schema<AutoPatchingSettings>;
 
 /** Backup schedule type. */
 export type BackupScheduleType = "Manual" | "Automated";
@@ -692,9 +680,7 @@ export const AutoBackupSettings = /*@__PURE__*/ S.suspend(() =>
     fullBackupWindowHours: S.optional(S.Number),
     logBackupFrequency: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoBackupSettings",
-}) as any as S.Schema<AutoBackupSettings>;
+).annotate({ identifier: "AutoBackupSettings" }) as any as S.Schema<AutoBackupSettings>;
 
 /** Configure your SQL virtual machine to be able to connect to the Azure Key Vault service. */
 export interface KeyVaultCredentialSettings {
@@ -783,9 +769,7 @@ export const SqlStorageUpdateSettings = /*@__PURE__*/ S.suspend(() =>
     startingDeviceId: S.optional(S.Number),
     diskConfigurationType: S.optional(DiskConfigurationType),
   }),
-).annotate({
-  identifier: "SqlStorageUpdateSettings",
-}) as any as S.Schema<SqlStorageUpdateSettings>;
+).annotate({ identifier: "SqlStorageUpdateSettings" }) as any as S.Schema<SqlStorageUpdateSettings>;
 
 /** Additional SQL Server feature settings. */
 export interface AdditionalFeaturesServerConfigurations {
@@ -827,9 +811,7 @@ export const SQLInstanceSettings = /*@__PURE__*/ S.suspend(() =>
     isLpimEnabled: S.optional(S.Boolean),
     isIfiEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SQLInstanceSettings",
-}) as any as S.Schema<SQLInstanceSettings>;
+).annotate({ identifier: "SQLInstanceSettings" }) as any as S.Schema<SQLInstanceSettings>;
 
 /** Enable AAD authentication for SQL VM. */
 export interface AADAuthenticationSettings {
@@ -893,9 +875,7 @@ export const SQLStorageSettings = /*@__PURE__*/ S.suspend(() =>
     defaultFilePath: S.optional(S.String),
     useStoragePool: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SQLStorageSettings",
-}) as any as S.Schema<SQLStorageSettings>;
+).annotate({ identifier: "SQLStorageSettings" }) as any as S.Schema<SQLStorageSettings>;
 
 /** Logical Unit Numbers for the disks. */
 export type SQLTempDbSettingsLunsList = Array<number>;
@@ -939,9 +919,7 @@ export const SQLTempDbSettings = /*@__PURE__*/ S.suspend(() =>
     defaultFilePath: S.optional(S.String),
     useStoragePool: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SQLTempDbSettings",
-}) as any as S.Schema<SQLTempDbSettings>;
+).annotate({ identifier: "SQLTempDbSettings" }) as any as S.Schema<SQLTempDbSettings>;
 
 /** Storage workload type. */
 export type StorageWorkloadType = "GENERAL" | "OLTP" | "DW";
@@ -991,9 +969,7 @@ export const UnhealthyReplicaInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     availabilityGroupName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnhealthyReplicaInfo",
-}) as any as S.Schema<UnhealthyReplicaInfo>;
+).annotate({ identifier: "UnhealthyReplicaInfo" }) as any as S.Schema<UnhealthyReplicaInfo>;
 
 /** SQL VM Troubleshooting additional properties. */
 export interface TroubleshootingAdditionalProperties {
@@ -1032,9 +1008,7 @@ export const TroubleshootingStatus = /*@__PURE__*/ S.suspend(() =>
     troubleshootingScenario: S.optional(TroubleshootingStatusTroubleshootingScenario),
     properties: S.optional(TroubleshootingAdditionalProperties),
   }),
-).annotate({
-  identifier: "TroubleshootingStatus",
-}) as any as S.Schema<TroubleshootingStatus>;
+).annotate({ identifier: "TroubleshootingStatus" }) as any as S.Schema<TroubleshootingStatus>;
 
 /** Day of the week to run assessment. */
 export type AssessmentDayOfWeek =
@@ -1085,9 +1059,7 @@ export const AssessmentSettings = /*@__PURE__*/ S.suspend(() =>
     runImmediately: S.optional(S.Boolean),
     schedule: S.optional(Schedule),
   }),
-).annotate({
-  identifier: "AssessmentSettings",
-}) as any as S.Schema<AssessmentSettings>;
+).annotate({ identifier: "AssessmentSettings" }) as any as S.Schema<AssessmentSettings>;
 
 /** Additional VM Patching solution enabled on the Virtual Machine */
 export type AdditionalOsPatch = "WU" | "WUMU" | "WSUS";
@@ -1109,9 +1081,7 @@ export const VirtualMachineIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VmIdentityType),
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineIdentity",
-}) as any as S.Schema<VirtualMachineIdentity>;
+).annotate({ identifier: "VirtualMachineIdentity" }) as any as S.Schema<VirtualMachineIdentity>;
 
 /** Operating System of the current SQL Virtual Machine. */
 export type OsType = "Windows" | "Linux";
@@ -1213,9 +1183,7 @@ export const ResourceIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(IdentityType),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceIdentity",
-}) as any as S.Schema<ResourceIdentity>;
+).annotate({ identifier: "ResourceIdentity" }) as any as S.Schema<ResourceIdentity>;
 
 export interface GetSqlVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1276,9 +1244,7 @@ export const GetSqlVirtualMachineGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSqlVirtualMachineGroupRequest>;
 
 /** Resource tags. */
-export type GetSqlVirtualMachineGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlVirtualMachineGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlVirtualMachineGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1340,9 +1306,7 @@ export const WsfcDomainProfile = /*@__PURE__*/ S.suspend(() =>
     storageAccountPrimaryKey: S.optional(S.String),
     clusterSubnetType: S.optional(ClusterSubnetType),
   }),
-).annotate({
-  identifier: "WsfcDomainProfile",
-}) as any as S.Schema<WsfcDomainProfile>;
+).annotate({ identifier: "WsfcDomainProfile" }) as any as S.Schema<WsfcDomainProfile>;
 
 /** The properties of a SQL virtual machine group. */
 export interface SqlVirtualMachineGroupProperties {
@@ -1487,9 +1451,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -1509,9 +1471,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation. */
 export type OperationOrigin = "user" | "system";
@@ -1562,9 +1522,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListSqlVirtualMachineByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1625,9 +1583,7 @@ export const SqlVirtualMachine = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SqlVirtualMachineProperties),
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "SqlVirtualMachine",
-}) as any as S.Schema<SqlVirtualMachine>;
+).annotate({ identifier: "SqlVirtualMachine" }) as any as S.Schema<SqlVirtualMachine>;
 
 /** The SqlVirtualMachine items on this page */
 export type SqlVirtualMachineListResultValueList = Array<SqlVirtualMachine>;
@@ -1699,9 +1655,7 @@ export const ListSqlVirtualMachineGroupByResourceGroupRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<ListSqlVirtualMachineGroupByResourceGroupRequest>;
 
 /** Resource tags. */
-export type SqlVirtualMachineGroupTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlVirtualMachineGroupTagsMap = { [key: string]: string | undefined };
 export const SqlVirtualMachineGroupTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1734,9 +1688,7 @@ export const SqlVirtualMachineGroup = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SqlVirtualMachineGroupProperties),
   }),
-).annotate({
-  identifier: "SqlVirtualMachineGroup",
-}) as any as S.Schema<SqlVirtualMachineGroup>;
+).annotate({ identifier: "SqlVirtualMachineGroup" }) as any as S.Schema<SqlVirtualMachineGroup>;
 
 /** The SqlVirtualMachineGroup items on this page */
 export type SqlVirtualMachineGroupListResultValueList = Array<SqlVirtualMachineGroup>;
@@ -1932,9 +1884,7 @@ export const SqlVirtualMachineGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<SqlVirtualMachineGroupsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type SqlVirtualMachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlVirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SqlVirtualMachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2014,9 +1964,7 @@ export const ResourceIdentityInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(IdentityType),
   }),
-).annotate({
-  identifier: "ResourceIdentityInput",
-}) as any as S.Schema<ResourceIdentityInput>;
+).annotate({ identifier: "ResourceIdentityInput" }) as any as S.Schema<ResourceIdentityInput>;
 
 export interface SqlVirtualMachinesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2056,9 +2004,7 @@ export const SqlVirtualMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<SqlVirtualMachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SqlVirtualMachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlVirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SqlVirtualMachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2168,9 +2114,7 @@ export const SqlVmTroubleshooting = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(TroubleshootingAdditionalProperties),
     virtualMachineResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlVmTroubleshooting",
-}) as any as S.Schema<SqlVmTroubleshooting>;
+).annotate({ identifier: "SqlVmTroubleshooting" }) as any as S.Schema<SqlVmTroubleshooting>;
 
 export interface StartSqlVirtualMachineAssessmentRequest {
   /** The ID of the target subscription. */
@@ -2205,9 +2149,7 @@ export const StartSqlVirtualMachineAssessmentResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<StartSqlVirtualMachineAssessmentResponse>;
 
 /** Resource tags. */
-export type UpdateSqlVirtualMachineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlVirtualMachineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2242,9 +2184,7 @@ export const UpdateSqlVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSqlVirtualMachineRequest>;
 
 /** Resource tags. */
-export type UpdateSqlVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2284,9 +2224,7 @@ export const UpdateSqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSqlVirtualMachineResponse>;
 
 /** Resource tags. */
-export type UpdateSqlVirtualMachineGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlVirtualMachineGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlVirtualMachineGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2321,9 +2259,7 @@ export const UpdateSqlVirtualMachineGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSqlVirtualMachineGroupRequest>;
 
 /** Resource tags. */
-export type UpdateSqlVirtualMachineGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlVirtualMachineGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlVirtualMachineGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

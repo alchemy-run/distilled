@@ -281,9 +281,7 @@ export const CreateAbuseReportRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAbuseReportRequest",
-}) as any as S.Schema<CreateAbuseReportRequest>;
+).annotate({ identifier: "CreateAbuseReportRequest" }) as any as S.Schema<CreateAbuseReportRequest>;
 
 export type CreateAbuseReportResponse = string;
 export const CreateAbuseReportResponse = /*@__PURE__*/ S.suspend(() =>
@@ -363,9 +361,7 @@ export const GetResponseSubmitter = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     telephone: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetResponseSubmitter",
-}) as any as S.Schema<GetResponseSubmitter>;
+).annotate({ identifier: "GetResponseSubmitter" }) as any as S.Schema<GetResponseSubmitter>;
 
 export type GetResponseUrlsList = Array<string>;
 export const GetResponseUrlsList = /*@__PURE__*/ S.Array(
@@ -426,9 +422,7 @@ export const GetSubmittedRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubmittedRequest",
-}) as any as S.Schema<GetSubmittedRequest>;
+).annotate({ identifier: "GetSubmittedRequest" }) as any as S.Schema<GetSubmittedRequest>;
 
 export type GetSubmittedResponseDenialReason =
   | "unable_to_confirm"
@@ -664,9 +658,7 @@ export const GetSubmittedResponse = /*@__PURE__*/ S.suspend(() =>
     udrp: S.optional(S.NullOr(S.String)),
     urs: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubmittedResponse",
-}) as any as S.Schema<GetSubmittedResponse>;
+).annotate({ identifier: "GetSubmittedResponse" }) as any as S.Schema<GetSubmittedResponse>;
 
 export type ListRequestMitigationStatus =
   | "pending"
@@ -725,17 +717,9 @@ export const ListAbuseReportsRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListRequestStatus.pipe(T.Query())),
     type: S.optional(ListRequestType.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/abuse-reports",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/abuse-reports", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAbuseReportsRequest",
-}) as any as S.Schema<ListAbuseReportsRequest>;
+).annotate({ identifier: "ListAbuseReportsRequest" }) as any as S.Schema<ListAbuseReportsRequest>;
 
 export type ListResponseReportsItemMitigationSummary = GetResponseMitigationSummary;
 export const ListResponseReportsItemMitigationSummary = GetResponseMitigationSummary;
@@ -797,9 +781,7 @@ export const ListResponseReportsItem = /*@__PURE__*/ S.suspend(() =>
     submitter: S.optional(S.NullOr(GetResponseSubmitter)),
     urls: S.optional(S.NullOr(ListResponseReportsItemUrlsList)),
   }),
-).annotate({
-  identifier: "ListResponseReportsItem",
-}) as any as S.Schema<ListResponseReportsItem>;
+).annotate({ identifier: "ListResponseReportsItem" }) as any as S.Schema<ListResponseReportsItem>;
 
 export type ListResponseReportsList = Array<ListResponseReportsItem>;
 export const ListResponseReportsList = /*@__PURE__*/ S.Array(
@@ -814,9 +796,7 @@ export const ListAbuseReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reports: ListResponseReportsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAbuseReportsResponse",
-}) as any as S.Schema<ListAbuseReportsResponse>;
+).annotate({ identifier: "ListAbuseReportsResponse" }) as any as S.Schema<ListAbuseReportsResponse>;
 
 export type MitigationsListRequestEntityType =
   | "url_pattern"
@@ -885,9 +865,7 @@ export const ListMitigationsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMitigationsRequest",
-}) as any as S.Schema<ListMitigationsRequest>;
+).annotate({ identifier: "ListMitigationsRequest" }) as any as S.Schema<ListMitigationsRequest>;
 
 export type MitigationsListResponseMitigationsItemEntityType =
   | "url_pattern"
@@ -943,9 +921,7 @@ export const ListMitigationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mitigations: MitigationsListResponseMitigationsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMitigationsResponse",
-}) as any as S.Schema<ListMitigationsResponse>;
+).annotate({ identifier: "ListMitigationsResponse" }) as any as S.Schema<ListMitigationsResponse>;
 
 export type ListSubmittedRequestDomainList = Array<string>;
 export const ListSubmittedRequestDomainList = /*@__PURE__*/ S.Array(
@@ -1012,16 +988,10 @@ export const ListSubmittedRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ListSubmittedRequestTypeList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/abuse-reports/submitted",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/abuse-reports/submitted", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSubmittedRequest",
-}) as any as S.Schema<ListSubmittedRequest>;
+).annotate({ identifier: "ListSubmittedRequest" }) as any as S.Schema<ListSubmittedRequest>;
 
 export type ListSubmittedResponseReportsItemDenialReason =
   | "unable_to_confirm"
@@ -1100,9 +1070,7 @@ export const ListSubmittedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reports: ListSubmittedResponseReportsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSubmittedResponse",
-}) as any as S.Schema<ListSubmittedResponse>;
+).annotate({ identifier: "ListSubmittedResponse" }) as any as S.Schema<ListSubmittedResponse>;
 
 export interface ListSubmittedEmailsRequest {
   accountId: string;
@@ -1266,9 +1234,7 @@ export const ReviewMitigationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReviewMitigationRequest",
-}) as any as S.Schema<ReviewMitigationRequest>;
+).annotate({ identifier: "ReviewMitigationRequest" }) as any as S.Schema<ReviewMitigationRequest>;
 
 export type MitigationsReviewResultItemEntityType =
   | "url_pattern"
@@ -1327,12 +1293,10 @@ export const ReviewMitigationResponse = /*@__PURE__*/ S.suspend(() =>
     result: MitigationsReviewResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ReviewMitigationResponse",
-}) as any as S.Schema<ReviewMitigationResponse>;
+).annotate({ identifier: "ReviewMitigationResponse" }) as any as S.Schema<ReviewMitigationResponse>;
 
 export type CreateAbuseReportError = InvalidRequest | CloudflareOpError;
-/** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Account > Abuse Reports > Edit` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). */
+/** Submit an abuse report of a particular type. Requires the abuse-reports entitlement on the account (Enterprise accounts have it by default; other accounts must request access) and an API token with the `Trust and Safety Write` permission. If the account is not entitled, the request is rejected with an HTTP `401` response (see below). */
 export const createAbuseReport: API.OperationMethod<
   CreateAbuseReportRequest,
   CreateAbuseReportResponse,
@@ -1347,7 +1311,7 @@ export const createAbuseReport: API.OperationMethod<
 }));
 
 export type GetError = CloudflareOpError;
-/** Retrieve the details of an abuse report. */
+/** Retrieve the details of an abuse report made against a domain or other content associated with the account. To retrieve a report that the account submitted, use the submitted abuse report endpoint instead. */
 export const get: API.OperationMethod<GetRequest, GetResponse, GetError, CloudflareOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: GetRequest,
@@ -1373,7 +1337,7 @@ export const getSubmitted: API.OperationMethod<
 }));
 
 export type ListAbuseReportsError = InvalidAccountId | CloudflareOpError;
-/** List the abuse reports for a given account */
+/** List abuse reports made against domains or other content associated with the account. To list reports that the account submitted, use the submitted abuse reports endpoint instead. */
 export const listAbuseReports: API.OperationMethod<
   ListAbuseReportsRequest,
   ListAbuseReportsResponse,
@@ -1433,7 +1397,7 @@ export const listSubmittedEmails: API.OperationMethod<
 }));
 
 export type ReviewMitigationError = CloudflareOpError;
-/** Request a review for mitigations on an account. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state. */
+/** Request a review of mitigations applied because of an abuse report, or submit a report-level appeal. - To request a review of specific mitigations, send `appeals` with the mitigation IDs and reasons. Repeating a request for a mitigation with an unresolved appeal is idempotent and returns that mitigation in the in-review state. - To submit a report-level appeal, send `type` and, for a `counter_notice`, the counter-notice details in `data`. Report-level appeals are currently available only for DMCA (copyright) reports. */
 export const reviewMitigation: API.PaginatedOperationMethod<
   ReviewMitigationRequest,
   ReviewMitigationResponse,

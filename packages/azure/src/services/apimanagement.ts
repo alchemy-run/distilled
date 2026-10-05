@@ -137,9 +137,7 @@ export const ApiContactInformation = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     email: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiContactInformation",
-}) as any as S.Schema<ApiContactInformation>;
+).annotate({ identifier: "ApiContactInformation" }) as any as S.Schema<ApiContactInformation>;
 
 /** API license information */
 export interface ApiLicenseInformation {
@@ -153,9 +151,7 @@ export const ApiLicenseInformation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiLicenseInformation",
-}) as any as S.Schema<ApiLicenseInformation>;
+).annotate({ identifier: "ApiLicenseInformation" }) as any as S.Schema<ApiLicenseInformation>;
 
 export type ApiCreateOrUpdatePropertiesInputProtocolsItem = "http" | "https" | "ws" | "wss";
 export const ApiCreateOrUpdatePropertiesInputProtocolsItem = S.String;
@@ -365,9 +361,7 @@ export const ApiCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ApiCreateOrUpdateRequest",
-}) as any as S.Schema<ApiCreateOrUpdateRequest>;
+).annotate({ identifier: "ApiCreateOrUpdateRequest" }) as any as S.Schema<ApiCreateOrUpdateRequest>;
 
 /** Type of API. */
 export type ApiContractPropertiesType =
@@ -460,9 +454,7 @@ export const ApiContractProperties = /*@__PURE__*/ S.suspend(() =>
     apiVersionSet: S.optional(ApiVersionSetContractDetails),
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiContractProperties",
-}) as any as S.Schema<ApiContractProperties>;
+).annotate({ identifier: "ApiContractProperties" }) as any as S.Schema<ApiContractProperties>;
 
 export interface ApiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -505,9 +497,7 @@ export const SamplingSettings = /*@__PURE__*/ S.suspend(() =>
     samplingType: S.optional(SamplingSettingsSamplingType),
     percentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SamplingSettings",
-}) as any as S.Schema<SamplingSettings>;
+).annotate({ identifier: "SamplingSettings" }) as any as S.Schema<SamplingSettings>;
 
 /** Array of HTTP Headers to log. */
 export type HttpMessageDiagnosticHeadersList = Array<string>;
@@ -524,9 +514,7 @@ export const BodyDiagnosticSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BodyDiagnosticSettings",
-}) as any as S.Schema<BodyDiagnosticSettings>;
+).annotate({ identifier: "BodyDiagnosticSettings" }) as any as S.Schema<BodyDiagnosticSettings>;
 
 /** Data masking mode. */
 export type DataMaskingEntityMode = "Mask" | "Hide";
@@ -543,9 +531,7 @@ export const DataMaskingEntity = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     mode: S.optional(DataMaskingEntityMode),
   }),
-).annotate({
-  identifier: "DataMaskingEntity",
-}) as any as S.Schema<DataMaskingEntity>;
+).annotate({ identifier: "DataMaskingEntity" }) as any as S.Schema<DataMaskingEntity>;
 
 /** Masking settings for Url query parameters */
 export type DataMaskingQueryParamsList = Array<DataMaskingEntity>;
@@ -587,9 +573,7 @@ export const HttpMessageDiagnostic = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(BodyDiagnosticSettings),
     dataMasking: S.optional(DataMasking),
   }),
-).annotate({
-  identifier: "HttpMessageDiagnostic",
-}) as any as S.Schema<HttpMessageDiagnostic>;
+).annotate({ identifier: "HttpMessageDiagnostic" }) as any as S.Schema<HttpMessageDiagnostic>;
 
 /** Diagnostic settings for incoming/outgoing HTTP messages to the Gateway. */
 export interface PipelineDiagnosticSettings {
@@ -818,9 +802,7 @@ export const ApiGatewayConfigConnectionCreateOrUpdateResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<ApiGatewayConfigConnectionCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ApiGatewayCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApiGatewayCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ApiGatewayCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -854,9 +836,7 @@ export const BackendConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subnet: S.optional(BackendSubnetConfiguration),
   }),
-).annotate({
-  identifier: "BackendConfiguration",
-}) as any as S.Schema<BackendConfiguration>;
+).annotate({ identifier: "BackendConfiguration" }) as any as S.Schema<BackendConfiguration>;
 
 /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
 export type GatewayConfigurationApiInput = FrontendConfigurationInput;
@@ -952,9 +932,7 @@ export const ApiGatewayCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApiGatewayCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ApiGatewayCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApiGatewayCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ApiGatewayCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -969,9 +947,7 @@ export const FrontendConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultHostname: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FrontendConfiguration",
-}) as any as S.Schema<FrontendConfiguration>;
+).annotate({ identifier: "FrontendConfiguration" }) as any as S.Schema<FrontendConfiguration>;
 
 /** Information regarding the Configuration API of the API Management gateway. This is only applicable for API gateway with Standard SKU. */
 export interface GatewayConfigurationApi {
@@ -982,9 +958,7 @@ export const GatewayConfigurationApi = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hostname: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GatewayConfigurationApi",
-}) as any as S.Schema<GatewayConfigurationApi>;
+).annotate({ identifier: "GatewayConfigurationApi" }) as any as S.Schema<GatewayConfigurationApi>;
 
 /** The type of VPN in which API Management gateway needs to be configured in. */
 export type ApiManagementGatewayPropertiesVirtualNetworkType = "None" | "External" | "Internal";
@@ -1283,9 +1257,7 @@ export const IssueContractProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     userId: S.String,
   }),
-).annotate({
-  identifier: "IssueContractProperties",
-}) as any as S.Schema<IssueContractProperties>;
+).annotate({ identifier: "IssueContractProperties" }) as any as S.Schema<IssueContractProperties>;
 
 export interface ApiIssueCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1393,9 +1365,7 @@ export const ApiManagementServiceBackupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApiManagementServiceBackupRequest>;
 
 /** Resource tags. */
-export type ApiManagementServiceBackupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApiManagementServiceBackupResponseTagsMap = { [key: string]: string | undefined };
 export const ApiManagementServiceBackupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1426,9 +1396,7 @@ export const CertificateInformation = /*@__PURE__*/ S.suspend(() =>
     thumbprint: S.String,
     subject: S.String,
   }),
-).annotate({
-  identifier: "CertificateInformation",
-}) as any as S.Schema<CertificateInformation>;
+).annotate({ identifier: "CertificateInformation" }) as any as S.Schema<CertificateInformation>;
 
 /** Certificate Source. */
 export type HostnameConfigurationCertificateSource = "Managed" | "KeyVault" | "Custom" | "BuiltIn";
@@ -1477,9 +1445,7 @@ export const HostnameConfiguration = /*@__PURE__*/ S.suspend(() =>
     certificateSource: S.optional(HostnameConfigurationCertificateSource),
     certificateStatus: S.optional(HostnameConfigurationCertificateStatus),
   }),
-).annotate({
-  identifier: "HostnameConfiguration",
-}) as any as S.Schema<HostnameConfiguration>;
+).annotate({ identifier: "HostnameConfiguration" }) as any as S.Schema<HostnameConfiguration>;
 
 /** Custom hostname configuration of the API Management service. */
 export type ApiManagementServicePropertiesHostnameConfigurationsList = Array<HostnameConfiguration>;
@@ -1516,9 +1482,7 @@ export const ConfigurationApi = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     legacyApi: S.optional(ConfigurationApiLegacyApi),
   }),
-).annotate({
-  identifier: "ConfigurationApi",
-}) as any as S.Schema<ConfigurationApi>;
+).annotate({ identifier: "ConfigurationApi" }) as any as S.Schema<ConfigurationApi>;
 
 /** Configuration of a virtual network to which API Management service is deployed. */
 export interface VirtualNetworkConfiguration {
@@ -1646,9 +1610,7 @@ export const AdditionalLocation = /*@__PURE__*/ S.suspend(() =>
     disableGateway: S.optional(S.Boolean),
     platformVersion: S.optional(AdditionalLocationPlatformVersion),
   }),
-).annotate({
-  identifier: "AdditionalLocation",
-}) as any as S.Schema<AdditionalLocation>;
+).annotate({ identifier: "AdditionalLocation" }) as any as S.Schema<AdditionalLocation>;
 
 /** Additional datacenter locations of the API Management service. */
 export type ApiManagementServicePropertiesAdditionalLocationsList = Array<AdditionalLocation>;
@@ -1687,9 +1649,7 @@ export const CertificateConfiguration = /*@__PURE__*/ S.suspend(() =>
     storeName: CertificateConfigurationStoreName,
     certificate: S.optional(CertificateInformation),
   }),
-).annotate({
-  identifier: "CertificateConfiguration",
-}) as any as S.Schema<CertificateConfiguration>;
+).annotate({ identifier: "CertificateConfiguration" }) as any as S.Schema<CertificateConfiguration>;
 
 /** List of Certificates that need to be installed in the API Management service. Max supported certificates that can be installed is 10. */
 export type ApiManagementServicePropertiesCertificatesList = Array<CertificateConfiguration>;
@@ -1720,9 +1680,7 @@ export const ApiVersionConstraint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     minApiVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiVersionConstraint",
-}) as any as S.Schema<ApiVersionConstraint>;
+).annotate({ identifier: "ApiVersionConstraint" }) as any as S.Schema<ApiVersionConstraint>;
 
 /** A wrapper for an ARM resource id */
 export interface ArmIdWrapper {
@@ -1966,9 +1924,7 @@ export const UserIdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserIdentityProperties",
-}) as any as S.Schema<UserIdentityProperties>;
+).annotate({ identifier: "UserIdentityProperties" }) as any as S.Schema<UserIdentityProperties>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ApiManagementServiceIdentityUserAssignedIdentitiesMap = {
@@ -2163,9 +2119,7 @@ export const AdditionalLocationInput = /*@__PURE__*/ S.suspend(() =>
     natGatewayState: S.optional(AdditionalLocationInputNatGatewayState),
     disableGateway: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AdditionalLocationInput",
-}) as any as S.Schema<AdditionalLocationInput>;
+).annotate({ identifier: "AdditionalLocationInput" }) as any as S.Schema<AdditionalLocationInput>;
 
 /** Additional datacenter locations of the API Management service. */
 export type ApiManagementServicePropertiesInputAdditionalLocationsList =
@@ -2563,14 +2517,10 @@ export const ParameterExampleContract = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Unknown),
     externalValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ParameterExampleContract",
-}) as any as S.Schema<ParameterExampleContract>;
+).annotate({ identifier: "ParameterExampleContract" }) as any as S.Schema<ParameterExampleContract>;
 
 /** Parameter examples. */
-export type ParameterExamplesContract = {
-  [key: string]: ParameterExampleContract | undefined;
-};
+export type ParameterExamplesContract = { [key: string]: ParameterExampleContract | undefined };
 export const ParameterExamplesContract = /*@__PURE__*/ S.Record(
   S.String,
   ParameterExampleContract,
@@ -2609,9 +2559,7 @@ export const ParameterContract = /*@__PURE__*/ S.suspend(() =>
     typeName: S.optional(S.String),
     examples: S.optional(ParameterExamplesContract),
   }),
-).annotate({
-  identifier: "ParameterContract",
-}) as any as S.Schema<ParameterContract>;
+).annotate({ identifier: "ParameterContract" }) as any as S.Schema<ParameterContract>;
 
 /** Collection of URL template parameters. */
 export type OperationContractPropertiesTemplateParametersList = Array<ParameterContract>;
@@ -2658,9 +2606,7 @@ export const RepresentationContract = /*@__PURE__*/ S.suspend(() =>
     formParameters: S.optional(RepresentationContractFormParametersList),
     examples: S.optional(ParameterExamplesContract),
   }),
-).annotate({
-  identifier: "RepresentationContract",
-}) as any as S.Schema<RepresentationContract>;
+).annotate({ identifier: "RepresentationContract" }) as any as S.Schema<RepresentationContract>;
 
 /** Collection of operation request representations. */
 export type RequestContractRepresentationsList = Array<RepresentationContract>;
@@ -2686,9 +2632,7 @@ export const RequestContract = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(RequestContractHeadersList),
     representations: S.optional(RequestContractRepresentationsList),
   }),
-).annotate({
-  identifier: "RequestContract",
-}) as any as S.Schema<RequestContract>;
+).annotate({ identifier: "RequestContract" }) as any as S.Schema<RequestContract>;
 
 /** Collection of operation response representations. */
 export type ResponseContractRepresentationsList = Array<RepresentationContract>;
@@ -2720,9 +2664,7 @@ export const ResponseContract = /*@__PURE__*/ S.suspend(() =>
     representations: S.optional(ResponseContractRepresentationsList),
     headers: S.optional(ResponseContractHeadersList),
   }),
-).annotate({
-  identifier: "ResponseContract",
-}) as any as S.Schema<ResponseContract>;
+).annotate({ identifier: "ResponseContract" }) as any as S.Schema<ResponseContract>;
 
 /** Array of Operation responses. */
 export type OperationContractPropertiesResponsesList = Array<ResponseContract>;
@@ -2838,9 +2780,7 @@ export const PolicyContractProperties = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     format: S.optional(PolicyContractPropertiesFormat),
   }),
-).annotate({
-  identifier: "PolicyContractProperties",
-}) as any as S.Schema<PolicyContractProperties>;
+).annotate({ identifier: "PolicyContractProperties" }) as any as S.Schema<PolicyContractProperties>;
 
 export interface ApiOperationPolicyCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3066,9 +3006,7 @@ export const SchemaDocumentProperties = /*@__PURE__*/ S.suspend(() =>
     definitions: S.optional(S.Unknown),
     components: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "SchemaDocumentProperties",
-}) as any as S.Schema<SchemaDocumentProperties>;
+).annotate({ identifier: "SchemaDocumentProperties" }) as any as S.Schema<SchemaDocumentProperties>;
 
 /** API Schema create or update contract Properties. */
 export interface SchemaContractPropertiesInput {
@@ -3135,9 +3073,7 @@ export const SchemaContractProperties = /*@__PURE__*/ S.suspend(() =>
     document: SchemaDocumentProperties,
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaContractProperties",
-}) as any as S.Schema<SchemaContractProperties>;
+).annotate({ identifier: "SchemaContractProperties" }) as any as S.Schema<SchemaContractProperties>;
 
 export interface ApiSchemaCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3368,9 +3304,7 @@ export const WikiContractProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     documents: S.optional(WikiContractPropertiesDocumentsList),
   }),
-).annotate({
-  identifier: "WikiContractProperties",
-}) as any as S.Schema<WikiContractProperties>;
+).annotate({ identifier: "WikiContractProperties" }) as any as S.Schema<WikiContractProperties>;
 
 export interface ApiWikiCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3593,9 +3527,7 @@ export const AssignTagToApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "AssignTagToApiRequest",
-}) as any as S.Schema<AssignTagToApiRequest>;
+).annotate({ identifier: "AssignTagToApiRequest" }) as any as S.Schema<AssignTagToApiRequest>;
 
 /** Tag contract Properties. */
 export interface TagContractProperties {
@@ -3606,9 +3538,7 @@ export const TagContractProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.String,
   }),
-).annotate({
-  identifier: "TagContractProperties",
-}) as any as S.Schema<TagContractProperties>;
+).annotate({ identifier: "TagContractProperties" }) as any as S.Schema<TagContractProperties>;
 
 export interface AssignTagToApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3627,9 +3557,7 @@ export const AssignTagToApiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
   }),
-).annotate({
-  identifier: "AssignTagToApiResponse",
-}) as any as S.Schema<AssignTagToApiResponse>;
+).annotate({ identifier: "AssignTagToApiResponse" }) as any as S.Schema<AssignTagToApiResponse>;
 
 export interface AssignTagToOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3832,9 +3760,7 @@ export type AuthorizationContractPropertiesOauth2grantType =
 export const AuthorizationContractPropertiesOauth2grantType = S.String;
 
 /** Authorization parameters */
-export type AuthorizationContractPropertiesParametersMap = {
-  [key: string]: string | undefined;
-};
+export type AuthorizationContractPropertiesParametersMap = { [key: string]: string | undefined };
 export const AuthorizationContractPropertiesParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3852,9 +3778,7 @@ export const AuthorizationError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationError",
-}) as any as S.Schema<AuthorizationError>;
+).annotate({ identifier: "AuthorizationError" }) as any as S.Schema<AuthorizationError>;
 
 /** Authorization details. */
 export interface AuthorizationContractProperties {
@@ -4284,9 +4208,7 @@ export const X509CertificateName = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     issuerCertificateThumbprint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "X509CertificateName",
-}) as any as S.Schema<X509CertificateName>;
+).annotate({ identifier: "X509CertificateName" }) as any as S.Schema<X509CertificateName>;
 
 /** Server X509 Certificate Names Collection */
 export type BackendServiceFabricClusterPropertiesServerX509NamesList = Array<X509CertificateName>;
@@ -4333,9 +4255,7 @@ export const BackendProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceFabricCluster: S.optional(BackendServiceFabricClusterProperties),
   }),
-).annotate({
-  identifier: "BackendProperties",
-}) as any as S.Schema<BackendProperties>;
+).annotate({ identifier: "BackendProperties" }) as any as S.Schema<BackendProperties>;
 
 /** List of Client Certificate Ids. */
 export type BackendCredentialsContractCertificateIdsList = Array<string>;
@@ -4433,9 +4353,7 @@ export const BackendProxyContract = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "BackendProxyContract",
-}) as any as S.Schema<BackendProxyContract>;
+).annotate({ identifier: "BackendProxyContract" }) as any as S.Schema<BackendProxyContract>;
 
 /** Properties controlling TLS Certificate Validation. */
 export interface BackendTlsProperties {
@@ -4449,9 +4367,7 @@ export const BackendTlsProperties = /*@__PURE__*/ S.suspend(() =>
     validateCertificateChain: S.optional(S.Boolean),
     validateCertificateName: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BackendTlsProperties",
-}) as any as S.Schema<BackendTlsProperties>;
+).annotate({ identifier: "BackendTlsProperties" }) as any as S.Schema<BackendTlsProperties>;
 
 /** The failure http status code range */
 export interface FailureStatusCodeRange {
@@ -4465,9 +4381,7 @@ export const FailureStatusCodeRange = /*@__PURE__*/ S.suspend(() =>
     min: S.optional(S.Number),
     max: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FailureStatusCodeRange",
-}) as any as S.Schema<FailureStatusCodeRange>;
+).annotate({ identifier: "FailureStatusCodeRange" }) as any as S.Schema<FailureStatusCodeRange>;
 
 /** The status code ranges which are considered as failure. */
 export type CircuitBreakerFailureConditionStatusCodeRangesList = Array<FailureStatusCodeRange>;
@@ -4524,9 +4438,7 @@ export const CircuitBreakerRule = /*@__PURE__*/ S.suspend(() =>
     tripDuration: S.optional(S.String),
     acceptRetryAfter: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CircuitBreakerRule",
-}) as any as S.Schema<CircuitBreakerRule>;
+).annotate({ identifier: "CircuitBreakerRule" }) as any as S.Schema<CircuitBreakerRule>;
 
 /** The rules for tripping the backend. */
 export type BackendCircuitBreakerRulesList = Array<CircuitBreakerRule>;
@@ -4543,9 +4455,7 @@ export const BackendCircuitBreaker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rules: S.optional(BackendCircuitBreakerRulesList),
   }),
-).annotate({
-  identifier: "BackendCircuitBreaker",
-}) as any as S.Schema<BackendCircuitBreaker>;
+).annotate({ identifier: "BackendCircuitBreaker" }) as any as S.Schema<BackendCircuitBreaker>;
 
 /** Backend pool service information */
 export interface BackendPoolItem {
@@ -4562,9 +4472,7 @@ export const BackendPoolItem = /*@__PURE__*/ S.suspend(() =>
     weight: S.optional(S.Number),
     priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackendPoolItem",
-}) as any as S.Schema<BackendPoolItem>;
+).annotate({ identifier: "BackendPoolItem" }) as any as S.Schema<BackendPoolItem>;
 
 /** The list of backend entities belonging to a pool. */
 export type BackendContractPropertiesPoolServicesList = Array<BackendPoolItem>;
@@ -4729,9 +4637,7 @@ export const BackendReconnectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "BackendReconnectRequest",
-}) as any as S.Schema<BackendReconnectRequest>;
+).annotate({ identifier: "BackendReconnectRequest" }) as any as S.Schema<BackendReconnectRequest>;
 
 export interface BackendReconnectResponse {}
 export const BackendReconnectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4756,9 +4662,7 @@ export const CacheContractProperties = /*@__PURE__*/ S.suspend(() =>
     useFromLocation: S.String,
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheContractProperties",
-}) as any as S.Schema<CacheContractProperties>;
+).annotate({ identifier: "CacheContractProperties" }) as any as S.Schema<CacheContractProperties>;
 
 export interface CacheCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5048,9 +4952,7 @@ export const ConfirmAuthorizationConsentCodeResponse = /*@__PURE__*/ S.suspend((
   identifier: "ConfirmAuthorizationConsentCodeResponse",
 }) as any as S.Schema<ConfirmAuthorizationConsentCodeResponse>;
 
-export type ContentItemContractProperties = {
-  [key: string]: unknown | undefined;
-};
+export type ContentItemContractProperties = { [key: string]: unknown | undefined };
 export const ContentItemContractProperties = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5214,9 +5116,7 @@ export const CreateGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "CreateGroupUserRequest",
-}) as any as S.Schema<CreateGroupUserRequest>;
+).annotate({ identifier: "CreateGroupUserRequest" }) as any as S.Schema<CreateGroupUserRequest>;
 
 /** Account state. Specifies whether the user is active or not. Blocked users are unable to sign into the developer portal or call any APIs of subscribed products. Default state is Active. */
 export type UserContractPropertiesState = "active" | "blocked" | "pending" | "deleted";
@@ -5234,9 +5134,7 @@ export const UserIdentityContract = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserIdentityContract",
-}) as any as S.Schema<UserIdentityContract>;
+).annotate({ identifier: "UserIdentityContract" }) as any as S.Schema<UserIdentityContract>;
 
 /** Collection of user identities. */
 export type UserContractPropertiesIdentitiesList = Array<UserIdentityContract>;
@@ -5309,9 +5207,7 @@ export const UserContractProperties = /*@__PURE__*/ S.suspend(() =>
     registrationDate: S.optional(S.String),
     groups: S.optional(UserContractPropertiesGroupsList),
   }),
-).annotate({
-  identifier: "UserContractProperties",
-}) as any as S.Schema<UserContractProperties>;
+).annotate({ identifier: "UserContractProperties" }) as any as S.Schema<UserContractProperties>;
 
 export interface CreateGroupUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5330,9 +5226,7 @@ export const CreateGroupUserResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
   }),
-).annotate({
-  identifier: "CreateGroupUserResponse",
-}) as any as S.Schema<CreateGroupUserResponse>;
+).annotate({ identifier: "CreateGroupUserResponse" }) as any as S.Schema<CreateGroupUserResponse>;
 
 export type CreateTenantAccessRequestAccessName = "access" | "gitAccess";
 export const CreateTenantAccessRequestAccessName = S.String;
@@ -5512,9 +5406,7 @@ export const DeleteApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiRequest",
-}) as any as S.Schema<DeleteApiRequest>;
+).annotate({ identifier: "DeleteApiRequest" }) as any as S.Schema<DeleteApiRequest>;
 
 export interface DeleteApiResponse {}
 export const DeleteApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5578,9 +5470,7 @@ export const DeleteApiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiGatewayRequest",
-}) as any as S.Schema<DeleteApiGatewayRequest>;
+).annotate({ identifier: "DeleteApiGatewayRequest" }) as any as S.Schema<DeleteApiGatewayRequest>;
 
 export interface DeleteApiGatewayResponse {}
 export const DeleteApiGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5649,9 +5539,7 @@ export const DeleteApiIssueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiIssueRequest",
-}) as any as S.Schema<DeleteApiIssueRequest>;
+).annotate({ identifier: "DeleteApiIssueRequest" }) as any as S.Schema<DeleteApiIssueRequest>;
 
 export interface DeleteApiIssueResponse {}
 export const DeleteApiIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5880,9 +5768,7 @@ export const DeleteApiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiPolicyRequest",
-}) as any as S.Schema<DeleteApiPolicyRequest>;
+).annotate({ identifier: "DeleteApiPolicyRequest" }) as any as S.Schema<DeleteApiPolicyRequest>;
 
 export interface DeleteApiPolicyResponse {}
 export const DeleteApiPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5916,9 +5802,7 @@ export const DeleteApiReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiReleaseRequest",
-}) as any as S.Schema<DeleteApiReleaseRequest>;
+).annotate({ identifier: "DeleteApiReleaseRequest" }) as any as S.Schema<DeleteApiReleaseRequest>;
 
 export interface DeleteApiReleaseResponse {}
 export const DeleteApiReleaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5955,9 +5839,7 @@ export const DeleteApiSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiSchemaRequest",
-}) as any as S.Schema<DeleteApiSchemaRequest>;
+).annotate({ identifier: "DeleteApiSchemaRequest" }) as any as S.Schema<DeleteApiSchemaRequest>;
 
 export interface DeleteApiSchemaResponse {}
 export const DeleteApiSchemaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5997,9 +5879,7 @@ export const DeleteApiTagDescriptionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteApiTagDescriptionResponse {}
 export const DeleteApiTagDescriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteApiTagDescriptionResponse",
-  },
+  { identifier: "DeleteApiTagDescriptionResponse" },
 ) as any as S.Schema<DeleteApiTagDescriptionResponse>;
 
 export interface DeleteApiVersionSetRequest {
@@ -6059,9 +5939,7 @@ export const DeleteApiWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiWikiRequest",
-}) as any as S.Schema<DeleteApiWikiRequest>;
+).annotate({ identifier: "DeleteApiWikiRequest" }) as any as S.Schema<DeleteApiWikiRequest>;
 
 export interface DeleteApiWikiResponse {}
 export const DeleteApiWikiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6239,9 +6117,7 @@ export const DeleteBackendRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBackendRequest",
-}) as any as S.Schema<DeleteBackendRequest>;
+).annotate({ identifier: "DeleteBackendRequest" }) as any as S.Schema<DeleteBackendRequest>;
 
 export interface DeleteBackendResponse {}
 export const DeleteBackendResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6272,9 +6148,7 @@ export const DeleteCacheRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCacheRequest",
-}) as any as S.Schema<DeleteCacheRequest>;
+).annotate({ identifier: "DeleteCacheRequest" }) as any as S.Schema<DeleteCacheRequest>;
 
 export interface DeleteCacheResponse {}
 export const DeleteCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6305,9 +6179,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export interface DeleteCertificateResponse {}
 export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6341,9 +6213,7 @@ export const DeleteContentItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteContentItemRequest",
-}) as any as S.Schema<DeleteContentItemRequest>;
+).annotate({ identifier: "DeleteContentItemRequest" }) as any as S.Schema<DeleteContentItemRequest>;
 
 export interface DeleteContentItemResponse {}
 export const DeleteContentItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6374,9 +6244,7 @@ export const DeleteContentTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteContentTypeRequest",
-}) as any as S.Schema<DeleteContentTypeRequest>;
+).annotate({ identifier: "DeleteContentTypeRequest" }) as any as S.Schema<DeleteContentTypeRequest>;
 
 export interface DeleteContentTypeResponse {}
 export const DeleteContentTypeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6407,9 +6275,7 @@ export const DeleteDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDiagnosticRequest",
-}) as any as S.Schema<DeleteDiagnosticRequest>;
+).annotate({ identifier: "DeleteDiagnosticRequest" }) as any as S.Schema<DeleteDiagnosticRequest>;
 
 export interface DeleteDiagnosticResponse {}
 export const DeleteDiagnosticResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6523,9 +6389,7 @@ export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
+).annotate({ identifier: "DeleteGatewayRequest" }) as any as S.Schema<DeleteGatewayRequest>;
 
 export interface DeleteGatewayResponse {}
 export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6559,9 +6423,7 @@ export const DeleteGatewayApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayApiRequest",
-}) as any as S.Schema<DeleteGatewayApiRequest>;
+).annotate({ identifier: "DeleteGatewayApiRequest" }) as any as S.Schema<DeleteGatewayApiRequest>;
 
 export interface DeleteGatewayApiResponse {}
 export const DeleteGatewayApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6783,9 +6645,7 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 
 export interface DeleteGroupResponse {}
 export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6819,9 +6679,7 @@ export const DeleteGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupUserRequest",
-}) as any as S.Schema<DeleteGroupUserRequest>;
+).annotate({ identifier: "DeleteGroupUserRequest" }) as any as S.Schema<DeleteGroupUserRequest>;
 
 export interface DeleteGroupUserResponse {}
 export const DeleteGroupUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6894,9 +6752,7 @@ export const DeleteLoggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteLoggerRequest",
-}) as any as S.Schema<DeleteLoggerRequest>;
+).annotate({ identifier: "DeleteLoggerRequest" }) as any as S.Schema<DeleteLoggerRequest>;
 
 export interface DeleteLoggerResponse {}
 export const DeleteLoggerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6927,9 +6783,7 @@ export const DeleteNamedValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNamedValueRequest",
-}) as any as S.Schema<DeleteNamedValueRequest>;
+).annotate({ identifier: "DeleteNamedValueRequest" }) as any as S.Schema<DeleteNamedValueRequest>;
 
 export interface DeleteNamedValueResponse {}
 export const DeleteNamedValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7094,9 +6948,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7166,9 +7018,7 @@ export const DeletePolicyRestrictionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeletePolicyRestrictionResponse {}
 export const DeletePolicyRestrictionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeletePolicyRestrictionResponse",
-  },
+  { identifier: "DeletePolicyRestrictionResponse" },
 ) as any as S.Schema<DeletePolicyRestrictionResponse>;
 
 export interface DeletePrivateEndpointConnectionRequest {
@@ -7233,9 +7083,7 @@ export const DeleteProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProductRequest",
-}) as any as S.Schema<DeleteProductRequest>;
+).annotate({ identifier: "DeleteProductRequest" }) as any as S.Schema<DeleteProductRequest>;
 
 export interface DeleteProductResponse {}
 export const DeleteProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7269,9 +7117,7 @@ export const DeleteProductApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProductApiRequest",
-}) as any as S.Schema<DeleteProductApiRequest>;
+).annotate({ identifier: "DeleteProductApiRequest" }) as any as S.Schema<DeleteProductApiRequest>;
 
 export interface DeleteProductApiResponse {}
 export const DeleteProductApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7449,9 +7295,7 @@ export const DeleteProductWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProductWikiRequest",
-}) as any as S.Schema<DeleteProductWikiRequest>;
+).annotate({ identifier: "DeleteProductWikiRequest" }) as any as S.Schema<DeleteProductWikiRequest>;
 
 export interface DeleteProductWikiResponse {}
 export const DeleteProductWikiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7515,9 +7359,7 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {}
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7551,9 +7393,7 @@ export const DeleteTagApiLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagApiLinkRequest",
-}) as any as S.Schema<DeleteTagApiLinkRequest>;
+).annotate({ identifier: "DeleteTagApiLinkRequest" }) as any as S.Schema<DeleteTagApiLinkRequest>;
 
 export interface DeleteTagApiLinkResponse {}
 export const DeleteTagApiLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7668,9 +7508,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7701,9 +7539,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8966,9 +8802,7 @@ export const ErrorFieldContract = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     target: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ErrorFieldContract",
-}) as any as S.Schema<ErrorFieldContract>;
+).annotate({ identifier: "ErrorFieldContract" }) as any as S.Schema<ErrorFieldContract>;
 
 /** The list of invalid fields send in request, in case of validation error. */
 export type OperationResultContractPropertiesErrorDetailsList = Array<ErrorFieldContract>;
@@ -9099,9 +8933,7 @@ export const DetachTagFromApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "DetachTagFromApiRequest",
-}) as any as S.Schema<DetachTagFromApiRequest>;
+).annotate({ identifier: "DetachTagFromApiRequest" }) as any as S.Schema<DetachTagFromApiRequest>;
 
 export interface DetachTagFromApiResponse {}
 export const DetachTagFromApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9933,9 +9765,7 @@ export const GetApiDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiDiagnosticRequest",
-}) as any as S.Schema<GetApiDiagnosticRequest>;
+).annotate({ identifier: "GetApiDiagnosticRequest" }) as any as S.Schema<GetApiDiagnosticRequest>;
 
 export interface GetApiDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -9954,9 +9784,7 @@ export const GetApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
   }),
-).annotate({
-  identifier: "GetApiDiagnosticResponse",
-}) as any as S.Schema<GetApiDiagnosticResponse>;
+).annotate({ identifier: "GetApiDiagnosticResponse" }) as any as S.Schema<GetApiDiagnosticResponse>;
 
 export interface GetApiGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9979,14 +9807,10 @@ export const GetApiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiGatewayRequest",
-}) as any as S.Schema<GetApiGatewayRequest>;
+).annotate({ identifier: "GetApiGatewayRequest" }) as any as S.Schema<GetApiGatewayRequest>;
 
 /** Resource tags. */
-export type GetApiGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApiGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const GetApiGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10068,9 +9892,7 @@ export const GetApiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetApiGatewayResponse",
-}) as any as S.Schema<GetApiGatewayResponse>;
+).annotate({ identifier: "GetApiGatewayResponse" }) as any as S.Schema<GetApiGatewayResponse>;
 
 export interface GetApiGatewayConfigConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10154,9 +9976,7 @@ export const GetApiIssueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiIssueRequest",
-}) as any as S.Schema<GetApiIssueRequest>;
+).annotate({ identifier: "GetApiIssueRequest" }) as any as S.Schema<GetApiIssueRequest>;
 
 export interface GetApiIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10175,9 +9995,7 @@ export const GetApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
   }),
-).annotate({
-  identifier: "GetApiIssueResponse",
-}) as any as S.Schema<GetApiIssueResponse>;
+).annotate({ identifier: "GetApiIssueResponse" }) as any as S.Schema<GetApiIssueResponse>;
 
 export interface GetApiIssueAttachmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10315,9 +10133,7 @@ export const GetApiManagementServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApiManagementServiceRequest>;
 
 /** Resource tags. */
-export type GetApiManagementServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApiManagementServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetApiManagementServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10521,9 +10337,7 @@ export const WorkspaceLinksGateway = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceLinksGateway",
-}) as any as S.Schema<WorkspaceLinksGateway>;
+).annotate({ identifier: "WorkspaceLinksGateway" }) as any as S.Schema<WorkspaceLinksGateway>;
 
 /** The array of linked gateways. */
 export type ApiManagementWorkspaceLinksPropertiesGatewaysList = Array<WorkspaceLinksGateway>;
@@ -10598,9 +10412,7 @@ export const GetApiOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiOperationRequest",
-}) as any as S.Schema<GetApiOperationRequest>;
+).annotate({ identifier: "GetApiOperationRequest" }) as any as S.Schema<GetApiOperationRequest>;
 
 export interface GetApiOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10619,9 +10431,7 @@ export const GetApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
   }),
-).annotate({
-  identifier: "GetApiOperationResponse",
-}) as any as S.Schema<GetApiOperationResponse>;
+).annotate({ identifier: "GetApiOperationResponse" }) as any as S.Schema<GetApiOperationResponse>;
 
 export type GetApiOperationPolicyRequestPolicyId = "policy";
 export const GetApiOperationPolicyRequestPolicyId = S.String;
@@ -10723,9 +10533,7 @@ export const GetApiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiPolicyRequest",
-}) as any as S.Schema<GetApiPolicyRequest>;
+).annotate({ identifier: "GetApiPolicyRequest" }) as any as S.Schema<GetApiPolicyRequest>;
 
 export interface GetApiPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10744,9 +10552,7 @@ export const GetApiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
   }),
-).annotate({
-  identifier: "GetApiPolicyResponse",
-}) as any as S.Schema<GetApiPolicyResponse>;
+).annotate({ identifier: "GetApiPolicyResponse" }) as any as S.Schema<GetApiPolicyResponse>;
 
 export interface GetApiReleaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10775,9 +10581,7 @@ export const GetApiReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiReleaseRequest",
-}) as any as S.Schema<GetApiReleaseRequest>;
+).annotate({ identifier: "GetApiReleaseRequest" }) as any as S.Schema<GetApiReleaseRequest>;
 
 export interface GetApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10796,9 +10600,7 @@ export const GetApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
   }),
-).annotate({
-  identifier: "GetApiReleaseResponse",
-}) as any as S.Schema<GetApiReleaseResponse>;
+).annotate({ identifier: "GetApiReleaseResponse" }) as any as S.Schema<GetApiReleaseResponse>;
 
 export interface GetApiSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10827,9 +10629,7 @@ export const GetApiSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiSchemaRequest",
-}) as any as S.Schema<GetApiSchemaRequest>;
+).annotate({ identifier: "GetApiSchemaRequest" }) as any as S.Schema<GetApiSchemaRequest>;
 
 export interface GetApiSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10848,9 +10648,7 @@ export const GetApiSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SchemaContractProperties),
   }),
-).annotate({
-  identifier: "GetApiSchemaResponse",
-}) as any as S.Schema<GetApiSchemaResponse>;
+).annotate({ identifier: "GetApiSchemaResponse" }) as any as S.Schema<GetApiSchemaResponse>;
 
 export interface GetApiTagDescriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10928,9 +10726,7 @@ export const GetApiVersionSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiVersionSetRequest",
-}) as any as S.Schema<GetApiVersionSetRequest>;
+).annotate({ identifier: "GetApiVersionSetRequest" }) as any as S.Schema<GetApiVersionSetRequest>;
 
 export interface GetApiVersionSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10949,9 +10745,7 @@ export const GetApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
   }),
-).annotate({
-  identifier: "GetApiVersionSetResponse",
-}) as any as S.Schema<GetApiVersionSetResponse>;
+).annotate({ identifier: "GetApiVersionSetResponse" }) as any as S.Schema<GetApiVersionSetResponse>;
 
 export interface GetApiWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10977,9 +10771,7 @@ export const GetApiWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiWikiRequest",
-}) as any as S.Schema<GetApiWikiRequest>;
+).annotate({ identifier: "GetApiWikiRequest" }) as any as S.Schema<GetApiWikiRequest>;
 
 export interface GetApiWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -10998,9 +10790,7 @@ export const GetApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
   }),
-).annotate({
-  identifier: "GetApiWikiResponse",
-}) as any as S.Schema<GetApiWikiResponse>;
+).annotate({ identifier: "GetApiWikiResponse" }) as any as S.Schema<GetApiWikiResponse>;
 
 export interface GetAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11029,9 +10819,7 @@ export const GetAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetAuthorizationRequest",
-}) as any as S.Schema<GetAuthorizationRequest>;
+).annotate({ identifier: "GetAuthorizationRequest" }) as any as S.Schema<GetAuthorizationRequest>;
 
 export interface GetAuthorizationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11050,9 +10838,7 @@ export const GetAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AuthorizationContractProperties),
   }),
-).annotate({
-  identifier: "GetAuthorizationResponse",
-}) as any as S.Schema<GetAuthorizationResponse>;
+).annotate({ identifier: "GetAuthorizationResponse" }) as any as S.Schema<GetAuthorizationResponse>;
 
 export interface GetAuthorizationAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11231,9 +11017,7 @@ export const GetBackendRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetBackendRequest",
-}) as any as S.Schema<GetBackendRequest>;
+).annotate({ identifier: "GetBackendRequest" }) as any as S.Schema<GetBackendRequest>;
 
 export interface GetBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11252,9 +11036,7 @@ export const GetBackendResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
   }),
-).annotate({
-  identifier: "GetBackendResponse",
-}) as any as S.Schema<GetBackendResponse>;
+).annotate({ identifier: "GetBackendResponse" }) as any as S.Schema<GetBackendResponse>;
 
 export interface GetCacheRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11280,9 +11062,7 @@ export const GetCacheRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetCacheRequest",
-}) as any as S.Schema<GetCacheRequest>;
+).annotate({ identifier: "GetCacheRequest" }) as any as S.Schema<GetCacheRequest>;
 
 export interface GetCacheResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11301,9 +11081,7 @@ export const GetCacheResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(CacheContractProperties),
   }),
-).annotate({
-  identifier: "GetCacheResponse",
-}) as any as S.Schema<GetCacheResponse>;
+).annotate({ identifier: "GetCacheResponse" }) as any as S.Schema<GetCacheResponse>;
 
 export interface GetCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11329,9 +11107,7 @@ export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11350,9 +11126,7 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
   }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
+).annotate({ identifier: "GetCertificateResponse" }) as any as S.Schema<GetCertificateResponse>;
 
 export interface GetContentItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11381,9 +11155,7 @@ export const GetContentItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetContentItemRequest",
-}) as any as S.Schema<GetContentItemRequest>;
+).annotate({ identifier: "GetContentItemRequest" }) as any as S.Schema<GetContentItemRequest>;
 
 export interface GetContentItemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11402,9 +11174,7 @@ export const GetContentItemResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ContentItemContractProperties),
   }),
-).annotate({
-  identifier: "GetContentItemResponse",
-}) as any as S.Schema<GetContentItemResponse>;
+).annotate({ identifier: "GetContentItemResponse" }) as any as S.Schema<GetContentItemResponse>;
 
 export interface GetContentTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11430,9 +11200,7 @@ export const GetContentTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetContentTypeRequest",
-}) as any as S.Schema<GetContentTypeRequest>;
+).annotate({ identifier: "GetContentTypeRequest" }) as any as S.Schema<GetContentTypeRequest>;
 
 export interface GetContentTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11451,9 +11219,7 @@ export const GetContentTypeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ContentTypeContractProperties),
   }),
-).annotate({
-  identifier: "GetContentTypeResponse",
-}) as any as S.Schema<GetContentTypeResponse>;
+).annotate({ identifier: "GetContentTypeResponse" }) as any as S.Schema<GetContentTypeResponse>;
 
 export interface GetDeletedServiceByNameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11546,9 +11312,7 @@ export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetDiagnosticRequest",
-}) as any as S.Schema<GetDiagnosticRequest>;
+).annotate({ identifier: "GetDiagnosticRequest" }) as any as S.Schema<GetDiagnosticRequest>;
 
 export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11567,9 +11331,7 @@ export const GetDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
   }),
-).annotate({
-  identifier: "GetDiagnosticResponse",
-}) as any as S.Schema<GetDiagnosticResponse>;
+).annotate({ identifier: "GetDiagnosticResponse" }) as any as S.Schema<GetDiagnosticResponse>;
 
 export interface GetDocumentationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11595,9 +11357,7 @@ export const GetDocumentationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetDocumentationRequest",
-}) as any as S.Schema<GetDocumentationRequest>;
+).annotate({ identifier: "GetDocumentationRequest" }) as any as S.Schema<GetDocumentationRequest>;
 
 export interface GetDocumentationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11616,9 +11376,7 @@ export const GetDocumentationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DocumentationContractProperties),
   }),
-).annotate({
-  identifier: "GetDocumentationResponse",
-}) as any as S.Schema<GetDocumentationResponse>;
+).annotate({ identifier: "GetDocumentationResponse" }) as any as S.Schema<GetDocumentationResponse>;
 
 export type GetEmailTemplateRequestTemplateName =
   | "applicationApprovedNotificationMessage"
@@ -11661,9 +11419,7 @@ export const GetEmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetEmailTemplateRequest",
-}) as any as S.Schema<GetEmailTemplateRequest>;
+).annotate({ identifier: "GetEmailTemplateRequest" }) as any as S.Schema<GetEmailTemplateRequest>;
 
 export interface GetEmailTemplateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11682,9 +11438,7 @@ export const GetEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(EmailTemplateContractProperties),
   }),
-).annotate({
-  identifier: "GetEmailTemplateResponse",
-}) as any as S.Schema<GetEmailTemplateResponse>;
+).annotate({ identifier: "GetEmailTemplateResponse" }) as any as S.Schema<GetEmailTemplateResponse>;
 
 export interface GetGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11710,9 +11464,7 @@ export const GetGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetGatewayRequest",
-}) as any as S.Schema<GetGatewayRequest>;
+).annotate({ identifier: "GetGatewayRequest" }) as any as S.Schema<GetGatewayRequest>;
 
 export interface GetGatewayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11731,9 +11483,7 @@ export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
   }),
-).annotate({
-  identifier: "GetGatewayResponse",
-}) as any as S.Schema<GetGatewayResponse>;
+).annotate({ identifier: "GetGatewayResponse" }) as any as S.Schema<GetGatewayResponse>;
 
 export interface GetGatewayCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11863,9 +11613,7 @@ export const GetGlobalSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetGlobalSchemaRequest",
-}) as any as S.Schema<GetGlobalSchemaRequest>;
+).annotate({ identifier: "GetGlobalSchemaRequest" }) as any as S.Schema<GetGlobalSchemaRequest>;
 
 /** Schema Type. Immutable. */
 export type GlobalSchemaContractPropertiesSchemaType = "xml" | "json";
@@ -11913,9 +11661,7 @@ export const GetGlobalSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GlobalSchemaContractProperties),
   }),
-).annotate({
-  identifier: "GetGlobalSchemaResponse",
-}) as any as S.Schema<GetGlobalSchemaResponse>;
+).annotate({ identifier: "GetGlobalSchemaResponse" }) as any as S.Schema<GetGlobalSchemaResponse>;
 
 export interface GetGraphQLApiResolverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12076,9 +11822,7 @@ export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 /** Group type. */
 export type GroupContractPropertiesType = "custom" | "system" | "external";
@@ -12105,9 +11849,7 @@ export const GroupContractProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(GroupContractPropertiesType),
     externalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupContractProperties",
-}) as any as S.Schema<GroupContractProperties>;
+).annotate({ identifier: "GroupContractProperties" }) as any as S.Schema<GroupContractProperties>;
 
 export interface GetGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -12126,9 +11868,7 @@ export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
   }),
-).annotate({
-  identifier: "GetGroupResponse",
-}) as any as S.Schema<GetGroupResponse>;
+).annotate({ identifier: "GetGroupResponse" }) as any as S.Schema<GetGroupResponse>;
 
 export type GetIdentityProviderRequestIdentityProviderName =
   | "facebook"
@@ -12271,9 +12011,7 @@ export const GetIssueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetIssueRequest",
-}) as any as S.Schema<GetIssueRequest>;
+).annotate({ identifier: "GetIssueRequest" }) as any as S.Schema<GetIssueRequest>;
 
 export interface GetIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -12292,9 +12030,7 @@ export const GetIssueResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
   }),
-).annotate({
-  identifier: "GetIssueResponse",
-}) as any as S.Schema<GetIssueResponse>;
+).annotate({ identifier: "GetIssueResponse" }) as any as S.Schema<GetIssueResponse>;
 
 export interface GetLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12320,9 +12056,7 @@ export const GetLoggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetLoggerRequest",
-}) as any as S.Schema<GetLoggerRequest>;
+).annotate({ identifier: "GetLoggerRequest" }) as any as S.Schema<GetLoggerRequest>;
 
 /** Logger type. */
 export type LoggerContractPropertiesLoggerType =
@@ -12332,9 +12066,7 @@ export type LoggerContractPropertiesLoggerType =
 export const LoggerContractPropertiesLoggerType = S.String;
 
 /** The name and SendRule connection string of the event hub for azureEventHub logger. Instrumentation key for applicationInsights logger. */
-export type LoggerContractPropertiesCredentialsMap = {
-  [key: string]: string | undefined;
-};
+export type LoggerContractPropertiesCredentialsMap = { [key: string]: string | undefined };
 export const LoggerContractPropertiesCredentialsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12361,9 +12093,7 @@ export const LoggerContractProperties = /*@__PURE__*/ S.suspend(() =>
     isBuffered: S.optional(S.Boolean),
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LoggerContractProperties",
-}) as any as S.Schema<LoggerContractProperties>;
+).annotate({ identifier: "LoggerContractProperties" }) as any as S.Schema<LoggerContractProperties>;
 
 export interface GetLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -12382,9 +12112,7 @@ export const GetLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
   }),
-).annotate({
-  identifier: "GetLoggerResponse",
-}) as any as S.Schema<GetLoggerResponse>;
+).annotate({ identifier: "GetLoggerResponse" }) as any as S.Schema<GetLoggerResponse>;
 
 export interface GetNamedValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12410,9 +12138,7 @@ export const GetNamedValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetNamedValueRequest",
-}) as any as S.Schema<GetNamedValueRequest>;
+).annotate({ identifier: "GetNamedValueRequest" }) as any as S.Schema<GetNamedValueRequest>;
 
 /** Optional tags that when provided can be used to filter the NamedValue list. */
 export type NamedValueContractPropertiesTagsList = Array<string>;
@@ -12465,9 +12191,7 @@ export const GetNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
   }),
-).annotate({
-  identifier: "GetNamedValueResponse",
-}) as any as S.Schema<GetNamedValueResponse>;
+).annotate({ identifier: "GetNamedValueResponse" }) as any as S.Schema<GetNamedValueResponse>;
 
 export type GetNotificationRequestNotificationName =
   | "RequestPublisherNotificationMessage"
@@ -12503,9 +12227,7 @@ export const GetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetNotificationRequest",
-}) as any as S.Schema<GetNotificationRequest>;
+).annotate({ identifier: "GetNotificationRequest" }) as any as S.Schema<GetNotificationRequest>;
 
 /** List of Emails subscribed for the notification. */
 export type RecipientsContractPropertiesEmailsList = Array<string>;
@@ -12571,9 +12293,7 @@ export const GetNotificationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NotificationContractProperties),
   }),
-).annotate({
-  identifier: "GetNotificationResponse",
-}) as any as S.Schema<GetNotificationResponse>;
+).annotate({ identifier: "GetNotificationResponse" }) as any as S.Schema<GetNotificationResponse>;
 
 export interface GetOpenIdConnectProviderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12734,9 +12454,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -12800,9 +12518,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
@@ -12879,9 +12595,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 export interface GetPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -12900,9 +12614,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
   }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export type GetPolicyFragmentRequestFormat = "xml" | "rawxml";
 export const GetPolicyFragmentRequestFormat = S.String;
@@ -12934,9 +12646,7 @@ export const GetPolicyFragmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPolicyFragmentRequest",
-}) as any as S.Schema<GetPolicyFragmentRequest>;
+).annotate({ identifier: "GetPolicyFragmentRequest" }) as any as S.Schema<GetPolicyFragmentRequest>;
 
 /** Format of the policy fragment content. */
 export type PolicyFragmentContractPropertiesFormat = "xml" | "rawxml";
@@ -13078,9 +12788,7 @@ export const GetPortalConfigRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPortalConfigRequest",
-}) as any as S.Schema<GetPortalConfigRequest>;
+).annotate({ identifier: "GetPortalConfigRequest" }) as any as S.Schema<GetPortalConfigRequest>;
 
 export interface PortalConfigPropertiesSignin {
   /** Redirect anonymous users to the sign-in page. */
@@ -13219,9 +12927,7 @@ export const PortalConfigProperties = /*@__PURE__*/ S.suspend(() =>
     cors: S.optional(PortalConfigCorsProperties),
     csp: S.optional(PortalConfigCspProperties),
   }),
-).annotate({
-  identifier: "PortalConfigProperties",
-}) as any as S.Schema<PortalConfigProperties>;
+).annotate({ identifier: "PortalConfigProperties" }) as any as S.Schema<PortalConfigProperties>;
 
 export interface GetPortalConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -13240,9 +12946,7 @@ export const GetPortalConfigResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PortalConfigProperties),
   }),
-).annotate({
-  identifier: "GetPortalConfigResponse",
-}) as any as S.Schema<GetPortalConfigResponse>;
+).annotate({ identifier: "GetPortalConfigResponse" }) as any as S.Schema<GetPortalConfigResponse>;
 
 export interface GetPortalRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13268,9 +12972,7 @@ export const GetPortalRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetPortalRevisionRequest",
-}) as any as S.Schema<GetPortalRevisionRequest>;
+).annotate({ identifier: "GetPortalRevisionRequest" }) as any as S.Schema<GetPortalRevisionRequest>;
 
 /** Status of the portal's revision. */
 export type PortalRevisionContractPropertiesStatus =
@@ -13368,9 +13070,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export type PrivateLinkServiceConnectionState =
@@ -13531,9 +13231,7 @@ export const GetProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductRequest",
-}) as any as S.Schema<GetProductRequest>;
+).annotate({ identifier: "GetProductRequest" }) as any as S.Schema<GetProductRequest>;
 
 /** whether product is published or not. Published products are discoverable by users of developer portal. Non published products are visible only to administrators. Default state of Product is notPublished. */
 export type ProductContractPropertiesState = "notPublished" | "published";
@@ -13587,9 +13285,7 @@ export const GetProductResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
   }),
-).annotate({
-  identifier: "GetProductResponse",
-}) as any as S.Schema<GetProductResponse>;
+).annotate({ identifier: "GetProductResponse" }) as any as S.Schema<GetProductResponse>;
 
 export interface GetProductApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13618,9 +13314,7 @@ export const GetProductApiLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductApiLinkRequest",
-}) as any as S.Schema<GetProductApiLinkRequest>;
+).annotate({ identifier: "GetProductApiLinkRequest" }) as any as S.Schema<GetProductApiLinkRequest>;
 
 /** Product-API link entity properties. */
 export interface ProductApiLinkContractProperties {
@@ -13757,9 +13451,7 @@ export const GetProductPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductPolicyRequest",
-}) as any as S.Schema<GetProductPolicyRequest>;
+).annotate({ identifier: "GetProductPolicyRequest" }) as any as S.Schema<GetProductPolicyRequest>;
 
 export interface GetProductPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -13778,9 +13470,7 @@ export const GetProductPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
   }),
-).annotate({
-  identifier: "GetProductPolicyResponse",
-}) as any as S.Schema<GetProductPolicyResponse>;
+).annotate({ identifier: "GetProductPolicyResponse" }) as any as S.Schema<GetProductPolicyResponse>;
 
 export interface GetProductWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13806,9 +13496,7 @@ export const GetProductWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductWikiRequest",
-}) as any as S.Schema<GetProductWikiRequest>;
+).annotate({ identifier: "GetProductWikiRequest" }) as any as S.Schema<GetProductWikiRequest>;
 
 export interface GetProductWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -13827,9 +13515,7 @@ export const GetProductWikiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
   }),
-).annotate({
-  identifier: "GetProductWikiResponse",
-}) as any as S.Schema<GetProductWikiResponse>;
+).annotate({ identifier: "GetProductWikiResponse" }) as any as S.Schema<GetProductWikiResponse>;
 
 export interface GetQuotaByPeriodKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13926,9 +13612,7 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 /** Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. */
 export type SubscriptionContractPropertiesState =
@@ -14006,9 +13690,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
   }),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface GetTagRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14082,9 +13764,7 @@ export const GetTagApiLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagApiLinkRequest",
-}) as any as S.Schema<GetTagApiLinkRequest>;
+).annotate({ identifier: "GetTagApiLinkRequest" }) as any as S.Schema<GetTagApiLinkRequest>;
 
 /** Tag-API link entity properties. */
 export type TagApiLinkContractProperties = ProductApiLinkContractProperties;
@@ -14107,9 +13787,7 @@ export const GetTagApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
   }),
-).annotate({
-  identifier: "GetTagApiLinkResponse",
-}) as any as S.Schema<GetTagApiLinkResponse>;
+).annotate({ identifier: "GetTagApiLinkResponse" }) as any as S.Schema<GetTagApiLinkResponse>;
 
 export interface GetTagByApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14138,9 +13816,7 @@ export const GetTagByApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagByApiRequest",
-}) as any as S.Schema<GetTagByApiRequest>;
+).annotate({ identifier: "GetTagByApiRequest" }) as any as S.Schema<GetTagByApiRequest>;
 
 export interface GetTagByApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14159,9 +13835,7 @@ export const GetTagByApiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
   }),
-).annotate({
-  identifier: "GetTagByApiResponse",
-}) as any as S.Schema<GetTagByApiResponse>;
+).annotate({ identifier: "GetTagByApiResponse" }) as any as S.Schema<GetTagByApiResponse>;
 
 export interface GetTagByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14193,9 +13867,7 @@ export const GetTagByOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagByOperationRequest",
-}) as any as S.Schema<GetTagByOperationRequest>;
+).annotate({ identifier: "GetTagByOperationRequest" }) as any as S.Schema<GetTagByOperationRequest>;
 
 export interface GetTagByOperationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14245,9 +13917,7 @@ export const GetTagByProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagByProductRequest",
-}) as any as S.Schema<GetTagByProductRequest>;
+).annotate({ identifier: "GetTagByProductRequest" }) as any as S.Schema<GetTagByProductRequest>;
 
 export interface GetTagByProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14266,9 +13936,7 @@ export const GetTagByProductResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
   }),
-).annotate({
-  identifier: "GetTagByProductResponse",
-}) as any as S.Schema<GetTagByProductResponse>;
+).annotate({ identifier: "GetTagByProductResponse" }) as any as S.Schema<GetTagByProductResponse>;
 
 export interface GetTagOperationLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14362,9 +14030,7 @@ export const GetTagProductLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagProductLinkRequest",
-}) as any as S.Schema<GetTagProductLinkRequest>;
+).annotate({ identifier: "GetTagProductLinkRequest" }) as any as S.Schema<GetTagProductLinkRequest>;
 
 /** Tag-product link entity properties. */
 export interface TagProductLinkContractProperties {
@@ -14427,9 +14093,7 @@ export const GetTenantAccessRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetTenantAccessRequest",
-}) as any as S.Schema<GetTenantAccessRequest>;
+).annotate({ identifier: "GetTenantAccessRequest" }) as any as S.Schema<GetTenantAccessRequest>;
 
 export interface GetTenantAccessResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14448,9 +14112,7 @@ export const GetTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AccessInformationContractProperties),
   }),
-).annotate({
-  identifier: "GetTenantAccessResponse",
-}) as any as S.Schema<GetTenantAccessResponse>;
+).annotate({ identifier: "GetTenantAccessResponse" }) as any as S.Schema<GetTenantAccessResponse>;
 
 export type GetTenantConfigurationSyncStateRequestConfigurationName = "configuration";
 export const GetTenantConfigurationSyncStateRequestConfigurationName = S.String;
@@ -14581,9 +14243,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 /** The Key to be used to generate token for user. */
 export type UserTokenParameterPropertiesKeyType = "primary" | "secondary";
@@ -14724,9 +14384,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Workspace entity properties. */
 export interface WorkspaceContractProperties {
@@ -14761,9 +14419,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface GetWorkspaceApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14792,9 +14448,7 @@ export const GetWorkspaceApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceApiRequest",
-}) as any as S.Schema<GetWorkspaceApiRequest>;
+).annotate({ identifier: "GetWorkspaceApiRequest" }) as any as S.Schema<GetWorkspaceApiRequest>;
 
 export interface GetWorkspaceApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -14813,9 +14467,7 @@ export const GetWorkspaceApiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceApiResponse",
-}) as any as S.Schema<GetWorkspaceApiResponse>;
+).annotate({ identifier: "GetWorkspaceApiResponse" }) as any as S.Schema<GetWorkspaceApiResponse>;
 
 export interface GetWorkspaceApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15455,9 +15107,7 @@ export const GetWorkspaceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceGroupRequest",
-}) as any as S.Schema<GetWorkspaceGroupRequest>;
+).annotate({ identifier: "GetWorkspaceGroupRequest" }) as any as S.Schema<GetWorkspaceGroupRequest>;
 
 export interface GetWorkspaceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -16070,9 +15720,7 @@ export const GetWorkspaceTagRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceTagRequest",
-}) as any as S.Schema<GetWorkspaceTagRequest>;
+).annotate({ identifier: "GetWorkspaceTagRequest" }) as any as S.Schema<GetWorkspaceTagRequest>;
 
 export interface GetWorkspaceTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -16091,9 +15739,7 @@ export const GetWorkspaceTagResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceTagResponse",
-}) as any as S.Schema<GetWorkspaceTagResponse>;
+).annotate({ identifier: "GetWorkspaceTagResponse" }) as any as S.Schema<GetWorkspaceTagResponse>;
 
 export interface GetWorkspaceTagApiLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16750,9 +16396,7 @@ export const AllPoliciesContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AllPoliciesContractProperties),
   }),
-).annotate({
-  identifier: "AllPoliciesContract",
-}) as any as S.Schema<AllPoliciesContract>;
+).annotate({ identifier: "AllPoliciesContract" }) as any as S.Schema<AllPoliciesContract>;
 
 /** AllPolicies Contract value. */
 export type ListAllPolicyByServiceResponseValueList = Array<AllPoliciesContract>;
@@ -16811,9 +16455,7 @@ export const ListApiByServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiByServiceRequest",
-}) as any as S.Schema<ListApiByServiceRequest>;
+).annotate({ identifier: "ListApiByServiceRequest" }) as any as S.Schema<ListApiByServiceRequest>;
 
 /** API details. */
 export interface ApiContract {
@@ -16855,9 +16497,7 @@ export const ListApiByServiceResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListApiByServiceResponse",
-}) as any as S.Schema<ListApiByServiceResponse>;
+).annotate({ identifier: "ListApiByServiceResponse" }) as any as S.Schema<ListApiByServiceResponse>;
 
 export interface ListApiByTagsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16892,9 +16532,7 @@ export const ListApiByTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiByTagsRequest",
-}) as any as S.Schema<ListApiByTagsRequest>;
+).annotate({ identifier: "ListApiByTagsRequest" }) as any as S.Schema<ListApiByTagsRequest>;
 
 /** Contract defining the Tag property in the Tag Resource Contract */
 export interface TagTagResourceContractProperties {
@@ -17092,9 +16730,7 @@ export const TagResourceContract = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(OperationTagResourceContractProperties),
     product: S.optional(ProductTagResourceContractProperties),
   }),
-).annotate({
-  identifier: "TagResourceContract",
-}) as any as S.Schema<TagResourceContract>;
+).annotate({ identifier: "TagResourceContract" }) as any as S.Schema<TagResourceContract>;
 
 /** Page values. */
 export type ListApiByTagsResponseValueList = Array<TagResourceContract>;
@@ -17116,9 +16752,7 @@ export const ListApiByTagsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListApiByTagsResponse",
-}) as any as S.Schema<ListApiByTagsResponse>;
+).annotate({ identifier: "ListApiByTagsResponse" }) as any as S.Schema<ListApiByTagsResponse>;
 
 export interface ListApiDiagnosticByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17175,9 +16809,7 @@ export const DiagnosticContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
   }),
-).annotate({
-  identifier: "DiagnosticContract",
-}) as any as S.Schema<DiagnosticContract>;
+).annotate({ identifier: "DiagnosticContract" }) as any as S.Schema<DiagnosticContract>;
 
 /** Page values. */
 export type ListApiDiagnosticByServiceResponseValueList = Array<DiagnosticContract>;
@@ -17218,14 +16850,10 @@ export const ListApiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiGatewayRequest",
-}) as any as S.Schema<ListApiGatewayRequest>;
+).annotate({ identifier: "ListApiGatewayRequest" }) as any as S.Schema<ListApiGatewayRequest>;
 
 /** Resource tags. */
-export type ApiManagementGatewayResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApiManagementGatewayResourceTagsMap = { [key: string]: string | undefined };
 export const ApiManagementGatewayResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17487,9 +17115,7 @@ export const IssueAttachmentContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IssueAttachmentContractProperties),
   }),
-).annotate({
-  identifier: "IssueAttachmentContract",
-}) as any as S.Schema<IssueAttachmentContract>;
+).annotate({ identifier: "IssueAttachmentContract" }) as any as S.Schema<IssueAttachmentContract>;
 
 /** Issue Attachment values. */
 export type ListApiIssueAttachmentByServiceResponseValueList = Array<IssueAttachmentContract>;
@@ -17657,9 +17283,7 @@ export const IssueCommentContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IssueCommentContractProperties),
   }),
-).annotate({
-  identifier: "IssueCommentContract",
-}) as any as S.Schema<IssueCommentContract>;
+).annotate({ identifier: "IssueCommentContract" }) as any as S.Schema<IssueCommentContract>;
 
 /** Issue Comment values. */
 export type ListApiIssueCommentByServiceResponseValueList = Array<IssueCommentContract>;
@@ -17747,9 +17371,7 @@ export const GatewaySkuCapacity = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Number),
     scaleType: S.optional(GatewaySkuCapacityScaleType),
   }),
-).annotate({
-  identifier: "GatewaySkuCapacity",
-}) as any as S.Schema<GatewaySkuCapacity>;
+).annotate({ identifier: "GatewaySkuCapacity" }) as any as S.Schema<GatewaySkuCapacity>;
 
 /** Describes an available API Management gateway SKU. */
 export interface GatewayResourceSkuResult {
@@ -17766,9 +17388,7 @@ export const GatewayResourceSkuResult = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(GatewaySku),
     capacity: S.optional(GatewaySkuCapacity),
   }),
-).annotate({
-  identifier: "GatewayResourceSkuResult",
-}) as any as S.Schema<GatewayResourceSkuResult>;
+).annotate({ identifier: "GatewayResourceSkuResult" }) as any as S.Schema<GatewayResourceSkuResult>;
 
 /** The list of skus available for the gateway. */
 export type GatewayResourceSkuResultsValueList = Array<GatewayResourceSkuResult>;
@@ -17824,9 +17444,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** REST API operation */
 export interface Operation {
@@ -17866,9 +17484,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListApiManagementServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17890,9 +17506,7 @@ export const ListApiManagementServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListApiManagementServiceRequest>;
 
 /** Resource tags. */
-export type ApiManagementServiceResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApiManagementServiceResourceTagsMap = { [key: string]: string | undefined };
 export const ApiManagementServiceResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18105,9 +17719,7 @@ export const ResourceSkuCapacity = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Number),
     scaleType: S.optional(ResourceSkuCapacityScaleType),
   }),
-).annotate({
-  identifier: "ResourceSkuCapacity",
-}) as any as S.Schema<ResourceSkuCapacity>;
+).annotate({ identifier: "ResourceSkuCapacity" }) as any as S.Schema<ResourceSkuCapacity>;
 
 /** Describes an available API Management service SKU. */
 export interface ResourceSkuResult {
@@ -18124,9 +17736,7 @@ export const ResourceSkuResult = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     capacity: S.optional(ResourceSkuCapacity),
   }),
-).annotate({
-  identifier: "ResourceSkuResult",
-}) as any as S.Schema<ResourceSkuResult>;
+).annotate({ identifier: "ResourceSkuResult" }) as any as S.Schema<ResourceSkuResult>;
 
 /** The list of skus available for the service. */
 export type ResourceSkuResultsValueList = Array<ResourceSkuResult>;
@@ -18146,9 +17756,7 @@ export const ResourceSkuResults = /*@__PURE__*/ S.suspend(() =>
     value: ResourceSkuResultsValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuResults",
-}) as any as S.Schema<ResourceSkuResults>;
+).annotate({ identifier: "ResourceSkuResults" }) as any as S.Schema<ResourceSkuResults>;
 
 export interface ListApiManagementSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18191,9 +17799,7 @@ export const ApiManagementSkuCapacity = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Number),
     scaleType: S.optional(ApiManagementSkuCapacityScaleType),
   }),
-).annotate({
-  identifier: "ApiManagementSkuCapacity",
-}) as any as S.Schema<ApiManagementSkuCapacity>;
+).annotate({ identifier: "ApiManagementSkuCapacity" }) as any as S.Schema<ApiManagementSkuCapacity>;
 
 /** The set of locations that the SKU is available. */
 export type ApiManagementSkuLocationsList = Array<string>;
@@ -18302,9 +17908,7 @@ export const ApiManagementSkuCosts = /*@__PURE__*/ S.suspend(() =>
     quantity: S.optional(S.Number),
     extendedUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiManagementSkuCosts",
-}) as any as S.Schema<ApiManagementSkuCosts>;
+).annotate({ identifier: "ApiManagementSkuCosts" }) as any as S.Schema<ApiManagementSkuCosts>;
 
 /** Metadata for retrieving price info. */
 export type ApiManagementSkuCostsList = Array<ApiManagementSkuCosts>;
@@ -18432,9 +18036,7 @@ export const ApiManagementSku = /*@__PURE__*/ S.suspend(() =>
     capabilities: S.optional(ApiManagementSkuCapabilitiesList),
     restrictions: S.optional(ApiManagementSkuRestrictionsList),
   }),
-).annotate({
-  identifier: "ApiManagementSku",
-}) as any as S.Schema<ApiManagementSku>;
+).annotate({ identifier: "ApiManagementSku" }) as any as S.Schema<ApiManagementSku>;
 
 /** The list of skus available for the subscription. */
 export type ApiManagementSkusResultValueList = Array<ApiManagementSku>;
@@ -18454,9 +18056,7 @@ export const ApiManagementSkusResult = /*@__PURE__*/ S.suspend(() =>
     value: ApiManagementSkusResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiManagementSkusResult",
-}) as any as S.Schema<ApiManagementSkusResult>;
+).annotate({ identifier: "ApiManagementSkusResult" }) as any as S.Schema<ApiManagementSkusResult>;
 
 export interface ListApiManagementWorkspaceLinkByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -18588,9 +18188,7 @@ export const OperationContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
   }),
-).annotate({
-  identifier: "OperationContract",
-}) as any as S.Schema<OperationContract>;
+).annotate({ identifier: "OperationContract" }) as any as S.Schema<OperationContract>;
 
 /** Page values. */
 export type ListApiOperationByApiResponseValueList = Array<OperationContract>;
@@ -18798,9 +18396,7 @@ export const ProductContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
   }),
-).annotate({
-  identifier: "ProductContract",
-}) as any as S.Schema<ProductContract>;
+).annotate({ identifier: "ProductContract" }) as any as S.Schema<ProductContract>;
 
 /** Page values. */
 export type ListApiProductByApisResponseValueList = Array<ProductContract>;
@@ -18881,9 +18477,7 @@ export const ApiReleaseContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
   }),
-).annotate({
-  identifier: "ApiReleaseContract",
-}) as any as S.Schema<ApiReleaseContract>;
+).annotate({ identifier: "ApiReleaseContract" }) as any as S.Schema<ApiReleaseContract>;
 
 /** Page values. */
 export type ListApiReleaseByServiceResponseValueList = Array<ApiReleaseContract>;
@@ -18976,9 +18570,7 @@ export const ApiRevisionContract = /*@__PURE__*/ S.suspend(() =>
     isOnline: S.optional(S.Boolean),
     isCurrent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ApiRevisionContract",
-}) as any as S.Schema<ApiRevisionContract>;
+).annotate({ identifier: "ApiRevisionContract" }) as any as S.Schema<ApiRevisionContract>;
 
 /** Page values. */
 export type ListApiRevisionByServiceResponseValueList = Array<ApiRevisionContract>;
@@ -19140,9 +18732,7 @@ export const TagDescriptionContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagDescriptionContractProperties),
   }),
-).annotate({
-  identifier: "TagDescriptionContract",
-}) as any as S.Schema<TagDescriptionContract>;
+).annotate({ identifier: "TagDescriptionContract" }) as any as S.Schema<TagDescriptionContract>;
 
 /** Page values. */
 export type ListApiTagDescriptionByServiceResponseValueList = Array<TagDescriptionContract>;
@@ -19220,9 +18810,7 @@ export const ApiVersionSetContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
   }),
-).annotate({
-  identifier: "ApiVersionSetContract",
-}) as any as S.Schema<ApiVersionSetContract>;
+).annotate({ identifier: "ApiVersionSetContract" }) as any as S.Schema<ApiVersionSetContract>;
 
 /** Page values. */
 export type ListApiVersionSetByServiceResponseValueList = Array<ApiVersionSetContract>;
@@ -19281,9 +18869,7 @@ export const ListApiWikisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiWikisRequest",
-}) as any as S.Schema<ListApiWikisRequest>;
+).annotate({ identifier: "ListApiWikisRequest" }) as any as S.Schema<ListApiWikisRequest>;
 
 /** Wiki properties */
 export interface WikiContract {
@@ -19322,9 +18908,7 @@ export const ListApiWikisResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListApiWikisResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListApiWikisResponse",
-}) as any as S.Schema<ListApiWikisResponse>;
+).annotate({ identifier: "ListApiWikisResponse" }) as any as S.Schema<ListApiWikisResponse>;
 
 export interface ListAuthorizationAccessPolicyByAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -19468,9 +19052,7 @@ export const AuthorizationContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AuthorizationContractProperties),
   }),
-).annotate({
-  identifier: "AuthorizationContract",
-}) as any as S.Schema<AuthorizationContract>;
+).annotate({ identifier: "AuthorizationContract" }) as any as S.Schema<AuthorizationContract>;
 
 /** Page values. */
 export type ListAuthorizationByAuthorizationProviderResponseValueList =
@@ -19753,9 +19335,7 @@ export const BackendContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
   }),
-).annotate({
-  identifier: "BackendContract",
-}) as any as S.Schema<BackendContract>;
+).annotate({ identifier: "BackendContract" }) as any as S.Schema<BackendContract>;
 
 /** Backend values. */
 export type ListBackendByServiceResponseValueList = Array<BackendContract>;
@@ -19911,9 +19491,7 @@ export const CertificateContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
   }),
-).annotate({
-  identifier: "CertificateContract",
-}) as any as S.Schema<CertificateContract>;
+).annotate({ identifier: "CertificateContract" }) as any as S.Schema<CertificateContract>;
 
 /** Page values. */
 export type ListCertificateByServiceResponseValueList = Array<CertificateContract>;
@@ -19985,9 +19563,7 @@ export const ContentItemContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ContentItemContractProperties),
   }),
-).annotate({
-  identifier: "ContentItemContract",
-}) as any as S.Schema<ContentItemContract>;
+).annotate({ identifier: "ContentItemContract" }) as any as S.Schema<ContentItemContract>;
 
 /** Collection of content items. */
 export type ListContentItemByServiceResponseValueList = Array<ContentItemContract>;
@@ -20053,9 +19629,7 @@ export const ContentTypeContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ContentTypeContractProperties),
   }),
-).annotate({
-  identifier: "ContentTypeContract",
-}) as any as S.Schema<ContentTypeContract>;
+).annotate({ identifier: "ContentTypeContract" }) as any as S.Schema<ContentTypeContract>;
 
 /** Collection of content types. */
 export type ListContentTypeByServiceResponseValueList = Array<ContentTypeContract>;
@@ -20118,9 +19692,7 @@ export const DeletedServiceContract = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DeletedServiceContractProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeletedServiceContract",
-}) as any as S.Schema<DeletedServiceContract>;
+).annotate({ identifier: "DeletedServiceContract" }) as any as S.Schema<DeletedServiceContract>;
 
 /** Page values. */
 export type ListDeletedServiceBySubscriptionResponseValueList = Array<DeletedServiceContract>;
@@ -20253,9 +19825,7 @@ export const DocumentationContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DocumentationContractProperties),
   }),
-).annotate({
-  identifier: "DocumentationContract",
-}) as any as S.Schema<DocumentationContract>;
+).annotate({ identifier: "DocumentationContract" }) as any as S.Schema<DocumentationContract>;
 
 /** Page values. */
 export type ListDocumentationByServiceResponseValueList = Array<DocumentationContract>;
@@ -20330,9 +19900,7 @@ export const EmailTemplateContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(EmailTemplateContractProperties),
   }),
-).annotate({
-  identifier: "EmailTemplateContract",
-}) as any as S.Schema<EmailTemplateContract>;
+).annotate({ identifier: "EmailTemplateContract" }) as any as S.Schema<EmailTemplateContract>;
 
 /** Page values. */
 export type ListEmailTemplateByServiceResponseValueList = Array<EmailTemplateContract>;
@@ -20471,9 +20039,7 @@ export const GatewayContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
   }),
-).annotate({
-  identifier: "GatewayContract",
-}) as any as S.Schema<GatewayContract>;
+).annotate({ identifier: "GatewayContract" }) as any as S.Schema<GatewayContract>;
 
 /** Page values. */
 export type ListGatewayByServiceResponseValueList = Array<GatewayContract>;
@@ -20746,9 +20312,7 @@ export const ListGatewayKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListGatewayKeysRequest",
-}) as any as S.Schema<ListGatewayKeysRequest>;
+).annotate({ identifier: "ListGatewayKeysRequest" }) as any as S.Schema<ListGatewayKeysRequest>;
 
 export interface ListGatewayKeysResponse {
   /** Primary gateway key. */
@@ -20761,9 +20325,7 @@ export const ListGatewayKeysResponse = /*@__PURE__*/ S.suspend(() =>
     primary: S.optional(S.String),
     secondary: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListGatewayKeysResponse",
-}) as any as S.Schema<ListGatewayKeysResponse>;
+).annotate({ identifier: "ListGatewayKeysResponse" }) as any as S.Schema<ListGatewayKeysResponse>;
 
 export interface ListGatewayTraceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -20792,14 +20354,10 @@ export const ListGatewayTraceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListGatewayTraceRequest",
-}) as any as S.Schema<ListGatewayTraceRequest>;
+).annotate({ identifier: "ListGatewayTraceRequest" }) as any as S.Schema<ListGatewayTraceRequest>;
 
 /** Trace collected in gateway. */
-export type ListGatewayTraceResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListGatewayTraceResponseBodyMap = { [key: string]: unknown | undefined };
 export const ListGatewayTraceResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -20808,9 +20366,7 @@ export const ListGatewayTraceResponseBodyMap = /*@__PURE__*/ S.Record(
 export type ListGatewayTraceResponse = ListGatewayTraceResponseBodyMap;
 export const ListGatewayTraceResponse = /*@__PURE__*/ S.suspend(() =>
   ListGatewayTraceResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGatewayTraceResponse",
-}) as any as S.Schema<ListGatewayTraceResponse>;
+).annotate({ identifier: "ListGatewayTraceResponse" }) as any as S.Schema<ListGatewayTraceResponse>;
 
 export interface ListGlobalSchemaByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -20864,9 +20420,7 @@ export const GlobalSchemaContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GlobalSchemaContractProperties),
   }),
-).annotate({
-  identifier: "GlobalSchemaContract",
-}) as any as S.Schema<GlobalSchemaContract>;
+).annotate({ identifier: "GlobalSchemaContract" }) as any as S.Schema<GlobalSchemaContract>;
 
 /** Global Schema Contract value. */
 export type ListGlobalSchemaByServiceResponseValueList = Array<GlobalSchemaContract>;
@@ -20947,9 +20501,7 @@ export const ResolverContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ResolverEntityBaseContract),
   }),
-).annotate({
-  identifier: "ResolverContract",
-}) as any as S.Schema<ResolverContract>;
+).annotate({ identifier: "ResolverContract" }) as any as S.Schema<ResolverContract>;
 
 /** Page values. */
 export type ListGraphQLApiResolverByApiResponseValueList = Array<ResolverContract>;
@@ -21141,9 +20693,7 @@ export const ListGroupUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListGroupUserRequest",
-}) as any as S.Schema<ListGroupUserRequest>;
+).annotate({ identifier: "ListGroupUserRequest" }) as any as S.Schema<ListGroupUserRequest>;
 
 /** User details. */
 export interface UserContract {
@@ -21185,9 +20735,7 @@ export const ListGroupUserResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListGroupUserResponse",
-}) as any as S.Schema<ListGroupUserResponse>;
+).annotate({ identifier: "ListGroupUserResponse" }) as any as S.Schema<ListGroupUserResponse>;
 
 export interface ListIdentityProviderByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -21232,9 +20780,7 @@ export const IdentityProviderContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IdentityProviderContractProperties),
   }),
-).annotate({
-  identifier: "IdentityProviderContract",
-}) as any as S.Schema<IdentityProviderContract>;
+).annotate({ identifier: "IdentityProviderContract" }) as any as S.Schema<IdentityProviderContract>;
 
 /** Identity Provider configuration values. */
 export type ListIdentityProviderByServiceResponseValueList = Array<IdentityProviderContract>;
@@ -21500,9 +21046,7 @@ export const NamedValueContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
   }),
-).annotate({
-  identifier: "NamedValueContract",
-}) as any as S.Schema<NamedValueContract>;
+).annotate({ identifier: "NamedValueContract" }) as any as S.Schema<NamedValueContract>;
 
 /** Page values. */
 export type ListNamedValueByServiceResponseValueList = Array<NamedValueContract>;
@@ -21655,9 +21199,7 @@ export const NetworkStatusContract = /*@__PURE__*/ S.suspend(() =>
     dnsServers: NetworkStatusContractDnsServersList,
     connectivityStatus: NetworkStatusContractConnectivityStatusList,
   }),
-).annotate({
-  identifier: "NetworkStatusContract",
-}) as any as S.Schema<NetworkStatusContract>;
+).annotate({ identifier: "NetworkStatusContract" }) as any as S.Schema<NetworkStatusContract>;
 
 export interface ListNetworkStatusByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -21762,9 +21304,7 @@ export const NotificationContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NotificationContractProperties),
   }),
-).annotate({
-  identifier: "NotificationContract",
-}) as any as S.Schema<NotificationContract>;
+).annotate({ identifier: "NotificationContract" }) as any as S.Schema<NotificationContract>;
 
 /** Page values. */
 export type ListNotificationByServiceResponseValueList = Array<NotificationContract>;
@@ -21863,9 +21403,7 @@ export const RecipientEmailContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(RecipientEmailContractProperties),
   }),
-).annotate({
-  identifier: "RecipientEmailContract",
-}) as any as S.Schema<RecipientEmailContract>;
+).annotate({ identifier: "RecipientEmailContract" }) as any as S.Schema<RecipientEmailContract>;
 
 /** Page values. */
 export type ListNotificationRecipientEmailByNotificationResponseValueList =
@@ -21965,9 +21503,7 @@ export const RecipientUserContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(RecipientUsersContractProperties),
   }),
-).annotate({
-  identifier: "RecipientUserContract",
-}) as any as S.Schema<RecipientUserContract>;
+).annotate({ identifier: "RecipientUserContract" }) as any as S.Schema<RecipientUserContract>;
 
 /** Page values. */
 export type ListNotificationRecipientUserByNotificationResponseValueList =
@@ -22236,9 +21772,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     domainName: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints that the Api Management Service reaches the service at. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -22483,9 +22017,7 @@ export const PolicyFragmentContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PolicyFragmentContractProperties),
   }),
-).annotate({
-  identifier: "PolicyFragmentContract",
-}) as any as S.Schema<PolicyFragmentContract>;
+).annotate({ identifier: "PolicyFragmentContract" }) as any as S.Schema<PolicyFragmentContract>;
 
 /** Policy fragment contract value. */
 export type ListPolicyFragmentByServiceResponseValueList = Array<PolicyFragmentContract>;
@@ -22695,9 +22227,7 @@ export const PortalConfigContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PortalConfigProperties),
   }),
-).annotate({
-  identifier: "PortalConfigContract",
-}) as any as S.Schema<PortalConfigContract>;
+).annotate({ identifier: "PortalConfigContract" }) as any as S.Schema<PortalConfigContract>;
 
 /** The developer portal configurations. */
 export type ListPortalConfigByServiceResponseValueList = Array<PortalConfigContract>;
@@ -22772,9 +22302,7 @@ export const PortalRevisionContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PortalRevisionContractProperties),
   }),
-).annotate({
-  identifier: "PortalRevisionContract",
-}) as any as S.Schema<PortalRevisionContract>;
+).annotate({ identifier: "PortalRevisionContract" }) as any as S.Schema<PortalRevisionContract>;
 
 /** Collection of portal revisions. */
 export type ListPortalRevisionByServiceResponseValueList = Array<PortalRevisionContract>;
@@ -22907,9 +22435,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type ListPrivateEndpointConnectionPrivateLinkResourcesResponseValueList =
@@ -23048,9 +22574,7 @@ export const ProductApiLinkContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
   }),
-).annotate({
-  identifier: "ProductApiLinkContract",
-}) as any as S.Schema<ProductApiLinkContract>;
+).annotate({ identifier: "ProductApiLinkContract" }) as any as S.Schema<ProductApiLinkContract>;
 
 /** Page values. */
 export type ListProductApiLinkByProductResponseValueList = Array<ProductApiLinkContract>;
@@ -23173,9 +22697,7 @@ export const ListProductByTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListProductByTagsRequest",
-}) as any as S.Schema<ListProductByTagsRequest>;
+).annotate({ identifier: "ListProductByTagsRequest" }) as any as S.Schema<ListProductByTagsRequest>;
 
 /** Page values. */
 export type ListProductByTagsResponseValueList = Array<TagResourceContract>;
@@ -23317,9 +22839,7 @@ export const ProductGroupLinkContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductGroupLinkContractProperties),
   }),
-).annotate({
-  identifier: "ProductGroupLinkContract",
-}) as any as S.Schema<ProductGroupLinkContract>;
+).annotate({ identifier: "ProductGroupLinkContract" }) as any as S.Schema<ProductGroupLinkContract>;
 
 /** Page values. */
 export type ListProductGroupLinkByProductResponseValueList = Array<ProductGroupLinkContract>;
@@ -23452,9 +22972,7 @@ export const SubscriptionContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
   }),
-).annotate({
-  identifier: "SubscriptionContract",
-}) as any as S.Schema<SubscriptionContract>;
+).annotate({ identifier: "SubscriptionContract" }) as any as S.Schema<SubscriptionContract>;
 
 /** Page values. */
 export type ListProductSubscriptionsResponseValueList = Array<SubscriptionContract>;
@@ -23513,9 +23031,7 @@ export const ListProductWikisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListProductWikisRequest",
-}) as any as S.Schema<ListProductWikisRequest>;
+).annotate({ identifier: "ListProductWikisRequest" }) as any as S.Schema<ListProductWikisRequest>;
 
 /** Page values. */
 export type ListProductWikisResponseValueList = Array<WikiContract>;
@@ -23534,9 +23050,7 @@ export const ListProductWikisResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListProductWikisResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListProductWikisResponse",
-}) as any as S.Schema<ListProductWikisResponse>;
+).annotate({ identifier: "ListProductWikisResponse" }) as any as S.Schema<ListProductWikisResponse>;
 
 export interface ListQuotaByCounterKeyByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -23587,9 +23101,7 @@ export const QuotaCounterContract = /*@__PURE__*/ S.suspend(() =>
     periodEndTime: S.String,
     value: S.optional(QuotaCounterValueContractProperties),
   }),
-).annotate({
-  identifier: "QuotaCounterContract",
-}) as any as S.Schema<QuotaCounterContract>;
+).annotate({ identifier: "QuotaCounterContract" }) as any as S.Schema<QuotaCounterContract>;
 
 /** Quota counter values. */
 export type ListQuotaByCounterKeyByServiceResponseValueList = Array<QuotaCounterContract>;
@@ -23714,9 +23226,7 @@ export const ListReportByApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListReportByApiRequest",
-}) as any as S.Schema<ListReportByApiRequest>;
+).annotate({ identifier: "ListReportByApiRequest" }) as any as S.Schema<ListReportByApiRequest>;
 
 /** Report data. */
 export interface ReportRecordContract {
@@ -23802,9 +23312,7 @@ export const ReportRecordContract = /*@__PURE__*/ S.suspend(() =>
     serviceTimeMin: S.optional(S.Number),
     serviceTimeMax: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReportRecordContract",
-}) as any as S.Schema<ReportRecordContract>;
+).annotate({ identifier: "ReportRecordContract" }) as any as S.Schema<ReportRecordContract>;
 
 /** Page values. */
 export type ListReportByApiResponseValueList = Array<ReportRecordContract>;
@@ -23826,9 +23334,7 @@ export const ListReportByApiResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListReportByApiResponse",
-}) as any as S.Schema<ListReportByApiResponse>;
+).annotate({ identifier: "ListReportByApiResponse" }) as any as S.Schema<ListReportByApiResponse>;
 
 export interface ListReportByGeoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -23860,9 +23366,7 @@ export const ListReportByGeoRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListReportByGeoRequest",
-}) as any as S.Schema<ListReportByGeoRequest>;
+).annotate({ identifier: "ListReportByGeoRequest" }) as any as S.Schema<ListReportByGeoRequest>;
 
 /** Page values. */
 export type ListReportByGeoResponseValueList = Array<ReportRecordContract>;
@@ -23884,9 +23388,7 @@ export const ListReportByGeoResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListReportByGeoResponse",
-}) as any as S.Schema<ListReportByGeoResponse>;
+).annotate({ identifier: "ListReportByGeoResponse" }) as any as S.Schema<ListReportByGeoResponse>;
 
 export interface ListReportByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24226,9 +23728,7 @@ export const ListReportByTimeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListReportByTimeRequest",
-}) as any as S.Schema<ListReportByTimeRequest>;
+).annotate({ identifier: "ListReportByTimeRequest" }) as any as S.Schema<ListReportByTimeRequest>;
 
 /** Page values. */
 export type ListReportByTimeResponseValueList = Array<ReportRecordContract>;
@@ -24250,9 +23750,7 @@ export const ListReportByTimeResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListReportByTimeResponse",
-}) as any as S.Schema<ListReportByTimeResponse>;
+).annotate({ identifier: "ListReportByTimeResponse" }) as any as S.Schema<ListReportByTimeResponse>;
 
 export interface ListReportByUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24287,9 +23785,7 @@ export const ListReportByUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListReportByUserRequest",
-}) as any as S.Schema<ListReportByUserRequest>;
+).annotate({ identifier: "ListReportByUserRequest" }) as any as S.Schema<ListReportByUserRequest>;
 
 /** Page values. */
 export type ListReportByUserResponseValueList = Array<ReportRecordContract>;
@@ -24311,9 +23807,7 @@ export const ListReportByUserResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListReportByUserResponse",
-}) as any as S.Schema<ListReportByUserResponse>;
+).annotate({ identifier: "ListReportByUserResponse" }) as any as S.Schema<ListReportByUserResponse>;
 
 export interface ListSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24345,9 +23839,7 @@ export const ListSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListSubscriptionRequest",
-}) as any as S.Schema<ListSubscriptionRequest>;
+).annotate({ identifier: "ListSubscriptionRequest" }) as any as S.Schema<ListSubscriptionRequest>;
 
 /** Page values. */
 export type ListSubscriptionResponseValueList = Array<SubscriptionContract>;
@@ -24369,9 +23861,7 @@ export const ListSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListSubscriptionResponse",
-}) as any as S.Schema<ListSubscriptionResponse>;
+).annotate({ identifier: "ListSubscriptionResponse" }) as any as S.Schema<ListSubscriptionResponse>;
 
 export interface ListSubscriptionSecretsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24471,9 +23961,7 @@ export const TagApiLinkContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
   }),
-).annotate({
-  identifier: "TagApiLinkContract",
-}) as any as S.Schema<TagApiLinkContract>;
+).annotate({ identifier: "TagApiLinkContract" }) as any as S.Schema<TagApiLinkContract>;
 
 /** Page values. */
 export type ListTagApiLinkByProductResponseValueList = Array<TagApiLinkContract>;
@@ -24532,9 +24020,7 @@ export const ListTagByApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListTagByApiRequest",
-}) as any as S.Schema<ListTagByApiRequest>;
+).annotate({ identifier: "ListTagByApiRequest" }) as any as S.Schema<ListTagByApiRequest>;
 
 /** Tag Contract details. */
 export interface TagContract {
@@ -24576,9 +24062,7 @@ export const ListTagByApiResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListTagByApiResponse",
-}) as any as S.Schema<ListTagByApiResponse>;
+).annotate({ identifier: "ListTagByApiResponse" }) as any as S.Schema<ListTagByApiResponse>;
 
 export interface ListTagByOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24677,9 +24161,7 @@ export const ListTagByProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListTagByProductRequest",
-}) as any as S.Schema<ListTagByProductRequest>;
+).annotate({ identifier: "ListTagByProductRequest" }) as any as S.Schema<ListTagByProductRequest>;
 
 /** Page values. */
 export type ListTagByProductResponseValueList = Array<TagContract>;
@@ -24701,9 +24183,7 @@ export const ListTagByProductResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListTagByProductResponse",
-}) as any as S.Schema<ListTagByProductResponse>;
+).annotate({ identifier: "ListTagByProductResponse" }) as any as S.Schema<ListTagByProductResponse>;
 
 export interface ListTagByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24738,9 +24218,7 @@ export const ListTagByServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListTagByServiceRequest",
-}) as any as S.Schema<ListTagByServiceRequest>;
+).annotate({ identifier: "ListTagByServiceRequest" }) as any as S.Schema<ListTagByServiceRequest>;
 
 /** Page values. */
 export type ListTagByServiceResponseValueList = Array<TagContract>;
@@ -24762,9 +24240,7 @@ export const ListTagByServiceResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListTagByServiceResponse",
-}) as any as S.Schema<ListTagByServiceResponse>;
+).annotate({ identifier: "ListTagByServiceResponse" }) as any as S.Schema<ListTagByServiceResponse>;
 
 export interface ListTagOperationLinkByProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -24821,9 +24297,7 @@ export const TagOperationLinkContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagOperationLinkContractProperties),
   }),
-).annotate({
-  identifier: "TagOperationLinkContract",
-}) as any as S.Schema<TagOperationLinkContract>;
+).annotate({ identifier: "TagOperationLinkContract" }) as any as S.Schema<TagOperationLinkContract>;
 
 /** Page values. */
 export type ListTagOperationLinkByProductResponseValueList = Array<TagOperationLinkContract>;
@@ -24904,9 +24378,7 @@ export const TagProductLinkContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagProductLinkContractProperties),
   }),
-).annotate({
-  identifier: "TagProductLinkContract",
-}) as any as S.Schema<TagProductLinkContract>;
+).annotate({ identifier: "TagProductLinkContract" }) as any as S.Schema<TagProductLinkContract>;
 
 /** Page values. */
 export type ListTagProductLinkByProductResponseValueList = Array<TagProductLinkContract>;
@@ -25152,9 +24624,7 @@ export const ListUserByServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListUserByServiceRequest",
-}) as any as S.Schema<ListUserByServiceRequest>;
+).annotate({ identifier: "ListUserByServiceRequest" }) as any as S.Schema<ListUserByServiceRequest>;
 
 /** Page values. */
 export type ListUserByServiceResponseValueList = Array<UserContract>;
@@ -25213,9 +24683,7 @@ export const ListUserGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListUserGroupRequest",
-}) as any as S.Schema<ListUserGroupRequest>;
+).annotate({ identifier: "ListUserGroupRequest" }) as any as S.Schema<ListUserGroupRequest>;
 
 /** Page values. */
 export type ListUserGroupResponseValueList = Array<GroupContract>;
@@ -25237,9 +24705,7 @@ export const ListUserGroupResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUserGroupResponse",
-}) as any as S.Schema<ListUserGroupResponse>;
+).annotate({ identifier: "ListUserGroupResponse" }) as any as S.Schema<ListUserGroupResponse>;
 
 export interface ListUserIdentitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -26031,9 +25497,7 @@ export const WorkspaceContract = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
   }),
-).annotate({
-  identifier: "WorkspaceContract",
-}) as any as S.Schema<WorkspaceContract>;
+).annotate({ identifier: "WorkspaceContract" }) as any as S.Schema<WorkspaceContract>;
 
 /** Page values. */
 export type ListWorkspaceByServiceResponseValueList = Array<WorkspaceContract>;
@@ -28263,9 +27727,7 @@ export const ConnectivityIssue = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ConnectivityIssueType),
     context: S.optional(ConnectivityIssueContextList),
   }),
-).annotate({
-  identifier: "ConnectivityIssue",
-}) as any as S.Schema<ConnectivityIssue>;
+).annotate({ identifier: "ConnectivityIssue" }) as any as S.Schema<ConnectivityIssue>;
 
 /** List of issues. */
 export type ConnectivityHopIssuesList = Array<ConnectivityIssue>;
@@ -28297,9 +27759,7 @@ export const ConnectivityHop = /*@__PURE__*/ S.suspend(() =>
     nextHopIds: S.optional(ConnectivityHopNextHopIdsList),
     issues: S.optional(ConnectivityHopIssuesList),
   }),
-).annotate({
-  identifier: "ConnectivityHop",
-}) as any as S.Schema<ConnectivityHop>;
+).annotate({ identifier: "ConnectivityHop" }) as any as S.Schema<ConnectivityHop>;
 
 /** List of hops between the source and the destination. */
 export type PerformConnectivityCheckAsyncResponseHopsList = Array<ConnectivityHop>;
@@ -29812,9 +29272,7 @@ export const RestoreApiManagementServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RestoreApiManagementServiceRequest>;
 
 /** Resource tags. */
-export type RestoreApiManagementServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RestoreApiManagementServiceResponseTagsMap = { [key: string]: string | undefined };
 export const RestoreApiManagementServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30137,9 +29595,7 @@ export const TagCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "TagCreateOrUpdateRequest",
-}) as any as S.Schema<TagCreateOrUpdateRequest>;
+).annotate({ identifier: "TagCreateOrUpdateRequest" }) as any as S.Schema<TagCreateOrUpdateRequest>;
 
 export interface TagCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -30455,9 +29911,7 @@ export const UpdateApiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApiRequest",
-}) as any as S.Schema<UpdateApiRequest>;
+).annotate({ identifier: "UpdateApiRequest" }) as any as S.Schema<UpdateApiRequest>;
 
 export interface UpdateApiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -30476,9 +29930,7 @@ export const UpdateApiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
   }),
-).annotate({
-  identifier: "UpdateApiResponse",
-}) as any as S.Schema<UpdateApiResponse>;
+).annotate({ identifier: "UpdateApiResponse" }) as any as S.Schema<UpdateApiResponse>;
 
 export interface UpdateApiDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -30536,9 +29988,7 @@ export const UpdateApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApiDiagnosticResponse>;
 
 /** Resource tags. */
-export type UpdateApiGatewayRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApiGatewayRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApiGatewayRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30626,14 +30076,10 @@ export const UpdateApiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApiGatewayRequest",
-}) as any as S.Schema<UpdateApiGatewayRequest>;
+).annotate({ identifier: "UpdateApiGatewayRequest" }) as any as S.Schema<UpdateApiGatewayRequest>;
 
 /** Resource tags. */
-export type UpdateApiGatewayResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApiGatewayResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApiGatewayResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -30715,9 +30161,7 @@ export const UpdateApiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateApiGatewayResponse",
-}) as any as S.Schema<UpdateApiGatewayResponse>;
+).annotate({ identifier: "UpdateApiGatewayResponse" }) as any as S.Schema<UpdateApiGatewayResponse>;
 
 /** Status of the issue. */
 export type IssueUpdateContractPropertiesState =
@@ -30786,9 +30230,7 @@ export const UpdateApiIssueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApiIssueRequest",
-}) as any as S.Schema<UpdateApiIssueRequest>;
+).annotate({ identifier: "UpdateApiIssueRequest" }) as any as S.Schema<UpdateApiIssueRequest>;
 
 export interface UpdateApiIssueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -30807,14 +30249,10 @@ export const UpdateApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
   }),
-).annotate({
-  identifier: "UpdateApiIssueResponse",
-}) as any as S.Schema<UpdateApiIssueResponse>;
+).annotate({ identifier: "UpdateApiIssueResponse" }) as any as S.Schema<UpdateApiIssueResponse>;
 
 /** Resource tags. */
-export type UpdateApiManagementServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApiManagementServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApiManagementServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31018,9 +30456,7 @@ export const UpdateApiManagementServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApiManagementServiceRequest>;
 
 /** Resource tags. */
-export type UpdateApiManagementServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApiManagementServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApiManagementServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -31249,9 +30685,7 @@ export const UpdateApiReleaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApiReleaseRequest",
-}) as any as S.Schema<UpdateApiReleaseRequest>;
+).annotate({ identifier: "UpdateApiReleaseRequest" }) as any as S.Schema<UpdateApiReleaseRequest>;
 
 export interface UpdateApiReleaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -31270,9 +30704,7 @@ export const UpdateApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
   }),
-).annotate({
-  identifier: "UpdateApiReleaseResponse",
-}) as any as S.Schema<UpdateApiReleaseResponse>;
+).annotate({ identifier: "UpdateApiReleaseResponse" }) as any as S.Schema<UpdateApiReleaseResponse>;
 
 /** An value that determines where the API Version identifier will be located in a HTTP request. */
 export type ApiVersionSetUpdateParametersPropertiesVersioningScheme =
@@ -31385,9 +30817,7 @@ export const UpdateApiWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApiWikiRequest",
-}) as any as S.Schema<UpdateApiWikiRequest>;
+).annotate({ identifier: "UpdateApiWikiRequest" }) as any as S.Schema<UpdateApiWikiRequest>;
 
 export interface UpdateApiWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -31406,9 +30836,7 @@ export const UpdateApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
   }),
-).annotate({
-  identifier: "UpdateApiWikiResponse",
-}) as any as S.Schema<UpdateApiWikiResponse>;
+).annotate({ identifier: "UpdateApiWikiResponse" }) as any as S.Schema<UpdateApiWikiResponse>;
 
 export type AuthorizationServerUpdateContractPropertiesAuthorizationMethodsItem =
   | "HEAD"
@@ -31703,9 +31131,7 @@ export const UpdateBackendRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateBackendRequest",
-}) as any as S.Schema<UpdateBackendRequest>;
+).annotate({ identifier: "UpdateBackendRequest" }) as any as S.Schema<UpdateBackendRequest>;
 
 export interface UpdateBackendResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -31724,9 +31150,7 @@ export const UpdateBackendResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
   }),
-).annotate({
-  identifier: "UpdateBackendResponse",
-}) as any as S.Schema<UpdateBackendResponse>;
+).annotate({ identifier: "UpdateBackendResponse" }) as any as S.Schema<UpdateBackendResponse>;
 
 /** Parameters supplied to the Update Cache operation. */
 export interface CacheUpdateProperties {
@@ -31746,9 +31170,7 @@ export const CacheUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     useFromLocation: S.optional(S.String),
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheUpdateProperties",
-}) as any as S.Schema<CacheUpdateProperties>;
+).annotate({ identifier: "CacheUpdateProperties" }) as any as S.Schema<CacheUpdateProperties>;
 
 export interface UpdateCacheRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -31777,9 +31199,7 @@ export const UpdateCacheRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCacheRequest",
-}) as any as S.Schema<UpdateCacheRequest>;
+).annotate({ identifier: "UpdateCacheRequest" }) as any as S.Schema<UpdateCacheRequest>;
 
 export interface UpdateCacheResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -31798,9 +31218,7 @@ export const UpdateCacheResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(CacheContractProperties),
   }),
-).annotate({
-  identifier: "UpdateCacheResponse",
-}) as any as S.Schema<UpdateCacheResponse>;
+).annotate({ identifier: "UpdateCacheResponse" }) as any as S.Schema<UpdateCacheResponse>;
 
 export interface UpdateDiagnosticRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -31829,9 +31247,7 @@ export const UpdateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDiagnosticRequest",
-}) as any as S.Schema<UpdateDiagnosticRequest>;
+).annotate({ identifier: "UpdateDiagnosticRequest" }) as any as S.Schema<UpdateDiagnosticRequest>;
 
 export interface UpdateDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -31850,9 +31266,7 @@ export const UpdateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
   }),
-).annotate({
-  identifier: "UpdateDiagnosticResponse",
-}) as any as S.Schema<UpdateDiagnosticResponse>;
+).annotate({ identifier: "UpdateDiagnosticResponse" }) as any as S.Schema<UpdateDiagnosticResponse>;
 
 export interface UpdateDocumentationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32002,9 +31416,7 @@ export const UpdateGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGatewayRequest",
-}) as any as S.Schema<UpdateGatewayRequest>;
+).annotate({ identifier: "UpdateGatewayRequest" }) as any as S.Schema<UpdateGatewayRequest>;
 
 export interface UpdateGatewayResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -32023,9 +31435,7 @@ export const UpdateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
   }),
-).annotate({
-  identifier: "UpdateGatewayResponse",
-}) as any as S.Schema<UpdateGatewayResponse>;
+).annotate({ identifier: "UpdateGatewayResponse" }) as any as S.Schema<UpdateGatewayResponse>;
 
 /** Resolver Update Contract Properties. */
 export type ResolverUpdateContractProperties = ResolverEntityBaseContract;
@@ -32139,9 +31549,7 @@ export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
 
 export interface UpdateGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -32160,9 +31568,7 @@ export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
   }),
-).annotate({
-  identifier: "UpdateGroupResponse",
-}) as any as S.Schema<UpdateGroupResponse>;
+).annotate({ identifier: "UpdateGroupResponse" }) as any as S.Schema<UpdateGroupResponse>;
 
 export type UpdateIdentityProviderRequestIdentityProviderName =
   | "facebook"
@@ -32292,9 +31698,7 @@ export type LoggerUpdateParametersLoggerType =
 export const LoggerUpdateParametersLoggerType = S.String;
 
 /** Logger credentials. */
-export type LoggerUpdateParametersCredentialsMap = {
-  [key: string]: string | undefined;
-};
+export type LoggerUpdateParametersCredentialsMap = { [key: string]: string | undefined };
 export const LoggerUpdateParametersCredentialsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32318,9 +31722,7 @@ export const LoggerUpdateParameters = /*@__PURE__*/ S.suspend(() =>
     credentials: S.optional(LoggerUpdateParametersCredentialsMap),
     isBuffered: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LoggerUpdateParameters",
-}) as any as S.Schema<LoggerUpdateParameters>;
+).annotate({ identifier: "LoggerUpdateParameters" }) as any as S.Schema<LoggerUpdateParameters>;
 
 export interface UpdateLoggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32349,9 +31751,7 @@ export const UpdateLoggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateLoggerRequest",
-}) as any as S.Schema<UpdateLoggerRequest>;
+).annotate({ identifier: "UpdateLoggerRequest" }) as any as S.Schema<UpdateLoggerRequest>;
 
 export interface UpdateLoggerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -32370,9 +31770,7 @@ export const UpdateLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
   }),
-).annotate({
-  identifier: "UpdateLoggerResponse",
-}) as any as S.Schema<UpdateLoggerResponse>;
+).annotate({ identifier: "UpdateLoggerResponse" }) as any as S.Schema<UpdateLoggerResponse>;
 
 /** Optional tags that when provided can be used to filter the NamedValue list. */
 export type NamedValueUpdateParameterPropertiesTagsList = Array<string>;
@@ -32432,9 +31830,7 @@ export const UpdateNamedValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateNamedValueRequest",
-}) as any as S.Schema<UpdateNamedValueRequest>;
+).annotate({ identifier: "UpdateNamedValueRequest" }) as any as S.Schema<UpdateNamedValueRequest>;
 
 export interface UpdateNamedValueResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -32453,9 +31849,7 @@ export const UpdateNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
   }),
-).annotate({
-  identifier: "UpdateNamedValueResponse",
-}) as any as S.Schema<UpdateNamedValueResponse>;
+).annotate({ identifier: "UpdateNamedValueResponse" }) as any as S.Schema<UpdateNamedValueResponse>;
 
 /** Parameters supplied to the Update OpenID Connect Provider operation. */
 export interface OpenidConnectProviderUpdateContractProperties {
@@ -32727,9 +32121,7 @@ export const ProductUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ProductUpdatePropertiesState),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductUpdateProperties",
-}) as any as S.Schema<ProductUpdateProperties>;
+).annotate({ identifier: "ProductUpdateProperties" }) as any as S.Schema<ProductUpdateProperties>;
 
 export interface UpdateProductRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32758,9 +32150,7 @@ export const UpdateProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProductRequest",
-}) as any as S.Schema<UpdateProductRequest>;
+).annotate({ identifier: "UpdateProductRequest" }) as any as S.Schema<UpdateProductRequest>;
 
 export interface UpdateProductResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -32779,9 +32169,7 @@ export const UpdateProductResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
   }),
-).annotate({
-  identifier: "UpdateProductResponse",
-}) as any as S.Schema<UpdateProductResponse>;
+).annotate({ identifier: "UpdateProductResponse" }) as any as S.Schema<UpdateProductResponse>;
 
 export interface UpdateProductWikiRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -32810,9 +32198,7 @@ export const UpdateProductWikiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProductWikiRequest",
-}) as any as S.Schema<UpdateProductWikiRequest>;
+).annotate({ identifier: "UpdateProductWikiRequest" }) as any as S.Schema<UpdateProductWikiRequest>;
 
 export interface UpdateProductWikiResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -33083,9 +32469,7 @@ export const UpdateTagRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTagRequest",
-}) as any as S.Schema<UpdateTagRequest>;
+).annotate({ identifier: "UpdateTagRequest" }) as any as S.Schema<UpdateTagRequest>;
 
 export interface UpdateTagResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -33104,9 +32488,7 @@ export const UpdateTagResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
   }),
-).annotate({
-  identifier: "UpdateTagResponse",
-}) as any as S.Schema<UpdateTagResponse>;
+).annotate({ identifier: "UpdateTagResponse" }) as any as S.Schema<UpdateTagResponse>;
 
 export type UpdateTenantAccessRequestAccessName = "access" | "gitAccess";
 export const UpdateTenantAccessRequestAccessName = S.String;
@@ -33244,9 +32626,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -33265,9 +32645,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -33296,9 +32674,7 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -33317,9 +32693,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 export interface UpdateWorkspaceApiRequest {
   /** The ID of the target subscription. The value must be an UUID. */

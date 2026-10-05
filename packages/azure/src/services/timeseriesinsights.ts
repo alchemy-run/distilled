@@ -142,9 +142,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -175,9 +173,7 @@ export const DeleteEventSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteEventSourceRequest",
-}) as any as S.Schema<DeleteEventSourceRequest>;
+).annotate({ identifier: "DeleteEventSourceRequest" }) as any as S.Schema<DeleteEventSourceRequest>;
 
 export interface DeleteEventSourceResponse {}
 export const DeleteEventSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -218,9 +214,7 @@ export const DeleteReferenceDataSetResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<DeleteReferenceDataSetResponse>;
 
 /** Key-value pairs of additional properties for the resource. */
-export type EnvironmentsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EnvironmentsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -286,9 +280,7 @@ export const EnvironmentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnvironmentsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type EnvironmentsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EnvironmentsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -329,9 +321,7 @@ export const EnvironmentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnvironmentsCreateOrUpdateResponse>;
 
 /** Key-value pairs of additional properties for the resource. */
-export type EventSourcesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EventSourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EventSourcesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -413,9 +403,7 @@ export const EventSourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EventSourcesCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type EventSourcesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EventSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EventSourcesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -476,9 +464,7 @@ export const GetAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "GetAccessPolicyRequest",
-}) as any as S.Schema<GetAccessPolicyRequest>;
+).annotate({ identifier: "GetAccessPolicyRequest" }) as any as S.Schema<GetAccessPolicyRequest>;
 
 export interface GetAccessPolicyResponse {
   /** Resource Id */
@@ -496,9 +482,7 @@ export const GetAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AccessPolicyResourceProperties),
   }),
-).annotate({
-  identifier: "GetAccessPolicyResponse",
-}) as any as S.Schema<GetAccessPolicyResponse>;
+).annotate({ identifier: "GetAccessPolicyResponse" }) as any as S.Schema<GetAccessPolicyResponse>;
 
 export interface GetEnvironmentRequest {
   /** Azure Subscription ID. */
@@ -524,14 +508,10 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 /** Resource tags */
-export type GetEnvironmentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export const GetEnvironmentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -567,9 +547,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     kind: GetEnvironmentResponseKind,
   }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 
 export interface GetEventSourceRequest {
   /** Azure Subscription ID. */
@@ -595,14 +573,10 @@ export const GetEventSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "GetEventSourceRequest",
-}) as any as S.Schema<GetEventSourceRequest>;
+).annotate({ identifier: "GetEventSourceRequest" }) as any as S.Schema<GetEventSourceRequest>;
 
 /** Resource tags */
-export type GetEventSourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEventSourceResponseTagsMap = { [key: string]: string | undefined };
 export const GetEventSourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -635,9 +609,7 @@ export const GetEventSourceResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetEventSourceResponseTagsMap),
     kind: GetEventSourceResponseKind,
   }),
-).annotate({
-  identifier: "GetEventSourceResponse",
-}) as any as S.Schema<GetEventSourceResponse>;
+).annotate({ identifier: "GetEventSourceResponse" }) as any as S.Schema<GetEventSourceResponse>;
 
 export interface GetReferenceDataSetRequest {
   /** Azure Subscription ID. */
@@ -668,9 +640,7 @@ export const GetReferenceDataSetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetReferenceDataSetRequest>;
 
 /** Resource tags */
-export type GetReferenceDataSetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetReferenceDataSetResponseTagsMap = { [key: string]: string | undefined };
 export const GetReferenceDataSetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -811,9 +781,7 @@ export const AccessPolicyResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AccessPolicyResourceProperties),
   }),
-).annotate({
-  identifier: "AccessPolicyResource",
-}) as any as S.Schema<AccessPolicyResource>;
+).annotate({ identifier: "AccessPolicyResource" }) as any as S.Schema<AccessPolicyResource>;
 
 /** Result of the List access policies operation. */
 export type AccessPolicyListResponseValueList = Array<AccessPolicyResource>;
@@ -830,9 +798,7 @@ export const AccessPolicyListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AccessPolicyListResponseValueList),
   }),
-).annotate({
-  identifier: "AccessPolicyListResponse",
-}) as any as S.Schema<AccessPolicyListResponse>;
+).annotate({ identifier: "AccessPolicyListResponse" }) as any as S.Schema<AccessPolicyListResponse>;
 
 export interface ListEnvironmentByResourceGroupRequest {
   /** Azure Subscription ID. */
@@ -894,9 +860,7 @@ export const EnvironmentResource = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     kind: EnvironmentResourceKind,
   }),
-).annotate({
-  identifier: "EnvironmentResource",
-}) as any as S.Schema<EnvironmentResource>;
+).annotate({ identifier: "EnvironmentResource" }) as any as S.Schema<EnvironmentResource>;
 
 /** Result of the List Environments operation. */
 export type EnvironmentListResponseValueList = Array<EnvironmentResource>;
@@ -913,9 +877,7 @@ export const EnvironmentListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(EnvironmentListResponseValueList),
   }),
-).annotate({
-  identifier: "EnvironmentListResponse",
-}) as any as S.Schema<EnvironmentListResponse>;
+).annotate({ identifier: "EnvironmentListResponse" }) as any as S.Schema<EnvironmentListResponse>;
 
 export interface ListEnvironmentBySubscriptionRequest {
   /** Azure Subscription ID. */
@@ -996,9 +958,7 @@ export const EventSourceResource = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(EventSourceResourceTagsMap),
     kind: EventSourceResourceKind,
   }),
-).annotate({
-  identifier: "EventSourceResource",
-}) as any as S.Schema<EventSourceResource>;
+).annotate({ identifier: "EventSourceResource" }) as any as S.Schema<EventSourceResource>;
 
 /** Result of the List EventSources operation. */
 export type EventSourceListResponseValueList = Array<EventSourceResource>;
@@ -1015,9 +975,7 @@ export const EventSourceListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(EventSourceListResponseValueList),
   }),
-).annotate({
-  identifier: "EventSourceListResponse",
-}) as any as S.Schema<EventSourceListResponse>;
+).annotate({ identifier: "EventSourceListResponse" }) as any as S.Schema<EventSourceListResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1029,9 +987,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Contains the localized display information for this particular operation / action. */
 export interface OperationDisplay {
@@ -1051,9 +1007,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Dimension of blobs, possibly be blob type or access tier. */
 export interface Dimension {
@@ -1085,9 +1039,7 @@ export const MetricAvailability = /*@__PURE__*/ S.suspend(() =>
     timeGrain: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricAvailability",
-}) as any as S.Schema<MetricAvailability>;
+).annotate({ identifier: "MetricAvailability" }) as any as S.Schema<MetricAvailability>;
 
 /** Retention policies of a resource metric. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
@@ -1128,9 +1080,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     category: S.optional(S.String),
     resourceIdDimensionNameOverride: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1150,9 +1100,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** A list of Azure Monitoring log definitions. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1172,9 +1120,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
@@ -1185,9 +1131,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** A Time Series Insights REST API operation */
 export interface Operation {
@@ -1225,9 +1169,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListReferenceDataSetByEnvironmentRequest {
   /** Azure Subscription ID. */
@@ -1255,9 +1197,7 @@ export const ListReferenceDataSetByEnvironmentRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListReferenceDataSetByEnvironmentRequest>;
 
 /** Resource tags */
-export type ReferenceDataSetResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ReferenceDataSetResourceTagsMap = { [key: string]: string | undefined };
 export const ReferenceDataSetResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1286,9 +1226,7 @@ export const ReferenceDataSetResource = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ReferenceDataSetResourceTagsMap),
     properties: S.optional(ReferenceDataSetResourceProperties),
   }),
-).annotate({
-  identifier: "ReferenceDataSetResource",
-}) as any as S.Schema<ReferenceDataSetResource>;
+).annotate({ identifier: "ReferenceDataSetResource" }) as any as S.Schema<ReferenceDataSetResource>;
 
 /** Result of the List Reference Data Sets operation. */
 export type ReferenceDataSetListResponseValueList = Array<ReferenceDataSetResource>;
@@ -1310,9 +1248,7 @@ export const ReferenceDataSetListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReferenceDataSetListResponse>;
 
 /** Key-value pairs of additional properties for the resource. */
-export type ReferenceDataSetsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ReferenceDataSetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ReferenceDataSetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1388,9 +1324,7 @@ export const ReferenceDataSetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ReferenceDataSetsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ReferenceDataSetsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ReferenceDataSetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ReferenceDataSetsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1505,9 +1439,7 @@ export type UpdateEnvironmentRequestKind = "Gen1" | "Gen2";
 export const UpdateEnvironmentRequestKind = S.String;
 
 /** Key-value pairs of additional properties for the environment. */
-export type UpdateEnvironmentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1540,14 +1472,10 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 /** Resource tags */
-export type UpdateEnvironmentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1592,9 +1520,7 @@ export type UpdateEventSourceRequestKind = "Microsoft.EventHub" | "Microsoft.IoT
 export const UpdateEventSourceRequestKind = S.String;
 
 /** Key-value pairs of additional properties for the event source. */
-export type UpdateEventSourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEventSourceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEventSourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1630,14 +1556,10 @@ export const UpdateEventSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-05-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateEventSourceRequest",
-}) as any as S.Schema<UpdateEventSourceRequest>;
+).annotate({ identifier: "UpdateEventSourceRequest" }) as any as S.Schema<UpdateEventSourceRequest>;
 
 /** Resource tags */
-export type UpdateEventSourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEventSourceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEventSourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1675,9 +1597,7 @@ export const UpdateEventSourceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEventSourceResponse>;
 
 /** Key-value pairs of additional properties for the reference data set. */
-export type UpdateReferenceDataSetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateReferenceDataSetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateReferenceDataSetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1715,9 +1635,7 @@ export const UpdateReferenceDataSetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateReferenceDataSetRequest>;
 
 /** Resource tags */
-export type UpdateReferenceDataSetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateReferenceDataSetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateReferenceDataSetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Download Whop's two OpenAPI descriptions.
  *
@@ -25,20 +25,20 @@
  * huggingface/vercel/cloudflare pattern: fetch from the live docs host and
  * commit the result. Regenerating is a two-step:
  *
- *   bun run spec:download   # refresh specs/*.json from upstream
- *   bun run generate        # convert + compile (see scripts/convert.ts)
+ *   pnpm run spec:download  # refresh specs/*.json from upstream
+ *   pnpm run generate       # convert + compile (see scripts/convert.ts)
  *
  * Each document is re-serialized with 2-space indent + a trailing newline
  * rather than saved verbatim, so a whitespace-only change upstream produces
  * no diff and a malformed download fails HERE instead of in convert.
  *
  * Usage:
- *   bun scripts/download-spec.ts
- *   bun scripts/download-spec.ts --out specs
- *   bun scripts/download-spec.ts --origin https://docs.whop.com
+ *   node scripts/download-spec.ts
+ *   node scripts/download-spec.ts --out specs
+ *   node scripts/download-spec.ts --origin https://docs.whop.com
  */
 
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Data, Effect } from "effect";
 import { Command, Flag } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
@@ -166,7 +166,7 @@ const downloadSpec = Command.make(
       const path = yield* Path.Path;
 
       // The whop/ folder is the parent of this scripts/ dir.
-      const root = path.resolve(import.meta.dir, "..");
+      const root = path.resolve(import.meta.dirname, "..");
       const outDir = path.resolve(root, config.out);
 
       yield* Console.log("🛒 Whop OpenAPI spec downloader");
@@ -231,7 +231,7 @@ const downloadSpec = Command.make(
         return yield* new VersionMismatchError({ dates: versionDates });
       }
 
-      yield* Console.log(`   Next: bun run generate`);
+      yield* Console.log(`   Next: pnpm run generate`);
     }),
 ).pipe(
   Command.withDescription("Download Whop's versioned + legacy OpenAPI documents into ./specs"),
@@ -243,4 +243,4 @@ const downloadSpec = Command.make(
 
 const program = Command.run(downloadSpec, { version: "1.0.0" });
 
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));

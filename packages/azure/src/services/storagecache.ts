@@ -42,9 +42,7 @@ export const AmlFilesystemsCancelArchiveResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AmlFilesystemsCancelArchiveResponse>;
 
 /** Resource tags. */
-export type AmlFilesystemsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AmlFilesystemsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AmlFilesystemsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -75,9 +73,7 @@ export const KeyVaultKeyReference = /*@__PURE__*/ S.suspend(() =>
     keyUrl: S.String,
     sourceVault: KeyVaultKeyReferenceSourceVault,
   }),
-).annotate({
-  identifier: "KeyVaultKeyReference",
-}) as any as S.Schema<KeyVaultKeyReference>;
+).annotate({ identifier: "KeyVaultKeyReference" }) as any as S.Schema<KeyVaultKeyReference>;
 
 /** AML file system encryption settings. */
 export interface AmlFilesystemEncryptionSettings {
@@ -143,9 +139,7 @@ export const AmlFilesystemHsmSettings = /*@__PURE__*/ S.suspend(() =>
     importPrefix: S.optional(S.String),
     importPrefixesInitial: S.optional(AmlFilesystemHsmSettingsImportPrefixesInitialList),
   }),
-).annotate({
-  identifier: "AmlFilesystemHsmSettings",
-}) as any as S.Schema<AmlFilesystemHsmSettings>;
+).annotate({ identifier: "AmlFilesystemHsmSettings" }) as any as S.Schema<AmlFilesystemHsmSettings>;
 
 /** Hydration and archive settings and status */
 export interface AmlFilesystemPropertiesHsmInput {
@@ -346,9 +340,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AmlFilesystemsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AmlFilesystemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AmlFilesystemsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -379,9 +371,7 @@ export const AmlFilesystemHealth = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.String),
     statusDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AmlFilesystemHealth",
-}) as any as S.Schema<AmlFilesystemHealth>;
+).annotate({ identifier: "AmlFilesystemHealth" }) as any as S.Schema<AmlFilesystemHealth>;
 
 /** ARM provisioning state. */
 export type AmlFilesystemProvisioningStateType =
@@ -430,9 +420,7 @@ export const AmlFilesystemClientInfo = /*@__PURE__*/ S.suspend(() =>
     lustreVersion: S.optional(S.String),
     containerStorageInterface: S.optional(AmlFilesystemContainerStorageInterface),
   }),
-).annotate({
-  identifier: "AmlFilesystemClientInfo",
-}) as any as S.Schema<AmlFilesystemClientInfo>;
+).annotate({ identifier: "AmlFilesystemClientInfo" }) as any as S.Schema<AmlFilesystemClientInfo>;
 
 /** The state of the archive operation */
 export type ArchiveStatusType =
@@ -486,9 +474,7 @@ export const AmlFilesystemArchive = /*@__PURE__*/ S.suspend(() =>
     filesystemPath: S.optional(S.String),
     status: S.optional(AmlFilesystemArchiveStatus),
   }),
-).annotate({
-  identifier: "AmlFilesystemArchive",
-}) as any as S.Schema<AmlFilesystemArchive>;
+).annotate({ identifier: "AmlFilesystemArchive" }) as any as S.Schema<AmlFilesystemArchive>;
 
 /** Archive status */
 export type AmlFilesystemPropertiesHsmArchiveStatusList = Array<AmlFilesystemArchive>;
@@ -579,9 +565,7 @@ export const AmlFilesystemProperties = /*@__PURE__*/ S.suspend(() =>
     hsm: S.optional(AmlFilesystemPropertiesHsm),
     rootSquashSettings: S.optional(AmlFilesystemRootSquashSettings),
   }),
-).annotate({
-  identifier: "AmlFilesystemProperties",
-}) as any as S.Schema<AmlFilesystemProperties>;
+).annotate({ identifier: "AmlFilesystemProperties" }) as any as S.Schema<AmlFilesystemProperties>;
 
 /** User-assigned identity properties. */
 export interface UserAssignedIdentitiesValue {
@@ -626,9 +610,7 @@ export const AmlFilesystemIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AmlFilesystemIdentityType),
     userAssignedIdentities: S.optional(AmlFilesystemIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "AmlFilesystemIdentity",
-}) as any as S.Schema<AmlFilesystemIdentity>;
+).annotate({ identifier: "AmlFilesystemIdentity" }) as any as S.Schema<AmlFilesystemIdentity>;
 
 /** The availability zones. */
 export type AmlFilesystemsCreateOrUpdateResponseZonesList = Array<string>;
@@ -709,9 +691,7 @@ export const ArchiveAmlFilesystemResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 }) as any as S.Schema<ArchiveAmlFilesystemResponse>;
 
 /** Resource tags. */
-export type AutoExportJobsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AutoExportJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AutoExportJobsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -781,9 +761,7 @@ export const AutoExportJobsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AutoExportJobsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AutoExportJobsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AutoExportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AutoExportJobsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -891,9 +869,7 @@ export const AutoExportJobProperties = /*@__PURE__*/ S.suspend(() =>
     autoExportPrefixes: S.optional(AutoExportJobPropertiesAutoExportPrefixesList),
     status: S.optional(AutoExportJobPropertiesStatus),
   }),
-).annotate({
-  identifier: "AutoExportJobProperties",
-}) as any as S.Schema<AutoExportJobProperties>;
+).annotate({ identifier: "AutoExportJobProperties" }) as any as S.Schema<AutoExportJobProperties>;
 
 export interface AutoExportJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -926,9 +902,7 @@ export const AutoExportJobsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<AutoExportJobsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type AutoImportJobsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AutoImportJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AutoImportJobsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1015,9 +989,7 @@ export const AutoImportJobsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AutoImportJobsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AutoImportJobsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AutoImportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AutoImportJobsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1201,9 +1173,7 @@ export const AutoImportJobProperties = /*@__PURE__*/ S.suspend(() =>
     maximumErrors: S.optional(S.Number),
     status: S.optional(AutoImportJobPropertiesStatus),
   }),
-).annotate({
-  identifier: "AutoImportJobProperties",
-}) as any as S.Schema<AutoImportJobProperties>;
+).annotate({ identifier: "AutoImportJobProperties" }) as any as S.Schema<AutoImportJobProperties>;
 
 export interface AutoImportJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1247,9 +1217,7 @@ export const CacheUpgradeSettings = /*@__PURE__*/ S.suspend(() =>
     upgradeScheduleEnabled: S.optional(S.Boolean),
     scheduledTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheUpgradeSettings",
-}) as any as S.Schema<CacheUpgradeSettings>;
+).annotate({ identifier: "CacheUpgradeSettings" }) as any as S.Schema<CacheUpgradeSettings>;
 
 /** DNS servers for the cache to use. It will be set from the network configuration if no value is provided. */
 export type CacheNetworkSettingsInputDnsServersList = Array<string>;
@@ -1291,9 +1259,7 @@ export const CacheEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
     keyEncryptionKey: S.optional(KeyVaultKeyReference),
     rotationToLatestKeyVersionEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CacheEncryptionSettings",
-}) as any as S.Schema<CacheEncryptionSettings>;
+).annotate({ identifier: "CacheEncryptionSettings" }) as any as S.Schema<CacheEncryptionSettings>;
 
 /** Scope for this rule. The scope and filter determine which clients match the rule. */
 export type NfsAccessRuleScope = "default" | "network" | "host";
@@ -1353,9 +1319,7 @@ export const NfsAccessPolicy = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     accessRules: NfsAccessPolicyAccessRulesList,
   }),
-).annotate({
-  identifier: "NfsAccessPolicy",
-}) as any as S.Schema<NfsAccessPolicy>;
+).annotate({ identifier: "NfsAccessPolicy" }) as any as S.Schema<NfsAccessPolicy>;
 
 /** NFS access policies defined for this cache. */
 export type CacheSecuritySettingsAccessPoliciesList = Array<NfsAccessPolicy>;
@@ -1372,9 +1336,7 @@ export const CacheSecuritySettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accessPolicies: S.optional(CacheSecuritySettingsAccessPoliciesList),
   }),
-).annotate({
-  identifier: "CacheSecuritySettings",
-}) as any as S.Schema<CacheSecuritySettings>;
+).annotate({ identifier: "CacheSecuritySettings" }) as any as S.Schema<CacheSecuritySettings>;
 
 /** True if the HPC Cache is joined to the Active Directory domain. */
 export type DomainJoinedType = "Yes" | "No" | "Error";
@@ -1509,9 +1471,7 @@ export const CacheDirectorySettings = /*@__PURE__*/ S.suspend(() =>
     activeDirectory: S.optional(CacheActiveDirectorySettings),
     usernameDownload: S.optional(CacheUsernameDownloadSettings),
   }),
-).annotate({
-  identifier: "CacheDirectorySettings",
-}) as any as S.Schema<CacheDirectorySettings>;
+).annotate({ identifier: "CacheDirectorySettings" }) as any as S.Schema<CacheDirectorySettings>;
 
 /** Availability zones for resources. This field should only contain a single element in the array. */
 export type CachePropertiesInputZonesList = Array<string>;
@@ -1531,9 +1491,7 @@ export const PrimingJobInput = /*@__PURE__*/ S.suspend(() =>
     primingJobName: S.String,
     primingManifestUrl: S.String,
   }),
-).annotate({
-  identifier: "PrimingJobInput",
-}) as any as S.Schema<PrimingJobInput>;
+).annotate({ identifier: "PrimingJobInput" }) as any as S.Schema<PrimingJobInput>;
 
 /** Specifies the priming jobs defined in the cache. */
 export type CachePropertiesInputPrimingJobsList = Array<PrimingJobInput>;
@@ -1574,14 +1532,10 @@ export const CachePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(CachePropertiesInputZonesList),
     primingJobs: S.optional(CachePropertiesInputPrimingJobsList),
   }),
-).annotate({
-  identifier: "CachePropertiesInput",
-}) as any as S.Schema<CachePropertiesInput>;
+).annotate({ identifier: "CachePropertiesInput" }) as any as S.Schema<CachePropertiesInput>;
 
 /** Resource tags. */
-export type CachesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CachesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CachesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1616,9 +1570,7 @@ export const CacheIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CacheIdentityType),
     userAssignedIdentities: S.optional(CacheIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "CacheIdentityInput",
-}) as any as S.Schema<CacheIdentityInput>;
+).annotate({ identifier: "CacheIdentityInput" }) as any as S.Schema<CacheIdentityInput>;
 
 /** SKU for the cache. */
 export interface CacheSku {
@@ -1765,9 +1717,7 @@ export const CacheUpgradeStatus = /*@__PURE__*/ S.suspend(() =>
     lastFirmwareUpdate: S.optional(S.String),
     pendingFirmwareVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheUpgradeStatus",
-}) as any as S.Schema<CacheUpgradeStatus>;
+).annotate({ identifier: "CacheUpgradeStatus" }) as any as S.Schema<CacheUpgradeStatus>;
 
 /** Array of additional IP addresses used by this cache. */
 export type CacheNetworkSettingsUtilityAddressesList = Array<string>;
@@ -1802,9 +1752,7 @@ export const CacheNetworkSettings = /*@__PURE__*/ S.suspend(() =>
     dnsSearchDomain: S.optional(S.String),
     ntpServer: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheNetworkSettings",
-}) as any as S.Schema<CacheNetworkSettings>;
+).annotate({ identifier: "CacheNetworkSettings" }) as any as S.Schema<CacheNetworkSettings>;
 
 /** Availability zones for resources. This field should only contain a single element in the array. */
 export type CachePropertiesZonesList = Array<string>;
@@ -1921,14 +1869,10 @@ export const CacheProperties = /*@__PURE__*/ S.suspend(() =>
     primingJobs: S.optional(CachePropertiesPrimingJobsList),
     spaceAllocation: S.optional(CachePropertiesSpaceAllocationList),
   }),
-).annotate({
-  identifier: "CacheProperties",
-}) as any as S.Schema<CacheProperties>;
+).annotate({ identifier: "CacheProperties" }) as any as S.Schema<CacheProperties>;
 
 /** Resource tags. */
-export type CachesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CachesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CachesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2020,9 +1964,7 @@ export const CachesDebugInfoRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "CachesDebugInfoRequest",
-}) as any as S.Schema<CachesDebugInfoRequest>;
+).annotate({ identifier: "CachesDebugInfoRequest" }) as any as S.Schema<CachesDebugInfoRequest>;
 
 export interface CachesDebugInfoResponse {}
 export const CachesDebugInfoResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2123,9 +2065,7 @@ export const CheckAmlFSSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "CheckAmlFSSubnetsRequest",
-}) as any as S.Schema<CheckAmlFSSubnetsRequest>;
+).annotate({ identifier: "CheckAmlFSSubnetsRequest" }) as any as S.Schema<CheckAmlFSSubnetsRequest>;
 
 export interface CheckAmlFSSubnetsResponse {}
 export const CheckAmlFSSubnetsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2249,9 +2189,7 @@ export const DeleteCachRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCachRequest",
-}) as any as S.Schema<DeleteCachRequest>;
+).annotate({ identifier: "DeleteCachRequest" }) as any as S.Schema<DeleteCachRequest>;
 
 export interface DeleteCachResponse {}
 export const DeleteCachResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2315,9 +2253,7 @@ export const DeleteImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteImportJobRequest",
-}) as any as S.Schema<DeleteImportJobRequest>;
+).annotate({ identifier: "DeleteImportJobRequest" }) as any as S.Schema<DeleteImportJobRequest>;
 
 export interface DeleteImportJobResponse {}
 export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2394,9 +2330,7 @@ export const DeleteStorageTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<DeleteStorageTargetResponse>;
 
 /** Resource tags. */
-export type ExpansionJobsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpansionJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ExpansionJobsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2456,9 +2390,7 @@ export const ExpansionJobsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExpansionJobsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ExpansionJobsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ExpansionJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ExpansionJobsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2532,9 +2464,7 @@ export const ExpansionJobProperties = /*@__PURE__*/ S.suspend(() =>
     runRebalanceJob: S.optional(S.Boolean),
     rebalanceJobId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpansionJobProperties",
-}) as any as S.Schema<ExpansionJobProperties>;
+).annotate({ identifier: "ExpansionJobProperties" }) as any as S.Schema<ExpansionJobProperties>;
 
 export interface ExpansionJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2587,9 +2517,7 @@ export const FlushCachRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "FlushCachRequest",
-}) as any as S.Schema<FlushCachRequest>;
+).annotate({ identifier: "FlushCachRequest" }) as any as S.Schema<FlushCachRequest>;
 
 export interface FlushCachResponse {}
 export const FlushCachResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2650,14 +2578,10 @@ export const GetAmlFilesystemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetAmlFilesystemRequest",
-}) as any as S.Schema<GetAmlFilesystemRequest>;
+).annotate({ identifier: "GetAmlFilesystemRequest" }) as any as S.Schema<GetAmlFilesystemRequest>;
 
 /** Resource tags. */
-export type GetAmlFilesystemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAmlFilesystemResponseTagsMap = { [key: string]: string | undefined };
 export const GetAmlFilesystemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2704,9 +2628,7 @@ export const GetAmlFilesystemResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(SkuName),
     zones: S.optional(GetAmlFilesystemResponseZonesList),
   }),
-).annotate({
-  identifier: "GetAmlFilesystemResponse",
-}) as any as S.Schema<GetAmlFilesystemResponse>;
+).annotate({ identifier: "GetAmlFilesystemResponse" }) as any as S.Schema<GetAmlFilesystemResponse>;
 
 export interface GetAscOperationRequest {
   /** The ID of the target subscription. */
@@ -2729,9 +2651,7 @@ export const GetAscOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetAscOperationRequest",
-}) as any as S.Schema<GetAscOperationRequest>;
+).annotate({ identifier: "GetAscOperationRequest" }) as any as S.Schema<GetAscOperationRequest>;
 
 /** Describes the format of Error response. */
 export interface AscOperationErrorResponse {
@@ -2750,9 +2670,7 @@ export const AscOperationErrorResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AscOperationErrorResponse>;
 
 /** Additional operation-specific output. */
-export type AscOperationPropertiesOutputMap = {
-  [key: string]: unknown | undefined;
-};
+export type AscOperationPropertiesOutputMap = { [key: string]: unknown | undefined };
 export const AscOperationPropertiesOutputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2767,9 +2685,7 @@ export const AscOperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     output: S.optional(AscOperationPropertiesOutputMap),
   }),
-).annotate({
-  identifier: "AscOperationProperties",
-}) as any as S.Schema<AscOperationProperties>;
+).annotate({ identifier: "AscOperationProperties" }) as any as S.Schema<AscOperationProperties>;
 
 /** The status of operation. */
 export interface AscOperation {
@@ -2824,14 +2740,10 @@ export const GetAutoExportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetAutoExportJobRequest",
-}) as any as S.Schema<GetAutoExportJobRequest>;
+).annotate({ identifier: "GetAutoExportJobRequest" }) as any as S.Schema<GetAutoExportJobRequest>;
 
 /** Resource tags. */
-export type GetAutoExportJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAutoExportJobResponseTagsMap = { [key: string]: string | undefined };
 export const GetAutoExportJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2863,9 +2775,7 @@ export const GetAutoExportJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AutoExportJobProperties),
   }),
-).annotate({
-  identifier: "GetAutoExportJobResponse",
-}) as any as S.Schema<GetAutoExportJobResponse>;
+).annotate({ identifier: "GetAutoExportJobResponse" }) as any as S.Schema<GetAutoExportJobResponse>;
 
 export interface GetAutoImportJobRequest {
   /** The ID of the target subscription. */
@@ -2891,14 +2801,10 @@ export const GetAutoImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetAutoImportJobRequest",
-}) as any as S.Schema<GetAutoImportJobRequest>;
+).annotate({ identifier: "GetAutoImportJobRequest" }) as any as S.Schema<GetAutoImportJobRequest>;
 
 /** Resource tags. */
-export type GetAutoImportJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAutoImportJobResponseTagsMap = { [key: string]: string | undefined };
 export const GetAutoImportJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2930,9 +2836,7 @@ export const GetAutoImportJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AutoImportJobProperties),
   }),
-).annotate({
-  identifier: "GetAutoImportJobResponse",
-}) as any as S.Schema<GetAutoImportJobResponse>;
+).annotate({ identifier: "GetAutoImportJobResponse" }) as any as S.Schema<GetAutoImportJobResponse>;
 
 export interface GetCachRequest {
   /** The ID of the target subscription. */
@@ -2996,9 +2900,7 @@ export const GetCachResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CacheIdentity),
     sku: S.optional(CacheSku),
   }),
-).annotate({
-  identifier: "GetCachResponse",
-}) as any as S.Schema<GetCachResponse>;
+).annotate({ identifier: "GetCachResponse" }) as any as S.Schema<GetCachResponse>;
 
 export interface GetExpansionJobRequest {
   /** The ID of the target subscription. */
@@ -3024,14 +2926,10 @@ export const GetExpansionJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetExpansionJobRequest",
-}) as any as S.Schema<GetExpansionJobRequest>;
+).annotate({ identifier: "GetExpansionJobRequest" }) as any as S.Schema<GetExpansionJobRequest>;
 
 /** Resource tags. */
-export type GetExpansionJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetExpansionJobResponseTagsMap = { [key: string]: string | undefined };
 export const GetExpansionJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3063,9 +2961,7 @@ export const GetExpansionJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ExpansionJobProperties),
   }),
-).annotate({
-  identifier: "GetExpansionJobResponse",
-}) as any as S.Schema<GetExpansionJobResponse>;
+).annotate({ identifier: "GetExpansionJobResponse" }) as any as S.Schema<GetExpansionJobResponse>;
 
 export interface GetImportJobRequest {
   /** The ID of the target subscription. */
@@ -3091,9 +2987,7 @@ export const GetImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetImportJobRequest",
-}) as any as S.Schema<GetImportJobRequest>;
+).annotate({ identifier: "GetImportJobRequest" }) as any as S.Schema<GetImportJobRequest>;
 
 /** Resource tags. */
 export type GetImportJobResponseTagsMap = { [key: string]: string | undefined };
@@ -3222,9 +3116,7 @@ export const ImportJobProperties = /*@__PURE__*/ S.suspend(() =>
     maximumErrors: S.optional(S.Number),
     status: S.optional(ImportJobPropertiesStatus),
   }),
-).annotate({
-  identifier: "ImportJobProperties",
-}) as any as S.Schema<ImportJobProperties>;
+).annotate({ identifier: "ImportJobProperties" }) as any as S.Schema<ImportJobProperties>;
 
 export interface GetImportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3252,9 +3144,7 @@ export const GetImportJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ImportJobProperties),
   }),
-).annotate({
-  identifier: "GetImportJobResponse",
-}) as any as S.Schema<GetImportJobResponse>;
+).annotate({ identifier: "GetImportJobResponse" }) as any as S.Schema<GetImportJobResponse>;
 
 export interface GetRebalanceJobRequest {
   /** The ID of the target subscription. */
@@ -3280,9 +3170,7 @@ export const GetRebalanceJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetRebalanceJobRequest",
-}) as any as S.Schema<GetRebalanceJobRequest>;
+).annotate({ identifier: "GetRebalanceJobRequest" }) as any as S.Schema<GetRebalanceJobRequest>;
 
 /** ARM provisioning state for the rebalance job. */
 export type RebalanceJobPropertiesProvisioningState =
@@ -3382,9 +3270,7 @@ export const RebalanceJobProperties = /*@__PURE__*/ S.suspend(() =>
     expansionJobId: S.optional(S.String),
     status: S.optional(RebalanceJobPropertiesStatus),
   }),
-).annotate({
-  identifier: "RebalanceJobProperties",
-}) as any as S.Schema<RebalanceJobProperties>;
+).annotate({ identifier: "RebalanceJobProperties" }) as any as S.Schema<RebalanceJobProperties>;
 
 export interface GetRebalanceJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3406,9 +3292,7 @@ export const GetRebalanceJobResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RebalanceJobProperties),
   }),
-).annotate({
-  identifier: "GetRebalanceJobResponse",
-}) as any as S.Schema<GetRebalanceJobResponse>;
+).annotate({ identifier: "GetRebalanceJobResponse" }) as any as S.Schema<GetRebalanceJobResponse>;
 
 export interface GetRequiredAmlFSSubnetsSizeRequest {
   /** The ID of the target subscription. */
@@ -3472,9 +3356,7 @@ export const GetStorageTargetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetStorageTargetRequest",
-}) as any as S.Schema<GetStorageTargetRequest>;
+).annotate({ identifier: "GetStorageTargetRequest" }) as any as S.Schema<GetStorageTargetRequest>;
 
 /** A namespace junction. */
 export interface NamespaceJunction {
@@ -3494,9 +3376,7 @@ export const NamespaceJunction = /*@__PURE__*/ S.suspend(() =>
     nfsExport: S.optional(S.String),
     nfsAccessPolicy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceJunction",
-}) as any as S.Schema<NamespaceJunction>;
+).annotate({ identifier: "NamespaceJunction" }) as any as S.Schema<NamespaceJunction>;
 
 /** List of cache namespace junctions to target for namespace associations. */
 export type StorageTargetPropertiesJunctionsList = Array<NamespaceJunction>;
@@ -3614,9 +3494,7 @@ export const StorageTargetProperties = /*@__PURE__*/ S.suspend(() =>
     blobNfs: S.optional(BlobNfsTarget),
     allocationPercentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StorageTargetProperties",
-}) as any as S.Schema<StorageTargetProperties>;
+).annotate({ identifier: "StorageTargetProperties" }) as any as S.Schema<StorageTargetProperties>;
 
 export interface GetStorageTargetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3641,14 +3519,10 @@ export const GetStorageTargetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(StorageTargetProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetStorageTargetResponse",
-}) as any as S.Schema<GetStorageTargetResponse>;
+).annotate({ identifier: "GetStorageTargetResponse" }) as any as S.Schema<GetStorageTargetResponse>;
 
 /** Resource tags. */
-export type ImportJobsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ImportJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ImportJobsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3690,9 +3564,7 @@ export const ImportJobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     conflictResolutionMode: S.optional(ImportJobPropertiesInputConflictResolutionMode),
     maximumErrors: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ImportJobPropertiesInput",
-}) as any as S.Schema<ImportJobPropertiesInput>;
+).annotate({ identifier: "ImportJobPropertiesInput" }) as any as S.Schema<ImportJobPropertiesInput>;
 
 export interface ImportJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3732,9 +3604,7 @@ export const ImportJobsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ImportJobsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ImportJobsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ImportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ImportJobsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3800,9 +3670,7 @@ export const InvalidateStorageTargetRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface InvalidateStorageTargetResponse {}
 export const InvalidateStorageTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "InvalidateStorageTargetResponse",
-  },
+  { identifier: "InvalidateStorageTargetResponse" },
 ) as any as S.Schema<InvalidateStorageTargetResponse>;
 
 export interface ListAmlFilesystemByResourceGroupRequest {
@@ -3896,9 +3764,7 @@ export const AmlFilesystemsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AmlFilesystemsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AmlFilesystemsListResult",
-}) as any as S.Schema<AmlFilesystemsListResult>;
+).annotate({ identifier: "AmlFilesystemsListResult" }) as any as S.Schema<AmlFilesystemsListResult>;
 
 export interface ListAmlFilesystemsRequest {
   /** The ID of the target subscription. */
@@ -3937,9 +3803,7 @@ export const ListAscUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListAscUsagesRequest",
-}) as any as S.Schema<ListAscUsagesRequest>;
+).annotate({ identifier: "ListAscUsagesRequest" }) as any as S.Schema<ListAscUsagesRequest>;
 
 /** Naming information for this resource type. */
 export interface ResourceUsageName {
@@ -3953,9 +3817,7 @@ export const ResourceUsageName = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     localizedValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceUsageName",
-}) as any as S.Schema<ResourceUsageName>;
+).annotate({ identifier: "ResourceUsageName" }) as any as S.Schema<ResourceUsageName>;
 
 /** The usage and limit (quota) for a resource. */
 export interface ResourceUsage {
@@ -3995,9 +3857,7 @@ export const ResourceUsagesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ResourceUsagesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceUsagesListResult",
-}) as any as S.Schema<ResourceUsagesListResult>;
+).annotate({ identifier: "ResourceUsagesListResult" }) as any as S.Schema<ResourceUsagesListResult>;
 
 export interface ListAutoExportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -4078,9 +3938,7 @@ export const AutoExportJobsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AutoExportJobsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoExportJobsListResult",
-}) as any as S.Schema<AutoExportJobsListResult>;
+).annotate({ identifier: "AutoExportJobsListResult" }) as any as S.Schema<AutoExportJobsListResult>;
 
 export interface ListAutoImportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -4161,9 +4019,7 @@ export const AutoImportJobsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AutoImportJobsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoImportJobsListResult",
-}) as any as S.Schema<AutoImportJobsListResult>;
+).annotate({ identifier: "AutoImportJobsListResult" }) as any as S.Schema<AutoImportJobsListResult>;
 
 export interface ListCachByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -4247,9 +4103,7 @@ export const CachesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CachesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CachesListResult",
-}) as any as S.Schema<CachesListResult>;
+).annotate({ identifier: "CachesListResult" }) as any as S.Schema<CachesListResult>;
 
 export interface ListCachesRequest {
   /** The ID of the target subscription. */
@@ -4266,9 +4120,7 @@ export const ListCachesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListCachesRequest",
-}) as any as S.Schema<ListCachesRequest>;
+).annotate({ identifier: "ListCachesRequest" }) as any as S.Schema<ListCachesRequest>;
 
 export interface ListExpansionJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -4349,9 +4201,7 @@ export const ExpansionJobsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ExpansionJobsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpansionJobsListResult",
-}) as any as S.Schema<ExpansionJobsListResult>;
+).annotate({ identifier: "ExpansionJobsListResult" }) as any as S.Schema<ExpansionJobsListResult>;
 
 export interface ListImportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -4432,9 +4282,7 @@ export const ImportJobsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ImportJobsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportJobsListResult",
-}) as any as S.Schema<ImportJobsListResult>;
+).annotate({ identifier: "ImportJobsListResult" }) as any as S.Schema<ImportJobsListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4446,9 +4294,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface ApiOperationDisplay {
@@ -4468,9 +4314,7 @@ export const ApiOperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiOperationDisplay",
-}) as any as S.Schema<ApiOperationDisplay>;
+).annotate({ identifier: "ApiOperationDisplay" }) as any as S.Schema<ApiOperationDisplay>;
 
 /** Metric aggregation type. */
 export type MetricAggregationType =
@@ -4507,9 +4351,7 @@ export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
     internalName: S.optional(S.String),
     toBeExportedForShoebox: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
@@ -4547,9 +4389,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     metricClass: S.optional(S.String),
     dimensions: S.optional(MetricSpecificationDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Details about operations related to metrics. */
 export type ApiOperationPropertiesServiceSpecificationMetricSpecificationsList =
@@ -4571,9 +4411,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Details about operations related to logs. */
 export type ApiOperationPropertiesServiceSpecificationLogSpecificationsList =
@@ -4610,9 +4448,7 @@ export const ApiOperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ApiOperationPropertiesServiceSpecification),
   }),
-).annotate({
-  identifier: "ApiOperationProperties",
-}) as any as S.Schema<ApiOperationProperties>;
+).annotate({ identifier: "ApiOperationProperties" }) as any as S.Schema<ApiOperationProperties>;
 
 /** REST API operation description: see https://github.com/Azure/azure-rest-api-specs/blob/master/documentation/openapi-authoring-automated-guidelines.md#r3023-operationsapiimplementation */
 export interface ApiOperation {
@@ -4655,9 +4491,7 @@ export const ApiOperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApiOperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiOperationListResult",
-}) as any as S.Schema<ApiOperationListResult>;
+).annotate({ identifier: "ApiOperationListResult" }) as any as S.Schema<ApiOperationListResult>;
 
 export interface ListRebalanceJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -4725,9 +4559,7 @@ export const RebalanceJobsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RebalanceJobsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RebalanceJobsListResult",
-}) as any as S.Schema<RebalanceJobsListResult>;
+).annotate({ identifier: "RebalanceJobsListResult" }) as any as S.Schema<RebalanceJobsListResult>;
 
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
@@ -4744,9 +4576,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListSkusRequest",
-}) as any as S.Schema<ListSkusRequest>;
+).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
 
 /** A resource SKU capability. */
 export interface ResourceSkuCapabilities {
@@ -4760,9 +4590,7 @@ export const ResourceSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCapabilities",
-}) as any as S.Schema<ResourceSkuCapabilities>;
+).annotate({ identifier: "ResourceSkuCapabilities" }) as any as S.Schema<ResourceSkuCapabilities>;
 
 /** A list of capabilities of this SKU, such as throughput or ops/sec. */
 export type ResourceSkuCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -4794,9 +4622,7 @@ export const ResourceSkuLocationInfo = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(ResourceSkuLocationInfoZonesList),
   }),
-).annotate({
-  identifier: "ResourceSkuLocationInfo",
-}) as any as S.Schema<ResourceSkuLocationInfo>;
+).annotate({ identifier: "ResourceSkuLocationInfo" }) as any as S.Schema<ResourceSkuLocationInfo>;
 
 /** The set of locations where the SKU is available. */
 export type ResourceSkuLocationInfoList = Array<ResourceSkuLocationInfo>;
@@ -4881,9 +4707,7 @@ export const ResourceSkusResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ResourceSkusResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkusResult",
-}) as any as S.Schema<ResourceSkusResult>;
+).annotate({ identifier: "ResourceSkusResult" }) as any as S.Schema<ResourceSkusResult>;
 
 export interface ListStorageTargetByCacheRequest {
   /** The ID of the target subscription. */
@@ -4954,9 +4778,7 @@ export const StorageTargetsResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(StorageTargetsResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageTargetsResult",
-}) as any as S.Schema<StorageTargetsResult>;
+).annotate({ identifier: "StorageTargetsResult" }) as any as S.Schema<StorageTargetsResult>;
 
 export interface ListUsageModelsRequest {
   /** The ID of the target subscription. */
@@ -4973,9 +4795,7 @@ export const ListUsageModelsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsageModelsRequest",
-}) as any as S.Schema<ListUsageModelsRequest>;
+).annotate({ identifier: "ListUsageModelsRequest" }) as any as S.Schema<ListUsageModelsRequest>;
 
 /** Localized information describing this usage model. */
 export interface UsageModelDisplay {
@@ -4986,9 +4806,7 @@ export const UsageModelDisplay = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsageModelDisplay",
-}) as any as S.Schema<UsageModelDisplay>;
+).annotate({ identifier: "UsageModelDisplay" }) as any as S.Schema<UsageModelDisplay>;
 
 /** A usage model. */
 export interface UsageModel {
@@ -5025,9 +4843,7 @@ export const UsageModelsResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(UsageModelsResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsageModelsResult",
-}) as any as S.Schema<UsageModelsResult>;
+).annotate({ identifier: "UsageModelsResult" }) as any as S.Schema<UsageModelsResult>;
 
 export interface PauseCachPrimingJobRequest {
   /** The ID of the target subscription. */
@@ -5219,9 +5035,7 @@ export const StartCachRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "StartCachRequest",
-}) as any as S.Schema<StartCachRequest>;
+).annotate({ identifier: "StartCachRequest" }) as any as S.Schema<StartCachRequest>;
 
 export interface StartCachResponse {}
 export const StartCachResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5285,9 +5099,7 @@ export const StopCachRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "StopCachRequest",
-}) as any as S.Schema<StopCachRequest>;
+).annotate({ identifier: "StopCachRequest" }) as any as S.Schema<StopCachRequest>;
 
 export interface StopCachResponse {}
 export const StopCachResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5456,9 +5268,7 @@ export const SuspendStorageTargetResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 }) as any as S.Schema<SuspendStorageTargetResponse>;
 
 /** Resource tags. */
-export type UpdateAmlFilesystemRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAmlFilesystemRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAmlFilesystemRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5521,9 +5331,7 @@ export const UpdateAmlFilesystemRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAmlFilesystemRequest>;
 
 /** Resource tags. */
-export type UpdateAmlFilesystemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAmlFilesystemResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAmlFilesystemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5575,9 +5383,7 @@ export const UpdateAmlFilesystemResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAmlFilesystemResponse>;
 
 /** Resource tags. */
-export type UpdateAutoExportJobRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoExportJobRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoExportJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5634,9 +5440,7 @@ export const UpdateAutoExportJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutoExportJobRequest>;
 
 /** Resource tags. */
-export type UpdateAutoExportJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoExportJobResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoExportJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5673,9 +5477,7 @@ export const UpdateAutoExportJobResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutoExportJobResponse>;
 
 /** Resource tags. */
-export type UpdateAutoImportJobRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoImportJobRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoImportJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5732,9 +5534,7 @@ export const UpdateAutoImportJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutoImportJobRequest>;
 
 /** Resource tags. */
-export type UpdateAutoImportJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoImportJobResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoImportJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5813,9 +5613,7 @@ export const UpdateCachRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCachRequest",
-}) as any as S.Schema<UpdateCachRequest>;
+).annotate({ identifier: "UpdateCachRequest" }) as any as S.Schema<UpdateCachRequest>;
 
 /** Resource tags. */
 export type UpdateCachResponseTagsMap = { [key: string]: string | undefined };
@@ -5856,14 +5654,10 @@ export const UpdateCachResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CacheIdentity),
     sku: S.optional(CacheSku),
   }),
-).annotate({
-  identifier: "UpdateCachResponse",
-}) as any as S.Schema<UpdateCachResponse>;
+).annotate({ identifier: "UpdateCachResponse" }) as any as S.Schema<UpdateCachResponse>;
 
 /** Resource tags. */
-export type UpdateExpansionJobRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpansionJobRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateExpansionJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5901,9 +5695,7 @@ export const UpdateExpansionJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpansionJobRequest>;
 
 /** Resource tags. */
-export type UpdateExpansionJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateExpansionJobResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateExpansionJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5940,9 +5732,7 @@ export const UpdateExpansionJobResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateExpansionJobResponse>;
 
 /** Resource tags. */
-export type UpdateImportJobRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateImportJobRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateImportJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5994,14 +5784,10 @@ export const UpdateImportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateImportJobRequest",
-}) as any as S.Schema<UpdateImportJobRequest>;
+).annotate({ identifier: "UpdateImportJobRequest" }) as any as S.Schema<UpdateImportJobRequest>;
 
 /** Resource tags. */
-export type UpdateImportJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateImportJobResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateImportJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6033,9 +5819,7 @@ export const UpdateImportJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ImportJobProperties),
   }),
-).annotate({
-  identifier: "UpdateImportJobResponse",
-}) as any as S.Schema<UpdateImportJobResponse>;
+).annotate({ identifier: "UpdateImportJobResponse" }) as any as S.Schema<UpdateImportJobResponse>;
 
 /** Properties for updating a rebalance job. */
 export interface RebalanceJobUpdateProperties {

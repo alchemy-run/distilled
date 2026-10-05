@@ -1,0 +1,35 @@
+{
+  "description": "SecurityMLAnalyticsSettings is polymorphic on `kind`; add the dropped subtype `properties` bag as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#SecurityMLAnalyticsSettingsCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#SecurityMLAnalyticsSettingsCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#GetSecurityMLAnalyticsSettingsResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly)."
+        }
+      }
+    }
+  ]
+}

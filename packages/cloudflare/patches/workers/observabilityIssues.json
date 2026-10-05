@@ -1,64 +1,6 @@
 {
-  "description": "Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+), including disabling Issues when omitted on redeploy. Add the missing boolean setting to script-settings GET/PATCH, combined settings GET/PATCH responses, and the script upload response. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified PUT with issues-only observability (without top-level enabled), GET script-settings, combined GET settings, and PATCH false-to-true while preserving logs/traces. The same live repair test also verified minimal issues-only PATCH false-to-true without top-level enabled; make enabled optional on the PATCH request only, leaving response requirements unchanged.",
+  "description": "Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+), including disabling Issues when omitted on redeploy. The 2026-10-05 spec adds issues to the script-settings shapes but still requires top-level enabled on the PATCH request. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified a minimal issues-only PATCH false-to-true without top-level enabled; make enabled optional on the PATCH request only, leaving response requirements unchanged.",
   "patches": [
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ObservabilityIssues",
-      "value": {
-        "type": "structure",
-        "members": {
-          "enabled": {
-            "target": "smithy.api#Boolean",
-            "traits": {
-              "smithy.api#required": {},
-              "smithy.api#documentation": "Whether Workers Issues error monitoring is enabled."
-            }
-          }
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsSettingsEditRequestObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsSettingsEditResponseObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsSettingsGetResponseObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditResponseObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsGetResponseObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workers#ScriptsUpdateResponseObservability/members/issues",
-      "value": {
-        "target": "com.cloudflare.workers#ObservabilityIssues"
-      }
-    },
     {
       "op": "remove",
       "path": "/shapes/com.cloudflare.workers#ScriptsSettingsEditRequestObservability/members/enabled/traits/smithy.api#required"

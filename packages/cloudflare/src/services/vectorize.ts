@@ -157,31 +157,34 @@ export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/vectorize/v2/indexes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/vectorize/v2/indexes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateIndexRequest",
-}) as any as S.Schema<CreateIndexRequest>;
+).annotate({ identifier: "CreateIndexRequest" }) as any as S.Schema<CreateIndexRequest>;
 
 export type IndexesCreateResponseConfigMetric = "cosine" | "euclidean" | "dot-product";
 export const IndexesCreateResponseConfigMetric = S.String;
+
+export type IndexesCreateResponseConfigPreset =
+  | "@cf/baai/bge-small-en-v1.5"
+  | "@cf/baai/bge-base-en-v1.5"
+  | "@cf/baai/bge-large-en-v1.5"
+  | "openai/text-embedding-ada-002"
+  | "cohere/embed-multilingual-v2.0";
+export const IndexesCreateResponseConfigPreset = S.String;
 
 export interface IndexesCreateResponseConfig {
   /** Specifies the number of dimensions for the index */
   dimensions: number;
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesCreateResponseConfigMetric;
+  /** Specifies the preset to use for the index. */
+  preset?: IndexesCreateResponseConfigPreset | null;
 }
 export const IndexesCreateResponseConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dimensions: S.Number,
     metric: IndexesCreateResponseConfigMetric,
+    preset: S.optional(S.NullOr(IndexesCreateResponseConfigPreset)),
   }),
 ).annotate({
   identifier: "IndexesCreateResponseConfig",
@@ -206,9 +209,7 @@ export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateIndexResponse",
-}) as any as S.Schema<CreateIndexResponse>;
+).annotate({ identifier: "CreateIndexResponse" }) as any as S.Schema<CreateIndexResponse>;
 
 export type IndexesMetadataIndexCreateRequestIndexType = "string" | "number" | "boolean";
 export const IndexesMetadataIndexCreateRequestIndexType = S.String;
@@ -280,9 +281,7 @@ export const DeleteByIdsIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteByIdsIndexRequest",
-}) as any as S.Schema<DeleteByIdsIndexRequest>;
+).annotate({ identifier: "DeleteByIdsIndexRequest" }) as any as S.Schema<DeleteByIdsIndexRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteByIdsIndexResponse {
@@ -293,9 +292,7 @@ export const DeleteByIdsIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mutationId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteByIdsIndexResponse",
-}) as any as S.Schema<DeleteByIdsIndexResponse>;
+).annotate({ identifier: "DeleteByIdsIndexResponse" }) as any as S.Schema<DeleteByIdsIndexResponse>;
 
 export interface DeleteIndexRequest {
   /** Identifier */
@@ -315,16 +312,12 @@ export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteIndexRequest",
-}) as any as S.Schema<DeleteIndexRequest>;
+).annotate({ identifier: "DeleteIndexRequest" }) as any as S.Schema<DeleteIndexRequest>;
 
 export type DeleteIndexResponse = unknown;
 export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteIndexResponse",
-}) as any as S.Schema<DeleteIndexResponse>;
+).annotate({ identifier: "DeleteIndexResponse" }) as any as S.Schema<DeleteIndexResponse>;
 
 export interface DeleteIndexMetadataIndexRequest {
   /** Identifier */
@@ -390,16 +383,12 @@ export const GetByIdsIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetByIdsIndexRequest",
-}) as any as S.Schema<GetByIdsIndexRequest>;
+).annotate({ identifier: "GetByIdsIndexRequest" }) as any as S.Schema<GetByIdsIndexRequest>;
 
 export type GetByIdsIndexResponse = unknown;
 export const GetByIdsIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetByIdsIndexResponse",
-}) as any as S.Schema<GetByIdsIndexResponse>;
+).annotate({ identifier: "GetByIdsIndexResponse" }) as any as S.Schema<GetByIdsIndexResponse>;
 
 export interface GetIndexRequest {
   /** Identifier */
@@ -419,27 +408,34 @@ export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
+).annotate({ identifier: "GetIndexRequest" }) as any as S.Schema<GetIndexRequest>;
 
 export type IndexesGetResponseConfigMetric = "cosine" | "euclidean" | "dot-product";
 export const IndexesGetResponseConfigMetric = S.String;
+
+export type IndexesGetResponseConfigPreset =
+  | "@cf/baai/bge-small-en-v1.5"
+  | "@cf/baai/bge-base-en-v1.5"
+  | "@cf/baai/bge-large-en-v1.5"
+  | "openai/text-embedding-ada-002"
+  | "cohere/embed-multilingual-v2.0";
+export const IndexesGetResponseConfigPreset = S.String;
 
 export interface IndexesGetResponseConfig {
   /** Specifies the number of dimensions for the index */
   dimensions: number;
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesGetResponseConfigMetric;
+  /** Specifies the preset to use for the index. */
+  preset?: IndexesGetResponseConfigPreset | null;
 }
 export const IndexesGetResponseConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dimensions: S.Number,
     metric: IndexesGetResponseConfigMetric,
+    preset: S.optional(S.NullOr(IndexesGetResponseConfigPreset)),
   }),
-).annotate({
-  identifier: "IndexesGetResponseConfig",
-}) as any as S.Schema<IndexesGetResponseConfig>;
+).annotate({ identifier: "IndexesGetResponseConfig" }) as any as S.Schema<IndexesGetResponseConfig>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIndexResponse {
@@ -460,9 +456,7 @@ export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndexResponse",
-}) as any as S.Schema<GetIndexResponse>;
+).annotate({ identifier: "GetIndexResponse" }) as any as S.Schema<GetIndexResponse>;
 
 export interface GetIndexInfoRequest {
   /** Identifier */
@@ -482,9 +476,7 @@ export const GetIndexInfoRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndexInfoRequest",
-}) as any as S.Schema<GetIndexInfoRequest>;
+).annotate({ identifier: "GetIndexInfoRequest" }) as any as S.Schema<GetIndexInfoRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIndexInfoResponse {
@@ -504,9 +496,7 @@ export const GetIndexInfoResponse = /*@__PURE__*/ S.suspend(() =>
     processedUpToMutation: S.optional(S.NullOr(S.String)),
     vectorCount: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetIndexInfoResponse",
-}) as any as S.Schema<GetIndexInfoResponse>;
+).annotate({ identifier: "GetIndexInfoResponse" }) as any as S.Schema<GetIndexInfoResponse>;
 
 export type IndexesInsertRequestUnparsableBehavior = "error" | "discard";
 export const IndexesInsertRequestUnparsableBehavior = S.String;
@@ -538,9 +528,7 @@ export const InsertIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "InsertIndexRequest",
-}) as any as S.Schema<InsertIndexRequest>;
+).annotate({ identifier: "InsertIndexRequest" }) as any as S.Schema<InsertIndexRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface InsertIndexResponse {
@@ -551,9 +539,7 @@ export const InsertIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mutationId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "InsertIndexResponse",
-}) as any as S.Schema<InsertIndexResponse>;
+).annotate({ identifier: "InsertIndexResponse" }) as any as S.Schema<InsertIndexResponse>;
 
 export interface ListIndexesRequest {
   /** Identifier */
@@ -563,31 +549,34 @@ export const ListIndexesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/vectorize/v2/indexes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/vectorize/v2/indexes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListIndexesRequest",
-}) as any as S.Schema<ListIndexesRequest>;
+).annotate({ identifier: "ListIndexesRequest" }) as any as S.Schema<ListIndexesRequest>;
 
 export type IndexesListResultItemConfigMetric = "cosine" | "euclidean" | "dot-product";
 export const IndexesListResultItemConfigMetric = S.String;
+
+export type IndexesListResultItemConfigPreset =
+  | "@cf/baai/bge-small-en-v1.5"
+  | "@cf/baai/bge-base-en-v1.5"
+  | "@cf/baai/bge-large-en-v1.5"
+  | "openai/text-embedding-ada-002"
+  | "cohere/embed-multilingual-v2.0";
+export const IndexesListResultItemConfigPreset = S.String;
 
 export interface IndexesListResultItemConfig {
   /** Specifies the number of dimensions for the index */
   dimensions: number;
   /** Specifies the type of metric to use calculating distance. */
   metric: IndexesListResultItemConfigMetric;
+  /** Specifies the preset to use for the index. */
+  preset?: IndexesListResultItemConfigPreset | null;
 }
 export const IndexesListResultItemConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dimensions: S.Number,
     metric: IndexesListResultItemConfigMetric,
+    preset: S.optional(S.NullOr(IndexesListResultItemConfigPreset)),
   }),
 ).annotate({
   identifier: "IndexesListResultItemConfig",
@@ -611,9 +600,7 @@ export const IndexesListResultItem = /*@__PURE__*/ S.suspend(() =>
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IndexesListResultItem",
-}) as any as S.Schema<IndexesListResultItem>;
+).annotate({ identifier: "IndexesListResultItem" }) as any as S.Schema<IndexesListResultItem>;
 
 export type IndexesListResultList = Array<IndexesListResultItem>;
 export const IndexesListResultList = /*@__PURE__*/ S.Array(
@@ -631,9 +618,7 @@ export const ListIndexesResponse = /*@__PURE__*/ S.suspend(() =>
     result: IndexesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListIndexesResponse",
-}) as any as S.Schema<ListIndexesResponse>;
+).annotate({ identifier: "ListIndexesResponse" }) as any as S.Schema<ListIndexesResponse>;
 
 export interface ListIndexMetadataIndexesRequest {
   /** Identifier */
@@ -721,9 +706,7 @@ export const ListVectorsIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListVectorsIndexRequest",
-}) as any as S.Schema<ListVectorsIndexRequest>;
+).annotate({ identifier: "ListVectorsIndexRequest" }) as any as S.Schema<ListVectorsIndexRequest>;
 
 export interface IndexesListVectorsResponseVectorsItem {
   /** Identifier for a Vector */
@@ -766,9 +749,7 @@ export const ListVectorsIndexResponse = /*@__PURE__*/ S.suspend(() =>
     cursorExpirationTimestamp: S.optional(S.NullOr(S.String)),
     nextCursor: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListVectorsIndexResponse",
-}) as any as S.Schema<ListVectorsIndexResponse>;
+).annotate({ identifier: "ListVectorsIndexResponse" }) as any as S.Schema<ListVectorsIndexResponse>;
 
 export type IndexesQueryRequestVectorList = Array<number>;
 export const IndexesQueryRequestVectorList = /*@__PURE__*/ S.Array(
@@ -811,9 +792,7 @@ export const QueryIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "QueryIndexRequest",
-}) as any as S.Schema<QueryIndexRequest>;
+).annotate({ identifier: "QueryIndexRequest" }) as any as S.Schema<QueryIndexRequest>;
 
 export type IndexesQueryResponseMatchesItemValuesList = Array<number>;
 export const IndexesQueryResponseMatchesItemValuesList = /*@__PURE__*/ S.Array(
@@ -858,9 +837,7 @@ export const QueryIndexResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.NullOr(S.Number)),
     matches: S.optional(S.NullOr(IndexesQueryResponseMatchesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "QueryIndexResponse",
-}) as any as S.Schema<QueryIndexResponse>;
+).annotate({ identifier: "QueryIndexResponse" }) as any as S.Schema<QueryIndexResponse>;
 
 export type IndexesUpsertRequestUnparsableBehavior = "error" | "discard";
 export const IndexesUpsertRequestUnparsableBehavior = S.String;
@@ -892,9 +869,7 @@ export const UpsertIndexRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpsertIndexRequest",
-}) as any as S.Schema<UpsertIndexRequest>;
+).annotate({ identifier: "UpsertIndexRequest" }) as any as S.Schema<UpsertIndexRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpsertIndexResponse {
@@ -905,9 +880,7 @@ export const UpsertIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mutationId: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpsertIndexResponse",
-}) as any as S.Schema<UpsertIndexResponse>;
+).annotate({ identifier: "UpsertIndexResponse" }) as any as S.Schema<UpsertIndexResponse>;
 
 export type CreateIndexError =
   | IndexAlreadyExists

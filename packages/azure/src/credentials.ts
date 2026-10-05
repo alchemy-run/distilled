@@ -36,7 +36,7 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 ) {}
 
 const envConfig = EffectConfig.all({
-  bearerToken: EffectConfig.String("AZURE_BEARER_TOKEN"),
+  bearerToken: EffectConfig.Redacted("AZURE_BEARER_TOKEN"),
   subscriptionId: EffectConfig.String("AZURE_SUBSCRIPTION_ID"),
   tenantId: EffectConfig.option(EffectConfig.String("AZURE_TENANT_ID")),
   apiBaseUrl: EffectConfig.String("AZURE_API_BASE_URL").pipe(
@@ -63,7 +63,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
         }),
     ),
     Effect.map(({ bearerToken, subscriptionId, tenantId, apiBaseUrl }) => ({
-      bearerToken: Redacted.make(bearerToken),
+      bearerToken,
       subscriptionId,
       tenantId: Option.getOrUndefined(tenantId),
       apiBaseUrl,

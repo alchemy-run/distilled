@@ -57,9 +57,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -123,9 +121,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type AzureLargeInstanceShutdownResponseOperationsList = Array<OperationStatusResult>;
@@ -229,9 +225,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type GetAzureLargeInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAzureLargeInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const GetAzureLargeInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -302,9 +296,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
     hardwareType: S.optional(AzureLargeInstanceHardwareTypeNamesEnum),
     azureLargeInstanceSize: S.optional(AzureLargeInstanceSizeNamesEnum),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** Specifies the disk information fo the Azure Large Instance */
 export interface Disk {
@@ -509,9 +501,7 @@ export const GetAzureLargeStorageInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAzureLargeStorageInstanceRequest>;
 
 /** Resource tags. */
-export type GetAzureLargeStorageInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAzureLargeStorageInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const GetAzureLargeStorageInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -541,9 +531,7 @@ export const StorageBillingProperties = /*@__PURE__*/ S.suspend(() =>
     billingMode: S.optional(S.String),
     sku: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageBillingProperties",
-}) as any as S.Schema<StorageBillingProperties>;
+).annotate({ identifier: "StorageBillingProperties" }) as any as S.Schema<StorageBillingProperties>;
 
 /** described the storage properties of the azure large storage instance */
 export interface StorageProperties {
@@ -572,9 +560,7 @@ export const StorageProperties = /*@__PURE__*/ S.suspend(() =>
     workloadType: S.optional(S.String),
     storageBillingProperties: S.optional(StorageBillingProperties),
   }),
-).annotate({
-  identifier: "StorageProperties",
-}) as any as S.Schema<StorageProperties>;
+).annotate({ identifier: "StorageProperties" }) as any as S.Schema<StorageProperties>;
 
 /** Describes the properties of an AzureLargeStorageInstance. */
 export interface AzureLargeStorageInstanceProperties {
@@ -678,9 +664,7 @@ export const AzureLargeInstance = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AzureLargeInstanceProperties),
   }),
-).annotate({
-  identifier: "AzureLargeInstance",
-}) as any as S.Schema<AzureLargeInstance>;
+).annotate({ identifier: "AzureLargeInstance" }) as any as S.Schema<AzureLargeInstance>;
 
 /** The AzureLargeInstance items on this page */
 export type AzureLargeInstanceListResultValueList = Array<AzureLargeInstance>;
@@ -746,9 +730,7 @@ export const ListAzureLargeStorageInstanceByResourceGroupRequest = /*@__PURE__*/
 }) as any as S.Schema<ListAzureLargeStorageInstanceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type AzureLargeStorageInstanceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AzureLargeStorageInstanceTagsMap = { [key: string]: string | undefined };
 export const AzureLargeStorageInstanceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -836,9 +818,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-10",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -858,9 +838,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -910,9 +888,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Enum of two possible values to determine if the ALI instance restart operation should forcefully terminate and halt any existing processes that may be running on the server or not. */
 export type AzureLargeInstanceForcePowerState = "active" | "inactive";
@@ -1056,9 +1032,7 @@ export const StartAzureLargeInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StartAzureLargeInstanceResponse>;
 
 /** Resource tags. */
-export type UpdateAzureLargeInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureLargeInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureLargeInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1093,9 +1067,7 @@ export const UpdateAzureLargeInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAzureLargeInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateAzureLargeInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureLargeInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureLargeInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1132,9 +1104,7 @@ export const UpdateAzureLargeInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAzureLargeInstanceResponse>;
 
 /** Resource tags. */
-export type UpdateAzureLargeStorageInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureLargeStorageInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureLargeStorageInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1169,9 +1139,7 @@ export const UpdateAzureLargeStorageInstanceRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateAzureLargeStorageInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateAzureLargeStorageInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAzureLargeStorageInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAzureLargeStorageInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

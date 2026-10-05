@@ -19,16 +19,8 @@ export interface GetDcvDelegationRequest {
 export const GetDcvDelegationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/dcv_delegation/uuid",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDcvDelegationRequest",
-}) as any as S.Schema<GetDcvDelegationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/dcv_delegation/uuid", code: 200 })),
+).annotate({ identifier: "GetDcvDelegationRequest" }) as any as S.Schema<GetDcvDelegationRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDcvDelegationResponse {
@@ -39,9 +31,7 @@ export const GetDcvDelegationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uuid: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetDcvDelegationResponse",
-}) as any as S.Schema<GetDcvDelegationResponse>;
+).annotate({ identifier: "GetDcvDelegationResponse" }) as any as S.Schema<GetDcvDelegationResponse>;
 
 export type GetDcvDelegationError = CloudflareOpError;
 /** Retrieve the account and zone specific unique identifier used as part of the CNAME target for DCV Delegation. */

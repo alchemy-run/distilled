@@ -51,15 +51,15 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain key + base URL (kept for local tests). */
+/** Convenience layer from a redacted key + base URL (kept for local tests). */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl,
     }),
   );

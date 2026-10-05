@@ -175,16 +175,10 @@ export const BulkCreateRulesRequest = /*@__PURE__*/ S.suspend(() =>
     body: RulesBulkCreateRequestBodyList.pipe(T.HttpBody()),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/token_validation/rules/bulk",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/token_validation/rules/bulk", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkCreateRulesRequest",
-}) as any as S.Schema<BulkCreateRulesRequest>;
+).annotate({ identifier: "BulkCreateRulesRequest" }) as any as S.Schema<BulkCreateRulesRequest>;
 
 export type RulesBulkCreateResultItemAction = "log" | "block";
 export const RulesBulkCreateResultItemAction = S.String;
@@ -304,9 +298,7 @@ export const BulkCreateRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesBulkCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkCreateRulesResponse",
-}) as any as S.Schema<BulkCreateRulesResponse>;
+).annotate({ identifier: "BulkCreateRulesResponse" }) as any as S.Schema<BulkCreateRulesResponse>;
 
 export type RulesBulkEditRequestBodyItemAction = "log" | "block";
 export const RulesBulkEditRequestBodyItemAction = S.String;
@@ -468,16 +460,10 @@ export const BulkPatchRulesRequest = /*@__PURE__*/ S.suspend(() =>
     body: RulesBulkEditRequestBodyList.pipe(T.HttpBody()),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/token_validation/rules/bulk",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/token_validation/rules/bulk", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchRulesRequest",
-}) as any as S.Schema<BulkPatchRulesRequest>;
+).annotate({ identifier: "BulkPatchRulesRequest" }) as any as S.Schema<BulkPatchRulesRequest>;
 
 export type RulesBulkEditResultItemAction = "log" | "block";
 export const RulesBulkEditResultItemAction = S.String;
@@ -577,9 +563,7 @@ export const RulesBulkEditResultItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
   }),
-).annotate({
-  identifier: "RulesBulkEditResultItem",
-}) as any as S.Schema<RulesBulkEditResultItem>;
+).annotate({ identifier: "RulesBulkEditResultItem" }) as any as S.Schema<RulesBulkEditResultItem>;
 
 export type RulesBulkEditResultList = Array<RulesBulkEditResultItem>;
 export const RulesBulkEditResultList = /*@__PURE__*/ S.Array(
@@ -597,9 +581,7 @@ export const BulkPatchRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesBulkEditResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchRulesResponse",
-}) as any as S.Schema<BulkPatchRulesResponse>;
+).annotate({ identifier: "BulkPatchRulesResponse" }) as any as S.Schema<BulkPatchRulesResponse>;
 
 export type ConfigurationCreateRequestCredentialsKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"
@@ -822,13 +804,7 @@ export const CreateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     tokenSources: ConfigurationCreateRequestTokenSourcesList.pipe(T.Body("token_sources")),
     tokenType: ConfigurationCreateRequestTokenType.pipe(T.Body("token_type")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/token_validation/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/token_validation/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateConfigurationRequest",
@@ -1147,17 +1123,9 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     selector: RulesCreateRequestSelector,
     title: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/token_validation/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/token_validation/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResponseAction = "log" | "block";
 export const RulesCreateResponseAction = S.String;
@@ -1256,9 +1224,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export interface DeleteConfigurationRequest {
   /** Identifier. */
@@ -1315,16 +1281,12 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export type DeleteRuleResponse = unknown;
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export type EditConfigurationCredentialsRequestKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"
@@ -1734,9 +1696,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 export type ConfigurationGetResponseCredentialsKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"
@@ -1952,9 +1912,7 @@ export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     tokenSources: ConfigurationGetResponseTokenSourcesList.pipe(T.Body("token_sources")),
     tokenType: ConfigurationGetResponseTokenType.pipe(T.Body("token_type")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
+).annotate({ identifier: "GetConfigurationResponse" }) as any as S.Schema<GetConfigurationResponse>;
 
 export interface GetRuleRequest {
   /** Identifier. */
@@ -2037,9 +1995,7 @@ export const RulesGetResponseSelector = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(S.NullOr(RulesGetResponseSelectorExcludeList)),
     include: S.optional(S.NullOr(RulesGetResponseSelectorIncludeList)),
   }),
-).annotate({
-  identifier: "RulesGetResponseSelector",
-}) as any as S.Schema<RulesGetResponseSelector>;
+).annotate({ identifier: "RulesGetResponseSelector" }) as any as S.Schema<RulesGetResponseSelector>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRuleResponse {
@@ -2072,9 +2028,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface ListConfigurationsRequest {
   /** Identifier. */
@@ -2090,13 +2044,7 @@ export const ListConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/token_validation/config",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/token_validation/config", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListConfigurationsRequest",
@@ -2389,17 +2337,9 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
       RulesListRequestTokenConfigurationList.pipe(T.Query("token_configuration")),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/token_validation/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/token_validation/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export type RulesListResultItemAction = "log" | "block";
 export const RulesListResultItemAction = S.String;
@@ -2497,9 +2437,7 @@ export const RulesListResultItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
   }),
-).annotate({
-  identifier: "RulesListResultItem",
-}) as any as S.Schema<RulesListResultItem>;
+).annotate({ identifier: "RulesListResultItem" }) as any as S.Schema<RulesListResultItem>;
 
 export type RulesListResultList = Array<RulesListResultItem>;
 export const RulesListResultList = /*@__PURE__*/ S.Array(
@@ -2517,9 +2455,7 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export type ConfigurationEditRequestTokenSourcesList = Array<string>;
 export const ConfigurationEditRequestTokenSourcesList = /*@__PURE__*/ S.Array(
@@ -2666,9 +2602,7 @@ export const RulesEditRequestSelector = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(RulesEditRequestSelectorExcludeList),
     include: S.optional(RulesEditRequestSelectorIncludeList),
   }),
-).annotate({
-  identifier: "RulesEditRequestSelector",
-}) as any as S.Schema<RulesEditRequestSelector>;
+).annotate({ identifier: "RulesEditRequestSelector" }) as any as S.Schema<RulesEditRequestSelector>;
 
 export interface PatchRuleRequest {
   /** Identifier. */
@@ -2710,9 +2644,7 @@ export const PatchRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleRequest",
-}) as any as S.Schema<PatchRuleRequest>;
+).annotate({ identifier: "PatchRuleRequest" }) as any as S.Schema<PatchRuleRequest>;
 
 export type RulesEditResponseAction = "log" | "block";
 export const RulesEditResponseAction = S.String;
@@ -2809,9 +2741,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleResponse",
-}) as any as S.Schema<PatchRuleResponse>;
+).annotate({ identifier: "PatchRuleResponse" }) as any as S.Schema<PatchRuleResponse>;
 
 export type ConfigurationCredentialsUpdateRequestKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"

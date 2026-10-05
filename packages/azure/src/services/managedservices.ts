@@ -21,7 +21,7 @@ export const DeleteRegistrationAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -50,7 +50,7 @@ export const DeleteRegistrationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -79,7 +79,7 @@ export const GetMarketplaceRegistrationDefinitionRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -136,9 +136,7 @@ export const EligibleApprover = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     principalIdDisplayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EligibleApprover",
-}) as any as S.Schema<EligibleApprover>;
+).annotate({ identifier: "EligibleApprover" }) as any as S.Schema<EligibleApprover>;
 
 /** The list of managedByTenant approvers for the eligible authorization. */
 export type JustInTimeAccessPolicyManagedByTenantApproversList = Array<EligibleApprover>;
@@ -161,9 +159,7 @@ export const JustInTimeAccessPolicy = /*@__PURE__*/ S.suspend(() =>
     maximumActivationDuration: S.optional(S.String),
     managedByTenantApprovers: S.optional(JustInTimeAccessPolicyManagedByTenantApproversList),
   }),
-).annotate({
-  identifier: "JustInTimeAccessPolicy",
-}) as any as S.Schema<JustInTimeAccessPolicy>;
+).annotate({ identifier: "JustInTimeAccessPolicy" }) as any as S.Schema<JustInTimeAccessPolicy>;
 
 /** The Azure Active Directory principal identifier, Azure built-in role, and just-in-time access policy that describes the just-in-time access the principal will receive on the delegated resource in the managed tenant. */
 export interface EligibleAuthorization {
@@ -183,9 +179,7 @@ export const EligibleAuthorization = /*@__PURE__*/ S.suspend(() =>
     roleDefinitionId: S.String,
     justInTimeAccessPolicy: S.optional(JustInTimeAccessPolicy),
   }),
-).annotate({
-  identifier: "EligibleAuthorization",
-}) as any as S.Schema<EligibleAuthorization>;
+).annotate({ identifier: "EligibleAuthorization" }) as any as S.Schema<EligibleAuthorization>;
 
 /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
 export type MarketplaceRegistrationDefinitionPropertiesEligibleAuthorizationsList =
@@ -307,7 +301,7 @@ export const GetRegistrationAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -572,9 +566,7 @@ export const RegistrationAssignment = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     systemData: S.optional(RegistrationAssignmentSystemData),
   }),
-).annotate({
-  identifier: "RegistrationAssignment",
-}) as any as S.Schema<RegistrationAssignment>;
+).annotate({ identifier: "RegistrationAssignment" }) as any as S.Schema<RegistrationAssignment>;
 
 export interface GetRegistrationDefinitionRequest {
   /** The scope of the resource. */
@@ -589,7 +581,7 @@ export const GetRegistrationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -732,9 +724,7 @@ export const RegistrationDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     systemData: S.optional(RegistrationDefinitionSystemData),
   }),
-).annotate({
-  identifier: "RegistrationDefinition",
-}) as any as S.Schema<RegistrationDefinition>;
+).annotate({ identifier: "RegistrationDefinition" }) as any as S.Schema<RegistrationDefinition>;
 
 export interface ListMarketplaceRegistrationDefinitionsRequest {
   /** The scope of the resource. */
@@ -749,7 +739,7 @@ export const ListMarketplaceRegistrationDefinitionsRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -811,9 +801,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -833,9 +821,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The object that describes a single Microsoft.ManagedServices operation. */
 export interface Operation {
@@ -878,7 +864,7 @@ export const ListOperationsWithScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/operations",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/operations",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -905,7 +891,7 @@ export const ListRegistrationAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -949,7 +935,7 @@ export const ListRegistrationDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -1009,7 +995,7 @@ export const RegistrationAssignmentsCreateOrUpdateRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),
@@ -1078,7 +1064,7 @@ export const RegistrationDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}",
       code: 200,
       apiVersion: "2022-10-01",
     }),

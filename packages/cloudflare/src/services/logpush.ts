@@ -85,17 +85,9 @@ export const CreateEdgeRequest = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String),
     sample: S.optional(S.Number),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/edge/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/edge/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEdgeRequest",
-}) as any as S.Schema<CreateEdgeRequest>;
+).annotate({ identifier: "CreateEdgeRequest" }) as any as S.Schema<CreateEdgeRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateEdgeResponse {
@@ -118,9 +110,7 @@ export const CreateEdgeResponse = /*@__PURE__*/ S.suspend(() =>
     sample: S.optional(S.NullOr(S.Number)),
     sessionId: S.optional(S.NullOr(S.String).pipe(T.Body("session_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEdgeResponse",
-}) as any as S.Schema<CreateEdgeResponse>;
+).annotate({ identifier: "CreateEdgeResponse" }) as any as S.Schema<CreateEdgeResponse>;
 
 export type JobsCreateRequestDataset =
   | "access_requests"
@@ -193,7 +183,7 @@ export interface JobsCreateRequestOutputOptions {
   fieldDelimiter?: string;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsCreateRequestOutputOptionsFieldNamesList;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsCreateRequestOutputOptionsOutputType | (string & {});
@@ -286,13 +276,7 @@ export const CreateJobForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     outputOptions: S.optional(JobsCreateRequestOutputOptions.pipe(T.Body("output_options"))),
     ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logpush/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/logpush/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateJobForAccountRequest",
@@ -369,7 +353,7 @@ export interface JobsCreateResponseOutputOptions {
   fieldDelimiter?: string | null;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsCreateResponseOutputOptionsFieldNamesList | null;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean | null;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsCreateResponseOutputOptionsOutputType | null;
@@ -472,9 +456,7 @@ export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(JobsCreateResponseOutputOptions).pipe(T.Body("output_options")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({ identifier: "CreateJobResponse" }) as any as S.Schema<CreateJobResponse>;
 
 export interface CreateJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -526,17 +508,9 @@ export const CreateJobForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     outputOptions: S.optional(JobsCreateRequestOutputOptions.pipe(T.Body("output_options"))),
     ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateJobForZoneRequest",
-}) as any as S.Schema<CreateJobForZoneRequest>;
+).annotate({ identifier: "CreateJobForZoneRequest" }) as any as S.Schema<CreateJobForZoneRequest>;
 
 export interface CreateOwnershipForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -549,13 +523,7 @@ export const CreateOwnershipForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     destinationConf: S.String.pipe(T.Body("destination_conf")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logpush/ownership",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/logpush/ownership", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateOwnershipForAccountRequest",
@@ -573,9 +541,7 @@ export const CreateOwnershipResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.NullOr(S.String)),
     valid: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateOwnershipResponse",
-}) as any as S.Schema<CreateOwnershipResponse>;
+).annotate({ identifier: "CreateOwnershipResponse" }) as any as S.Schema<CreateOwnershipResponse>;
 
 export interface CreateOwnershipForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -588,13 +554,7 @@ export const CreateOwnershipForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     destinationConf: S.String.pipe(T.Body("destination_conf")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/ownership",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/ownership", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateOwnershipForZoneRequest",
@@ -617,17 +577,9 @@ export const CreateTransformerRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logpush/transformers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/logpush/transformers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTransformerRequest",
-}) as any as S.Schema<CreateTransformerRequest>;
+).annotate({ identifier: "CreateTransformerRequest" }) as any as S.Schema<CreateTransformerRequest>;
 
 export type CreateTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export const CreateTransformerResponseAssociatedJobsItemObjectType = S.String;
@@ -706,11 +658,7 @@ export const DeleteJobForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.Number.pipe(T.Label("job_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/logpush/jobs/{job_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -726,9 +674,7 @@ export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteJobResponse",
-}) as any as S.Schema<DeleteJobResponse>;
+).annotate({ identifier: "DeleteJobResponse" }) as any as S.Schema<DeleteJobResponse>;
 
 export interface DeleteJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -741,17 +687,9 @@ export const DeleteJobForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     jobId: S.Number.pipe(T.Label("job_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/logpush/jobs/{job_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteJobForZoneRequest",
-}) as any as S.Schema<DeleteJobForZoneRequest>;
+).annotate({ identifier: "DeleteJobForZoneRequest" }) as any as S.Schema<DeleteJobForZoneRequest>;
 
 export interface DeleteTransformerRequest {
   /** Identifier. */
@@ -772,9 +710,7 @@ export const DeleteTransformerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteTransformerRequest",
-}) as any as S.Schema<DeleteTransformerRequest>;
+).annotate({ identifier: "DeleteTransformerRequest" }) as any as S.Schema<DeleteTransformerRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteTransformerResponse {
@@ -896,11 +832,7 @@ export const DestinationValidateForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     destinationConf: S.String.pipe(T.Body("destination_conf")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/validate/destination",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/validate/destination", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -979,9 +911,7 @@ export const DatasetsFieldsGetResultMap = /*@__PURE__*/ S.Record(
 export type GetDatasetFieldResponse = DatasetsFieldsGetResultMap;
 export const GetDatasetFieldResponse = /*@__PURE__*/ S.suspend(() =>
   DatasetsFieldsGetResultMap.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetFieldResponse",
-}) as any as S.Schema<GetDatasetFieldResponse>;
+).annotate({ identifier: "GetDatasetFieldResponse" }) as any as S.Schema<GetDatasetFieldResponse>;
 
 export interface GetDatasetFieldForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1140,7 +1070,7 @@ export interface DatasetsJobsGetResultItemOutputOptions {
   fieldDelimiter?: string | null;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: DatasetsJobsGetResultItemOutputOptionsFieldNamesList | null;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean | null;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: DatasetsJobsGetResultItemOutputOptionsOutputType | null;
@@ -1264,9 +1194,7 @@ export const GetDatasetJobResponse = /*@__PURE__*/ S.suspend(() =>
     result: DatasetsJobsGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetJobResponse",
-}) as any as S.Schema<GetDatasetJobResponse>;
+).annotate({ identifier: "GetDatasetJobResponse" }) as any as S.Schema<GetDatasetJobResponse>;
 
 export interface GetDatasetJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1299,13 +1227,7 @@ export const GetEdgeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logpush/edge/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logpush/edge/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetEdgeRequest" }) as any as S.Schema<GetEdgeRequest>;
 
@@ -1329,9 +1251,7 @@ export const EdgeGetResultItem = /*@__PURE__*/ S.suspend(() =>
     sample: S.optional(S.NullOr(S.Number)),
     sessionId: S.optional(S.NullOr(S.String).pipe(T.Body("session_id"))),
   }),
-).annotate({
-  identifier: "EdgeGetResultItem",
-}) as any as S.Schema<EdgeGetResultItem>;
+).annotate({ identifier: "EdgeGetResultItem" }) as any as S.Schema<EdgeGetResultItem>;
 
 export type EdgeGetResultList = Array<EdgeGetResultItem>;
 export const EdgeGetResultList = /*@__PURE__*/ S.Array(
@@ -1349,9 +1269,7 @@ export const GetEdgeResponse = /*@__PURE__*/ S.suspend(() =>
     result: EdgeGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEdgeResponse",
-}) as any as S.Schema<GetEdgeResponse>;
+).annotate({ identifier: "GetEdgeResponse" }) as any as S.Schema<GetEdgeResponse>;
 
 export interface GetJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1364,17 +1282,9 @@ export const GetJobForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     jobId: S.Number.pipe(T.Label("job_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/logpush/jobs/{job_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetJobForAccountRequest",
-}) as any as S.Schema<GetJobForAccountRequest>;
+).annotate({ identifier: "GetJobForAccountRequest" }) as any as S.Schema<GetJobForAccountRequest>;
 
 export type JobsGetResponseDataset =
   | "access_requests"
@@ -1447,7 +1357,7 @@ export interface JobsGetResponseOutputOptions {
   fieldDelimiter?: string | null;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsGetResponseOutputOptionsFieldNamesList | null;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean | null;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsGetResponseOutputOptionsOutputType | null;
@@ -1563,17 +1473,9 @@ export const GetJobForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     jobId: S.Number.pipe(T.Label("job_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logpush/jobs/{job_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetJobForZoneRequest",
-}) as any as S.Schema<GetJobForZoneRequest>;
+).annotate({ identifier: "GetJobForZoneRequest" }) as any as S.Schema<GetJobForZoneRequest>;
 
 export interface GetTransformerRequest {
   /** Identifier. */
@@ -1594,9 +1496,7 @@ export const GetTransformerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTransformerRequest",
-}) as any as S.Schema<GetTransformerRequest>;
+).annotate({ identifier: "GetTransformerRequest" }) as any as S.Schema<GetTransformerRequest>;
 
 export type GetTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export const GetTransformerResponseAssociatedJobsItemObjectType = S.String;
@@ -1659,9 +1559,7 @@ export const GetTransformerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTransformerResponse",
-}) as any as S.Schema<GetTransformerResponse>;
+).annotate({ identifier: "GetTransformerResponse" }) as any as S.Schema<GetTransformerResponse>;
 
 export interface GetTransformersContentRequest {
   /** Identifier. */
@@ -1710,13 +1608,7 @@ export const ListJobsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logpush/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/logpush/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListJobsForAccountRequest",
@@ -1793,7 +1685,7 @@ export interface JobsListResultItemOutputOptions {
   fieldDelimiter?: string | null;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsListResultItemOutputOptionsFieldNamesList | null;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean | null;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsListResultItemOutputOptionsOutputType | null;
@@ -1895,9 +1787,7 @@ export const JobsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(JobsListResultItemOutputOptions).pipe(T.Body("output_options")),
     ),
   }),
-).annotate({
-  identifier: "JobsListResultItem",
-}) as any as S.Schema<JobsListResultItem>;
+).annotate({ identifier: "JobsListResultItem" }) as any as S.Schema<JobsListResultItem>;
 
 export type JobsListResultList = Array<JobsListResultItem>;
 export const JobsListResultList = /*@__PURE__*/ S.Array(
@@ -1915,9 +1805,7 @@ export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
     result: JobsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 
 export interface ListJobsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1927,17 +1815,9 @@ export const ListJobsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logpush/jobs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logpush/jobs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListJobsForZoneRequest",
-}) as any as S.Schema<ListJobsForZoneRequest>;
+).annotate({ identifier: "ListJobsForZoneRequest" }) as any as S.Schema<ListJobsForZoneRequest>;
 
 export interface ListTransformersRequest {
   /** Identifier. */
@@ -1947,17 +1827,9 @@ export const ListTransformersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logpush/transformers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/logpush/transformers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTransformersRequest",
-}) as any as S.Schema<ListTransformersRequest>;
+).annotate({ identifier: "ListTransformersRequest" }) as any as S.Schema<ListTransformersRequest>;
 
 export type ListTransformersResultItemAssociatedJobsItemObjectType = "zone" | "account";
 export const ListTransformersResultItemAssociatedJobsItemObjectType = S.String;
@@ -2031,9 +1903,7 @@ export const ListTransformersResultList = /*@__PURE__*/ S.Array(
 export type ListTransformersResponse = ListTransformersResultList;
 export const ListTransformersResponse = /*@__PURE__*/ S.suspend(() =>
   ListTransformersResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTransformersResponse",
-}) as any as S.Schema<ListTransformersResponse>;
+).annotate({ identifier: "ListTransformersResponse" }) as any as S.Schema<ListTransformersResponse>;
 
 export interface ListTransformersVersionsRequest {
   /** Identifier. */
@@ -2103,11 +1973,7 @@ export const OriginValidateForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     logpullOptions: S.String.pipe(T.Body("logpull_options")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logpush/validate/origin",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/logpush/validate/origin", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -2124,9 +1990,7 @@ export const OriginValidateResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.NullOr(S.String)),
     valid: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OriginValidateResponse",
-}) as any as S.Schema<OriginValidateResponse>;
+).annotate({ identifier: "OriginValidateResponse" }) as any as S.Schema<OriginValidateResponse>;
 
 export interface OriginValidateForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -2139,21 +2003,13 @@ export const OriginValidateForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     logpullOptions: S.String.pipe(T.Body("logpull_options")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/validate/origin",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/validate/origin", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginValidateForZoneRequest",
 }) as any as S.Schema<OriginValidateForZoneRequest>;
 
-export type PreviewTransformerRequestInputMap = {
-  [key: string]: unknown | undefined;
-};
+export type PreviewTransformerRequestInputMap = { [key: string]: unknown | undefined };
 export const PreviewTransformerRequestInputMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2185,9 +2041,7 @@ export const PreviewTransformerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PreviewTransformerRequest",
 }) as any as S.Schema<PreviewTransformerRequest>;
 
-export type PreviewTransformerResultItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PreviewTransformerResultItemMap = { [key: string]: unknown | undefined };
 export const PreviewTransformerResultItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2236,7 +2090,7 @@ export interface JobsUpdateRequestOutputOptions {
   fieldDelimiter?: string;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsUpdateRequestOutputOptionsFieldNamesList;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsUpdateRequestOutputOptionsOutputType | (string & {});
@@ -2329,13 +2183,7 @@ export const UpdateJobForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     outputOptions: S.optional(JobsUpdateRequestOutputOptions.pipe(T.Body("output_options"))),
     ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/logpush/jobs/{job_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateJobForAccountRequest",
@@ -2412,7 +2260,7 @@ export interface JobsUpdateResponseOutputOptions {
   fieldDelimiter?: string | null;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
   fieldNames?: JobsUpdateResponseOutputOptionsFieldNamesList | null;
-  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
+  /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. Not supported for account-scoped jobs. */
   mergeSubrequests?: boolean | null;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
   outputType?: JobsUpdateResponseOutputOptionsOutputType | null;
@@ -2515,9 +2363,7 @@ export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(JobsUpdateResponseOutputOptions).pipe(T.Body("output_options")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateJobResponse",
-}) as any as S.Schema<UpdateJobResponse>;
+).annotate({ identifier: "UpdateJobResponse" }) as any as S.Schema<UpdateJobResponse>;
 
 export interface UpdateJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -2569,17 +2415,9 @@ export const UpdateJobForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     outputOptions: S.optional(JobsUpdateRequestOutputOptions.pipe(T.Body("output_options"))),
     ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/logpush/jobs/{job_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/logpush/jobs/{job_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateJobForZoneRequest",
-}) as any as S.Schema<UpdateJobForZoneRequest>;
+).annotate({ identifier: "UpdateJobForZoneRequest" }) as any as S.Schema<UpdateJobForZoneRequest>;
 
 export interface UpdateTransformerRequest {
   /** Identifier. */
@@ -2609,9 +2447,7 @@ export const UpdateTransformerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateTransformerRequest",
-}) as any as S.Schema<UpdateTransformerRequest>;
+).annotate({ identifier: "UpdateTransformerRequest" }) as any as S.Schema<UpdateTransformerRequest>;
 
 export type UpdateTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export const UpdateTransformerResponseAssociatedJobsItemObjectType = S.String;
@@ -2730,13 +2566,7 @@ export const ValidateOwnershipForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     destinationConf: S.String.pipe(T.Body("destination_conf")),
     ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logpush/ownership/validate",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/ownership/validate", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ValidateOwnershipForZoneRequest",

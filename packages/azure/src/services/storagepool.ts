@@ -29,9 +29,7 @@ export const DeleteDiskPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDiskPoolRequest",
-}) as any as S.Schema<DeleteDiskPoolRequest>;
+).annotate({ identifier: "DeleteDiskPoolRequest" }) as any as S.Schema<DeleteDiskPoolRequest>;
 
 export interface DeleteDiskPoolResponse {}
 export const DeleteDiskPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -62,9 +60,7 @@ export const DeleteIscsiTargetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteIscsiTargetRequest",
-}) as any as S.Schema<DeleteIscsiTargetRequest>;
+).annotate({ identifier: "DeleteIscsiTargetRequest" }) as any as S.Schema<DeleteIscsiTargetRequest>;
 
 export interface DeleteIscsiTargetResponse {}
 export const DeleteIscsiTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -132,14 +128,10 @@ export const DiskPoolCreateProperties = /*@__PURE__*/ S.suspend(() =>
     subnetId: S.String,
     additionalCapabilities: S.optional(DiskPoolCreatePropertiesAdditionalCapabilitiesList),
   }),
-).annotate({
-  identifier: "DiskPoolCreateProperties",
-}) as any as S.Schema<DiskPoolCreateProperties>;
+).annotate({ identifier: "DiskPoolCreateProperties" }) as any as S.Schema<DiskPoolCreateProperties>;
 
 /** Resource tags. */
-export type DiskPoolsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DiskPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DiskPoolsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -195,9 +187,7 @@ export const DiskPoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DiskPoolsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DiskPoolsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DiskPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DiskPoolsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -269,9 +259,7 @@ export const DiskPoolProperties = /*@__PURE__*/ S.suspend(() =>
     subnetId: S.String,
     additionalCapabilities: S.optional(DiskPoolPropertiesAdditionalCapabilitiesList),
   }),
-).annotate({
-  identifier: "DiskPoolProperties",
-}) as any as S.Schema<DiskPoolProperties>;
+).annotate({ identifier: "DiskPoolProperties" }) as any as S.Schema<DiskPoolProperties>;
 
 /** The type of identity that created the resource. */
 export type SystemMetadataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -397,9 +385,7 @@ export const DiskPoolsUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DiskPoolsUpgradeRequest",
-}) as any as S.Schema<DiskPoolsUpgradeRequest>;
+).annotate({ identifier: "DiskPoolsUpgradeRequest" }) as any as S.Schema<DiskPoolsUpgradeRequest>;
 
 export interface DiskPoolsUpgradeResponse {}
 export const DiskPoolsUpgradeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -427,9 +413,7 @@ export const GetDiskPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDiskPoolRequest",
-}) as any as S.Schema<GetDiskPoolRequest>;
+).annotate({ identifier: "GetDiskPoolRequest" }) as any as S.Schema<GetDiskPoolRequest>;
 
 /** Resource tags. */
 export type GetDiskPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -473,9 +457,7 @@ export const GetDiskPoolResponse = /*@__PURE__*/ S.suspend(() =>
     managedByExtended: S.optional(ManagedByExtended),
     systemData: S.optional(SystemMetadata),
   }),
-).annotate({
-  identifier: "GetDiskPoolResponse",
-}) as any as S.Schema<GetDiskPoolResponse>;
+).annotate({ identifier: "GetDiskPoolResponse" }) as any as S.Schema<GetDiskPoolResponse>;
 
 export interface GetIscsiTargetRequest {
   /** The ID of the target subscription. */
@@ -501,9 +483,7 @@ export const GetIscsiTargetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetIscsiTargetRequest",
-}) as any as S.Schema<GetIscsiTargetRequest>;
+).annotate({ identifier: "GetIscsiTargetRequest" }) as any as S.Schema<GetIscsiTargetRequest>;
 
 /** ACL mode for iSCSI Target. */
 export type AclMode = "Dynamic" | "Static";
@@ -603,9 +583,7 @@ export const IscsiTargetProperties = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     sessions: S.optional(IscsiTargetPropertiesSessionsList),
   }),
-).annotate({
-  identifier: "IscsiTargetProperties",
-}) as any as S.Schema<IscsiTargetProperties>;
+).annotate({ identifier: "IscsiTargetProperties" }) as any as S.Schema<IscsiTargetProperties>;
 
 export interface GetIscsiTargetResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -633,9 +611,7 @@ export const GetIscsiTargetResponse = /*@__PURE__*/ S.suspend(() =>
     managedBy: S.optional(S.String),
     managedByExtended: S.optional(ManagedByExtended),
   }),
-).annotate({
-  identifier: "GetIscsiTargetResponse",
-}) as any as S.Schema<GetIscsiTargetResponse>;
+).annotate({ identifier: "GetIscsiTargetResponse" }) as any as S.Schema<GetIscsiTargetResponse>;
 
 /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
 export type IscsiTargetCreatePropertiesInputStaticAclsList = Array<Acl>;
@@ -837,9 +813,7 @@ export const DiskPoolListResult = /*@__PURE__*/ S.suspend(() =>
     value: DiskPoolListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskPoolListResult",
-}) as any as S.Schema<DiskPoolListResult>;
+).annotate({ identifier: "DiskPoolListResult" }) as any as S.Schema<DiskPoolListResult>;
 
 export interface ListDiskPoolBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -923,9 +897,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     domainName: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints that the App Service Environment reaches the service at. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -989,9 +961,7 @@ export const ListDiskPoolZonesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListDiskPoolZonesRequest",
-}) as any as S.Schema<ListDiskPoolZonesRequest>;
+).annotate({ identifier: "ListDiskPoolZonesRequest" }) as any as S.Schema<ListDiskPoolZonesRequest>;
 
 /** Logical zone for Disk Pool resource; example: ["1"]. */
 export type DiskPoolZoneInfoAvailabilityZonesList = Array<string>;
@@ -1020,9 +990,7 @@ export const DiskPoolZoneInfo = /*@__PURE__*/ S.suspend(() =>
     additionalCapabilities: S.optional(DiskPoolZoneInfoAdditionalCapabilitiesList),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "DiskPoolZoneInfo",
-}) as any as S.Schema<DiskPoolZoneInfo>;
+).annotate({ identifier: "DiskPoolZoneInfo" }) as any as S.Schema<DiskPoolZoneInfo>;
 
 /** The list of Disk Pool Skus. */
 export type DiskPoolZoneListResultValueList = Array<DiskPoolZoneInfo>;
@@ -1042,9 +1010,7 @@ export const DiskPoolZoneListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DiskPoolZoneListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskPoolZoneListResult",
-}) as any as S.Schema<DiskPoolZoneListResult>;
+).annotate({ identifier: "DiskPoolZoneListResult" }) as any as S.Schema<DiskPoolZoneListResult>;
 
 export interface ListIscsiTargetByDiskPoolRequest {
   /** The ID of the target subscription. */
@@ -1118,9 +1084,7 @@ export const IscsiTargetList = /*@__PURE__*/ S.suspend(() =>
     value: IscsiTargetListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IscsiTargetList",
-}) as any as S.Schema<IscsiTargetList>;
+).annotate({ identifier: "IscsiTargetList" }) as any as S.Schema<IscsiTargetList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1132,9 +1096,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Metadata about an operation. */
 export interface StoragePoolOperationDisplay {
@@ -1179,9 +1141,7 @@ export const StoragePoolRPOperation = /*@__PURE__*/ S.suspend(() =>
     display: StoragePoolOperationDisplay,
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StoragePoolRPOperation",
-}) as any as S.Schema<StoragePoolRPOperation>;
+).annotate({ identifier: "StoragePoolRPOperation" }) as any as S.Schema<StoragePoolRPOperation>;
 
 /** An array of operations supported by the StoragePool RP. */
 export type StoragePoolOperationListResultValueList = Array<StoragePoolRPOperation>;
@@ -1223,9 +1183,7 @@ export const ListResourceSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListResourceSkusRequest",
-}) as any as S.Schema<ListResourceSkusRequest>;
+).annotate({ identifier: "ListResourceSkusRequest" }) as any as S.Schema<ListResourceSkusRequest>;
 
 /** Capability a resource SKU has. */
 export interface ResourceSkuCapability {
@@ -1239,9 +1197,7 @@ export const ResourceSkuCapability = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCapability",
-}) as any as S.Schema<ResourceSkuCapability>;
+).annotate({ identifier: "ResourceSkuCapability" }) as any as S.Schema<ResourceSkuCapability>;
 
 /** List of additional capabilities for StoragePool resource. */
 export type ResourceSkuInfoCapabilitiesList = Array<ResourceSkuCapability>;
@@ -1279,9 +1235,7 @@ export const ResourceSkuZoneDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(ResourceSkuZoneDetailsNameList),
     capabilities: S.optional(ResourceSkuZoneDetailsCapabilitiesList),
   }),
-).annotate({
-  identifier: "ResourceSkuZoneDetails",
-}) as any as S.Schema<ResourceSkuZoneDetails>;
+).annotate({ identifier: "ResourceSkuZoneDetails" }) as any as S.Schema<ResourceSkuZoneDetails>;
 
 /** Details of capabilities available to a SKU in specific zones. */
 export type ResourceSkuLocationInfoZoneDetailsList = Array<ResourceSkuZoneDetails>;
@@ -1304,9 +1258,7 @@ export const ResourceSkuLocationInfo = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(ResourceSkuLocationInfoZonesList),
     zoneDetails: S.optional(ResourceSkuLocationInfoZoneDetailsList),
   }),
-).annotate({
-  identifier: "ResourceSkuLocationInfo",
-}) as any as S.Schema<ResourceSkuLocationInfo>;
+).annotate({ identifier: "ResourceSkuLocationInfo" }) as any as S.Schema<ResourceSkuLocationInfo>;
 
 /** The type of restrictions. */
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
@@ -1368,9 +1320,7 @@ export const ResourceSkuRestrictions = /*@__PURE__*/ S.suspend(() =>
     restrictionInfo: S.optional(ResourceSkuRestrictionInfo),
     reasonCode: S.optional(ResourceSkuRestrictionsReasonCode),
   }),
-).annotate({
-  identifier: "ResourceSkuRestrictions",
-}) as any as S.Schema<ResourceSkuRestrictions>;
+).annotate({ identifier: "ResourceSkuRestrictions" }) as any as S.Schema<ResourceSkuRestrictions>;
 
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuInfoRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -1405,9 +1355,7 @@ export const ResourceSkuInfo = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(S.String),
     restrictions: S.optional(ResourceSkuInfoRestrictionsList),
   }),
-).annotate({
-  identifier: "ResourceSkuInfo",
-}) as any as S.Schema<ResourceSkuInfo>;
+).annotate({ identifier: "ResourceSkuInfo" }) as any as S.Schema<ResourceSkuInfo>;
 
 /** The list of StoragePool resource skus. */
 export type ResourceSkuListResultValueList = Array<ResourceSkuInfo>;
@@ -1427,9 +1375,7 @@ export const ResourceSkuListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ResourceSkuListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuListResult",
-}) as any as S.Schema<ResourceSkuListResult>;
+).annotate({ identifier: "ResourceSkuListResult" }) as any as S.Schema<ResourceSkuListResult>;
 
 export interface StartDiskPoolRequest {
   /** The ID of the target subscription. */
@@ -1452,9 +1398,7 @@ export const StartDiskPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "StartDiskPoolRequest",
-}) as any as S.Schema<StartDiskPoolRequest>;
+).annotate({ identifier: "StartDiskPoolRequest" }) as any as S.Schema<StartDiskPoolRequest>;
 
 export interface StartDiskPoolResponse {}
 export const StartDiskPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1476,14 +1420,10 @@ export const DiskPoolUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disks: S.optional(DiskPoolUpdatePropertiesDisksList),
   }),
-).annotate({
-  identifier: "DiskPoolUpdateProperties",
-}) as any as S.Schema<DiskPoolUpdateProperties>;
+).annotate({ identifier: "DiskPoolUpdateProperties" }) as any as S.Schema<DiskPoolUpdateProperties>;
 
 /** Resource tags. */
-export type UpdateDiskPoolRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDiskPoolRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDiskPoolRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1525,14 +1465,10 @@ export const UpdateDiskPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDiskPoolRequest",
-}) as any as S.Schema<UpdateDiskPoolRequest>;
+).annotate({ identifier: "UpdateDiskPoolRequest" }) as any as S.Schema<UpdateDiskPoolRequest>;
 
 /** Resource tags. */
-export type UpdateDiskPoolResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDiskPoolResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDiskPoolResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1573,9 +1509,7 @@ export const UpdateDiskPoolResponse = /*@__PURE__*/ S.suspend(() =>
     managedByExtended: S.optional(ManagedByExtended),
     systemData: S.optional(SystemMetadata),
   }),
-).annotate({
-  identifier: "UpdateDiskPoolResponse",
-}) as any as S.Schema<UpdateDiskPoolResponse>;
+).annotate({ identifier: "UpdateDiskPoolResponse" }) as any as S.Schema<UpdateDiskPoolResponse>;
 
 /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
 export type IscsiTargetUpdatePropertiesInputStaticAclsList = Array<Acl>;
@@ -1638,9 +1572,7 @@ export const UpdateIscsiTargetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateIscsiTargetRequest",
-}) as any as S.Schema<UpdateIscsiTargetRequest>;
+).annotate({ identifier: "UpdateIscsiTargetRequest" }) as any as S.Schema<UpdateIscsiTargetRequest>;
 
 export interface UpdateIscsiTargetResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */

@@ -3,7 +3,7 @@
  * `endpoints[]` (regional `*.{location}.rep.googleapis.com` hosts and
  * locational `{location}-*.googleapis.com` hosts).
  *
- *   bun scripts/regional-endpoints.ts
+ *   node scripts/regional-endpoints.ts
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -13,7 +13,7 @@ interface DiscoveryEndpoint {
   location: string;
 }
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specsDir = path.join(root, "specs/spec-mirror-gcp/specs");
 
 /** Global base URL → per-location host template → locations served. */

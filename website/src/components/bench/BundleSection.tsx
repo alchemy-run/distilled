@@ -11,6 +11,10 @@ const HEADLINE: ReadonlyArray<readonly [string, string]> = [
   ["combined-worker", "S3 + Workers together"],
 ];
 
+/** The runtime the recording was made on, as `<name> <version>`. */
+const runtimeOf = (b: BundleBench): string | undefined =>
+  b.runtime ?? (b.node ? `node ${b.node}` : b.bun ? `bun ${b.bun}` : undefined);
+
 /** Rows that are not the "one imported operation" shape, marked with a `*`. */
 const FOOTNOTED: Record<string, string> = {
   "aws-services-index": "imports all ~430 AWS services as namespaces",
@@ -125,7 +129,8 @@ export const BundleSection = (props: { b: BundleBench }) => {
         and calls exactly one.
       </p>
       <p class="mt-2 font-mono text-[0.74rem] text-fg-3 [&_code]:text-fg-2">
-        rolldown {props.b.rolldown} · bun {props.b.bun}
+        rolldown {props.b.rolldown}
+        {runtimeOf(props.b) ? ` · ${runtimeOf(props.b)}` : ""}
         {props.b.host?.cpu ? ` · ${props.b.host.cpu}` : ""} · {props.b.runs} run
         {props.b.runs === 1 ? "" : "s"} · {shortDate(props.b.generatedAt)} ·{" "}
         <code>{props.b.commit}</code>

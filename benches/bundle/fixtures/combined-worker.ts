@@ -7,14 +7,18 @@ import * as workers from "@distilled.cloud/cloudflare/workers";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 
 const layer = Layer.mergeAll(
   AwsCredentials.fromCredentials(
-    { accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" },
+    {
+      accessKeyId: Redacted.make("AKIA_BENCH"),
+      secretAccessKey: Redacted.make("bench"),
+    },
     "us-east-1",
   ),
-  CfCredentials.fromApiToken({ apiToken: "bench-token" }),
+  CfCredentials.fromApiToken({ apiToken: Redacted.make("bench-token") }),
   FetchHttpClient.layer,
 );
 

@@ -20,9 +20,7 @@ export const ActionRequestProperties = /*@__PURE__*/ S.suspend(() =>
     logicAppResourceId: S.String,
     triggerUri: S.String,
   }),
-).annotate({
-  identifier: "ActionRequestProperties",
-}) as any as S.Schema<ActionRequestProperties>;
+).annotate({ identifier: "ActionRequestProperties" }) as any as S.Schema<ActionRequestProperties>;
 
 export interface ActionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -107,9 +105,7 @@ export const ActionResponseProperties = /*@__PURE__*/ S.suspend(() =>
     logicAppResourceId: S.String,
     workflowId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActionResponseProperties",
-}) as any as S.Schema<ActionResponseProperties>;
+).annotate({ identifier: "ActionResponseProperties" }) as any as S.Schema<ActionResponseProperties>;
 
 export interface ActionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -155,6 +151,8 @@ export interface AlertRulesCreateOrUpdateRequest {
   kind: AlertRuleKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const AlertRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -164,6 +162,7 @@ export const AlertRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.String.pipe(T.Label()),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -189,6 +188,8 @@ export interface AlertRulesCreateOrUpdateResponse {
   kind: AlertRuleKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const AlertRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -198,6 +199,7 @@ export const AlertRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AlertRulesCreateOrUpdateResponse",
@@ -220,14 +222,15 @@ export const ConditionType = S.String;
 /** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   conditionType: ConditionType | (string & {});
+  /** Condition properties (shape depends on `conditionType`). */
+  conditionProperties?: unknown;
 }
 export const AutomationRuleCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conditionType: ConditionType,
+    conditionProperties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "AutomationRuleCondition",
-}) as any as S.Schema<AutomationRuleCondition>;
+).annotate({ identifier: "AutomationRuleCondition" }) as any as S.Schema<AutomationRuleCondition>;
 
 /** The conditions to evaluate to determine if the automation rule should be triggered on a given object. */
 export type AutomationRuleTriggeringLogicConditionsList = Array<AutomationRuleCondition>;
@@ -267,15 +270,16 @@ export interface AutomationRuleAction {
   order: number;
   /** The type of the automation rule action. */
   actionType: ActionType | (string & {});
+  /** Action configuration (shape depends on `actionType`). */
+  actionConfiguration?: unknown;
 }
 export const AutomationRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order: S.Number,
     actionType: ActionType,
+    actionConfiguration: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "AutomationRuleAction",
-}) as any as S.Schema<AutomationRuleAction>;
+).annotate({ identifier: "AutomationRuleAction" }) as any as S.Schema<AutomationRuleAction>;
 
 /** The actions to execute when the automation rule is triggered. */
 export type AutomationRulePropertiesInputActionsList = Array<AutomationRuleAction>;
@@ -395,9 +399,7 @@ export const AutomationRuleProperties = /*@__PURE__*/ S.suspend(() =>
     lastModifiedBy: S.optional(ClientInfo),
     createdBy: S.optional(ClientInfo),
   }),
-).annotate({
-  identifier: "AutomationRuleProperties",
-}) as any as S.Schema<AutomationRuleProperties>;
+).annotate({ identifier: "AutomationRuleProperties" }) as any as S.Schema<AutomationRuleProperties>;
 
 export interface AutomationRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -512,9 +514,7 @@ export const BookmarkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     queryEndTime: S.optional(S.String),
     incidentInfo: S.optional(IncidentInfo),
   }),
-).annotate({
-  identifier: "BookmarkPropertiesInput",
-}) as any as S.Schema<BookmarkPropertiesInput>;
+).annotate({ identifier: "BookmarkPropertiesInput" }) as any as S.Schema<BookmarkPropertiesInput>;
 
 export interface BookmarksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -618,9 +618,7 @@ export const BookmarkProperties = /*@__PURE__*/ S.suspend(() =>
     queryEndTime: S.optional(S.String),
     incidentInfo: S.optional(IncidentInfo),
   }),
-).annotate({
-  identifier: "BookmarkProperties",
-}) as any as S.Schema<BookmarkProperties>;
+).annotate({ identifier: "BookmarkProperties" }) as any as S.Schema<BookmarkProperties>;
 
 export interface BookmarksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -709,9 +707,7 @@ export const MetadataSupport = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     link: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetadataSupport",
-}) as any as S.Schema<MetadataSupport>;
+).annotate({ identifier: "MetadataSupport" }) as any as S.Schema<MetadataSupport>;
 
 /** The kind of content the metadata is for. */
 export type Kind =
@@ -772,9 +768,7 @@ export const MetadataDependencies = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(MetadataDependencyOperator),
     criteria: S.optional(MetadataDependenciesCriteriaList),
   }),
-).annotate({
-  identifier: "MetadataDependencies",
-}) as any as S.Schema<MetadataDependencies>;
+).annotate({ identifier: "MetadataDependencies" }) as any as S.Schema<MetadataDependencies>;
 
 /** domain for the solution content item */
 export type MetadataCategoriesDomainsList = Array<string>;
@@ -800,9 +794,7 @@ export const MetadataCategories = /*@__PURE__*/ S.suspend(() =>
     domains: S.optional(MetadataCategoriesDomainsList),
     verticals: S.optional(MetadataCategoriesVerticalsList),
   }),
-).annotate({
-  identifier: "MetadataCategories",
-}) as any as S.Schema<MetadataCategories>;
+).annotate({ identifier: "MetadataCategories" }) as any as S.Schema<MetadataCategories>;
 
 /** Providers for the solution content item */
 export type MetadataPropertiesProvidersList = Array<string>;
@@ -897,9 +889,7 @@ export const MetadataProperties = /*@__PURE__*/ S.suspend(() =>
     previewImages: S.optional(MetadataPropertiesPreviewImagesList),
     previewImagesDark: S.optional(MetadataPropertiesPreviewImagesDarkList),
   }),
-).annotate({
-  identifier: "MetadataProperties",
-}) as any as S.Schema<MetadataProperties>;
+).annotate({ identifier: "MetadataProperties" }) as any as S.Schema<MetadataProperties>;
 
 export interface CreateMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -931,9 +921,7 @@ export const CreateMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "CreateMetadataRequest",
-}) as any as S.Schema<CreateMetadataRequest>;
+).annotate({ identifier: "CreateMetadataRequest" }) as any as S.Schema<CreateMetadataRequest>;
 
 export interface CreateMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -958,9 +946,7 @@ export const CreateMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(MetadataProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateMetadataResponse",
-}) as any as S.Schema<CreateMetadataResponse>;
+).annotate({ identifier: "CreateMetadataResponse" }) as any as S.Schema<CreateMetadataResponse>;
 
 /** The Sentinel onboarding state properties */
 export interface SentinelOnboardingStateProperties {
@@ -1071,9 +1057,7 @@ export const RepositoryInput = /*@__PURE__*/ S.suspend(() =>
     branch: S.String,
     displayUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RepositoryInput",
-}) as any as S.Schema<RepositoryInput>;
+).annotate({ identifier: "RepositoryInput" }) as any as S.Schema<RepositoryInput>;
 
 /** Service principal metadata. */
 export interface ServicePrincipalInput {
@@ -1084,9 +1068,7 @@ export const ServicePrincipalInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialsExpireOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServicePrincipalInput",
-}) as any as S.Schema<ServicePrincipalInput>;
+).annotate({ identifier: "ServicePrincipalInput" }) as any as S.Schema<ServicePrincipalInput>;
 
 /** The kind of repository access credentials */
 export type RepositoryAccessKind = "OAuth" | "PAT" | "App";
@@ -1116,9 +1098,7 @@ export const RepositoryAccess = /*@__PURE__*/ S.suspend(() =>
     token: S.optional(S.String),
     installationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RepositoryAccess",
-}) as any as S.Schema<RepositoryAccess>;
+).annotate({ identifier: "RepositoryAccess" }) as any as S.Schema<RepositoryAccess>;
 
 /** Detail about the webhook object. */
 export interface WebhookInput {
@@ -1260,9 +1240,7 @@ export const ServicePrincipal = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     credentialsExpireOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServicePrincipal",
-}) as any as S.Schema<ServicePrincipal>;
+).annotate({ identifier: "ServicePrincipal" }) as any as S.Schema<ServicePrincipal>;
 
 /** Workload Identity Federation metadata. */
 export interface WorkloadIdentityFederation {
@@ -1318,9 +1296,7 @@ export const GitHubResourceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appInstallationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitHubResourceInfo",
-}) as any as S.Schema<GitHubResourceInfo>;
+).annotate({ identifier: "GitHubResourceInfo" }) as any as S.Schema<GitHubResourceInfo>;
 
 /** Resources created in Azure DevOps repository. */
 export interface AzureDevOpsResourceInfo {
@@ -1334,9 +1310,7 @@ export const AzureDevOpsResourceInfo = /*@__PURE__*/ S.suspend(() =>
     pipelineId: S.optional(S.String),
     serviceConnectionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureDevOpsResourceInfo",
-}) as any as S.Schema<AzureDevOpsResourceInfo>;
+).annotate({ identifier: "AzureDevOpsResourceInfo" }) as any as S.Schema<AzureDevOpsResourceInfo>;
 
 /** Resources created in user's repository for the source-control. */
 export interface RepositoryResourceInfo {
@@ -1353,9 +1327,7 @@ export const RepositoryResourceInfo = /*@__PURE__*/ S.suspend(() =>
     gitHubResourceInfo: S.optional(GitHubResourceInfo),
     azureDevOpsResourceInfo: S.optional(AzureDevOpsResourceInfo),
   }),
-).annotate({
-  identifier: "RepositoryResourceInfo",
-}) as any as S.Schema<RepositoryResourceInfo>;
+).annotate({ identifier: "RepositoryResourceInfo" }) as any as S.Schema<RepositoryResourceInfo>;
 
 /** Status while trying to fetch the deployment information. */
 export type DeploymentFetchStatus = "Success" | "Unauthorized" | "NotFound";
@@ -1472,9 +1444,7 @@ export const SourceControlProperties = /*@__PURE__*/ S.suspend(() =>
     lastDeploymentInfo: S.optional(DeploymentInfo),
     pullRequest: S.optional(PullRequest),
   }),
-).annotate({
-  identifier: "SourceControlProperties",
-}) as any as S.Schema<SourceControlProperties>;
+).annotate({ identifier: "SourceControlProperties" }) as any as S.Schema<SourceControlProperties>;
 
 export interface CreateSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1590,9 +1560,7 @@ export const ThreatIntelligenceIndicatorPropertiesInputParsedPatternList = /*@__
 ) as any as S.Schema<ThreatIntelligenceIndicatorPropertiesInputParsedPatternList>;
 
 /** External reference hashes */
-export type ThreatIntelligenceExternalReferenceHashesMap = {
-  [key: string]: string | undefined;
-};
+export type ThreatIntelligenceExternalReferenceHashesMap = { [key: string]: string | undefined };
 export const ThreatIntelligenceExternalReferenceHashesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1931,6 +1899,8 @@ export interface DataConnectorDefinitionsCreateOrUpdateRequest {
   kind: DataConnectorDefinitionKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const DataConnectorDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1940,6 +1910,7 @@ export const DataConnectorDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.sus
     dataConnectorDefinitionName: S.String.pipe(T.Label()),
     kind: DataConnectorDefinitionKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1965,6 +1936,8 @@ export interface DataConnectorDefinitionsCreateOrUpdateResponse {
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const DataConnectorDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1974,6 +1947,7 @@ export const DataConnectorDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.su
     systemData: S.optional(SystemData),
     kind: DataConnectorDefinitionKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DataConnectorDefinitionsCreateOrUpdateResponse",
@@ -2007,6 +1981,8 @@ export interface DataConnectorsCreateOrUpdateRequest {
   kind: DataConnectorKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const DataConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2016,6 +1992,7 @@ export const DataConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     dataConnectorId: S.String.pipe(T.Label()),
     kind: DataConnectorKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2041,6 +2018,8 @@ export interface DataConnectorsCreateOrUpdateResponse {
   kind: DataConnectorKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const DataConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2050,6 +2029,7 @@ export const DataConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
     systemData: S.optional(SystemData),
     kind: DataConnectorKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DataConnectorsCreateOrUpdateResponse",
@@ -2082,9 +2062,7 @@ export const DeleteActionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteActionRequest",
-}) as any as S.Schema<DeleteActionRequest>;
+).annotate({ identifier: "DeleteActionRequest" }) as any as S.Schema<DeleteActionRequest>;
 
 export interface DeleteActionResponse {}
 export const DeleteActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2115,9 +2093,7 @@ export const DeleteAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAlertRuleRequest",
-}) as any as S.Schema<DeleteAlertRuleRequest>;
+).annotate({ identifier: "DeleteAlertRuleRequest" }) as any as S.Schema<DeleteAlertRuleRequest>;
 
 export interface DeleteAlertRuleResponse {}
 export const DeleteAlertRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2183,9 +2159,7 @@ export const DeleteBookmarkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBookmarkRequest",
-}) as any as S.Schema<DeleteBookmarkRequest>;
+).annotate({ identifier: "DeleteBookmarkRequest" }) as any as S.Schema<DeleteBookmarkRequest>;
 
 export interface DeleteBookmarkResponse {}
 export const DeleteBookmarkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2317,9 +2291,7 @@ export const DeleteIncidentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteIncidentRequest",
-}) as any as S.Schema<DeleteIncidentRequest>;
+).annotate({ identifier: "DeleteIncidentRequest" }) as any as S.Schema<DeleteIncidentRequest>;
 
 export interface DeleteIncidentResponse {}
 export const DeleteIncidentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2458,9 +2430,7 @@ export const DeleteMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteMetadataRequest",
-}) as any as S.Schema<DeleteMetadataRequest>;
+).annotate({ identifier: "DeleteMetadataRequest" }) as any as S.Schema<DeleteMetadataRequest>;
 
 export interface DeleteMetadataResponse {}
 export const DeleteMetadataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2546,9 +2516,7 @@ export const RepositoryAccessObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     repositoryAccess: RepositoryAccess,
   }),
-).annotate({
-  identifier: "RepositoryAccessObject",
-}) as any as S.Schema<RepositoryAccessObject>;
+).annotate({ identifier: "RepositoryAccessObject" }) as any as S.Schema<RepositoryAccessObject>;
 
 export interface DeleteSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2681,9 +2649,7 @@ export const DeleteWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWatchlistRequest",
-}) as any as S.Schema<DeleteWatchlistRequest>;
+).annotate({ identifier: "DeleteWatchlistRequest" }) as any as S.Schema<DeleteWatchlistRequest>;
 
 export interface DeleteWatchlistResponse {}
 export const DeleteWatchlistResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2753,9 +2719,7 @@ export const GetActionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetActionRequest",
-}) as any as S.Schema<GetActionRequest>;
+).annotate({ identifier: "GetActionRequest" }) as any as S.Schema<GetActionRequest>;
 
 export interface GetActionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2780,9 +2744,7 @@ export const GetActionResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ActionResponseProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetActionResponse",
-}) as any as S.Schema<GetActionResponse>;
+).annotate({ identifier: "GetActionResponse" }) as any as S.Schema<GetActionResponse>;
 
 export interface GetAlertRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2808,9 +2770,7 @@ export const GetAlertRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetAlertRuleRequest",
-}) as any as S.Schema<GetAlertRuleRequest>;
+).annotate({ identifier: "GetAlertRuleRequest" }) as any as S.Schema<GetAlertRuleRequest>;
 
 export interface GetAlertRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2825,6 +2785,8 @@ export interface GetAlertRuleResponse {
   kind: AlertRuleKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const GetAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2834,10 +2796,9 @@ export const GetAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetAlertRuleResponse",
-}) as any as S.Schema<GetAlertRuleResponse>;
+).annotate({ identifier: "GetAlertRuleResponse" }) as any as S.Schema<GetAlertRuleResponse>;
 
 export interface GetAlertRuleTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2915,9 +2876,7 @@ export const GetAutomationRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetAutomationRuleRequest",
-}) as any as S.Schema<GetAutomationRuleRequest>;
+).annotate({ identifier: "GetAutomationRuleRequest" }) as any as S.Schema<GetAutomationRuleRequest>;
 
 export interface GetAutomationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2970,9 +2929,7 @@ export const GetBookmarkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetBookmarkRequest",
-}) as any as S.Schema<GetBookmarkRequest>;
+).annotate({ identifier: "GetBookmarkRequest" }) as any as S.Schema<GetBookmarkRequest>;
 
 export interface GetBookmarkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2997,9 +2954,7 @@ export const GetBookmarkResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BookmarkProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBookmarkResponse",
-}) as any as S.Schema<GetBookmarkResponse>;
+).annotate({ identifier: "GetBookmarkResponse" }) as any as S.Schema<GetBookmarkResponse>;
 
 export interface GetContentPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3025,9 +2980,7 @@ export const GetContentPackageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetContentPackageRequest",
-}) as any as S.Schema<GetContentPackageRequest>;
+).annotate({ identifier: "GetContentPackageRequest" }) as any as S.Schema<GetContentPackageRequest>;
 
 /** The package kind */
 export type PackageKind = "Solution" | "Standalone";
@@ -3130,9 +3083,7 @@ export const PackageBaseProperties = /*@__PURE__*/ S.suspend(() =>
     threatAnalysisTechniques: S.optional(PackageBasePropertiesThreatAnalysisTechniquesList),
     icon: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PackageBaseProperties",
-}) as any as S.Schema<PackageBaseProperties>;
+).annotate({ identifier: "PackageBaseProperties" }) as any as S.Schema<PackageBaseProperties>;
 
 export interface GetContentPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3312,9 +3263,7 @@ export const TemplateProperties = /*@__PURE__*/ S.suspend(() =>
     mainTemplate: S.optional(S.Unknown),
     dependantTemplates: S.optional(TemplatePropertiesDependantTemplatesList),
   }),
-).annotate({
-  identifier: "TemplateProperties",
-}) as any as S.Schema<TemplateProperties>;
+).annotate({ identifier: "TemplateProperties" }) as any as S.Schema<TemplateProperties>;
 
 export interface GetContentTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3367,9 +3316,7 @@ export const GetDataConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataConnectorRequest",
-}) as any as S.Schema<GetDataConnectorRequest>;
+).annotate({ identifier: "GetDataConnectorRequest" }) as any as S.Schema<GetDataConnectorRequest>;
 
 export interface GetDataConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3384,6 +3331,8 @@ export interface GetDataConnectorResponse {
   kind: DataConnectorKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const GetDataConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3393,10 +3342,9 @@ export const GetDataConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: DataConnectorKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetDataConnectorResponse",
-}) as any as S.Schema<GetDataConnectorResponse>;
+).annotate({ identifier: "GetDataConnectorResponse" }) as any as S.Schema<GetDataConnectorResponse>;
 
 export interface GetDataConnectorDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3439,6 +3387,8 @@ export interface GetDataConnectorDefinitionResponse {
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const GetDataConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3448,6 +3398,7 @@ export const GetDataConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: DataConnectorDefinitionKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataConnectorDefinitionResponse",
@@ -3477,9 +3428,7 @@ export const GetIncidentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetIncidentRequest",
-}) as any as S.Schema<GetIncidentRequest>;
+).annotate({ identifier: "GetIncidentRequest" }) as any as S.Schema<GetIncidentRequest>;
 
 /** The status of the incident */
 export type IncidentStatus = "New" | "Active" | "Closed";
@@ -3526,9 +3475,7 @@ export const IncidentOwnerInfo = /*@__PURE__*/ S.suspend(() =>
     userPrincipalName: S.optional(S.String),
     ownerType: S.optional(OwnerType),
   }),
-).annotate({
-  identifier: "IncidentOwnerInfo",
-}) as any as S.Schema<IncidentOwnerInfo>;
+).annotate({ identifier: "IncidentOwnerInfo" }) as any as S.Schema<IncidentOwnerInfo>;
 
 /** The type of the label */
 export type IncidentLabelType = "User" | "AutoAssigned";
@@ -3611,9 +3558,7 @@ export const IncidentAdditionalData = /*@__PURE__*/ S.suspend(() =>
     tactics: S.optional(IncidentAdditionalDataTacticsList),
     providerIncidentUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentAdditionalData",
-}) as any as S.Schema<IncidentAdditionalData>;
+).annotate({ identifier: "IncidentAdditionalData" }) as any as S.Schema<IncidentAdditionalData>;
 
 /** List of resource ids of Analytic rules related to the incident */
 export type IncidentPropertiesRelatedAnalyticRuleIdsList = Array<string>;
@@ -3684,9 +3629,7 @@ export const IncidentProperties = /*@__PURE__*/ S.suspend(() =>
     providerName: S.optional(S.String),
     providerIncidentId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentProperties",
-}) as any as S.Schema<IncidentProperties>;
+).annotate({ identifier: "IncidentProperties" }) as any as S.Schema<IncidentProperties>;
 
 export interface GetIncidentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3711,9 +3654,7 @@ export const GetIncidentResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IncidentProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetIncidentResponse",
-}) as any as S.Schema<GetIncidentResponse>;
+).annotate({ identifier: "GetIncidentResponse" }) as any as S.Schema<GetIncidentResponse>;
 
 export interface GetIncidentCommentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3844,9 +3785,7 @@ export const RelationProperties = /*@__PURE__*/ S.suspend(() =>
     relatedResourceType: S.optional(S.String),
     relatedResourceKind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelationProperties",
-}) as any as S.Schema<RelationProperties>;
+).annotate({ identifier: "RelationProperties" }) as any as S.Schema<RelationProperties>;
 
 export interface GetIncidentRelationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3902,9 +3841,7 @@ export const GetIncidentTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetIncidentTaskRequest",
-}) as any as S.Schema<GetIncidentTaskRequest>;
+).annotate({ identifier: "GetIncidentTaskRequest" }) as any as S.Schema<GetIncidentTaskRequest>;
 
 /** The status of the task */
 export type IncidentTaskStatus = "New" | "Completed";
@@ -3937,9 +3874,7 @@ export const IncidentTaskProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(ClientInfo),
     lastModifiedBy: S.optional(ClientInfo),
   }),
-).annotate({
-  identifier: "IncidentTaskProperties",
-}) as any as S.Schema<IncidentTaskProperties>;
+).annotate({ identifier: "IncidentTaskProperties" }) as any as S.Schema<IncidentTaskProperties>;
 
 export interface GetIncidentTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3964,9 +3899,7 @@ export const GetIncidentTaskResponse = /*@__PURE__*/ S.suspend(() =>
     properties: IncidentTaskProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetIncidentTaskResponse",
-}) as any as S.Schema<GetIncidentTaskResponse>;
+).annotate({ identifier: "GetIncidentTaskResponse" }) as any as S.Schema<GetIncidentTaskResponse>;
 
 export interface GetMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3992,9 +3925,7 @@ export const GetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetMetadataRequest",
-}) as any as S.Schema<GetMetadataRequest>;
+).annotate({ identifier: "GetMetadataRequest" }) as any as S.Schema<GetMetadataRequest>;
 
 export interface GetMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4019,9 +3950,7 @@ export const GetMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(MetadataProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetMetadataResponse",
-}) as any as S.Schema<GetMetadataResponse>;
+).annotate({ identifier: "GetMetadataResponse" }) as any as S.Schema<GetMetadataResponse>;
 
 export interface GetProductPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4047,9 +3976,7 @@ export const GetProductPackageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductPackageRequest",
-}) as any as S.Schema<GetProductPackageRequest>;
+).annotate({ identifier: "GetProductPackageRequest" }) as any as S.Schema<GetProductPackageRequest>;
 
 /** Providers for the package item */
 export type ProductPackagePropertiesProvidersList = Array<string>;
@@ -4153,9 +4080,7 @@ export const ProductPackageProperties = /*@__PURE__*/ S.suspend(() =>
     metadataResourceId: S.optional(S.String),
     packagedContent: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ProductPackageProperties",
-}) as any as S.Schema<ProductPackageProperties>;
+).annotate({ identifier: "ProductPackageProperties" }) as any as S.Schema<ProductPackageProperties>;
 
 export interface GetProductPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4402,6 +4327,8 @@ export interface GetSecurityMLAnalyticsSettingsResponse {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const GetSecurityMLAnalyticsSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4411,6 +4338,7 @@ export const GetSecurityMLAnalyticsSettingsResponse = /*@__PURE__*/ S.suspend(()
     systemData: S.optional(SystemData),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetSecurityMLAnalyticsSettingsResponse",
@@ -4495,9 +4423,7 @@ export const GetSourceControlRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetSourceControlRequest",
-}) as any as S.Schema<GetSourceControlRequest>;
+).annotate({ identifier: "GetSourceControlRequest" }) as any as S.Schema<GetSourceControlRequest>;
 
 export interface GetSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4522,9 +4448,7 @@ export const GetSourceControlResponse = /*@__PURE__*/ S.suspend(() =>
     properties: SourceControlProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSourceControlResponse",
-}) as any as S.Schema<GetSourceControlResponse>;
+).annotate({ identifier: "GetSourceControlResponse" }) as any as S.Schema<GetSourceControlResponse>;
 
 export interface GetThreatIntelligenceIndicatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4605,9 +4529,7 @@ export const GetWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetWatchlistRequest",
-}) as any as S.Schema<GetWatchlistRequest>;
+).annotate({ identifier: "GetWatchlistRequest" }) as any as S.Schema<GetWatchlistRequest>;
 
 /** The sourceType of the watchlist */
 export type SourceType = "Local" | "AzureStorage";
@@ -4702,9 +4624,7 @@ export const WatchlistProperties = /*@__PURE__*/ S.suspend(() =>
     uploadStatus: S.optional(S.String),
     provisioningState: S.optional(WatchlistProvisioningState),
   }),
-).annotate({
-  identifier: "WatchlistProperties",
-}) as any as S.Schema<WatchlistProperties>;
+).annotate({ identifier: "WatchlistProperties" }) as any as S.Schema<WatchlistProperties>;
 
 export interface GetWatchlistResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4729,9 +4649,7 @@ export const GetWatchlistResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatchlistProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWatchlistResponse",
-}) as any as S.Schema<GetWatchlistResponse>;
+).annotate({ identifier: "GetWatchlistResponse" }) as any as S.Schema<GetWatchlistResponse>;
 
 export interface GetWatchlistItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4760,9 +4678,7 @@ export const GetWatchlistItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetWatchlistItemRequest",
-}) as any as S.Schema<GetWatchlistItemRequest>;
+).annotate({ identifier: "GetWatchlistItemRequest" }) as any as S.Schema<GetWatchlistItemRequest>;
 
 /** Describes watchlist item properties */
 export interface WatchlistItemProperties {
@@ -4800,9 +4716,7 @@ export const WatchlistItemProperties = /*@__PURE__*/ S.suspend(() =>
     itemsKeyValue: S.Unknown,
     entityMapping: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WatchlistItemProperties",
-}) as any as S.Schema<WatchlistItemProperties>;
+).annotate({ identifier: "WatchlistItemProperties" }) as any as S.Schema<WatchlistItemProperties>;
 
 export interface GetWatchlistItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4827,9 +4741,7 @@ export const GetWatchlistItemResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WatchlistItemProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWatchlistItemResponse",
-}) as any as S.Schema<GetWatchlistItemResponse>;
+).annotate({ identifier: "GetWatchlistItemResponse" }) as any as S.Schema<GetWatchlistItemResponse>;
 
 /** Incident comment property bag. */
 export interface IncidentCommentPropertiesInput {
@@ -4917,9 +4829,7 @@ export const RelationPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     relatedResourceId: S.String,
   }),
-).annotate({
-  identifier: "RelationPropertiesInput",
-}) as any as S.Schema<RelationPropertiesInput>;
+).annotate({ identifier: "RelationPropertiesInput" }) as any as S.Schema<RelationPropertiesInput>;
 
 export interface IncidentRelationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5030,9 +4940,7 @@ export const IncidentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     firstActivityTimeUtc: S.optional(S.String),
     lastActivityTimeUtc: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentPropertiesInput",
-}) as any as S.Schema<IncidentPropertiesInput>;
+).annotate({ identifier: "IncidentPropertiesInput" }) as any as S.Schema<IncidentPropertiesInput>;
 
 export interface IncidentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5356,9 +5264,7 @@ export const TemplatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     packageName: S.optional(S.String),
     mainTemplate: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TemplatePropertiesInput",
-}) as any as S.Schema<TemplatePropertiesInput>;
+).annotate({ identifier: "TemplatePropertiesInput" }) as any as S.Schema<TemplatePropertiesInput>;
 
 export interface InstallContentTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5516,9 +5422,7 @@ export const ListAlertRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListAlertRulesRequest",
-}) as any as S.Schema<ListAlertRulesRequest>;
+).annotate({ identifier: "ListAlertRulesRequest" }) as any as S.Schema<ListAlertRulesRequest>;
 
 /** Alert rule. */
 export interface AlertRule {
@@ -5612,9 +5516,7 @@ export const AlertRuleTemplate = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: AlertRuleKind,
   }),
-).annotate({
-  identifier: "AlertRuleTemplate",
-}) as any as S.Schema<AlertRuleTemplate>;
+).annotate({ identifier: "AlertRuleTemplate" }) as any as S.Schema<AlertRuleTemplate>;
 
 /** The AlertRuleTemplate items on this page */
 export type AlertRuleTemplatesListValueList = Array<AlertRuleTemplate>;
@@ -5634,9 +5536,7 @@ export const AlertRuleTemplatesList = /*@__PURE__*/ S.suspend(() =>
     value: AlertRuleTemplatesListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlertRuleTemplatesList",
-}) as any as S.Schema<AlertRuleTemplatesList>;
+).annotate({ identifier: "AlertRuleTemplatesList" }) as any as S.Schema<AlertRuleTemplatesList>;
 
 export interface ListAutomationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5706,9 +5606,7 @@ export const AutomationRulesList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AutomationRulesListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutomationRulesList",
-}) as any as S.Schema<AutomationRulesList>;
+).annotate({ identifier: "AutomationRulesList" }) as any as S.Schema<AutomationRulesList>;
 
 export interface ListBookmarksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5731,9 +5629,7 @@ export const ListBookmarksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListBookmarksRequest",
-}) as any as S.Schema<ListBookmarksRequest>;
+).annotate({ identifier: "ListBookmarksRequest" }) as any as S.Schema<ListBookmarksRequest>;
 
 /** Represents a bookmark in Azure Security Insights. */
 export interface Bookmark {
@@ -6017,9 +5913,7 @@ export const DataConnectorDefinition = /*@__PURE__*/ S.suspend(() =>
     kind: DataConnectorDefinitionKind,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataConnectorDefinition",
-}) as any as S.Schema<DataConnectorDefinition>;
+).annotate({ identifier: "DataConnectorDefinition" }) as any as S.Schema<DataConnectorDefinition>;
 
 /** List of data connector definitions. */
 export type DataConnectorDefinitionArmCollectionWrapperValueList = Array<DataConnectorDefinition>;
@@ -6112,9 +6006,7 @@ export const DataConnectorList = /*@__PURE__*/ S.suspend(() =>
     value: DataConnectorListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataConnectorList",
-}) as any as S.Schema<DataConnectorList>;
+).annotate({ identifier: "DataConnectorList" }) as any as S.Schema<DataConnectorList>;
 
 export interface ListIncidentAlertsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6170,9 +6062,7 @@ export type EntityKindEnum =
 export const EntityKindEnum = S.String;
 
 /** A bag of custom fields that should be part of the entity and will be presented to the user. */
-export type SecurityAlertPropertiesAdditionalDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SecurityAlertPropertiesAdditionalDataMap = { [key: string]: unknown | undefined };
 export const SecurityAlertPropertiesAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6340,9 +6230,7 @@ export const SecurityAlertProperties = /*@__PURE__*/ S.suspend(() =>
     alertLink: S.optional(S.String),
     resourceIdentifiers: S.optional(SecurityAlertPropertiesResourceIdentifiersList),
   }),
-).annotate({
-  identifier: "SecurityAlertProperties",
-}) as any as S.Schema<SecurityAlertProperties>;
+).annotate({ identifier: "SecurityAlertProperties" }) as any as S.Schema<SecurityAlertProperties>;
 
 /** Represents a security alert entity. */
 export interface SecurityAlert {
@@ -6385,9 +6273,7 @@ export const IncidentAlertList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: IncidentAlertListValueList,
   }),
-).annotate({
-  identifier: "IncidentAlertList",
-}) as any as S.Schema<IncidentAlertList>;
+).annotate({ identifier: "IncidentAlertList" }) as any as S.Schema<IncidentAlertList>;
 
 export interface ListIncidentBookmarksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6418,9 +6304,7 @@ export const ListIncidentBookmarksRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListIncidentBookmarksRequest>;
 
 /** A bag of custom fields that should be part of the entity and will be presented to the user. */
-export type HuntingBookmarkPropertiesAdditionalDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type HuntingBookmarkPropertiesAdditionalDataMap = { [key: string]: unknown | undefined };
 export const HuntingBookmarkPropertiesAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6505,9 +6389,7 @@ export const HuntingBookmark = /*@__PURE__*/ S.suspend(() =>
     kind: EntityKindEnum,
     properties: S.optional(HuntingBookmarkProperties),
   }),
-).annotate({
-  identifier: "HuntingBookmark",
-}) as any as S.Schema<HuntingBookmark>;
+).annotate({ identifier: "HuntingBookmark" }) as any as S.Schema<HuntingBookmark>;
 
 /** Array of incident bookmarks. */
 export type IncidentBookmarkListValueList = Array<HuntingBookmark>;
@@ -6524,9 +6406,7 @@ export const IncidentBookmarkList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: IncidentBookmarkListValueList,
   }),
-).annotate({
-  identifier: "IncidentBookmarkList",
-}) as any as S.Schema<IncidentBookmarkList>;
+).annotate({ identifier: "IncidentBookmarkList" }) as any as S.Schema<IncidentBookmarkList>;
 
 export interface ListIncidentCommentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6592,9 +6472,7 @@ export const IncidentComment = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IncidentCommentProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentComment",
-}) as any as S.Schema<IncidentComment>;
+).annotate({ identifier: "IncidentComment" }) as any as S.Schema<IncidentComment>;
 
 /** The IncidentComment items on this page */
 export type IncidentCommentListValueList = Array<IncidentComment>;
@@ -6614,9 +6492,7 @@ export const IncidentCommentList = /*@__PURE__*/ S.suspend(() =>
     value: IncidentCommentListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentCommentList",
-}) as any as S.Schema<IncidentCommentList>;
+).annotate({ identifier: "IncidentCommentList" }) as any as S.Schema<IncidentCommentList>;
 
 export interface ListIncidentEntitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6709,9 +6585,7 @@ export const IncidentEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
     entities: S.optional(IncidentEntitiesResponseEntitiesList),
     metaData: S.optional(IncidentEntitiesResponseMetaDataList),
   }),
-).annotate({
-  identifier: "IncidentEntitiesResponse",
-}) as any as S.Schema<IncidentEntitiesResponse>;
+).annotate({ identifier: "IncidentEntitiesResponse" }) as any as S.Schema<IncidentEntitiesResponse>;
 
 export interface ListIncidentRelationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6832,9 +6706,7 @@ export const ListIncidentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListIncidentsRequest",
-}) as any as S.Schema<ListIncidentsRequest>;
+).annotate({ identifier: "ListIncidentsRequest" }) as any as S.Schema<ListIncidentsRequest>;
 
 /** Represents an incident in Azure Security Insights. */
 export interface Incident {
@@ -6906,9 +6778,7 @@ export const ListIncidentTasksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListIncidentTasksRequest",
-}) as any as S.Schema<ListIncidentTasksRequest>;
+).annotate({ identifier: "ListIncidentTasksRequest" }) as any as S.Schema<ListIncidentTasksRequest>;
 
 /** Describes incident task properties */
 export interface IncidentTask {
@@ -6954,9 +6824,7 @@ export const IncidentTaskList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(IncidentTaskListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncidentTaskList",
-}) as any as S.Schema<IncidentTaskList>;
+).annotate({ identifier: "IncidentTaskList" }) as any as S.Schema<IncidentTaskList>;
 
 export interface ListMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6991,9 +6859,7 @@ export const ListMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListMetadataRequest",
-}) as any as S.Schema<ListMetadataRequest>;
+).annotate({ identifier: "ListMetadataRequest" }) as any as S.Schema<ListMetadataRequest>;
 
 /** Metadata resource definition. */
 export interface MetadataModel {
@@ -7051,9 +6917,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Properties of the operation */
 export interface OperationDisplay {
@@ -7073,9 +6937,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation provided by provider */
 export interface Operation {
@@ -7181,9 +7043,7 @@ export const ProductPackageModel = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProductPackageProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductPackageModel",
-}) as any as S.Schema<ProductPackageModel>;
+).annotate({ identifier: "ProductPackageModel" }) as any as S.Schema<ProductPackageModel>;
 
 /** The ProductPackageModel items on this page */
 export type ProductPackageListValueList = Array<ProductPackageModel>;
@@ -7203,9 +7063,7 @@ export const ProductPackageList = /*@__PURE__*/ S.suspend(() =>
     value: ProductPackageListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductPackageList",
-}) as any as S.Schema<ProductPackageList>;
+).annotate({ identifier: "ProductPackageList" }) as any as S.Schema<ProductPackageList>;
 
 export interface ListProductTemplatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7277,9 +7135,7 @@ export const ProductTemplateModel = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProductTemplateProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductTemplateModel",
-}) as any as S.Schema<ProductTemplateModel>;
+).annotate({ identifier: "ProductTemplateModel" }) as any as S.Schema<ProductTemplateModel>;
 
 /** The ProductTemplateModel items on this page */
 export type ProductTemplateListValueList = Array<ProductTemplateModel>;
@@ -7299,9 +7155,7 @@ export const ProductTemplateList = /*@__PURE__*/ S.suspend(() =>
     value: ProductTemplateListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductTemplateList",
-}) as any as S.Schema<ProductTemplateList>;
+).annotate({ identifier: "ProductTemplateList" }) as any as S.Schema<ProductTemplateList>;
 
 export interface ListSecurityMLAnalyticsSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7342,6 +7196,8 @@ export interface SecurityMLAnalyticsSetting {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7351,6 +7207,7 @@ export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityMLAnalyticsSetting",
@@ -7427,9 +7284,7 @@ export const SentinelOnboardingState = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SentinelOnboardingStateProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SentinelOnboardingState",
-}) as any as S.Schema<SentinelOnboardingState>;
+).annotate({ identifier: "SentinelOnboardingState" }) as any as S.Schema<SentinelOnboardingState>;
 
 /** Array of Sentinel onboarding states */
 export type SentinelOnboardingStatesListValueList = Array<SentinelOnboardingState>;
@@ -7591,9 +7446,7 @@ export const SourceControlList = /*@__PURE__*/ S.suspend(() =>
     value: SourceControlListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SourceControlList",
-}) as any as S.Schema<SourceControlList>;
+).annotate({ identifier: "SourceControlList" }) as any as S.Schema<SourceControlList>;
 
 export interface ListThreatIntelligenceIndicatorMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7672,9 +7525,7 @@ export const ThreatIntelligenceMetric = /*@__PURE__*/ S.suspend(() =>
     patternTypeMetrics: S.optional(ThreatIntelligenceMetricPatternTypeMetricsList),
     sourceMetrics: S.optional(ThreatIntelligenceMetricSourceMetricsList),
   }),
-).annotate({
-  identifier: "ThreatIntelligenceMetric",
-}) as any as S.Schema<ThreatIntelligenceMetric>;
+).annotate({ identifier: "ThreatIntelligenceMetric" }) as any as S.Schema<ThreatIntelligenceMetric>;
 
 /** Threat intelligence metrics. */
 export interface ThreatIntelligenceMetrics {
@@ -7870,9 +7721,7 @@ export const WatchlistItemList = /*@__PURE__*/ S.suspend(() =>
     value: WatchlistItemListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatchlistItemList",
-}) as any as S.Schema<WatchlistItemList>;
+).annotate({ identifier: "WatchlistItemList" }) as any as S.Schema<WatchlistItemList>;
 
 export interface ListWatchlistsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7898,9 +7747,7 @@ export const ListWatchlistsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListWatchlistsRequest",
-}) as any as S.Schema<ListWatchlistsRequest>;
+).annotate({ identifier: "ListWatchlistsRequest" }) as any as S.Schema<ListWatchlistsRequest>;
 
 /** Represents a Watchlist in Azure Security Insights. */
 export interface Watchlist {
@@ -8045,9 +7892,7 @@ export const RunEntityPlaybookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "RunEntityPlaybookRequest",
-}) as any as S.Schema<RunEntityPlaybookRequest>;
+).annotate({ identifier: "RunEntityPlaybookRequest" }) as any as S.Schema<RunEntityPlaybookRequest>;
 
 export interface RunEntityPlaybookResponse {}
 export const RunEntityPlaybookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8105,6 +7950,8 @@ export interface SecurityMLAnalyticsSettingsCreateOrUpdateRequest {
   kind: SecurityMLAnalyticsSettingsKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSettingsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8114,6 +7961,7 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdateRequest = /*@__PURE__*/ S.
     settingsResourceName: S.String.pipe(T.Label()),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -8139,6 +7987,8 @@ export interface SecurityMLAnalyticsSettingsCreateOrUpdateResponse {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSettingsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8148,6 +7998,7 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdateResponse = /*@__PURE__*/ S
     systemData: S.optional(SystemData),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityMLAnalyticsSettingsCreateOrUpdateResponse",
@@ -8353,9 +8204,7 @@ export const UninstallContentPackageRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UninstallContentPackageResponse {}
 export const UninstallContentPackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UninstallContentPackageResponse",
-  },
+  { identifier: "UninstallContentPackageResponse" },
 ) as any as S.Schema<UninstallContentPackageResponse>;
 
 /** Providers for the solution content item */
@@ -8451,9 +8300,7 @@ export const MetadataPropertiesPatch = /*@__PURE__*/ S.suspend(() =>
     previewImages: S.optional(MetadataPropertiesPatchPreviewImagesList),
     previewImagesDark: S.optional(MetadataPropertiesPatchPreviewImagesDarkList),
   }),
-).annotate({
-  identifier: "MetadataPropertiesPatch",
-}) as any as S.Schema<MetadataPropertiesPatch>;
+).annotate({ identifier: "MetadataPropertiesPatch" }) as any as S.Schema<MetadataPropertiesPatch>;
 
 export interface UpdateMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8485,9 +8332,7 @@ export const UpdateMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateMetadataRequest",
-}) as any as S.Schema<UpdateMetadataRequest>;
+).annotate({ identifier: "UpdateMetadataRequest" }) as any as S.Schema<UpdateMetadataRequest>;
 
 export interface UpdateMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8512,9 +8357,7 @@ export const UpdateMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(MetadataProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateMetadataResponse",
-}) as any as S.Schema<UpdateMetadataResponse>;
+).annotate({ identifier: "UpdateMetadataResponse" }) as any as S.Schema<UpdateMetadataResponse>;
 
 /** Describes watchlist item properties */
 export interface WatchlistItemPropertiesInput {
@@ -8695,9 +8538,7 @@ export const WatchlistPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.String),
     uploadStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WatchlistPropertiesInput",
-}) as any as S.Schema<WatchlistPropertiesInput>;
+).annotate({ identifier: "WatchlistPropertiesInput" }) as any as S.Schema<WatchlistPropertiesInput>;
 
 export interface WatchlistsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */

@@ -1,16 +1,16 @@
-/**
- * Credentials from the shared config and credentials files: static keys,
- * `role_arn` + `source_profile` / `credential_source` (assumed through
- * STS), `web_identity_token_file`, `credential_process`, `aws login`
- * console sessions (`login_session`), and SSO profiles.
- */
-import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
 import * as Auth from "../auth.ts";
+/**
+ * Credentials from the shared config and credentials files: static keys,
+ * `role_arn` + `source_profile` / `credential_source` (assumed through
+ * STS), `web_identity_token_file`, `credential_process`, `aws login`
+ * console sessions (`login_session`), and SSO profiles.
+ */
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { createLazyProvider } from "../credentials-service.ts";
 import { chain, type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { containerMetadataSource } from "./from-container-metadata.ts";

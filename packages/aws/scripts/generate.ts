@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import { lintAndFormatGenerated } from "@distilled.cloud/core/codegen/format";
 /**
@@ -44,7 +44,7 @@ const moduleName = (sdkId: string) => sdkId.toLowerCase().replaceAll(" ", "-");
 
 runGeneratorCli({
   description: "Generate the AWS Effect SDK from patched Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   manualSpecsDir: "manual-specs",
   patchesDir: false,

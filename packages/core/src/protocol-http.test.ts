@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { buildRequest, mapKeys } from "./protocol-http.ts";
 import { SensitiveValue, wrapSensitive } from "./protocol-rest.ts";
 import * as S from "./schema.ts";
@@ -94,6 +94,32 @@ describe("URI label encoding", () => {
     for (const preserve of ["/", "?", "#", "%", "\\r", "[", "]"]) {
       expect(() => T.LabelEncoding({ preserve })).toThrow(TypeError);
     }
+  });
+});
+
+describe("greedy labels", () => {
+  const ScopedInput = S.Struct({
+    scope: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/{scope+}/providers/Things/{name}" }));
+
+  const urlOf = (input: unknown) =>
+    buildRequest({
+      input,
+      inputAst: ScopedInput.ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps slashes and drops the leading slash of the value", () => {
+    expect(urlOf({ scope: "/subscriptions/abc/resourceGroups/my rg", name: "a/b" })).toBe(
+      "https://example.test/subscriptions/abc/resourceGroups/my%20rg/providers/Things/a%2Fb",
+    );
+  });
+
+  test("accepts a value without a leading slash", () => {
+    expect(urlOf({ scope: "subscriptions/abc", name: "x" })).toBe(
+      "https://example.test/subscriptions/abc/providers/Things/x",
+    );
   });
 });
 

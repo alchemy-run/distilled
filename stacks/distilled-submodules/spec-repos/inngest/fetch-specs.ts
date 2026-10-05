@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Inngest's first-party OpenAPI documents and vendor docs to ../specs/.
  *
@@ -11,7 +11,7 @@
  * under docs/ so generate never crawls live docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/v2.json
@@ -42,12 +42,15 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -174,14 +177,14 @@ const withTrailingNewline = (text: string): string => (text.endsWith("\n") ? tex
 async function main() {
   console.log(`Fetching OpenAPI v2 spec from ${V2_SPEC_URL}...`);
   const v2 = await fetchOpenApi(V2_SPEC_URL);
-  await Bun.write(V2_PATH, JSON.stringify(v2, null, 2) + "\n");
+  await writeFile(V2_PATH, JSON.stringify(v2, null, 2) + "\n");
   console.log(
     `Wrote ${V2_PATH} — OpenAPI ${v2.openapi} — ${Object.keys(v2.paths as object).length} paths`,
   );
 
   console.log(`Fetching OpenAPI v1 spec from ${V1_SPEC_URL}...`);
   const v1 = await fetchOpenApi(V1_SPEC_URL);
-  await Bun.write(V1_PATH, JSON.stringify(v1, null, 2) + "\n");
+  await writeFile(V1_PATH, JSON.stringify(v1, null, 2) + "\n");
   console.log(
     `Wrote ${V1_PATH} — OpenAPI ${v1.openapi} — ${Object.keys(v1.paths as object).length} paths`,
   );
@@ -191,7 +194,7 @@ async function main() {
   if (!llms.includes("Inngest") && !llms.includes("/v2/")) {
     throw new Error(`${LLMS_URL} did not look like Inngest's docs index — refusing to continue`);
   }
-  await Bun.write(`${SPECS_DIR}/llms.txt`, withTrailingNewline(llms));
+  await writeFile(`${SPECS_DIR}/llms.txt`, withTrailingNewline(llms));
 
   const pages = pagesFromLlms(llms);
   if (pages.length === 0) {

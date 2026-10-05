@@ -110,9 +110,7 @@ export const CopyAudioTrackRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CopyAudioTrackRequest",
-}) as any as S.Schema<CopyAudioTrackRequest>;
+).annotate({ identifier: "CopyAudioTrackRequest" }) as any as S.Schema<CopyAudioTrackRequest>;
 
 export type AudioTracksCopyResponseStatus = "queued" | "ready" | "error";
 export const AudioTracksCopyResponseStatus = S.String;
@@ -135,9 +133,7 @@ export const CopyAudioTrackResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(AudioTracksCopyResponseStatus)),
     uid: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CopyAudioTrackResponse",
-}) as any as S.Schema<CopyAudioTrackResponse>;
+).annotate({ identifier: "CopyAudioTrackResponse" }) as any as S.Schema<CopyAudioTrackResponse>;
 
 export interface CreateCaptionLanguageRequest {
   /** Identifier. */
@@ -253,17 +249,9 @@ export const CreateClipRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     watermark: S.optional(ClipCreateRequestWatermark),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/clip",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/clip", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateClipRequest",
-}) as any as S.Schema<CreateClipRequest>;
+).annotate({ identifier: "CreateClipRequest" }) as any as S.Schema<CreateClipRequest>;
 
 export type ClipCreateResponseAllowedOriginsList = Array<string>;
 export const ClipCreateResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -281,9 +269,7 @@ export const ClipCreateResponseInput = /*@__PURE__*/ S.suspend(() =>
     height: S.optional(S.NullOr(S.Number)),
     width: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ClipCreateResponseInput",
-}) as any as S.Schema<ClipCreateResponseInput>;
+).annotate({ identifier: "ClipCreateResponseInput" }) as any as S.Schema<ClipCreateResponseInput>;
 
 export interface ClipCreateResponsePlayback {
   /** DASH Media Presentation Description for the video. */
@@ -346,9 +332,7 @@ export const ClipCreateResponseStatus = /*@__PURE__*/ S.suspend(() =>
     pctComplete: S.optional(S.NullOr(S.String)),
     state: S.optional(S.NullOr(ClipCreateResponseStatusState)),
   }),
-).annotate({
-  identifier: "ClipCreateResponseStatus",
-}) as any as S.Schema<ClipCreateResponseStatus>;
+).annotate({ identifier: "ClipCreateResponseStatus" }) as any as S.Schema<ClipCreateResponseStatus>;
 
 export interface ClipCreateResponseWatermark {
   /** The date and a time a watermark profile was created. */
@@ -473,9 +457,7 @@ export const CreateClipResponse = /*@__PURE__*/ S.suspend(() =>
     uploadExpiry: S.optional(S.NullOr(S.String)),
     watermark: S.optional(S.NullOr(ClipCreateResponseWatermark)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateClipResponse",
-}) as any as S.Schema<CreateClipResponse>;
+).annotate({ identifier: "CreateClipResponse" }) as any as S.Schema<CreateClipResponse>;
 
 export type CopyCreateRequestAllowedOriginsList = Array<string>;
 export const CopyCreateRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -525,17 +507,9 @@ export const CreateCopyRequest = /*@__PURE__*/ S.suspend(() =>
     watermark: S.optional(ClipCreateRequestWatermark),
     uploadCreator: S.optional(S.String.pipe(T.Header("Upload-Creator"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/copy",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/copy", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCopyRequest",
-}) as any as S.Schema<CreateCopyRequest>;
+).annotate({ identifier: "CreateCopyRequest" }) as any as S.Schema<CreateCopyRequest>;
 
 export type CopyCreateResponseAllowedOriginsList = Array<string>;
 export const CopyCreateResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -578,9 +552,7 @@ export const CopyCreateResponseStatus = /*@__PURE__*/ S.suspend(() =>
     pctComplete: S.optional(S.NullOr(S.String)),
     state: S.optional(S.NullOr(CopyCreateResponseStatusState)),
   }),
-).annotate({
-  identifier: "CopyCreateResponseStatus",
-}) as any as S.Schema<CopyCreateResponseStatus>;
+).annotate({ identifier: "CopyCreateResponseStatus" }) as any as S.Schema<CopyCreateResponseStatus>;
 
 export type CopyCreateResponseWatermark = ClipCreateResponseWatermark;
 export const CopyCreateResponseWatermark = ClipCreateResponseWatermark;
@@ -666,9 +638,7 @@ export const CreateCopyResponse = /*@__PURE__*/ S.suspend(() =>
     uploadExpiry: S.optional(S.NullOr(S.String)),
     watermark: S.optional(S.NullOr(ClipCreateResponseWatermark)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCopyResponse",
-}) as any as S.Schema<CreateCopyResponse>;
+).annotate({ identifier: "CreateCopyResponse" }) as any as S.Schema<CreateCopyResponse>;
 
 export type DirectUploadCreateRequestAllowedOriginsList = Array<string>;
 export const DirectUploadCreateRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -715,13 +685,7 @@ export const CreateDirectUploadRequest = /*@__PURE__*/ S.suspend(() =>
     watermark: S.optional(ClipCreateRequestWatermark),
     uploadCreator: S.optional(S.String.pipe(T.Header("Upload-Creator"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/direct_upload",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/direct_upload", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateDirectUploadRequest",
@@ -770,9 +734,7 @@ export const CreateDownloadRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDownloadRequest",
-}) as any as S.Schema<CreateDownloadRequest>;
+).annotate({ identifier: "CreateDownloadRequest" }) as any as S.Schema<CreateDownloadRequest>;
 
 export type DownloadsCreateResponseAudioStatus = "ready" | "inprogress" | "error";
 export const DownloadsCreateResponseAudioStatus = S.String;
@@ -828,9 +790,7 @@ export const CreateDownloadResponse = /*@__PURE__*/ S.suspend(() =>
     audio: S.optional(S.NullOr(DownloadsCreateResponseAudio)),
     default: S.optional(S.NullOr(DownloadsCreateResponseDefault)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateDownloadResponse",
-}) as any as S.Schema<CreateDownloadResponse>;
+).annotate({ identifier: "CreateDownloadResponse" }) as any as S.Schema<CreateDownloadResponse>;
 
 export interface CreateKeyRequest {
   /** Identifier. */
@@ -840,17 +800,9 @@ export const CreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/keys",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/keys", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateKeyRequest",
-}) as any as S.Schema<CreateKeyRequest>;
+).annotate({ identifier: "CreateKeyRequest" }) as any as S.Schema<CreateKeyRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateKeyResponse {
@@ -870,9 +822,7 @@ export const CreateKeyResponse = /*@__PURE__*/ S.suspend(() =>
     jwk: S.optional(S.NullOr(S.String)),
     pem: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateKeyResponse",
-}) as any as S.Schema<CreateKeyResponse>;
+).annotate({ identifier: "CreateKeyResponse" }) as any as S.Schema<CreateKeyResponse>;
 
 export type LiveInputsCreateRequestRecordingAllowedOriginsList = Array<string>;
 export const LiveInputsCreateRequestRecordingAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -909,6 +859,7 @@ export const LiveInputsCreateRequestRecording = /*@__PURE__*/ S.suspend(() =>
 export interface CreateLiveInputRequest {
   /** Identifier. */
   accountId: string;
+  idempotencyKey?: string;
   /** Sets the creator ID asssociated with this live input. */
   defaultCreator?: string;
   /** Indicates the number of days after which the live inputs recordings will be deleted. When a stream completes and the recording is ready, the value is used to calculate a scheduled deletion date for that recording. Omit the field to indicate no change, or include with a `null` value to remove an existing scheduled deletion. */
@@ -925,6 +876,7 @@ export interface CreateLiveInputRequest {
 export const CreateLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
     defaultCreator: S.optional(S.String),
     deleteRecordingAfterDays: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
@@ -932,17 +884,9 @@ export const CreateLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
     preferLowLatency: S.optional(S.Boolean),
     recording: S.optional(LiveInputsCreateRequestRecording),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/live_inputs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/live_inputs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLiveInputRequest",
-}) as any as S.Schema<CreateLiveInputRequest>;
+).annotate({ identifier: "CreateLiveInputRequest" }) as any as S.Schema<CreateLiveInputRequest>;
 
 export interface LiveInputsCreateResponsePlayback {
   /** The DASH manifest URL used to play live video, referencing the live input ID. */
@@ -1149,9 +1093,7 @@ export const CreateLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     webRTC: S.optional(S.NullOr(LiveInputsCreateResponseWebRTC)),
     webRTCPlayback: S.optional(S.NullOr(LiveInputsCreateResponseWebRTCPlayback)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLiveInputResponse",
-}) as any as S.Schema<CreateLiveInputResponse>;
+).annotate({ identifier: "CreateLiveInputResponse" }) as any as S.Schema<CreateLiveInputResponse>;
 
 export interface CreateLiveInputOutputRequest {
   /** Identifier. */
@@ -1233,24 +1175,14 @@ export const CreateStreamRequest = /*@__PURE__*/ S.suspend(() =>
     uploadCreator: S.optional(S.String.pipe(T.Header("Upload-Creator"))),
     uploadMetadata: S.optional(S.String.pipe(T.Header("Upload-Metadata"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStreamRequest",
-}) as any as S.Schema<CreateStreamRequest>;
+).annotate({ identifier: "CreateStreamRequest" }) as any as S.Schema<CreateStreamRequest>;
 
 export interface CreateStreamResponse {}
 export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStreamResponse",
-}) as any as S.Schema<CreateStreamResponse>;
+).annotate({ identifier: "CreateStreamResponse" }) as any as S.Schema<CreateStreamResponse>;
 
 export type TokenCreateRequestAccessRulesItemAction = "allow" | "block";
 export const TokenCreateRequestAccessRulesItemAction = S.String;
@@ -1302,9 +1234,7 @@ export const TokenCreateRequestFlags = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     original: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TokenCreateRequestFlags",
-}) as any as S.Schema<TokenCreateRequestFlags>;
+).annotate({ identifier: "TokenCreateRequestFlags" }) as any as S.Schema<TokenCreateRequestFlags>;
 
 export interface CreateTokenRequest {
   /** The account identifier tag. */
@@ -1346,9 +1276,7 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
@@ -1359,9 +1287,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 export interface CreateWatermarkRequest {
   /** The account identifier tag. */
@@ -1389,17 +1315,9 @@ export const CreateWatermarkRequest = /*@__PURE__*/ S.suspend(() =>
     scale: S.optional(S.Number),
     url: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/watermarks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/watermarks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWatermarkRequest",
-}) as any as S.Schema<CreateWatermarkRequest>;
+).annotate({ identifier: "CreateWatermarkRequest" }) as any as S.Schema<CreateWatermarkRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateWatermarkResponse {
@@ -1440,9 +1358,7 @@ export const CreateWatermarkResponse = /*@__PURE__*/ S.suspend(() =>
     uid: S.optional(S.NullOr(S.String)),
     width: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWatermarkResponse",
-}) as any as S.Schema<CreateWatermarkResponse>;
+).annotate({ identifier: "CreateWatermarkResponse" }) as any as S.Schema<CreateWatermarkResponse>;
 
 export interface DeleteAudioTrackRequest {
   /** The account identifier tag. */
@@ -1466,16 +1382,12 @@ export const DeleteAudioTrackRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAudioTrackRequest",
-}) as any as S.Schema<DeleteAudioTrackRequest>;
+).annotate({ identifier: "DeleteAudioTrackRequest" }) as any as S.Schema<DeleteAudioTrackRequest>;
 
 export type DeleteAudioTrackResponse = string;
 export const DeleteAudioTrackResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAudioTrackResponse",
-}) as any as S.Schema<DeleteAudioTrackResponse>;
+).annotate({ identifier: "DeleteAudioTrackResponse" }) as any as S.Schema<DeleteAudioTrackResponse>;
 
 export interface DeleteCaptionLanguageRequest {
   /** Identifier. */
@@ -1529,16 +1441,12 @@ export const DeleteDownloadRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDownloadRequest",
-}) as any as S.Schema<DeleteDownloadRequest>;
+).annotate({ identifier: "DeleteDownloadRequest" }) as any as S.Schema<DeleteDownloadRequest>;
 
 export type DeleteDownloadResponse = string;
 export const DeleteDownloadResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteDownloadResponse",
-}) as any as S.Schema<DeleteDownloadResponse>;
+).annotate({ identifier: "DeleteDownloadResponse" }) as any as S.Schema<DeleteDownloadResponse>;
 
 export interface DeleteKeyRequest {
   /** Identifier. */
@@ -1559,16 +1467,12 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
+).annotate({ identifier: "DeleteKeyRequest" }) as any as S.Schema<DeleteKeyRequest>;
 
 export type DeleteKeyResponse = string;
 export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteKeyResponse",
-}) as any as S.Schema<DeleteKeyResponse>;
+).annotate({ identifier: "DeleteKeyResponse" }) as any as S.Schema<DeleteKeyResponse>;
 
 export interface DeleteLiveInputRequest {
   /** Identifier. */
@@ -1589,16 +1493,12 @@ export const DeleteLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLiveInputRequest",
-}) as any as S.Schema<DeleteLiveInputRequest>;
+).annotate({ identifier: "DeleteLiveInputRequest" }) as any as S.Schema<DeleteLiveInputRequest>;
 
 export interface DeleteLiveInputResponse {}
 export const DeleteLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLiveInputResponse",
-}) as any as S.Schema<DeleteLiveInputResponse>;
+).annotate({ identifier: "DeleteLiveInputResponse" }) as any as S.Schema<DeleteLiveInputResponse>;
 
 export interface DeleteLiveInputOutputRequest {
   /** Identifier. */
@@ -1645,23 +1545,15 @@ export const DeleteStreamRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/stream/{identifier}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/stream/{identifier}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStreamRequest",
-}) as any as S.Schema<DeleteStreamRequest>;
+).annotate({ identifier: "DeleteStreamRequest" }) as any as S.Schema<DeleteStreamRequest>;
 
 export interface DeleteStreamResponse {}
 export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStreamResponse",
-}) as any as S.Schema<DeleteStreamResponse>;
+).annotate({ identifier: "DeleteStreamResponse" }) as any as S.Schema<DeleteStreamResponse>;
 
 export interface DeleteWatermarkRequest {
   /** The account identifier tag. */
@@ -1682,16 +1574,12 @@ export const DeleteWatermarkRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWatermarkRequest",
-}) as any as S.Schema<DeleteWatermarkRequest>;
+).annotate({ identifier: "DeleteWatermarkRequest" }) as any as S.Schema<DeleteWatermarkRequest>;
 
 export type DeleteWatermarkResponse = string;
 export const DeleteWatermarkResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWatermarkResponse",
-}) as any as S.Schema<DeleteWatermarkResponse>;
+).annotate({ identifier: "DeleteWatermarkResponse" }) as any as S.Schema<DeleteWatermarkResponse>;
 
 export interface DeleteWebhookRequest {
   /** The account identifier tag. */
@@ -1701,24 +1589,14 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/stream/webhook",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/stream/webhook", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export type DeleteWebhookResponse = string;
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWebhookResponse",
-}) as any as S.Schema<DeleteWebhookResponse>;
+).annotate({ identifier: "DeleteWebhookResponse" }) as any as S.Schema<DeleteWebhookResponse>;
 
 export type EditRequestAllowedOriginsList = Array<string>;
 export const EditRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -1738,9 +1616,7 @@ export const EditRequestPublicDetails = /*@__PURE__*/ S.suspend(() =>
     shareLink: S.optional(S.String.pipe(T.Body("share_link"))),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EditRequestPublicDetails",
-}) as any as S.Schema<EditRequestPublicDetails>;
+).annotate({ identifier: "EditRequestPublicDetails" }) as any as S.Schema<EditRequestPublicDetails>;
 
 export interface EditStreamRequest {
   /** The account identifier tag. */
@@ -1783,17 +1659,9 @@ export const EditStreamRequest = /*@__PURE__*/ S.suspend(() =>
     uid: S.optional(S.String),
     uploadExpiry: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/stream/{identifier}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/stream/{identifier}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditStreamRequest",
-}) as any as S.Schema<EditStreamRequest>;
+).annotate({ identifier: "EditStreamRequest" }) as any as S.Schema<EditStreamRequest>;
 
 export type EditResponseAllowedOriginsList = Array<string>;
 export const EditResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -1836,9 +1704,7 @@ export const EditResponseStatus = /*@__PURE__*/ S.suspend(() =>
     pctComplete: S.optional(S.NullOr(S.String)),
     state: S.optional(S.NullOr(EditResponseStatusState)),
   }),
-).annotate({
-  identifier: "EditResponseStatus",
-}) as any as S.Schema<EditResponseStatus>;
+).annotate({ identifier: "EditResponseStatus" }) as any as S.Schema<EditResponseStatus>;
 
 export type EditResponseWatermark = ClipCreateResponseWatermark;
 export const EditResponseWatermark = ClipCreateResponseWatermark;
@@ -1924,9 +1790,7 @@ export const EditStreamResponse = /*@__PURE__*/ S.suspend(() =>
     uploadExpiry: S.optional(S.NullOr(S.String)),
     watermark: S.optional(S.NullOr(ClipCreateResponseWatermark)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EditStreamResponse",
-}) as any as S.Schema<EditStreamResponse>;
+).annotate({ identifier: "EditStreamResponse" }) as any as S.Schema<EditStreamResponse>;
 
 export interface GetAudioTrackRequest {
   /** The account identifier tag. */
@@ -1940,16 +1804,10 @@ export const GetAudioTrackRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/{identifier}/audio",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/{identifier}/audio", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAudioTrackRequest",
-}) as any as S.Schema<GetAudioTrackRequest>;
+).annotate({ identifier: "GetAudioTrackRequest" }) as any as S.Schema<GetAudioTrackRequest>;
 
 export type AudioTracksGetResponseAudioItemStatus = "queued" | "ready" | "error";
 export const AudioTracksGetResponseAudioItemStatus = S.String;
@@ -1989,9 +1847,7 @@ export const GetAudioTrackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     audio: S.optional(S.NullOr(AudioTracksGetResponseAudioList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAudioTrackResponse",
-}) as any as S.Schema<GetAudioTrackResponse>;
+).annotate({ identifier: "GetAudioTrackResponse" }) as any as S.Schema<GetAudioTrackResponse>;
 
 export interface GetCaptionRequest {
   /** Identifier. */
@@ -2012,9 +1868,7 @@ export const GetCaptionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCaptionRequest",
-}) as any as S.Schema<GetCaptionRequest>;
+).annotate({ identifier: "GetCaptionRequest" }) as any as S.Schema<GetCaptionRequest>;
 
 export type CaptionsGetResultItemStatus = "ready" | "inprogress" | "error";
 export const CaptionsGetResultItemStatus = S.String;
@@ -2036,9 +1890,7 @@ export const CaptionsGetResultItem = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.NullOr(S.String)),
     status: S.optional(S.NullOr(CaptionsGetResultItemStatus)),
   }),
-).annotate({
-  identifier: "CaptionsGetResultItem",
-}) as any as S.Schema<CaptionsGetResultItem>;
+).annotate({ identifier: "CaptionsGetResultItem" }) as any as S.Schema<CaptionsGetResultItem>;
 
 export type CaptionsGetResultList = Array<CaptionsGetResultItem>;
 export const CaptionsGetResultList = /*@__PURE__*/ S.Array(
@@ -2056,9 +1908,7 @@ export const GetCaptionResponse = /*@__PURE__*/ S.suspend(() =>
     result: CaptionsGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCaptionResponse",
-}) as any as S.Schema<GetCaptionResponse>;
+).annotate({ identifier: "GetCaptionResponse" }) as any as S.Schema<GetCaptionResponse>;
 
 export interface GetCaptionLanguageRequest {
   /** Identifier. */
@@ -2163,9 +2013,7 @@ export const GetDownloadRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDownloadRequest",
-}) as any as S.Schema<GetDownloadRequest>;
+).annotate({ identifier: "GetDownloadRequest" }) as any as S.Schema<GetDownloadRequest>;
 
 export type DownloadsGetResponseAudioStatus = "ready" | "inprogress" | "error";
 export const DownloadsGetResponseAudioStatus = S.String;
@@ -2221,9 +2069,7 @@ export const GetDownloadResponse = /*@__PURE__*/ S.suspend(() =>
     audio: S.optional(S.NullOr(DownloadsGetResponseAudio)),
     default: S.optional(S.NullOr(DownloadsGetResponseDefault)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDownloadResponse",
-}) as any as S.Schema<GetDownloadResponse>;
+).annotate({ identifier: "GetDownloadResponse" }) as any as S.Schema<GetDownloadResponse>;
 
 export interface GetEmbedRequest {
   /** The account identifier tag. */
@@ -2237,23 +2083,15 @@ export const GetEmbedRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/{identifier}/embed",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/{identifier}/embed", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEmbedRequest",
-}) as any as S.Schema<GetEmbedRequest>;
+).annotate({ identifier: "GetEmbedRequest" }) as any as S.Schema<GetEmbedRequest>;
 
 export interface GetEmbedResponse {}
 export const GetEmbedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEmbedResponse",
-}) as any as S.Schema<GetEmbedResponse>;
+).annotate({ identifier: "GetEmbedResponse" }) as any as S.Schema<GetEmbedResponse>;
 
 export interface GetKeyRequest {
   /** Identifier. */
@@ -2263,13 +2101,7 @@ export const GetKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/keys",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/keys", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetKeyRequest" }) as any as S.Schema<GetKeyRequest>;
 
@@ -2287,9 +2119,7 @@ export const KeysGetResultItem = /*@__PURE__*/ S.suspend(() =>
     created: S.optional(S.NullOr(S.String)),
     keyId: S.optional(S.NullOr(S.String).pipe(T.Body("key_id"))),
   }),
-).annotate({
-  identifier: "KeysGetResultItem",
-}) as any as S.Schema<KeysGetResultItem>;
+).annotate({ identifier: "KeysGetResultItem" }) as any as S.Schema<KeysGetResultItem>;
 
 export type KeysGetResultList = Array<KeysGetResultItem>;
 export const KeysGetResultList = /*@__PURE__*/ S.Array(
@@ -2328,9 +2158,7 @@ export const GetLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLiveInputRequest",
-}) as any as S.Schema<GetLiveInputRequest>;
+).annotate({ identifier: "GetLiveInputRequest" }) as any as S.Schema<GetLiveInputRequest>;
 
 export type LiveInputsGetResponsePlayback = LiveInputsCreateResponsePlayback;
 export const LiveInputsGetResponsePlayback = LiveInputsCreateResponsePlayback;
@@ -2453,9 +2281,7 @@ export const GetLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     webRTC: S.optional(S.NullOr(LiveInputsCreateResponseWebRTC)),
     webRTCPlayback: S.optional(S.NullOr(LiveInputsCreateResponseWebRTCPlayback)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLiveInputResponse",
-}) as any as S.Schema<GetLiveInputResponse>;
+).annotate({ identifier: "GetLiveInputResponse" }) as any as S.Schema<GetLiveInputResponse>;
 
 export interface GetStreamRequest {
   /** The account identifier tag. */
@@ -2468,17 +2294,9 @@ export const GetStreamRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     identifier: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/{identifier}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/{identifier}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStreamRequest",
-}) as any as S.Schema<GetStreamRequest>;
+).annotate({ identifier: "GetStreamRequest" }) as any as S.Schema<GetStreamRequest>;
 
 export type GetResponseAllowedOriginsList = Array<string>;
 export const GetResponseAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -2521,9 +2339,7 @@ export const GetResponseStatus = /*@__PURE__*/ S.suspend(() =>
     pctComplete: S.optional(S.NullOr(S.String)),
     state: S.optional(S.NullOr(GetResponseStatusState)),
   }),
-).annotate({
-  identifier: "GetResponseStatus",
-}) as any as S.Schema<GetResponseStatus>;
+).annotate({ identifier: "GetResponseStatus" }) as any as S.Schema<GetResponseStatus>;
 
 export type GetResponseWatermark = ClipCreateResponseWatermark;
 export const GetResponseWatermark = ClipCreateResponseWatermark;
@@ -2609,9 +2425,7 @@ export const GetStreamResponse = /*@__PURE__*/ S.suspend(() =>
     uploadExpiry: S.optional(S.NullOr(S.String)),
     watermark: S.optional(S.NullOr(ClipCreateResponseWatermark)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStreamResponse",
-}) as any as S.Schema<GetStreamResponse>;
+).annotate({ identifier: "GetStreamResponse" }) as any as S.Schema<GetStreamResponse>;
 
 export interface GetWatermarkRequest {
   /** The account identifier tag. */
@@ -2632,9 +2446,7 @@ export const GetWatermarkRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWatermarkRequest",
-}) as any as S.Schema<GetWatermarkRequest>;
+).annotate({ identifier: "GetWatermarkRequest" }) as any as S.Schema<GetWatermarkRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWatermarkResponse {
@@ -2675,9 +2487,7 @@ export const GetWatermarkResponse = /*@__PURE__*/ S.suspend(() =>
     uid: S.optional(S.NullOr(S.String)),
     width: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWatermarkResponse",
-}) as any as S.Schema<GetWatermarkResponse>;
+).annotate({ identifier: "GetWatermarkResponse" }) as any as S.Schema<GetWatermarkResponse>;
 
 export interface GetWebhookRequest {
   /** The account identifier tag. */
@@ -2687,17 +2497,9 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/webhook",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/webhook", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWebhookResponse {
@@ -2714,9 +2516,7 @@ export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     notificationUrl: S.optional(S.NullOr(S.String)),
     secret: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface ListLiveInputOutputsRequest {
   /** Identifier. */
@@ -2793,17 +2593,9 @@ export const ListLiveInputsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     includeCounts: S.optional(S.Boolean.pipe(T.Query("include_counts"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/live_inputs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/live_inputs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLiveInputsRequest",
-}) as any as S.Schema<ListLiveInputsRequest>;
+).annotate({ identifier: "ListLiveInputsRequest" }) as any as S.Schema<ListLiveInputsRequest>;
 
 export interface LiveInputsListResponseLiveInputsItem {
   /** The date and time the live input was created. */
@@ -2851,9 +2643,7 @@ export const ListLiveInputsResponse = /*@__PURE__*/ S.suspend(() =>
     range: S.optional(S.NullOr(S.Number)),
     total: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLiveInputsResponse",
-}) as any as S.Schema<ListLiveInputsResponse>;
+).annotate({ identifier: "ListLiveInputsResponse" }) as any as S.Schema<ListLiveInputsResponse>;
 
 export type ListRequestStatus =
   | "pendingupload"
@@ -2918,17 +2708,9 @@ export const ListStreamsRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String.pipe(T.Query())),
     videoName: S.optional(S.String.pipe(T.Query("video_name"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStreamsRequest",
-}) as any as S.Schema<ListStreamsRequest>;
+).annotate({ identifier: "ListStreamsRequest" }) as any as S.Schema<ListStreamsRequest>;
 
 export type ListResultItemAllowedOriginsList = Array<string>;
 export const ListResultItemAllowedOriginsList = /*@__PURE__*/ S.Array(
@@ -2971,9 +2753,7 @@ export const ListResultItemStatus = /*@__PURE__*/ S.suspend(() =>
     pctComplete: S.optional(S.NullOr(S.String)),
     state: S.optional(S.NullOr(ListResultItemStatusState)),
   }),
-).annotate({
-  identifier: "ListResultItemStatus",
-}) as any as S.Schema<ListResultItemStatus>;
+).annotate({ identifier: "ListResultItemStatus" }) as any as S.Schema<ListResultItemStatus>;
 
 export type ListResultItemWatermark = ClipCreateResponseWatermark;
 export const ListResultItemWatermark = ClipCreateResponseWatermark;
@@ -3076,9 +2856,7 @@ export const ListStreamsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStreamsResponse",
-}) as any as S.Schema<ListStreamsResponse>;
+).annotate({ identifier: "ListStreamsResponse" }) as any as S.Schema<ListStreamsResponse>;
 
 export interface ListWatermarksRequest {
   /** The account identifier tag. */
@@ -3088,17 +2866,9 @@ export const ListWatermarksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/watermarks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/watermarks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWatermarksRequest",
-}) as any as S.Schema<ListWatermarksRequest>;
+).annotate({ identifier: "ListWatermarksRequest" }) as any as S.Schema<ListWatermarksRequest>;
 
 export type WatermarksListResultItem = ClipCreateResponseWatermark;
 export const WatermarksListResultItem = ClipCreateResponseWatermark;
@@ -3119,9 +2889,7 @@ export const ListWatermarksResponse = /*@__PURE__*/ S.suspend(() =>
     result: WatermarksListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWatermarksResponse",
-}) as any as S.Schema<ListWatermarksResponse>;
+).annotate({ identifier: "ListWatermarksResponse" }) as any as S.Schema<ListWatermarksResponse>;
 
 export interface PatchAudioTrackRequest {
   /** The account identifier tag. */
@@ -3151,9 +2919,7 @@ export const PatchAudioTrackRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAudioTrackRequest",
-}) as any as S.Schema<PatchAudioTrackRequest>;
+).annotate({ identifier: "PatchAudioTrackRequest" }) as any as S.Schema<PatchAudioTrackRequest>;
 
 export type AudioTracksEditResponseStatus = "queued" | "ready" | "error";
 export const AudioTracksEditResponseStatus = S.String;
@@ -3176,9 +2942,7 @@ export const PatchAudioTrackResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(AudioTracksEditResponseStatus)),
     uid: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAudioTrackResponse",
-}) as any as S.Schema<PatchAudioTrackResponse>;
+).annotate({ identifier: "PatchAudioTrackResponse" }) as any as S.Schema<PatchAudioTrackResponse>;
 
 export interface PutWebhookRequest {
   /** The account identifier tag. */
@@ -3191,17 +2955,9 @@ export const PutWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     notificationUrl: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/stream/webhook",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/stream/webhook", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutWebhookRequest",
-}) as any as S.Schema<PutWebhookRequest>;
+).annotate({ identifier: "PutWebhookRequest" }) as any as S.Schema<PutWebhookRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutWebhookResponse {
@@ -3218,9 +2974,7 @@ export const PutWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     notificationUrl: S.optional(S.NullOr(S.String)),
     secret: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutWebhookResponse",
-}) as any as S.Schema<PutWebhookResponse>;
+).annotate({ identifier: "PutWebhookResponse" }) as any as S.Schema<PutWebhookResponse>;
 
 export interface StorageUsageVideoRequest {
   /** The account identifier tag. */
@@ -3233,17 +2987,9 @@ export const StorageUsageVideoRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     creator: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/stream/storage-usage",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/stream/storage-usage", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StorageUsageVideoRequest",
-}) as any as S.Schema<StorageUsageVideoRequest>;
+).annotate({ identifier: "StorageUsageVideoRequest" }) as any as S.Schema<StorageUsageVideoRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface StorageUsageVideoResponse {
@@ -3390,9 +3136,7 @@ export const UpdateLiveInputRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateLiveInputRequest",
-}) as any as S.Schema<UpdateLiveInputRequest>;
+).annotate({ identifier: "UpdateLiveInputRequest" }) as any as S.Schema<UpdateLiveInputRequest>;
 
 export type LiveInputsUpdateResponsePlayback = LiveInputsCreateResponsePlayback;
 export const LiveInputsUpdateResponsePlayback = LiveInputsCreateResponsePlayback;
@@ -3515,9 +3259,7 @@ export const UpdateLiveInputResponse = /*@__PURE__*/ S.suspend(() =>
     webRTC: S.optional(S.NullOr(LiveInputsCreateResponseWebRTC)),
     webRTCPlayback: S.optional(S.NullOr(LiveInputsCreateResponseWebRTCPlayback)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateLiveInputResponse",
-}) as any as S.Schema<UpdateLiveInputResponse>;
+).annotate({ identifier: "UpdateLiveInputResponse" }) as any as S.Schema<UpdateLiveInputResponse>;
 
 export interface UpdateLiveInputOutputRequest {
   /** Identifier. */

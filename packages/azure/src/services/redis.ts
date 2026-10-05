@@ -426,9 +426,7 @@ export const RedisCommonPropertiesRedisConfigurationInput = /*@__PURE__*/ S.susp
 }) as any as S.Schema<RedisCommonPropertiesRedisConfigurationInput>;
 
 /** A dictionary of tenant settings */
-export type RedisCreatePropertiesInputTenantSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type RedisCreatePropertiesInputTenantSettingsMap = { [key: string]: string | undefined };
 export const RedisCreatePropertiesInputTenantSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -558,9 +556,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -616,9 +612,7 @@ export const CreateRedisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateRedisRequest",
-}) as any as S.Schema<CreateRedisRequest>;
+).annotate({ identifier: "CreateRedisRequest" }) as any as S.Schema<CreateRedisRequest>;
 
 /** Resource tags. */
 export type CreateRedisResponseTagsMap = { [key: string]: string | undefined };
@@ -709,9 +703,7 @@ export const RedisCommonPropertiesRedisConfiguration = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<RedisCommonPropertiesRedisConfiguration>;
 
 /** A dictionary of tenant settings */
-export type RedisPropertiesTenantSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type RedisPropertiesTenantSettingsMap = { [key: string]: string | undefined };
 export const RedisPropertiesTenantSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -746,9 +738,7 @@ export const RedisAccessKeys = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(S.String),
     secondaryKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedisAccessKeys",
-}) as any as S.Schema<RedisAccessKeys>;
+).annotate({ identifier: "RedisAccessKeys" }) as any as S.Schema<RedisAccessKeys>;
 
 /** Linked server Id */
 export interface RedisLinkedServer {
@@ -759,9 +749,7 @@ export const RedisLinkedServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedisLinkedServer",
-}) as any as S.Schema<RedisLinkedServer>;
+).annotate({ identifier: "RedisLinkedServer" }) as any as S.Schema<RedisLinkedServer>;
 
 /** List of the linked servers associated with the cache */
 export type RedisPropertiesLinkedServersList = Array<RedisLinkedServer>;
@@ -793,9 +781,7 @@ export const RedisInstanceDetails = /*@__PURE__*/ S.suspend(() =>
     isMaster: S.optional(S.Boolean),
     isPrimary: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RedisInstanceDetails",
-}) as any as S.Schema<RedisInstanceDetails>;
+).annotate({ identifier: "RedisInstanceDetails" }) as any as S.Schema<RedisInstanceDetails>;
 
 /** List of the Redis instances associated with the cache */
 export type RedisPropertiesInstancesList = Array<RedisInstanceDetails>;
@@ -818,9 +804,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -982,9 +966,7 @@ export const RedisProperties = /*@__PURE__*/ S.suspend(() =>
     instances: S.optional(RedisPropertiesInstancesList),
     privateEndpointConnections: S.optional(RedisPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "RedisProperties",
-}) as any as S.Schema<RedisProperties>;
+).annotate({ identifier: "RedisProperties" }) as any as S.Schema<RedisProperties>;
 
 /** The availability zones. */
 export type CreateRedisResponseZonesList = Array<string>;
@@ -1004,14 +986,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -1069,9 +1047,7 @@ export const CreateRedisResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(CreateRedisResponseZonesList),
     identity: S.optional(CreateRedisResponseIdentity),
   }),
-).annotate({
-  identifier: "CreateRedisResponse",
-}) as any as S.Schema<CreateRedisResponse>;
+).annotate({ identifier: "CreateRedisResponse" }) as any as S.Schema<CreateRedisResponse>;
 
 export interface DeleteAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1299,9 +1275,7 @@ export const DeleteRedisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRedisRequest",
-}) as any as S.Schema<DeleteRedisRequest>;
+).annotate({ identifier: "DeleteRedisRequest" }) as any as S.Schema<DeleteRedisRequest>;
 
 export interface DeleteRedisResponse {}
 export const DeleteRedisResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1346,9 +1320,7 @@ export const ExportRedisDataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ExportRedisDataRequest",
-}) as any as S.Schema<ExportRedisDataRequest>;
+).annotate({ identifier: "ExportRedisDataRequest" }) as any as S.Schema<ExportRedisDataRequest>;
 
 export interface ExportRedisDataResponse {}
 export const ExportRedisDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1447,9 +1419,7 @@ export const FlushRedisCacheRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "FlushRedisCacheRequest",
-}) as any as S.Schema<FlushRedisCacheRequest>;
+).annotate({ identifier: "FlushRedisCacheRequest" }) as any as S.Schema<FlushRedisCacheRequest>;
 
 /** The operations list. */
 export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
@@ -1475,9 +1445,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1538,9 +1506,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type FlushRedisCacheResponseOperationsList = Array<OperationStatusResult>;
@@ -1577,9 +1543,7 @@ export const FlushRedisCacheResponse = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(FlushRedisCacheResponseOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "FlushRedisCacheResponse",
-}) as any as S.Schema<FlushRedisCacheResponse>;
+).annotate({ identifier: "FlushRedisCacheResponse" }) as any as S.Schema<FlushRedisCacheResponse>;
 
 export interface GetAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1605,9 +1569,7 @@ export const GetAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccessPolicyRequest",
-}) as any as S.Schema<GetAccessPolicyRequest>;
+).annotate({ identifier: "GetAccessPolicyRequest" }) as any as S.Schema<GetAccessPolicyRequest>;
 
 export interface GetAccessPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1629,9 +1591,7 @@ export const GetAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RedisCacheAccessPolicyProperties),
   }),
-).annotate({
-  identifier: "GetAccessPolicyResponse",
-}) as any as S.Schema<GetAccessPolicyResponse>;
+).annotate({ identifier: "GetAccessPolicyResponse" }) as any as S.Schema<GetAccessPolicyResponse>;
 
 export interface GetAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1717,9 +1677,7 @@ export const GetAsyncOperationStatusResponseOperationsList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<GetAsyncOperationStatusResponseOperationsList>;
 
 /** Additional properties from RP, only when operation is successful */
-export type GetAsyncOperationStatusResponsePropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetAsyncOperationStatusResponsePropertiesMap = { [key: string]: unknown | undefined };
 export const GetAsyncOperationStatusResponsePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1785,9 +1743,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1809,9 +1765,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: RedisFirewallRuleProperties,
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetLinkedServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1837,9 +1791,7 @@ export const GetLinkedServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetLinkedServerRequest",
-}) as any as S.Schema<GetLinkedServerRequest>;
+).annotate({ identifier: "GetLinkedServerRequest" }) as any as S.Schema<GetLinkedServerRequest>;
 
 export interface GetLinkedServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1861,9 +1813,7 @@ export const GetLinkedServerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RedisLinkedServerProperties),
   }),
-).annotate({
-  identifier: "GetLinkedServerResponse",
-}) as any as S.Schema<GetLinkedServerResponse>;
+).annotate({ identifier: "GetLinkedServerResponse" }) as any as S.Schema<GetLinkedServerResponse>;
 
 export type GetPatchScheduleRequestDefault = "default";
 export const GetPatchScheduleRequestDefault = S.String;
@@ -1892,9 +1842,7 @@ export const GetPatchScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetPatchScheduleRequest",
-}) as any as S.Schema<GetPatchScheduleRequest>;
+).annotate({ identifier: "GetPatchScheduleRequest" }) as any as S.Schema<GetPatchScheduleRequest>;
 
 /** Day of the week when a cache can be patched. */
 export type DayOfWeek =
@@ -1941,9 +1889,7 @@ export const ScheduleEntries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scheduleEntries: ScheduleEntriesScheduleEntriesList,
   }),
-).annotate({
-  identifier: "ScheduleEntries",
-}) as any as S.Schema<ScheduleEntries>;
+).annotate({ identifier: "ScheduleEntries" }) as any as S.Schema<ScheduleEntries>;
 
 export interface GetPatchScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1968,9 +1914,7 @@ export const GetPatchScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     properties: ScheduleEntries,
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetPatchScheduleResponse",
-}) as any as S.Schema<GetPatchScheduleResponse>;
+).annotate({ identifier: "GetPatchScheduleResponse" }) as any as S.Schema<GetPatchScheduleResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2045,9 +1989,7 @@ export const GetRedisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetRedisRequest",
-}) as any as S.Schema<GetRedisRequest>;
+).annotate({ identifier: "GetRedisRequest" }) as any as S.Schema<GetRedisRequest>;
 
 /** Resource tags. */
 export type GetRedisResponseTagsMap = { [key: string]: string | undefined };
@@ -2098,9 +2040,7 @@ export const GetRedisResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(GetRedisResponseZonesList),
     identity: S.optional(CreateRedisResponseIdentity),
   }),
-).annotate({
-  identifier: "GetRedisResponse",
-}) as any as S.Schema<GetRedisResponse>;
+).annotate({ identifier: "GetRedisResponse" }) as any as S.Schema<GetRedisResponse>;
 
 /** files to import. */
 export type ImportRedisDataRequestFilesList = Array<string>;
@@ -2143,9 +2083,7 @@ export const ImportRedisDataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ImportRedisDataRequest",
-}) as any as S.Schema<ImportRedisDataRequest>;
+).annotate({ identifier: "ImportRedisDataRequest" }) as any as S.Schema<ImportRedisDataRequest>;
 
 export interface ImportRedisDataResponse {}
 export const ImportRedisDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2173,9 +2111,7 @@ export const ListAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccessPolicyRequest",
-}) as any as S.Schema<ListAccessPolicyRequest>;
+).annotate({ identifier: "ListAccessPolicyRequest" }) as any as S.Schema<ListAccessPolicyRequest>;
 
 /** Response to get/put access policy. */
 export interface RedisCacheAccessPolicy {
@@ -2198,9 +2134,7 @@ export const RedisCacheAccessPolicy = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RedisCacheAccessPolicyProperties),
   }),
-).annotate({
-  identifier: "RedisCacheAccessPolicy",
-}) as any as S.Schema<RedisCacheAccessPolicy>;
+).annotate({ identifier: "RedisCacheAccessPolicy" }) as any as S.Schema<RedisCacheAccessPolicy>;
 
 /** The RedisCacheAccessPolicy items on this page */
 export type RedisCacheAccessPolicyListValueList = Array<RedisCacheAccessPolicy>;
@@ -2317,9 +2251,7 @@ export const ListFirewallRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListFirewallRulesRequest",
-}) as any as S.Schema<ListFirewallRulesRequest>;
+).annotate({ identifier: "ListFirewallRulesRequest" }) as any as S.Schema<ListFirewallRulesRequest>;
 
 /** A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect */
 export interface RedisFirewallRule {
@@ -2342,9 +2274,7 @@ export const RedisFirewallRule = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: RedisFirewallRuleProperties,
   }),
-).annotate({
-  identifier: "RedisFirewallRule",
-}) as any as S.Schema<RedisFirewallRule>;
+).annotate({ identifier: "RedisFirewallRule" }) as any as S.Schema<RedisFirewallRule>;
 
 /** The RedisFirewallRule items on this page */
 export type RedisFirewallRuleListResultValueList = Array<RedisFirewallRule>;
@@ -2389,9 +2319,7 @@ export const ListLinkedServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListLinkedServerRequest",
-}) as any as S.Schema<ListLinkedServerRequest>;
+).annotate({ identifier: "ListLinkedServerRequest" }) as any as S.Schema<ListLinkedServerRequest>;
 
 /** Response to put/get linked server (with properties) for Redis cache. */
 export interface RedisLinkedServerWithProperties {
@@ -2450,9 +2378,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes the operation. */
 export interface OperationDisplay {
@@ -2472,9 +2398,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** REST API operation */
 export interface Operation {
@@ -2508,9 +2432,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPatchScheduleByRedisResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2561,9 +2483,7 @@ export const RedisPatchSchedule = /*@__PURE__*/ S.suspend(() =>
     properties: ScheduleEntries,
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedisPatchSchedule",
-}) as any as S.Schema<RedisPatchSchedule>;
+).annotate({ identifier: "RedisPatchSchedule" }) as any as S.Schema<RedisPatchSchedule>;
 
 /** The RedisPatchSchedule items on this page */
 export type RedisPatchScheduleListResultValueList = Array<RedisPatchSchedule>;
@@ -2836,9 +2756,7 @@ export const RedisListResult = /*@__PURE__*/ S.suspend(() =>
     value: RedisListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedisListResult",
-}) as any as S.Schema<RedisListResult>;
+).annotate({ identifier: "RedisListResult" }) as any as S.Schema<RedisListResult>;
 
 export interface ListRedisBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2880,9 +2798,7 @@ export const ListRedisKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListRedisKeysRequest",
-}) as any as S.Schema<ListRedisKeysRequest>;
+).annotate({ identifier: "ListRedisKeysRequest" }) as any as S.Schema<ListRedisKeysRequest>;
 
 export interface ListRedisUpgradeNotificationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2913,9 +2829,7 @@ export const ListRedisUpgradeNotificationsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListRedisUpgradeNotificationsRequest>;
 
 /** Details about this upgrade notification */
-export type UpgradeNotificationUpsellNotificationMap = {
-  [key: string]: string | undefined;
-};
+export type UpgradeNotificationUpsellNotificationMap = { [key: string]: string | undefined };
 export const UpgradeNotificationUpsellNotificationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2936,9 +2850,7 @@ export const UpgradeNotification = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     upsellNotification: S.optional(UpgradeNotificationUpsellNotificationMap),
   }),
-).annotate({
-  identifier: "UpgradeNotification",
-}) as any as S.Schema<UpgradeNotification>;
+).annotate({ identifier: "UpgradeNotification" }) as any as S.Schema<UpgradeNotification>;
 
 /** The UpgradeNotification items on this page */
 export type NotificationListResponseValueList = Array<UpgradeNotification>;
@@ -2958,9 +2870,7 @@ export const NotificationListResponse = /*@__PURE__*/ S.suspend(() =>
     value: NotificationListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationListResponse",
-}) as any as S.Schema<NotificationListResponse>;
+).annotate({ identifier: "NotificationListResponse" }) as any as S.Schema<NotificationListResponse>;
 
 export type PatchSchedulesCreateOrUpdateRequestDefault = "default";
 export const PatchSchedulesCreateOrUpdateRequestDefault = S.String;
@@ -3138,9 +3048,7 @@ export const RebootRedisForceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "RebootRedisForceRequest",
-}) as any as S.Schema<RebootRedisForceRequest>;
+).annotate({ identifier: "RebootRedisForceRequest" }) as any as S.Schema<RebootRedisForceRequest>;
 
 /** Response to force reboot for Redis cache. */
 export interface RebootRedisForceResponse {
@@ -3151,9 +3059,7 @@ export const RebootRedisForceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RebootRedisForceResponse",
-}) as any as S.Schema<RebootRedisForceResponse>;
+).annotate({ identifier: "RebootRedisForceResponse" }) as any as S.Schema<RebootRedisForceResponse>;
 
 /** The Redis access key to regenerate. */
 export type RedisKeyType = "Primary" | "Secondary";
@@ -3188,9 +3094,7 @@ export const RegenerateRedisKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegenerateRedisKeyRequest>;
 
 /** A dictionary of tenant settings */
-export type RedisUpdatePropertiesInputTenantSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type RedisUpdatePropertiesInputTenantSettingsMap = { [key: string]: string | undefined };
 export const RedisUpdatePropertiesInputTenantSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3286,9 +3190,7 @@ export const UpdateRedisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRedisRequest",
-}) as any as S.Schema<UpdateRedisRequest>;
+).annotate({ identifier: "UpdateRedisRequest" }) as any as S.Schema<UpdateRedisRequest>;
 
 /** Resource tags. */
 export type UpdateRedisResponseTagsMap = { [key: string]: string | undefined };
@@ -3339,9 +3241,7 @@ export const UpdateRedisResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(UpdateRedisResponseZonesList),
     identity: S.optional(CreateRedisResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateRedisResponse",
-}) as any as S.Schema<UpdateRedisResponse>;
+).annotate({ identifier: "UpdateRedisResponse" }) as any as S.Schema<UpdateRedisResponse>;
 
 export type AccessPolicyAssignmentCreateUpdateError = AzureOpError;
 /** Adds the access policy assignment to the specified users */

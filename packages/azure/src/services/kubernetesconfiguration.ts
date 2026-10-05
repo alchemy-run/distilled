@@ -89,9 +89,7 @@ export const ExtensionStatusInput = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionStatusInput",
-}) as any as S.Schema<ExtensionStatusInput>;
+).annotate({ identifier: "ExtensionStatusInput" }) as any as S.Schema<ExtensionStatusInput>;
 
 /** Status from this extension. */
 export type CreateExtensionRequestPropertiesStatusesList = Array<ExtensionStatusInput>;
@@ -251,9 +249,7 @@ export const CreateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "CreateExtensionRequest",
-}) as any as S.Schema<CreateExtensionRequest>;
+).annotate({ identifier: "CreateExtensionRequest" }) as any as S.Schema<CreateExtensionRequest>;
 
 /** Configuration settings, as name-value pairs for configuring this extension. */
 export type CreateExtensionResponsePropertiesConfigurationSettingsMap = {
@@ -309,9 +305,7 @@ export const ExtensionStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionStatus",
-}) as any as S.Schema<ExtensionStatus>;
+).annotate({ identifier: "ExtensionStatus" }) as any as S.Schema<ExtensionStatus>;
 
 /** Status from this extension. */
 export type CreateExtensionResponsePropertiesStatusesList = Array<ExtensionStatus>;
@@ -337,9 +331,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -600,9 +592,7 @@ export const CreateExtensionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(CreateExtensionResponseSystemData),
     plan: S.optional(CreateExtensionRequestPlan),
   }),
-).annotate({
-  identifier: "CreateExtensionResponse",
-}) as any as S.Schema<CreateExtensionResponse>;
+).annotate({ identifier: "CreateExtensionResponse" }) as any as S.Schema<CreateExtensionResponse>;
 
 export interface DeleteExtensionRequest {
   /** The ID of the target subscription. */
@@ -637,9 +627,7 @@ export const DeleteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteExtensionRequest",
-}) as any as S.Schema<DeleteExtensionRequest>;
+).annotate({ identifier: "DeleteExtensionRequest" }) as any as S.Schema<DeleteExtensionRequest>;
 
 export interface DeleteExtensionResponse {}
 export const DeleteExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -685,9 +673,7 @@ export const DeleteFluxConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteFluxConfigurationResponse {}
 export const DeleteFluxConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteFluxConfigurationResponse",
-  },
+  { identifier: "DeleteFluxConfigurationResponse" },
 ) as any as S.Schema<DeleteFluxConfigurationResponse>;
 
 export interface DeleteSourceControlConfigurationRequest {
@@ -757,9 +743,7 @@ export const RepositoryRefDefinition = /*@__PURE__*/ S.suspend(() =>
     semver: S.optional(S.NullOr(S.String)),
     commit: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RepositoryRefDefinition",
-}) as any as S.Schema<RepositoryRefDefinition>;
+).annotate({ identifier: "RepositoryRefDefinition" }) as any as S.Schema<RepositoryRefDefinition>;
 
 /** Parameters to reconcile to the GitRepository source kind type. */
 export interface GitRepositoryDefinition {
@@ -791,9 +775,7 @@ export const GitRepositoryDefinition = /*@__PURE__*/ S.suspend(() =>
     httpsCACert: S.optional(S.NullOr(S.String)),
     localAuthRef: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GitRepositoryDefinition",
-}) as any as S.Schema<GitRepositoryDefinition>;
+).annotate({ identifier: "GitRepositoryDefinition" }) as any as S.Schema<GitRepositoryDefinition>;
 
 /** Parameters to reconcile to the Bucket source kind type. */
 export interface BucketDefinition {
@@ -822,9 +804,7 @@ export const BucketDefinition = /*@__PURE__*/ S.suspend(() =>
     accessKey: S.optional(S.NullOr(S.String)),
     localAuthRef: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BucketDefinition",
-}) as any as S.Schema<BucketDefinition>;
+).annotate({ identifier: "BucketDefinition" }) as any as S.Schema<BucketDefinition>;
 
 /** Parameters to authenticate using Service Principal. */
 export interface ServicePrincipalDefinition {
@@ -900,9 +880,7 @@ export const AzureBlobDefinition = /*@__PURE__*/ S.suspend(() =>
     managedIdentity: S.optional(S.NullOr(ManagedIdentityDefinition)),
     localAuthRef: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AzureBlobDefinition",
-}) as any as S.Schema<AzureBlobDefinition>;
+).annotate({ identifier: "AzureBlobDefinition" }) as any as S.Schema<AzureBlobDefinition>;
 
 /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
 export type KustomizationDefinitionInputDependsOnList = Array<string>;
@@ -911,9 +889,7 @@ export const KustomizationDefinitionInputDependsOnList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<KustomizationDefinitionInputDependsOnList>;
 
 /** Key/value pairs holding the variables to be substituted in this Kustomization. */
-export type PostBuildDefinitionSubstituteMap = {
-  [key: string]: string | undefined;
-};
+export type PostBuildDefinitionSubstituteMap = { [key: string]: string | undefined };
 export const PostBuildDefinitionSubstituteMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -934,9 +910,7 @@ export const SubstituteFromDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     optional: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SubstituteFromDefinition",
-}) as any as S.Schema<SubstituteFromDefinition>;
+).annotate({ identifier: "SubstituteFromDefinition" }) as any as S.Schema<SubstituteFromDefinition>;
 
 /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
 export type PostBuildDefinitionSubstituteFromList = Array<SubstituteFromDefinition | null>;
@@ -956,9 +930,7 @@ export const PostBuildDefinition = /*@__PURE__*/ S.suspend(() =>
     substitute: S.optional(S.NullOr(PostBuildDefinitionSubstituteMap)),
     substituteFrom: S.optional(S.NullOr(PostBuildDefinitionSubstituteFromList)),
   }),
-).annotate({
-  identifier: "PostBuildDefinition",
-}) as any as S.Schema<PostBuildDefinition>;
+).annotate({ identifier: "PostBuildDefinition" }) as any as S.Schema<PostBuildDefinition>;
 
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationDefinitionInput {
@@ -1143,9 +1115,7 @@ export const KustomizationDefinition = /*@__PURE__*/ S.suspend(() =>
     wait: S.optional(S.Boolean),
     postBuild: S.optional(S.NullOr(PostBuildDefinition)),
   }),
-).annotate({
-  identifier: "KustomizationDefinition",
-}) as any as S.Schema<KustomizationDefinition>;
+).annotate({ identifier: "KustomizationDefinition" }) as any as S.Schema<KustomizationDefinition>;
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationsCreateOrUpdateResponsePropertiesKustomizationsMap = {
@@ -1275,9 +1245,7 @@ export const ObjectStatusDefinition = /*@__PURE__*/ S.suspend(() =>
     statusConditions: S.optional(S.NullOr(ObjectStatusDefinitionStatusConditionsList)),
     helmReleaseProperties: S.optional(S.NullOr(HelmReleasePropertiesDefinition)),
   }),
-).annotate({
-  identifier: "ObjectStatusDefinition",
-}) as any as S.Schema<ObjectStatusDefinition>;
+).annotate({ identifier: "ObjectStatusDefinition" }) as any as S.Schema<ObjectStatusDefinition>;
 
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type FluxConfigurationsCreateOrUpdateResponsePropertiesStatusesList =
@@ -1469,9 +1437,7 @@ export const GetExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetExtensionRequest",
-}) as any as S.Schema<GetExtensionRequest>;
+).annotate({ identifier: "GetExtensionRequest" }) as any as S.Schema<GetExtensionRequest>;
 
 /** Configuration settings, as name-value pairs for configuring this extension. */
 export type GetExtensionResponsePropertiesConfigurationSettingsMap = {
@@ -1737,9 +1703,7 @@ export const GetExtensionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetExtensionResponseSystemData),
     plan: S.optional(CreateExtensionRequestPlan),
   }),
-).annotate({
-  identifier: "GetExtensionResponse",
-}) as any as S.Schema<GetExtensionResponse>;
+).annotate({ identifier: "GetExtensionResponse" }) as any as S.Schema<GetExtensionResponse>;
 
 export interface GetFluxConfigOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -2094,9 +2058,7 @@ export const GetOperationStatusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOperationStatusRequest>;
 
 /** Additional information, if available. */
-export type GetOperationStatusResponsePropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type GetOperationStatusResponsePropertiesMap = { [key: string]: string | undefined };
 export const GetOperationStatusResponsePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2202,9 +2164,7 @@ export type OperatorTypeDefinition = "Flux";
 export const OperatorTypeDefinition = S.String;
 
 /** Name-value pairs of protected configuration settings for the configuration */
-export type ConfigurationProtectedSettings = {
-  [key: string]: string | undefined;
-};
+export type ConfigurationProtectedSettings = { [key: string]: string | undefined };
 export const ConfigurationProtectedSettings = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2226,9 +2186,7 @@ export const HelmOperatorProperties = /*@__PURE__*/ S.suspend(() =>
     chartVersion: S.optional(S.String),
     chartValues: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HelmOperatorProperties",
-}) as any as S.Schema<HelmOperatorProperties>;
+).annotate({ identifier: "HelmOperatorProperties" }) as any as S.Schema<HelmOperatorProperties>;
 
 /** The provisioning state of the resource provider. */
 export type GetSourceControlConfigurationResponsePropertiesProvisioningState =
@@ -2270,9 +2228,7 @@ export const ComplianceStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     messageLevel: S.optional(ComplianceStatusMessageLevel),
   }),
-).annotate({
-  identifier: "ComplianceStatus",
-}) as any as S.Schema<ComplianceStatus>;
+).annotate({ identifier: "ComplianceStatus" }) as any as S.Schema<ComplianceStatus>;
 
 /** Properties to create a Source Control Configuration resource */
 export interface GetSourceControlConfigurationResponseProperties {
@@ -2420,14 +2376,10 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
+).annotate({ identifier: "ListExtensionsRequest" }) as any as S.Schema<ListExtensionsRequest>;
 
 /** Configuration settings, as name-value pairs for configuring this extension. */
-export type ExtensionPropertiesConfigurationSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type ExtensionPropertiesConfigurationSettingsMap = { [key: string]: string | undefined };
 export const ExtensionPropertiesConfigurationSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2496,9 +2448,7 @@ export const ExtensionPropertiesErrorInfo = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ExtensionPropertiesErrorInfo>;
 
 /** Custom Location settings properties. */
-export type ExtensionPropertiesCustomLocationSettingsMap = {
-  [key: string]: string | undefined;
-};
+export type ExtensionPropertiesCustomLocationSettingsMap = { [key: string]: string | undefined };
 export const ExtensionPropertiesCustomLocationSettingsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2580,9 +2530,7 @@ export const ExtensionProperties = /*@__PURE__*/ S.suspend(() =>
     aksAssignedIdentity: S.optional(S.NullOr(ExtensionPropertiesAksAssignedIdentity)),
     isSystemExtension: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ExtensionProperties",
-}) as any as S.Schema<ExtensionProperties>;
+).annotate({ identifier: "ExtensionProperties" }) as any as S.Schema<ExtensionProperties>;
 
 /** The identity type. */
 export type ExtensionIdentityType = "SystemAssigned";
@@ -2603,9 +2551,7 @@ export const ExtensionIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(ExtensionIdentityType),
   }),
-).annotate({
-  identifier: "ExtensionIdentity",
-}) as any as S.Schema<ExtensionIdentity>;
+).annotate({ identifier: "ExtensionIdentity" }) as any as S.Schema<ExtensionIdentity>;
 
 /** The type of identity that created the resource. */
 export type ExtensionSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -2643,9 +2589,7 @@ export const ExtensionSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ExtensionSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionSystemData",
-}) as any as S.Schema<ExtensionSystemData>;
+).annotate({ identifier: "ExtensionSystemData" }) as any as S.Schema<ExtensionSystemData>;
 
 /** Plan for the resource. */
 export type ExtensionPlan = CreateExtensionRequestPlan;
@@ -2899,9 +2843,7 @@ export const FluxConfiguration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FluxConfigurationProperties),
     systemData: S.optional(FluxConfigurationSystemData),
   }),
-).annotate({
-  identifier: "FluxConfiguration",
-}) as any as S.Schema<FluxConfiguration>;
+).annotate({ identifier: "FluxConfiguration" }) as any as S.Schema<FluxConfiguration>;
 
 /** List of Flux Configurations within a Kubernetes cluster. */
 export type FluxConfigurationsListValueList = Array<FluxConfiguration>;
@@ -2921,9 +2863,7 @@ export const FluxConfigurationsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FluxConfigurationsListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FluxConfigurationsList",
-}) as any as S.Schema<FluxConfigurationsList>;
+).annotate({ identifier: "FluxConfigurationsList" }) as any as S.Schema<FluxConfigurationsList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2935,9 +2875,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
@@ -3000,9 +2938,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -3036,9 +2972,7 @@ export const ListOperationStatusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOperationStatusRequest>;
 
 /** Additional information, if available. */
-export type OperationStatusResultPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type OperationStatusResultPropertiesMap = { [key: string]: string | undefined };
 export const OperationStatusResultPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3102,9 +3036,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.NullOr(OperationStatusResultPropertiesMap)),
     error: S.optional(OperationStatusResultError),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** List of async operations in progress, in the cluster. */
 export type ListOperationStatusResponseValueList = Array<OperationStatusResult>;
@@ -3602,9 +3534,7 @@ export const UpdateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateExtensionRequest",
-}) as any as S.Schema<UpdateExtensionRequest>;
+).annotate({ identifier: "UpdateExtensionRequest" }) as any as S.Schema<UpdateExtensionRequest>;
 
 /** Configuration settings, as name-value pairs for configuring this extension. */
 export type UpdateExtensionResponsePropertiesConfigurationSettingsMap = {
@@ -3871,9 +3801,7 @@ export const UpdateExtensionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateExtensionResponseSystemData),
     plan: S.optional(CreateExtensionRequestPlan),
   }),
-).annotate({
-  identifier: "UpdateExtensionResponse",
-}) as any as S.Schema<UpdateExtensionResponse>;
+).annotate({ identifier: "UpdateExtensionResponse" }) as any as S.Schema<UpdateExtensionResponse>;
 
 /** Parameters to reconcile to the GitRepository source kind type. */
 export type GitRepositoryPatchDefinition = GitRepositoryDefinition;
@@ -3906,9 +3834,7 @@ export const BucketPatchDefinition = /*@__PURE__*/ S.suspend(() =>
     accessKey: S.optional(S.NullOr(S.String)),
     localAuthRef: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BucketPatchDefinition",
-}) as any as S.Schema<BucketPatchDefinition>;
+).annotate({ identifier: "BucketPatchDefinition" }) as any as S.Schema<BucketPatchDefinition>;
 
 /** Parameters to authenticate using Service Principal. */
 export type ServicePrincipalPatchDefinition = ServicePrincipalDefinition;

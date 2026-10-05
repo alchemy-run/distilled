@@ -80,17 +80,9 @@ export const CreateListRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/rules/lists",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/rules/lists", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateListRequest",
-}) as any as S.Schema<CreateListRequest>;
+).annotate({ identifier: "CreateListRequest" }) as any as S.Schema<CreateListRequest>;
 
 export type ListsCreateResponseKind = "ip" | "redirect" | "hostname" | "asn";
 export const ListsCreateResponseKind = S.String;
@@ -125,9 +117,7 @@ export const CreateListResponse = /*@__PURE__*/ S.suspend(() =>
     numReferencingFilters: S.Number.pipe(T.Body("num_referencing_filters")),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateListResponse",
-}) as any as S.Schema<CreateListResponse>;
+).annotate({ identifier: "CreateListResponse" }) as any as S.Schema<CreateListResponse>;
 
 export interface ListsItemsCreateRequestBodyItemListsListItemIPComment {
   /** An IPv4 address, an IPv4 CIDR, an IPv6 address, or an IPv6 CIDR. */
@@ -284,9 +274,7 @@ export const CreateListItemRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateListItemRequest",
-}) as any as S.Schema<CreateListItemRequest>;
+).annotate({ identifier: "CreateListItemRequest" }) as any as S.Schema<CreateListItemRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateListItemResponse {
@@ -297,9 +285,7 @@ export const CreateListItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operationId: S.String.pipe(T.Body("operation_id")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateListItemResponse",
-}) as any as S.Schema<CreateListItemResponse>;
+).annotate({ identifier: "CreateListItemResponse" }) as any as S.Schema<CreateListItemResponse>;
 
 export interface DeleteListRequest {
   /** The Account ID for this resource. */
@@ -313,16 +299,10 @@ export const DeleteListRequest = /*@__PURE__*/ S.suspend(() =>
     listId: S.String.pipe(T.Label("list_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/rules/lists/{list_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/rules/lists/{list_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteListRequest",
-}) as any as S.Schema<DeleteListRequest>;
+).annotate({ identifier: "DeleteListRequest" }) as any as S.Schema<DeleteListRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteListResponse {
@@ -333,9 +313,7 @@ export const DeleteListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteListResponse",
-}) as any as S.Schema<DeleteListResponse>;
+).annotate({ identifier: "DeleteListResponse" }) as any as S.Schema<DeleteListResponse>;
 
 export interface ListsItemsDeleteRequestItemsItem {
   /** Defines the unique ID of the item in the List. */
@@ -359,6 +337,7 @@ export interface DeleteListItemRequest {
   accountId: string;
   /** The unique ID of the list. */
   listId: string;
+  /** The list items to delete, identified by their unique IDs. */
   items?: ListsItemsDeleteRequestItemsList;
 }
 export const DeleteListItemRequest = /*@__PURE__*/ S.suspend(() =>
@@ -375,9 +354,7 @@ export const DeleteListItemRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteListItemRequest",
-}) as any as S.Schema<DeleteListItemRequest>;
+).annotate({ identifier: "DeleteListItemRequest" }) as any as S.Schema<DeleteListItemRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteListItemResponse {
@@ -388,9 +365,7 @@ export const DeleteListItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operationId: S.String.pipe(T.Body("operation_id")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteListItemResponse",
-}) as any as S.Schema<DeleteListItemResponse>;
+).annotate({ identifier: "DeleteListItemResponse" }) as any as S.Schema<DeleteListItemResponse>;
 
 export interface GetListRequest {
   /** The Account ID for this resource. */
@@ -403,13 +378,7 @@ export const GetListRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     listId: S.String.pipe(T.Label("list_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/rules/lists/{list_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/rules/lists/{list_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetListRequest" }) as any as S.Schema<GetListRequest>;
 
@@ -446,9 +415,7 @@ export const GetListResponse = /*@__PURE__*/ S.suspend(() =>
     numReferencingFilters: S.Number.pipe(T.Body("num_referencing_filters")),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetListResponse",
-}) as any as S.Schema<GetListResponse>;
+).annotate({ identifier: "GetListResponse" }) as any as S.Schema<GetListResponse>;
 
 export interface GetListBulkOperationRequest {
   /** The Account ID for this resource. */
@@ -580,9 +547,7 @@ export const GetListItemRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetListItemRequest",
-}) as any as S.Schema<GetListItemRequest>;
+).annotate({ identifier: "GetListItemRequest" }) as any as S.Schema<GetListItemRequest>;
 
 export interface ListsItemsGetResultListsListItemIPFull {
   /** Defines the unique ID of the item in the List. */
@@ -741,9 +706,7 @@ export const ListsItemsGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetListItemResponse = ListsItemsGetResult;
 export const GetListItemResponse = /*@__PURE__*/ S.suspend(() =>
   ListsItemsGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetListItemResponse",
-}) as any as S.Schema<GetListItemResponse>;
+).annotate({ identifier: "GetListItemResponse" }) as any as S.Schema<GetListItemResponse>;
 
 export interface ListListItemsRequest {
   /** The Account ID for this resource. */
@@ -773,9 +736,7 @@ export const ListListItemsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListListItemsRequest",
-}) as any as S.Schema<ListListItemsRequest>;
+).annotate({ identifier: "ListListItemsRequest" }) as any as S.Schema<ListListItemsRequest>;
 
 export type ListsItemsListResultItemListsListItemIPFull = ListsItemsGetResultListsListItemIPFull;
 export const ListsItemsListResultItemListsListItemIPFull = ListsItemsGetResultListsListItemIPFull;
@@ -882,9 +843,7 @@ export const ListListItemsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListsItemsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListListItemsResponse",
-}) as any as S.Schema<ListListItemsResponse>;
+).annotate({ identifier: "ListListItemsResponse" }) as any as S.Schema<ListListItemsResponse>;
 
 export interface ListListsRequest {
   /** The Account ID for this resource. */
@@ -894,17 +853,9 @@ export const ListListsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/rules/lists",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/rules/lists", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListListsRequest",
-}) as any as S.Schema<ListListsRequest>;
+).annotate({ identifier: "ListListsRequest" }) as any as S.Schema<ListListsRequest>;
 
 export type ListsListResultItemKind = "ip" | "redirect" | "hostname" | "asn";
 export const ListsListResultItemKind = S.String;
@@ -938,9 +889,7 @@ export const ListsListResultItem = /*@__PURE__*/ S.suspend(() =>
     numReferencingFilters: S.Number.pipe(T.Body("num_referencing_filters")),
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ListsListResultItem",
-}) as any as S.Schema<ListsListResultItem>;
+).annotate({ identifier: "ListsListResultItem" }) as any as S.Schema<ListsListResultItem>;
 
 export type ListsListResultList = Array<ListsListResultItem>;
 export const ListsListResultList = /*@__PURE__*/ S.Array(
@@ -958,9 +907,7 @@ export const ListListsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListListsResponse",
-}) as any as S.Schema<ListListsResponse>;
+).annotate({ identifier: "ListListsResponse" }) as any as S.Schema<ListListsResponse>;
 
 export interface UpdateListRequest {
   /** The Account ID for this resource. */
@@ -976,17 +923,9 @@ export const UpdateListRequest = /*@__PURE__*/ S.suspend(() =>
     listId: S.String.pipe(T.Label("list_id")),
     description: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/rules/lists/{list_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/rules/lists/{list_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateListRequest",
-}) as any as S.Schema<UpdateListRequest>;
+).annotate({ identifier: "UpdateListRequest" }) as any as S.Schema<UpdateListRequest>;
 
 export type ListsUpdateResponseKind = "ip" | "redirect" | "hostname" | "asn";
 export const ListsUpdateResponseKind = S.String;
@@ -1021,9 +960,7 @@ export const UpdateListResponse = /*@__PURE__*/ S.suspend(() =>
     numReferencingFilters: S.Number.pipe(T.Body("num_referencing_filters")),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateListResponse",
-}) as any as S.Schema<UpdateListResponse>;
+).annotate({ identifier: "UpdateListResponse" }) as any as S.Schema<UpdateListResponse>;
 
 export type ListsItemsUpdateRequestBodyItemListsListItemIPComment =
   ListsItemsCreateRequestBodyItemListsListItemIPComment;
@@ -1139,9 +1076,7 @@ export const UpdateListItemRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateListItemRequest",
-}) as any as S.Schema<UpdateListItemRequest>;
+).annotate({ identifier: "UpdateListItemRequest" }) as any as S.Schema<UpdateListItemRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateListItemResponse {
@@ -1152,9 +1087,7 @@ export const UpdateListItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operationId: S.String.pipe(T.Body("operation_id")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateListItemResponse",
-}) as any as S.Schema<UpdateListItemResponse>;
+).annotate({ identifier: "UpdateListItemResponse" }) as any as S.Schema<UpdateListItemResponse>;
 
 export type CreateListError = ListAlreadyExists | Forbidden | CloudflareOpError;
 /** Creates a new list of the specified kind. */
@@ -1172,7 +1105,7 @@ export const createList: API.OperationMethod<
 }));
 
 export type CreateListItemError = CloudflareOpError;
-/** Appends new items to the list. This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
+/** Appends new items to the list. This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
 export const createListItem: API.OperationMethod<
   CreateListItemRequest,
   CreateListItemResponse,
@@ -1202,7 +1135,7 @@ export const deleteList: API.OperationMethod<
 }));
 
 export type DeleteListItemError = CloudflareOpError;
-/** Removes one or more items from a list. This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
+/** Removes one or more items from a list. This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
 export const deleteListItem: API.OperationMethod<
   DeleteListItemRequest,
   DeleteListItemResponse,
@@ -1322,7 +1255,7 @@ export const updateList: API.OperationMethod<
 }));
 
 export type UpdateListItemError = ListNotFound | Forbidden | CloudflareOpError;
-/** Removes all existing items from the list and adds the provided items to the list. This operation is asynchronous. To get current the operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
+/** Removes all existing items from the list and adds the provided items to the list. This operation is asynchronous. To get the current operation status, invoke the `Get bulk operation status` endpoint with the returned `operation_id`. There is a limit of 1 pending bulk operation per account. If an outstanding bulk operation is in progress, the request will be rejected. */
 export const updateListItem: API.OperationMethod<
   UpdateListItemRequest,
   UpdateListItemResponse,

@@ -31,17 +31,17 @@ export const formatHeaders = (config: Config): Record<string, string> => ({
   "X-Secret-API-Key": Redacted.value(config.secretApiKey),
 });
 
-/** Layer from a plain API key pair + optional base URL. */
+/** Layer from a redacted API key pair + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly secretApiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly secretApiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
-      secretApiKey: Redacted.make(config.secretApiKey),
+      apiKey: config.apiKey,
+      secretApiKey: config.secretApiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

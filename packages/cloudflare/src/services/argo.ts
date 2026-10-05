@@ -61,17 +61,9 @@ export const GetSmartRoutingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/argo/smart_routing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/argo/smart_routing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSmartRoutingRequest",
-}) as any as S.Schema<GetSmartRoutingRequest>;
+).annotate({ identifier: "GetSmartRoutingRequest" }) as any as S.Schema<GetSmartRoutingRequest>;
 
 export type SmartRoutingGetResponseValue = "on" | "off";
 export const SmartRoutingGetResponseValue = S.String;
@@ -94,9 +86,7 @@ export const GetSmartRoutingResponse = /*@__PURE__*/ S.suspend(() =>
     value: SmartRoutingGetResponseValue,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSmartRoutingResponse",
-}) as any as S.Schema<GetSmartRoutingResponse>;
+).annotate({ identifier: "GetSmartRoutingResponse" }) as any as S.Schema<GetSmartRoutingResponse>;
 
 export interface GetTieredCachingRequest {
   /** Identifier. */
@@ -106,17 +96,9 @@ export const GetTieredCachingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/argo/tiered_caching",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/argo/tiered_caching", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTieredCachingRequest",
-}) as any as S.Schema<GetTieredCachingRequest>;
+).annotate({ identifier: "GetTieredCachingRequest" }) as any as S.Schema<GetTieredCachingRequest>;
 
 export type TieredCachingGetResponseId = "tiered_caching";
 export const TieredCachingGetResponseId = S.String;
@@ -142,9 +124,7 @@ export const GetTieredCachingResponse = /*@__PURE__*/ S.suspend(() =>
     value: TieredCachingGetResponseValue,
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTieredCachingResponse",
-}) as any as S.Schema<GetTieredCachingResponse>;
+).annotate({ identifier: "GetTieredCachingResponse" }) as any as S.Schema<GetTieredCachingResponse>;
 
 export type SmartRoutingEditRequestValue = "on" | "off";
 export const SmartRoutingEditRequestValue = S.String;
@@ -160,17 +140,9 @@ export const PatchSmartRoutingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: SmartRoutingEditRequestValue,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/argo/smart_routing",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/argo/smart_routing", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSmartRoutingRequest",
-}) as any as S.Schema<PatchSmartRoutingRequest>;
+).annotate({ identifier: "PatchSmartRoutingRequest" }) as any as S.Schema<PatchSmartRoutingRequest>;
 
 export type SmartRoutingEditResponseValue = "on" | "off";
 export const SmartRoutingEditResponseValue = S.String;
@@ -211,13 +183,7 @@ export const PatchTieredCachingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     value: TieredCachingEditRequestValue,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/argo/tiered_caching",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/argo/tiered_caching", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PatchTieredCachingRequest",

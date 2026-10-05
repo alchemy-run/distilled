@@ -55,9 +55,7 @@ export const ListResultPublicIPIPs = /*@__PURE__*/ S.suspend(() =>
     ipv4Cidrs: S.optional(S.NullOr(ListResultPublicIPIPsIpv4CidrsList).pipe(T.Body("ipv4_cidrs"))),
     ipv6Cidrs: S.optional(S.NullOr(ListResultPublicIPIPsIpv6CidrsList).pipe(T.Body("ipv6_cidrs"))),
   }),
-).annotate({
-  identifier: "ListResultPublicIPIPs",
-}) as any as S.Schema<ListResultPublicIPIPs>;
+).annotate({ identifier: "ListResultPublicIPIPs" }) as any as S.Schema<ListResultPublicIPIPs>;
 
 export type ListResultPublicIPIPsJDCloudIpv4CidrsList = Array<string>;
 export const ListResultPublicIPIPsJDCloudIpv4CidrsList = /*@__PURE__*/ S.Array(
@@ -112,9 +110,7 @@ export const ListResult = /*@__PURE__*/ S.Unknown.pipe(
 export type ListIpsResponse = ListResult;
 export const ListIpsResponse = /*@__PURE__*/ S.suspend(() =>
   ListResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListIpsResponse",
-}) as any as S.Schema<ListIpsResponse>;
+).annotate({ identifier: "ListIpsResponse" }) as any as S.Schema<ListIpsResponse>;
 
 export type ListIpsError = CloudflareOpError;
 /** Get IPs used on the Cloudflare/JD Cloud network, see https://www.cloudflare.com/ips for Cloudflare IPs or https://developers.cloudflare.com/china-network/reference/infrastructure/ for JD Cloud IPs. */

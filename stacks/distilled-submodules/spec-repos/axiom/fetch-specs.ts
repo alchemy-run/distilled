@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Axiom API spec into ../specs/.
  *
@@ -8,7 +8,7 @@
  * spec itself.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/restapi/versions/v2.json
@@ -17,6 +17,8 @@
  */
 
 import { mkdirSync } from "fs";
+import { mkdir, writeFile } from "fs/promises";
+import { dirname } from "path";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "axiomhq/docs";
@@ -72,7 +74,8 @@ async function main() {
 
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, await response.arrayBuffer());
+    await mkdir(dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, new Uint8Array(await response.arrayBuffer()));
   }
 
   console.log("Done!");

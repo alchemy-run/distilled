@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -41,9 +39,7 @@ export const EndpointAuthentication = /*@__PURE__*/ S.suspend(() =>
     principalID: S.optional(S.String),
     principalType: S.optional(EndpointAuthenticationPrincipalType),
   }),
-).annotate({
-  identifier: "EndpointAuthentication",
-}) as any as S.Schema<EndpointAuthentication>;
+).annotate({ identifier: "EndpointAuthentication" }) as any as S.Schema<EndpointAuthentication>;
 
 /** The list of service endpoints authentication details. */
 export type EndpointAuthenticationsList = Array<EndpointAuthentication>;
@@ -159,9 +155,7 @@ export const AccountsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -338,9 +332,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -371,9 +363,7 @@ export const DeleteModelingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteModelingRequest",
-}) as any as S.Schema<DeleteModelingRequest>;
+).annotate({ identifier: "DeleteModelingRequest" }) as any as S.Schema<DeleteModelingRequest>;
 
 export interface DeleteModelingResponse {}
 export const DeleteModelingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -434,9 +424,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -544,9 +532,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GetAccountResponseProperties),
     systemData: S.optional(GetAccountResponseSystemData),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetAccountStatusRequest {
   /** The ID of the target subscription. */
@@ -569,9 +555,7 @@ export const GetAccountStatusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountStatusRequest",
-}) as any as S.Schema<GetAccountStatusRequest>;
+).annotate({ identifier: "GetAccountStatusRequest" }) as any as S.Schema<GetAccountStatusRequest>;
 
 /** Stage status. */
 export interface StageStatus {
@@ -651,9 +635,7 @@ export const GetModelingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetModelingRequest",
-}) as any as S.Schema<GetModelingRequest>;
+).annotate({ identifier: "GetModelingRequest" }) as any as S.Schema<GetModelingRequest>;
 
 /** Resource tags. */
 export type GetModelingResponseTagsMap = { [key: string]: string | undefined };
@@ -683,9 +665,7 @@ export const ModelingInputData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ModelingInputData",
-}) as any as S.Schema<ModelingInputData>;
+).annotate({ identifier: "ModelingInputData" }) as any as S.Schema<ModelingInputData>;
 
 /** Modeling resource properties. */
 export interface GetModelingResponseProperties {
@@ -782,9 +762,7 @@ export const GetModelingResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GetModelingResponseProperties),
     systemData: S.optional(GetModelingResponseSystemData),
   }),
-).annotate({
-  identifier: "GetModelingResponse",
-}) as any as S.Schema<GetModelingResponse>;
+).annotate({ identifier: "GetModelingResponse" }) as any as S.Schema<GetModelingResponse>;
 
 export interface GetOperationStatusRequest {
   /** The name of Azure region. */
@@ -832,9 +810,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -898,9 +874,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
@@ -976,9 +950,7 @@ export const GetServiceEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetServiceEndpointRequest>;
 
 /** Resource tags. */
-export type GetServiceEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1209,9 +1181,7 @@ export const AccountResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AccountResourceProperties),
     systemData: S.optional(AccountResourceSystemData),
   }),
-).annotate({
-  identifier: "AccountResource",
-}) as any as S.Schema<AccountResource>;
+).annotate({ identifier: "AccountResource" }) as any as S.Schema<AccountResource>;
 
 /** The list of RecommendationsService Account resources. */
 export type AccountResourceListValueList = Array<AccountResource>;
@@ -1231,9 +1201,7 @@ export const AccountResourceList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(AccountResourceListValueList),
   }),
-).annotate({
-  identifier: "AccountResourceList",
-}) as any as S.Schema<AccountResourceList>;
+).annotate({ identifier: "AccountResourceList" }) as any as S.Schema<AccountResourceList>;
 
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1394,9 +1362,7 @@ export const ModelingResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ModelingResourceProperties),
     systemData: S.optional(ModelingResourceSystemData),
   }),
-).annotate({
-  identifier: "ModelingResource",
-}) as any as S.Schema<ModelingResource>;
+).annotate({ identifier: "ModelingResource" }) as any as S.Schema<ModelingResource>;
 
 /** The list of Modeling resources. */
 export type ModelingResourceListValueList = Array<ModelingResource>;
@@ -1416,9 +1382,7 @@ export const ModelingResourceList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ModelingResourceListValueList),
   }),
-).annotate({
-  identifier: "ModelingResourceList",
-}) as any as S.Schema<ModelingResourceList>;
+).annotate({ identifier: "ModelingResourceList" }) as any as S.Schema<ModelingResourceList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1430,9 +1394,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1452,9 +1414,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1504,9 +1464,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListServiceEndpointByAccountResourceRequest {
   /** The ID of the target subscription. */
@@ -1534,9 +1492,7 @@ export const ListServiceEndpointByAccountResourceRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListServiceEndpointByAccountResourceRequest>;
 
 /** Resource tags. */
-export type ServiceEndpointResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceEndpointResourceTagsMap = { [key: string]: string | undefined };
 export const ServiceEndpointResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1617,9 +1573,7 @@ export const ServiceEndpointResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GetServiceEndpointResponseProperties),
     systemData: S.optional(ServiceEndpointResourceSystemData),
   }),
-).annotate({
-  identifier: "ServiceEndpointResource",
-}) as any as S.Schema<ServiceEndpointResource>;
+).annotate({ identifier: "ServiceEndpointResource" }) as any as S.Schema<ServiceEndpointResource>;
 
 /** The list of ServiceEndpoint resources. */
 export type ServiceEndpointResourceListValueList = Array<ServiceEndpointResource>;
@@ -1644,9 +1598,7 @@ export const ServiceEndpointResourceList = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServiceEndpointResourceList>;
 
 /** Resource tags. */
-export type ModelingCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ModelingCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ModelingCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1724,9 +1676,7 @@ export const ModelingCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ModelingCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ModelingCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ModelingCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ModelingCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1844,9 +1794,7 @@ export const ModelingCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ModelingCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ServiceEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServiceEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1903,9 +1851,7 @@ export const ServiceEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ServiceEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServiceEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServiceEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2042,14 +1988,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2154,9 +2096,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(UpdateAccountResponseProperties),
     systemData: S.optional(UpdateAccountResponseSystemData),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 /** Modeling resource properties to update. */
 export interface UpdateModelingRequestProperties {
@@ -2201,14 +2141,10 @@ export const UpdateModelingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateModelingRequest",
-}) as any as S.Schema<UpdateModelingRequest>;
+).annotate({ identifier: "UpdateModelingRequest" }) as any as S.Schema<UpdateModelingRequest>;
 
 /** Resource tags. */
-export type UpdateModelingResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateModelingResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateModelingResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2321,9 +2257,7 @@ export const UpdateModelingResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(UpdateModelingResponseProperties),
     systemData: S.optional(UpdateModelingResponseSystemData),
   }),
-).annotate({
-  identifier: "UpdateModelingResponse",
-}) as any as S.Schema<UpdateModelingResponse>;
+).annotate({ identifier: "UpdateModelingResponse" }) as any as S.Schema<UpdateModelingResponse>;
 
 export interface UpdateServiceEndpointRequest {
   /** The ID of the target subscription. */
@@ -2357,9 +2291,7 @@ export const UpdateServiceEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateServiceEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

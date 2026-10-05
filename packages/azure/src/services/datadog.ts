@@ -92,9 +92,7 @@ export const MonitorPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     datadogOrganizationProperties: S.optional(DatadogOrganizationProperties),
     userInfo: S.optional(UserInfo),
   }),
-).annotate({
-  identifier: "MonitorPropertiesInput",
-}) as any as S.Schema<MonitorPropertiesInput>;
+).annotate({ identifier: "MonitorPropertiesInput" }) as any as S.Schema<MonitorPropertiesInput>;
 
 export interface ResourceSku {
   /** Name of the SKU in {PlanId} format. For Terraform, the only allowed value is 'Linked'. */
@@ -118,9 +116,7 @@ export const IdentityPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ManagedIdentityTypes),
   }),
-).annotate({
-  identifier: "IdentityPropertiesInput",
-}) as any as S.Schema<IdentityPropertiesInput>;
+).annotate({ identifier: "IdentityPropertiesInput" }) as any as S.Schema<IdentityPropertiesInput>;
 
 export interface CreateMonitorRequest {
   /** The ID of the target subscription. */
@@ -156,9 +152,7 @@ export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
+).annotate({ identifier: "CreateMonitorRequest" }) as any as S.Schema<CreateMonitorRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -195,9 +189,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateMonitorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export const CreateMonitorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -255,9 +247,7 @@ export const MonitorProperties = /*@__PURE__*/ S.suspend(() =>
     liftrResourceCategory: S.optional(LiftrResourceCategories),
     liftrResourcePreference: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MonitorProperties",
-}) as any as S.Schema<MonitorProperties>;
+).annotate({ identifier: "MonitorProperties" }) as any as S.Schema<MonitorProperties>;
 
 export interface IdentityProperties {
   /** The identity ID. */
@@ -273,9 +263,7 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(ManagedIdentityTypes),
   }),
-).annotate({
-  identifier: "IdentityProperties",
-}) as any as S.Schema<IdentityProperties>;
+).annotate({ identifier: "IdentityProperties" }) as any as S.Schema<IdentityProperties>;
 
 export interface CreateMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -307,9 +295,7 @@ export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "CreateMonitorResponse",
-}) as any as S.Schema<CreateMonitorResponse>;
+).annotate({ identifier: "CreateMonitorResponse" }) as any as S.Schema<CreateMonitorResponse>;
 
 export interface DeleteMonitorRequest {
   /** The ID of the target subscription. */
@@ -332,9 +318,7 @@ export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
+).annotate({ identifier: "DeleteMonitorRequest" }) as any as S.Schema<DeleteMonitorRequest>;
 
 export interface DeleteMonitorResponse {}
 export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -397,9 +381,7 @@ export const GetBillingInfoRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "GetBillingInfoRequest",
-}) as any as S.Schema<GetBillingInfoRequest>;
+).annotate({ identifier: "GetBillingInfoRequest" }) as any as S.Schema<GetBillingInfoRequest>;
 
 /** Marketplace SAAS Info of the resource. */
 export interface MarketplaceSaaSInfo {
@@ -422,9 +404,7 @@ export const MarketplaceSaaSInfo = /*@__PURE__*/ S.suspend(() =>
     billedAzureSubscriptionId: S.optional(S.String),
     subscribed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MarketplaceSaaSInfo",
-}) as any as S.Schema<MarketplaceSaaSInfo>;
+).annotate({ identifier: "MarketplaceSaaSInfo" }) as any as S.Schema<MarketplaceSaaSInfo>;
 
 /** Partner Billing details associated with the resource. */
 export interface PartnerBillingEntity {
@@ -441,9 +421,7 @@ export const PartnerBillingEntity = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     partnerEntityUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerBillingEntity",
-}) as any as S.Schema<PartnerBillingEntity>;
+).annotate({ identifier: "PartnerBillingEntity" }) as any as S.Schema<PartnerBillingEntity>;
 
 /** Marketplace Subscription and Organization details to which resource gets billed into. */
 export interface BillingInfoResponse {
@@ -457,9 +435,7 @@ export const BillingInfoResponse = /*@__PURE__*/ S.suspend(() =>
     marketplaceSaasInfo: S.optional(MarketplaceSaaSInfo),
     partnerBillingEntity: S.optional(PartnerBillingEntity),
   }),
-).annotate({
-  identifier: "BillingInfoResponse",
-}) as any as S.Schema<BillingInfoResponse>;
+).annotate({ identifier: "BillingInfoResponse" }) as any as S.Schema<BillingInfoResponse>;
 
 export interface GetCreationSupportedRequest {
   /** The ID of the target subscription. */
@@ -533,9 +509,7 @@ export const GetMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "GetMonitorRequest",
-}) as any as S.Schema<GetMonitorRequest>;
+).annotate({ identifier: "GetMonitorRequest" }) as any as S.Schema<GetMonitorRequest>;
 
 /** Resource tags. */
 export type GetMonitorResponseTagsMap = { [key: string]: string | undefined };
@@ -574,9 +548,7 @@ export const GetMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "GetMonitorResponse",
-}) as any as S.Schema<GetMonitorResponse>;
+).annotate({ identifier: "GetMonitorResponse" }) as any as S.Schema<GetMonitorResponse>;
 
 export interface GetMonitorDefaultKeyRequest {
   /** The ID of the target subscription. */
@@ -787,9 +759,7 @@ export const MonitoredSubscription = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.String),
     tagRules: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "MonitoredSubscription",
-}) as any as S.Schema<MonitoredSubscription>;
+).annotate({ identifier: "MonitoredSubscription" }) as any as S.Schema<MonitoredSubscription>;
 
 /** List of subscriptions and the state of the monitoring. */
 export type SubscriptionListMonitoredSubscriptionListList = Array<MonitoredSubscription>;
@@ -809,9 +779,7 @@ export const SubscriptionList = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(Operation),
     monitoredSubscriptionList: S.optional(SubscriptionListMonitoredSubscriptionListList),
   }),
-).annotate({
-  identifier: "SubscriptionList",
-}) as any as S.Schema<SubscriptionList>;
+).annotate({ identifier: "SubscriptionList" }) as any as S.Schema<SubscriptionList>;
 
 export interface GetMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -936,9 +904,7 @@ export const GetTagRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "GetTagRuleRequest",
-}) as any as S.Schema<GetTagRuleRequest>;
+).annotate({ identifier: "GetTagRuleRequest" }) as any as S.Schema<GetTagRuleRequest>;
 
 export interface GetTagRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -960,9 +926,7 @@ export const GetTagRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "GetTagRuleResponse",
-}) as any as S.Schema<GetTagRuleResponse>;
+).annotate({ identifier: "GetTagRuleResponse" }) as any as S.Schema<GetTagRuleResponse>;
 
 export interface ListCreationSupportedRequest {
   /** The ID of the target subscription. */
@@ -1125,9 +1089,7 @@ export const DatadogAgreementResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DatadogAgreementProperties),
     systemData: S.optional(DatadogAgreementResourceSystemData),
   }),
-).annotate({
-  identifier: "DatadogAgreementResource",
-}) as any as S.Schema<DatadogAgreementResource>;
+).annotate({ identifier: "DatadogAgreementResource" }) as any as S.Schema<DatadogAgreementResource>;
 
 /** The DatadogAgreementResource items on this page */
 export type DatadogAgreementResourceListResponseValueList = Array<DatadogAgreementResource>;
@@ -1221,9 +1183,7 @@ export const ListMonitorByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMonitorByResourceGroupRequest>;
 
 /** Resource tags. */
-export type DatadogMonitorResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DatadogMonitorResourceTagsMap = { [key: string]: string | undefined };
 export const DatadogMonitorResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1260,9 +1220,7 @@ export const DatadogMonitorResource = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "DatadogMonitorResource",
-}) as any as S.Schema<DatadogMonitorResource>;
+).annotate({ identifier: "DatadogMonitorResource" }) as any as S.Schema<DatadogMonitorResource>;
 
 /** The DatadogMonitorResource items on this page */
 export type DatadogMonitorResourceListResponseValueList = Array<DatadogMonitorResource>;
@@ -1379,9 +1337,7 @@ export const ListMonitorHostsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "ListMonitorHostsRequest",
-}) as any as S.Schema<ListMonitorHostsRequest>;
+).annotate({ identifier: "ListMonitorHostsRequest" }) as any as S.Schema<ListMonitorHostsRequest>;
 
 /** The aliases for the host installed via the Datadog agent. */
 export type DatadogHostAliasesList = Array<string>;
@@ -1409,9 +1365,7 @@ export const DatadogInstallMethod = /*@__PURE__*/ S.suspend(() =>
     toolVersion: S.optional(S.String),
     installerVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatadogInstallMethod",
-}) as any as S.Schema<DatadogInstallMethod>;
+).annotate({ identifier: "DatadogInstallMethod" }) as any as S.Schema<DatadogInstallMethod>;
 
 export interface DatadogLogsAgent {
   /** The transport. */
@@ -1421,9 +1375,7 @@ export const DatadogLogsAgent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     transport: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatadogLogsAgent",
-}) as any as S.Schema<DatadogLogsAgent>;
+).annotate({ identifier: "DatadogLogsAgent" }) as any as S.Schema<DatadogLogsAgent>;
 
 export interface DatadogHostMetadata {
   /** The agent version. */
@@ -1437,9 +1389,7 @@ export const DatadogHostMetadata = /*@__PURE__*/ S.suspend(() =>
     installMethod: S.optional(DatadogInstallMethod),
     logsAgent: S.optional(DatadogLogsAgent),
   }),
-).annotate({
-  identifier: "DatadogHostMetadata",
-}) as any as S.Schema<DatadogHostMetadata>;
+).annotate({ identifier: "DatadogHostMetadata" }) as any as S.Schema<DatadogHostMetadata>;
 
 export interface DatadogHost {
   /** The name of the host. */
@@ -1477,9 +1427,7 @@ export const DatadogHostListResponse = /*@__PURE__*/ S.suspend(() =>
     value: DatadogHostListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatadogHostListResponse",
-}) as any as S.Schema<DatadogHostListResponse>;
+).annotate({ identifier: "DatadogHostListResponse" }) as any as S.Schema<DatadogHostListResponse>;
 
 export interface ListMonitorLinkedResourcesRequest {
   /** The ID of the target subscription. */
@@ -1588,9 +1536,7 @@ export const MonitoredResource = /*@__PURE__*/ S.suspend(() =>
     sendingLogs: S.optional(S.Boolean),
     reasonForLogsStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MonitoredResource",
-}) as any as S.Schema<MonitoredResource>;
+).annotate({ identifier: "MonitoredResource" }) as any as S.Schema<MonitoredResource>;
 
 /** The MonitoredResource items on this page */
 export type MonitoredResourceListResponseValueList = Array<MonitoredResource>;
@@ -1629,9 +1575,7 @@ export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
+).annotate({ identifier: "ListMonitorsRequest" }) as any as S.Schema<ListMonitorsRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1643,9 +1587,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -1665,9 +1607,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Microsoft.Datadog REST API operation. */
 export interface OperationResult {
@@ -1684,9 +1624,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     isDataAction: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 /** The list of operations. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -1706,9 +1644,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListSingleSignOnConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -1802,9 +1738,7 @@ export const ListTagRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "ListTagRulesRequest",
-}) as any as S.Schema<ListTagRulesRequest>;
+).annotate({ identifier: "ListTagRulesRequest" }) as any as S.Schema<ListTagRulesRequest>;
 
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
@@ -1827,9 +1761,7 @@ export const MonitoringTagRules = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "MonitoringTagRules",
-}) as any as S.Schema<MonitoringTagRules>;
+).annotate({ identifier: "MonitoringTagRules" }) as any as S.Schema<MonitoringTagRules>;
 
 /** The MonitoringTagRules items on this page */
 export type MonitoringTagRulesListResponseValueList = Array<MonitoringTagRules>;
@@ -1909,9 +1841,7 @@ export const OrganizationsResubscribeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OrganizationsResubscribeRequest>;
 
 /** Resource tags. */
-export type OrganizationsResubscribeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OrganizationsResubscribeResponseTagsMap = { [key: string]: string | undefined };
 export const OrganizationsResubscribeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1983,9 +1913,7 @@ export const DatadogSetPasswordLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     setPasswordLink: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "DatadogSetPasswordLink",
-}) as any as S.Schema<DatadogSetPasswordLink>;
+).annotate({ identifier: "DatadogSetPasswordLink" }) as any as S.Schema<DatadogSetPasswordLink>;
 
 export interface SetMonitorDefaultKeyRequest {
   /** The ID of the target subscription. */
@@ -2196,9 +2124,7 @@ export const MonitorUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     cspm: S.optional(S.Boolean),
     resourceCollection: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MonitorUpdateProperties",
-}) as any as S.Schema<MonitorUpdateProperties>;
+).annotate({ identifier: "MonitorUpdateProperties" }) as any as S.Schema<MonitorUpdateProperties>;
 
 /** The new tags of the monitor resource. */
 export type UpdateMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -2236,14 +2162,10 @@ export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-11",
     }),
   ),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
+).annotate({ identifier: "UpdateMonitorRequest" }) as any as S.Schema<UpdateMonitorRequest>;
 
 /** Resource tags. */
-export type UpdateMonitorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMonitorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2279,9 +2201,7 @@ export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "UpdateMonitorResponse",
-}) as any as S.Schema<UpdateMonitorResponse>;
+).annotate({ identifier: "UpdateMonitorResponse" }) as any as S.Schema<UpdateMonitorResponse>;
 
 /** The list of subscriptions and it's monitoring status by current Datadog monitor. */
 export interface MonitoredSubscriptionInput {
@@ -2323,9 +2243,7 @@ export const SubscriptionListInput = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(Operation),
     monitoredSubscriptionList: S.optional(SubscriptionListInputMonitoredSubscriptionListList),
   }),
-).annotate({
-  identifier: "SubscriptionListInput",
-}) as any as S.Schema<SubscriptionListInput>;
+).annotate({ identifier: "SubscriptionListInput" }) as any as S.Schema<SubscriptionListInput>;
 
 export interface UpdateMonitoredSubscriptionRequest {
   /** The ID of the target subscription. */

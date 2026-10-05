@@ -45,9 +45,7 @@ export const CnisCreateRequestMagic = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     mtu: S.Number,
   }),
-).annotate({
-  identifier: "CnisCreateRequestMagic",
-}) as any as S.Schema<CnisCreateRequestMagic>;
+).annotate({ identifier: "CnisCreateRequestMagic" }) as any as S.Schema<CnisCreateRequestMagic>;
 
 export type CnisCreateRequestBgpExtraPrefixesList = Array<string>;
 export const CnisCreateRequestBgpExtraPrefixesList = /*@__PURE__*/ S.Array(
@@ -68,9 +66,7 @@ export const CnisCreateRequestBgp = /*@__PURE__*/ S.suspend(() =>
     extraPrefixes: CnisCreateRequestBgpExtraPrefixesList.pipe(T.Body("extra_prefixes")),
     md5Key: S.optional(S.String.pipe(T.Body("md5_key"))),
   }),
-).annotate({
-  identifier: "CnisCreateRequestBgp",
-}) as any as S.Schema<CnisCreateRequestBgp>;
+).annotate({ identifier: "CnisCreateRequestBgp" }) as any as S.Schema<CnisCreateRequestBgp>;
 
 export interface CreateCniRequest {
   /** Customer account tag */
@@ -89,17 +85,9 @@ export const CreateCniRequest = /*@__PURE__*/ S.suspend(() =>
     magic: CnisCreateRequestMagic,
     bgp: S.optional(CnisCreateRequestBgp),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/cni/cnis",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/cni/cnis", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCniRequest",
-}) as any as S.Schema<CreateCniRequest>;
+).annotate({ identifier: "CreateCniRequest" }) as any as S.Schema<CreateCniRequest>;
 
 export type CnisCreateResponseMagic = CnisCreateRequestMagic;
 export const CnisCreateResponseMagic = CnisCreateRequestMagic;
@@ -123,9 +111,7 @@ export const CnisCreateResponseBgp = /*@__PURE__*/ S.suspend(() =>
     extraPrefixes: CnisCreateResponseBgpExtraPrefixesList.pipe(T.Body("extra_prefixes")),
     md5Key: S.optional(S.NullOr(S.String).pipe(T.Body("md5_key"))),
   }),
-).annotate({
-  identifier: "CnisCreateResponseBgp",
-}) as any as S.Schema<CnisCreateResponseBgp>;
+).annotate({ identifier: "CnisCreateResponseBgp" }) as any as S.Schema<CnisCreateResponseBgp>;
 
 export type CnisCreateResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 export const CnisCreateResponseBgpMode = S.String;
@@ -143,7 +129,7 @@ export interface CreateCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisCreateResponseBgp | null;
-  /** The BGP mode for a CNI. */
+  /** The BGP mode for a CNI. One of the following: */
   bgpMode?: CnisCreateResponseBgpMode | null;
 }
 export const CreateCniResponse = /*@__PURE__*/ S.suspend(() =>
@@ -157,9 +143,7 @@ export const CreateCniResponse = /*@__PURE__*/ S.suspend(() =>
     bgp: S.optional(S.NullOr(CnisCreateResponseBgp)),
     bgpMode: S.optional(S.NullOr(CnisCreateResponseBgpMode).pipe(T.Body("bgp_mode"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateCniResponse",
-}) as any as S.Schema<CreateCniResponse>;
+).annotate({ identifier: "CreateCniResponse" }) as any as S.Schema<CreateCniResponse>;
 
 export type InterconnectsCreateRequestBandwidth =
   | "50M"
@@ -198,13 +182,7 @@ export const CreateInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
     bandwidth: S.optional(InterconnectsCreateRequestBandwidth),
     pairingKey: S.optional(S.String.pipe(T.Body("pairing_key"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/cni/interconnects",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/cni/interconnects", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateInterconnectRequest",
@@ -228,24 +206,14 @@ export const DeleteCniRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     cni: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/cni/cnis/{cni}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/cni/cnis/{cni}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCniRequest",
-}) as any as S.Schema<DeleteCniRequest>;
+).annotate({ identifier: "DeleteCniRequest" }) as any as S.Schema<DeleteCniRequest>;
 
 export interface DeleteCniResponse {}
 export const DeleteCniResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteCniResponse",
-}) as any as S.Schema<DeleteCniResponse>;
+).annotate({ identifier: "DeleteCniResponse" }) as any as S.Schema<DeleteCniResponse>;
 
 export interface DeleteInterconnectRequest {
   /** Customer account tag */
@@ -286,13 +254,7 @@ export const GetCniRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     cni: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/cnis/{cni}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/cnis/{cni}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetCniRequest" }) as any as S.Schema<GetCniRequest>;
 
@@ -318,9 +280,7 @@ export const CnisGetResponseBgp = /*@__PURE__*/ S.suspend(() =>
     extraPrefixes: CnisGetResponseBgpExtraPrefixesList.pipe(T.Body("extra_prefixes")),
     md5Key: S.optional(S.NullOr(S.String).pipe(T.Body("md5_key"))),
   }),
-).annotate({
-  identifier: "CnisGetResponseBgp",
-}) as any as S.Schema<CnisGetResponseBgp>;
+).annotate({ identifier: "CnisGetResponseBgp" }) as any as S.Schema<CnisGetResponseBgp>;
 
 export type CnisGetResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 export const CnisGetResponseBgpMode = S.String;
@@ -338,7 +298,7 @@ export interface GetCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisGetResponseBgp | null;
-  /** The BGP mode for a CNI. */
+  /** The BGP mode for a CNI. One of the following: */
   bgpMode?: CnisGetResponseBgpMode | null;
 }
 export const GetCniResponse = /*@__PURE__*/ S.suspend(() =>
@@ -365,24 +325,16 @@ export const GetInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
     icon: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/interconnects/{icon}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/interconnects/{icon}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInterconnectRequest",
-}) as any as S.Schema<GetInterconnectRequest>;
+).annotate({ identifier: "GetInterconnectRequest" }) as any as S.Schema<GetInterconnectRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetInterconnectResponse {}
 export const GetInterconnectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetInterconnectResponse",
-}) as any as S.Schema<GetInterconnectResponse>;
+).annotate({ identifier: "GetInterconnectResponse" }) as any as S.Schema<GetInterconnectResponse>;
 
 export interface GetSettingRequest {
   accountId: string;
@@ -391,17 +343,9 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingRequest",
-}) as any as S.Schema<GetSettingRequest>;
+).annotate({ identifier: "GetSettingRequest" }) as any as S.Schema<GetSettingRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSettingResponse {
@@ -411,9 +355,7 @@ export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultAsn: S.Number.pipe(T.Body("default_asn")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingResponse",
-}) as any as S.Schema<GetSettingResponse>;
+).annotate({ identifier: "GetSettingResponse" }) as any as S.Schema<GetSettingResponse>;
 
 export interface GetSlotRequest {
   /** Customer account tag */
@@ -425,13 +367,7 @@ export const GetSlotRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     slot: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/slots/{slot}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/slots/{slot}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetSlotRequest" }) as any as S.Schema<GetSlotRequest>;
 
@@ -449,9 +385,7 @@ export const SlotsGetResponseFacility = /*@__PURE__*/ S.suspend(() =>
     address: SlotsGetResponseFacilityAddressList,
     name: S.String,
   }),
-).annotate({
-  identifier: "SlotsGetResponseFacility",
-}) as any as S.Schema<SlotsGetResponseFacility>;
+).annotate({ identifier: "SlotsGetResponseFacility" }) as any as S.Schema<SlotsGetResponseFacility>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSlotResponse {
@@ -476,9 +410,7 @@ export const GetSlotResponse = /*@__PURE__*/ S.suspend(() =>
     account: S.optional(S.NullOr(S.String)),
     ccrDeviceName: S.optional(S.NullOr(S.String).pipe(T.Body("ccr_device_name"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSlotResponse",
-}) as any as S.Schema<GetSlotResponse>;
+).annotate({ identifier: "GetSlotResponse" }) as any as S.Schema<GetSlotResponse>;
 
 export interface ListCnisRequest {
   /** Customer account tag */
@@ -498,17 +430,9 @@ export const ListCnisRequest = /*@__PURE__*/ S.suspend(() =>
     slot: S.optional(S.String.pipe(T.Query())),
     tunnelId: S.optional(S.String.pipe(T.Query("tunnel_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/cnis",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/cnis", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCnisRequest",
-}) as any as S.Schema<ListCnisRequest>;
+).annotate({ identifier: "ListCnisRequest" }) as any as S.Schema<ListCnisRequest>;
 
 export type CnisListResponseItemsItemMagic = CnisCreateRequestMagic;
 export const CnisListResponseItemsItemMagic = CnisCreateRequestMagic;
@@ -551,7 +475,7 @@ export interface CnisListResponseItemsItem {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisListResponseItemsItemBgp | null;
-  /** The BGP mode for a CNI. */
+  /** The BGP mode for a CNI. One of the following: */
   bgpMode?: CnisListResponseItemsItemBgpMode | null;
 }
 export const CnisListResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
@@ -584,9 +508,7 @@ export const ListCnisResponse = /*@__PURE__*/ S.suspend(() =>
     items: CnisListResponseItemsList,
     next: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCnisResponse",
-}) as any as S.Schema<ListCnisResponse>;
+).annotate({ identifier: "ListCnisResponse" }) as any as S.Schema<ListCnisResponse>;
 
 export interface ListInterconnectsRequest {
   /** Customer account tag */
@@ -606,17 +528,9 @@ export const ListInterconnectsRequest = /*@__PURE__*/ S.suspend(() =>
     site: S.optional(S.String.pipe(T.Query())),
     type: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/interconnects",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/interconnects", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListInterconnectsRequest",
-}) as any as S.Schema<ListInterconnectsRequest>;
+).annotate({ identifier: "ListInterconnectsRequest" }) as any as S.Schema<ListInterconnectsRequest>;
 
 export type InterconnectsListResponseItemsItemNscInterconnectPhysicalBodyFacilityAddressList =
   Array<string>;
@@ -776,17 +690,9 @@ export const ListSlotsRequest = /*@__PURE__*/ S.suspend(() =>
     site: S.optional(S.String.pipe(T.Query())),
     speed: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/cni/slots",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/cni/slots", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSlotsRequest",
-}) as any as S.Schema<ListSlotsRequest>;
+).annotate({ identifier: "ListSlotsRequest" }) as any as S.Schema<ListSlotsRequest>;
 
 export type SlotsListResponseItemsItemFacilityAddressList = Array<string>;
 export const SlotsListResponseItemsItemFacilityAddressList = /*@__PURE__*/ S.Array(
@@ -847,9 +753,7 @@ export const ListSlotsResponse = /*@__PURE__*/ S.suspend(() =>
     items: SlotsListResponseItemsList,
     next: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSlotsResponse",
-}) as any as S.Schema<ListSlotsResponse>;
+).annotate({ identifier: "ListSlotsResponse" }) as any as S.Schema<ListSlotsResponse>;
 
 export interface LoaInterconnectRequest {
   /** Customer account tag */
@@ -872,16 +776,12 @@ export const LoaInterconnectRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LoaInterconnectRequest",
-}) as any as S.Schema<LoaInterconnectRequest>;
+).annotate({ identifier: "LoaInterconnectRequest" }) as any as S.Schema<LoaInterconnectRequest>;
 
 export interface LoaInterconnectResponse {}
 export const LoaInterconnectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LoaInterconnectResponse",
-}) as any as S.Schema<LoaInterconnectResponse>;
+).annotate({ identifier: "LoaInterconnectResponse" }) as any as S.Schema<LoaInterconnectResponse>;
 
 export interface PutSettingRequest {
   accountId: string;
@@ -892,17 +792,9 @@ export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     defaultAsn: S.optional(S.Number.pipe(T.Body("default_asn"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/cni/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/cni/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingRequest",
-}) as any as S.Schema<PutSettingRequest>;
+).annotate({ identifier: "PutSettingRequest" }) as any as S.Schema<PutSettingRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PutSettingResponse {
@@ -912,9 +804,7 @@ export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     defaultAsn: S.Number.pipe(T.Body("default_asn")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingResponse",
-}) as any as S.Schema<PutSettingResponse>;
+).annotate({ identifier: "PutSettingResponse" }) as any as S.Schema<PutSettingResponse>;
 
 export interface StatusInterconnectRequest {
   /** Customer account tag */
@@ -968,9 +858,7 @@ export const CnisUpdateRequestBgp = /*@__PURE__*/ S.suspend(() =>
     extraPrefixes: CnisUpdateRequestBgpExtraPrefixesList.pipe(T.Body("extra_prefixes")),
     md5Key: S.optional(S.String.pipe(T.Body("md5_key"))),
   }),
-).annotate({
-  identifier: "CnisUpdateRequestBgp",
-}) as any as S.Schema<CnisUpdateRequestBgp>;
+).annotate({ identifier: "CnisUpdateRequestBgp" }) as any as S.Schema<CnisUpdateRequestBgp>;
 
 export type CnisUpdateRequestBgpMode = "dynamic_route_exchange" | "advertise_only";
 export const CnisUpdateRequestBgpMode = S.String;
@@ -990,7 +878,7 @@ export interface UpdateCniRequest {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisUpdateRequestBgp;
-  /** The BGP mode for a CNI. */
+  /** The BGP mode for a CNI. One of the following: */
   bgpMode?: CnisUpdateRequestBgpMode | (string & {});
 }
 export const UpdateCniRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1006,17 +894,9 @@ export const UpdateCniRequest = /*@__PURE__*/ S.suspend(() =>
     bgp: S.optional(CnisUpdateRequestBgp),
     bgpMode: S.optional(CnisUpdateRequestBgpMode.pipe(T.Body("bgp_mode"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/cni/cnis/{cni}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/cni/cnis/{cni}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateCniRequest",
-}) as any as S.Schema<UpdateCniRequest>;
+).annotate({ identifier: "UpdateCniRequest" }) as any as S.Schema<UpdateCniRequest>;
 
 export type CnisUpdateResponseMagic = CnisCreateRequestMagic;
 export const CnisUpdateResponseMagic = CnisCreateRequestMagic;
@@ -1040,9 +920,7 @@ export const CnisUpdateResponseBgp = /*@__PURE__*/ S.suspend(() =>
     extraPrefixes: CnisUpdateResponseBgpExtraPrefixesList.pipe(T.Body("extra_prefixes")),
     md5Key: S.optional(S.NullOr(S.String).pipe(T.Body("md5_key"))),
   }),
-).annotate({
-  identifier: "CnisUpdateResponseBgp",
-}) as any as S.Schema<CnisUpdateResponseBgp>;
+).annotate({ identifier: "CnisUpdateResponseBgp" }) as any as S.Schema<CnisUpdateResponseBgp>;
 
 export type CnisUpdateResponseBgpMode = "dynamic_route_exchange" | "advertise_only";
 export const CnisUpdateResponseBgpMode = S.String;
@@ -1060,7 +938,7 @@ export interface UpdateCniResponse {
   /** Cloudflare end of the point-to-point link */
   p2pIp: string;
   bgp?: CnisUpdateResponseBgp | null;
-  /** The BGP mode for a CNI. */
+  /** The BGP mode for a CNI. One of the following: */
   bgpMode?: CnisUpdateResponseBgpMode | null;
 }
 export const UpdateCniResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1074,9 +952,7 @@ export const UpdateCniResponse = /*@__PURE__*/ S.suspend(() =>
     bgp: S.optional(S.NullOr(CnisUpdateResponseBgp)),
     bgpMode: S.optional(S.NullOr(CnisUpdateResponseBgpMode).pipe(T.Body("bgp_mode"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateCniResponse",
-}) as any as S.Schema<UpdateCniResponse>;
+).annotate({ identifier: "UpdateCniResponse" }) as any as S.Schema<UpdateCniResponse>;
 
 export type CreateCniError = CloudflareOpError;
 /** Creates a new Cloud Network Interconnect (CNI) for private network connectivity between Cloudflare and your infrastructure. CNIs enable dedicated, high-performance network links. */

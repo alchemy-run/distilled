@@ -34,9 +34,7 @@ export const ActivatePartnerTopicRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ActivatePartnerTopicRequest>;
 
 /** Tags of the resource. */
-export type ActivatePartnerTopicResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ActivatePartnerTopicResponseTagsMap = { [key: string]: string | undefined };
 export const ActivatePartnerTopicResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64,14 +62,10 @@ export const InlineEventProperties = /*@__PURE__*/ S.suspend(() =>
     documentationUrl: S.optional(S.String),
     dataSchemaUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InlineEventProperties",
-}) as any as S.Schema<InlineEventProperties>;
+).annotate({ identifier: "InlineEventProperties" }) as any as S.Schema<InlineEventProperties>;
 
 /** A collection of inline event types for the resource. The inline event type keys are of type string which represents the name of the event. An example of a valid inline event name is "Contoso.OrderCreated". The inline event type values are of type InlineEventProperties and will contain additional information for every inline event type. */
-export type EventTypeInfoInlineEventTypesMap = {
-  [key: string]: InlineEventProperties | undefined;
-};
+export type EventTypeInfoInlineEventTypesMap = { [key: string]: InlineEventProperties | undefined };
 export const EventTypeInfoInlineEventTypesMap = /*@__PURE__*/ S.Record(
   S.String,
   InlineEventProperties,
@@ -136,9 +130,7 @@ export const PartnerTopicProperties = /*@__PURE__*/ S.suspend(() =>
     partnerTopicFriendlyDescription: S.optional(S.String),
     messageForActivation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerTopicProperties",
-}) as any as S.Schema<PartnerTopicProperties>;
+).annotate({ identifier: "PartnerTopicProperties" }) as any as S.Schema<PartnerTopicProperties>;
 
 /** The type of identity that created the resource. */
 export type ActivatePartnerTopicResponseSystemDataCreatedByType =
@@ -204,9 +196,7 @@ export const UserIdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserIdentityProperties",
-}) as any as S.Schema<UserIdentityProperties>;
+).annotate({ identifier: "UserIdentityProperties" }) as any as S.Schema<UserIdentityProperties>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. This property is currently not used and reserved for future usage. */
 export type IdentityInfoUserAssignedIdentitiesMap = {
@@ -336,9 +326,7 @@ export const PartnerAuthorization = /*@__PURE__*/ S.suspend(() =>
     defaultMaximumExpirationTimeInDays: S.optional(S.Number),
     authorizedPartnersList: S.optional(PartnerAuthorizationAuthorizedPartnersListList),
   }),
-).annotate({
-  identifier: "PartnerAuthorization",
-}) as any as S.Schema<PartnerAuthorization>;
+).annotate({ identifier: "PartnerAuthorization" }) as any as S.Schema<PartnerAuthorization>;
 
 /** Provisioning state of the partner configuration. */
 export type PartnerConfigurationPropertiesProvisioningState =
@@ -530,9 +518,7 @@ export const CaCertificateProperties = /*@__PURE__*/ S.suspend(() =>
     expiryTimeInUtc: S.optional(S.String),
     provisioningState: S.optional(CaCertificatePropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "CaCertificateProperties",
-}) as any as S.Schema<CaCertificateProperties>;
+).annotate({ identifier: "CaCertificateProperties" }) as any as S.Schema<CaCertificateProperties>;
 
 /** The type of identity that created the resource. */
 export type CaCertificatesCreateOrUpdateResponseSystemDataCreatedByType =
@@ -629,9 +615,7 @@ export const PartnerTopicInfo = /*@__PURE__*/ S.suspend(() =>
     eventTypeInfo: S.optional(EventTypeInfo),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerTopicInfo",
-}) as any as S.Schema<PartnerTopicInfo>;
+).annotate({ identifier: "PartnerTopicInfo" }) as any as S.Schema<PartnerTopicInfo>;
 
 /** Provisioning state of the channel. */
 export type ChannelPropertiesProvisioningState =
@@ -672,9 +656,7 @@ export const ChannelProperties = /*@__PURE__*/ S.suspend(() =>
     readinessState: S.optional(ChannelPropertiesReadinessState),
     expirationTimeIfNotActivatedUtc: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChannelProperties",
-}) as any as S.Schema<ChannelProperties>;
+).annotate({ identifier: "ChannelProperties" }) as any as S.Schema<ChannelProperties>;
 
 export interface ChannelsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -848,9 +830,7 @@ export const ClientGroupProperties = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String),
     provisioningState: S.optional(ClientGroupPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ClientGroupProperties",
-}) as any as S.Schema<ClientGroupProperties>;
+).annotate({ identifier: "ClientGroupProperties" }) as any as S.Schema<ClientGroupProperties>;
 
 /** The type of identity that created the resource. */
 export type ClientGroupsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -957,9 +937,7 @@ export type ClientPropertiesInputState = "Enabled" | "Disabled";
 export const ClientPropertiesInputState = S.String;
 
 /** Attributes for the client. Supported values are int, bool, string, string[]. Example: "attributes": { "room": "345", "floor": 12, "deviceTypes": ["Fan", "Light"] } */
-export type ClientPropertiesInputAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClientPropertiesInputAttributesMap = { [key: string]: unknown | undefined };
 export const ClientPropertiesInputAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -986,9 +964,7 @@ export const ClientPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ClientPropertiesInputState),
     attributes: S.optional(ClientPropertiesInputAttributesMap),
   }),
-).annotate({
-  identifier: "ClientPropertiesInput",
-}) as any as S.Schema<ClientPropertiesInput>;
+).annotate({ identifier: "ClientPropertiesInput" }) as any as S.Schema<ClientPropertiesInput>;
 
 export interface ClientsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1026,9 +1002,7 @@ export type ClientPropertiesState = "Enabled" | "Disabled";
 export const ClientPropertiesState = S.String;
 
 /** Attributes for the client. Supported values are int, bool, string, string[]. Example: "attributes": { "room": "345", "floor": 12, "deviceTypes": ["Fan", "Light"] } */
-export type ClientPropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClientPropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const ClientPropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1069,9 +1043,7 @@ export const ClientProperties = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(ClientPropertiesAttributesMap),
     provisioningState: S.optional(ClientPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ClientProperties",
-}) as any as S.Schema<ClientProperties>;
+).annotate({ identifier: "ClientProperties" }) as any as S.Schema<ClientProperties>;
 
 /** The type of identity that created the resource. */
 export type ClientsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1167,9 +1139,7 @@ export const DeactivatePartnerTopicRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeactivatePartnerTopicRequest>;
 
 /** Tags of the resource. */
-export type DeactivatePartnerTopicResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeactivatePartnerTopicResponseTagsMap = { [key: string]: string | undefined };
 export const DeactivatePartnerTopicResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1309,9 +1279,7 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteChannelRequest",
-}) as any as S.Schema<DeleteChannelRequest>;
+).annotate({ identifier: "DeleteChannelRequest" }) as any as S.Schema<DeleteChannelRequest>;
 
 export interface DeleteChannelResponse {}
 export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1342,9 +1310,7 @@ export const DeleteClientRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteClientRequest",
-}) as any as S.Schema<DeleteClientRequest>;
+).annotate({ identifier: "DeleteClientRequest" }) as any as S.Schema<DeleteClientRequest>;
 
 export interface DeleteClientResponse {}
 export const DeleteClientResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1375,9 +1341,7 @@ export const DeleteClientGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteClientGroupRequest",
-}) as any as S.Schema<DeleteClientGroupRequest>;
+).annotate({ identifier: "DeleteClientGroupRequest" }) as any as S.Schema<DeleteClientGroupRequest>;
 
 export interface DeleteClientGroupResponse {}
 export const DeleteClientGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1405,9 +1369,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
+).annotate({ identifier: "DeleteDomainRequest" }) as any as S.Schema<DeleteDomainRequest>;
 
 export interface DeleteDomainResponse {}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1473,9 +1435,7 @@ export const DeleteDomainTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteDomainTopicRequest",
-}) as any as S.Schema<DeleteDomainTopicRequest>;
+).annotate({ identifier: "DeleteDomainTopicRequest" }) as any as S.Schema<DeleteDomainTopicRequest>;
 
 export interface DeleteDomainTopicResponse {}
 export const DeleteDomainTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1533,7 +1493,7 @@ export const DeleteEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -1544,9 +1504,7 @@ export const DeleteEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteEventSubscriptionResponse {}
 export const DeleteEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteEventSubscriptionResponse",
-  },
+  { identifier: "DeleteEventSubscriptionResponse" },
 ) as any as S.Schema<DeleteEventSubscriptionResponse>;
 
 export interface DeleteNamespaceRequest {
@@ -1570,9 +1528,7 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 
 export interface DeleteNamespaceResponse {}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1836,9 +1792,7 @@ export const DeletePermissionBindingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeletePermissionBindingResponse {}
 export const DeletePermissionBindingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeletePermissionBindingResponse",
-  },
+  { identifier: "DeletePermissionBindingResponse" },
 ) as any as S.Schema<DeletePermissionBindingResponse>;
 
 export type DeletePrivateEndpointConnectionRequestParentType =
@@ -1907,9 +1861,7 @@ export const DeleteSystemTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteSystemTopicRequest",
-}) as any as S.Schema<DeleteSystemTopicRequest>;
+).annotate({ identifier: "DeleteSystemTopicRequest" }) as any as S.Schema<DeleteSystemTopicRequest>;
 
 export interface DeleteSystemTopicResponse {}
 export const DeleteSystemTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1972,9 +1924,7 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicRequest",
-}) as any as S.Schema<DeleteTopicRequest>;
+).annotate({ identifier: "DeleteTopicRequest" }) as any as S.Schema<DeleteTopicRequest>;
 
 export interface DeleteTopicResponse {}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2040,9 +1990,7 @@ export const DeleteTopicSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicSpaceRequest",
-}) as any as S.Schema<DeleteTopicSpaceRequest>;
+).annotate({ identifier: "DeleteTopicSpaceRequest" }) as any as S.Schema<DeleteTopicSpaceRequest>;
 
 export interface DeleteTopicSpaceResponse {}
 export const DeleteTopicSpaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2066,10 +2014,13 @@ export const EventSubscriptionDestinationEndpointType = S.String;
 export interface EventSubscriptionDestination {
   /** Type of the endpoint for the event subscription destination. */
   endpointType: EventSubscriptionDestinationEndpointType | (string & {});
+  /** Endpoint-type-specific destination properties (polymorphic on `endpointType`), e.g. `{ resourceId, queueName }` for StorageQueue. */
+  properties?: unknown;
 }
 export const EventSubscriptionDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EventSubscriptionDestinationEndpointType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "EventSubscriptionDestination",
@@ -2146,11 +2097,17 @@ export interface AdvancedFilter {
   operatorType: AdvancedFilterOperatorType | (string & {});
   /** The field/property in the event based on which you want to filter. */
   key?: string;
+  /** Single comparison value for NumberGreaterThan/NumberLessThan/BoolEquals-style operators (polymorphic on `operatorType`). */
+  value?: unknown;
+  /** Comparison values for NumberIn/StringIn/StringContains/NumberInRange-style operators (polymorphic on `operatorType`). */
+  values?: unknown;
 }
 export const AdvancedFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operatorType: AdvancedFilterOperatorType,
     key: S.optional(S.String),
+    value: S.optional(S.Unknown),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "AdvancedFilter" }) as any as S.Schema<AdvancedFilter>;
 
@@ -2184,9 +2141,7 @@ export const EventSubscriptionFilter = /*@__PURE__*/ S.suspend(() =>
     enableAdvancedFilteringOnArrays: S.optional(S.Boolean),
     advancedFilters: S.optional(EventSubscriptionFilterAdvancedFiltersList),
   }),
-).annotate({
-  identifier: "EventSubscriptionFilter",
-}) as any as S.Schema<EventSubscriptionFilter>;
+).annotate({ identifier: "EventSubscriptionFilter" }) as any as S.Schema<EventSubscriptionFilter>;
 
 /** List of user defined labels. */
 export type EventSubscriptionPropertiesInputLabelsList = Array<string>;
@@ -2223,14 +2178,15 @@ export const DeadLetterDestinationEndpointType = S.String;
 export interface DeadLetterDestination {
   /** Type of the endpoint for the dead letter destination */
   endpointType: DeadLetterDestinationEndpointType | (string & {});
+  /** Endpoint-type-specific dead-letter properties (polymorphic on `endpointType`), e.g. `{ resourceId, blobContainerName }` for StorageBlob. */
+  properties?: unknown;
 }
 export const DeadLetterDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: DeadLetterDestinationEndpointType,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DeadLetterDestination",
-}) as any as S.Schema<DeadLetterDestination>;
+).annotate({ identifier: "DeadLetterDestination" }) as any as S.Schema<DeadLetterDestination>;
 
 /** Information about the deadletter destination with resource identity. */
 export interface DeadLetterWithResourceIdentity {
@@ -2457,9 +2413,7 @@ export const DomainEventSubscriptionsCreateOrUpdateResponse = /*@__PURE__*/ S.su
 }) as any as S.Schema<DomainEventSubscriptionsCreateOrUpdateResponse>;
 
 /** Tags of the resource. */
-export type DomainsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DomainsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2484,14 +2438,15 @@ export const InputSchemaMappingInputSchemaMappingType = S.String;
 export interface InputSchemaMapping {
   /** Type of the custom mapping */
   inputSchemaMappingType: InputSchemaMappingInputSchemaMappingType | (string & {});
+  /** Mapping-type-specific properties (polymorphic on `inputSchemaMappingType`), e.g. JSON field mappings for `Json`. */
+  properties?: unknown;
 }
 export const InputSchemaMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputSchemaMappingType: InputSchemaMappingInputSchemaMappingType,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "InputSchemaMapping",
-}) as any as S.Schema<InputSchemaMapping>;
+).annotate({ identifier: "InputSchemaMapping" }) as any as S.Schema<InputSchemaMapping>;
 
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" /> */
 export type DomainPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -2560,9 +2515,7 @@ export const DomainPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     autoDeleteTopicWithLastSubscription: S.optional(S.Boolean),
     dataResidencyBoundary: S.optional(DomainPropertiesInputDataResidencyBoundary),
   }),
-).annotate({
-  identifier: "DomainPropertiesInput",
-}) as any as S.Schema<DomainPropertiesInput>;
+).annotate({ identifier: "DomainPropertiesInput" }) as any as S.Schema<DomainPropertiesInput>;
 
 export interface DomainsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2602,9 +2555,7 @@ export const DomainsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DomainsCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type DomainsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DomainsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2619,9 +2570,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** GroupIds from the private link service resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -2648,9 +2597,7 @@ export const ConnectionState = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     actionsRequired: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionState",
-}) as any as S.Schema<ConnectionState>;
+).annotate({ identifier: "ConnectionState" }) as any as S.Schema<ConnectionState>;
 
 /** Provisioning state of the Private Endpoint Connection. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -2794,9 +2741,7 @@ export const DomainProperties = /*@__PURE__*/ S.suspend(() =>
     autoDeleteTopicWithLastSubscription: S.optional(S.Boolean),
     dataResidencyBoundary: S.optional(DomainPropertiesDataResidencyBoundary),
   }),
-).annotate({
-  identifier: "DomainProperties",
-}) as any as S.Schema<DomainProperties>;
+).annotate({ identifier: "DomainProperties" }) as any as S.Schema<DomainProperties>;
 
 /** The type of identity that created the resource. */
 export type DomainsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3030,9 +2975,7 @@ export const DomainTopicProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(DomainTopicPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "DomainTopicProperties",
-}) as any as S.Schema<DomainTopicProperties>;
+).annotate({ identifier: "DomainTopicProperties" }) as any as S.Schema<DomainTopicProperties>;
 
 /** The type of identity that created the resource. */
 export type DomainTopicsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -3118,7 +3061,7 @@ export const EventSubscriptionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -3221,9 +3164,7 @@ export const GetCaCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetCaCertificateRequest",
-}) as any as S.Schema<GetCaCertificateRequest>;
+).annotate({ identifier: "GetCaCertificateRequest" }) as any as S.Schema<GetCaCertificateRequest>;
 
 /** The type of identity that created the resource. */
 export type GetCaCertificateResponseSystemDataCreatedByType =
@@ -3289,9 +3230,7 @@ export const GetCaCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CaCertificateProperties),
     systemData: S.optional(GetCaCertificateResponseSystemData),
   }),
-).annotate({
-  identifier: "GetCaCertificateResponse",
-}) as any as S.Schema<GetCaCertificateResponse>;
+).annotate({ identifier: "GetCaCertificateResponse" }) as any as S.Schema<GetCaCertificateResponse>;
 
 export interface GetChannelRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3317,9 +3256,7 @@ export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetChannelRequest",
-}) as any as S.Schema<GetChannelRequest>;
+).annotate({ identifier: "GetChannelRequest" }) as any as S.Schema<GetChannelRequest>;
 
 /** The type of identity that created the resource. */
 export type GetChannelResponseSystemDataCreatedByType =
@@ -3385,9 +3322,7 @@ export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ChannelProperties),
     systemData: S.optional(GetChannelResponseSystemData),
   }),
-).annotate({
-  identifier: "GetChannelResponse",
-}) as any as S.Schema<GetChannelResponse>;
+).annotate({ identifier: "GetChannelResponse" }) as any as S.Schema<GetChannelResponse>;
 
 export interface GetChannelFullUrlRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3413,9 +3348,7 @@ export const GetChannelFullUrlRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetChannelFullUrlRequest",
-}) as any as S.Schema<GetChannelFullUrlRequest>;
+).annotate({ identifier: "GetChannelFullUrlRequest" }) as any as S.Schema<GetChannelFullUrlRequest>;
 
 /** Full endpoint URL of an event subscription */
 export interface EventSubscriptionFullUrl {
@@ -3426,9 +3359,7 @@ export const EventSubscriptionFullUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventSubscriptionFullUrl",
-}) as any as S.Schema<EventSubscriptionFullUrl>;
+).annotate({ identifier: "EventSubscriptionFullUrl" }) as any as S.Schema<EventSubscriptionFullUrl>;
 
 export interface GetClientRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3454,9 +3385,7 @@ export const GetClientRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetClientRequest",
-}) as any as S.Schema<GetClientRequest>;
+).annotate({ identifier: "GetClientRequest" }) as any as S.Schema<GetClientRequest>;
 
 /** The type of identity that created the resource. */
 export type GetClientResponseSystemDataCreatedByType =
@@ -3522,9 +3451,7 @@ export const GetClientResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ClientProperties),
     systemData: S.optional(GetClientResponseSystemData),
   }),
-).annotate({
-  identifier: "GetClientResponse",
-}) as any as S.Schema<GetClientResponse>;
+).annotate({ identifier: "GetClientResponse" }) as any as S.Schema<GetClientResponse>;
 
 export interface GetClientGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3550,9 +3477,7 @@ export const GetClientGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetClientGroupRequest",
-}) as any as S.Schema<GetClientGroupRequest>;
+).annotate({ identifier: "GetClientGroupRequest" }) as any as S.Schema<GetClientGroupRequest>;
 
 /** The type of identity that created the resource. */
 export type GetClientGroupResponseSystemDataCreatedByType =
@@ -3618,9 +3543,7 @@ export const GetClientGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ClientGroupProperties),
     systemData: S.optional(GetClientGroupResponseSystemData),
   }),
-).annotate({
-  identifier: "GetClientGroupResponse",
-}) as any as S.Schema<GetClientGroupResponse>;
+).annotate({ identifier: "GetClientGroupResponse" }) as any as S.Schema<GetClientGroupResponse>;
 
 export interface GetDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3643,9 +3566,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 /** Tags of the resource. */
 export type GetDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -3727,9 +3648,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityInfo),
     systemData: S.optional(GetDomainResponseSystemData),
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetDomainEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3871,9 +3790,7 @@ export const DeliveryAttributeMapping = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: DeliveryAttributeMappingType,
   }),
-).annotate({
-  identifier: "DeliveryAttributeMapping",
-}) as any as S.Schema<DeliveryAttributeMapping>;
+).annotate({ identifier: "DeliveryAttributeMapping" }) as any as S.Schema<DeliveryAttributeMapping>;
 
 /** A collection of DeliveryAttributeMapping */
 export type DeliveryAttributeListResultValueList = Array<DeliveryAttributeMapping>;
@@ -3946,9 +3863,7 @@ export const GetDomainTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetDomainTopicRequest",
-}) as any as S.Schema<GetDomainTopicRequest>;
+).annotate({ identifier: "GetDomainTopicRequest" }) as any as S.Schema<GetDomainTopicRequest>;
 
 /** The type of identity that created the resource. */
 export type GetDomainTopicResponseSystemDataCreatedByType =
@@ -4014,9 +3929,7 @@ export const GetDomainTopicResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DomainTopicProperties),
     systemData: S.optional(GetDomainTopicResponseSystemData),
   }),
-).annotate({
-  identifier: "GetDomainTopicResponse",
-}) as any as S.Schema<GetDomainTopicResponse>;
+).annotate({ identifier: "GetDomainTopicResponse" }) as any as S.Schema<GetDomainTopicResponse>;
 
 export interface GetDomainTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4195,7 +4108,7 @@ export const GetEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4285,7 +4198,7 @@ export const GetEventSubscriptionDeliveryAttributesRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4307,7 +4220,7 @@ export const GetEventSubscriptionFullUrlRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4326,14 +4239,12 @@ export const GetExtensionTopicRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/extensionTopics/default",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/extensionTopics/default",
       code: 200,
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetExtensionTopicRequest",
-}) as any as S.Schema<GetExtensionTopicRequest>;
+).annotate({ identifier: "GetExtensionTopicRequest" }) as any as S.Schema<GetExtensionTopicRequest>;
 
 /** Properties of the Extension Topic */
 export interface ExtensionTopicProperties {
@@ -4347,9 +4258,7 @@ export const ExtensionTopicProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     systemTopic: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionTopicProperties",
-}) as any as S.Schema<ExtensionTopicProperties>;
+).annotate({ identifier: "ExtensionTopicProperties" }) as any as S.Schema<ExtensionTopicProperties>;
 
 /** The type of identity that created the resource. */
 export type GetExtensionTopicResponseSystemDataCreatedByType =
@@ -4440,9 +4349,7 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 
 /** Tags of the resource. */
 export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -4494,9 +4401,7 @@ export const CustomDomainIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CustomDomainIdentityType),
     userAssignedIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainIdentity",
-}) as any as S.Schema<CustomDomainIdentity>;
+).annotate({ identifier: "CustomDomainIdentity" }) as any as S.Schema<CustomDomainIdentity>;
 
 /** A custom domain configuration that allows users to publish to their own domain name. */
 export interface CustomDomainConfiguration {
@@ -4544,9 +4449,7 @@ export const TopicsConfiguration = /*@__PURE__*/ S.suspend(() =>
     hostname: S.optional(S.String),
     customDomains: S.optional(TopicsConfigurationCustomDomainsList),
   }),
-).annotate({
-  identifier: "TopicsConfiguration",
-}) as any as S.Schema<TopicsConfiguration>;
+).annotate({ identifier: "TopicsConfiguration" }) as any as S.Schema<TopicsConfiguration>;
 
 /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
 export type TopicSpacesConfigurationState = "Disabled" | "Enabled";
@@ -4568,9 +4471,7 @@ export const StaticRoutingEnrichment = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     valueType: StaticRoutingEnrichmentValueType,
   }),
-).annotate({
-  identifier: "StaticRoutingEnrichment",
-}) as any as S.Schema<StaticRoutingEnrichment>;
+).annotate({ identifier: "StaticRoutingEnrichment" }) as any as S.Schema<StaticRoutingEnrichment>;
 
 export type RoutingEnrichmentsStaticList = Array<StaticRoutingEnrichment>;
 export const RoutingEnrichmentsStaticList = /*@__PURE__*/ S.Array(
@@ -4588,9 +4489,7 @@ export const DynamicRoutingEnrichment = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DynamicRoutingEnrichment",
-}) as any as S.Schema<DynamicRoutingEnrichment>;
+).annotate({ identifier: "DynamicRoutingEnrichment" }) as any as S.Schema<DynamicRoutingEnrichment>;
 
 export type RoutingEnrichmentsDynamicList = Array<DynamicRoutingEnrichment>;
 export const RoutingEnrichmentsDynamicList = /*@__PURE__*/ S.Array(
@@ -4606,9 +4505,7 @@ export const RoutingEnrichments = /*@__PURE__*/ S.suspend(() =>
     static: S.optional(RoutingEnrichmentsStaticList),
     dynamic: S.optional(RoutingEnrichmentsDynamicList),
   }),
-).annotate({
-  identifier: "RoutingEnrichments",
-}) as any as S.Schema<RoutingEnrichments>;
+).annotate({ identifier: "RoutingEnrichments" }) as any as S.Schema<RoutingEnrichments>;
 
 /** Routing identity type for topic spaces configuration. */
 export type RoutingIdentityInfoType = "None" | "SystemAssigned" | "UserAssigned";
@@ -4625,9 +4522,7 @@ export const RoutingIdentityInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(RoutingIdentityInfoType),
     userAssignedIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoutingIdentityInfo",
-}) as any as S.Schema<RoutingIdentityInfo>;
+).annotate({ identifier: "RoutingIdentityInfo" }) as any as S.Schema<RoutingIdentityInfo>;
 
 /** List of custom domain configurations for the namespace. */
 export type TopicSpacesConfigurationCustomDomainsList = Array<CustomDomainConfiguration>;
@@ -4665,9 +4560,7 @@ export const TopicSpacesConfiguration = /*@__PURE__*/ S.suspend(() =>
     routingIdentityInfo: S.optional(RoutingIdentityInfo),
     customDomains: S.optional(TopicSpacesConfigurationCustomDomainsList),
   }),
-).annotate({
-  identifier: "TopicSpacesConfiguration",
-}) as any as S.Schema<TopicSpacesConfiguration>;
+).annotate({ identifier: "TopicSpacesConfiguration" }) as any as S.Schema<TopicSpacesConfiguration>;
 
 /** This determines if traffic is allowed over public network. By default it is enabled. You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PubSub.NamespaceProperties.InboundIpRules" /> */
 export type NamespacePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
@@ -4713,9 +4606,7 @@ export const NamespaceProperties = /*@__PURE__*/ S.suspend(() =>
     inboundIpRules: S.optional(NamespacePropertiesInboundIpRulesList),
     minimumTlsVersionAllowed: S.optional(NamespacePropertiesMinimumTlsVersionAllowed),
   }),
-).annotate({
-  identifier: "NamespaceProperties",
-}) as any as S.Schema<NamespaceProperties>;
+).annotate({ identifier: "NamespaceProperties" }) as any as S.Schema<NamespaceProperties>;
 
 /** The name of the SKU. */
 export type NamespaceSkuName = "Standard";
@@ -4811,9 +4702,7 @@ export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityInfo),
     systemData: S.optional(GetNamespaceResponseSystemData),
   }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 
 export interface GetNamespaceTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4839,9 +4728,7 @@ export const GetNamespaceTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceTopicRequest",
-}) as any as S.Schema<GetNamespaceTopicRequest>;
+).annotate({ identifier: "GetNamespaceTopicRequest" }) as any as S.Schema<GetNamespaceTopicRequest>;
 
 /** Provisioning state of the namespace topic. */
 export type NamespaceTopicPropertiesProvisioningState =
@@ -4883,9 +4770,7 @@ export const NamespaceTopicProperties = /*@__PURE__*/ S.suspend(() =>
     inputSchema: S.optional(NamespaceTopicPropertiesInputSchema),
     eventRetentionInDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NamespaceTopicProperties",
-}) as any as S.Schema<NamespaceTopicProperties>;
+).annotate({ identifier: "NamespaceTopicProperties" }) as any as S.Schema<NamespaceTopicProperties>;
 
 /** The type of identity that created the resource. */
 export type GetNamespaceTopicResponseSystemDataCreatedByType =
@@ -5063,9 +4948,7 @@ export const DeliveryConfiguration = /*@__PURE__*/ S.suspend(() =>
     queue: S.optional(QueueInfo),
     push: S.optional(PushInfo),
   }),
-).annotate({
-  identifier: "DeliveryConfiguration",
-}) as any as S.Schema<DeliveryConfiguration>;
+).annotate({ identifier: "DeliveryConfiguration" }) as any as S.Schema<DeliveryConfiguration>;
 
 /** The event delivery schema for the event subscription. */
 export type SubscriptionPropertiesEventDeliverySchema = "CloudEventSchemaV1_0";
@@ -5106,11 +4989,17 @@ export interface Filter {
   operatorType: FilterOperatorType | (string & {});
   /** The field/property in the event based on which you want to filter. */
   key?: string;
+  /** Single comparison value (polymorphic on `operatorType`). */
+  value?: unknown;
+  /** Comparison values (polymorphic on `operatorType`). */
+  values?: unknown;
 }
 export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operatorType: FilterOperatorType,
     key: S.optional(S.String),
+    value: S.optional(S.Unknown),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 
@@ -5132,9 +5021,7 @@ export const FiltersConfiguration = /*@__PURE__*/ S.suspend(() =>
     includedEventTypes: S.optional(FiltersConfigurationIncludedEventTypesList),
     filters: S.optional(FiltersConfigurationFiltersList),
   }),
-).annotate({
-  identifier: "FiltersConfiguration",
-}) as any as S.Schema<FiltersConfiguration>;
+).annotate({ identifier: "FiltersConfiguration" }) as any as S.Schema<FiltersConfiguration>;
 
 /** Properties of the event subscription. */
 export interface SubscriptionProperties {
@@ -5157,9 +5044,7 @@ export const SubscriptionProperties = /*@__PURE__*/ S.suspend(() =>
     filtersConfiguration: S.optional(FiltersConfiguration),
     expirationTimeUtc: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionProperties",
-}) as any as S.Schema<SubscriptionProperties>;
+).annotate({ identifier: "SubscriptionProperties" }) as any as S.Schema<SubscriptionProperties>;
 
 /** The type of identity that created the resource. */
 export type GetNamespaceTopicEventSubscriptionResponseSystemDataCreatedByType =
@@ -5303,9 +5188,7 @@ export const SubscriptionFullUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionFullUrl",
-}) as any as S.Schema<SubscriptionFullUrl>;
+).annotate({ identifier: "SubscriptionFullUrl" }) as any as S.Schema<SubscriptionFullUrl>;
 
 export interface GetPartnerConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5374,9 +5257,7 @@ export const GetPartnerConfigurationResponseSystemData = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetPartnerConfigurationResponseSystemData>;
 
 /** Tags of the resource. */
-export type GetPartnerConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPartnerConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const GetPartnerConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5438,9 +5319,7 @@ export const GetPartnerNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPartnerNamespaceRequest>;
 
 /** Tags of the resource. */
-export type GetPartnerNamespaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPartnerNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export const GetPartnerNamespaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5622,9 +5501,7 @@ export const GetPartnerRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPartnerRegistrationRequest>;
 
 /** Tags of the resource. */
-export type GetPartnerRegistrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPartnerRegistrationResponseTagsMap = { [key: string]: string | undefined };
 export const GetPartnerRegistrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5751,14 +5628,10 @@ export const GetPartnerTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetPartnerTopicRequest",
-}) as any as S.Schema<GetPartnerTopicRequest>;
+).annotate({ identifier: "GetPartnerTopicRequest" }) as any as S.Schema<GetPartnerTopicRequest>;
 
 /** Tags of the resource. */
-export type GetPartnerTopicResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPartnerTopicResponseTagsMap = { [key: string]: string | undefined };
 export const GetPartnerTopicResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5837,9 +5710,7 @@ export const GetPartnerTopicResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetPartnerTopicResponseSystemData),
     identity: S.optional(IdentityInfo),
   }),
-).annotate({
-  identifier: "GetPartnerTopicResponse",
-}) as any as S.Schema<GetPartnerTopicResponse>;
+).annotate({ identifier: "GetPartnerTopicResponse" }) as any as S.Schema<GetPartnerTopicResponse>;
 
 export interface GetPartnerTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6267,9 +6138,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 export interface GetSystemTopicRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6292,14 +6161,10 @@ export const GetSystemTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetSystemTopicRequest",
-}) as any as S.Schema<GetSystemTopicRequest>;
+).annotate({ identifier: "GetSystemTopicRequest" }) as any as S.Schema<GetSystemTopicRequest>;
 
 /** Tags of the resource. */
-export type GetSystemTopicResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSystemTopicResponseTagsMap = { [key: string]: string | undefined };
 export const GetSystemTopicResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6333,9 +6198,7 @@ export const SystemTopicProperties = /*@__PURE__*/ S.suspend(() =>
     topicType: S.optional(S.String),
     metricResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SystemTopicProperties",
-}) as any as S.Schema<SystemTopicProperties>;
+).annotate({ identifier: "SystemTopicProperties" }) as any as S.Schema<SystemTopicProperties>;
 
 /** The type of identity that created the resource. */
 export type GetSystemTopicResponseSystemDataCreatedByType =
@@ -6410,9 +6273,7 @@ export const GetSystemTopicResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetSystemTopicResponseSystemData),
     identity: S.optional(IdentityInfo),
   }),
-).annotate({
-  identifier: "GetSystemTopicResponse",
-}) as any as S.Schema<GetSystemTopicResponse>;
+).annotate({ identifier: "GetSystemTopicResponse" }) as any as S.Schema<GetSystemTopicResponse>;
 
 export interface GetSystemTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6590,9 +6451,7 @@ export const GetTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetTopicRequest",
-}) as any as S.Schema<GetTopicRequest>;
+).annotate({ identifier: "GetTopicRequest" }) as any as S.Schema<GetTopicRequest>;
 
 /** Tags of the resource. */
 export type GetTopicResponseTagsMap = { [key: string]: string | undefined };
@@ -6684,9 +6543,7 @@ export const TopicProperties = /*@__PURE__*/ S.suspend(() =>
     disableLocalAuth: S.optional(S.Boolean),
     dataResidencyBoundary: S.optional(TopicPropertiesDataResidencyBoundary),
   }),
-).annotate({
-  identifier: "TopicProperties",
-}) as any as S.Schema<TopicProperties>;
+).annotate({ identifier: "TopicProperties" }) as any as S.Schema<TopicProperties>;
 
 /** The type of identity that created the resource. */
 export type GetTopicResponseSystemDataCreatedByType =
@@ -6761,9 +6618,7 @@ export const GetTopicResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityInfo),
     systemData: S.optional(GetTopicResponseSystemData),
   }),
-).annotate({
-  identifier: "GetTopicResponse",
-}) as any as S.Schema<GetTopicResponse>;
+).annotate({ identifier: "GetTopicResponse" }) as any as S.Schema<GetTopicResponse>;
 
 export interface GetTopicEventSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6941,9 +6796,7 @@ export const GetTopicSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetTopicSpaceRequest",
-}) as any as S.Schema<GetTopicSpaceRequest>;
+).annotate({ identifier: "GetTopicSpaceRequest" }) as any as S.Schema<GetTopicSpaceRequest>;
 
 /** The topic filters in the topic space. Example: "topicTemplates": [ "devices/foo/bar", "devices/topic1/+", "devices/${principal.name}/${principal.attributes.keyName}" ]. */
 export type TopicSpacePropertiesTopicTemplatesList = Array<string>;
@@ -6977,9 +6830,7 @@ export const TopicSpaceProperties = /*@__PURE__*/ S.suspend(() =>
     topicTemplates: S.optional(TopicSpacePropertiesTopicTemplatesList),
     provisioningState: S.optional(TopicSpacePropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "TopicSpaceProperties",
-}) as any as S.Schema<TopicSpaceProperties>;
+).annotate({ identifier: "TopicSpaceProperties" }) as any as S.Schema<TopicSpaceProperties>;
 
 /** The type of identity that created the resource. */
 export type GetTopicSpaceResponseSystemDataCreatedByType =
@@ -7045,9 +6896,7 @@ export const GetTopicSpaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(TopicSpaceProperties),
     systemData: S.optional(GetTopicSpaceResponseSystemData),
   }),
-).annotate({
-  identifier: "GetTopicSpaceResponse",
-}) as any as S.Schema<GetTopicSpaceResponse>;
+).annotate({ identifier: "GetTopicSpaceResponse" }) as any as S.Schema<GetTopicSpaceResponse>;
 
 export interface GetTopicTypeRequest {
   /** Name of the topic type. */
@@ -7064,9 +6913,7 @@ export const GetTopicTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "GetTopicTypeRequest",
-}) as any as S.Schema<GetTopicTypeRequest>;
+).annotate({ identifier: "GetTopicTypeRequest" }) as any as S.Schema<GetTopicTypeRequest>;
 
 /** Region type of the resource. */
 export type TopicTypePropertiesResourceRegionType = "RegionalResource" | "GlobalResource";
@@ -7158,9 +7005,7 @@ export const TopicTypeProperties = /*@__PURE__*/ S.suspend(() =>
     areRegionalAndGlobalSourcesSupported: S.optional(S.Boolean),
     additionalEnforcedPermissions: S.optional(TopicTypePropertiesAdditionalEnforcedPermissionsList),
   }),
-).annotate({
-  identifier: "TopicTypeProperties",
-}) as any as S.Schema<TopicTypeProperties>;
+).annotate({ identifier: "TopicTypeProperties" }) as any as S.Schema<TopicTypeProperties>;
 
 export interface GetTopicTypeResponse {
   /** Fully qualified identifier of the resource. */
@@ -7179,9 +7024,7 @@ export const GetTopicTypeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TopicTypeProperties),
   }),
-).annotate({
-  identifier: "GetTopicTypeResponse",
-}) as any as S.Schema<GetTopicTypeResponse>;
+).annotate({ identifier: "GetTopicTypeResponse" }) as any as S.Schema<GetTopicTypeResponse>;
 
 export interface GetVerifiedPartnerRequest {
   /** Name of the verified partner. */
@@ -7393,9 +7236,7 @@ export const CaCertificateSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(CaCertificateSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CaCertificateSystemData",
-}) as any as S.Schema<CaCertificateSystemData>;
+).annotate({ identifier: "CaCertificateSystemData" }) as any as S.Schema<CaCertificateSystemData>;
 
 /** The CA Certificate resource. */
 export interface CaCertificate {
@@ -7438,9 +7279,7 @@ export const CaCertificatesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CaCertificatesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CaCertificatesListResult",
-}) as any as S.Schema<CaCertificatesListResult>;
+).annotate({ identifier: "CaCertificatesListResult" }) as any as S.Schema<CaCertificatesListResult>;
 
 export interface ListChannelByPartnerNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7509,9 +7348,7 @@ export const ChannelSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ChannelSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChannelSystemData",
-}) as any as S.Schema<ChannelSystemData>;
+).annotate({ identifier: "ChannelSystemData" }) as any as S.Schema<ChannelSystemData>;
 
 /** Channel info. */
 export interface Channel {
@@ -7554,9 +7391,7 @@ export const ChannelsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ChannelsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChannelsListResult",
-}) as any as S.Schema<ChannelsListResult>;
+).annotate({ identifier: "ChannelsListResult" }) as any as S.Schema<ChannelsListResult>;
 
 export interface ListClientByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7621,9 +7456,7 @@ export const ClientSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ClientSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientSystemData",
-}) as any as S.Schema<ClientSystemData>;
+).annotate({ identifier: "ClientSystemData" }) as any as S.Schema<ClientSystemData>;
 
 /** The Client resource. */
 export interface Client {
@@ -7666,9 +7499,7 @@ export const ClientsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClientsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientsListResult",
-}) as any as S.Schema<ClientsListResult>;
+).annotate({ identifier: "ClientsListResult" }) as any as S.Schema<ClientsListResult>;
 
 export interface ListClientGroupByNamespaceRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7737,9 +7568,7 @@ export const ClientGroupSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ClientGroupSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientGroupSystemData",
-}) as any as S.Schema<ClientGroupSystemData>;
+).annotate({ identifier: "ClientGroupSystemData" }) as any as S.Schema<ClientGroupSystemData>;
 
 /** The Client group resource. */
 export interface ClientGroup {
@@ -7782,9 +7611,7 @@ export const ClientGroupsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClientGroupsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientGroupsListResult",
-}) as any as S.Schema<ClientGroupsListResult>;
+).annotate({ identifier: "ClientGroupsListResult" }) as any as S.Schema<ClientGroupsListResult>;
 
 export interface ListDomainByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7853,9 +7680,7 @@ export const DomainSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(DomainSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainSystemData",
-}) as any as S.Schema<DomainSystemData>;
+).annotate({ identifier: "DomainSystemData" }) as any as S.Schema<DomainSystemData>;
 
 /** EventGrid Domain. */
 export interface Domain {
@@ -7907,9 +7732,7 @@ export const DomainsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DomainsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainsListResult",
-}) as any as S.Schema<DomainsListResult>;
+).annotate({ identifier: "DomainsListResult" }) as any as S.Schema<DomainsListResult>;
 
 export interface ListDomainBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8032,9 +7855,7 @@ export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(EventSubscriptionProperties),
     systemData: S.optional(EventSubscriptionSystemData),
   }),
-).annotate({
-  identifier: "EventSubscription",
-}) as any as S.Schema<EventSubscription>;
+).annotate({ identifier: "EventSubscription" }) as any as S.Schema<EventSubscription>;
 
 /** A collection of EventSubscriptions */
 export type EventSubscriptionsListResultValueList = Array<EventSubscription>;
@@ -8095,9 +7916,7 @@ export const DomainSharedAccessKeys = /*@__PURE__*/ S.suspend(() =>
     key1: S.optional(S.String),
     key2: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainSharedAccessKeys",
-}) as any as S.Schema<DomainSharedAccessKeys>;
+).annotate({ identifier: "DomainSharedAccessKeys" }) as any as S.Schema<DomainSharedAccessKeys>;
 
 export interface ListDomainTopicByDomainRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8166,9 +7985,7 @@ export const DomainTopicSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(DomainTopicSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainTopicSystemData",
-}) as any as S.Schema<DomainTopicSystemData>;
+).annotate({ identifier: "DomainTopicSystemData" }) as any as S.Schema<DomainTopicSystemData>;
 
 /** Domain Topic. */
 export interface DomainTopic {
@@ -8211,9 +8028,7 @@ export const DomainTopicsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DomainTopicsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainTopicsListResult",
-}) as any as S.Schema<DomainTopicsListResult>;
+).annotate({ identifier: "DomainTopicsListResult" }) as any as S.Schema<DomainTopicsListResult>;
 
 export interface ListDomainTopicEventSubscriptionsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8631,9 +8446,7 @@ export const NamespaceSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NamespaceSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceSystemData",
-}) as any as S.Schema<NamespaceSystemData>;
+).annotate({ identifier: "NamespaceSystemData" }) as any as S.Schema<NamespaceSystemData>;
 
 /** Namespace resource. */
 export interface Namespace {
@@ -8688,9 +8501,7 @@ export const NamespacesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(NamespacesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespacesListResult",
-}) as any as S.Schema<NamespacesListResult>;
+).annotate({ identifier: "NamespacesListResult" }) as any as S.Schema<NamespacesListResult>;
 
 export interface ListNamespaceBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8829,9 +8640,7 @@ export const NamespaceTopicSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(NamespaceTopicSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceTopicSystemData",
-}) as any as S.Schema<NamespaceTopicSystemData>;
+).annotate({ identifier: "NamespaceTopicSystemData" }) as any as S.Schema<NamespaceTopicSystemData>;
 
 /** Namespace topic details. */
 export interface NamespaceTopic {
@@ -8953,9 +8762,7 @@ export const SubscriptionSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(SubscriptionSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionSystemData",
-}) as any as S.Schema<SubscriptionSystemData>;
+).annotate({ identifier: "SubscriptionSystemData" }) as any as S.Schema<SubscriptionSystemData>;
 
 /** Event Subscription. */
 export interface Subscription {
@@ -8998,9 +8805,7 @@ export const SubscriptionsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SubscriptionsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionsListResult",
-}) as any as S.Schema<SubscriptionsListResult>;
+).annotate({ identifier: "SubscriptionsListResult" }) as any as S.Schema<SubscriptionsListResult>;
 
 export interface ListNamespaceTopicSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9042,9 +8847,7 @@ export const TopicSharedAccessKeys = /*@__PURE__*/ S.suspend(() =>
     key1: S.optional(S.String),
     key2: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicSharedAccessKeys",
-}) as any as S.Schema<TopicSharedAccessKeys>;
+).annotate({ identifier: "TopicSharedAccessKeys" }) as any as S.Schema<TopicSharedAccessKeys>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9056,9 +8859,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Information about an operation */
 export interface OperationInfo {
@@ -9118,9 +8919,7 @@ export const OperationsListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(OperationsListResultValueList),
   }),
-).annotate({
-  identifier: "OperationsListResult",
-}) as any as S.Schema<OperationsListResult>;
+).annotate({ identifier: "OperationsListResult" }) as any as S.Schema<OperationsListResult>;
 
 export interface ListPartnerConfigurationByResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9222,9 +9021,7 @@ export const PartnerConfiguration = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(PartnerConfigurationTagsMap),
   }),
-).annotate({
-  identifier: "PartnerConfiguration",
-}) as any as S.Schema<PartnerConfiguration>;
+).annotate({ identifier: "PartnerConfiguration" }) as any as S.Schema<PartnerConfiguration>;
 
 /** A collection of partner configurations. */
 export type PartnerConfigurationsListResultValueList = Array<PartnerConfiguration>;
@@ -9379,9 +9176,7 @@ export const PartnerNamespace = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PartnerNamespaceProperties),
     systemData: S.optional(PartnerNamespaceSystemData),
   }),
-).annotate({
-  identifier: "PartnerNamespace",
-}) as any as S.Schema<PartnerNamespace>;
+).annotate({ identifier: "PartnerNamespace" }) as any as S.Schema<PartnerNamespace>;
 
 /** A collection of partner namespaces. */
 export type PartnerNamespacesListResultValueList = Array<PartnerNamespace>;
@@ -9577,9 +9372,7 @@ export const PartnerRegistration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PartnerRegistrationProperties),
     systemData: S.optional(PartnerRegistrationSystemData),
   }),
-).annotate({
-  identifier: "PartnerRegistration",
-}) as any as S.Schema<PartnerRegistration>;
+).annotate({ identifier: "PartnerRegistration" }) as any as S.Schema<PartnerRegistration>;
 
 /** A collection of partner registrations. */
 export type PartnerRegistrationsListResultValueList = Array<PartnerRegistration>;
@@ -9703,9 +9496,7 @@ export const PartnerTopicSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(PartnerTopicSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerTopicSystemData",
-}) as any as S.Schema<PartnerTopicSystemData>;
+).annotate({ identifier: "PartnerTopicSystemData" }) as any as S.Schema<PartnerTopicSystemData>;
 
 /** Event Grid Partner Topic. */
 export interface PartnerTopic {
@@ -9757,9 +9548,7 @@ export const PartnerTopicsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PartnerTopicsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerTopicsListResult",
-}) as any as S.Schema<PartnerTopicsListResult>;
+).annotate({ identifier: "PartnerTopicsListResult" }) as any as S.Schema<PartnerTopicsListResult>;
 
 export interface ListPartnerTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9913,9 +9702,7 @@ export const PermissionBinding = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PermissionBindingProperties),
     systemData: S.optional(PermissionBindingSystemData),
   }),
-).annotate({
-  identifier: "PermissionBinding",
-}) as any as S.Schema<PermissionBinding>;
+).annotate({ identifier: "PermissionBinding" }) as any as S.Schema<PermissionBinding>;
 
 /** A collection of Permission Binding. */
 export type PermissionBindingsListResultValueList = Array<PermissionBinding>;
@@ -10129,9 +9916,7 @@ export const SystemTopicSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(SystemTopicSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SystemTopicSystemData",
-}) as any as S.Schema<SystemTopicSystemData>;
+).annotate({ identifier: "SystemTopicSystemData" }) as any as S.Schema<SystemTopicSystemData>;
 
 /** EventGrid System Topic. */
 export interface SystemTopic {
@@ -10183,9 +9968,7 @@ export const SystemTopicsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SystemTopicsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SystemTopicsListResult",
-}) as any as S.Schema<SystemTopicsListResult>;
+).annotate({ identifier: "SystemTopicsListResult" }) as any as S.Schema<SystemTopicsListResult>;
 
 export interface ListSystemTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10310,9 +10093,7 @@ export const TopicSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(TopicSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicSystemData",
-}) as any as S.Schema<TopicSystemData>;
+).annotate({ identifier: "TopicSystemData" }) as any as S.Schema<TopicSystemData>;
 
 /** EventGrid Topic */
 export interface Topic {
@@ -10364,9 +10145,7 @@ export const TopicsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TopicsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicsListResult",
-}) as any as S.Schema<TopicsListResult>;
+).annotate({ identifier: "TopicsListResult" }) as any as S.Schema<TopicsListResult>;
 
 export interface ListTopicBySubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10473,9 +10252,7 @@ export const EventTypeProperties = /*@__PURE__*/ S.suspend(() =>
     schemaUrl: S.optional(S.String),
     isInDefaultSet: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EventTypeProperties",
-}) as any as S.Schema<EventTypeProperties>;
+).annotate({ identifier: "EventTypeProperties" }) as any as S.Schema<EventTypeProperties>;
 
 /** Event Type for a subject under a topic */
 export interface EventType {
@@ -10512,9 +10289,7 @@ export const EventTypesListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(EventTypesListResultValueList),
   }),
-).annotate({
-  identifier: "EventTypesListResult",
-}) as any as S.Schema<EventTypesListResult>;
+).annotate({ identifier: "EventTypesListResult" }) as any as S.Schema<EventTypesListResult>;
 
 export interface ListTopicSharedAccessKeysRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10608,9 +10383,7 @@ export const TopicSpaceSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(TopicSpaceSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicSpaceSystemData",
-}) as any as S.Schema<TopicSpaceSystemData>;
+).annotate({ identifier: "TopicSpaceSystemData" }) as any as S.Schema<TopicSpaceSystemData>;
 
 /** The Topic space resource. */
 export interface TopicSpace {
@@ -10653,9 +10426,7 @@ export const TopicSpacesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TopicSpacesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicSpacesListResult",
-}) as any as S.Schema<TopicSpacesListResult>;
+).annotate({ identifier: "TopicSpacesListResult" }) as any as S.Schema<TopicSpacesListResult>;
 
 export interface ListTopicTypeEventTypesRequest {
   /** Name of the topic type. */
@@ -10686,9 +10457,7 @@ export const ListTopicTypesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "ListTopicTypesRequest",
-}) as any as S.Schema<ListTopicTypesRequest>;
+).annotate({ identifier: "ListTopicTypesRequest" }) as any as S.Schema<ListTopicTypesRequest>;
 
 /** Properties of a topic type info. */
 export interface TopicTypeInfo {
@@ -10725,9 +10494,7 @@ export const TopicTypesListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(TopicTypesListResultValueList),
   }),
-).annotate({
-  identifier: "TopicTypesListResult",
-}) as any as S.Schema<TopicTypesListResult>;
+).annotate({ identifier: "TopicTypesListResult" }) as any as S.Schema<TopicTypesListResult>;
 
 export interface ListVerifiedPartnersRequest {
   /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
@@ -10816,9 +10583,7 @@ export const VerifiedPartner = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(VerifiedPartnerProperties),
     systemData: S.optional(VerifiedPartnerSystemData),
   }),
-).annotate({
-  identifier: "VerifiedPartner",
-}) as any as S.Schema<VerifiedPartner>;
+).annotate({ identifier: "VerifiedPartner" }) as any as S.Schema<VerifiedPartner>;
 
 /** A collection of verified partners. */
 export type VerifiedPartnersListResultValueList = Array<VerifiedPartner>;
@@ -10843,9 +10608,7 @@ export const VerifiedPartnersListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VerifiedPartnersListResult>;
 
 /** Tags of the resource. */
-export type NamespacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10885,9 +10648,7 @@ export const TopicsConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customDomains: S.optional(TopicsConfigurationInputCustomDomainsList),
   }),
-).annotate({
-  identifier: "TopicsConfigurationInput",
-}) as any as S.Schema<TopicsConfigurationInput>;
+).annotate({ identifier: "TopicsConfigurationInput" }) as any as S.Schema<TopicsConfigurationInput>;
 
 /** Indicate if Topic Spaces Configuration is enabled for the namespace. Default is Disabled. */
 export type TopicSpacesConfigurationInputState = "Disabled" | "Enabled";
@@ -10971,9 +10732,7 @@ export const NamespacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     inboundIpRules: S.optional(NamespacePropertiesInputInboundIpRulesList),
     minimumTlsVersionAllowed: S.optional(NamespacePropertiesInputMinimumTlsVersionAllowed),
   }),
-).annotate({
-  identifier: "NamespacePropertiesInput",
-}) as any as S.Schema<NamespacePropertiesInput>;
+).annotate({ identifier: "NamespacePropertiesInput" }) as any as S.Schema<NamespacePropertiesInput>;
 
 export interface NamespacesCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -11016,9 +10775,7 @@ export const NamespacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NamespacesCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type NamespacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11612,9 +11369,7 @@ export const PartnerConfigurationsUnauthorizePartnerResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<PartnerConfigurationsUnauthorizePartnerResponse>;
 
 /** Tags of the resource. */
-export type PartnerNamespacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PartnerNamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PartnerNamespacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11705,9 +11460,7 @@ export const PartnerNamespacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<PartnerNamespacesCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type PartnerNamespacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PartnerNamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PartnerNamespacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12036,9 +11789,7 @@ export const PartnerTopicEventSubscriptionsCreateOrUpdateResponse = /*@__PURE__*
 }) as any as S.Schema<PartnerTopicEventSubscriptionsCreateOrUpdateResponse>;
 
 /** Tags of the resource. */
-export type PartnerTopicsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PartnerTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PartnerTopicsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12120,9 +11871,7 @@ export const PartnerTopicsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PartnerTopicsCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type PartnerTopicsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PartnerTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PartnerTopicsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12581,9 +12330,7 @@ export const SystemTopicEventSubscriptionsCreateOrUpdateResponse = /*@__PURE__*/
 }) as any as S.Schema<SystemTopicEventSubscriptionsCreateOrUpdateResponse>;
 
 /** Tags of the resource. */
-export type SystemTopicsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SystemTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SystemTopicsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12643,9 +12390,7 @@ export const SystemTopicsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SystemTopicsCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type SystemTopicsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SystemTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SystemTopicsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12830,9 +12575,7 @@ export const TopicEventSubscriptionsCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<TopicEventSubscriptionsCreateOrUpdateResponse>;
 
 /** Tags of the resource. */
-export type TopicsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const TopicsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12893,9 +12636,7 @@ export const TopicPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     disableLocalAuth: S.optional(S.Boolean),
     dataResidencyBoundary: S.optional(TopicPropertiesInputDataResidencyBoundary),
   }),
-).annotate({
-  identifier: "TopicPropertiesInput",
-}) as any as S.Schema<TopicPropertiesInput>;
+).annotate({ identifier: "TopicPropertiesInput" }) as any as S.Schema<TopicPropertiesInput>;
 
 export interface TopicsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -12935,9 +12676,7 @@ export const TopicsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TopicsCreateOrUpdateRequest>;
 
 /** Tags of the resource. */
-export type TopicsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const TopicsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13150,9 +12889,7 @@ export const PartnerUpdateTopicInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventTypeInfo: S.optional(EventTypeInfo),
   }),
-).annotate({
-  identifier: "PartnerUpdateTopicInfo",
-}) as any as S.Schema<PartnerUpdateTopicInfo>;
+).annotate({ identifier: "PartnerUpdateTopicInfo" }) as any as S.Schema<PartnerUpdateTopicInfo>;
 
 /** Properties of the channel update parameters. */
 export interface ChannelUpdateParametersProperties {
@@ -13196,9 +12933,7 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateChannelRequest",
-}) as any as S.Schema<UpdateChannelRequest>;
+).annotate({ identifier: "UpdateChannelRequest" }) as any as S.Schema<UpdateChannelRequest>;
 
 export interface UpdateChannelResponse {}
 export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13296,9 +13031,7 @@ export const UpdateDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateDomainRequest",
-}) as any as S.Schema<UpdateDomainRequest>;
+).annotate({ identifier: "UpdateDomainRequest" }) as any as S.Schema<UpdateDomainRequest>;
 
 export interface UpdateDomainResponse {}
 export const UpdateDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13639,7 +13372,7 @@ export const UpdateEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -13717,9 +13450,7 @@ export const UpdateEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEventSubscriptionResponse>;
 
 /** Tags of the namespace resource. */
-export type UpdateNamespaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13850,14 +13581,10 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 /** Tags of the resource. */
-export type UpdateNamespaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13939,9 +13666,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityInfo),
     systemData: S.optional(UpdateNamespaceResponseSystemData),
   }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 /** Information of namespace topic update parameter properties. */
 export interface NamespaceTopicUpdateParameterProperties {
@@ -14185,9 +13910,7 @@ export const UpdateNamespaceTopicEventSubscriptionResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<UpdateNamespaceTopicEventSubscriptionResponse>;
 
 /** Tags of the partner configuration resource. */
-export type UpdatePartnerConfigurationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePartnerConfigurationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePartnerConfigurationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14279,9 +14002,7 @@ export const UpdatePartnerConfigurationResponseSystemData = /*@__PURE__*/ S.susp
 }) as any as S.Schema<UpdatePartnerConfigurationResponseSystemData>;
 
 /** Tags of the resource. */
-export type UpdatePartnerConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePartnerConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePartnerConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14318,9 +14039,7 @@ export const UpdatePartnerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePartnerConfigurationResponse>;
 
 /** Tags of the Partner Namespace. */
-export type UpdatePartnerNamespaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePartnerNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePartnerNamespaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14408,9 +14127,7 @@ export const UpdatePartnerNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<UpdatePartnerNamespaceResponse>;
 
 /** Tags of the partner registration resource. */
-export type UpdatePartnerRegistrationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePartnerRegistrationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePartnerRegistrationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14452,9 +14169,7 @@ export const UpdatePartnerRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePartnerRegistrationResponse>;
 
 /** Tags of the Partner Topic resource. */
-export type UpdatePartnerTopicRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePartnerTopicRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePartnerTopicRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14699,9 +14414,7 @@ export const UpdatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>;
 
 /** Tags of the system topic. */
-export type UpdateSystemTopicRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSystemTopicRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSystemTopicRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14734,14 +14447,10 @@ export const UpdateSystemTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateSystemTopicRequest",
-}) as any as S.Schema<UpdateSystemTopicRequest>;
+).annotate({ identifier: "UpdateSystemTopicRequest" }) as any as S.Schema<UpdateSystemTopicRequest>;
 
 /** Tags of the resource. */
-export type UpdateSystemTopicResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSystemTopicResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSystemTopicResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15047,9 +14756,7 @@ export const UpdateTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateTopicRequest",
-}) as any as S.Schema<UpdateTopicRequest>;
+).annotate({ identifier: "UpdateTopicRequest" }) as any as S.Schema<UpdateTopicRequest>;
 
 export interface UpdateTopicResponse {}
 export const UpdateTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

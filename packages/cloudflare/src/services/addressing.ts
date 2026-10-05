@@ -291,16 +291,10 @@ export const CreateAddressMapRequest = /*@__PURE__*/ S.suspend(() =>
     memberships: S.optional(AddressMapsCreateRequestMembershipsList),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/addressing/address_maps",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/addressing/address_maps", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAddressMapRequest",
-}) as any as S.Schema<CreateAddressMapRequest>;
+).annotate({ identifier: "CreateAddressMapRequest" }) as any as S.Schema<CreateAddressMapRequest>;
 
 export interface AddressMapsCreateResponseIps {
   createdAt?: string | null;
@@ -384,9 +378,7 @@ export const CreateAddressMapResponse = /*@__PURE__*/ S.suspend(() =>
     memberships: S.optional(S.NullOr(AddressMapsCreateResponseMembershipsList)),
     modifiedAt: S.optional(S.NullOr(S.String).pipe(T.Body("modified_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAddressMapResponse",
-}) as any as S.Schema<CreateAddressMapResponse>;
+).annotate({ identifier: "CreateAddressMapResponse" }) as any as S.Schema<CreateAddressMapResponse>;
 
 export interface CreateLoaDocumentRequest {
   /** Identifier of a Cloudflare account. */
@@ -400,16 +392,10 @@ export const CreateLoaDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     loaDocument: S.String.pipe(T.Body("loa_document")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/addressing/loa_documents",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/addressing/loa_documents", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLoaDocumentRequest",
-}) as any as S.Schema<CreateLoaDocumentRequest>;
+).annotate({ identifier: "CreateLoaDocumentRequest" }) as any as S.Schema<CreateLoaDocumentRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateLoaDocumentResponse {
@@ -467,17 +453,9 @@ export const CreatePrefixRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     loaDocumentId: S.optional(S.String.pipe(T.Body("loa_document_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/addressing/prefixes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/addressing/prefixes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePrefixRequest",
-}) as any as S.Schema<CreatePrefixRequest>;
+).annotate({ identifier: "CreatePrefixRequest" }) as any as S.Schema<CreatePrefixRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePrefixResponse {
@@ -541,9 +519,7 @@ export const CreatePrefixResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     rpkiValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("rpki_validation_state"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePrefixResponse",
-}) as any as S.Schema<CreatePrefixResponse>;
+).annotate({ identifier: "CreatePrefixResponse" }) as any as S.Schema<CreatePrefixResponse>;
 
 export interface CreatePrefixBgpPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -789,11 +765,7 @@ export const CreateRegionalHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     routing: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/addressing/regional_hostnames",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/addressing/regional_hostnames", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -841,23 +813,19 @@ export const DeleteAddressMapRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAddressMapRequest",
-}) as any as S.Schema<DeleteAddressMapRequest>;
+).annotate({ identifier: "DeleteAddressMapRequest" }) as any as S.Schema<DeleteAddressMapRequest>;
 
 export interface DeleteAddressMapResponse {}
 export const DeleteAddressMapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAddressMapResponse",
-}) as any as S.Schema<DeleteAddressMapResponse>;
+).annotate({ identifier: "DeleteAddressMapResponse" }) as any as S.Schema<DeleteAddressMapResponse>;
 
 export interface DeleteAddressMapAccountRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
   /** Identifier of an Address Map. */
   addressMapId: string;
-  /** Identifier of the Cloudflare account to remove from the address map. */
+  /** Identifier of a Cloudflare account. */
   memberAccountId: string;
 }
 export const DeleteAddressMapAccountRequest = /*@__PURE__*/ S.suspend(() =>
@@ -970,16 +938,12 @@ export const DeletePrefixRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePrefixRequest",
-}) as any as S.Schema<DeletePrefixRequest>;
+).annotate({ identifier: "DeletePrefixRequest" }) as any as S.Schema<DeletePrefixRequest>;
 
 export interface DeletePrefixResponse {}
 export const DeletePrefixResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePrefixResponse",
-}) as any as S.Schema<DeletePrefixResponse>;
+).annotate({ identifier: "DeletePrefixResponse" }) as any as S.Schema<DeletePrefixResponse>;
 
 export interface DeletePrefixDelegationRequest {
   /** Identifier of a Cloudflare account. */
@@ -1135,9 +1099,7 @@ export const GetAddressMapRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAddressMapRequest",
-}) as any as S.Schema<GetAddressMapRequest>;
+).annotate({ identifier: "GetAddressMapRequest" }) as any as S.Schema<GetAddressMapRequest>;
 
 export type AddressMapsGetResponseIps = AddressMapsCreateResponseIps;
 export const AddressMapsGetResponseIps = AddressMapsCreateResponseIps;
@@ -1209,9 +1171,7 @@ export const GetAddressMapResponse = /*@__PURE__*/ S.suspend(() =>
     memberships: S.optional(S.NullOr(AddressMapsGetResponseMembershipsList)),
     modifiedAt: S.optional(S.NullOr(S.String).pipe(T.Body("modified_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAddressMapResponse",
-}) as any as S.Schema<GetAddressMapResponse>;
+).annotate({ identifier: "GetAddressMapResponse" }) as any as S.Schema<GetAddressMapResponse>;
 
 export interface GetLoaDocumentRequest {
   /** Identifier of a Cloudflare account. */
@@ -1232,16 +1192,12 @@ export const GetLoaDocumentRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLoaDocumentRequest",
-}) as any as S.Schema<GetLoaDocumentRequest>;
+).annotate({ identifier: "GetLoaDocumentRequest" }) as any as S.Schema<GetLoaDocumentRequest>;
 
 export interface GetLoaDocumentResponse {}
 export const GetLoaDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLoaDocumentResponse",
-}) as any as S.Schema<GetLoaDocumentResponse>;
+).annotate({ identifier: "GetLoaDocumentResponse" }) as any as S.Schema<GetLoaDocumentResponse>;
 
 export interface GetPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -1262,9 +1218,7 @@ export const GetPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPrefixRequest",
-}) as any as S.Schema<GetPrefixRequest>;
+).annotate({ identifier: "GetPrefixRequest" }) as any as S.Schema<GetPrefixRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixResponse {
@@ -1328,9 +1282,7 @@ export const GetPrefixResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     rpkiValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("rpki_validation_state"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPrefixResponse",
-}) as any as S.Schema<GetPrefixResponse>;
+).annotate({ identifier: "GetPrefixResponse" }) as any as S.Schema<GetPrefixResponse>;
 
 export interface GetPrefixAdvertisementStatusRequest {
   /** Identifier of a Cloudflare account. */
@@ -1565,16 +1517,10 @@ export const ListAddressMapsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/addressing/address_maps",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/addressing/address_maps", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAddressMapsRequest",
-}) as any as S.Schema<ListAddressMapsRequest>;
+).annotate({ identifier: "ListAddressMapsRequest" }) as any as S.Schema<ListAddressMapsRequest>;
 
 export interface AddressMapsListResultItem {
   /** Identifier of an Address Map. */
@@ -1623,9 +1569,7 @@ export const ListAddressMapsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AddressMapsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAddressMapsResponse",
-}) as any as S.Schema<ListAddressMapsResponse>;
+).annotate({ identifier: "ListAddressMapsResponse" }) as any as S.Schema<ListAddressMapsResponse>;
 
 export interface ListPrefixBgpPrefixesRequest {
   /** Identifier of a Cloudflare account. */
@@ -1790,17 +1734,9 @@ export const ListPrefixesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/addressing/prefixes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/addressing/prefixes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPrefixesRequest",
-}) as any as S.Schema<ListPrefixesRequest>;
+).annotate({ identifier: "ListPrefixesRequest" }) as any as S.Schema<ListPrefixesRequest>;
 
 export interface PrefixesListResultItem {
   /** Identifier of an IP Prefix. */
@@ -1863,9 +1799,7 @@ export const PrefixesListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     rpkiValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("rpki_validation_state"))),
   }),
-).annotate({
-  identifier: "PrefixesListResultItem",
-}) as any as S.Schema<PrefixesListResultItem>;
+).annotate({ identifier: "PrefixesListResultItem" }) as any as S.Schema<PrefixesListResultItem>;
 
 export type PrefixesListResultList = Array<PrefixesListResultItem>;
 export const PrefixesListResultList = /*@__PURE__*/ S.Array(
@@ -1883,9 +1817,7 @@ export const ListPrefixesResponse = /*@__PURE__*/ S.suspend(() =>
     result: PrefixesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPrefixesResponse",
-}) as any as S.Schema<ListPrefixesResponse>;
+).annotate({ identifier: "ListPrefixesResponse" }) as any as S.Schema<ListPrefixesResponse>;
 
 export interface ListPrefixServiceBindingsRequest {
   /** Identifier of a Cloudflare account. */
@@ -2036,11 +1968,7 @@ export const ListRegionalHostnamesRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/addressing/regional_hostnames",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/addressing/regional_hostnames", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -2096,17 +2024,9 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/addressing/services",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/addressing/services", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export interface ServicesListResultItem {
   /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
@@ -2119,9 +2039,7 @@ export const ServicesListResultItem = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ServicesListResultItem",
-}) as any as S.Schema<ServicesListResultItem>;
+).annotate({ identifier: "ServicesListResultItem" }) as any as S.Schema<ServicesListResultItem>;
 
 export type ServicesListResultList = Array<ServicesListResultItem>;
 export const ServicesListResultList = /*@__PURE__*/ S.Array(
@@ -2139,9 +2057,7 @@ export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ServicesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface PatchAddressMapRequest {
   /** Identifier of a Cloudflare account. */
@@ -2171,9 +2087,7 @@ export const PatchAddressMapRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAddressMapRequest",
-}) as any as S.Schema<PatchAddressMapRequest>;
+).annotate({ identifier: "PatchAddressMapRequest" }) as any as S.Schema<PatchAddressMapRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAddressMapResponse {
@@ -2203,9 +2117,7 @@ export const PatchAddressMapResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.NullOr(S.Boolean)),
     modifiedAt: S.optional(S.NullOr(S.String).pipe(T.Body("modified_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAddressMapResponse",
-}) as any as S.Schema<PatchAddressMapResponse>;
+).annotate({ identifier: "PatchAddressMapResponse" }) as any as S.Schema<PatchAddressMapResponse>;
 
 export interface PatchPrefixRequest {
   /** Identifier of a Cloudflare account. */
@@ -2229,9 +2141,7 @@ export const PatchPrefixRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPrefixRequest",
-}) as any as S.Schema<PatchPrefixRequest>;
+).annotate({ identifier: "PatchPrefixRequest" }) as any as S.Schema<PatchPrefixRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixResponse {
@@ -2295,9 +2205,7 @@ export const PatchPrefixResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     rpkiValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("rpki_validation_state"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPrefixResponse",
-}) as any as S.Schema<PatchPrefixResponse>;
+).annotate({ identifier: "PatchPrefixResponse" }) as any as S.Schema<PatchPrefixResponse>;
 
 export interface PatchPrefixAdvertisementStatusRequest {
   /** Identifier of a Cloudflare account. */
@@ -2484,7 +2392,7 @@ export interface PutAddressMapAccountRequest {
   accountId: string;
   /** Identifier of an Address Map. */
   addressMapId: string;
-  /** Identifier of the Cloudflare account to add as a member of the address map. */
+  /** Identifier of a Cloudflare account. */
   memberAccountId: string;
 }
 export const PutAddressMapAccountRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2534,16 +2442,12 @@ export const PutAddressMapIpRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutAddressMapIpRequest",
-}) as any as S.Schema<PutAddressMapIpRequest>;
+).annotate({ identifier: "PutAddressMapIpRequest" }) as any as S.Schema<PutAddressMapIpRequest>;
 
 export interface PutAddressMapIpResponse {}
 export const PutAddressMapIpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutAddressMapIpResponse",
-}) as any as S.Schema<PutAddressMapIpResponse>;
+).annotate({ identifier: "PutAddressMapIpResponse" }) as any as S.Schema<PutAddressMapIpResponse>;
 
 export interface PutAddressMapZoneRequest {
   /** Identifier of a Cloudflare account. */
@@ -2567,9 +2471,7 @@ export const PutAddressMapZoneRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutAddressMapZoneRequest",
-}) as any as S.Schema<PutAddressMapZoneRequest>;
+).annotate({ identifier: "PutAddressMapZoneRequest" }) as any as S.Schema<PutAddressMapZoneRequest>;
 
 export interface PutAddressMapZoneResponse {}
 export const PutAddressMapZoneResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2597,9 +2499,7 @@ export const ValidatePrefixRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ValidatePrefixRequest",
-}) as any as S.Schema<ValidatePrefixRequest>;
+).annotate({ identifier: "ValidatePrefixRequest" }) as any as S.Schema<ValidatePrefixRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ValidatePrefixResponse {
@@ -2663,9 +2563,7 @@ export const ValidatePrefixResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     rpkiValidationState: S.optional(S.NullOr(S.String).pipe(T.Body("rpki_validation_state"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ValidatePrefixResponse",
-}) as any as S.Schema<ValidatePrefixResponse>;
+).annotate({ identifier: "ValidatePrefixResponse" }) as any as S.Schema<ValidatePrefixResponse>;
 
 export type CreateAddressMapError =
   | FeatureNotEnabled

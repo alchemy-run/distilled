@@ -84,9 +84,7 @@ export const CreateQueryKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "CreateQueryKeyRequest",
-}) as any as S.Schema<CreateQueryKeyRequest>;
+).annotate({ identifier: "CreateQueryKeyRequest" }) as any as S.Schema<CreateQueryKeyRequest>;
 
 /** Describes an API key for a given Azure AI Search service that conveys read-only permissions on the docs collection of an index. */
 export interface QueryKey {
@@ -287,9 +285,7 @@ export const DeleteQueryKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteQueryKeyRequest",
-}) as any as S.Schema<DeleteQueryKeyRequest>;
+).annotate({ identifier: "DeleteQueryKeyRequest" }) as any as S.Schema<DeleteQueryKeyRequest>;
 
 export interface DeleteQueryKeyResponse {}
 export const DeleteQueryKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -317,9 +313,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -382,9 +376,7 @@ export const GetAdminKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetAdminKeyRequest",
-}) as any as S.Schema<GetAdminKeyRequest>;
+).annotate({ identifier: "GetAdminKeyRequest" }) as any as S.Schema<GetAdminKeyRequest>;
 
 /** Response containing the primary and secondary admin API keys for a given Azure AI Search service. */
 export interface AdminKeyResult {
@@ -501,9 +493,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -555,9 +545,7 @@ export const AccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     emailAddresses: S.optional(AccessRulePropertiesEmailAddressesList),
     phoneNumbers: S.optional(AccessRulePropertiesPhoneNumbersList),
   }),
-).annotate({
-  identifier: "AccessRuleProperties",
-}) as any as S.Schema<AccessRuleProperties>;
+).annotate({ identifier: "AccessRuleProperties" }) as any as S.Schema<AccessRuleProperties>;
 
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
@@ -614,9 +602,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -641,9 +627,7 @@ export const ResourceAssociation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     accessMode: S.optional(ResourceAssociationAccessMode),
   }),
-).annotate({
-  identifier: "ResourceAssociation",
-}) as any as S.Schema<ResourceAssociation>;
+).annotate({ identifier: "ResourceAssociation" }) as any as S.Schema<ResourceAssociation>;
 
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -678,9 +662,7 @@ export const NetworkSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     diagnosticSettingsVersion: S.optional(S.Number),
     enabledLogCategories: S.optional(NetworkSecurityProfileEnabledLogCategoriesList),
   }),
-).annotate({
-  identifier: "NetworkSecurityProfile",
-}) as any as S.Schema<NetworkSecurityProfile>;
+).annotate({ identifier: "NetworkSecurityProfile" }) as any as S.Schema<NetworkSecurityProfile>;
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
@@ -801,9 +783,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -908,9 +888,7 @@ export const EncryptionWithCmk = /*@__PURE__*/ S.suspend(() =>
     enforcement: S.optional(SearchEncryptionWithCmk),
     encryptionComplianceStatus: S.optional(SearchEncryptionComplianceStatus),
   }),
-).annotate({
-  identifier: "EncryptionWithCmk",
-}) as any as S.Schema<EncryptionWithCmk>;
+).annotate({ identifier: "EncryptionWithCmk" }) as any as S.Schema<EncryptionWithCmk>;
 
 /** Describes what response the data plane API of a search service would send for requests that failed authentication. */
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
@@ -941,9 +919,7 @@ export const DataPlaneAuthOptions = /*@__PURE__*/ S.suspend(() =>
     apiKeyOnly: S.optional(S.Unknown),
     aadOrApiKey: S.optional(DataPlaneAadOrApiKeyAuthOption),
   }),
-).annotate({
-  identifier: "DataPlaneAuthOptions",
-}) as any as S.Schema<DataPlaneAuthOptions>;
+).annotate({ identifier: "DataPlaneAuthOptions" }) as any as S.Schema<DataPlaneAuthOptions>;
 
 /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
 export type SearchSemanticSearch = "disabled" | "free" | "standard";
@@ -1124,9 +1100,7 @@ export const SearchServiceProperties = /*@__PURE__*/ S.suspend(() =>
     upgradeAvailable: S.optional(UpgradeAvailable),
     serviceUpgradedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SearchServiceProperties",
-}) as any as S.Schema<SearchServiceProperties>;
+).annotate({ identifier: "SearchServiceProperties" }) as any as S.Schema<SearchServiceProperties>;
 
 /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
 export type SkuName =
@@ -1235,9 +1209,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1375,9 +1347,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationListResultValueItemDisplay {
@@ -1452,9 +1422,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1628,9 +1596,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The list of supported Private Link Resources. */
 export type PrivateLinkResourcesResultValueList = Array<PrivateLinkResource>;
@@ -1736,9 +1702,7 @@ export const SearchServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SearchServiceListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SearchServiceListResult",
-}) as any as S.Schema<SearchServiceListResult>;
+).annotate({ identifier: "SearchServiceListResult" }) as any as S.Schema<SearchServiceListResult>;
 
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1840,9 +1804,7 @@ export const QuotaUsageResultName = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     localizedValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaUsageResultName",
-}) as any as S.Schema<QuotaUsageResultName>;
+).annotate({ identifier: "QuotaUsageResultName" }) as any as S.Schema<QuotaUsageResultName>;
 
 /** Describes the quota usage for a particular SKU. */
 export interface QuotaUsageResult {
@@ -1865,9 +1827,7 @@ export const QuotaUsageResult = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     name: S.optional(QuotaUsageResultName),
   }),
-).annotate({
-  identifier: "QuotaUsageResult",
-}) as any as S.Schema<QuotaUsageResult>;
+).annotate({ identifier: "QuotaUsageResult" }) as any as S.Schema<QuotaUsageResult>;
 
 /** The quota usages for the SKUs supported by Azure AI Search. */
 export type QuotaUsagesListResultValueList = Array<QuotaUsageResult>;
@@ -1887,9 +1847,7 @@ export const QuotaUsagesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(QuotaUsagesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaUsagesListResult",
-}) as any as S.Schema<QuotaUsagesListResult>;
+).annotate({ identifier: "QuotaUsagesListResult" }) as any as S.Schema<QuotaUsagesListResult>;
 
 export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1969,9 +1927,7 @@ export const ListQueryKeysResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListQueryKeysResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListQueryKeysResult",
-}) as any as S.Schema<ListQueryKeysResult>;
+).annotate({ identifier: "ListQueryKeysResult" }) as any as S.Schema<ListQueryKeysResult>;
 
 export type RegenerateAdminKeyRequestKeyKind = "primary" | "secondary";
 export const RegenerateAdminKeyRequestKeyKind = S.String;
@@ -2005,9 +1961,7 @@ export const RegenerateAdminKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegenerateAdminKeyRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2155,9 +2109,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2220,14 +2172,10 @@ export const ServicesUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ServicesUpgradeRequest",
-}) as any as S.Schema<ServicesUpgradeRequest>;
+).annotate({ identifier: "ServicesUpgradeRequest" }) as any as S.Schema<ServicesUpgradeRequest>;
 
 /** Resource tags. */
-export type ServicesUpgradeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesUpgradeResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesUpgradeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2265,9 +2213,7 @@ export const ServicesUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "ServicesUpgradeResponse",
-}) as any as S.Schema<ServicesUpgradeResponse>;
+).annotate({ identifier: "ServicesUpgradeResponse" }) as any as S.Schema<ServicesUpgradeResponse>;
 
 export interface SharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2422,14 +2368,10 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** Resource tags. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2467,9 +2409,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export interface UsageBySubscriptionSkuRequest {
   /** The ID of the target subscription. The value must be an UUID. */

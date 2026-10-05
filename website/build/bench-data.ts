@@ -68,7 +68,11 @@ export interface BundleBench {
     readonly memoryGb?: number;
   };
   readonly rolldown: string;
-  readonly bun: string;
+  /** Runtime that drove the builds, e.g. `node 24.9.0`. */
+  readonly runtime?: string;
+  /** Older recordings name the runtime by key instead of `runtime`. */
+  readonly node?: string;
+  readonly bun?: string;
   readonly runs: number;
   readonly seed?: boolean;
   readonly rows: ReadonlyArray<BundleRow>;

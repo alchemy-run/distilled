@@ -50,9 +50,9 @@ export const CreateServiceConfigurationOrupdateRequest = /*@__PURE__*/ S.suspend
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -156,14 +156,12 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 
 export interface DeleteEndpointResponse {}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -218,9 +216,9 @@ export const DeleteServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -247,7 +245,7 @@ export const DeleteSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -279,9 +277,7 @@ export const EndpointPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     type: Type,
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointPropertiesInput",
-}) as any as S.Schema<EndpointPropertiesInput>;
+).annotate({ identifier: "EndpointPropertiesInput" }) as any as S.Schema<EndpointPropertiesInput>;
 
 export interface EndpointsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -299,9 +295,9 @@ export const EndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -323,9 +319,7 @@ export const EndpointProperties = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointProperties",
-}) as any as S.Schema<EndpointProperties>;
+).annotate({ identifier: "EndpointProperties" }) as any as S.Schema<EndpointProperties>;
 
 export interface EndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -364,14 +358,12 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 
 export interface GetEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -393,9 +385,7 @@ export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 
 export interface GetInventoryRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -413,14 +403,12 @@ export const GetInventoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetInventoryRequest",
-}) as any as S.Schema<GetInventoryRequest>;
+).annotate({ identifier: "GetInventoryRequest" }) as any as S.Schema<GetInventoryRequest>;
 
 /** Cloud Native Type enum. */
 export type CloudNativeType = "ec2";
@@ -458,9 +446,7 @@ export const InventoryProperties = /*@__PURE__*/ S.suspend(() =>
     statusDetails: S.optional(S.String),
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "InventoryProperties",
-}) as any as S.Schema<InventoryProperties>;
+).annotate({ identifier: "InventoryProperties" }) as any as S.Schema<InventoryProperties>;
 
 export interface GetInventoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -482,9 +468,7 @@ export const GetInventoryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(InventoryProperties),
   }),
-).annotate({
-  identifier: "GetInventoryResponse",
-}) as any as S.Schema<GetInventoryResponse>;
+).annotate({ identifier: "GetInventoryResponse" }) as any as S.Schema<GetInventoryResponse>;
 
 export interface GetPublicCloudConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -512,9 +496,7 @@ export const GetPublicCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPublicCloudConnectorRequest>;
 
 /** Resource tags. */
-export type GetPublicCloudConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPublicCloudConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const GetPublicCloudConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -541,9 +523,7 @@ export const AwsCloudProfile = /*@__PURE__*/ S.suspend(() =>
     excludedAccounts: S.optional(AwsCloudProfileExcludedAccountsList),
     isOrganizationalAccount: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AwsCloudProfile",
-}) as any as S.Schema<AwsCloudProfile>;
+).annotate({ identifier: "AwsCloudProfile" }) as any as S.Schema<AwsCloudProfile>;
 
 /** GCP project properties. */
 export interface GcpProjectProperties {
@@ -557,9 +537,7 @@ export const GcpProjectProperties = /*@__PURE__*/ S.suspend(() =>
     projectNumber: S.String,
     projectId: S.String,
   }),
-).annotate({
-  identifier: "GcpProjectProperties",
-}) as any as S.Schema<GcpProjectProperties>;
+).annotate({ identifier: "GcpProjectProperties" }) as any as S.Schema<GcpProjectProperties>;
 
 /** List of GCP projects which need to be excluded. */
 export type GcpOrganizationPropertiesExcludedProjectNumbersList = Array<string>;
@@ -610,9 +588,7 @@ export const GcpCloudProfile = /*@__PURE__*/ S.suspend(() =>
     projectProperties: S.optional(GcpProjectProperties),
     organizationProperties: S.optional(GcpOrganizationProperties),
   }),
-).annotate({
-  identifier: "GcpCloudProfile",
-}) as any as S.Schema<GcpCloudProfile>;
+).annotate({ identifier: "GcpCloudProfile" }) as any as S.Schema<GcpCloudProfile>;
 
 /** Enum of host cloud the public cloud connector is referencing. */
 export type HostType = "AWS" | "GCP";
@@ -692,9 +668,9 @@ export const GetServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -738,7 +714,7 @@ export const GetSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -827,9 +803,7 @@ export const GetSolutionTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2027-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetSolutionTypeRequest",
-}) as any as S.Schema<GetSolutionTypeRequest>;
+).annotate({ identifier: "GetSolutionTypeRequest" }) as any as S.Schema<GetSolutionTypeRequest>;
 
 /** The locations this solution is supported in. */
 export type SolutionTypePropertiesSupportedAzureRegionsList = Array<string>;
@@ -913,9 +887,7 @@ export const SolutionTypeProperties = /*@__PURE__*/ S.suspend(() =>
     hostTypes: S.optional(SolutionTypePropertiesHostTypesList),
     solutionSettings: S.optional(SolutionTypePropertiesSolutionSettingsList),
   }),
-).annotate({
-  identifier: "SolutionTypeProperties",
-}) as any as S.Schema<SolutionTypeProperties>;
+).annotate({ identifier: "SolutionTypeProperties" }) as any as S.Schema<SolutionTypeProperties>;
 
 export interface GetSolutionTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -937,9 +909,7 @@ export const GetSolutionTypeResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SolutionTypeProperties),
   }),
-).annotate({
-  identifier: "GetSolutionTypeResponse",
-}) as any as S.Schema<GetSolutionTypeResponse>;
+).annotate({ identifier: "GetSolutionTypeResponse" }) as any as S.Schema<GetSolutionTypeResponse>;
 
 export interface ListEndpointCredentialsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -960,9 +930,9 @@ export const ListEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1006,9 +976,7 @@ export const EndpointAccessResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     relay: S.optional(RelayNamespaceAccessProperties),
   }),
-).annotate({
-  identifier: "EndpointAccessResource",
-}) as any as S.Schema<EndpointAccessResource>;
+).annotate({ identifier: "EndpointAccessResource" }) as any as S.Schema<EndpointAccessResource>;
 
 export interface ListEndpointIngressGatewayCredentialsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1029,9 +997,9 @@ export const ListEndpointIngressGatewayCredentialsRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1050,9 +1018,7 @@ export const AADProfileProperties = /*@__PURE__*/ S.suspend(() =>
     serverId: S.String,
     tenantId: S.String,
   }),
-).annotate({
-  identifier: "AADProfileProperties",
-}) as any as S.Schema<AADProfileProperties>;
+).annotate({ identifier: "AADProfileProperties" }) as any as S.Schema<AADProfileProperties>;
 
 /** Ingress gateway profile */
 export interface IngressProfileProperties {
@@ -1066,9 +1032,7 @@ export const IngressProfileProperties = /*@__PURE__*/ S.suspend(() =>
     hostname: S.String,
     aadProfile: AADProfileProperties,
   }),
-).annotate({
-  identifier: "IngressProfileProperties",
-}) as any as S.Schema<IngressProfileProperties>;
+).annotate({ identifier: "IngressProfileProperties" }) as any as S.Schema<IngressProfileProperties>;
 
 /** The ingress gateway access credentials */
 export interface IngressGatewayResource {
@@ -1082,9 +1046,7 @@ export const IngressGatewayResource = /*@__PURE__*/ S.suspend(() =>
     relay: S.optional(RelayNamespaceAccessProperties),
     ingress: S.optional(IngressProfileProperties),
   }),
-).annotate({
-  identifier: "IngressGatewayResource",
-}) as any as S.Schema<IngressGatewayResource>;
+).annotate({ identifier: "IngressGatewayResource" }) as any as S.Schema<IngressGatewayResource>;
 
 export interface ListEndpointManagedProxyDetailsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1108,9 +1070,9 @@ export const ListEndpointManagedProxyDetailsRequest = /*@__PURE__*/ S.suspend(()
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1129,9 +1091,7 @@ export const ManagedProxyResource = /*@__PURE__*/ S.suspend(() =>
     proxy: S.String,
     expiresOn: S.Number,
   }),
-).annotate({
-  identifier: "ManagedProxyResource",
-}) as any as S.Schema<ManagedProxyResource>;
+).annotate({ identifier: "ManagedProxyResource" }) as any as S.Schema<ManagedProxyResource>;
 
 export interface ListEndpointsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1143,14 +1103,12 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
+).annotate({ identifier: "ListEndpointsRequest" }) as any as S.Schema<ListEndpointsRequest>;
 
 /** The endpoint for the target resource. */
 export interface EndpointResource {
@@ -1173,9 +1131,7 @@ export const EndpointResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "EndpointResource",
-}) as any as S.Schema<EndpointResource>;
+).annotate({ identifier: "EndpointResource" }) as any as S.Schema<EndpointResource>;
 
 /** The list of endpoint. */
 export type EndpointsListValueList = Array<EndpointResource>;
@@ -1210,7 +1166,7 @@ export const ListInventoryBySolutionConfigurationRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1240,9 +1196,7 @@ export const InventoryResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(InventoryProperties),
   }),
-).annotate({
-  identifier: "InventoryResource",
-}) as any as S.Schema<InventoryResource>;
+).annotate({ identifier: "InventoryResource" }) as any as S.Schema<InventoryResource>;
 
 /** The InventoryResource items on this page */
 export type InventoryResourceListResultValueList = Array<InventoryResource>;
@@ -1276,9 +1230,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2027-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1298,9 +1250,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1350,9 +1300,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPublicCloudConnectorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1413,9 +1361,7 @@ export const PublicCloudConnector = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PublicCloudConnectorProperties),
     kind: S.optional(HostType),
   }),
-).annotate({
-  identifier: "PublicCloudConnector",
-}) as any as S.Schema<PublicCloudConnector>;
+).annotate({ identifier: "PublicCloudConnector" }) as any as S.Schema<PublicCloudConnector>;
 
 /** The PublicCloudConnector items on this page */
 export type PublicCloudConnectorListResultValueList = Array<PublicCloudConnector>;
@@ -1471,9 +1417,9 @@ export const ListServiceConfigurationByEndpointResourceRequest = /*@__PURE__*/ S
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1523,9 +1469,7 @@ export const ServiceConfigurationList = /*@__PURE__*/ S.suspend(() =>
     value: ServiceConfigurationListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceConfigurationList",
-}) as any as S.Schema<ServiceConfigurationList>;
+).annotate({ identifier: "ServiceConfigurationList" }) as any as S.Schema<ServiceConfigurationList>;
 
 export interface ListSolutionConfigurationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1537,7 +1481,7 @@ export const ListSolutionConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1567,9 +1511,7 @@ export const SolutionConfiguration = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SolutionConfigurationProperties),
   }),
-).annotate({
-  identifier: "SolutionConfiguration",
-}) as any as S.Schema<SolutionConfiguration>;
+).annotate({ identifier: "SolutionConfiguration" }) as any as S.Schema<SolutionConfiguration>;
 
 /** The SolutionConfiguration items on this page */
 export type SolutionConfigurationListResultValueList = Array<SolutionConfiguration>;
@@ -1636,9 +1578,7 @@ export const SolutionTypeResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SolutionTypeProperties),
   }),
-).annotate({
-  identifier: "SolutionTypeResource",
-}) as any as S.Schema<SolutionTypeResource>;
+).annotate({ identifier: "SolutionTypeResource" }) as any as S.Schema<SolutionTypeResource>;
 
 /** The SolutionTypeResource items on this page */
 export type SolutionTypeResourceListResultValueList = Array<SolutionTypeResource>;
@@ -1693,9 +1633,7 @@ export const SolutionTypeSettings = /*@__PURE__*/ S.suspend(() =>
     solutionType: S.String,
     solutionSettings: S.optional(SolutionSettings),
   }),
-).annotate({
-  identifier: "SolutionTypeSettings",
-}) as any as S.Schema<SolutionTypeSettings>;
+).annotate({ identifier: "SolutionTypeSettings" }) as any as S.Schema<SolutionTypeSettings>;
 
 /** The list of solution types and their settings */
 export type PostGenerateAwsTemplateRequestSolutionTypesList = Array<SolutionTypeSettings>;
@@ -1907,7 +1845,7 @@ export const SolutionConfigurationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1953,7 +1891,7 @@ export const SyncSolutionConfigurationNowRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1986,9 +1924,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -2052,9 +1988,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type SyncSolutionConfigurationNowResponseOperationsList = Array<OperationStatusResult>;
@@ -2182,14 +2116,12 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 
 export interface UpdateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2211,14 +2143,10 @@ export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
+).annotate({ identifier: "UpdateEndpointResponse" }) as any as S.Schema<UpdateEndpointResponse>;
 
 /** Resource tags. */
-export type UpdatePublicCloudConnectorRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicCloudConnectorRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicCloudConnectorRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2239,9 +2167,7 @@ export const AwsCloudProfileUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     excludedAccounts: S.optional(AwsCloudProfileUpdateExcludedAccountsList),
   }),
-).annotate({
-  identifier: "AwsCloudProfileUpdate",
-}) as any as S.Schema<AwsCloudProfileUpdate>;
+).annotate({ identifier: "AwsCloudProfileUpdate" }) as any as S.Schema<AwsCloudProfileUpdate>;
 
 /** List of GCP projects which need to be excluded. */
 export type GcpOrganizationPropertiesUpdateExcludedProjectNumbersList = Array<string>;
@@ -2280,9 +2206,7 @@ export const GcpCloudProfileUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organizationProperties: S.optional(GcpOrganizationPropertiesUpdate),
   }),
-).annotate({
-  identifier: "GcpCloudProfileUpdate",
-}) as any as S.Schema<GcpCloudProfileUpdate>;
+).annotate({ identifier: "GcpCloudProfileUpdate" }) as any as S.Schema<GcpCloudProfileUpdate>;
 
 /** Properties of public cloud connectors. */
 export interface PublicCloudConnectorPropertiesUpdate {
@@ -2332,9 +2256,7 @@ export const UpdatePublicCloudConnectorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePublicCloudConnectorRequest>;
 
 /** Resource tags. */
-export type UpdatePublicCloudConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePublicCloudConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePublicCloudConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2405,9 +2327,9 @@ export const UpdateServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -2470,7 +2392,7 @@ export const UpdateSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),

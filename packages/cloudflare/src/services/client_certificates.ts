@@ -73,13 +73,7 @@ export const CreateClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     csr: S.String,
     validityDays: S.Number.pipe(T.Body("validity_days")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/client_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/client_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateClientCertificateRequest",
@@ -107,7 +101,7 @@ export const CreateResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateClientCertificateResponse {
-  /** Identifier. */
+  /** Client Certificate Tag */
   id?: string | null;
   /** The Client Certificate PEM. */
   certificate?: string | null;
@@ -174,7 +168,7 @@ export const CreateClientCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteClientCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Client Certificate Tag */
   clientCertificateId: string;
 }
 export const DeleteClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -206,7 +200,7 @@ export const DeleteResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteClientCertificateResponse {
-  /** Identifier. */
+  /** Client Certificate Tag */
   id?: string | null;
   /** The Client Certificate PEM. */
   certificate?: string | null;
@@ -273,7 +267,7 @@ export const DeleteClientCertificateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetClientCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Client Certificate Tag */
   clientCertificateId: string;
 }
 export const GetClientCertificateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -305,7 +299,7 @@ export const GetResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetClientCertificateResponse {
-  /** Identifier. */
+  /** Client Certificate Tag */
   id?: string | null;
   /** The Client Certificate PEM. */
   certificate?: string | null;
@@ -400,13 +394,7 @@ export const ListClientCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     status: S.optional(ListRequestStatus.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/client_certificates",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/client_certificates", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListClientCertificatesRequest",
@@ -423,7 +411,7 @@ export type ListResultItemStatus =
 export const ListResultItemStatus = S.String;
 
 export interface ListResultItem {
-  /** Identifier. */
+  /** Client Certificate Tag */
   id?: string | null;
   /** The Client Certificate PEM. */
   certificate?: string | null;
@@ -508,7 +496,7 @@ export const ListClientCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchClientCertificateRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** Client Certificate Tag */
   clientCertificateId: string;
   reactivate?: boolean;
 }
@@ -542,7 +530,7 @@ export const EditResponseStatus = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchClientCertificateResponse {
-  /** Identifier. */
+  /** Client Certificate Tag */
   id?: string | null;
   /** The Client Certificate PEM. */
   certificate?: string | null;

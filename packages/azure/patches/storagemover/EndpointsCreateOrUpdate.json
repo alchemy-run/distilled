@@ -1,0 +1,335 @@
+{
+  "description": "Endpoint properties are polymorphic on `endpointType`; the converted model keeps only the base members, so S.Struct strips the variant-specific fields (storage account, container, host, export, credentials, ...) on encode and decode. Add the variant members to the base shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/storageAccountResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/blobContainerName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Blob container name (AzureStorageBlobContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/fileShareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/enableCrossTenantTransfer",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/allowedStorageAccounts",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/host",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Host name or IP address of the server (NfsMount, SmbMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/nfsVersion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/export",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Directory exported from the NFS server (NfsMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/shareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SMB share name (SmbMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/sourceType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/multiCloudConnectorId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the multi-cloud connector (AzureMultiCloudConnector)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/awsS3BucketId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the AWS S3 bucket (AzureMultiCloudConnector)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/sourceUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Source URI (S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBasePropertiesInput/members/otherSourceTypeDescription",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Description of an `Other` source type (S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/storageAccountResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/blobContainerName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Blob container name (AzureStorageBlobContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/fileShareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/enableCrossTenantTransfer",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/allowedStorageAccounts",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/host",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Host name or IP address of the server (NfsMount, SmbMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/nfsVersion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/export",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Directory exported from the NFS server (NfsMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/shareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SMB share name (SmbMount)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/sourceType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/multiCloudConnectorId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the multi-cloud connector (AzureMultiCloudConnector)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/awsS3BucketId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the AWS S3 bucket (AzureMultiCloudConnector)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/sourceUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Source URI (S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseProperties/members/otherSourceTypeDescription",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Description of an `Other` source type (S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseUpdateProperties/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseUpdateProperties/members/enableCrossTenantTransfer",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storagemover#EndpointBaseUpdateProperties/members/allowedStorageAccounts",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Storage account ARM IDs allowed for cross-tenant transfers (string array)."
+        }
+      }
+    }
+  ]
+}

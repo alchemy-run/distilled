@@ -49,19 +49,19 @@ export const formatHeaders = (config: Config): Record<string, string> => {
   return headers;
 };
 
-/** Layer from a plain account key + user secret + optional base URL. */
+/** Layer from a redacted account key + user secret + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly apiSecretKey: string;
-  readonly authToken?: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiSecretKey: Redacted.Redacted<string>;
+  readonly authToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
-      apiSecretKey: Redacted.make(config.apiSecretKey),
-      authToken: config.authToken !== undefined ? Redacted.make(config.authToken) : undefined,
+      apiKey: config.apiKey,
+      apiSecretKey: config.apiSecretKey,
+      authToken: config.authToken !== undefined ? config.authToken : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

@@ -152,12 +152,7 @@ export class QueueHttpPullNotEnabled
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 0,
-        message: "messages cannot be pulled unless http_pull mode is enabled",
-      },
-    ],
+    [{ code: 0, message: "messages cannot be pulled unless http_pull mode is enabled" }],
   ) {}
 
 export class QueueInUseByEventNotification
@@ -197,12 +192,7 @@ export class SubscriptionAlreadyExists
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        status: 405,
-        message: { includes: "do not support multiple subscriptions" },
-      },
-    ],
+    [{ status: 405, message: { includes: "do not support multiple subscriptions" } }],
   ) {}
 
 export class SubscriptionNotFound
@@ -292,13 +282,9 @@ export const AckMessageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AckMessageRequest",
-}) as any as S.Schema<AckMessageRequest>;
+).annotate({ identifier: "AckMessageRequest" }) as any as S.Schema<AckMessageRequest>;
 
-export type MessagesAckResponseWarningsMap = {
-  [key: string]: string | undefined;
-};
+export type MessagesAckResponseWarningsMap = { [key: string]: string | undefined };
 export const MessagesAckResponseWarningsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -319,9 +305,7 @@ export const AckMessageResponse = /*@__PURE__*/ S.suspend(() =>
     retryCount: S.optional(S.NullOr(S.Number)),
     warnings: S.optional(S.NullOr(MessagesAckResponseWarningsMap)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AckMessageResponse",
-}) as any as S.Schema<AckMessageResponse>;
+).annotate({ identifier: "AckMessageResponse" }) as any as S.Schema<AckMessageResponse>;
 
 export type MessagesBulkPushRequestMessagesItemMqQueueMessageTextContentType = "text";
 export const MessagesBulkPushRequestMessagesItemMqQueueMessageTextContentType = S.String;
@@ -407,9 +391,7 @@ export const BulkPushMessagesRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPushMessagesRequest",
-}) as any as S.Schema<BulkPushMessagesRequest>;
+).annotate({ identifier: "BulkPushMessagesRequest" }) as any as S.Schema<BulkPushMessagesRequest>;
 
 export interface MessagesBulkPushResponseMetadataMetrics {
   /** The size in bytes of unacknowledged messages in the queue. */
@@ -449,9 +431,7 @@ export const BulkPushMessagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(S.NullOr(MessagesBulkPushResponseMetadata)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPushMessagesResponse",
-}) as any as S.Schema<BulkPushMessagesResponse>;
+).annotate({ identifier: "BulkPushMessagesResponse" }) as any as S.Schema<BulkPushMessagesResponse>;
 
 export type ConsumersCreateRequestType = "worker" | "http_pull";
 export const ConsumersCreateRequestType = S.String;
@@ -539,9 +519,7 @@ export const CreateConsumerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConsumerRequest",
-}) as any as S.Schema<CreateConsumerRequest>;
+).annotate({ identifier: "CreateConsumerRequest" }) as any as S.Schema<CreateConsumerRequest>;
 
 export interface ConsumersCreateResultWorkerSettings {
   /** The maximum number of messages to include in a batch. */
@@ -657,9 +635,7 @@ export const ConsumersCreateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type CreateConsumerResponse = ConsumersCreateResult;
 export const CreateConsumerResponse = /*@__PURE__*/ S.suspend(() =>
   ConsumersCreateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateConsumerResponse",
-}) as any as S.Schema<CreateConsumerResponse>;
+).annotate({ identifier: "CreateConsumerResponse" }) as any as S.Schema<CreateConsumerResponse>;
 
 export type CreateRequestJurisdiction = "eu" | "us" | "fedramp";
 export const CreateRequestJurisdiction = S.String;
@@ -676,17 +652,9 @@ export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueName: S.String.pipe(T.Body("queue_name")),
     jurisdiction: S.optional(CreateRequestJurisdiction),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/queues",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/queues", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
+).annotate({ identifier: "CreateQueueRequest" }) as any as S.Schema<CreateQueueRequest>;
 
 export type CreateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const CreateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -834,9 +802,7 @@ export const CreateResponseSettings = /*@__PURE__*/ S.suspend(() =>
     deliveryPaused: S.optional(S.NullOr(S.Boolean).pipe(T.Body("delivery_paused"))),
     messageRetentionPeriod: S.optional(S.NullOr(S.Number).pipe(T.Body("message_retention_period"))),
   }),
-).annotate({
-  identifier: "CreateResponseSettings",
-}) as any as S.Schema<CreateResponseSettings>;
+).annotate({ identifier: "CreateResponseSettings" }) as any as S.Schema<CreateResponseSettings>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateQueueResponse {
@@ -864,9 +830,7 @@ export const CreateQueueResponse = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.NullOr(S.String).pipe(T.Body("queue_name"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
+).annotate({ identifier: "CreateQueueResponse" }) as any as S.Schema<CreateQueueResponse>;
 
 export type SubscriptionsCreateRequestDestinationType = "queues.queue";
 export const SubscriptionsCreateRequestDestinationType = S.String;
@@ -1397,16 +1361,12 @@ export const DeleteConsumerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConsumerRequest",
-}) as any as S.Schema<DeleteConsumerRequest>;
+).annotate({ identifier: "DeleteConsumerRequest" }) as any as S.Schema<DeleteConsumerRequest>;
 
 export interface DeleteConsumerResponse {}
 export const DeleteConsumerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteConsumerResponse",
-}) as any as S.Schema<DeleteConsumerResponse>;
+).annotate({ identifier: "DeleteConsumerResponse" }) as any as S.Schema<DeleteConsumerResponse>;
 
 export interface DeleteQueueRequest {
   /** A Resource identifier. */
@@ -1419,24 +1379,14 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     queueId: S.String.pipe(T.Label("queue_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/queues/{queue_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/accounts/{account_id}/queues/{queue_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
+).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
 
 export interface DeleteQueueResponse {}
 export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteQueueResponse",
-}) as any as S.Schema<DeleteQueueResponse>;
+).annotate({ identifier: "DeleteQueueResponse" }) as any as S.Schema<DeleteQueueResponse>;
 
 export interface DeleteSubscriptionRequest {
   /** A Resource identifier. */
@@ -1738,9 +1688,7 @@ export const GetConsumerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConsumerRequest",
-}) as any as S.Schema<GetConsumerRequest>;
+).annotate({ identifier: "GetConsumerRequest" }) as any as S.Schema<GetConsumerRequest>;
 
 export type ConsumersGetResultWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const ConsumersGetResultWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -1770,9 +1718,7 @@ export const ConsumersGetResultWorker = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(S.NullOr(ConsumersCreateResultWorkerSettings)),
     type: S.optional(S.NullOr(ConsumersGetResultWorkerType)),
   }),
-).annotate({
-  identifier: "ConsumersGetResultWorker",
-}) as any as S.Schema<ConsumersGetResultWorker>;
+).annotate({ identifier: "ConsumersGetResultWorker" }) as any as S.Schema<ConsumersGetResultWorker>;
 
 export type ConsumersGetResultHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export const ConsumersGetResultHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
@@ -1817,9 +1763,7 @@ export const ConsumersGetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetConsumerResponse = ConsumersGetResult;
 export const GetConsumerResponse = /*@__PURE__*/ S.suspend(() =>
   ConsumersGetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetConsumerResponse",
-}) as any as S.Schema<GetConsumerResponse>;
+).annotate({ identifier: "GetConsumerResponse" }) as any as S.Schema<GetConsumerResponse>;
 
 export interface GetMetricsQueueRequest {
   /** A Resource identifier. */
@@ -1833,16 +1777,10 @@ export const GetMetricsQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.Label("queue_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/queues/{queue_id}/metrics",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/queues/{queue_id}/metrics", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMetricsQueueRequest",
-}) as any as S.Schema<GetMetricsQueueRequest>;
+).annotate({ identifier: "GetMetricsQueueRequest" }) as any as S.Schema<GetMetricsQueueRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMetricsQueueResponse {
@@ -1859,9 +1797,7 @@ export const GetMetricsQueueResponse = /*@__PURE__*/ S.suspend(() =>
     backlogCount: S.Number.pipe(T.Body("backlog_count")),
     oldestMessageTimestampMs: S.Number.pipe(T.Body("oldest_message_timestamp_ms")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMetricsQueueResponse",
-}) as any as S.Schema<GetMetricsQueueResponse>;
+).annotate({ identifier: "GetMetricsQueueResponse" }) as any as S.Schema<GetMetricsQueueResponse>;
 
 export interface GetQueueRequest {
   /** A Resource identifier. */
@@ -1874,17 +1810,9 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     queueId: S.String.pipe(T.Label("queue_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/queues/{queue_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/queues/{queue_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
+).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
 
 export type GetResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const GetResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -2047,9 +1975,7 @@ export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.NullOr(S.String).pipe(T.Body("queue_name"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
+).annotate({ identifier: "GetQueueResponse" }) as any as S.Schema<GetQueueResponse>;
 
 export interface GetSubscriptionRequest {
   /** A Resource identifier. */
@@ -2070,9 +1996,7 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export type SubscriptionsGetResponseDestinationType = "queues.queue";
 export const SubscriptionsGetResponseDestinationType = S.String;
@@ -2321,9 +2245,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     source: SubscriptionsGetResponseSource,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface ListConsumersRequest {
   /** A Resource identifier. */
@@ -2344,9 +2266,7 @@ export const ListConsumersRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConsumersRequest",
-}) as any as S.Schema<ListConsumersRequest>;
+).annotate({ identifier: "ListConsumersRequest" }) as any as S.Schema<ListConsumersRequest>;
 
 export type ConsumersListResultItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const ConsumersListResultItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -2438,9 +2358,7 @@ export const ListConsumersResponse = /*@__PURE__*/ S.suspend(() =>
     result: ConsumersListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListConsumersResponse",
-}) as any as S.Schema<ListConsumersResponse>;
+).annotate({ identifier: "ListConsumersResponse" }) as any as S.Schema<ListConsumersResponse>;
 
 export interface ListQueuesRequest {
   /** A Resource identifier. */
@@ -2450,17 +2368,9 @@ export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/queues",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/queues", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
+).annotate({ identifier: "ListQueuesRequest" }) as any as S.Schema<ListQueuesRequest>;
 
 export type ListResultItemConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const ListResultItemConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -2640,9 +2550,7 @@ export const ListQueuesResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListQueuesResponse",
-}) as any as S.Schema<ListQueuesResponse>;
+).annotate({ identifier: "ListQueuesResponse" }) as any as S.Schema<ListQueuesResponse>;
 
 export type SubscriptionsListRequestDirection = "asc" | "desc";
 export const SubscriptionsListRequestDirection = S.String;
@@ -2678,9 +2586,7 @@ export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
+).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
 
 export type SubscriptionsListResultItemDestinationType = "queues.queue";
 export const SubscriptionsListResultItemDestinationType = S.String;
@@ -2978,9 +2884,7 @@ export const MessagesPeekRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "MessagesPeekRequest",
-}) as any as S.Schema<MessagesPeekRequest>;
+).annotate({ identifier: "MessagesPeekRequest" }) as any as S.Schema<MessagesPeekRequest>;
 
 export interface MessagesPeekResponseMessagesItem {
   id?: string | null;
@@ -3017,9 +2921,7 @@ export const MessagesPeekResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messages: S.optional(S.NullOr(MessagesPeekResponseMessagesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "MessagesPeekResponse",
-}) as any as S.Schema<MessagesPeekResponse>;
+).annotate({ identifier: "MessagesPeekResponse" }) as any as S.Schema<MessagesPeekResponse>;
 
 export type EditRequestJurisdiction = "eu" | "us" | "fedramp";
 export const EditRequestJurisdiction = S.String;
@@ -3038,9 +2940,7 @@ export const EditRequestSettings = /*@__PURE__*/ S.suspend(() =>
     deliveryPaused: S.optional(S.Boolean.pipe(T.Body("delivery_paused"))),
     messageRetentionPeriod: S.optional(S.Number.pipe(T.Body("message_retention_period"))),
   }),
-).annotate({
-  identifier: "EditRequestSettings",
-}) as any as S.Schema<EditRequestSettings>;
+).annotate({ identifier: "EditRequestSettings" }) as any as S.Schema<EditRequestSettings>;
 
 export interface PatchQueueRequest {
   /** A Resource identifier. */
@@ -3059,17 +2959,9 @@ export const PatchQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.String.pipe(T.Body("queue_name"))),
     settings: S.optional(EditRequestSettings),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/queues/{queue_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/accounts/{account_id}/queues/{queue_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchQueueRequest",
-}) as any as S.Schema<PatchQueueRequest>;
+).annotate({ identifier: "PatchQueueRequest" }) as any as S.Schema<PatchQueueRequest>;
 
 export type EditResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const EditResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -3232,9 +3124,7 @@ export const PatchQueueResponse = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.NullOr(S.String).pipe(T.Body("queue_name"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchQueueResponse",
-}) as any as S.Schema<PatchQueueResponse>;
+).annotate({ identifier: "PatchQueueResponse" }) as any as S.Schema<PatchQueueResponse>;
 
 export type SubscriptionsUpdateRequestDestinationType = "queues.queue";
 export const SubscriptionsUpdateRequestDestinationType = S.String;
@@ -3290,9 +3180,7 @@ export const PatchSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSubscriptionRequest",
-}) as any as S.Schema<PatchSubscriptionRequest>;
+).annotate({ identifier: "PatchSubscriptionRequest" }) as any as S.Schema<PatchSubscriptionRequest>;
 
 export type SubscriptionsUpdateResponseDestinationType = "queues.queue";
 export const SubscriptionsUpdateResponseDestinationType = S.String;
@@ -3574,9 +3462,7 @@ export const PullMessageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PullMessageRequest",
-}) as any as S.Schema<PullMessageRequest>;
+).annotate({ identifier: "PullMessageRequest" }) as any as S.Schema<PullMessageRequest>;
 
 export interface MessagesPullResponseMessagesItem {
   id?: string | null;
@@ -3624,9 +3510,7 @@ export const PullMessageResponse = /*@__PURE__*/ S.suspend(() =>
     messages: S.optional(S.NullOr(MessagesPullResponseMessagesList)),
     metadata: S.optional(S.NullOr(MessagesBulkPushResponseMetadata)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PullMessageResponse",
-}) as any as S.Schema<PullMessageResponse>;
+).annotate({ identifier: "PullMessageResponse" }) as any as S.Schema<PullMessageResponse>;
 
 export interface PurgeMessageRequestRefsItem {
   /** An opaque reference to a peeked message. You must hold on to this value and use it to purge the message. */
@@ -3666,9 +3550,7 @@ export const PurgeMessageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeMessageRequest",
-}) as any as S.Schema<PurgeMessageRequest>;
+).annotate({ identifier: "PurgeMessageRequest" }) as any as S.Schema<PurgeMessageRequest>;
 
 export interface PurgeMessageResponseErrorsItem {
   message?: string | null;
@@ -3686,9 +3568,7 @@ export const PurgeMessageResponseErrorsList = /*@__PURE__*/ S.Array(
   PurgeMessageResponseErrorsItem,
 ) as any as S.Schema<PurgeMessageResponseErrorsList>;
 
-export type PurgeMessageResponseWarningsMap = {
-  [key: string]: string | undefined;
-};
+export type PurgeMessageResponseWarningsMap = { [key: string]: string | undefined };
 export const PurgeMessageResponseWarningsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3706,9 +3586,7 @@ export const PurgeMessageResponse = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(S.NullOr(PurgeMessageResponseErrorsList)),
     warnings: S.optional(S.NullOr(PurgeMessageResponseWarningsMap)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeMessageResponse",
-}) as any as S.Schema<PurgeMessageResponse>;
+).annotate({ identifier: "PurgeMessageResponse" }) as any as S.Schema<PurgeMessageResponse>;
 
 export interface PurgeStatusRequest {
   /** A Resource identifier. */
@@ -3722,16 +3600,10 @@ export const PurgeStatusRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.String.pipe(T.Label("queue_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/queues/{queue_id}/purge",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/queues/{queue_id}/purge", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeStatusRequest",
-}) as any as S.Schema<PurgeStatusRequest>;
+).annotate({ identifier: "PurgeStatusRequest" }) as any as S.Schema<PurgeStatusRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeStatusResponse {
@@ -3745,9 +3617,7 @@ export const PurgeStatusResponse = /*@__PURE__*/ S.suspend(() =>
     completed: S.optional(S.NullOr(S.String)),
     startedAt: S.optional(S.NullOr(S.String).pipe(T.Body("started_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PurgeStatusResponse",
-}) as any as S.Schema<PurgeStatusResponse>;
+).annotate({ identifier: "PurgeStatusResponse" }) as any as S.Schema<PurgeStatusResponse>;
 
 export type MessagesPushRequestContentType = "text" | "json";
 export const MessagesPushRequestContentType = S.String;
@@ -3778,9 +3648,7 @@ export const PushMessageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PushMessageRequest",
-}) as any as S.Schema<PushMessageRequest>;
+).annotate({ identifier: "PushMessageRequest" }) as any as S.Schema<PushMessageRequest>;
 
 export type MessagesPushResponseMetadataMetrics = MessagesBulkPushResponseMetadataMetrics;
 export const MessagesPushResponseMetadataMetrics = MessagesBulkPushResponseMetadataMetrics;
@@ -3796,16 +3664,14 @@ export const PushMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(S.NullOr(MessagesBulkPushResponseMetadata)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PushMessageResponse",
-}) as any as S.Schema<PushMessageResponse>;
+).annotate({ identifier: "PushMessageResponse" }) as any as S.Schema<PushMessageResponse>;
 
 export interface StartPurgeRequest {
   /** A Resource identifier. */
   accountId: string;
   /** A Resource identifier. */
   queueId: string;
-  /** Confimation that all messages will be deleted permanently. */
+  /** Confirms that all messages will be permanently deleted. */
   deleteMessagesPermanently?: boolean;
 }
 export const StartPurgeRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3815,16 +3681,10 @@ export const StartPurgeRequest = /*@__PURE__*/ S.suspend(() =>
     deleteMessagesPermanently: S.optional(S.Boolean.pipe(T.Body("delete_messages_permanently"))),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/queues/{queue_id}/purge",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/queues/{queue_id}/purge", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StartPurgeRequest",
-}) as any as S.Schema<StartPurgeRequest>;
+).annotate({ identifier: "StartPurgeRequest" }) as any as S.Schema<StartPurgeRequest>;
 
 export type PurgeStartResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const PurgeStartResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -3988,9 +3848,7 @@ export const StartPurgeResponse = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.NullOr(S.String).pipe(T.Body("queue_name"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StartPurgeResponse",
-}) as any as S.Schema<StartPurgeResponse>;
+).annotate({ identifier: "StartPurgeResponse" }) as any as S.Schema<StartPurgeResponse>;
 
 export type ConsumersUpdateRequestType = "worker" | "http_pull";
 export const ConsumersUpdateRequestType = S.String;
@@ -4042,9 +3900,7 @@ export const UpdateConsumerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConsumerRequest",
-}) as any as S.Schema<UpdateConsumerRequest>;
+).annotate({ identifier: "UpdateConsumerRequest" }) as any as S.Schema<UpdateConsumerRequest>;
 
 export type ConsumersUpdateResultWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const ConsumersUpdateResultWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -4121,9 +3977,7 @@ export const ConsumersUpdateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type UpdateConsumerResponse = ConsumersUpdateResult;
 export const UpdateConsumerResponse = /*@__PURE__*/ S.suspend(() =>
   ConsumersUpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateConsumerResponse",
-}) as any as S.Schema<UpdateConsumerResponse>;
+).annotate({ identifier: "UpdateConsumerResponse" }) as any as S.Schema<UpdateConsumerResponse>;
 
 export type UpdateRequestJurisdiction = "eu" | "us" | "fedramp";
 export const UpdateRequestJurisdiction = S.String;
@@ -4148,17 +4002,9 @@ export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.String.pipe(T.Body("queue_name"))),
     settings: S.optional(EditRequestSettings),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/queues/{queue_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/queues/{queue_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
+).annotate({ identifier: "UpdateQueueRequest" }) as any as S.Schema<UpdateQueueRequest>;
 
 export type UpdateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export const UpdateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
@@ -4321,9 +4167,7 @@ export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() =>
     queueName: S.optional(S.NullOr(S.String).pipe(T.Body("queue_name"))),
     settings: S.optional(S.NullOr(CreateResponseSettings)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateQueueResponse",
-}) as any as S.Schema<UpdateQueueResponse>;
+).annotate({ identifier: "UpdateQueueResponse" }) as any as S.Schema<UpdateQueueResponse>;
 
 export type AckMessageError =
   | InvalidRequestBody
@@ -4331,7 +4175,7 @@ export type AckMessageError =
   | QueueNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Acknowledge + Retry messages from a Queue */
+/** Acknowledges successfully processed Queue messages and retries messages that were not processed successfully. */
 export const ackMessage: API.OperationMethod<
   AckMessageRequest,
   AckMessageResponse,
@@ -4357,7 +4201,7 @@ export type BulkPushMessagesError =
   | InvalidQueueId
   | InvalidRoute
   | CloudflareOpError;
-/** Push a batch of message to a Queue */
+/** Pushes a batch of messages to a Queue. */
 export const bulkPushMessages: API.OperationMethod<
   BulkPushMessagesRequest,
   BulkPushMessagesResponse,
@@ -4385,7 +4229,7 @@ export type CreateConsumerError =
   | WorkerNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Creates a new consumer for a Queue */
+/** Creates a consumer for a Queue. */
 export const createConsumer: API.OperationMethod<
   CreateConsumerRequest,
   CreateConsumerResponse,
@@ -4413,7 +4257,7 @@ export type CreateQueueError =
   | InvalidQueueName
   | InvalidRoute
   | CloudflareOpError;
-/** Create a new queue */
+/** Creates a Queue in the account. */
 export const createQueue: API.OperationMethod<
   CreateQueueRequest,
   CreateQueueResponse,
@@ -4438,7 +4282,7 @@ export type CreateSubscriptionError =
   | SubscriptionAlreadyExists
   | QueueNotFound
   | CloudflareOpError;
-/** Create a new event subscription for a queue */
+/** Creates an event subscription for a Queue. */
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
   CreateSubscriptionResponse,
@@ -4464,7 +4308,7 @@ export type DeleteConsumerError =
   | ConsumerNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Deletes the consumer for a queue. */
+/** Deletes a consumer from a Queue. */
 export const deleteConsumer: API.OperationMethod<
   DeleteConsumerRequest,
   DeleteConsumerResponse,
@@ -4491,7 +4335,7 @@ export type DeleteQueueError =
   | InvalidRoute
   | QueueInUseByWorkerBinding
   | CloudflareOpError;
-/** Deletes a queue */
+/** Deletes a Queue. */
 export const deleteQueue: API.OperationMethod<
   DeleteQueueRequest,
   DeleteQueueResponse,
@@ -4516,7 +4360,7 @@ export type DeleteSubscriptionError =
   | UnrecognizedEventType
   | SubscriptionNotFound
   | CloudflareOpError;
-/** Delete an existing event subscription */
+/** Deletes an existing Queue event subscription. */
 export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionRequest,
   DeleteSubscriptionResponse,
@@ -4536,7 +4380,7 @@ export type GetConsumerError =
   | ConsumerNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Fetches the consumer for a queue by consumer id */
+/** Returns a Queue consumer by identifier. */
 export const getConsumer: API.OperationMethod<
   GetConsumerRequest,
   GetConsumerResponse,
@@ -4558,7 +4402,7 @@ export const getConsumer: API.OperationMethod<
 }));
 
 export type GetMetricsQueueError = CloudflareOpError;
-/** Return best-effort metrics for a queue. Values may be approximate due to the distributed nature of queues. */
+/** Returns best-effort metrics for a Queue. Values may be approximate due to the distributed nature of Queues. */
 export const getMetricsQueue: API.OperationMethod<
   GetMetricsQueueRequest,
   GetMetricsQueueResponse,
@@ -4573,7 +4417,7 @@ export const getMetricsQueue: API.OperationMethod<
 }));
 
 export type GetQueueError = QueueNotFound | InvalidRoute | CloudflareOpError;
-/** Get details about a specific queue. */
+/** Returns details about a specific Queue. */
 export const getQueue: API.OperationMethod<
   GetQueueRequest,
   GetQueueResponse,
@@ -4592,7 +4436,7 @@ export type GetSubscriptionError =
   | SubscriptionNotFound
   | Forbidden
   | CloudflareOpError;
-/** Get details about an existing event subscription */
+/** Returns an existing Queue event subscription. */
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
   GetSubscriptionResponse,
@@ -4617,7 +4461,7 @@ export type ListConsumersError =
   | QueueNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Returns the consumers for a Queue */
+/** Returns the consumers configured for a Queue. */
 export const listConsumers: API.PaginatedOperationMethod<
   ListConsumersRequest,
   ListConsumersResponse,
@@ -4663,7 +4507,7 @@ export const listQueues: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSubscriptionsError = Forbidden | CloudflareOpError;
-/** Get a paginated list of event subscriptions with optional sorting and filtering */
+/** Returns a paginated list of Queue event subscriptions with optional sorting and filtering. */
 export const listSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsRequest,
   ListSubscriptionsResponse,
@@ -4689,7 +4533,7 @@ export const listSubscriptions: API.PaginatedOperationMethod<
 ) as any;
 
 export type MessagesPeekError = CloudflareOpError;
-/** Peek messages from a Queue without leasing them. Messages remain available for subsequent peek or pull operations. */
+/** Peek messages from a Queue without leasing them. Each message includes a ref that can be passed to the purge endpoint, and remains available for subsequent peek or pull operations until it is purged. */
 export const messagesPeek: API.OperationMethod<
   MessagesPeekRequest,
   MessagesPeekResponse,
@@ -4704,7 +4548,7 @@ export const messagesPeek: API.OperationMethod<
 }));
 
 export type PatchQueueError = QueueNotFound | InvalidRoute | CloudflareOpError;
-/** Updates a Queue. */
+/** Updates part of a Queue's configuration. */
 export const patchQueue: API.OperationMethod<
   PatchQueueRequest,
   PatchQueueResponse,
@@ -4723,7 +4567,7 @@ export type PatchSubscriptionError =
   | SubscriptionNotFound
   | QueueNotFound
   | CloudflareOpError;
-/** Update an existing event subscription */
+/** Updates an existing Queue event subscription. */
 export const patchSubscription: API.OperationMethod<
   PatchSubscriptionRequest,
   PatchSubscriptionResponse,
@@ -4750,7 +4594,7 @@ export type PullMessageError =
   | InvalidRoute
   | QueueHttpPullNotEnabled
   | CloudflareOpError;
-/** Pull a batch of messages from a Queue */
+/** Pulls a batch of messages from a Queue for an HTTP pull consumer. */
 export const pullMessage: API.OperationMethod<
   PullMessageRequest,
   PullMessageResponse,
@@ -4773,7 +4617,7 @@ export const pullMessage: API.OperationMethod<
 }));
 
 export type PurgeMessageError = CloudflareOpError;
-/** Delete peeked messages from a Queue by their ref. Purged messages aren't considered delivered, they are instantly deleted from this queue and do not affect metrics. */
+/** Delete messages from a Queue by using refs returned by the peek endpoint. Purging messages does not count as delivery and does not affect metrics. */
 export const purgeMessage: API.OperationMethod<
   PurgeMessageRequest,
   PurgeMessageResponse,
@@ -4788,7 +4632,7 @@ export const purgeMessage: API.OperationMethod<
 }));
 
 export type PurgeStatusError = InvalidQueueId | InvalidRoute | CloudflareOpError;
-/** Get details about a Queue's purge status. */
+/** Returns the status of a Queue purge operation. */
 export const purgeStatus: API.OperationMethod<
   PurgeStatusRequest,
   PurgeStatusResponse,
@@ -4807,7 +4651,7 @@ export type PushMessageError =
   | InvalidQueueId
   | InvalidRoute
   | CloudflareOpError;
-/** Push a message to a Queue */
+/** Pushes a message to a Queue. */
 export const pushMessage: API.OperationMethod<
   PushMessageRequest,
   PushMessageResponse,
@@ -4828,7 +4672,7 @@ export const pushMessage: API.OperationMethod<
 }));
 
 export type StartPurgeError = InvalidQueueId | InvalidRoute | CloudflareOpError;
-/** Deletes all messages from the Queue. */
+/** Starts a purge that deletes all messages from a Queue. */
 export const startPurge: API.OperationMethod<
   StartPurgeRequest,
   StartPurgeResponse,
@@ -4850,7 +4694,7 @@ export type UpdateConsumerError =
   | WorkerNotFound
   | InvalidRoute
   | CloudflareOpError;
-/** Updates the consumer for a queue, or creates one if it does not exist. */
+/** Replaces a Queue consumer, or creates it if it does not exist. */
 export const updateConsumer: API.OperationMethod<
   UpdateConsumerRequest,
   UpdateConsumerResponse,
@@ -4874,7 +4718,7 @@ export const updateConsumer: API.OperationMethod<
 }));
 
 export type UpdateQueueError = InvalidQueueName | QueueNotFound | InvalidRoute | CloudflareOpError;
-/** Updates a Queue. Note that this endpoint does not support partial updates. If successful, the Queue's configuration is overwritten with the supplied configuration. */
+/** Replaces a Queue's configuration with the supplied configuration. This endpoint does not support partial updates. */
 export const updateQueue: API.OperationMethod<
   UpdateQueueRequest,
   UpdateQueueResponse,

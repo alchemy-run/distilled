@@ -33,9 +33,7 @@ export const AuthorizationPolicyInput = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(S.String),
     secondaryKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationPolicyInput",
-}) as any as S.Schema<AuthorizationPolicyInput>;
+).annotate({ identifier: "AuthorizationPolicyInput" }) as any as S.Schema<AuthorizationPolicyInput>;
 
 export interface AuthorizationPoliciesCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -91,9 +89,7 @@ export const AuthorizationPolicy = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(S.String),
     secondaryKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationPolicy",
-}) as any as S.Schema<AuthorizationPolicy>;
+).annotate({ identifier: "AuthorizationPolicy" }) as any as S.Schema<AuthorizationPolicy>;
 
 export interface AuthorizationPoliciesCreateOrUpdateResponse {
   /** Resource ID. */
@@ -180,9 +176,7 @@ export const ConnectorMappingFormat = /*@__PURE__*/ S.suspend(() =>
     quoteEscapeCharacter: S.optional(S.String),
     arraySeparator: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectorMappingFormat",
-}) as any as S.Schema<ConnectorMappingFormat>;
+).annotate({ identifier: "ConnectorMappingFormat" }) as any as S.Schema<ConnectorMappingFormat>;
 
 /** The frequency to update. */
 export type ConnectorMappingAvailabilityFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
@@ -315,9 +309,7 @@ export const ConnectorMappingInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     mappingProperties: ConnectorMappingProperties,
   }),
-).annotate({
-  identifier: "ConnectorMappingInput",
-}) as any as S.Schema<ConnectorMappingInput>;
+).annotate({ identifier: "ConnectorMappingInput" }) as any as S.Schema<ConnectorMappingInput>;
 
 export interface ConnectorMappingsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -418,9 +410,7 @@ export const ConnectorMapping = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ConnectorMappingState),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectorMapping",
-}) as any as S.Schema<ConnectorMapping>;
+).annotate({ identifier: "ConnectorMapping" }) as any as S.Schema<ConnectorMapping>;
 
 export interface ConnectorMappingsCreateOrUpdateResponse {
   /** Resource ID. */
@@ -443,9 +433,7 @@ export const ConnectorMappingsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ConnectorMappingsCreateOrUpdateResponse>;
 
 /** The connector properties. */
-export type ConnectorInputConnectorPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectorInputConnectorPropertiesMap = { [key: string]: unknown | undefined };
 export const ConnectorInputConnectorPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -508,9 +496,7 @@ export const ConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConnectorsCreateOrUpdateRequest>;
 
 /** The connector properties. */
-export type ConnectorConnectorPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ConnectorConnectorPropertiesMap = { [key: string]: unknown | undefined };
 export const ConnectorConnectorPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -605,9 +591,7 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 
 export interface DeleteConnectorResponse {}
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -671,9 +655,7 @@ export const DeleteHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteHubRequest",
-}) as any as S.Schema<DeleteHubRequest>;
+).annotate({ identifier: "DeleteHubRequest" }) as any as S.Schema<DeleteHubRequest>;
 
 export interface DeleteHubResponse {}
 export const DeleteHubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -704,9 +686,7 @@ export const DeleteKpiRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteKpiRequest",
-}) as any as S.Schema<DeleteKpiRequest>;
+).annotate({ identifier: "DeleteKpiRequest" }) as any as S.Schema<DeleteKpiRequest>;
 
 export interface DeleteKpiResponse {}
 export const DeleteKpiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -737,9 +717,7 @@ export const DeleteLinkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteLinkRequest",
-}) as any as S.Schema<DeleteLinkRequest>;
+).annotate({ identifier: "DeleteLinkRequest" }) as any as S.Schema<DeleteLinkRequest>;
 
 export interface DeleteLinkResponse {}
 export const DeleteLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -770,9 +748,7 @@ export const DeletePredictionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeletePredictionRequest",
-}) as any as S.Schema<DeletePredictionRequest>;
+).annotate({ identifier: "DeletePredictionRequest" }) as any as S.Schema<DeletePredictionRequest>;
 
 export interface DeletePredictionResponse {}
 export const DeletePredictionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -806,9 +782,7 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
+).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 
 export interface DeleteProfileResponse {}
 export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -941,9 +915,7 @@ export const DeleteViewRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "DeleteViewRequest",
-}) as any as S.Schema<DeleteViewRequest>;
+).annotate({ identifier: "DeleteViewRequest" }) as any as S.Schema<DeleteViewRequest>;
 
 export interface DeleteViewResponse {}
 export const DeleteViewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1022,9 +994,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 
 export interface GetConnectorResponse {
   /** Resource ID. */
@@ -1042,9 +1012,7 @@ export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(Connector),
   }),
-).annotate({
-  identifier: "GetConnectorResponse",
-}) as any as S.Schema<GetConnectorResponse>;
+).annotate({ identifier: "GetConnectorResponse" }) as any as S.Schema<GetConnectorResponse>;
 
 export interface GetConnectorMappingRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1142,9 +1110,7 @@ export const HubBillingInfoFormat = /*@__PURE__*/ S.suspend(() =>
     minUnits: S.optional(S.Number),
     maxUnits: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HubBillingInfoFormat",
-}) as any as S.Schema<HubBillingInfoFormat>;
+).annotate({ identifier: "HubBillingInfoFormat" }) as any as S.Schema<HubBillingInfoFormat>;
 
 /** Properties of hub. */
 export interface HubPropertiesFormat {
@@ -1167,9 +1133,7 @@ export const HubPropertiesFormat = /*@__PURE__*/ S.suspend(() =>
     tenantFeatures: S.optional(S.Number),
     hubBillingInfo: S.optional(HubBillingInfoFormat),
   }),
-).annotate({
-  identifier: "HubPropertiesFormat",
-}) as any as S.Schema<HubPropertiesFormat>;
+).annotate({ identifier: "HubPropertiesFormat" }) as any as S.Schema<HubPropertiesFormat>;
 
 export interface GetHubResponse {
   /** Resource ID. */
@@ -1222,9 +1186,7 @@ export const GetInteractionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetInteractionRequest",
-}) as any as S.Schema<GetInteractionRequest>;
+).annotate({ identifier: "GetInteractionRequest" }) as any as S.Schema<GetInteractionRequest>;
 
 export type InteractionTypeDefinitionAttributesValueList = Array<string>;
 export const InteractionTypeDefinitionAttributesValueList = /*@__PURE__*/ S.Array(
@@ -1241,18 +1203,14 @@ export const InteractionTypeDefinitionAttributesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<InteractionTypeDefinitionAttributesMap>;
 
 /** Localized descriptions for the property. */
-export type InteractionTypeDefinitionDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type InteractionTypeDefinitionDescriptionMap = { [key: string]: string | undefined };
 export const InteractionTypeDefinitionDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<InteractionTypeDefinitionDescriptionMap>;
 
 /** Localized display names for the property. */
-export type InteractionTypeDefinitionDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type InteractionTypeDefinitionDisplayNameMap = { [key: string]: string | undefined };
 export const InteractionTypeDefinitionDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1356,9 +1314,7 @@ export const DataSourcePrecedence = /*@__PURE__*/ S.suspend(() =>
     dataSource: S.optional(DataSource),
     precedence: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataSourcePrecedence",
-}) as any as S.Schema<DataSourcePrecedence>;
+).annotate({ identifier: "DataSourcePrecedence" }) as any as S.Schema<DataSourcePrecedence>;
 
 /** This is specific to interactions modeled as activities. Data sources are used to determine where data is stored and also in precedence rules. */
 export type PropertyDefinitionDataSourcePrecedenceRulesList = Array<DataSourcePrecedence>;
@@ -1420,9 +1376,7 @@ export const PropertyDefinition = /*@__PURE__*/ S.suspend(() =>
     isAvailableInGraph: S.optional(S.Boolean),
     dataSourcePrecedenceRules: S.optional(PropertyDefinitionDataSourcePrecedenceRulesList),
   }),
-).annotate({
-  identifier: "PropertyDefinition",
-}) as any as S.Schema<PropertyDefinition>;
+).annotate({ identifier: "PropertyDefinition" }) as any as S.Schema<PropertyDefinition>;
 
 /** The properties of the Profile. */
 export type InteractionTypeDefinitionFieldsList = Array<PropertyDefinition>;
@@ -1615,9 +1569,7 @@ export const GetInteractionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(InteractionTypeDefinition),
   }),
-).annotate({
-  identifier: "GetInteractionResponse",
-}) as any as S.Schema<GetInteractionResponse>;
+).annotate({ identifier: "GetInteractionResponse" }) as any as S.Schema<GetInteractionResponse>;
 
 export interface GetKpiRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1686,9 +1638,7 @@ export const KpiDefinitionGroupByList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<KpiDefinitionGroupByList>;
 
 /** The display name. */
-export type KpiGroupByMetadataDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type KpiGroupByMetadataDisplayNameMap = { [key: string]: string | undefined };
 export const KpiGroupByMetadataDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1709,9 +1659,7 @@ export const KpiGroupByMetadata = /*@__PURE__*/ S.suspend(() =>
     fieldName: S.optional(S.String),
     fieldType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KpiGroupByMetadata",
-}) as any as S.Schema<KpiGroupByMetadata>;
+).annotate({ identifier: "KpiGroupByMetadata" }) as any as S.Schema<KpiGroupByMetadata>;
 
 /** The KPI GroupByMetadata. */
 export type KpiDefinitionGroupByMetadataList = Array<KpiGroupByMetadata>;
@@ -1913,18 +1861,14 @@ export type LinkDefinitionTargetEntityType = "None" | "Profile" | "Interaction" 
 export const LinkDefinitionTargetEntityType = S.String;
 
 /** Localized display name for the Link. */
-export type LinkDefinitionDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type LinkDefinitionDisplayNameMap = { [key: string]: string | undefined };
 export const LinkDefinitionDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<LinkDefinitionDisplayNameMap>;
 
 /** Localized descriptions for the Link. */
-export type LinkDefinitionDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type LinkDefinitionDescriptionMap = { [key: string]: string | undefined };
 export const LinkDefinitionDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1949,9 +1893,7 @@ export const TypePropertiesMapping = /*@__PURE__*/ S.suspend(() =>
     targetPropertyName: S.String,
     linkType: S.optional(TypePropertiesMappingLinkType),
   }),
-).annotate({
-  identifier: "TypePropertiesMapping",
-}) as any as S.Schema<TypePropertiesMapping>;
+).annotate({ identifier: "TypePropertiesMapping" }) as any as S.Schema<TypePropertiesMapping>;
 
 /** The set of properties mappings between the source and target Types. */
 export type LinkDefinitionMappingsList = Array<TypePropertiesMapping>;
@@ -2032,9 +1974,7 @@ export const GetLinkResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(LinkDefinition),
   }),
-).annotate({
-  identifier: "GetLinkResponse",
-}) as any as S.Schema<GetLinkResponse>;
+).annotate({ identifier: "GetLinkResponse" }) as any as S.Schema<GetLinkResponse>;
 
 export interface GetPredictionRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2060,9 +2000,7 @@ export const GetPredictionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetPredictionRequest",
-}) as any as S.Schema<GetPredictionRequest>;
+).annotate({ identifier: "GetPredictionRequest" }) as any as S.Schema<GetPredictionRequest>;
 
 /** Description of the prediction. */
 export type PredictionDescriptionMap = { [key: string]: string | undefined };
@@ -2111,9 +2049,7 @@ export const PredictionMappings = /*@__PURE__*/ S.suspend(() =>
     grade: S.String,
     reason: S.String,
   }),
-).annotate({
-  identifier: "PredictionMappings",
-}) as any as S.Schema<PredictionMappings>;
+).annotate({ identifier: "PredictionMappings" }) as any as S.Schema<PredictionMappings>;
 
 /** The definition of a prediction grade. */
 export interface PredictionGradesItem {
@@ -2130,9 +2066,7 @@ export const PredictionGradesItem = /*@__PURE__*/ S.suspend(() =>
     minScoreThreshold: S.optional(S.Number),
     maxScoreThreshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PredictionGradesItem",
-}) as any as S.Schema<PredictionGradesItem>;
+).annotate({ identifier: "PredictionGradesItem" }) as any as S.Schema<PredictionGradesItem>;
 
 /** The prediction grades. */
 export type PredictionGradesList = Array<PredictionGradesItem>;
@@ -2257,9 +2191,7 @@ export const GetPredictionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(Prediction),
   }),
-).annotate({
-  identifier: "GetPredictionResponse",
-}) as any as S.Schema<GetPredictionResponse>;
+).annotate({ identifier: "GetPredictionResponse" }) as any as S.Schema<GetPredictionResponse>;
 
 export interface GetPredictionModelStatusRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2350,9 +2282,7 @@ export const PredictionModelStatus = /*@__PURE__*/ S.suspend(() =>
     signalsUsed: S.optional(S.Number),
     modelVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PredictionModelStatus",
-}) as any as S.Schema<PredictionModelStatus>;
+).annotate({ identifier: "PredictionModelStatus" }) as any as S.Schema<PredictionModelStatus>;
 
 export interface GetPredictionTrainingResultsRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2547,9 +2477,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 export type ProfileTypeDefinitionAttributesValueList = Array<string>;
 export const ProfileTypeDefinitionAttributesValueList = /*@__PURE__*/ S.Array(
@@ -2566,18 +2494,14 @@ export const ProfileTypeDefinitionAttributesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<ProfileTypeDefinitionAttributesMap>;
 
 /** Localized descriptions for the property. */
-export type ProfileTypeDefinitionDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type ProfileTypeDefinitionDescriptionMap = { [key: string]: string | undefined };
 export const ProfileTypeDefinitionDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ProfileTypeDefinitionDescriptionMap>;
 
 /** Localized display names for the property. */
-export type ProfileTypeDefinitionDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type ProfileTypeDefinitionDisplayNameMap = { [key: string]: string | undefined };
 export const ProfileTypeDefinitionDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2716,9 +2640,7 @@ export const ProfileTypeDefinition = /*@__PURE__*/ S.suspend(() =>
     typeName: S.optional(S.String),
     strongIds: S.optional(ProfileTypeDefinitionStrongIdsList),
   }),
-).annotate({
-  identifier: "ProfileTypeDefinition",
-}) as any as S.Schema<ProfileTypeDefinition>;
+).annotate({ identifier: "ProfileTypeDefinition" }) as any as S.Schema<ProfileTypeDefinition>;
 
 export interface GetProfileResponse {
   /** Resource ID. */
@@ -2736,9 +2658,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProfileTypeDefinition),
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface GetProfileEnrichingKpisRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2804,27 +2724,21 @@ export const GetRelationshipRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetRelationshipRequest",
-}) as any as S.Schema<GetRelationshipRequest>;
+).annotate({ identifier: "GetRelationshipRequest" }) as any as S.Schema<GetRelationshipRequest>;
 
 /** The Relationship Cardinality. */
 export type RelationshipDefinitionCardinality = "OneToOne" | "OneToMany" | "ManyToMany";
 export const RelationshipDefinitionCardinality = S.String;
 
 /** Localized display name for the Relationship. */
-export type RelationshipDefinitionDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipDefinitionDisplayNameMap = { [key: string]: string | undefined };
 export const RelationshipDefinitionDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RelationshipDefinitionDisplayNameMap>;
 
 /** Localized descriptions for the Relationship. */
-export type RelationshipDefinitionDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipDefinitionDescriptionMap = { [key: string]: string | undefined };
 export const RelationshipDefinitionDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2867,9 +2781,7 @@ export const RelationshipTypeMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fieldMappings: RelationshipTypeMappingFieldMappingsList,
   }),
-).annotate({
-  identifier: "RelationshipTypeMapping",
-}) as any as S.Schema<RelationshipTypeMapping>;
+).annotate({ identifier: "RelationshipTypeMapping" }) as any as S.Schema<RelationshipTypeMapping>;
 
 /** Optional property to be used to map fields in profile to their strong ids in related profile. */
 export type RelationshipDefinitionLookupMappingsList = Array<RelationshipTypeMapping>;
@@ -2919,9 +2831,7 @@ export const RelationshipDefinition = /*@__PURE__*/ S.suspend(() =>
     relationshipGuidId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelationshipDefinition",
-}) as any as S.Schema<RelationshipDefinition>;
+).annotate({ identifier: "RelationshipDefinition" }) as any as S.Schema<RelationshipDefinition>;
 
 export interface GetRelationshipResponse {
   /** Resource ID. */
@@ -2939,9 +2849,7 @@ export const GetRelationshipResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(RelationshipDefinition),
   }),
-).annotate({
-  identifier: "GetRelationshipResponse",
-}) as any as S.Schema<GetRelationshipResponse>;
+).annotate({ identifier: "GetRelationshipResponse" }) as any as S.Schema<GetRelationshipResponse>;
 
 export interface GetRelationshipLinkRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2972,18 +2880,14 @@ export const GetRelationshipLinkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRelationshipLinkRequest>;
 
 /** Localized display name for the Relationship Link. */
-export type RelationshipLinkDefinitionDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipLinkDefinitionDisplayNameMap = { [key: string]: string | undefined };
 export const RelationshipLinkDefinitionDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RelationshipLinkDefinitionDisplayNameMap>;
 
 /** Localized descriptions for the Relationship Link. */
-export type RelationshipLinkDefinitionDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipLinkDefinitionDescriptionMap = { [key: string]: string | undefined };
 export const RelationshipLinkDefinitionDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3136,23 +3040,17 @@ export const GetRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetRoleAssignmentRequest",
-}) as any as S.Schema<GetRoleAssignmentRequest>;
+).annotate({ identifier: "GetRoleAssignmentRequest" }) as any as S.Schema<GetRoleAssignmentRequest>;
 
 /** Localized display names for the metadata. */
-export type RoleAssignmentDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RoleAssignmentDisplayNameMap = { [key: string]: string | undefined };
 export const RoleAssignmentDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RoleAssignmentDisplayNameMap>;
 
 /** Localized description for the metadata. */
-export type RoleAssignmentDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RoleAssignmentDescriptionMap = { [key: string]: string | undefined };
 export const RoleAssignmentDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3169,9 +3067,7 @@ export type RoleAssignmentRole =
 export const RoleAssignmentRole = S.String;
 
 /** Other metadata for the principal. */
-export type AssignmentPrincipalPrincipalMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type AssignmentPrincipalPrincipalMetadataMap = { [key: string]: string | undefined };
 export const AssignmentPrincipalPrincipalMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3192,9 +3088,7 @@ export const AssignmentPrincipal = /*@__PURE__*/ S.suspend(() =>
     principalType: S.String,
     principalMetadata: S.optional(AssignmentPrincipalPrincipalMetadataMap),
   }),
-).annotate({
-  identifier: "AssignmentPrincipal",
-}) as any as S.Schema<AssignmentPrincipal>;
+).annotate({ identifier: "AssignmentPrincipal" }) as any as S.Schema<AssignmentPrincipal>;
 
 /** The principals being assigned to. */
 export type RoleAssignmentPrincipalsList = Array<AssignmentPrincipal>;
@@ -3226,9 +3120,7 @@ export const ResourceSetDescription = /*@__PURE__*/ S.suspend(() =>
     elements: S.optional(ResourceSetDescriptionElementsList),
     exceptions: S.optional(ResourceSetDescriptionExceptionsList),
   }),
-).annotate({
-  identifier: "ResourceSetDescription",
-}) as any as S.Schema<ResourceSetDescription>;
+).annotate({ identifier: "ResourceSetDescription" }) as any as S.Schema<ResourceSetDescription>;
 
 /** The Role Assignment definition. */
 export interface RoleAssignment {
@@ -3399,9 +3291,7 @@ export const GetViewResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(View),
   }),
-).annotate({
-  identifier: "GetViewResponse",
-}) as any as S.Schema<GetViewResponse>;
+).annotate({ identifier: "GetViewResponse" }) as any as S.Schema<GetViewResponse>;
 
 export interface GetWidgetTypeRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3427,9 +3317,7 @@ export const GetWidgetTypeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "GetWidgetTypeRequest",
-}) as any as S.Schema<GetWidgetTypeRequest>;
+).annotate({ identifier: "GetWidgetTypeRequest" }) as any as S.Schema<GetWidgetTypeRequest>;
 
 /** Localized display name for the widget type. */
 export type WidgetTypeDisplayNameMap = { [key: string]: string | undefined };
@@ -3489,14 +3377,10 @@ export const GetWidgetTypeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WidgetType),
   }),
-).annotate({
-  identifier: "GetWidgetTypeResponse",
-}) as any as S.Schema<GetWidgetTypeResponse>;
+).annotate({ identifier: "GetWidgetTypeResponse" }) as any as S.Schema<GetWidgetTypeResponse>;
 
 /** Resource tags. */
-export type HubsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HubsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const HubsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3514,9 +3398,7 @@ export const HubPropertiesFormatInput = /*@__PURE__*/ S.suspend(() =>
     tenantFeatures: S.optional(S.Number),
     hubBillingInfo: S.optional(HubBillingInfoFormat),
   }),
-).annotate({
-  identifier: "HubPropertiesFormatInput",
-}) as any as S.Schema<HubPropertiesFormatInput>;
+).annotate({ identifier: "HubPropertiesFormatInput" }) as any as S.Schema<HubPropertiesFormatInput>;
 
 export interface HubsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3552,9 +3434,7 @@ export const HubsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<HubsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type HubsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HubsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const HubsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3635,9 +3515,7 @@ export const ImageDefinition = /*@__PURE__*/ S.suspend(() =>
     contentUrl: S.optional(S.String),
     relativePath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageDefinition",
-}) as any as S.Schema<ImageDefinition>;
+).annotate({ identifier: "ImageDefinition" }) as any as S.Schema<ImageDefinition>;
 
 export interface ImagesGetUploadUrlForEntityTypeRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3688,18 +3566,14 @@ export const InteractionTypeDefinitionInputAttributesMap = /*@__PURE__*/ S.Recor
 ) as any as S.Schema<InteractionTypeDefinitionInputAttributesMap>;
 
 /** Localized descriptions for the property. */
-export type InteractionTypeDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type InteractionTypeDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const InteractionTypeDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<InteractionTypeDefinitionInputDescriptionMap>;
 
 /** Localized display names for the property. */
-export type InteractionTypeDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type InteractionTypeDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const InteractionTypeDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3787,9 +3661,7 @@ export const PropertyDefinitionInput = /*@__PURE__*/ S.suspend(() =>
     maxLength: S.optional(S.Number),
     isAvailableInGraph: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PropertyDefinitionInput",
-}) as any as S.Schema<PropertyDefinitionInput>;
+).annotate({ identifier: "PropertyDefinitionInput" }) as any as S.Schema<PropertyDefinitionInput>;
 
 /** The properties of the Profile. */
 export type InteractionTypeDefinitionInputFieldsList = Array<PropertyDefinitionInput>;
@@ -3997,9 +3869,7 @@ export const RelationshipsLookup = /*@__PURE__*/ S.suspend(() =>
     ),
     existingRelationshipName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelationshipsLookup",
-}) as any as S.Schema<RelationshipsLookup>;
+).annotate({ identifier: "RelationshipsLookup" }) as any as S.Schema<RelationshipsLookup>;
 
 /** Suggested relationships for the type. */
 export type SuggestRelationshipLinksResponseSuggestedRelationshipsList = Array<RelationshipsLookup>;
@@ -4028,18 +3898,14 @@ export type KpiDefinitionInputEntityType = "None" | "Profile" | "Interaction" | 
 export const KpiDefinitionInputEntityType = S.String;
 
 /** Localized display name for the KPI. */
-export type KpiDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type KpiDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const KpiDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<KpiDefinitionInputDisplayNameMap>;
 
 /** Localized description for the KPI. */
-export type KpiDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type KpiDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const KpiDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4127,9 +3993,7 @@ export const KpiDefinitionInput = /*@__PURE__*/ S.suspend(() =>
     aliases: S.optional(KpiDefinitionInputAliasesList),
     extracts: S.optional(KpiDefinitionInputExtractsList),
   }),
-).annotate({
-  identifier: "KpiDefinitionInput",
-}) as any as S.Schema<KpiDefinitionInput>;
+).annotate({ identifier: "KpiDefinitionInput" }) as any as S.Schema<KpiDefinitionInput>;
 
 export interface KpiCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4157,9 +4021,7 @@ export const KpiCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "KpiCreateOrUpdateRequest",
-}) as any as S.Schema<KpiCreateOrUpdateRequest>;
+).annotate({ identifier: "KpiCreateOrUpdateRequest" }) as any as S.Schema<KpiCreateOrUpdateRequest>;
 
 export interface KpiCreateOrUpdateResponse {
   /** Resource ID. */
@@ -4205,9 +4067,7 @@ export const KpiReprocessRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "KpiReprocessRequest",
-}) as any as S.Schema<KpiReprocessRequest>;
+).annotate({ identifier: "KpiReprocessRequest" }) as any as S.Schema<KpiReprocessRequest>;
 
 export interface KpiReprocessResponse {}
 export const KpiReprocessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4231,18 +4091,14 @@ export type LinkDefinitionInputTargetEntityType =
 export const LinkDefinitionInputTargetEntityType = S.String;
 
 /** Localized display name for the Link. */
-export type LinkDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type LinkDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const LinkDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<LinkDefinitionInputDisplayNameMap>;
 
 /** Localized descriptions for the Link. */
-export type LinkDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type LinkDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const LinkDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4301,9 +4157,7 @@ export const LinkDefinitionInput = /*@__PURE__*/ S.suspend(() =>
     referenceOnly: S.optional(S.Boolean),
     operationType: S.optional(LinkDefinitionInputOperationType),
   }),
-).annotate({
-  identifier: "LinkDefinitionInput",
-}) as any as S.Schema<LinkDefinitionInput>;
+).annotate({ identifier: "LinkDefinitionInput" }) as any as S.Schema<LinkDefinitionInput>;
 
 export interface LinksCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4465,9 +4319,7 @@ export const ConnectorResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(Connector),
   }),
-).annotate({
-  identifier: "ConnectorResourceFormat",
-}) as any as S.Schema<ConnectorResourceFormat>;
+).annotate({ identifier: "ConnectorResourceFormat" }) as any as S.Schema<ConnectorResourceFormat>;
 
 /** Results of the list operation. */
 export type ConnectorListResultValueList = Array<ConnectorResourceFormat>;
@@ -4487,9 +4339,7 @@ export const ConnectorListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ConnectorListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectorListResult",
-}) as any as S.Schema<ConnectorListResult>;
+).annotate({ identifier: "ConnectorListResult" }) as any as S.Schema<ConnectorListResult>;
 
 export interface ListConnectorMappingByConnectorRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4648,9 +4498,7 @@ export const ListHubsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListHubsRequest",
-}) as any as S.Schema<ListHubsRequest>;
+).annotate({ identifier: "ListHubsRequest" }) as any as S.Schema<ListHubsRequest>;
 
 export interface ListInteractionByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4719,9 +4567,7 @@ export const InteractionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(InteractionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InteractionListResult",
-}) as any as S.Schema<InteractionListResult>;
+).annotate({ identifier: "InteractionListResult" }) as any as S.Schema<InteractionListResult>;
 
 export interface ListKpiByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4744,9 +4590,7 @@ export const ListKpiByHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListKpiByHubRequest",
-}) as any as S.Schema<ListKpiByHubRequest>;
+).annotate({ identifier: "ListKpiByHubRequest" }) as any as S.Schema<ListKpiByHubRequest>;
 
 /** The KPI resource format. */
 export interface KpiResourceFormat {
@@ -4765,9 +4609,7 @@ export const KpiResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(KpiDefinition),
   }),
-).annotate({
-  identifier: "KpiResourceFormat",
-}) as any as S.Schema<KpiResourceFormat>;
+).annotate({ identifier: "KpiResourceFormat" }) as any as S.Schema<KpiResourceFormat>;
 
 /** Results of the list operation. */
 export type KpiListResultValueList = Array<KpiResourceFormat>;
@@ -4810,9 +4652,7 @@ export const ListLinkByHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListLinkByHubRequest",
-}) as any as S.Schema<ListLinkByHubRequest>;
+).annotate({ identifier: "ListLinkByHubRequest" }) as any as S.Schema<ListLinkByHubRequest>;
 
 /** The link resource format. */
 export interface LinkResourceFormat {
@@ -4831,9 +4671,7 @@ export const LinkResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(LinkDefinition),
   }),
-).annotate({
-  identifier: "LinkResourceFormat",
-}) as any as S.Schema<LinkResourceFormat>;
+).annotate({ identifier: "LinkResourceFormat" }) as any as S.Schema<LinkResourceFormat>;
 
 /** Results of the list operation. */
 export type LinkListResultValueList = Array<LinkResourceFormat>;
@@ -4865,9 +4703,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -4884,9 +4720,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     operation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Customer Insights REST API operation */
 export interface Operation {
@@ -4920,9 +4754,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPredictionByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4966,9 +4798,7 @@ export const PredictionResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(Prediction),
   }),
-).annotate({
-  identifier: "PredictionResourceFormat",
-}) as any as S.Schema<PredictionResourceFormat>;
+).annotate({ identifier: "PredictionResourceFormat" }) as any as S.Schema<PredictionResourceFormat>;
 
 /** Results of the list operation. */
 export type PredictionListResultValueList = Array<PredictionResourceFormat>;
@@ -4988,9 +4818,7 @@ export const PredictionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PredictionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PredictionListResult",
-}) as any as S.Schema<PredictionListResult>;
+).annotate({ identifier: "PredictionListResult" }) as any as S.Schema<PredictionListResult>;
 
 export interface ListProfileByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5016,9 +4844,7 @@ export const ListProfileByHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListProfileByHubRequest",
-}) as any as S.Schema<ListProfileByHubRequest>;
+).annotate({ identifier: "ListProfileByHubRequest" }) as any as S.Schema<ListProfileByHubRequest>;
 
 /** The profile resource format. */
 export interface ProfileResourceFormat {
@@ -5037,9 +4863,7 @@ export const ProfileResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ProfileTypeDefinition),
   }),
-).annotate({
-  identifier: "ProfileResourceFormat",
-}) as any as S.Schema<ProfileResourceFormat>;
+).annotate({ identifier: "ProfileResourceFormat" }) as any as S.Schema<ProfileResourceFormat>;
 
 /** Results of the list operation. */
 export type ProfileListResultValueList = Array<ProfileResourceFormat>;
@@ -5059,9 +4883,7 @@ export const ProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ProfileListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProfileListResult",
-}) as any as S.Schema<ProfileListResult>;
+).annotate({ identifier: "ProfileListResult" }) as any as S.Schema<ProfileListResult>;
 
 export interface ListRelationshipByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5127,9 +4949,7 @@ export const RelationshipListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RelationshipListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RelationshipListResult",
-}) as any as S.Schema<RelationshipListResult>;
+).annotate({ identifier: "RelationshipListResult" }) as any as S.Schema<RelationshipListResult>;
 
 export interface ListRelationshipLinkByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5263,9 +5083,7 @@ export const RoleAssignmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RoleAssignmentListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleAssignmentListResult",
-}) as any as S.Schema<RoleAssignmentListResult>;
+).annotate({ identifier: "RoleAssignmentListResult" }) as any as S.Schema<RoleAssignmentListResult>;
 
 export interface ListRoleByHubRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5288,9 +5106,7 @@ export const ListRoleByHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListRoleByHubRequest",
-}) as any as S.Schema<ListRoleByHubRequest>;
+).annotate({ identifier: "ListRoleByHubRequest" }) as any as S.Schema<ListRoleByHubRequest>;
 
 /** The Role definition. */
 export interface Role {
@@ -5323,9 +5139,7 @@ export const RoleResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(Role),
   }),
-).annotate({
-  identifier: "RoleResourceFormat",
-}) as any as S.Schema<RoleResourceFormat>;
+).annotate({ identifier: "RoleResourceFormat" }) as any as S.Schema<RoleResourceFormat>;
 
 /** Results of the list operation. */
 export type RoleListResultValueList = Array<RoleResourceFormat>;
@@ -5371,9 +5185,7 @@ export const ListViewByHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "ListViewByHubRequest",
-}) as any as S.Schema<ListViewByHubRequest>;
+).annotate({ identifier: "ListViewByHubRequest" }) as any as S.Schema<ListViewByHubRequest>;
 
 /** The view resource format. */
 export interface ViewResourceFormat {
@@ -5392,9 +5204,7 @@ export const ViewResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(View),
   }),
-).annotate({
-  identifier: "ViewResourceFormat",
-}) as any as S.Schema<ViewResourceFormat>;
+).annotate({ identifier: "ViewResourceFormat" }) as any as S.Schema<ViewResourceFormat>;
 
 /** Results of the list operation. */
 export type ViewListResultValueList = Array<ViewResourceFormat>;
@@ -5458,9 +5268,7 @@ export const WidgetTypeResourceFormat = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(WidgetType),
   }),
-).annotate({
-  identifier: "WidgetTypeResourceFormat",
-}) as any as S.Schema<WidgetTypeResourceFormat>;
+).annotate({ identifier: "WidgetTypeResourceFormat" }) as any as S.Schema<WidgetTypeResourceFormat>;
 
 /** Results of the list operation. */
 export type WidgetTypeListResultValueList = Array<WidgetTypeResourceFormat>;
@@ -5480,23 +5288,17 @@ export const WidgetTypeListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WidgetTypeListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WidgetTypeListResult",
-}) as any as S.Schema<WidgetTypeListResult>;
+).annotate({ identifier: "WidgetTypeListResult" }) as any as S.Schema<WidgetTypeListResult>;
 
 /** Description of the prediction. */
-export type PredictionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type PredictionInputDescriptionMap = { [key: string]: string | undefined };
 export const PredictionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<PredictionInputDescriptionMap>;
 
 /** Display name of the prediction. */
-export type PredictionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type PredictionInputDisplayNameMap = { [key: string]: string | undefined };
 export const PredictionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5582,9 +5384,7 @@ export const PredictionInput = /*@__PURE__*/ S.suspend(() =>
     scoreLabel: S.String,
     grades: S.optional(PredictionInputGradesList),
   }),
-).annotate({
-  identifier: "PredictionInput",
-}) as any as S.Schema<PredictionInput>;
+).annotate({ identifier: "PredictionInput" }) as any as S.Schema<PredictionInput>;
 
 export interface PredictionsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5709,18 +5509,14 @@ export const ProfileTypeDefinitionInputAttributesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<ProfileTypeDefinitionInputAttributesMap>;
 
 /** Localized descriptions for the property. */
-export type ProfileTypeDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type ProfileTypeDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const ProfileTypeDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ProfileTypeDefinitionInputDescriptionMap>;
 
 /** Localized display names for the property. */
-export type ProfileTypeDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type ProfileTypeDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const ProfileTypeDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5925,18 +5721,14 @@ export const RegenerateAuthorizationPolicySecondaryKeyRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<RegenerateAuthorizationPolicySecondaryKeyRequest>;
 
 /** Localized display name for the Relationship Link. */
-export type RelationshipLinkDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipLinkDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const RelationshipLinkDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RelationshipLinkDefinitionInputDisplayNameMap>;
 
 /** Localized descriptions for the Relationship Link. */
-export type RelationshipLinkDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipLinkDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const RelationshipLinkDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6050,18 +5842,14 @@ export type RelationshipDefinitionInputCardinality = "OneToOne" | "OneToMany" | 
 export const RelationshipDefinitionInputCardinality = S.String;
 
 /** Localized display name for the Relationship. */
-export type RelationshipDefinitionInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipDefinitionInputDisplayNameMap = { [key: string]: string | undefined };
 export const RelationshipDefinitionInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RelationshipDefinitionInputDisplayNameMap>;
 
 /** Localized descriptions for the Relationship. */
-export type RelationshipDefinitionInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RelationshipDefinitionInputDescriptionMap = { [key: string]: string | undefined };
 export const RelationshipDefinitionInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6164,18 +5952,14 @@ export const RelationshipsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RelationshipsCreateOrUpdateResponse>;
 
 /** Localized display names for the metadata. */
-export type RoleAssignmentInputDisplayNameMap = {
-  [key: string]: string | undefined;
-};
+export type RoleAssignmentInputDisplayNameMap = { [key: string]: string | undefined };
 export const RoleAssignmentInputDisplayNameMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<RoleAssignmentInputDisplayNameMap>;
 
 /** Localized description for the metadata. */
-export type RoleAssignmentInputDescriptionMap = {
-  [key: string]: string | undefined;
-};
+export type RoleAssignmentInputDescriptionMap = { [key: string]: string | undefined };
 export const RoleAssignmentInputDescriptionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6254,9 +6038,7 @@ export const RoleAssignmentInput = /*@__PURE__*/ S.suspend(() =>
     conflationPolicies: S.optional(ResourceSetDescription),
     segments: S.optional(ResourceSetDescription),
   }),
-).annotate({
-  identifier: "RoleAssignmentInput",
-}) as any as S.Schema<RoleAssignmentInput>;
+).annotate({ identifier: "RoleAssignmentInput" }) as any as S.Schema<RoleAssignmentInput>;
 
 export interface RoleAssignmentsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6344,9 +6126,7 @@ export const UpdateHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2017-04-26",
     }),
   ),
-).annotate({
-  identifier: "UpdateHubRequest",
-}) as any as S.Schema<UpdateHubRequest>;
+).annotate({ identifier: "UpdateHubRequest" }) as any as S.Schema<UpdateHubRequest>;
 
 /** Resource tags. */
 export type UpdateHubResponseTagsMap = { [key: string]: string | undefined };
@@ -6377,9 +6157,7 @@ export const UpdateHubResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateHubResponseTagsMap),
     properties: S.optional(HubPropertiesFormat),
   }),
-).annotate({
-  identifier: "UpdateHubResponse",
-}) as any as S.Schema<UpdateHubResponse>;
+).annotate({ identifier: "UpdateHubResponse" }) as any as S.Schema<UpdateHubResponse>;
 
 /** Localized display name for the view. */
 export type ViewInputDisplayNameMap = { [key: string]: string | undefined };

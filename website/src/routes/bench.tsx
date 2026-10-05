@@ -10,6 +10,9 @@ const seeded = [bench.runtime?.seed ? "runtime" : "", bench.bundle?.seed ? "bund
   Boolean,
 );
 
+/** Runtime the runtime bench was recorded on, e.g. `node 24.9.0`. */
+const runtime = bench.runtime?.machine.runtime;
+
 const tab =
   "rounded-full px-[0.9rem] py-[0.35rem] text-[0.86rem] text-fg-2 hover:bg-bg-3 hover:text-fg hover:no-underline";
 
@@ -89,9 +92,17 @@ export default function Bench() {
             per call, measured with{" "}
             <a href="https://github.com/evanwashere/mitata" rel="noopener">
               mitata
-            </a>{" "}
-            on Bun. The <em>baseline</em> row is the mocked round-trip with no SDK in the loop;
-            subtract it to see the SDK's share.
+            </a>
+            <Show when={runtime}>
+              {(name) => (
+                <>
+                  {" "}
+                  on <code>{name()}</code>
+                </>
+              )}
+            </Show>
+            . The <em>baseline</em> row is the mocked round-trip with no SDK in the loop; subtract
+            it to see the SDK's share.
           </li>
           <li>
             <strong>Caveats.</strong> One developer machine, quick profile. Bytes are stable;

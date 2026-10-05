@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * generate-all — regenerate every SDK in the monorepo, then format.
  *
@@ -9,13 +9,14 @@
  * repo-wide `oxfmt` pass runs at the end (generated output is committed
  * formatted — never diff regeneration results before formatting).
  *
- * Usage: bun run generate            # all packages
- *        bun run generate neon aws   # just these packages
+ * Usage: pnpm generate            # all packages
+ *        pnpm generate neon aws   # just these packages
  */
+import { spawn, spawnSync } from "node:child_process";
 import { readdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const root = join(import.meta.dir, "..");
+const root = join(import.meta.dirname, "..");
 const only = new Set(process.argv.slice(2));
 
 interface Job {
@@ -45,6 +46,19 @@ if (jobs.length === 0) {
 
 console.log(`generating ${jobs.length} package(s): ${jobs.map((j) => j.name).join(", ")}`);
 
+/** Runs `pnpm run <script>` in `cwd`; resolves to the exit code and captured output. */
+const pnpmRun = (script: string, cwd: string) =>
+  new Promise<{ code: number; output: string }>((resolve, reject) => {
+    const proc = spawn("pnpm", ["run", script], { cwd, stdio: ["ignore", "pipe", "pipe"] });
+    const chunks: Buffer[] = [];
+    proc.stdout.on("data", (c: Buffer) => chunks.push(c));
+    proc.stderr.on("data", (c: Buffer) => chunks.push(c));
+    proc.on("error", reject);
+    proc.on("close", (code, signal) =>
+      resolve({ code: code ?? (signal ? 128 : 1), output: Buffer.concat(chunks).toString() }),
+    );
+  });
+
 const CONCURRENCY = 4;
 const failures: string[] = [];
 const queue = [...jobs];
@@ -52,20 +66,11 @@ const queue = [...jobs];
 const runJob = async (job: Job) => {
   const t0 = performance.now();
   for (const step of job.steps) {
-    const proc = Bun.spawn(["bun", "run", step], {
-      cwd: join(root, "packages", job.name),
-      stdout: "pipe",
-      stderr: "pipe",
-    });
-    const [out, err, code] = await Promise.all([
-      new Response(proc.stdout).text(),
-      new Response(proc.stderr).text(),
-      proc.exited,
-    ]);
+    const { code, output } = await pnpmRun(step, join(root, "packages", job.name));
     if (code !== 0) {
       failures.push(job.name);
       console.error(
-        `❌ ${job.name} ${step} (exit ${code})\n${(out + err).split("\n").slice(-15).join("\n")}`,
+        `❌ ${job.name} ${step} (exit ${code})\n${output.split("\n").slice(-15).join("\n")}`,
       );
       return;
     }
@@ -87,9 +92,5 @@ if (failures.length) {
 }
 
 console.log("\nformatting…");
-const fmt = Bun.spawn(["bun", "run", "format"], {
-  cwd: root,
-  stdout: "inherit",
-  stderr: "inherit",
-});
-process.exit(await fmt.exited);
+const fmt = spawnSync("pnpm", ["run", "format"], { cwd: root, stdio: "inherit" });
+process.exit(fmt.status ?? 1);

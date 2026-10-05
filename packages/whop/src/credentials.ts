@@ -87,16 +87,16 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain API key + optional base URL / version pin. */
+/** Convenience layer from a redacted API key + optional base URL / version pin. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly apiVersionDate?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       apiVersionDate: config.apiVersionDate ?? API_VERSION_DATE,
     }),

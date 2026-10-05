@@ -1,0 +1,226 @@
+{
+  "description": "The AKS assessment service (akspos) rejects the spec's 2024-01-15 api-version (\"The HTTP resource that matches the request URI '.../aksAssessments/...' does not support the API version '2024-01-15'\"); pin the aksAssessments operations to 2024-03-03-preview. The preview api-version also reshapes the settings: `sizingCriteria` is `sizingCriterion`, `savingsOptions` moves into `savingsSettings` (with `azureOfferCode`), `licensingProgram` moves into `billingSettings` (with `subscriptionId`), and the scope gains `scopeType`/`azureResourceGraphQuery` (\"The provided value  for parameter SavingsSettings is invalid.\" with the 2024-01-15 shape).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksSummaryOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksSummaryOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksSummaryOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksSummaryOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DownloadAksAssessmentOperationUrl/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DownloadAksAssessmentOperationUrl/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksCostDetailOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksCostDetailOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksClusterOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksClusterOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksClusterOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksClusterOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAssessedWebApplicationOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAssessedWebApplicationOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAssessedWebApplicationOperationByAksAssessment/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAssessedWebApplicationOperationByAksAssessment/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DeleteAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#DeleteAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#CreateAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#CreateAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksAssessmentOperation/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#GetAksAssessmentOperation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksAssessmentOperationByAssessmentProject/traits/smithy.api#http/apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.migrate#ListAksAssessmentOperationByAssessmentProject/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-03-03-preview"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/sizingCriteria",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/sizingCriterion"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/savingsOptions"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/licensingProgram"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSavingsSettings",
+      "value": {
+        "type": "structure",
+        "members": {
+          "savingsOptions": {
+            "target": "com.azure.migrate#SavingsOptions",
+            "traits": {
+              "smithy.api#documentation": "Savings options (reserved instances or savings plans)."
+            }
+          },
+          "azureOfferCode": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Azure offer code, e.g. `MSAZR0003P` (pay-as-you-go)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "AKS assessment savings settings."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentBillingSettings",
+      "value": {
+        "type": "structure",
+        "members": {
+          "licensingProgram": {
+            "target": "com.azure.migrate#LicensingProgram",
+            "traits": {
+              "smithy.api#documentation": "Licensing program (`Default` or `EA`)."
+            }
+          },
+          "subscriptionId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Subscription the prices are computed for."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "AKS assessment billing settings."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/savingsSettings",
+      "value": {
+        "target": "com.azure.migrate#AKSAssessmentSavingsSettings",
+        "traits": {
+          "smithy.api#documentation": "Savings settings."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AKSAssessmentSettings/members/billingSettings",
+      "value": {
+        "target": "com.azure.migrate#AKSAssessmentBillingSettings",
+        "traits": {
+          "smithy.api#documentation": "Billing settings."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AssessmentScopeParameters/members/scopeType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Scope type, e.g. `ServerGroupId` or `AzureResourceGraphQuery`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.migrate#AssessmentScopeParameters/members/azureResourceGraphQuery",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Azure Resource Graph query selecting the assessed resources."
+        }
+      }
+    }
+  ]
+}

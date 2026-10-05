@@ -79,17 +79,9 @@ export const CreateHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     dnslink: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/web3/hostnames",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/web3/hostnames", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateHostnameRequest",
-}) as any as S.Schema<CreateHostnameRequest>;
+).annotate({ identifier: "CreateHostnameRequest" }) as any as S.Schema<CreateHostnameRequest>;
 
 export type HostnamesCreateResponseStatus = "active" | "pending" | "deleting" | "error";
 export const HostnamesCreateResponseStatus = S.String;
@@ -125,9 +117,7 @@ export const CreateHostnameResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(HostnamesCreateResponseStatus)),
     target: S.optional(S.NullOr(HostnamesCreateResponseTarget)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateHostnameResponse",
-}) as any as S.Schema<CreateHostnameResponse>;
+).annotate({ identifier: "CreateHostnameResponse" }) as any as S.Schema<CreateHostnameResponse>;
 
 export type HostnamesIpfsUniversalPathsContentListsEntriesCreateRequestType =
   | "cid"
@@ -209,16 +199,10 @@ export const DeleteHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     identifier: S.String.pipe(T.Label()),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/web3/hostnames/{identifier}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/zones/{zone_id}/web3/hostnames/{identifier}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteHostnameRequest",
-}) as any as S.Schema<DeleteHostnameRequest>;
+).annotate({ identifier: "DeleteHostnameRequest" }) as any as S.Schema<DeleteHostnameRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHostnameResponse {
@@ -229,9 +213,7 @@ export const DeleteHostnameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteHostnameResponse",
-}) as any as S.Schema<DeleteHostnameResponse>;
+).annotate({ identifier: "DeleteHostnameResponse" }) as any as S.Schema<DeleteHostnameResponse>;
 
 export interface DeleteHostnameIpfsUniversalPathContentListEntryRequest {
   /** Specify the identifier of the hostname. */
@@ -283,17 +265,9 @@ export const GetHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     identifier: S.String.pipe(T.Label()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/web3/hostnames/{identifier}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/web3/hostnames/{identifier}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHostnameRequest",
-}) as any as S.Schema<GetHostnameRequest>;
+).annotate({ identifier: "GetHostnameRequest" }) as any as S.Schema<GetHostnameRequest>;
 
 export type HostnamesGetResponseStatus = "active" | "pending" | "deleting" | "error";
 export const HostnamesGetResponseStatus = S.String;
@@ -329,9 +303,7 @@ export const GetHostnameResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(HostnamesGetResponseStatus)),
     target: S.optional(S.NullOr(HostnamesGetResponseTarget)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHostnameResponse",
-}) as any as S.Schema<GetHostnameResponse>;
+).annotate({ identifier: "GetHostnameResponse" }) as any as S.Schema<GetHostnameResponse>;
 
 export interface GetHostnameIpfsUniversalPathContentListRequest {
   /** Specify the identifier of the hostname. */
@@ -513,17 +485,9 @@ export const ListHostnamesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/web3/hostnames",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/web3/hostnames", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHostnamesRequest",
-}) as any as S.Schema<ListHostnamesRequest>;
+).annotate({ identifier: "ListHostnamesRequest" }) as any as S.Schema<ListHostnamesRequest>;
 
 export type HostnamesListResultItemStatus = "active" | "pending" | "deleting" | "error";
 export const HostnamesListResultItemStatus = S.String;
@@ -558,9 +522,7 @@ export const HostnamesListResultItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(HostnamesListResultItemStatus)),
     target: S.optional(S.NullOr(HostnamesListResultItemTarget)),
   }),
-).annotate({
-  identifier: "HostnamesListResultItem",
-}) as any as S.Schema<HostnamesListResultItem>;
+).annotate({ identifier: "HostnamesListResultItem" }) as any as S.Schema<HostnamesListResultItem>;
 
 export type HostnamesListResultList = Array<HostnamesListResultItem>;
 export const HostnamesListResultList = /*@__PURE__*/ S.Array(
@@ -578,9 +540,7 @@ export const ListHostnamesResponse = /*@__PURE__*/ S.suspend(() =>
     result: HostnamesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHostnamesResponse",
-}) as any as S.Schema<ListHostnamesResponse>;
+).annotate({ identifier: "ListHostnamesResponse" }) as any as S.Schema<ListHostnamesResponse>;
 
 export interface PatchHostnameRequest {
   /** Specify the identifier of the hostname. */
@@ -600,16 +560,10 @@ export const PatchHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     dnslink: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/web3/hostnames/{identifier}",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/web3/hostnames/{identifier}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHostnameRequest",
-}) as any as S.Schema<PatchHostnameRequest>;
+).annotate({ identifier: "PatchHostnameRequest" }) as any as S.Schema<PatchHostnameRequest>;
 
 export type HostnamesEditResponseStatus = "active" | "pending" | "deleting" | "error";
 export const HostnamesEditResponseStatus = S.String;
@@ -645,9 +599,7 @@ export const PatchHostnameResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(HostnamesEditResponseStatus)),
     target: S.optional(S.NullOr(HostnamesEditResponseTarget)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchHostnameResponse",
-}) as any as S.Schema<PatchHostnameResponse>;
+).annotate({ identifier: "PatchHostnameResponse" }) as any as S.Schema<PatchHostnameResponse>;
 
 export type HostnamesIpfsUniversalPathsContentListsUpdateRequestAction = "block";
 export const HostnamesIpfsUniversalPathsContentListsUpdateRequestAction = S.String;

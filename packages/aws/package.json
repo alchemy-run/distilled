@@ -355,21 +355,16 @@
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsc && oxlint src && oxfmt --check src",
-    "convert": "bun run scripts/convert.ts",
-    "generate": "bun run scripts/generate.ts",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-aws",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*",
-    "@smithy/types": "catalog:"
+    "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "dedent": "catalog:",
-    "pathe": "catalog:"
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"

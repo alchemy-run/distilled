@@ -754,43 +754,100 @@ export const getEventPayloadMap = (ast: AST.AST): Record<string, string> | undef
   return ast.annotations?.eventPayloadMap as Record<string, string> | undefined;
 };
 
+/** How an `eventPayload` member is written to the frame payload. */
+export type EventPayloadKind = "blob" | "string" | "structure";
+
+/** Members of one event struct bound to the frame payload and headers. */
+export interface EventMemberBindings {
+  readonly payload?: { readonly name: string; readonly kind: EventPayloadKind };
+  readonly headers: readonly string[];
+}
+
+const unwrapSuspend = (ast: AST.AST): AST.AST => {
+  let current = ast;
+  while (current._tag === "Suspend") current = current.thunk();
+  return current;
+};
+
+const eventPayloadKind = (ast: AST.AST): EventPayloadKind => {
+  const id = findIdentifier(ast);
+  if (id === "Blob" || id === "SensitiveBlob") return "blob";
+  const encoded = AST.toEncoded(unwrapSuspend(ast));
+  const types = encoded._tag === "Union" ? encoded.types : [encoded];
+  const defined = types.filter((t) => t._tag !== "Undefined");
+  if (defined.length > 0 && defined.every((t) => t._tag === "String" || t._tag === "Literal")) {
+    return "string";
+  }
+  return "structure";
+};
+
+const findIdentifier = (ast: AST.AST): string | undefined => {
+  const current = unwrapSuspend(ast);
+  const direct = current.annotations?.identifier;
+  if (typeof direct === "string") return direct;
+  if (current._tag === "Union") {
+    for (const t of current.types) {
+      if (t._tag === "Undefined") continue;
+      const id = findIdentifier(t);
+      if (id) return id;
+    }
+  }
+  return undefined;
+};
+
 /**
- * Derive the event-type → payload-member map for an OUTPUT event stream from
- * its event union schema (`T.EventStream(S.Union([...]))`).
+ * Derive, per event type, which members of an event stream's event structs
+ * carry `T.EventPayload()` / `T.EventHeader()` annotations, from the event
+ * union schema (`S.Union([S.Struct({ EventName: EventStruct }), ...])`).
  *
  * Smithy's `eventPayload` trait means an event's wire payload IS that single
- * member's raw bytes (e.g. Lambda `InvokeWithResponseStream`'s
- * `PayloadChunk.Payload`), not a JSON document of the event struct — so the
- * parser must bind the raw payload to that member instead of JSON-parsing it
- * into struct fields. Input streams carry this map explicitly
- * (`T.InputEventStream(..., eventPayloadMap)`); for outputs we recover it
- * from the `T.EventPayload()` member annotations.
+ * member's value (raw bytes for a blob, UTF-8 for a string, JSON for a
+ * structure) rather than a JSON document of the event struct, and
+ * `eventHeader` members travel as frame headers.
  */
-export const getOutputEventPayloadMap = (
+export const getEventMemberBindings = (
   eventSchema: S.Schema<unknown>,
-): Record<string, string> | undefined => {
-  const unwrap = (ast: AST.AST): AST.AST => {
-    let current = ast;
-    while (current._tag === "Suspend") current = current.thunk();
-    return current;
-  };
-  const union = unwrap(eventSchema.ast);
+): Record<string, EventMemberBindings> | undefined => {
+  const union = unwrapSuspend(eventSchema.ast);
   if (union._tag !== "Union") return undefined;
-  const map: Record<string, string> = {};
+  const bindings: Record<string, EventMemberBindings> = {};
   for (const member of union.types) {
-    const eventStructWrapper = unwrap(member);
+    const eventStructWrapper = unwrapSuspend(member);
     if (eventStructWrapper._tag !== "Objects") continue;
     const wrapperProps = eventStructWrapper.propertySignatures;
     if (wrapperProps.length !== 1) continue;
     const eventType = String(wrapperProps[0].name);
-    const eventStruct = unwrap(wrapperProps[0].type);
+    const eventStruct = unwrapSuspend(wrapperProps[0].type);
     if (eventStruct._tag !== "Objects") continue;
+    let payload: EventMemberBindings["payload"];
+    const headers: string[] = [];
     for (const prop of eventStruct.propertySignatures) {
-      if (hasPropAnnotation(prop, eventPayloadSymbol)) {
-        map[eventType] = String(prop.name);
-        break;
+      if (payload === undefined && hasPropAnnotation(prop, eventPayloadSymbol)) {
+        payload = { name: String(prop.name), kind: eventPayloadKind(prop.type) };
+      } else if (hasPropAnnotation(prop, eventHeaderSymbol)) {
+        headers.push(String(prop.name));
       }
     }
+    if (payload || headers.length > 0) bindings[eventType] = { payload, headers };
+  }
+  return Object.keys(bindings).length > 0 ? bindings : undefined;
+};
+
+/**
+ * Derive the event-type → payload-member map for an OUTPUT event stream from
+ * its event union schema (`T.EventStream(S.Union([...]))`), so the parser
+ * binds the raw payload to that member (e.g. Lambda
+ * `InvokeWithResponseStream`'s `PayloadChunk.Payload`) instead of
+ * JSON-parsing it into struct fields.
+ */
+export const getOutputEventPayloadMap = (
+  eventSchema: S.Schema<unknown>,
+): Record<string, string> | undefined => {
+  const bindings = getEventMemberBindings(eventSchema);
+  if (!bindings) return undefined;
+  const map: Record<string, string> = {};
+  for (const [eventType, binding] of Object.entries(bindings)) {
+    if (binding.payload) map[eventType] = binding.payload.name;
   }
   return Object.keys(map).length > 0 ? map : undefined;
 };

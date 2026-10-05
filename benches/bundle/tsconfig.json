@@ -8,7 +8,7 @@
     "declarationMap": false,
     "sourceMap": false,
     "composite": false,
-    "types": ["bun"],
+    "types": ["node"],
     // Resolve the SDKs from source (what the `bun` export condition does at
     // bundle time) so the fixtures typecheck without a `tsc -b` of every
     // package first. Same approach as benches/runtime.

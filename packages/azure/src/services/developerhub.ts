@@ -29,9 +29,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 
 /** delete response if content must be provided on delete operation */
 export interface DeleteWorkflowResponse {
@@ -42,9 +40,7 @@ export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteWorkflowResponse",
-}) as any as S.Schema<DeleteWorkflowResponse>;
+).annotate({ identifier: "DeleteWorkflowResponse" }) as any as S.Schema<DeleteWorkflowResponse>;
 
 /** The programming language used. */
 export type GenerationLanguage =
@@ -133,9 +129,7 @@ export const GeneratePreviewArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GeneratePreviewArtifactsRequest>;
 
 /** Dockerfile and manifest artifacts generated as a preview are returned as a map<path string,content string> */
-export type GeneratePreviewArtifactsResponse = {
-  [key: string]: string | undefined;
-};
+export type GeneratePreviewArtifactsResponse = { [key: string]: string | undefined };
 export const GeneratePreviewArtifactsResponse = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -169,9 +163,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -224,9 +216,7 @@ export const DeploymentPropertiesKubeManifestLocationsList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<DeploymentPropertiesKubeManifestLocationsList>;
 
 /** Manifest override values. */
-export type DeploymentPropertiesOverridesMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentPropertiesOverridesMap = { [key: string]: string | undefined };
 export const DeploymentPropertiesOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -250,9 +240,7 @@ export const DeploymentProperties = /*@__PURE__*/ S.suspend(() =>
     helmValues: S.optional(S.String),
     overrides: S.optional(DeploymentPropertiesOverridesMap),
   }),
-).annotate({
-  identifier: "DeploymentProperties",
-}) as any as S.Schema<DeploymentProperties>;
+).annotate({ identifier: "DeploymentProperties" }) as any as S.Schema<DeploymentProperties>;
 
 /** Information on the azure container registry */
 export interface ACR {
@@ -366,9 +354,7 @@ export const GitHubWorkflowProfile = /*@__PURE__*/ S.suspend(() =>
     lastWorkflowRun: S.optional(WorkflowRun),
     authStatus: S.optional(AuthorizationStatus),
   }),
-).annotate({
-  identifier: "GitHubWorkflowProfile",
-}) as any as S.Schema<GitHubWorkflowProfile>;
+).annotate({ identifier: "GitHubWorkflowProfile" }) as any as S.Schema<GitHubWorkflowProfile>;
 
 /** Properties used for generating artifacts such as Dockerfiles and manifests. */
 export interface ArtifactGenerationProperties {
@@ -427,9 +413,7 @@ export const WorkflowProperties = /*@__PURE__*/ S.suspend(() =>
     githubWorkflowProfile: S.optional(GitHubWorkflowProfile),
     artifactGenerationProperties: S.optional(ArtifactGenerationProperties),
   }),
-).annotate({
-  identifier: "WorkflowProperties",
-}) as any as S.Schema<WorkflowProperties>;
+).annotate({ identifier: "WorkflowProperties" }) as any as S.Schema<WorkflowProperties>;
 
 export interface GetWorkflowResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -457,9 +441,7 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WorkflowProperties),
   }),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 
 export interface GitHubOAuthRequest {
   /** The ID of the target subscription. */
@@ -482,9 +464,7 @@ export const GitHubOAuthRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "GitHubOAuthRequest",
-}) as any as S.Schema<GitHubOAuthRequest>;
+).annotate({ identifier: "GitHubOAuthRequest" }) as any as S.Schema<GitHubOAuthRequest>;
 
 /** URL used to authorize the Developer Hub GitHub App */
 export interface GitHubOAuthInfoResponse {
@@ -498,9 +478,7 @@ export const GitHubOAuthInfoResponse = /*@__PURE__*/ S.suspend(() =>
     authURL: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitHubOAuthInfoResponse",
-}) as any as S.Schema<GitHubOAuthInfoResponse>;
+).annotate({ identifier: "GitHubOAuthInfoResponse" }) as any as S.Schema<GitHubOAuthInfoResponse>;
 
 export interface GitHubOAuthCallbackRequest {
   /** The ID of the target subscription. */
@@ -539,9 +517,7 @@ export const GitHubOAuthProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitHubOAuthProperties",
-}) as any as S.Schema<GitHubOAuthProperties>;
+).annotate({ identifier: "GitHubOAuthProperties" }) as any as S.Schema<GitHubOAuthProperties>;
 
 export interface GitHubOAuthCallbackResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -585,9 +561,7 @@ export const ListGitHubOAuthRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListGitHubOAuthRequest",
-}) as any as S.Schema<ListGitHubOAuthRequest>;
+).annotate({ identifier: "ListGitHubOAuthRequest" }) as any as S.Schema<ListGitHubOAuthRequest>;
 
 /** Singleton response of GitHubOAuth containing */
 export interface GitHubOAuthResponse {
@@ -610,9 +584,7 @@ export const GitHubOAuthResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GitHubOAuthProperties),
   }),
-).annotate({
-  identifier: "GitHubOAuthResponse",
-}) as any as S.Schema<GitHubOAuthResponse>;
+).annotate({ identifier: "GitHubOAuthResponse" }) as any as S.Schema<GitHubOAuthResponse>;
 
 /** Singleton list response containing one GitHubOAuthResponse response */
 export type GitHubOAuthListResponseValueList = Array<GitHubOAuthResponse>;
@@ -629,9 +601,7 @@ export const GitHubOAuthListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GitHubOAuthListResponseValueList),
   }),
-).annotate({
-  identifier: "GitHubOAuthListResponse",
-}) as any as S.Schema<GitHubOAuthListResponse>;
+).annotate({ identifier: "GitHubOAuthListResponse" }) as any as S.Schema<GitHubOAuthListResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -643,9 +613,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -665,9 +633,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -717,9 +683,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListWorkflowRequest {
   /** The ID of the target subscription. */
@@ -736,9 +700,7 @@ export const ListWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkflowRequest",
-}) as any as S.Schema<ListWorkflowRequest>;
+).annotate({ identifier: "ListWorkflowRequest" }) as any as S.Schema<ListWorkflowRequest>;
 
 /** Resource tags. */
 export type WorkflowTagsMap = { [key: string]: string | undefined };
@@ -794,9 +756,7 @@ export const WorkflowListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkflowListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowListResult",
-}) as any as S.Schema<WorkflowListResult>;
+).annotate({ identifier: "WorkflowListResult" }) as any as S.Schema<WorkflowListResult>;
 
 export interface ListWorkflowByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -823,9 +783,7 @@ export const ListWorkflowByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWorkflowByResourceGroupRequest",
 }) as any as S.Schema<ListWorkflowByResourceGroupRequest>;
 
-export type UpdateWorkflowTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkflowTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkflowTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -859,9 +817,7 @@ export const UpdateWorkflowTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWorkflowTagsRequest>;
 
 /** Resource tags. */
-export type UpdateWorkflowTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkflowTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkflowTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -898,9 +854,7 @@ export const UpdateWorkflowTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateWorkflowTagsResponse>;
 
 /** Resource tags. */
-export type WorkflowCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkflowCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkflowCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -917,9 +871,7 @@ export const WorkflowRunInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflowRunStatus: S.optional(WorkflowRunStatus),
   }),
-).annotate({
-  identifier: "WorkflowRunInput",
-}) as any as S.Schema<WorkflowRunInput>;
+).annotate({ identifier: "WorkflowRunInput" }) as any as S.Schema<WorkflowRunInput>;
 
 /** GitHub Workflow Profile */
 export interface GitHubWorkflowProfileInput {
@@ -973,9 +925,7 @@ export const WorkflowPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     githubWorkflowProfile: S.optional(GitHubWorkflowProfileInput),
     artifactGenerationProperties: S.optional(ArtifactGenerationProperties),
   }),
-).annotate({
-  identifier: "WorkflowPropertiesInput",
-}) as any as S.Schema<WorkflowPropertiesInput>;
+).annotate({ identifier: "WorkflowPropertiesInput" }) as any as S.Schema<WorkflowPropertiesInput>;
 
 export interface WorkflowCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1012,9 +962,7 @@ export const WorkflowCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkflowCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkflowCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkflowCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkflowCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

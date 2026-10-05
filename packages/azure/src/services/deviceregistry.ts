@@ -47,9 +47,7 @@ export const X509Credentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateSecretName: S.String,
   }),
-).annotate({
-  identifier: "X509Credentials",
-}) as any as S.Schema<X509Credentials>;
+).annotate({ identifier: "X509Credentials" }) as any as S.Schema<X509Credentials>;
 
 /** Definition of the client authentication mechanism to the server. */
 export interface Authentication {
@@ -105,9 +103,7 @@ export const ExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ExtendedLocation",
-}) as any as S.Schema<ExtendedLocation>;
+).annotate({ identifier: "ExtendedLocation" }) as any as S.Schema<ExtendedLocation>;
 
 export interface AssetEndpointProfilesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -296,18 +292,14 @@ export const AssetEndpointProfilesCreateOrReplaceResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<AssetEndpointProfilesCreateOrReplaceResponse>;
 
 /** Resource tags. */
-export type AssetsCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AssetsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const AssetsCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<AssetsCreateOrReplaceRequestTagsMap>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type AssetPropertiesInputAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AssetPropertiesInputAttributesMap = { [key: string]: unknown | undefined };
 export const AssetPropertiesInputAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -492,9 +484,7 @@ export const AssetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     datasets: S.optional(AssetPropertiesInputDatasetsList),
     events: S.optional(AssetPropertiesInputEventsList),
   }),
-).annotate({
-  identifier: "AssetPropertiesInput",
-}) as any as S.Schema<AssetPropertiesInput>;
+).annotate({ identifier: "AssetPropertiesInput" }) as any as S.Schema<AssetPropertiesInput>;
 
 export interface AssetsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -534,18 +524,14 @@ export const AssetsCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AssetsCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type AssetsCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AssetsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const AssetsCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<AssetsCreateOrReplaceResponseTagsMap>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type AssetPropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AssetPropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const AssetPropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -581,9 +567,7 @@ export const AssetStatusError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.Number),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssetStatusError",
-}) as any as S.Schema<AssetStatusError>;
+).annotate({ identifier: "AssetStatusError" }) as any as S.Schema<AssetStatusError>;
 
 /** Array object to transfer and persist errors that originate from the Edge. */
 export type AssetStatusErrorsList = Array<AssetStatusError>;
@@ -606,9 +590,7 @@ export const MessageSchemaReference = /*@__PURE__*/ S.suspend(() =>
     schemaName: S.String,
     schemaVersion: S.String,
   }),
-).annotate({
-  identifier: "MessageSchemaReference",
-}) as any as S.Schema<MessageSchemaReference>;
+).annotate({ identifier: "MessageSchemaReference" }) as any as S.Schema<MessageSchemaReference>;
 
 /** Defines the asset status dataset properties. */
 export interface AssetStatusDataset {
@@ -622,9 +604,7 @@ export const AssetStatusDataset = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     messageSchemaReference: S.optional(MessageSchemaReference),
   }),
-).annotate({
-  identifier: "AssetStatusDataset",
-}) as any as S.Schema<AssetStatusDataset>;
+).annotate({ identifier: "AssetStatusDataset" }) as any as S.Schema<AssetStatusDataset>;
 
 /** Array of dataset statuses that describe the status of each dataset. */
 export type AssetStatusDatasetsList = Array<AssetStatusDataset>;
@@ -644,9 +624,7 @@ export const AssetStatusEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     messageSchemaReference: S.optional(MessageSchemaReference),
   }),
-).annotate({
-  identifier: "AssetStatusEvent",
-}) as any as S.Schema<AssetStatusEvent>;
+).annotate({ identifier: "AssetStatusEvent" }) as any as S.Schema<AssetStatusEvent>;
 
 /** Array of event statuses that describe the status of each event. */
 export type AssetStatusEventsList = Array<AssetStatusEvent>;
@@ -752,9 +730,7 @@ export const AssetProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AssetStatus),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "AssetProperties",
-}) as any as S.Schema<AssetProperties>;
+).annotate({ identifier: "AssetProperties" }) as any as S.Schema<AssetProperties>;
 
 export interface AssetsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -810,9 +786,7 @@ export const DeleteAssetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAssetRequest",
-}) as any as S.Schema<DeleteAssetRequest>;
+).annotate({ identifier: "DeleteAssetRequest" }) as any as S.Schema<DeleteAssetRequest>;
 
 export interface DeleteAssetResponse {}
 export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -872,9 +846,7 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 
 export interface DeleteNamespaceResponse {}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1041,9 +1013,7 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSchemaRequest",
-}) as any as S.Schema<DeleteSchemaRequest>;
+).annotate({ identifier: "DeleteSchemaRequest" }) as any as S.Schema<DeleteSchemaRequest>;
 
 export interface DeleteSchemaResponse {}
 export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1117,9 +1087,7 @@ export const DeleteSchemaVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<DeleteSchemaVersionResponse>;
 
 /** Payload required for executing the management action. */
-export type ExecuteNamespaceAssetActionRequestPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type ExecuteNamespaceAssetActionRequestPayloadMap = { [key: string]: unknown | undefined };
 export const ExecuteNamespaceAssetActionRequestPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1258,9 +1226,7 @@ export const GetAssetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetAssetRequest",
-}) as any as S.Schema<GetAssetRequest>;
+).annotate({ identifier: "GetAssetRequest" }) as any as S.Schema<GetAssetRequest>;
 
 /** Resource tags. */
 export type GetAssetResponseTagsMap = { [key: string]: string | undefined };
@@ -1298,9 +1264,7 @@ export const GetAssetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssetProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "GetAssetResponse",
-}) as any as S.Schema<GetAssetResponse>;
+).annotate({ identifier: "GetAssetResponse" }) as any as S.Schema<GetAssetResponse>;
 
 export interface GetAssetEndpointProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1328,9 +1292,7 @@ export const GetAssetEndpointProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAssetEndpointProfileRequest>;
 
 /** Resource tags. */
-export type GetAssetEndpointProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAssetEndpointProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetAssetEndpointProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1452,9 +1414,7 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 
 /** Resource tags. */
 export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -1478,14 +1438,10 @@ export const MessagingEndpoint = /*@__PURE__*/ S.suspend(() =>
     address: S.String,
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MessagingEndpoint",
-}) as any as S.Schema<MessagingEndpoint>;
+).annotate({ identifier: "MessagingEndpoint" }) as any as S.Schema<MessagingEndpoint>;
 
 /** Dictionary of messaging endpoints. */
-export type MessagingEndpointsMap = {
-  [key: string]: MessagingEndpoint | undefined;
-};
+export type MessagingEndpointsMap = { [key: string]: MessagingEndpoint | undefined };
 export const MessagingEndpointsMap = /*@__PURE__*/ S.Record(
   S.String,
   MessagingEndpoint,
@@ -1520,14 +1476,10 @@ export const ManagementEndpoint = /*@__PURE__*/ S.suspend(() =>
     scopeId: S.String,
     resourceId: S.String,
   }),
-).annotate({
-  identifier: "ManagementEndpoint",
-}) as any as S.Schema<ManagementEndpoint>;
+).annotate({ identifier: "ManagementEndpoint" }) as any as S.Schema<ManagementEndpoint>;
 
 /** Dictionary of management endpoints. */
-export type ManagementEndpointsMap = {
-  [key: string]: ManagementEndpoint | undefined;
-};
+export type ManagementEndpointsMap = { [key: string]: ManagementEndpoint | undefined };
 export const ManagementEndpointsMap = /*@__PURE__*/ S.Record(
   S.String,
   ManagementEndpoint,
@@ -1562,9 +1514,7 @@ export const NamespaceProperties = /*@__PURE__*/ S.suspend(() =>
     management: S.optional(Management),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "NamespaceProperties",
-}) as any as S.Schema<NamespaceProperties>;
+).annotate({ identifier: "NamespaceProperties" }) as any as S.Schema<NamespaceProperties>;
 
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
@@ -1617,9 +1567,7 @@ export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NamespaceProperties),
     identity: S.optional(GetNamespaceResponseIdentity),
   }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 
 export interface GetNamespaceAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1645,14 +1593,10 @@ export const GetNamespaceAssetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceAssetRequest",
-}) as any as S.Schema<GetNamespaceAssetRequest>;
+).annotate({ identifier: "GetNamespaceAssetRequest" }) as any as S.Schema<GetNamespaceAssetRequest>;
 
 /** Resource tags. */
-export type GetNamespaceAssetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNamespaceAssetResponseTagsMap = { [key: string]: string | undefined };
 export const GetNamespaceAssetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1679,9 +1623,7 @@ export const NamespaceAssetPropertiesAssetTypeRefsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<NamespaceAssetPropertiesAssetTypeRefsList>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceAssetPropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceAssetPropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceAssetPropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1706,9 +1648,7 @@ export const DatasetDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     target: DatasetDestinationTarget,
   }),
-).annotate({
-  identifier: "DatasetDestination",
-}) as any as S.Schema<DatasetDestination>;
+).annotate({ identifier: "DatasetDestination" }) as any as S.Schema<DatasetDestination>;
 
 /** Default destinations for a dataset. */
 export type NamespaceAssetPropertiesDefaultDatasetsDestinationsList = Array<DatasetDestination>;
@@ -1729,9 +1669,7 @@ export const EventDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     target: EventDestinationTarget,
   }),
-).annotate({
-  identifier: "EventDestination",
-}) as any as S.Schema<EventDestination>;
+).annotate({ identifier: "EventDestination" }) as any as S.Schema<EventDestination>;
 
 /** Default destinations for an event. */
 export type NamespaceAssetPropertiesDefaultEventsDestinationsList = Array<EventDestination>;
@@ -1752,9 +1690,7 @@ export const StreamDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     target: StreamDestinationTarget,
   }),
-).annotate({
-  identifier: "StreamDestination",
-}) as any as S.Schema<StreamDestination>;
+).annotate({ identifier: "StreamDestination" }) as any as S.Schema<StreamDestination>;
 
 /** Default destinations for a stream. */
 export type NamespaceAssetPropertiesDefaultStreamsDestinationsList = Array<StreamDestination>;
@@ -1820,9 +1756,7 @@ export const NamespaceDataset = /*@__PURE__*/ S.suspend(() =>
     destinations: S.optional(NamespaceDatasetDestinationsList),
     dataPoints: S.optional(NamespaceDatasetDataPointsList),
   }),
-).annotate({
-  identifier: "NamespaceDataset",
-}) as any as S.Schema<NamespaceDataset>;
+).annotate({ identifier: "NamespaceDataset" }) as any as S.Schema<NamespaceDataset>;
 
 /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
 export type NamespaceAssetPropertiesDatasetsList = Array<NamespaceDataset>;
@@ -1895,9 +1829,7 @@ export const NamespaceEventGroup = /*@__PURE__*/ S.suspend(() =>
     typeRef: S.optional(S.String),
     events: S.optional(NamespaceEventGroupEventsList),
   }),
-).annotate({
-  identifier: "NamespaceEventGroup",
-}) as any as S.Schema<NamespaceEventGroup>;
+).annotate({ identifier: "NamespaceEventGroup" }) as any as S.Schema<NamespaceEventGroup>;
 
 /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
 export type NamespaceAssetPropertiesEventGroupsList = Array<NamespaceEventGroup>;
@@ -1929,9 +1861,7 @@ export const NamespaceStream = /*@__PURE__*/ S.suspend(() =>
     typeRef: S.optional(S.String),
     destinations: S.optional(NamespaceStreamDestinationsList),
   }),
-).annotate({
-  identifier: "NamespaceStream",
-}) as any as S.Schema<NamespaceStream>;
+).annotate({ identifier: "NamespaceStream" }) as any as S.Schema<NamespaceStream>;
 
 /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
 export type NamespaceAssetPropertiesStreamsList = Array<NamespaceStream>;
@@ -1970,9 +1900,7 @@ export const ManagementAction = /*@__PURE__*/ S.suspend(() =>
     actionType: S.optional(ManagementActionActionType),
     timeoutInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ManagementAction",
-}) as any as S.Schema<ManagementAction>;
+).annotate({ identifier: "ManagementAction" }) as any as S.Schema<ManagementAction>;
 
 /** Array of actions that are part of the management group. Each action can have an individual configuration. */
 export type ManagementGroupActionsList = Array<ManagementAction>;
@@ -2007,9 +1935,7 @@ export const ManagementGroup = /*@__PURE__*/ S.suspend(() =>
     defaultTimeoutInSeconds: S.optional(S.Number),
     actions: S.optional(ManagementGroupActionsList),
   }),
-).annotate({
-  identifier: "ManagementGroup",
-}) as any as S.Schema<ManagementGroup>;
+).annotate({ identifier: "ManagementGroup" }) as any as S.Schema<ManagementGroup>;
 
 /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
 export type NamespaceAssetPropertiesManagementGroupsList = Array<ManagementGroup>;
@@ -2260,9 +2186,7 @@ export const NamespaceAssetStatus = /*@__PURE__*/ S.suspend(() =>
     managementGroups: S.optional(NamespaceAssetStatusManagementGroupsList),
     healthState: S.optional(HealthState),
   }),
-).annotate({
-  identifier: "NamespaceAssetStatus",
-}) as any as S.Schema<NamespaceAssetStatus>;
+).annotate({ identifier: "NamespaceAssetStatus" }) as any as S.Schema<NamespaceAssetStatus>;
 
 /** Defines the asset properties. */
 export interface NamespaceAssetProperties {
@@ -2368,9 +2292,7 @@ export const NamespaceAssetProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(NamespaceAssetStatus),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "NamespaceAssetProperties",
-}) as any as S.Schema<NamespaceAssetProperties>;
+).annotate({ identifier: "NamespaceAssetProperties" }) as any as S.Schema<NamespaceAssetProperties>;
 
 export interface GetNamespaceAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2434,9 +2356,7 @@ export const GetNamespaceDeviceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNamespaceDeviceRequest>;
 
 /** Resource tags. */
-export type GetNamespaceDeviceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNamespaceDeviceResponseTagsMap = { [key: string]: string | undefined };
 export const GetNamespaceDeviceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2480,9 +2400,7 @@ export const HostAuthentication = /*@__PURE__*/ S.suspend(() =>
     usernamePasswordCredentials: S.optional(UsernamePasswordCredentials),
     x509Credentials: S.optional(X509CertificateCredentials),
   }),
-).annotate({
-  identifier: "HostAuthentication",
-}) as any as S.Schema<HostAuthentication>;
+).annotate({ identifier: "HostAuthentication" }) as any as S.Schema<HostAuthentication>;
 
 /** Defines server trust settings for an endpoint. */
 export interface TrustSettings {
@@ -2519,14 +2437,10 @@ export const InboundEndpoints = /*@__PURE__*/ S.suspend(() =>
     trustSettings: S.optional(TrustSettings),
     additionalConfiguration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InboundEndpoints",
-}) as any as S.Schema<InboundEndpoints>;
+).annotate({ identifier: "InboundEndpoints" }) as any as S.Schema<InboundEndpoints>;
 
 /** Set of endpoints to connect to the device. */
-export type MessagingEndpointsInboundMap = {
-  [key: string]: InboundEndpoints | undefined;
-};
+export type MessagingEndpointsInboundMap = { [key: string]: InboundEndpoints | undefined };
 export const MessagingEndpointsInboundMap = /*@__PURE__*/ S.Record(
   S.String,
   InboundEndpoints,
@@ -2544,23 +2458,17 @@ export const DeviceMessagingEndpoint = /*@__PURE__*/ S.suspend(() =>
     endpointType: S.optional(S.String),
     address: S.String,
   }),
-).annotate({
-  identifier: "DeviceMessagingEndpoint",
-}) as any as S.Schema<DeviceMessagingEndpoint>;
+).annotate({ identifier: "DeviceMessagingEndpoint" }) as any as S.Schema<DeviceMessagingEndpoint>;
 
 /** Endpoints the device can connect to. */
-export type OutboundEndpointsAssignedMap = {
-  [key: string]: DeviceMessagingEndpoint | undefined;
-};
+export type OutboundEndpointsAssignedMap = { [key: string]: DeviceMessagingEndpoint | undefined };
 export const OutboundEndpointsAssignedMap = /*@__PURE__*/ S.Record(
   S.String,
   DeviceMessagingEndpoint,
 ) as any as S.Schema<OutboundEndpointsAssignedMap>;
 
 /** Set of most recently removed endpoints. */
-export type OutboundEndpointsUnassignedMap = {
-  [key: string]: DeviceMessagingEndpoint | undefined;
-};
+export type OutboundEndpointsUnassignedMap = { [key: string]: DeviceMessagingEndpoint | undefined };
 export const OutboundEndpointsUnassignedMap = /*@__PURE__*/ S.Record(
   S.String,
   DeviceMessagingEndpoint,
@@ -2578,9 +2486,7 @@ export const OutboundEndpoints = /*@__PURE__*/ S.suspend(() =>
     assigned: OutboundEndpointsAssignedMap,
     unassigned: S.optional(OutboundEndpointsUnassignedMap),
   }),
-).annotate({
-  identifier: "OutboundEndpoints",
-}) as any as S.Schema<OutboundEndpoints>;
+).annotate({ identifier: "OutboundEndpoints" }) as any as S.Schema<OutboundEndpoints>;
 
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface MessagingEndpoints {
@@ -2594,14 +2500,10 @@ export const MessagingEndpoints = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(MessagingEndpointsInboundMap),
     outbound: S.optional(OutboundEndpoints),
   }),
-).annotate({
-  identifier: "MessagingEndpoints",
-}) as any as S.Schema<MessagingEndpoints>;
+).annotate({ identifier: "MessagingEndpoints" }) as any as S.Schema<MessagingEndpoints>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceDevicePropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceDevicePropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceDevicePropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2619,14 +2521,10 @@ export const DeviceStatusEndpoint = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(StatusError),
     healthState: S.optional(HealthState),
   }),
-).annotate({
-  identifier: "DeviceStatusEndpoint",
-}) as any as S.Schema<DeviceStatusEndpoint>;
+).annotate({ identifier: "DeviceStatusEndpoint" }) as any as S.Schema<DeviceStatusEndpoint>;
 
 /** KeyValue pair representing status of inbound endpoints. */
-export type DeviceStatusEndpointsInboundMap = {
-  [key: string]: DeviceStatusEndpoint | undefined;
-};
+export type DeviceStatusEndpointsInboundMap = { [key: string]: DeviceStatusEndpoint | undefined };
 export const DeviceStatusEndpointsInboundMap = /*@__PURE__*/ S.Record(
   S.String,
   DeviceStatusEndpoint,
@@ -2641,9 +2539,7 @@ export const DeviceStatusEndpoints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inbound: S.optional(DeviceStatusEndpointsInboundMap),
   }),
-).annotate({
-  identifier: "DeviceStatusEndpoints",
-}) as any as S.Schema<DeviceStatusEndpoints>;
+).annotate({ identifier: "DeviceStatusEndpoints" }) as any as S.Schema<DeviceStatusEndpoints>;
 
 /** Defines the device status properties. */
 export interface DeviceStatus {
@@ -2776,9 +2672,7 @@ export const GetNamespaceDiscoveredAssetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNamespaceDiscoveredAssetRequest>;
 
 /** Resource tags. */
-export type GetNamespaceDiscoveredAssetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNamespaceDiscoveredAssetResponseTagsMap = { [key: string]: string | undefined };
 export const GetNamespaceDiscoveredAssetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2933,9 +2827,7 @@ export const NamespaceDiscoveredEvent = /*@__PURE__*/ S.suspend(() =>
     typeRef: S.optional(S.String),
     lastUpdatedOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceDiscoveredEvent",
-}) as any as S.Schema<NamespaceDiscoveredEvent>;
+).annotate({ identifier: "NamespaceDiscoveredEvent" }) as any as S.Schema<NamespaceDiscoveredEvent>;
 
 /** Array of events that are part of the event group. */
 export type NamespaceDiscoveredEventGroupEventsList = Array<NamespaceDiscoveredEvent>;
@@ -3263,9 +3155,7 @@ export const GetNamespaceDiscoveredDeviceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNamespaceDiscoveredDeviceRequest>;
 
 /** Resource tags. */
-export type GetNamespaceDiscoveredDeviceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNamespaceDiscoveredDeviceResponseTagsMap = { [key: string]: string | undefined };
 export const GetNamespaceDiscoveredDeviceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3491,9 +3381,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -3557,9 +3445,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
@@ -3627,9 +3513,7 @@ export const GetSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetSchemaRequest",
-}) as any as S.Schema<GetSchemaRequest>;
+).annotate({ identifier: "GetSchemaRequest" }) as any as S.Schema<GetSchemaRequest>;
 
 /** Defines the schema format. */
 export type Format = "JsonSchema/draft-07" | "Delta/1.0";
@@ -3673,9 +3557,7 @@ export const SchemaProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     tags: S.optional(SchemaPropertiesTagsMap),
   }),
-).annotate({
-  identifier: "SchemaProperties",
-}) as any as S.Schema<SchemaProperties>;
+).annotate({ identifier: "SchemaProperties" }) as any as S.Schema<SchemaProperties>;
 
 export interface GetSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3697,9 +3579,7 @@ export const GetSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SchemaProperties),
   }),
-).annotate({
-  identifier: "GetSchemaResponse",
-}) as any as S.Schema<GetSchemaResponse>;
+).annotate({ identifier: "GetSchemaResponse" }) as any as S.Schema<GetSchemaResponse>;
 
 export interface GetSchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3722,14 +3602,10 @@ export const GetSchemaRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetSchemaRegistryRequest",
-}) as any as S.Schema<GetSchemaRegistryRequest>;
+).annotate({ identifier: "GetSchemaRegistryRequest" }) as any as S.Schema<GetSchemaRegistryRequest>;
 
 /** Resource tags. */
-export type GetSchemaRegistryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSchemaRegistryResponseTagsMap = { [key: string]: string | undefined };
 export const GetSchemaRegistryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3759,9 +3635,7 @@ export const SchemaRegistryProperties = /*@__PURE__*/ S.suspend(() =>
     storageAccountContainerUrl: S.String,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "SchemaRegistryProperties",
-}) as any as S.Schema<SchemaRegistryProperties>;
+).annotate({ identifier: "SchemaRegistryProperties" }) as any as S.Schema<SchemaRegistryProperties>;
 
 /** Managed service identity (either system assigned, or none) */
 export type GetSchemaRegistryResponseIdentity = GetNamespaceResponseIdentity;
@@ -3827,9 +3701,7 @@ export const GetSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetSchemaVersionRequest",
-}) as any as S.Schema<GetSchemaVersionRequest>;
+).annotate({ identifier: "GetSchemaVersionRequest" }) as any as S.Schema<GetSchemaVersionRequest>;
 
 /** Defines the schema version properties. */
 export interface SchemaVersionProperties {
@@ -3852,9 +3724,7 @@ export const SchemaVersionProperties = /*@__PURE__*/ S.suspend(() =>
     hash: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "SchemaVersionProperties",
-}) as any as S.Schema<SchemaVersionProperties>;
+).annotate({ identifier: "SchemaVersionProperties" }) as any as S.Schema<SchemaVersionProperties>;
 
 export interface GetSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3876,9 +3746,7 @@ export const GetSchemaVersionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SchemaVersionProperties),
   }),
-).annotate({
-  identifier: "GetSchemaVersionResponse",
-}) as any as S.Schema<GetSchemaVersionResponse>;
+).annotate({ identifier: "GetSchemaVersionResponse" }) as any as S.Schema<GetSchemaVersionResponse>;
 
 export interface ListAssetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3959,9 +3827,7 @@ export const AssetListResult = /*@__PURE__*/ S.suspend(() =>
     value: AssetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssetListResult",
-}) as any as S.Schema<AssetListResult>;
+).annotate({ identifier: "AssetListResult" }) as any as S.Schema<AssetListResult>;
 
 export interface ListAssetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4041,9 +3907,7 @@ export const AssetEndpointProfile = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssetEndpointProfileProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "AssetEndpointProfile",
-}) as any as S.Schema<AssetEndpointProfile>;
+).annotate({ identifier: "AssetEndpointProfile" }) as any as S.Schema<AssetEndpointProfile>;
 
 /** The AssetEndpointProfile items on this page */
 export type AssetEndpointProfileListResultValueList = Array<AssetEndpointProfile>;
@@ -4129,9 +3993,7 @@ export const BillingContainer = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BillingContainerProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingContainer",
-}) as any as S.Schema<BillingContainer>;
+).annotate({ identifier: "BillingContainer" }) as any as S.Schema<BillingContainer>;
 
 /** The BillingContainer items on this page */
 export type BillingContainerListResultValueList = Array<BillingContainer>;
@@ -4237,9 +4099,7 @@ export const NamespaceAssetListResult = /*@__PURE__*/ S.suspend(() =>
     value: NamespaceAssetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceAssetListResult",
-}) as any as S.Schema<NamespaceAssetListResult>;
+).annotate({ identifier: "NamespaceAssetListResult" }) as any as S.Schema<NamespaceAssetListResult>;
 
 export interface ListNamespaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4324,9 +4184,7 @@ export const NamespaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: NamespaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamespaceListResult",
-}) as any as S.Schema<NamespaceListResult>;
+).annotate({ identifier: "NamespaceListResult" }) as any as S.Schema<NamespaceListResult>;
 
 export interface ListNamespaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4412,9 +4270,7 @@ export const NamespaceDevice = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "NamespaceDevice",
-}) as any as S.Schema<NamespaceDevice>;
+).annotate({ identifier: "NamespaceDevice" }) as any as S.Schema<NamespaceDevice>;
 
 /** The NamespaceDevice items on this page */
 export type NamespaceDeviceListResultValueList = Array<NamespaceDevice>;
@@ -4464,9 +4320,7 @@ export const ListNamespaceDiscoveredAssetByResourceGroupRequest = /*@__PURE__*/ 
 }) as any as S.Schema<ListNamespaceDiscoveredAssetByResourceGroupRequest>;
 
 /** Resource tags. */
-export type NamespaceDiscoveredAssetTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceDiscoveredAssetTagsMap = { [key: string]: string | undefined };
 export const NamespaceDiscoveredAssetTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4502,9 +4356,7 @@ export const NamespaceDiscoveredAsset = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NamespaceDiscoveredAssetProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "NamespaceDiscoveredAsset",
-}) as any as S.Schema<NamespaceDiscoveredAsset>;
+).annotate({ identifier: "NamespaceDiscoveredAsset" }) as any as S.Schema<NamespaceDiscoveredAsset>;
 
 /** The NamespaceDiscoveredAsset items on this page */
 export type NamespaceDiscoveredAssetListResultValueList = Array<NamespaceDiscoveredAsset>;
@@ -4554,9 +4406,7 @@ export const ListNamespaceDiscoveredDeviceByResourceGroupRequest = /*@__PURE__*/
 }) as any as S.Schema<ListNamespaceDiscoveredDeviceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type NamespaceDiscoveredDeviceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceDiscoveredDeviceTagsMap = { [key: string]: string | undefined };
 export const NamespaceDiscoveredDeviceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4628,9 +4478,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -4650,9 +4498,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -4702,9 +4548,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListSchemaBySchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4772,9 +4616,7 @@ export const SchemaListResult = /*@__PURE__*/ S.suspend(() =>
     value: SchemaListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaListResult",
-}) as any as S.Schema<SchemaListResult>;
+).annotate({ identifier: "SchemaListResult" }) as any as S.Schema<SchemaListResult>;
 
 export interface ListSchemaRegistryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4859,9 +4701,7 @@ export const SchemaRegistryListResult = /*@__PURE__*/ S.suspend(() =>
     value: SchemaRegistryListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaRegistryListResult",
-}) as any as S.Schema<SchemaRegistryListResult>;
+).annotate({ identifier: "SchemaRegistryListResult" }) as any as S.Schema<SchemaRegistryListResult>;
 
 export interface ListSchemaRegistryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4951,9 +4791,7 @@ export const SchemaVersionListResult = /*@__PURE__*/ S.suspend(() =>
     value: SchemaVersionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaVersionListResult",
-}) as any as S.Schema<SchemaVersionListResult>;
+).annotate({ identifier: "SchemaVersionListResult" }) as any as S.Schema<SchemaVersionListResult>;
 
 /** Scope of the migrate resources operation. */
 export type Scope = "Resources";
@@ -4992,9 +4830,7 @@ export const MigrateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "MigrateNamespaceRequest",
-}) as any as S.Schema<MigrateNamespaceRequest>;
+).annotate({ identifier: "MigrateNamespaceRequest" }) as any as S.Schema<MigrateNamespaceRequest>;
 
 /** Result Type of Migrate Operation. */
 export type MigrateResultType = "Succeeded" | "Failed";
@@ -5032,14 +4868,10 @@ export const NamespaceMigrateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migrateResults: S.optional(NamespaceMigrateResponseMigrateResultsList),
   }),
-).annotate({
-  identifier: "NamespaceMigrateResponse",
-}) as any as S.Schema<NamespaceMigrateResponse>;
+).annotate({ identifier: "NamespaceMigrateResponse" }) as any as S.Schema<NamespaceMigrateResponse>;
 
 /** Resource tags. */
-export type NamespaceAssetsCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceAssetsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const NamespaceAssetsCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5052,9 +4884,7 @@ export const NamespaceAssetPropertiesInputAssetTypeRefsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<NamespaceAssetPropertiesInputAssetTypeRefsList>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceAssetPropertiesInputAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceAssetPropertiesInputAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceAssetPropertiesInputAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5247,9 +5077,7 @@ export const NamespaceAssetsCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<NamespaceAssetsCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type NamespaceAssetsCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceAssetsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const NamespaceAssetsCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5289,18 +5117,14 @@ export const NamespaceAssetsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<NamespaceAssetsCreateOrReplaceResponse>;
 
 /** Resource tags. */
-export type NamespaceDevicesCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceDevicesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const NamespaceDevicesCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<NamespaceDevicesCreateOrReplaceRequestTagsMap>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceDevicePropertiesInputAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceDevicePropertiesInputAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceDevicePropertiesInputAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5384,9 +5208,7 @@ export const NamespaceDevicesCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<NamespaceDevicesCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type NamespaceDevicesCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespaceDevicesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const NamespaceDevicesCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5819,9 +5641,7 @@ export const NamespaceDiscoveredDevicesCreateOrReplaceResponse = /*@__PURE__*/ S
 }) as any as S.Schema<NamespaceDiscoveredDevicesCreateOrReplaceResponse>;
 
 /** Resource tags. */
-export type NamespacesCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5839,9 +5659,7 @@ export const NamespacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     messaging: S.optional(Messaging),
     management: S.optional(Management),
   }),
-).annotate({
-  identifier: "NamespacePropertiesInput",
-}) as any as S.Schema<NamespacePropertiesInput>;
+).annotate({ identifier: "NamespacePropertiesInput" }) as any as S.Schema<NamespacePropertiesInput>;
 
 /** Managed service identity (either system assigned, or none) */
 export interface NamespacesCreateOrReplaceRequestIdentity {
@@ -5893,9 +5711,7 @@ export const NamespacesCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NamespacesCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type NamespacesCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5939,9 +5755,7 @@ export const NamespacesCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NamespacesCreateOrReplaceResponse>;
 
 /** Resource tags. */
-export type SchemaRegistriesCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchemaRegistriesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const SchemaRegistriesCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6013,9 +5827,7 @@ export const SchemaRegistriesCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<SchemaRegistriesCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type SchemaRegistriesCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchemaRegistriesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const SchemaRegistriesCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6059,9 +5871,7 @@ export const SchemaRegistriesCreateOrReplaceResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<SchemaRegistriesCreateOrReplaceResponse>;
 
 /** Schema tags. */
-export type SchemaPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchemaPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const SchemaPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6088,9 +5898,7 @@ export const SchemaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     schemaType: SchemaType,
     tags: S.optional(SchemaPropertiesInputTagsMap),
   }),
-).annotate({
-  identifier: "SchemaPropertiesInput",
-}) as any as S.Schema<SchemaPropertiesInput>;
+).annotate({ identifier: "SchemaPropertiesInput" }) as any as S.Schema<SchemaPropertiesInput>;
 
 export interface SchemasCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6229,9 +6037,7 @@ export const UpdateAssetRequestTagsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<UpdateAssetRequestTagsMap>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type AssetUpdatePropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type AssetUpdatePropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const AssetUpdatePropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6324,9 +6130,7 @@ export const AssetUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     datasets: S.optional(AssetUpdatePropertiesDatasetsList),
     events: S.optional(AssetUpdatePropertiesEventsList),
   }),
-).annotate({
-  identifier: "AssetUpdateProperties",
-}) as any as S.Schema<AssetUpdateProperties>;
+).annotate({ identifier: "AssetUpdateProperties" }) as any as S.Schema<AssetUpdateProperties>;
 
 export interface UpdateAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6355,9 +6159,7 @@ export const UpdateAssetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAssetRequest",
-}) as any as S.Schema<UpdateAssetRequest>;
+).annotate({ identifier: "UpdateAssetRequest" }) as any as S.Schema<UpdateAssetRequest>;
 
 /** Resource tags. */
 export type UpdateAssetResponseTagsMap = { [key: string]: string | undefined };
@@ -6395,14 +6197,10 @@ export const UpdateAssetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssetProperties),
     extendedLocation: ExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateAssetResponse",
-}) as any as S.Schema<UpdateAssetResponse>;
+).annotate({ identifier: "UpdateAssetResponse" }) as any as S.Schema<UpdateAssetResponse>;
 
 /** Resource tags. */
-export type UpdateAssetEndpointProfileRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAssetEndpointProfileRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAssetEndpointProfileRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6437,9 +6235,7 @@ export const X509CredentialsUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateSecretName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "X509CredentialsUpdate",
-}) as any as S.Schema<X509CredentialsUpdate>;
+).annotate({ identifier: "X509CredentialsUpdate" }) as any as S.Schema<X509CredentialsUpdate>;
 
 /** Definition of the client authentication mechanism to the server. */
 export interface AuthenticationUpdate {
@@ -6456,9 +6252,7 @@ export const AuthenticationUpdate = /*@__PURE__*/ S.suspend(() =>
     usernamePasswordCredentials: S.optional(UsernamePasswordCredentialsUpdate),
     x509Credentials: S.optional(X509CredentialsUpdate),
   }),
-).annotate({
-  identifier: "AuthenticationUpdate",
-}) as any as S.Schema<AuthenticationUpdate>;
+).annotate({ identifier: "AuthenticationUpdate" }) as any as S.Schema<AuthenticationUpdate>;
 
 /** The updatable properties of the AssetEndpointProfile. */
 export interface AssetEndpointProfileUpdateProperties {
@@ -6514,9 +6308,7 @@ export const UpdateAssetEndpointProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAssetEndpointProfileRequest>;
 
 /** Resource tags. */
-export type UpdateAssetEndpointProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAssetEndpointProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAssetEndpointProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6560,9 +6352,7 @@ export type UpdateNamespaceRequestIdentity = NamespacesCreateOrReplaceRequestIde
 export const UpdateNamespaceRequestIdentity = NamespacesCreateOrReplaceRequestIdentity;
 
 /** Resource tags. */
-export type UpdateNamespaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6602,14 +6392,10 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6648,14 +6434,10 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NamespaceProperties),
     identity: S.optional(GetNamespaceResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 /** Resource tags. */
-export type UpdateNamespaceAssetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceAssetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceAssetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6668,9 +6450,7 @@ export const NamespaceAssetUpdatePropertiesAssetTypeRefsList = /*@__PURE__*/ S.A
 ) as any as S.Schema<NamespaceAssetUpdatePropertiesAssetTypeRefsList>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceAssetUpdatePropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceAssetUpdatePropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceAssetUpdatePropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6842,9 +6622,7 @@ export const UpdateNamespaceAssetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNamespaceAssetRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceAssetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceAssetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceAssetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6884,9 +6662,7 @@ export const UpdateNamespaceAssetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNamespaceAssetResponse>;
 
 /** Resource tags. */
-export type UpdateNamespaceDeviceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDeviceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDeviceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6930,9 +6706,7 @@ export const HostAuthenticationUpdate = /*@__PURE__*/ S.suspend(() =>
     usernamePasswordCredentials: S.optional(UsernamePasswordCredentialsUpdate),
     x509Credentials: S.optional(X509CertificateCredentialsUpdate),
   }),
-).annotate({
-  identifier: "HostAuthenticationUpdate",
-}) as any as S.Schema<HostAuthenticationUpdate>;
+).annotate({ identifier: "HostAuthenticationUpdate" }) as any as S.Schema<HostAuthenticationUpdate>;
 
 /** An endpoint to connect to the device. */
 export interface InboundEndpointsUpdate {
@@ -6958,9 +6732,7 @@ export const InboundEndpointsUpdate = /*@__PURE__*/ S.suspend(() =>
     trustSettings: S.optional(TrustSettings),
     additionalConfiguration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InboundEndpointsUpdate",
-}) as any as S.Schema<InboundEndpointsUpdate>;
+).annotate({ identifier: "InboundEndpointsUpdate" }) as any as S.Schema<InboundEndpointsUpdate>;
 
 /** Set of endpoints to connect to the device. */
 export type MessagingEndpointsUpdateInboundMap = {
@@ -7017,9 +6789,7 @@ export const OutboundEndpointsUpdate = /*@__PURE__*/ S.suspend(() =>
     assigned: S.optional(OutboundEndpointsUpdateAssignedMap),
     unassigned: S.optional(OutboundEndpointsUpdateUnassignedMap),
   }),
-).annotate({
-  identifier: "OutboundEndpointsUpdate",
-}) as any as S.Schema<OutboundEndpointsUpdate>;
+).annotate({ identifier: "OutboundEndpointsUpdate" }) as any as S.Schema<OutboundEndpointsUpdate>;
 
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface MessagingEndpointsUpdate {
@@ -7033,14 +6803,10 @@ export const MessagingEndpointsUpdate = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(MessagingEndpointsUpdateInboundMap),
     outbound: S.optional(OutboundEndpointsUpdate),
   }),
-).annotate({
-  identifier: "MessagingEndpointsUpdate",
-}) as any as S.Schema<MessagingEndpointsUpdate>;
+).annotate({ identifier: "MessagingEndpointsUpdate" }) as any as S.Schema<MessagingEndpointsUpdate>;
 
 /** A set of key-value pairs that contain custom attributes set by the customer. */
-export type NamespaceDeviceUpdatePropertiesAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NamespaceDeviceUpdatePropertiesAttributesMap = { [key: string]: unknown | undefined };
 export const NamespaceDeviceUpdatePropertiesAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7103,9 +6869,7 @@ export const UpdateNamespaceDeviceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNamespaceDeviceRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceDeviceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDeviceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDeviceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7148,9 +6912,7 @@ export const UpdateNamespaceDeviceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNamespaceDeviceResponse>;
 
 /** Resource tags. */
-export type UpdateNamespaceDiscoveredAssetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDiscoveredAssetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDiscoveredAssetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7168,9 +6930,7 @@ export const DeviceRefUpdate = /*@__PURE__*/ S.suspend(() =>
     deviceName: S.optional(S.String),
     endpointName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeviceRefUpdate",
-}) as any as S.Schema<DeviceRefUpdate>;
+).annotate({ identifier: "DeviceRefUpdate" }) as any as S.Schema<DeviceRefUpdate>;
 
 /** URIs or type definition IDs. */
 export type NamespaceDiscoveredAssetUpdatePropertiesAssetTypeRefsList = Array<string>;
@@ -7367,9 +7127,7 @@ export const UpdateNamespaceDiscoveredAssetRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateNamespaceDiscoveredAssetRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceDiscoveredAssetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDiscoveredAssetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDiscoveredAssetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7409,9 +7167,7 @@ export const UpdateNamespaceDiscoveredAssetResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateNamespaceDiscoveredAssetResponse>;
 
 /** Resource tags. */
-export type UpdateNamespaceDiscoveredDeviceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDiscoveredDeviceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDiscoveredDeviceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7575,9 +7331,7 @@ export const UpdateNamespaceDiscoveredDeviceRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateNamespaceDiscoveredDeviceRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceDiscoveredDeviceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceDiscoveredDeviceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceDiscoveredDeviceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7621,9 +7375,7 @@ export type UpdateSchemaRegistryRequestIdentity = NamespacesCreateOrReplaceReque
 export const UpdateSchemaRegistryRequestIdentity = NamespacesCreateOrReplaceRequestIdentity;
 
 /** Resource tags. */
-export type UpdateSchemaRegistryRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSchemaRegistryRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSchemaRegistryRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7680,9 +7432,7 @@ export const UpdateSchemaRegistryRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSchemaRegistryRequest>;
 
 /** Resource tags. */
-export type UpdateSchemaRegistryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSchemaRegistryResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSchemaRegistryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

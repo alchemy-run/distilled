@@ -359,13 +359,7 @@ export const AiTimeseriesGroupsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     userAgent: S.optional(AiTimeseriesGroupsSummaryRequestUserAgentList.pipe(T.Query())),
     vertical: S.optional(AiTimeseriesGroupsSummaryRequestVerticalList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AiTimeseriesGroupsSummaryRequest",
@@ -540,9 +534,7 @@ export const AiTimeseriesGroupsSummaryResponseMeta = /*@__PURE__*/ S.suspend(() 
   identifier: "AiTimeseriesGroupsSummaryResponseMeta",
 }) as any as S.Schema<AiTimeseriesGroupsSummaryResponseMeta>;
 
-export type AiTimeseriesGroupsSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiTimeseriesGroupsSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const AiTimeseriesGroupsSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1108,13 +1100,7 @@ export const AiTimeseriesGroupsTimeseriesGroupsRequest = /*@__PURE__*/ S.suspend
     userAgent: S.optional(AiTimeseriesGroupsTimeseriesGroupsRequestUserAgentList.pipe(T.Query())),
     vertical: S.optional(AiTimeseriesGroupsTimeseriesGroupsRequestVerticalList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AiTimeseriesGroupsTimeseriesGroupsRequest",
@@ -1427,13 +1413,7 @@ export const ArcEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryArcRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryArcRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/arc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/arc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ArcEmailRoutingSummaryRequest",
@@ -1735,13 +1715,7 @@ export const ArcEmailRoutingTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() 
     name: S.optional(EmailRoutingTimeseriesGroupsArcRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingTimeseriesGroupsArcRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/timeseries_groups/arc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/timeseries_groups/arc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ArcEmailRoutingTimeseriesGroupRequest",
@@ -2056,13 +2030,7 @@ export const ArcEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummaryArcRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummaryArcRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/arc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/arc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ArcEmailSecuritySummaryRequest",
@@ -2341,13 +2309,7 @@ export const ArcEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(()
     spf: S.optional(EmailSecurityTimeseriesGroupsArcRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsArcRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/arc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/arc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ArcEmailSecurityTimeseriesGroupRequest",
@@ -2591,9 +2553,7 @@ export const AsesBgpIpTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/ips/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesBgpIpTopRequest",
-}) as any as S.Schema<AsesBgpIpTopRequest>;
+).annotate({ identifier: "AsesBgpIpTopRequest" }) as any as S.Schema<AsesBgpIpTopRequest>;
 
 export interface BgpIpsTopAsesResponseAsnsItem {
   asn: number;
@@ -2629,9 +2589,7 @@ export const AsesBgpIpTopResponse = /*@__PURE__*/ S.suspend(() =>
     country: S.String,
     metric: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesBgpIpTopResponse",
-}) as any as S.Schema<AsesBgpIpTopResponse>;
+).annotate({ identifier: "AsesBgpIpTopResponse" }) as any as S.Schema<AsesBgpIpTopResponse>;
 
 export type BgpRoutesAsesRequestFormat = "JSON" | "CSV";
 export const BgpRoutesAsesRequestFormat = S.String;
@@ -2671,9 +2629,7 @@ export const AsesBgpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesBgpRouteRequest",
-}) as any as S.Schema<AsesBgpRouteRequest>;
+).annotate({ identifier: "AsesBgpRouteRequest" }) as any as S.Schema<AsesBgpRouteRequest>;
 
 export interface BgpRoutesAsesResponseAsnsItem {
   asn: number;
@@ -2746,9 +2702,7 @@ export const AsesBgpRouteResponse = /*@__PURE__*/ S.suspend(() =>
     asns: BgpRoutesAsesResponseAsnsList,
     meta: BgpRoutesAsesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesBgpRouteResponse",
-}) as any as S.Schema<AsesBgpRouteResponse>;
+).annotate({ identifier: "AsesBgpRouteResponse" }) as any as S.Schema<AsesBgpRouteResponse>;
 
 export type DnsTopAsesRequestAsnList = Array<string>;
 export const DnsTopAsesRequestAsnList = /*@__PURE__*/ S.Array(
@@ -3055,9 +3009,7 @@ export const AsesDnsTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/dns/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesDnsTopRequest",
-}) as any as S.Schema<AsesDnsTopRequest>;
+).annotate({ identifier: "AsesDnsTopRequest" }) as any as S.Schema<AsesDnsTopRequest>;
 
 export type DnsTopAsesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -3196,9 +3148,7 @@ export const DnsTopAsesResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: DnsTopAsesResponseMetaNormalization,
     units: DnsTopAsesResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "DnsTopAsesResponseMeta",
-}) as any as S.Schema<DnsTopAsesResponseMeta>;
+).annotate({ identifier: "DnsTopAsesResponseMeta" }) as any as S.Schema<DnsTopAsesResponseMeta>;
 
 export interface DnsTopAsesResponseTop0Item {
   clientASN: number;
@@ -3232,9 +3182,7 @@ export const AsesDnsTopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: DnsTopAsesResponseMeta,
     top_0: DnsTopAsesResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesDnsTopResponse",
-}) as any as S.Schema<AsesDnsTopResponse>;
+).annotate({ identifier: "AsesDnsTopResponse" }) as any as S.Schema<AsesDnsTopResponse>;
 
 export type NetflowsTopAsesRequestAsnList = Array<string>;
 export const NetflowsTopAsesRequestAsnList = /*@__PURE__*/ S.Array(
@@ -3316,9 +3264,7 @@ export const AsesNetflowTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/netflows/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesNetflowTopRequest",
-}) as any as S.Schema<AsesNetflowTopRequest>;
+).annotate({ identifier: "AsesNetflowTopRequest" }) as any as S.Schema<AsesNetflowTopRequest>;
 
 export type NetflowsTopAsesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -3483,9 +3429,7 @@ export const AsesNetflowTopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: NetflowsTopAsesResponseMeta,
     top_0: NetflowsTopAsesResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsesNetflowTopResponse",
-}) as any as S.Schema<AsesNetflowTopResponse>;
+).annotate({ identifier: "AsesNetflowTopResponse" }) as any as S.Schema<AsesNetflowTopResponse>;
 
 export type QualitySpeedTopAsesRequestAsnList = Array<string>;
 export const QualitySpeedTopAsesRequestAsnList = /*@__PURE__*/ S.Array(
@@ -3556,13 +3500,7 @@ export const AsesQualitySpeedTopRequest = /*@__PURE__*/ S.suspend(() =>
     orderBy: S.optional(QualitySpeedTopAsesRequestOrderBy.pipe(T.Query())),
     reverse: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/quality/speed/top/ases",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/quality/speed/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AsesQualitySpeedTopRequest",
@@ -3717,13 +3655,19 @@ export const QualitySpeedTopAsesResponseMeta = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QualitySpeedTopAsesResponseMeta>;
 
 export interface QualitySpeedTopAsesResponseTop0Item {
+  /** A numeric string. */
   bandwidthDownload: string;
+  /** A numeric string. */
   bandwidthUpload: string;
   clientASN: number;
   clientASName: string;
+  /** A numeric string. */
   jitterIdle: string;
+  /** A numeric string. */
   jitterLoaded: string;
+  /** A numeric string. */
   latencyIdle: string;
+  /** A numeric string. */
   latencyLoaded: string;
   numTests: number;
   rankPower: number;
@@ -3779,17 +3723,9 @@ export const AsSetEntityAsnRequest = /*@__PURE__*/ S.suspend(() =>
     asn: S.Number.pipe(T.Label()),
     format: S.optional(EntitiesAsnsAsSetRequestFormat.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/entities/asns/{asn}/as_set",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/{asn}/as_set", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsSetEntityAsnRequest",
-}) as any as S.Schema<AsSetEntityAsnRequest>;
+).annotate({ identifier: "AsSetEntityAsnRequest" }) as any as S.Schema<AsSetEntityAsnRequest>;
 
 export type EntitiesAsnsAsSetResponseAsSetsItemIrrSourcesList = Array<string>;
 export const EntitiesAsnsAsSetResponseAsSetsItemIrrSourcesList = /*@__PURE__*/ S.Array(
@@ -3858,9 +3794,7 @@ export const AsSetEntityAsnResponse = /*@__PURE__*/ S.suspend(() =>
     asSets: EntitiesAsnsAsSetResponseAsSetsList.pipe(T.Body("as_sets")),
     paths: EntitiesAsnsAsSetResponsePathsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "AsSetEntityAsnResponse",
-}) as any as S.Schema<AsSetEntityAsnResponse>;
+).annotate({ identifier: "AsSetEntityAsnResponse" }) as any as S.Schema<AsSetEntityAsnResponse>;
 
 export type AttacksLayer3TopAttacksRequestContinentList = Array<string>;
 export const AttacksLayer3TopAttacksRequestContinentList = /*@__PURE__*/ S.Array(
@@ -3971,13 +3905,7 @@ export const AttacksAttackLayer3TopRequest = /*@__PURE__*/ S.suspend(() =>
     normalization: S.optional(AttacksLayer3TopAttacksRequestNormalization.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TopAttacksRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/top/attacks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/top/attacks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AttacksAttackLayer3TopRequest",
@@ -4276,13 +4204,7 @@ export const AttacksAttackLayer7TopRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer7TopAttacksRequestNameList.pipe(T.Query())),
     normalization: S.optional(AttacksLayer7TopAttacksRequestNormalization.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/attacks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/attacks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "AttacksAttackLayer7TopRequest",
@@ -4507,13 +4429,7 @@ export const BgpRoutesUpstreamsTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
     ipVersion: S.optional(BgpRoutesUpstreamsTimeseriesRequestIpVersion.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bgp/routes/upstreams/{asn}/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/upstreams/{asn}/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BgpRoutesUpstreamsTimeseriesRequest",
@@ -4659,13 +4575,7 @@ export const BitrateAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryBitrateRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryBitrateRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/bitrate",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/bitrate", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BitrateAttackLayer3SummaryRequest",
@@ -4968,11 +4878,7 @@ export const BitrateAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspend
     protocol: S.optional(AttacksLayer3TimeseriesGroupsBitrateRequestProtocolList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/bitrate",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/bitrate", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -5402,13 +5308,7 @@ export const BotClassHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryBotClassRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryBotClassRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/bot_class",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/bot_class", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BotClassHttpSummaryRequest",
@@ -5780,13 +5680,7 @@ export const BotClassHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpTimeseriesGroupsBotClassRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsBotClassRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/bot_class",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/bot_class", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BotClassHttpTimeseriesGroupRequest",
@@ -6593,13 +6487,7 @@ export const BotnetThreatFeedEntityAsnRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     sortOrder: S.optional(EntitiesAsnsBotnetThreatFeedRequestSortOrder.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/entities/asns/botnet_threat_feed",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/botnet_threat_feed", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BotnetThreatFeedEntityAsnRequest",
@@ -6729,13 +6617,7 @@ export const BotsVerifiedBotTopRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(VerifiedBotsTopBotsRequestLocationList.pipe(T.Query())),
     name: S.optional(VerifiedBotsTopBotsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/verified_bots/top/bots",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/verified_bots/top/bots", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BotsVerifiedBotTopRequest",
@@ -7118,13 +7000,7 @@ export const BrowserFamilyHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend((
     os: S.optional(HttpTimeseriesGroupsBrowserFamilyRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsBrowserFamilyRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/browser_family",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/browser_family", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BrowserFamilyHttpTimeseriesGroupRequest",
@@ -7510,13 +7386,7 @@ export const BrowserFamilyHttpTopRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpTopBrowserFamilyRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTopBrowserFamilyRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/browser_family",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/top/browser_family", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BrowserFamilyHttpTopRequest",
@@ -7898,13 +7768,7 @@ export const BrowserHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpTimeseriesGroupsBrowserRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsBrowserRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/browser",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/browser", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "BrowserHttpTimeseriesGroupRequest",
@@ -8298,9 +8162,7 @@ export const BrowserHttpTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/top/browser", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BrowserHttpTopRequest",
-}) as any as S.Schema<BrowserHttpTopRequest>;
+).annotate({ identifier: "BrowserHttpTopRequest" }) as any as S.Schema<BrowserHttpTopRequest>;
 
 export type HttpTopBrowserResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -8464,9 +8326,7 @@ export const BrowserHttpTopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpTopBrowserResponseMeta,
     top_0: HttpTopBrowserResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BrowserHttpTopResponse",
-}) as any as S.Schema<BrowserHttpTopResponse>;
+).annotate({ identifier: "BrowserHttpTopResponse" }) as any as S.Schema<BrowserHttpTopResponse>;
 
 export type DnsSummaryCacheHitRequestAsnList = Array<string>;
 export const DnsSummaryCacheHitRequestAsnList = /*@__PURE__*/ S.Array(
@@ -9116,13 +8976,7 @@ export const CacheHitDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsCacheHitRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsCacheHitRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/cache_hit",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/cache_hit", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CacheHitDnsTimeseriesGroupRequest",
@@ -9359,13 +9213,7 @@ export const CategoriesRankingInternetServiceRequest = /*@__PURE__*/ S.suspend((
     limit: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(RankingInternetServicesCategoriesRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ranking/internet_services/categories",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ranking/internet_services/categories", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CategoriesRankingInternetServiceRequest",
@@ -9471,13 +9319,7 @@ export const CategoriesVerifiedBotTopRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(VerifiedBotsTopCategoriesRequestLocationList.pipe(T.Query())),
     name: S.optional(VerifiedBotsTopCategoriesRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/verified_bots/top/categories",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/verified_bots/top/categories", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CategoriesVerifiedBotTopRequest",
@@ -10582,13 +10424,7 @@ export const DeviceTypeHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryDeviceTypeRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryDeviceTypeRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/device_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/device_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeviceTypeHttpSummaryRequest",
@@ -10965,13 +10801,7 @@ export const DeviceTypeHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     os: S.optional(HttpTimeseriesGroupsDeviceTypeRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsDeviceTypeRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/device_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/device_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeviceTypeHttpTimeseriesGroupRequest",
@@ -11247,13 +11077,7 @@ export const DirectiveRobotsTxtTopUserAgentRequest = /*@__PURE__*/ S.suspend(() 
       RobotsTxtTopUserAgentsDirectiveRequestUserAgentCategory.pipe(T.Query()),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/robots_txt/top/user_agents/directive",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/robots_txt/top/user_agents/directive", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DirectiveRobotsTxtTopUserAgentRequest",
@@ -11559,13 +11383,7 @@ export const DkimEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryDkimRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryDkimRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/dkim",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/dkim", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DkimEmailRoutingSummaryRequest",
@@ -11853,13 +11671,7 @@ export const DkimEmailRoutingTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(()
     name: S.optional(EmailRoutingTimeseriesGroupsDkimRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingTimeseriesGroupsDkimRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/timeseries_groups/dkim",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/timeseries_groups/dkim", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DkimEmailRoutingTimeseriesGroupRequest",
@@ -12174,13 +11986,7 @@ export const DkimEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummaryDkimRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummaryDkimRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/dkim",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/dkim", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DkimEmailSecuritySummaryRequest",
@@ -12459,13 +12265,7 @@ export const DkimEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend((
     spf: S.optional(EmailSecurityTimeseriesGroupsDkimRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsDkimRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/dkim",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/dkim", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DkimEmailSecurityTimeseriesGroupRequest",
@@ -12792,13 +12592,7 @@ export const DmarcEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryDmarcRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryDmarcRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/dmarc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/dmarc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DmarcEmailRoutingSummaryRequest",
@@ -13086,13 +12880,7 @@ export const DmarcEmailRoutingTimeseriesGroupRequest = /*@__PURE__*/ S.suspend((
     name: S.optional(EmailRoutingTimeseriesGroupsDmarcRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingTimeseriesGroupsDmarcRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/timeseries_groups/dmarc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/timeseries_groups/dmarc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DmarcEmailRoutingTimeseriesGroupRequest",
@@ -13410,13 +13198,7 @@ export const DmarcEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummaryDmarcRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummaryDmarcRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/dmarc",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/dmarc", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DmarcEmailSecuritySummaryRequest",
@@ -13697,11 +13479,7 @@ export const DmarcEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsDmarcRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/dmarc",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/dmarc", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -14521,13 +14299,7 @@ export const DnssecAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112TimeseriesGroupsDnssecRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsDnssecRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/dnssec",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecAs112TimeseriesGroupRequest",
@@ -14804,17 +14576,9 @@ export const DnssecAs112TopRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(As112TopDnssecRequestLocationList.pipe(T.Query())),
     name: S.optional(As112TopDnssecRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/top/locations/dnssec/{dnssec}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/top/locations/dnssec/{dnssec}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DnssecAs112TopRequest",
-}) as any as S.Schema<DnssecAs112TopRequest>;
+).annotate({ identifier: "DnssecAs112TopRequest" }) as any as S.Schema<DnssecAs112TopRequest>;
 
 export type As112TopDnssecResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -14991,9 +14755,7 @@ export const DnssecAs112TopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: As112TopDnssecResponseMeta,
     top_0: As112TopDnssecResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DnssecAs112TopResponse",
-}) as any as S.Schema<DnssecAs112TopResponse>;
+).annotate({ identifier: "DnssecAs112TopResponse" }) as any as S.Schema<DnssecAs112TopResponse>;
 
 export type DnsSummaryDnssecAwareRequestAsnList = Array<string>;
 export const DnsSummaryDnssecAwareRequestAsnList = /*@__PURE__*/ S.Array(
@@ -15224,13 +14986,7 @@ export const DnssecAwareDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryDnssecAwareRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryDnssecAwareRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/dnssec_aware",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/dnssec_aware", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecAwareDnsSummaryRequest",
@@ -15637,13 +15393,7 @@ export const DnssecAwareDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     responseCode: S.optional(DnsTimeseriesGroupsDnssecAwareRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsDnssecAwareRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/dnssec_aware",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/dnssec_aware", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecAwareDnsTimeseriesGroupRequest",
@@ -16084,9 +15834,7 @@ export const DnssecDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DnssecDnsSummaryRequest",
-}) as any as S.Schema<DnssecDnsSummaryRequest>;
+).annotate({ identifier: "DnssecDnsSummaryRequest" }) as any as S.Schema<DnssecDnsSummaryRequest>;
 
 export type DnsSummaryDnssecResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -16264,9 +16012,7 @@ export const DnssecDnsSummaryResponse = /*@__PURE__*/ S.suspend(() =>
     meta: DnsSummaryDnssecResponseMeta,
     summary_0: DnsSummaryDnssecResponseSummary0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DnssecDnsSummaryResponse",
-}) as any as S.Schema<DnssecDnsSummaryResponse>;
+).annotate({ identifier: "DnssecDnsSummaryResponse" }) as any as S.Schema<DnssecDnsSummaryResponse>;
 
 export type DnsTimeseriesGroupsDnssecRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const DnsTimeseriesGroupsDnssecRequestAggInterval = S.String;
@@ -16503,13 +16249,7 @@ export const DnssecDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsDnssecRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsDnssecRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/dnssec",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/dnssec", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecDnsTimeseriesGroupRequest",
@@ -16958,13 +16698,7 @@ export const DnssecE2EDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryDnssecE2eRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryDnssecE2eRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/dnssec_e2e",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/dnssec_e2e", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecE2EDnsSummaryRequest",
@@ -17371,13 +17105,7 @@ export const DnssecE2EDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsDnssecE2eRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsDnssecE2eRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/dnssec_e2e",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/dnssec_e2e", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DnssecE2EDnsTimeseriesGroupRequest",
@@ -17622,13 +17350,7 @@ export const DomainCategoriesRobotsTxtTopRequest = /*@__PURE__*/ S.suspend(() =>
       RobotsTxtTopDomainCategoriesRequestUserAgentCategory.pipe(T.Query()),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/robots_txt/top/domain_categories",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/robots_txt/top/domain_categories", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DomainCategoriesRobotsTxtTopRequest",
@@ -17835,9 +17557,7 @@ export const DownloadDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "POST", uri: "/radar/datasets/download", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DownloadDatasetRequest",
-}) as any as S.Schema<DownloadDatasetRequest>;
+).annotate({ identifier: "DownloadDatasetRequest" }) as any as S.Schema<DownloadDatasetRequest>;
 
 export interface DatasetsDownloadResponseDataset {
   url: string;
@@ -17858,9 +17578,7 @@ export const DownloadDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dataset: DatasetsDownloadResponseDataset,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DownloadDatasetResponse",
-}) as any as S.Schema<DownloadDatasetResponse>;
+).annotate({ identifier: "DownloadDatasetResponse" }) as any as S.Schema<DownloadDatasetResponse>;
 
 export type AttacksLayer3SummaryDurationRequestContinentList = Array<string>;
 export const AttacksLayer3SummaryDurationRequestContinentList = /*@__PURE__*/ S.Array(
@@ -17953,13 +17671,7 @@ export const DurationAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryDurationRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryDurationRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/duration",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/duration", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DurationAttackLayer3SummaryRequest",
@@ -18275,11 +17987,7 @@ export const DurationAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     protocol: S.optional(AttacksLayer3TimeseriesGroupsDurationRequestProtocolList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/duration",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/duration", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -18751,9 +18459,7 @@ export const EdnsAs112SummaryRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/edns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EdnsAs112SummaryRequest",
-}) as any as S.Schema<EdnsAs112SummaryRequest>;
+).annotate({ identifier: "EdnsAs112SummaryRequest" }) as any as S.Schema<EdnsAs112SummaryRequest>;
 
 export type As112SummaryEdnsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -18913,9 +18619,7 @@ export const EdnsAs112SummaryResponse = /*@__PURE__*/ S.suspend(() =>
     meta: As112SummaryEdnsResponseMeta,
     summary_0: As112SummaryDnssecResponseSummary0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EdnsAs112SummaryResponse",
-}) as any as S.Schema<EdnsAs112SummaryResponse>;
+).annotate({ identifier: "EdnsAs112SummaryResponse" }) as any as S.Schema<EdnsAs112SummaryResponse>;
 
 export type As112TimeseriesGroupsEdnsRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const As112TimeseriesGroupsEdnsRequestAggInterval = S.String;
@@ -19128,13 +18832,7 @@ export const EdnsAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112TimeseriesGroupsEdnsRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsEdnsRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/edns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/edns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "EdnsAs112TimeseriesGroupRequest",
@@ -19410,17 +19108,9 @@ export const EdnsAs112TopRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(As112TopEdnsRequestLocationList.pipe(T.Query())),
     name: S.optional(As112TopEdnsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/top/locations/edns/{edns}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/top/locations/edns/{edns}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EdnsAs112TopRequest",
-}) as any as S.Schema<EdnsAs112TopRequest>;
+).annotate({ identifier: "EdnsAs112TopRequest" }) as any as S.Schema<EdnsAs112TopRequest>;
 
 export type As112TopEdnsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -19560,9 +19250,7 @@ export const As112TopEdnsResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: As112TopEdnsResponseMetaNormalization,
     units: As112TopEdnsResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "As112TopEdnsResponseMeta",
-}) as any as S.Schema<As112TopEdnsResponseMeta>;
+).annotate({ identifier: "As112TopEdnsResponseMeta" }) as any as S.Schema<As112TopEdnsResponseMeta>;
 
 export type As112TopEdnsResponseTop0Item = As112TopDnssecResponseTop0Item;
 export const As112TopEdnsResponseTop0Item = As112TopDnssecResponseTop0Item;
@@ -19583,9 +19271,7 @@ export const EdnsAs112TopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: As112TopEdnsResponseMeta,
     top_0: As112TopEdnsResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "EdnsAs112TopResponse",
-}) as any as S.Schema<EdnsAs112TopResponse>;
+).annotate({ identifier: "EdnsAs112TopResponse" }) as any as S.Schema<EdnsAs112TopResponse>;
 
 export type EmailRoutingSummaryEncryptedRequestArc = "PASS" | "NONE" | "FAIL";
 export const EmailRoutingSummaryEncryptedRequestArc = S.String;
@@ -19695,13 +19381,7 @@ export const EncryptedEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryEncryptedRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryEncryptedRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/encrypted",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/encrypted", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "EncryptedEmailRoutingSummaryRequest",
@@ -20012,11 +19692,7 @@ export const EncryptedEmailRoutingTimeseriesGroupRequest = /*@__PURE__*/ S.suspe
     spf: S.optional(EmailRoutingTimeseriesGroupsEncryptedRequestSpfList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/timeseries_groups/encrypted",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/email/routing/timeseries_groups/encrypted", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -20735,9 +20411,7 @@ export const GetBgpTopAsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBgpTopAsRequest",
-}) as any as S.Schema<GetBgpTopAsRequest>;
+).annotate({ identifier: "GetBgpTopAsRequest" }) as any as S.Schema<GetBgpTopAsRequest>;
 
 export type BgpTopAsesGetResponseMetaDateRangeItem =
   AiTimeseriesGroupsSummaryResponseMetaDateRangeItem;
@@ -20792,9 +20466,7 @@ export const GetBgpTopAsResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpTopAsesGetResponseMeta,
     top_0: BgpTopAsesGetResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBgpTopAsResponse",
-}) as any as S.Schema<GetBgpTopAsResponse>;
+).annotate({ identifier: "GetBgpTopAsResponse" }) as any as S.Schema<GetBgpTopAsResponse>;
 
 export type BotsGetRequestFormat = "JSON" | "CSV";
 export const BotsGetRequestFormat = S.String;
@@ -20857,9 +20529,7 @@ export const BotsGetResponseBot = /*@__PURE__*/ S.suspend(() =>
     userAgents: BotsGetResponseBotUserAgentsList,
     signatureAgentUrl: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BotsGetResponseBot",
-}) as any as S.Schema<BotsGetResponseBot>;
+).annotate({ identifier: "BotsGetResponseBot" }) as any as S.Schema<BotsGetResponseBot>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBotResponse {
@@ -20885,17 +20555,9 @@ export const GetCtAuthorityRequest = /*@__PURE__*/ S.suspend(() =>
     caSlug: S.String.pipe(T.Label("ca_slug")),
     format: S.optional(CtAuthoritiesGetRequestFormat.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ct/authorities/{ca_slug}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ct/authorities/{ca_slug}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtAuthorityRequest",
-}) as any as S.Schema<GetCtAuthorityRequest>;
+).annotate({ identifier: "GetCtAuthorityRequest" }) as any as S.Schema<GetCtAuthorityRequest>;
 
 export type CtAuthoritiesGetResponseCertificateAuthorityAppleStatus =
   | "INCLUDED"
@@ -21059,9 +20721,7 @@ export const GetCtAuthorityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateAuthority: CtAuthoritiesGetResponseCertificateAuthority,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtAuthorityResponse",
-}) as any as S.Schema<GetCtAuthorityResponse>;
+).annotate({ identifier: "GetCtAuthorityResponse" }) as any as S.Schema<GetCtAuthorityResponse>;
 
 export type CtLogsGetRequestFormat = "JSON" | "CSV";
 export const CtLogsGetRequestFormat = S.String;
@@ -21079,9 +20739,7 @@ export const GetCtLogRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ct/logs/{log_slug}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtLogRequest",
-}) as any as S.Schema<GetCtLogRequest>;
+).annotate({ identifier: "GetCtLogRequest" }) as any as S.Schema<GetCtLogRequest>;
 
 export type CtLogsGetResponseCertificateLogApi = "RFC6962" | "STATIC";
 export const CtLogsGetResponseCertificateLogApi = S.String;
@@ -21243,9 +20901,7 @@ export const GetCtLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateLog: CtLogsGetResponseCertificateLog,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetCtLogResponse",
-}) as any as S.Schema<GetCtLogResponse>;
+).annotate({ identifier: "GetCtLogResponse" }) as any as S.Schema<GetCtLogResponse>;
 
 export interface GetDatasetRequest {
   /** Dataset alias or ID. */
@@ -21257,16 +20913,12 @@ export const GetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/datasets/{alias}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetRequest",
-}) as any as S.Schema<GetDatasetRequest>;
+).annotate({ identifier: "GetDatasetRequest" }) as any as S.Schema<GetDatasetRequest>;
 
 export interface GetDatasetResponse {}
 export const GetDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDatasetResponse",
-}) as any as S.Schema<GetDatasetResponse>;
+).annotate({ identifier: "GetDatasetResponse" }) as any as S.Schema<GetDatasetResponse>;
 
 export type EmailSecurityTopTldsGetRequestArc = "PASS" | "NONE" | "FAIL";
 export const EmailSecurityTopTldsGetRequestArc = S.String;
@@ -21389,13 +21041,7 @@ export const GetEmailSecurityTopTldRequest = /*@__PURE__*/ S.suspend(() =>
     tldCategory: S.optional(EmailSecurityTopTldsGetRequestTldCategory.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTopTldsGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/top/tlds",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/top/tlds", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetEmailSecurityTopTldRequest",
@@ -22032,13 +21678,7 @@ export const GetEmailSecurityTopTldSpamRequest = /*@__PURE__*/ S.suspend(() =>
     tldCategory: S.optional(EmailSecurityTopTldsSpamGetRequestTldCategory.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTopTldsSpamGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/top/tlds/spam/{spam}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/top/tlds/spam/{spam}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetEmailSecurityTopTldSpamRequest",
@@ -22347,13 +21987,7 @@ export const GetEmailSecurityTopTldSpoofRequest = /*@__PURE__*/ S.suspend(() =>
     tldCategory: S.optional(EmailSecurityTopTldsSpoofGetRequestTldCategory.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTopTldsSpoofGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/top/tlds/spoof/{spoof}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/top/tlds/spoof/{spoof}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetEmailSecurityTopTldSpoofRequest",
@@ -22551,9 +22185,7 @@ export const GetEntityRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/entities/ip", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntityRequest",
-}) as any as S.Schema<GetEntityRequest>;
+).annotate({ identifier: "GetEntityRequest" }) as any as S.Schema<GetEntityRequest>;
 
 export interface EntitiesGetResponseIp {
   asn: string;
@@ -22576,9 +22208,7 @@ export const EntitiesGetResponseIp = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     locationName: S.String,
   }),
-).annotate({
-  identifier: "EntitiesGetResponseIp",
-}) as any as S.Schema<EntitiesGetResponseIp>;
+).annotate({ identifier: "EntitiesGetResponseIp" }) as any as S.Schema<EntitiesGetResponseIp>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetEntityResponse {
@@ -22588,9 +22218,7 @@ export const GetEntityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ip: EntitiesGetResponseIp,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntityResponse",
-}) as any as S.Schema<GetEntityResponse>;
+).annotate({ identifier: "GetEntityResponse" }) as any as S.Schema<GetEntityResponse>;
 
 export type EntitiesAsnsGetRequestFormat = "JSON" | "CSV";
 export const EntitiesAsnsGetRequestFormat = S.String;
@@ -22608,9 +22236,7 @@ export const GetEntityAsnRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/{asn}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntityAsnRequest",
-}) as any as S.Schema<GetEntityAsnRequest>;
+).annotate({ identifier: "GetEntityAsnRequest" }) as any as S.Schema<GetEntityAsnRequest>;
 
 export interface EntitiesAsnsGetResponseAsnEstimatedUsersLocationsItem {
   locationAlpha2: string;
@@ -22711,9 +22337,7 @@ export const GetEntityAsnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asn: EntitiesAsnsGetResponseAsn,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntityAsnResponse",
-}) as any as S.Schema<GetEntityAsnResponse>;
+).annotate({ identifier: "GetEntityAsnResponse" }) as any as S.Schema<GetEntityAsnResponse>;
 
 export type EntitiesLocationsGetRequestFormat = "JSON" | "CSV";
 export const EntitiesLocationsGetRequestFormat = S.String;
@@ -22729,17 +22353,9 @@ export const GetEntityLocationRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.String.pipe(T.Label()),
     format: S.optional(EntitiesLocationsGetRequestFormat.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/entities/locations/{location}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/entities/locations/{location}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntityLocationRequest",
-}) as any as S.Schema<GetEntityLocationRequest>;
+).annotate({ identifier: "GetEntityLocationRequest" }) as any as S.Schema<GetEntityLocationRequest>;
 
 export interface EntitiesLocationsGetResponseLocation {
   alpha2: string;
@@ -22796,9 +22412,7 @@ export const GetGeolocationRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/geolocations/{geo_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetGeolocationRequest",
-}) as any as S.Schema<GetGeolocationRequest>;
+).annotate({ identifier: "GetGeolocationRequest" }) as any as S.Schema<GetGeolocationRequest>;
 
 export type GeolocationsGetResponseGeolocationParentParentType = "CONTINENT" | "COUNTRY" | "ADM1";
 export const GeolocationsGetResponseGeolocationParentParentType = S.String;
@@ -22902,9 +22516,7 @@ export const GetGeolocationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     geolocation: GeolocationsGetResponseGeolocation,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetGeolocationResponse",
-}) as any as S.Schema<GetGeolocationResponse>;
+).annotate({ identifier: "GetGeolocationResponse" }) as any as S.Schema<GetGeolocationResponse>;
 
 export type HttpAsesGetRequestAsnList = Array<string>;
 export const HttpAsesGetRequestAsnList = /*@__PURE__*/ S.Array(
@@ -23092,9 +22704,7 @@ export const GetHttpAsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/top/ases", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpAsRequest",
-}) as any as S.Schema<GetHttpAsRequest>;
+).annotate({ identifier: "GetHttpAsRequest" }) as any as S.Schema<GetHttpAsRequest>;
 
 export type HttpAsesGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -23234,9 +22844,7 @@ export const HttpAsesGetResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: HttpAsesGetResponseMetaNormalization,
     units: HttpAsesGetResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "HttpAsesGetResponseMeta",
-}) as any as S.Schema<HttpAsesGetResponseMeta>;
+).annotate({ identifier: "HttpAsesGetResponseMeta" }) as any as S.Schema<HttpAsesGetResponseMeta>;
 
 export type HttpAsesGetResponseTop0Item = DnsTopAsesResponseTop0Item;
 export const HttpAsesGetResponseTop0Item = DnsTopAsesResponseTop0Item;
@@ -23257,9 +22865,7 @@ export const GetHttpAsResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpAsesGetResponseMeta,
     top_0: HttpAsesGetResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpAsResponse",
-}) as any as S.Schema<GetHttpAsResponse>;
+).annotate({ identifier: "GetHttpAsResponse" }) as any as S.Schema<GetHttpAsResponse>;
 
 export type HttpAsesBotClassGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export const HttpAsesBotClassGetRequestBotClass = S.String;
@@ -23446,17 +23052,9 @@ export const GetHttpAsBotClassRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpAsesBotClassGetRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpAsesBotClassGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/ases/bot_class/{bot_class}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/top/ases/bot_class/{bot_class}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpAsBotClassRequest",
-}) as any as S.Schema<GetHttpAsBotClassRequest>;
+).annotate({ identifier: "GetHttpAsBotClassRequest" }) as any as S.Schema<GetHttpAsBotClassRequest>;
 
 export type HttpAsesBotClassGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -24189,11 +23787,7 @@ export const GetHttpAsDeviceTypeRequest = /*@__PURE__*/ S.suspend(() =>
     tlsVersion: S.optional(HttpAsesDeviceTypeGetRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/ases/device_type/{device_type}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/http/top/ases/device_type/{device_type}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -24559,11 +24153,7 @@ export const GetHttpAsHttpMethodRequest = /*@__PURE__*/ S.suspend(() =>
     tlsVersion: S.optional(HttpAsesHttpMethodGetRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/ases/http_version/{http_version}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/http/top/ases/http_version/{http_version}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -25300,13 +24890,7 @@ export const GetHttpAsIpVersionRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpAsesIpVersionGetRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpAsesIpVersionGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/ases/ip_version/{ip_version}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/top/ases/ip_version/{ip_version}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetHttpAsIpVersionRequest",
@@ -25670,9 +25254,7 @@ export const GetHttpAsOsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/top/ases/os/{os}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpAsOsRequest",
-}) as any as S.Schema<GetHttpAsOsRequest>;
+).annotate({ identifier: "GetHttpAsOsRequest" }) as any as S.Schema<GetHttpAsOsRequest>;
 
 export type HttpAsesOsGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -25835,9 +25417,7 @@ export const GetHttpAsOsResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpAsesOsGetResponseMeta,
     top_0: HttpAsesOsGetResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpAsOsResponse",
-}) as any as S.Schema<GetHttpAsOsResponse>;
+).annotate({ identifier: "GetHttpAsOsResponse" }) as any as S.Schema<GetHttpAsOsResponse>;
 
 export type HttpAsesTlsVersionGetRequestTlsVersion =
   | "TLSv1_0"
@@ -26027,11 +25607,7 @@ export const GetHttpAsTlsVersionRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpAsesTlsVersionGetRequestOsList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/ases/tls_version/{tls_version}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/http/top/ases/tls_version/{tls_version}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -26403,9 +25979,7 @@ export const GetHttpLocationRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/top/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpLocationRequest",
-}) as any as S.Schema<GetHttpLocationRequest>;
+).annotate({ identifier: "GetHttpLocationRequest" }) as any as S.Schema<GetHttpLocationRequest>;
 
 export type HttpLocationsGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -26570,9 +26144,7 @@ export const GetHttpLocationResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpLocationsGetResponseMeta,
     top_0: HttpLocationsGetResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpLocationResponse",
-}) as any as S.Schema<GetHttpLocationResponse>;
+).annotate({ identifier: "GetHttpLocationResponse" }) as any as S.Schema<GetHttpLocationResponse>;
 
 export type HttpLocationsBotClassGetRequestBotClass = "LIKELY_AUTOMATED" | "LIKELY_HUMAN";
 export const HttpLocationsBotClassGetRequestBotClass = S.String;
@@ -26762,11 +26334,7 @@ export const GetHttpLocationBotClassRequest = /*@__PURE__*/ S.suspend(() =>
     tlsVersion: S.optional(HttpLocationsBotClassGetRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/locations/bot_class/{bot_class}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/http/top/locations/bot_class/{bot_class}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -29024,17 +28592,9 @@ export const GetHttpLocationOsRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(HttpLocationsOsGetRequestNameList.pipe(T.Query())),
     tlsVersion: S.optional(HttpLocationsOsGetRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/top/locations/os/{os}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/top/locations/os/{os}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetHttpLocationOsRequest",
-}) as any as S.Schema<GetHttpLocationOsRequest>;
+).annotate({ identifier: "GetHttpLocationOsRequest" }) as any as S.Schema<GetHttpLocationOsRequest>;
 
 export type HttpLocationsOsGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -29604,9 +29164,7 @@ export const GetOriginRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/origins/{slug}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOriginRequest",
-}) as any as S.Schema<GetOriginRequest>;
+).annotate({ identifier: "GetOriginRequest" }) as any as S.Schema<GetOriginRequest>;
 
 export interface GetOriginResponseOriginRegionsItem {
   /** The region code. */
@@ -29635,9 +29193,7 @@ export const GetOriginResponseOrigin = /*@__PURE__*/ S.suspend(() =>
     regions: GetOriginResponseOriginRegionsList,
     slug: S.String,
   }),
-).annotate({
-  identifier: "GetOriginResponseOrigin",
-}) as any as S.Schema<GetOriginResponseOrigin>;
+).annotate({ identifier: "GetOriginResponseOrigin" }) as any as S.Schema<GetOriginResponseOrigin>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOriginResponse {
@@ -29647,9 +29203,7 @@ export const GetOriginResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     origin: GetOriginResponseOrigin,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetOriginResponse",
-}) as any as S.Schema<GetOriginResponse>;
+).annotate({ identifier: "GetOriginResponse" }) as any as S.Schema<GetOriginResponse>;
 
 export type RankingDomainGetRequestDateList = Array<string>;
 export const RankingDomainGetRequestDateList = /*@__PURE__*/ S.Array(
@@ -29693,17 +29247,9 @@ export const GetRankingDomainRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(RankingDomainGetRequestNameList.pipe(T.Query())),
     rankingType: S.optional(RankingDomainGetRequestRankingType.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ranking/domain/{domain}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ranking/domain/{domain}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRankingDomainRequest",
-}) as any as S.Schema<GetRankingDomainRequest>;
+).annotate({ identifier: "GetRankingDomainRequest" }) as any as S.Schema<GetRankingDomainRequest>;
 
 export interface RankingDomainGetResponseDetails0CategoriesItem {
   id: number;
@@ -29799,9 +29345,7 @@ export const GetRankingDomainResponse = /*@__PURE__*/ S.suspend(() =>
     details_0: RankingDomainGetResponseDetails0,
     meta: RankingDomainGetResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRankingDomainResponse",
-}) as any as S.Schema<GetRankingDomainResponse>;
+).annotate({ identifier: "GetRankingDomainResponse" }) as any as S.Schema<GetRankingDomainResponse>;
 
 export type GetTldRequestFormat = "JSON" | "CSV";
 export const GetTldRequestFormat = S.String;
@@ -29835,9 +29379,7 @@ export const GetTldResponseTld = /*@__PURE__*/ S.suspend(() =>
     tld: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "GetTldResponseTld",
-}) as any as S.Schema<GetTldResponseTld>;
+).annotate({ identifier: "GetTldResponseTld" }) as any as S.Schema<GetTldResponseTld>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTldResponse {
@@ -29935,9 +29477,7 @@ export const GetTrafficAnomalyRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/traffic_anomalies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTrafficAnomalyRequest",
-}) as any as S.Schema<GetTrafficAnomalyRequest>;
+).annotate({ identifier: "GetTrafficAnomalyRequest" }) as any as S.Schema<GetTrafficAnomalyRequest>;
 
 export type TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetailsLocation =
   AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
@@ -30038,13 +29578,7 @@ export const GetTrafficAnomalyLocationRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     status: S.optional(TrafficAnomaliesLocationsGetRequestStatus.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/traffic_anomalies/locations",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/traffic_anomalies/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetTrafficAnomalyLocationRequest",
@@ -30133,13 +29667,7 @@ export const HistogramQualitySpeedRequest = /*@__PURE__*/ S.suspend(() =>
     metricGroup: S.optional(QualitySpeedHistogramRequestMetricGroup.pipe(T.Query())),
     name: S.optional(QualitySpeedHistogramRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/quality/speed/histogram",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/quality/speed/histogram", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HistogramQualitySpeedRequest",
@@ -30466,13 +29994,7 @@ export const HttpMethodAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(() =
     ),
     name: S.optional(AttacksLayer7SummaryHttpMethodRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/http_method",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/http_method", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpMethodAttackLayer7SummaryRequest",
@@ -31195,13 +30717,7 @@ export const HttpProtocolHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryHttpProtocolRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryHttpProtocolRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/http_protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/http_protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpProtocolHttpSummaryRequest",
@@ -31577,13 +31093,7 @@ export const HttpProtocolHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(()
     os: S.optional(HttpTimeseriesGroupsHttpProtocolRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsHttpProtocolRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/http_protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/http_protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpProtocolHttpTimeseriesGroupRequest",
@@ -31960,13 +31470,7 @@ export const HttpVersionAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(() 
     ),
     name: S.optional(AttacksLayer7SummaryHttpVersionRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/http_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/http_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpVersionAttackLayer7SummaryRequest",
@@ -32766,13 +32270,7 @@ export const HttpVersionHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryHttpVersionRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryHttpVersionRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/http_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/http_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpVersionHttpSummaryRequest",
@@ -33152,13 +32650,7 @@ export const HttpVersionHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() 
     os: S.optional(HttpTimeseriesGroupsHttpVersionRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsHttpVersionRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/http_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/http_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "HttpVersionHttpTimeseriesGroupRequest",
@@ -33475,13 +32967,7 @@ export const IndustryAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryIndustryRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryIndustryRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/industry",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/industry", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IndustryAttackLayer3SummaryRequest",
@@ -33639,9 +33125,7 @@ export const AttacksLayer3SummaryIndustryResponseMeta = /*@__PURE__*/ S.suspend(
   identifier: "AttacksLayer3SummaryIndustryResponseMeta",
 }) as any as S.Schema<AttacksLayer3SummaryIndustryResponseMeta>;
 
-export type AttacksLayer3SummaryIndustryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer3SummaryIndustryResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer3SummaryIndustryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -33781,11 +33265,7 @@ export const IndustryAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     protocol: S.optional(AttacksLayer3TimeseriesGroupsIndustryRequestProtocolList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/industry",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/industry", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -34080,13 +33560,7 @@ export const IndustryAttackLayer3TopRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3TopIndustryRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TopIndustryRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/top/industry",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/top/industry", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IndustryAttackLayer3TopRequest",
@@ -34445,13 +33919,7 @@ export const IndustryAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7SummaryIndustryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/industry",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/industry", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IndustryAttackLayer7SummaryRequest",
@@ -34609,9 +34077,7 @@ export const AttacksLayer7SummaryIndustryResponseMeta = /*@__PURE__*/ S.suspend(
   identifier: "AttacksLayer7SummaryIndustryResponseMeta",
 }) as any as S.Schema<AttacksLayer7SummaryIndustryResponseMeta>;
 
-export type AttacksLayer7SummaryIndustryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer7SummaryIndustryResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer7SummaryIndustryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -34842,11 +34308,7 @@ export const IndustryAttackLayer7TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     ),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/timeseries_groups/industry",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer7/timeseries_groups/industry", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -35230,13 +34692,7 @@ export const IndustryAttackLayer7TopRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7TopIndustryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/industry",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/industry", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IndustryAttackLayer7TopRequest",
@@ -35434,9 +34890,7 @@ export const IpEntityAsnRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/ip", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "IpEntityAsnRequest",
-}) as any as S.Schema<IpEntityAsnRequest>;
+).annotate({ identifier: "IpEntityAsnRequest" }) as any as S.Schema<IpEntityAsnRequest>;
 
 export type EntitiesAsnsIpResponseAsnEstimatedUsersLocationsItem =
   EntitiesAsnsGetResponseAsnEstimatedUsersLocationsItem;
@@ -35509,9 +34963,7 @@ export const IpEntityAsnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asn: EntitiesAsnsIpResponseAsn,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "IpEntityAsnResponse",
-}) as any as S.Schema<IpEntityAsnResponse>;
+).annotate({ identifier: "IpEntityAsnResponse" }) as any as S.Schema<IpEntityAsnResponse>;
 
 export type As112SummaryIpVersionRequestContinentList = Array<string>;
 export const As112SummaryIpVersionRequestContinentList = /*@__PURE__*/ S.Array(
@@ -35718,13 +35170,7 @@ export const IpVersionAs112SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112SummaryIpVersionRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112SummaryIpVersionRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionAs112SummaryRequest",
@@ -36119,13 +35565,7 @@ export const IpVersionAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     queryType: S.optional(As112TimeseriesGroupsIpVersionRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsIpVersionRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionAs112TimeseriesGroupRequest",
@@ -36409,9 +35849,7 @@ export const IpVersionAs112TopRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "IpVersionAs112TopRequest",
-}) as any as S.Schema<IpVersionAs112TopRequest>;
+).annotate({ identifier: "IpVersionAs112TopRequest" }) as any as S.Schema<IpVersionAs112TopRequest>;
 
 export type As112TopIpVersionResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -36661,13 +36099,7 @@ export const IpVersionAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryIpVersionRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryIpVersionRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionAttackLayer3SummaryRequest",
@@ -37331,13 +36763,7 @@ export const IpVersionAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7SummaryIpVersionRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionAttackLayer7SummaryRequest",
@@ -38170,13 +37596,7 @@ export const IpVersionDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryIpVersionRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryIpVersionRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionDnsSummaryRequest",
@@ -38583,13 +38003,7 @@ export const IpVersionDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsIpVersionRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsIpVersionRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionDnsTimeseriesGroupRequest",
@@ -38904,13 +38318,7 @@ export const IpVersionEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryIpVersionRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryIpVersionRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionEmailRoutingSummaryRequest",
@@ -39604,13 +39012,7 @@ export const IpVersionHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryIpVersionRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryIpVersionRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionHttpSummaryRequest",
@@ -39972,13 +39374,7 @@ export const IpVersionHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpTimeseriesGroupsIpVersionRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsIpVersionRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/ip_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/ip_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "IpVersionHttpTimeseriesGroupRequest",
@@ -40426,9 +39822,7 @@ export const ListAnnotationsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/annotations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAnnotationsRequest",
-}) as any as S.Schema<ListAnnotationsRequest>;
+).annotate({ identifier: "ListAnnotationsRequest" }) as any as S.Schema<ListAnnotationsRequest>;
 
 export type AnnotationsListResponseAnnotationsItemAsnsList = Array<number>;
 export const AnnotationsListResponseAnnotationsItemAsnsList = /*@__PURE__*/ S.Array(
@@ -40567,9 +39961,7 @@ export const ListAnnotationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     annotations: AnnotationsListResponseAnnotationsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAnnotationsResponse",
-}) as any as S.Schema<ListAnnotationsResponse>;
+).annotate({ identifier: "ListAnnotationsResponse" }) as any as S.Schema<ListAnnotationsResponse>;
 
 export type BgpHijacksEventsListRequestFormat = "JSON" | "CSV";
 export const BgpHijacksEventsListRequestFormat = S.String;
@@ -40824,9 +40216,7 @@ export const ListBgpLeakEventsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/leaks/events", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListBgpLeakEventsRequest",
-}) as any as S.Schema<ListBgpLeakEventsRequest>;
+).annotate({ identifier: "ListBgpLeakEventsRequest" }) as any as S.Schema<ListBgpLeakEventsRequest>;
 
 export type BgpLeaksEventsListResponseAsnInfoItem = BgpHijacksEventsListResponseAsnInfoItem;
 export const BgpLeaksEventsListResponseAsnInfoItem = BgpHijacksEventsListResponseAsnInfoItem;
@@ -40923,13 +40313,7 @@ export const ListBgpRoutesPathsRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(ListBgpRoutesPathsRequestFormat.pipe(T.Query())),
     ipVersion: S.optional(ListBgpRoutesPathsRequestIpVersion.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bgp/routes/paths/{asn}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/paths/{asn}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListBgpRoutesPathsRequest",
@@ -41060,9 +40444,7 @@ export const ListBotsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bots", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListBotsRequest",
-}) as any as S.Schema<ListBotsRequest>;
+).annotate({ identifier: "ListBotsRequest" }) as any as S.Schema<ListBotsRequest>;
 
 export type BotsListResponseBotsItemUserAgentPatternsList = Array<string>;
 export const BotsListResponseBotsItemUserAgentPatternsList = /*@__PURE__*/ S.Array(
@@ -41094,9 +40476,7 @@ export const BotsListResponseBotsItem = /*@__PURE__*/ S.suspend(() =>
     slug: S.String,
     userAgentPatterns: BotsListResponseBotsItemUserAgentPatternsList,
   }),
-).annotate({
-  identifier: "BotsListResponseBotsItem",
-}) as any as S.Schema<BotsListResponseBotsItem>;
+).annotate({ identifier: "BotsListResponseBotsItem" }) as any as S.Schema<BotsListResponseBotsItem>;
 
 export type BotsListResponseBotsList = Array<BotsListResponseBotsItem>;
 export const BotsListResponseBotsList = /*@__PURE__*/ S.Array(
@@ -41111,9 +40491,7 @@ export const ListBotsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bots: BotsListResponseBotsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListBotsResponse",
-}) as any as S.Schema<ListBotsResponse>;
+).annotate({ identifier: "ListBotsResponse" }) as any as S.Schema<ListBotsResponse>;
 
 export type CtAuthoritiesListRequestFormat = "JSON" | "CSV";
 export const CtAuthoritiesListRequestFormat = S.String;
@@ -41134,9 +40512,7 @@ export const ListCtAuthoritiesRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ct/authorities", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCtAuthoritiesRequest",
-}) as any as S.Schema<ListCtAuthoritiesRequest>;
+).annotate({ identifier: "ListCtAuthoritiesRequest" }) as any as S.Schema<ListCtAuthoritiesRequest>;
 
 export type CtAuthoritiesListResponseCertificateAuthoritiesItemCertificateRecordType =
   | "ROOT_CERTIFICATE"
@@ -41222,9 +40598,7 @@ export const ListCtLogsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ct/logs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCtLogsRequest",
-}) as any as S.Schema<ListCtLogsRequest>;
+).annotate({ identifier: "ListCtLogsRequest" }) as any as S.Schema<ListCtLogsRequest>;
 
 export type CtLogsListResponseCertificateLogsItemApi = "RFC6962" | "STATIC";
 export const CtLogsListResponseCertificateLogsItemApi = S.String;
@@ -41287,9 +40661,7 @@ export const ListCtLogsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certificateLogs: CtLogsListResponseCertificateLogsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListCtLogsResponse",
-}) as any as S.Schema<ListCtLogsResponse>;
+).annotate({ identifier: "ListCtLogsResponse" }) as any as S.Schema<ListCtLogsResponse>;
 
 export type DatasetsListRequestDatasetType = "RANKING_BUCKET" | "REPORT";
 export const DatasetsListRequestDatasetType = S.String;
@@ -41319,9 +40691,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/datasets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatasetsRequest",
-}) as any as S.Schema<ListDatasetsRequest>;
+).annotate({ identifier: "ListDatasetsRequest" }) as any as S.Schema<ListDatasetsRequest>;
 
 export type DatasetsListResponseDatasetsItemTagsList = Array<string>;
 export const DatasetsListResponseDatasetsItemTagsList = /*@__PURE__*/ S.Array(
@@ -41362,9 +40732,7 @@ export const ListDatasetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasets: DatasetsListResponseDatasetsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListDatasetsResponse",
-}) as any as S.Schema<ListDatasetsResponse>;
+).annotate({ identifier: "ListDatasetsResponse" }) as any as S.Schema<ListDatasetsResponse>;
 
 export type EntitiesAsnsListRequestFormat = "JSON" | "CSV";
 export const EntitiesAsnsListRequestFormat = S.String;
@@ -41397,9 +40765,7 @@ export const ListEntityAsnsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEntityAsnsRequest",
-}) as any as S.Schema<ListEntityAsnsRequest>;
+).annotate({ identifier: "ListEntityAsnsRequest" }) as any as S.Schema<ListEntityAsnsRequest>;
 
 export interface EntitiesAsnsListResponseAsnsItemEstimatedUsers {
   /** Total estimated users. */
@@ -41451,9 +40817,7 @@ export const ListEntityAsnsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asns: EntitiesAsnsListResponseAsnsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEntityAsnsResponse",
-}) as any as S.Schema<ListEntityAsnsResponse>;
+).annotate({ identifier: "ListEntityAsnsResponse" }) as any as S.Schema<ListEntityAsnsResponse>;
 
 export type EntitiesLocationsListRequestContinent = "AF" | "AS" | "EU" | "NA" | "OC" | "SA";
 export const EntitiesLocationsListRequestContinent = S.String;
@@ -41561,9 +40925,7 @@ export const ListGeolocationsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/geolocations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListGeolocationsRequest",
-}) as any as S.Schema<ListGeolocationsRequest>;
+).annotate({ identifier: "ListGeolocationsRequest" }) as any as S.Schema<ListGeolocationsRequest>;
 
 export type GeolocationsListResponseGeolocationsItemParentParentType =
   | "CONTINENT"
@@ -41676,9 +41038,7 @@ export const ListGeolocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     geolocations: GeolocationsListResponseGeolocationsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListGeolocationsResponse",
-}) as any as S.Schema<ListGeolocationsResponse>;
+).annotate({ identifier: "ListGeolocationsResponse" }) as any as S.Schema<ListGeolocationsResponse>;
 
 export type ListOriginsRequestFormat = "JSON" | "CSV";
 export const ListOriginsRequestFormat = S.String;
@@ -41699,9 +41059,7 @@ export const ListOriginsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/origins", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOriginsRequest",
-}) as any as S.Schema<ListOriginsRequest>;
+).annotate({ identifier: "ListOriginsRequest" }) as any as S.Schema<ListOriginsRequest>;
 
 export type ListOriginsResponseOriginsItemRegionsItem = GetOriginResponseOriginRegionsItem;
 export const ListOriginsResponseOriginsItemRegionsItem = GetOriginResponseOriginRegionsItem;
@@ -41738,9 +41096,7 @@ export const ListOriginsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     origins: ListOriginsResponseOriginsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListOriginsResponse",
-}) as any as S.Schema<ListOriginsResponse>;
+).annotate({ identifier: "ListOriginsResponse" }) as any as S.Schema<ListOriginsResponse>;
 
 export type ListTldsRequestFormat = "JSON" | "CSV";
 export const ListTldsRequestFormat = S.String;
@@ -41778,9 +41134,7 @@ export const ListTldsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/tlds", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTldsRequest",
-}) as any as S.Schema<ListTldsRequest>;
+).annotate({ identifier: "ListTldsRequest" }) as any as S.Schema<ListTldsRequest>;
 
 export type ListTldsResponseTldsItem = GetTldResponseTld;
 export const ListTldsResponseTldsItem = GetTldResponseTld;
@@ -41798,9 +41152,7 @@ export const ListTldsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tlds: ListTldsResponseTldsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListTldsResponse",
-}) as any as S.Schema<ListTldsResponse>;
+).annotate({ identifier: "ListTldsResponse" }) as any as S.Schema<ListTldsResponse>;
 
 export type AnnotationsOutagesLocationsRequestFormat = "JSON" | "CSV";
 export const AnnotationsOutagesLocationsRequestFormat = S.String;
@@ -41825,13 +41177,7 @@ export const LocationsAnnotationOutageRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(AnnotationsOutagesLocationsRequestFormat.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/annotations/outages/locations",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/annotations/outages/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "LocationsAnnotationOutageRequest",
@@ -41922,9 +41268,7 @@ export const LocationsAs112TopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/as112/top/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LocationsAs112TopRequest",
-}) as any as S.Schema<LocationsAs112TopRequest>;
+).annotate({ identifier: "LocationsAs112TopRequest" }) as any as S.Schema<LocationsAs112TopRequest>;
 
 export type As112TopLocationsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -42419,9 +41763,7 @@ export const LocationsDnsTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/dns/top/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LocationsDnsTopRequest",
-}) as any as S.Schema<LocationsDnsTopRequest>;
+).annotate({ identifier: "LocationsDnsTopRequest" }) as any as S.Schema<LocationsDnsTopRequest>;
 
 export type DnsTopLocationsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -42586,9 +41928,7 @@ export const LocationsDnsTopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: DnsTopLocationsResponseMeta,
     top_0: DnsTopLocationsResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "LocationsDnsTopResponse",
-}) as any as S.Schema<LocationsDnsTopResponse>;
+).annotate({ identifier: "LocationsDnsTopResponse" }) as any as S.Schema<LocationsDnsTopResponse>;
 
 export type NetflowsTopLocationsRequestAsnList = Array<string>;
 export const NetflowsTopLocationsRequestAsnList = /*@__PURE__*/ S.Array(
@@ -42668,13 +42008,7 @@ export const LocationsNetflowTopRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(NetflowsTopLocationsRequestLocationList.pipe(T.Query())),
     name: S.optional(NetflowsTopLocationsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/netflows/top/locations",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/netflows/top/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "LocationsNetflowTopRequest",
@@ -42920,13 +42254,7 @@ export const LocationsQualitySpeedTopRequest = /*@__PURE__*/ S.suspend(() =>
     orderBy: S.optional(QualitySpeedTopLocationsRequestOrderBy.pipe(T.Query())),
     reverse: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/quality/speed/top/locations",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/quality/speed/top/locations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "LocationsQualitySpeedTopRequest",
@@ -43083,13 +42411,19 @@ export const QualitySpeedTopLocationsResponseMeta = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<QualitySpeedTopLocationsResponseMeta>;
 
 export interface QualitySpeedTopLocationsResponseTop0Item {
+  /** A numeric string. */
   bandwidthDownload: string;
+  /** A numeric string. */
   bandwidthUpload: string;
   clientCountryAlpha2: string;
   clientCountryName: string;
+  /** A numeric string. */
   jitterIdle: string;
+  /** A numeric string. */
   jitterLoaded: string;
+  /** A numeric string. */
   latencyIdle: string;
+  /** A numeric string. */
   latencyLoaded: string;
   numTests: number;
   rankPower: number;
@@ -43244,13 +42578,7 @@ export const MaliciousEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =
     spf: S.optional(EmailSecuritySummaryMaliciousRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummaryMaliciousRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/malicious",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/malicious", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "MaliciousEmailSecuritySummaryRequest",
@@ -43966,13 +43294,7 @@ export const ManagedRulesAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(()
     ),
     name: S.optional(AttacksLayer7SummaryManagedRulesRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/managed_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/managed_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ManagedRulesAttackLayer7SummaryRequest",
@@ -44819,13 +44141,7 @@ export const MatchingAnswerDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryMatchingAnswerRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryMatchingAnswerRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/matching_answer",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/matching_answer", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "MatchingAnswerDnsSummaryRequest",
@@ -45236,13 +44552,7 @@ export const MatchingAnswerDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend((
     ),
     tld: S.optional(DnsTimeseriesGroupsMatchingAnswerRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/matching_answer",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/matching_answer", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "MatchingAnswerDnsTimeseriesGroupRequest",
@@ -45625,11 +44935,7 @@ export const MitigationProductAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspe
     name: S.optional(AttacksLayer7SummaryMitigationProductRequestNameList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/mitigation_product",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/mitigation_product", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -46262,9 +45568,7 @@ export const MoasBgpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/moas", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "MoasBgpRouteRequest",
-}) as any as S.Schema<MoasBgpRouteRequest>;
+).annotate({ identifier: "MoasBgpRouteRequest" }) as any as S.Schema<MoasBgpRouteRequest>;
 
 export interface BgpRoutesMoasResponseMeta {
   dataTime: string;
@@ -46330,9 +45634,7 @@ export const MoasBgpRouteResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpRoutesMoasResponseMeta,
     moas: BgpRoutesMoasResponseMoasList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "MoasBgpRouteResponse",
-}) as any as S.Schema<MoasBgpRouteResponse>;
+).annotate({ identifier: "MoasBgpRouteResponse" }) as any as S.Schema<MoasBgpRouteResponse>;
 
 export type AiInferenceSummaryModelRequestDateEndList = Array<string>;
 export const AiInferenceSummaryModelRequestDateEndList = /*@__PURE__*/ S.Array(
@@ -46380,13 +45682,7 @@ export const ModelAiInferenceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     limitPerGroup: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(AiInferenceSummaryModelRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/inference/summary/model",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/inference/summary/model", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ModelAiInferenceSummaryRequest",
@@ -46542,9 +45838,7 @@ export const AiInferenceSummaryModelResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AiInferenceSummaryModelResponseMeta",
 }) as any as S.Schema<AiInferenceSummaryModelResponseMeta>;
 
-export type AiInferenceSummaryModelResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiInferenceSummaryModelResponseSummary0Map = { [key: string]: string | undefined };
 export const AiInferenceSummaryModelResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -46623,13 +45917,7 @@ export const ModelAiInferenceTimeseriesGroupSummaryRequest = /*@__PURE__*/ S.sus
     limitPerGroup: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(AiInferenceTimeseriesGroupsSummaryModelRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/inference/timeseries_groups/model",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/inference/timeseries_groups/model", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ModelAiInferenceTimeseriesGroupSummaryRequest",
@@ -46924,13 +46212,7 @@ export const OriginAttackLayer3TopLocationRequest = /*@__PURE__*/ S.suspend(() =
     name: S.optional(AttacksLayer3TopLocationsOriginRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TopLocationsOriginRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/top/locations/origin",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/top/locations/origin", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginAttackLayer3TopLocationRequest",
@@ -47297,13 +46579,7 @@ export const OriginAttackLayer7TopAsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7TopAsesOriginRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/ases/origin",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/ases/origin", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginAttackLayer7TopAsRequest",
@@ -47668,13 +46944,7 @@ export const OriginAttackLayer7TopLocationRequest = /*@__PURE__*/ S.suspend(() =
     ),
     name: S.optional(AttacksLayer7TopLocationsOriginRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/locations/origin",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/locations/origin", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginAttackLayer7TopLocationRequest",
@@ -47943,17 +47213,9 @@ export const OriginsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(OriginsSummaryRequestOriginList.pipe(T.Query())),
     region: S.optional(OriginsSummaryRequestRegionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/origins/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/origins/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OriginsSummaryRequest",
-}) as any as S.Schema<OriginsSummaryRequest>;
+).annotate({ identifier: "OriginsSummaryRequest" }) as any as S.Schema<OriginsSummaryRequest>;
 
 export type OriginsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -48098,9 +47360,7 @@ export const OriginsSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "OriginsSummaryResponseMeta",
 }) as any as S.Schema<OriginsSummaryResponseMeta>;
 
-export type OriginsSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type OriginsSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const OriginsSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -48117,9 +47377,7 @@ export const OriginsSummaryResponse = /*@__PURE__*/ S.suspend(() =>
     meta: OriginsSummaryResponseMeta,
     summary_0: OriginsSummaryResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OriginsSummaryResponse",
-}) as any as S.Schema<OriginsSummaryResponse>;
+).annotate({ identifier: "OriginsSummaryResponse" }) as any as S.Schema<OriginsSummaryResponse>;
 
 export type OriginsTimeseriesRequestMetric =
   | "CONNECTION_FAILURES"
@@ -48205,9 +47463,7 @@ export const OriginsTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/origins/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OriginsTimeseriesRequest",
-}) as any as S.Schema<OriginsTimeseriesRequest>;
+).annotate({ identifier: "OriginsTimeseriesRequest" }) as any as S.Schema<OriginsTimeseriesRequest>;
 
 export type OriginsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -48481,13 +47737,7 @@ export const OriginsTimeseriesGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(OriginsTimeseriesGroupsRequestOriginList.pipe(T.Query())),
     region: S.optional(OriginsTimeseriesGroupsRequestRegionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/origins/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/origins/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OriginsTimeseriesGroupsRequest",
@@ -48856,9 +48106,7 @@ export const OsHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/os", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OsHttpSummaryRequest",
-}) as any as S.Schema<OsHttpSummaryRequest>;
+).annotate({ identifier: "OsHttpSummaryRequest" }) as any as S.Schema<OsHttpSummaryRequest>;
 
 export type HttpSummaryOsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -49028,9 +48276,7 @@ export const OsHttpSummaryResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpSummaryOsResponseMeta,
     summary_0: HttpSummaryOsResponseSummary0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "OsHttpSummaryResponse",
-}) as any as S.Schema<OsHttpSummaryResponse>;
+).annotate({ identifier: "OsHttpSummaryResponse" }) as any as S.Schema<OsHttpSummaryResponse>;
 
 export type HttpTimeseriesGroupsOsRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const HttpTimeseriesGroupsOsRequestAggInterval = S.String;
@@ -49209,13 +48455,7 @@ export const OsHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(HttpTimeseriesGroupsOsRequestNameList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsOsRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/os",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/os", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "OsHttpTimeseriesGroupRequest",
@@ -49439,9 +48679,7 @@ export const Pfx2asBgpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/pfx2as", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "Pfx2asBgpRouteRequest",
-}) as any as S.Schema<Pfx2asBgpRouteRequest>;
+).annotate({ identifier: "Pfx2asBgpRouteRequest" }) as any as S.Schema<Pfx2asBgpRouteRequest>;
 
 export type BgpRoutesPfx2asResponseMeta = BgpRoutesMoasResponseMeta;
 export const BgpRoutesPfx2asResponseMeta = BgpRoutesMoasResponseMeta;
@@ -49479,9 +48717,7 @@ export const Pfx2asBgpRouteResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpRoutesMoasResponseMeta,
     prefixOrigins: BgpRoutesPfx2asResponsePrefixOriginsList.pipe(T.Body("prefix_origins")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "Pfx2asBgpRouteResponse",
-}) as any as S.Schema<Pfx2asBgpRouteResponse>;
+).annotate({ identifier: "Pfx2asBgpRouteResponse" }) as any as S.Schema<Pfx2asBgpRouteResponse>;
 
 export type HttpSummaryPostQuantumRequestAsnList = Array<string>;
 export const HttpSummaryPostQuantumRequestAsnList = /*@__PURE__*/ S.Array(
@@ -49674,13 +48910,7 @@ export const PostQuantumHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryPostQuantumRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryPostQuantumRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/post_quantum",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/post_quantum", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PostQuantumHttpSummaryRequest",
@@ -50058,13 +49288,7 @@ export const PostQuantumHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() 
     os: S.optional(HttpTimeseriesGroupsPostQuantumRequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsPostQuantumRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/post_quantum",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/post_quantum", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PostQuantumHttpTimeseriesGroupRequest",
@@ -50351,9 +49575,7 @@ export const PrefixesBgpTopRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/top/prefixes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PrefixesBgpTopRequest",
-}) as any as S.Schema<PrefixesBgpTopRequest>;
+).annotate({ identifier: "PrefixesBgpTopRequest" }) as any as S.Schema<PrefixesBgpTopRequest>;
 
 export type BgpTopPrefixesResponseMetaDateRangeItem =
   AiTimeseriesGroupsSummaryResponseMetaDateRangeItem;
@@ -50406,9 +49628,7 @@ export const PrefixesBgpTopResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpTopPrefixesResponseMeta,
     top_0: BgpTopPrefixesResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PrefixesBgpTopResponse",
-}) as any as S.Schema<PrefixesBgpTopResponse>;
+).annotate({ identifier: "PrefixesBgpTopResponse" }) as any as S.Schema<PrefixesBgpTopResponse>;
 
 export type BgpTopAsesPrefixesRequestFormat = "JSON" | "CSV";
 export const BgpTopAsesPrefixesRequestFormat = S.String;
@@ -50429,9 +49649,7 @@ export const PrefixesBgpTopAsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/top/ases/prefixes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PrefixesBgpTopAsRequest",
-}) as any as S.Schema<PrefixesBgpTopAsRequest>;
+).annotate({ identifier: "PrefixesBgpTopAsRequest" }) as any as S.Schema<PrefixesBgpTopAsRequest>;
 
 export interface BgpTopAsesPrefixesResponseAsnsItem {
   asn: number;
@@ -50468,9 +49686,7 @@ export const PrefixesBgpTopAsResponse = /*@__PURE__*/ S.suspend(() =>
     asns: BgpTopAsesPrefixesResponseAsnsList,
     meta: BgpRoutesMoasResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PrefixesBgpTopAsResponse",
-}) as any as S.Schema<PrefixesBgpTopAsResponse>;
+).annotate({ identifier: "PrefixesBgpTopAsResponse" }) as any as S.Schema<PrefixesBgpTopAsResponse>;
 
 export type As112SummaryProtocolRequestContinentList = Array<string>;
 export const As112SummaryProtocolRequestContinentList = /*@__PURE__*/ S.Array(
@@ -50664,13 +49880,7 @@ export const ProtocolAs112SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112SummaryProtocolRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112SummaryProtocolRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/summary/protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ProtocolAs112SummaryRequest",
@@ -51058,13 +50268,7 @@ export const ProtocolAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112TimeseriesGroupsProtocolRequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsProtocolRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ProtocolAs112TimeseriesGroupRequest",
@@ -51363,13 +50567,7 @@ export const ProtocolAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(AttacksLayer3SummaryProtocolRequestLocationList.pipe(T.Query())),
     name: S.optional(AttacksLayer3SummaryProtocolRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ProtocolAttackLayer3SummaryRequest",
@@ -51666,11 +50864,7 @@ export const ProtocolAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     ),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/protocol",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/protocol", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -52515,13 +51709,7 @@ export const ProtocolDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsProtocolRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsProtocolRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/protocol",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/protocol", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ProtocolDnsTimeseriesGroupRequest",
@@ -52849,13 +52037,7 @@ export const QueryTypeAs112SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(As112SummaryQueryTypeRequestProtocolList.pipe(T.Query())),
     responseCode: S.optional(As112SummaryQueryTypeRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/summary/query_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/query_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "QueryTypeAs112SummaryRequest",
@@ -53009,9 +52191,7 @@ export const As112SummaryQueryTypeResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "As112SummaryQueryTypeResponseMeta",
 }) as any as S.Schema<As112SummaryQueryTypeResponseMeta>;
 
-export type As112SummaryQueryTypeResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type As112SummaryQueryTypeResponseSummary0Map = { [key: string]: string | undefined };
 export const As112SummaryQueryTypeResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -53145,13 +52325,7 @@ export const QueryTypeAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     protocol: S.optional(As112TimeseriesGroupsQueryTypeRequestProtocolList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsQueryTypeRequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/query_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/query_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "QueryTypeAs112TimeseriesGroupRequest",
@@ -53483,13 +52657,7 @@ export const QueryTypeDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryQueryTypeRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryQueryTypeRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/query_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/query_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "QueryTypeDnsSummaryRequest",
@@ -53643,9 +52811,7 @@ export const DnsSummaryQueryTypeResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "DnsSummaryQueryTypeResponseMeta",
 }) as any as S.Schema<DnsSummaryQueryTypeResponseMeta>;
 
-export type DnsSummaryQueryTypeResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type DnsSummaryQueryTypeResponseSummary0Map = { [key: string]: string | undefined };
 export const DnsSummaryQueryTypeResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -53803,13 +52969,7 @@ export const QueryTypeDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsTimeseriesGroupsQueryTypeRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsQueryTypeRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/query_type",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/query_type", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "QueryTypeDnsTimeseriesGroupRequest",
@@ -54024,9 +53184,7 @@ export const RealtimeBgpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/realtime", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RealtimeBgpRouteRequest",
-}) as any as S.Schema<RealtimeBgpRouteRequest>;
+).annotate({ identifier: "RealtimeBgpRouteRequest" }) as any as S.Schema<RealtimeBgpRouteRequest>;
 
 export interface BgpRoutesRealtimeResponseMetaAsnInfoItem {
   /** Name of the autonomous system. */
@@ -54197,9 +53355,7 @@ export const RealtimeBgpRouteResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpRoutesRealtimeResponseMeta,
     routes: BgpRoutesRealtimeResponseRoutesList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RealtimeBgpRouteResponse",
-}) as any as S.Schema<RealtimeBgpRouteResponse>;
+).annotate({ identifier: "RealtimeBgpRouteResponse" }) as any as S.Schema<RealtimeBgpRouteResponse>;
 
 export type EntitiesAsnsRelRequestFormat = "JSON" | "CSV";
 export const EntitiesAsnsRelRequestFormat = S.String;
@@ -54218,17 +53374,9 @@ export const RelEntityAsnRequest = /*@__PURE__*/ S.suspend(() =>
     asn2: S.optional(S.Number.pipe(T.Query())),
     format: S.optional(EntitiesAsnsRelRequestFormat.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/entities/asns/{asn}/rel",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/entities/asns/{asn}/rel", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RelEntityAsnRequest",
-}) as any as S.Schema<RelEntityAsnRequest>;
+).annotate({ identifier: "RelEntityAsnRequest" }) as any as S.Schema<RelEntityAsnRequest>;
 
 export type EntitiesAsnsRelResponseMeta = BgpRoutesMoasResponseMeta;
 export const EntitiesAsnsRelResponseMeta = BgpRoutesMoasResponseMeta;
@@ -54271,9 +53419,7 @@ export const RelEntityAsnResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpRoutesMoasResponseMeta,
     rels: EntitiesAsnsRelResponseRelsList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RelEntityAsnResponse",
-}) as any as S.Schema<RelEntityAsnResponse>;
+).annotate({ identifier: "RelEntityAsnResponse" }) as any as S.Schema<RelEntityAsnResponse>;
 
 export type DnsSummaryResponseCodeRequestAsnList = Array<string>;
 export const DnsSummaryResponseCodeRequestAsnList = /*@__PURE__*/ S.Array(
@@ -54475,13 +53621,7 @@ export const ResponseCodeDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(DnsSummaryResponseCodeRequestQueryTypeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryResponseCodeRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/response_code",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/response_code", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ResponseCodeDnsSummaryRequest",
@@ -54636,9 +53776,7 @@ export const DnsSummaryResponseCodeResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "DnsSummaryResponseCodeResponseMeta",
 }) as any as S.Schema<DnsSummaryResponseCodeResponseMeta>;
 
-export type DnsSummaryResponseCodeResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type DnsSummaryResponseCodeResponseSummary0Map = { [key: string]: string | undefined };
 export const DnsSummaryResponseCodeResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -54865,13 +54003,7 @@ export const ResponseCodeDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() 
     queryType: S.optional(DnsTimeseriesGroupsResponseCodeRequestQueryTypeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsResponseCodeRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/response_code",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/response_code", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ResponseCodeDnsTimeseriesGroupRequest",
@@ -55249,13 +54381,7 @@ export const ResponseCodesAs112SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(As112SummaryResponseCodesRequestProtocolList.pipe(T.Query())),
     queryType: S.optional(As112SummaryResponseCodesRequestQueryTypeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/summary/response_codes",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/response_codes", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ResponseCodesAs112SummaryRequest",
@@ -55412,9 +54538,7 @@ export const As112SummaryResponseCodesResponseMeta = /*@__PURE__*/ S.suspend(() 
   identifier: "As112SummaryResponseCodesResponseMeta",
 }) as any as S.Schema<As112SummaryResponseCodesResponseMeta>;
 
-export type As112SummaryResponseCodesResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type As112SummaryResponseCodesResponseSummary0Map = { [key: string]: string | undefined };
 export const As112SummaryResponseCodesResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -55618,11 +54742,7 @@ export const ResponseCodesAs112TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
     queryType: S.optional(As112TimeseriesGroupsResponseCodesRequestQueryTypeList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/response_codes",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/response_codes", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -56057,13 +55177,7 @@ export const ResponseTTLDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     responseCode: S.optional(DnsSummaryResponseTtlRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsSummaryResponseTtlRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/response_ttl",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/response_ttl", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ResponseTTLDnsSummaryRequest",
@@ -56497,13 +55611,7 @@ export const ResponseTTLDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     responseCode: S.optional(DnsTimeseriesGroupsResponseTtlRequestResponseCodeList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsResponseTtlRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/response_ttl",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/response_ttl", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ResponseTTLDnsTimeseriesGroupRequest",
@@ -56814,9 +55922,7 @@ export const SearchGlobalRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/search/global", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchGlobalRequest",
-}) as any as S.Schema<SearchGlobalRequest>;
+).annotate({ identifier: "SearchGlobalRequest" }) as any as S.Schema<SearchGlobalRequest>;
 
 export interface SearchGlobalResponseSearchItem {
   code: string;
@@ -56846,9 +55952,7 @@ export const SearchGlobalResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     search: SearchGlobalResponseSearchList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SearchGlobalResponse",
-}) as any as S.Schema<SearchGlobalResponse>;
+).annotate({ identifier: "SearchGlobalResponse" }) as any as S.Schema<SearchGlobalResponse>;
 
 export type BgpRpkiAspaSnapshotRequestFormat = "JSON" | "CSV";
 export const BgpRpkiAspaSnapshotRequestFormat = S.String;
@@ -56873,13 +55977,7 @@ export const SnapshotBgpRpkiAspaRequest = /*@__PURE__*/ S.suspend(() =>
     includeAsnInfo: S.optional(S.Boolean.pipe(T.Query())),
     providerAsn: S.optional(S.Number.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bgp/rpki/aspa/snapshot",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bgp/rpki/aspa/snapshot", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SnapshotBgpRpkiAspaRequest",
@@ -57062,13 +56160,7 @@ export const SpamEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummarySpamRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummarySpamRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/spam",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/spam", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpamEmailSecuritySummaryRequest",
@@ -57372,13 +56464,7 @@ export const SpamEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend((
     spf: S.optional(EmailSecurityTimeseriesGroupsSpamRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsSpamRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/spam",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/spam", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpamEmailSecurityTimeseriesGroupRequest",
@@ -57698,13 +56784,7 @@ export const SpfEmailRoutingSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     ipVersion: S.optional(EmailRoutingSummarySpfRequestIpVersionList.pipe(T.Query())),
     name: S.optional(EmailRoutingSummarySpfRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/spf",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/spf", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpfEmailRoutingSummaryRequest",
@@ -57991,13 +57071,7 @@ export const SpfEmailRoutingTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() 
     ipVersion: S.optional(EmailRoutingTimeseriesGroupsSpfRequestIpVersionList.pipe(T.Query())),
     name: S.optional(EmailRoutingTimeseriesGroupsSpfRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/timeseries_groups/spf",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/timeseries_groups/spf", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpfEmailRoutingTimeseriesGroupRequest",
@@ -58312,13 +57386,7 @@ export const SpfEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailSecuritySummarySpfRequestNameList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummarySpfRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/spf",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/spf", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpfEmailSecuritySummaryRequest",
@@ -58597,13 +57665,7 @@ export const SpfEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(()
     name: S.optional(EmailSecurityTimeseriesGroupsSpfRequestNameList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsSpfRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/spf",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/spf", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpfEmailSecurityTimeseriesGroupRequest",
@@ -58931,13 +57993,7 @@ export const SpoofEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummarySpoofRequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummarySpoofRequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/spoof",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/spoof", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SpoofEmailSecuritySummaryRequest",
@@ -59243,11 +58299,7 @@ export const SpoofEmailSecurityTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
     tlsVersion: S.optional(EmailSecurityTimeseriesGroupsSpoofRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/timeseries_groups/spoof",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/email/security/timeseries_groups/spoof", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -59481,9 +58533,7 @@ export const StatsBgpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/routes/stats", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StatsBgpRouteRequest",
-}) as any as S.Schema<StatsBgpRouteRequest>;
+).annotate({ identifier: "StatsBgpRouteRequest" }) as any as S.Schema<StatsBgpRouteRequest>;
 
 export type BgpRoutesStatsResponseMeta = BgpRoutesMoasResponseMeta;
 export const BgpRoutesStatsResponseMeta = BgpRoutesMoasResponseMeta;
@@ -59543,9 +58593,7 @@ export const StatsBgpRouteResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpRoutesMoasResponseMeta,
     stats: BgpRoutesStatsResponseStats,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "StatsBgpRouteResponse",
-}) as any as S.Schema<StatsBgpRouteResponse>;
+).annotate({ identifier: "StatsBgpRouteResponse" }) as any as S.Schema<StatsBgpRouteResponse>;
 
 export type AgentReadinessSummaryRequestDimension = "CHECK";
 export const AgentReadinessSummaryRequestDimension = S.String;
@@ -59583,13 +58631,7 @@ export const SummaryAgentReadinessRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(AgentReadinessSummaryRequestFormat.pipe(T.Query())),
     name: S.optional(AgentReadinessSummaryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/agent_readiness/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/agent_readiness/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryAgentReadinessRequest",
@@ -59668,9 +58710,7 @@ export const AgentReadinessSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AgentReadinessSummaryResponseMeta",
 }) as any as S.Schema<AgentReadinessSummaryResponseMeta>;
 
-export type AgentReadinessSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AgentReadinessSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const AgentReadinessSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -59733,13 +58773,7 @@ export const SummaryAiMarkdownForAgentRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(AiMarkdownForAgentsSummaryRequestFormat.pipe(T.Query())),
     name: S.optional(AiMarkdownForAgentsSummaryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/markdown_for_agents/summary",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/markdown_for_agents/summary", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryAiMarkdownForAgentRequest",
@@ -60096,13 +59130,7 @@ export const SummaryAiTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     userAgent: S.optional(AiBotsSummaryV2RequestUserAgentList.pipe(T.Query())),
     vertical: S.optional(AiBotsSummaryV2RequestVerticalList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryAiTimeseriesGroupRequest",
@@ -60252,9 +59280,7 @@ export const AiBotsSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AiBotsSummaryV2ResponseMeta",
 }) as any as S.Schema<AiBotsSummaryV2ResponseMeta>;
 
-export type AiBotsSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiBotsSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const AiBotsSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -60420,17 +59446,9 @@ export const SummaryBotRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(BotsSummaryRequestLocationList.pipe(T.Query())),
     name: S.optional(BotsSummaryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bots/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bots/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryBotRequest",
-}) as any as S.Schema<SummaryBotRequest>;
+).annotate({ identifier: "SummaryBotRequest" }) as any as S.Schema<SummaryBotRequest>;
 
 export type BotsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -60570,13 +59588,9 @@ export const BotsSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: BotsSummaryResponseMetaNormalization,
     units: BotsSummaryResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "BotsSummaryResponseMeta",
-}) as any as S.Schema<BotsSummaryResponseMeta>;
+).annotate({ identifier: "BotsSummaryResponseMeta" }) as any as S.Schema<BotsSummaryResponseMeta>;
 
-export type BotsSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type BotsSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const BotsSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -60593,9 +59607,7 @@ export const SummaryBotResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BotsSummaryResponseMeta,
     summary_0: BotsSummaryResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryBotResponse",
-}) as any as S.Schema<SummaryBotResponse>;
+).annotate({ identifier: "SummaryBotResponse" }) as any as S.Schema<SummaryBotResponse>;
 
 export type BotsWebCrawlersSummaryRequestDimension =
   | "CLIENT_TYPE"
@@ -60726,13 +59738,7 @@ export const SummaryBotWebCrawlerRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     vertical: S.optional(BotsWebCrawlersSummaryRequestVerticalList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bots/crawlers/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bots/crawlers/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryBotWebCrawlerRequest",
@@ -60887,9 +59893,7 @@ export const BotsWebCrawlersSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "BotsWebCrawlersSummaryResponseMeta",
 }) as any as S.Schema<BotsWebCrawlersSummaryResponseMeta>;
 
-export type BotsWebCrawlersSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type BotsWebCrawlersSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const BotsWebCrawlersSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -61153,17 +60157,9 @@ export const SummaryCtRequest = /*@__PURE__*/ S.suspend(() =>
     uniqueEntries: S.optional(CtSummaryRequestUniqueEntriesList.pipe(T.Query(), T.StringEncoded())),
     validationLevel: S.optional(CtSummaryRequestValidationLevelList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ct/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ct/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryCtRequest",
-}) as any as S.Schema<SummaryCtRequest>;
+).annotate({ identifier: "SummaryCtRequest" }) as any as S.Schema<SummaryCtRequest>;
 
 export type CtSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -61301,13 +60297,9 @@ export const CtSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: CtSummaryResponseMetaNormalization,
     units: CtSummaryResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "CtSummaryResponseMeta",
-}) as any as S.Schema<CtSummaryResponseMeta>;
+).annotate({ identifier: "CtSummaryResponseMeta" }) as any as S.Schema<CtSummaryResponseMeta>;
 
-export type CtSummaryResponseSummary0Case0Map = {
-  [key: string]: string | undefined;
-};
+export type CtSummaryResponseSummary0Case0Map = { [key: string]: string | undefined };
 export const CtSummaryResponseSummary0Case0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -61451,9 +60443,7 @@ export const SummaryCtResponse = /*@__PURE__*/ S.suspend(() =>
     meta: CtSummaryResponseMeta,
     summary_0: CtSummaryResponseSummary0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryCtResponse",
-}) as any as S.Schema<SummaryCtResponse>;
+).annotate({ identifier: "SummaryCtResponse" }) as any as S.Schema<SummaryCtResponse>;
 
 export type NetflowsSummaryRequestAsnList = Array<string>;
 export const NetflowsSummaryRequestAsnList = /*@__PURE__*/ S.Array(
@@ -61532,9 +60522,7 @@ export const SummaryNetflowRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/netflows/summary", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryNetflowRequest",
-}) as any as S.Schema<SummaryNetflowRequest>;
+).annotate({ identifier: "SummaryNetflowRequest" }) as any as S.Schema<SummaryNetflowRequest>;
 
 export type NetflowsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -61706,9 +60694,7 @@ export const SummaryNetflowResponse = /*@__PURE__*/ S.suspend(() =>
     meta: NetflowsSummaryResponseMeta,
     summary_0: NetflowsSummaryResponseSummary0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryNetflowResponse",
-}) as any as S.Schema<SummaryNetflowResponse>;
+).annotate({ identifier: "SummaryNetflowResponse" }) as any as S.Schema<SummaryNetflowResponse>;
 
 export type PostQuantumOriginSummaryRequestDimension = "KEY_AGREEMENT";
 export const PostQuantumOriginSummaryRequestDimension = S.String;
@@ -61760,11 +60746,7 @@ export const SummaryPostQuantumOriginRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PostQuantumOriginSummaryRequestNameList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/post_quantum/origin/summary/{dimension}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/post_quantum/origin/summary/{dimension}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -61921,9 +60903,7 @@ export const PostQuantumOriginSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =
   identifier: "PostQuantumOriginSummaryResponseMeta",
 }) as any as S.Schema<PostQuantumOriginSummaryResponseMeta>;
 
-export type PostQuantumOriginSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type PostQuantumOriginSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const PostQuantumOriginSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -62019,9 +60999,7 @@ export const SummaryQualityIqiRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/quality/iqi/summary", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryQualityIqiRequest",
-}) as any as S.Schema<SummaryQualityIqiRequest>;
+).annotate({ identifier: "SummaryQualityIqiRequest" }) as any as S.Schema<SummaryQualityIqiRequest>;
 
 export type QualityIqiSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -62171,8 +61149,11 @@ export const QualityIqiSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QualityIqiSummaryResponseMeta>;
 
 export interface QualityIqiSummaryResponseSummary0 {
+  /** A numeric string. */
   p25: string;
+  /** A numeric string. */
   p50: string;
+  /** A numeric string. */
   p75: string;
 }
 export const QualityIqiSummaryResponseSummary0 = /*@__PURE__*/ S.suspend(() =>
@@ -62406,12 +61387,19 @@ export const QualitySpeedSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QualitySpeedSummaryResponseMeta>;
 
 export interface QualitySpeedSummaryResponseSummary0 {
+  /** A numeric string. */
   bandwidthDownload: string;
+  /** A numeric string. */
   bandwidthUpload: string;
+  /** A numeric string. */
   jitterIdle: string;
+  /** A numeric string. */
   jitterLoaded: string;
+  /** A numeric string. */
   latencyIdle: string;
+  /** A numeric string. */
   latencyLoaded: string;
+  /** A numeric string. */
   packetLoss: string;
 }
 export const QualitySpeedSummaryResponseSummary0 = /*@__PURE__*/ S.suspend(() =>
@@ -62510,13 +61498,7 @@ export const SummaryTcpResetsTimeoutRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(TcpResetsTimeoutsSummaryRequestLocationList.pipe(T.Query())),
     name: S.optional(TcpResetsTimeoutsSummaryRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/tcp_resets_timeouts/summary",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/tcp_resets_timeouts/summary", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryTcpResetsTimeoutRequest",
@@ -62787,13 +61769,7 @@ export const SummaryV2AiInferenceRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(AiInferenceSummaryV2RequestLocationList.pipe(T.Query())),
     name: S.optional(AiInferenceSummaryV2RequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/inference/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/inference/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryV2AiInferenceRequest",
@@ -62947,9 +61923,7 @@ export const AiInferenceSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AiInferenceSummaryV2ResponseMeta",
 }) as any as S.Schema<AiInferenceSummaryV2ResponseMeta>;
 
-export type AiInferenceSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiInferenceSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const AiInferenceSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -63190,17 +62164,9 @@ export const SummaryV2As112Request = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112SummaryV2RequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112SummaryV2RequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2As112Request",
-}) as any as S.Schema<SummaryV2As112Request>;
+).annotate({ identifier: "SummaryV2As112Request" }) as any as S.Schema<SummaryV2As112Request>;
 
 export type As112SummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -63345,9 +62311,7 @@ export const As112SummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "As112SummaryV2ResponseMeta",
 }) as any as S.Schema<As112SummaryV2ResponseMeta>;
 
-export type As112SummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type As112SummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const As112SummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -63364,9 +62328,7 @@ export const SummaryV2As112Response = /*@__PURE__*/ S.suspend(() =>
     meta: As112SummaryV2ResponseMeta,
     summary_0: As112SummaryV2ResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2As112Response",
-}) as any as S.Schema<SummaryV2As112Response>;
+).annotate({ identifier: "SummaryV2As112Response" }) as any as S.Schema<SummaryV2As112Response>;
 
 export type AttacksLayer3SummaryV2RequestDimension =
   | "PROTOCOL"
@@ -63475,13 +62437,7 @@ export const SummaryV2AttackLayer3Request = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryV2RequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryV2RequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryV2AttackLayer3Request",
@@ -63636,9 +62592,7 @@ export const AttacksLayer3SummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttacksLayer3SummaryV2ResponseMeta",
 }) as any as S.Schema<AttacksLayer3SummaryV2ResponseMeta>;
 
-export type AttacksLayer3SummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer3SummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer3SummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -63849,13 +62803,7 @@ export const SummaryV2AttackLayer7Request = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7SummaryV2RequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryV2AttackLayer7Request",
@@ -64010,9 +62958,7 @@ export const AttacksLayer7SummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttacksLayer7SummaryV2ResponseMeta",
 }) as any as S.Schema<AttacksLayer7SummaryV2ResponseMeta>;
 
-export type AttacksLayer7SummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer7SummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer7SummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64360,17 +63306,9 @@ export const SummaryV2DnsRequest = /*@__PURE__*/ S.suspend(() =>
     responseTtl: S.optional(DnsSummaryV2RequestResponseTtlList.pipe(T.Query())),
     tld: S.optional(DnsSummaryV2RequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2DnsRequest",
-}) as any as S.Schema<SummaryV2DnsRequest>;
+).annotate({ identifier: "SummaryV2DnsRequest" }) as any as S.Schema<SummaryV2DnsRequest>;
 
 export type DnsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -64510,13 +63448,9 @@ export const DnsSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: DnsSummaryV2ResponseMetaNormalization,
     units: DnsSummaryV2ResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "DnsSummaryV2ResponseMeta",
-}) as any as S.Schema<DnsSummaryV2ResponseMeta>;
+).annotate({ identifier: "DnsSummaryV2ResponseMeta" }) as any as S.Schema<DnsSummaryV2ResponseMeta>;
 
-export type DnsSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type DnsSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const DnsSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64533,9 +63467,7 @@ export const SummaryV2DnsResponse = /*@__PURE__*/ S.suspend(() =>
     meta: DnsSummaryV2ResponseMeta,
     summary_0: DnsSummaryV2ResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2DnsResponse",
-}) as any as S.Schema<SummaryV2DnsResponse>;
+).annotate({ identifier: "SummaryV2DnsResponse" }) as any as S.Schema<SummaryV2DnsResponse>;
 
 export type EmailRoutingSummaryV2RequestDimension =
   | "IP_VERSION"
@@ -64673,13 +63605,7 @@ export const SummaryV2EmailRoutingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(EmailRoutingSummaryV2RequestNameList.pipe(T.Query())),
     spf: S.optional(EmailRoutingSummaryV2RequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/routing/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/routing/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryV2EmailRoutingRequest",
@@ -64833,9 +63759,7 @@ export const EmailRoutingSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "EmailRoutingSummaryV2ResponseMeta",
 }) as any as S.Schema<EmailRoutingSummaryV2ResponseMeta>;
 
-export type EmailRoutingSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type EmailRoutingSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const EmailRoutingSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -64982,13 +63906,7 @@ export const SummaryV2EmailSecurityRequest = /*@__PURE__*/ S.suspend(() =>
     spf: S.optional(EmailSecuritySummaryV2RequestSpfList.pipe(T.Query())),
     tlsVersion: S.optional(EmailSecuritySummaryV2RequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SummaryV2EmailSecurityRequest",
@@ -65143,9 +64061,7 @@ export const EmailSecuritySummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "EmailSecuritySummaryV2ResponseMeta",
 }) as any as S.Schema<EmailSecuritySummaryV2ResponseMeta>;
 
-export type EmailSecuritySummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type EmailSecuritySummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const EmailSecuritySummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65406,17 +64322,9 @@ export const SummaryV2HttpRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpSummaryV2RequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpSummaryV2RequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2HttpRequest",
-}) as any as S.Schema<SummaryV2HttpRequest>;
+).annotate({ identifier: "SummaryV2HttpRequest" }) as any as S.Schema<SummaryV2HttpRequest>;
 
 export type HttpSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -65560,9 +64468,7 @@ export const HttpSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "HttpSummaryV2ResponseMeta",
 }) as any as S.Schema<HttpSummaryV2ResponseMeta>;
 
-export type HttpSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type HttpSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const HttpSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65579,9 +64485,7 @@ export const SummaryV2HttpResponse = /*@__PURE__*/ S.suspend(() =>
     meta: HttpSummaryV2ResponseMeta,
     summary_0: HttpSummaryV2ResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2HttpResponse",
-}) as any as S.Schema<SummaryV2HttpResponse>;
+).annotate({ identifier: "SummaryV2HttpResponse" }) as any as S.Schema<SummaryV2HttpResponse>;
 
 export type LeakedCredentialsSummaryV2RequestDimension = "COMPROMISED" | "BOT_CLASS";
 export const LeakedCredentialsSummaryV2RequestDimension = S.String;
@@ -65849,9 +64753,7 @@ export const LeakedCredentialsSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(()
   identifier: "LeakedCredentialsSummaryV2ResponseMeta",
 }) as any as S.Schema<LeakedCredentialsSummaryV2ResponseMeta>;
 
-export type LeakedCredentialsSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type LeakedCredentialsSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const LeakedCredentialsSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -65969,17 +64871,9 @@ export const SummaryV2NetflowRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(NetflowsSummaryV2RequestNameList.pipe(T.Query())),
     product: S.optional(NetflowsSummaryV2RequestProductList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/netflows/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/netflows/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2NetflowRequest",
-}) as any as S.Schema<SummaryV2NetflowRequest>;
+).annotate({ identifier: "SummaryV2NetflowRequest" }) as any as S.Schema<SummaryV2NetflowRequest>;
 
 export type NetflowsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -66128,9 +65022,7 @@ export const NetflowsSummaryV2ResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "NetflowsSummaryV2ResponseMeta",
 }) as any as S.Schema<NetflowsSummaryV2ResponseMeta>;
 
-export type NetflowsSummaryV2ResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type NetflowsSummaryV2ResponseSummary0Map = { [key: string]: string | undefined };
 export const NetflowsSummaryV2ResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -66147,9 +65039,7 @@ export const SummaryV2NetflowResponse = /*@__PURE__*/ S.suspend(() =>
     meta: NetflowsSummaryV2ResponseMeta,
     summary_0: NetflowsSummaryV2ResponseSummary0Map,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "SummaryV2NetflowResponse",
-}) as any as S.Schema<SummaryV2NetflowResponse>;
+).annotate({ identifier: "SummaryV2NetflowResponse" }) as any as S.Schema<SummaryV2NetflowResponse>;
 
 export interface SupportPostQuantumTlsRequest {
   /** Hostname or IP address to test for Post-Quantum TLS support, optionally with port (defaults to 443). */
@@ -66159,13 +65049,7 @@ export const SupportPostQuantumTlsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     host: S.String.pipe(T.Query()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/post_quantum/tls/support",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/post_quantum/tls/support", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SupportPostQuantumTlsRequest",
@@ -66301,13 +65185,7 @@ export const TargetAttackLayer3TopLocationRequest = /*@__PURE__*/ S.suspend(() =
     name: S.optional(AttacksLayer3TopLocationsTargetRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TopLocationsTargetRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/top/locations/target",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/top/locations/target", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TargetAttackLayer3TopLocationRequest",
@@ -66581,13 +65459,7 @@ export const TargetAttackLayer7TopLocationRequest = /*@__PURE__*/ S.suspend(() =
     ),
     name: S.optional(AttacksLayer7TopLocationsTargetRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/locations/target",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/locations/target", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TargetAttackLayer7TopLocationRequest",
@@ -66819,13 +65691,7 @@ export const TaskAiInferenceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     limitPerGroup: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(AiInferenceSummaryTaskRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/inference/summary/task",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/inference/summary/task", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TaskAiInferenceSummaryRequest",
@@ -66980,9 +65846,7 @@ export const AiInferenceSummaryTaskResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AiInferenceSummaryTaskResponseMeta",
 }) as any as S.Schema<AiInferenceSummaryTaskResponseMeta>;
 
-export type AiInferenceSummaryTaskResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiInferenceSummaryTaskResponseSummary0Map = { [key: string]: string | undefined };
 export const AiInferenceSummaryTaskResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -67061,13 +65925,7 @@ export const TaskAiInferenceTimeseriesGroupSummaryRequest = /*@__PURE__*/ S.susp
     limitPerGroup: S.optional(S.Number.pipe(T.Query())),
     name: S.optional(AiInferenceTimeseriesGroupsSummaryTaskRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/inference/timeseries_groups/task",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/inference/timeseries_groups/task", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TaskAiInferenceTimeseriesGroupSummaryRequest",
@@ -67387,11 +66245,7 @@ export const ThreatCategoryEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend
     tlsVersion: S.optional(EmailSecuritySummaryThreatCategoryRequestTlsVersionList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/threat_category",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/email/security/summary/threat_category", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -68146,9 +67000,7 @@ export const TimeseriesAiBotRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesAiBotRequest",
-}) as any as S.Schema<TimeseriesAiBotRequest>;
+).annotate({ identifier: "TimeseriesAiBotRequest" }) as any as S.Schema<TimeseriesAiBotRequest>;
 
 export type AiBotsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -68314,9 +67166,7 @@ export const TimeseriesAiBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: AiBotsTimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesAiBotResponse",
-}) as any as S.Schema<TimeseriesAiBotResponse>;
+).annotate({ identifier: "TimeseriesAiBotResponse" }) as any as S.Schema<TimeseriesAiBotResponse>;
 
 export type AiMarkdownForAgentsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const AiMarkdownForAgentsTimeseriesRequestAggInterval = S.String;
@@ -68367,13 +67217,7 @@ export const TimeseriesAiMarkdownForAgentRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(AiMarkdownForAgentsTimeseriesRequestFormat.pipe(T.Query())),
     name: S.optional(AiMarkdownForAgentsTimeseriesRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/markdown_for_agents/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/markdown_for_agents/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesAiMarkdownForAgentRequest",
@@ -68768,9 +67612,7 @@ export const TimeseriesAs112Request = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesAs112Request",
-}) as any as S.Schema<TimeseriesAs112Request>;
+).annotate({ identifier: "TimeseriesAs112Request" }) as any as S.Schema<TimeseriesAs112Request>;
 
 export type As112TimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -68936,9 +67778,7 @@ export const TimeseriesAs112Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: As112TimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesAs112Response",
-}) as any as S.Schema<TimeseriesAs112Response>;
+).annotate({ identifier: "TimeseriesAs112Response" }) as any as S.Schema<TimeseriesAs112Response>;
 
 export type AttacksLayer3TimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const AttacksLayer3TimeseriesRequestAggInterval = S.String;
@@ -69057,13 +67897,7 @@ export const TimeseriesAttackLayer3Request = /*@__PURE__*/ S.suspend(() =>
     normalization: S.optional(AttacksLayer3TimeseriesRequestNormalization.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TimeseriesRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesAttackLayer3Request",
@@ -69429,13 +68263,7 @@ export const TimeseriesAttackLayer7Request = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer7TimeseriesRequestNameList.pipe(T.Query())),
     normalization: S.optional(AttacksLayer7TimeseriesRequestNormalization.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesAttackLayer7Request",
@@ -69720,9 +68548,7 @@ export const TimeseriesBgpRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBgpRequest",
-}) as any as S.Schema<TimeseriesBgpRequest>;
+).annotate({ identifier: "TimeseriesBgpRequest" }) as any as S.Schema<TimeseriesBgpRequest>;
 
 export type BgpTimeseriesResponseMetaAggInterval = "15m" | "1h" | "1d" | "1w";
 export const BgpTimeseriesResponseMetaAggInterval = S.String;
@@ -69877,9 +68703,7 @@ export const TimeseriesBgpResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpTimeseriesResponseMeta,
     serie_0: BgpTimeseriesResponseSerie0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBgpResponse",
-}) as any as S.Schema<TimeseriesBgpResponse>;
+).annotate({ identifier: "TimeseriesBgpResponse" }) as any as S.Schema<TimeseriesBgpResponse>;
 
 export type BgpIpsTimeseriesRequestAsnList = Array<string>;
 export const BgpIpsTimeseriesRequestAsnList = /*@__PURE__*/ S.Array(
@@ -69958,9 +68782,7 @@ export const TimeseriesBgpIpRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bgp/ips/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBgpIpRequest",
-}) as any as S.Schema<TimeseriesBgpIpRequest>;
+).annotate({ identifier: "TimeseriesBgpIpRequest" }) as any as S.Schema<TimeseriesBgpIpRequest>;
 
 export type BgpIpsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -70239,9 +69061,7 @@ export const TimeseriesBgpIpResponse = /*@__PURE__*/ S.suspend(() =>
     meta: BgpIpsTimeseriesResponseMeta,
     serie_0: BgpIpsTimeseriesResponseSerie0,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBgpIpResponse",
-}) as any as S.Schema<TimeseriesBgpIpResponse>;
+).annotate({ identifier: "TimeseriesBgpIpResponse" }) as any as S.Schema<TimeseriesBgpIpResponse>;
 
 export type BgpRpkiAspaTimeseriesRequestFormat = "JSON" | "CSV";
 export const BgpRpkiAspaTimeseriesRequestFormat = S.String;
@@ -70289,13 +69109,7 @@ export const TimeseriesBgpRpkiAspaRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(BgpRpkiAspaTimeseriesRequestNameList.pipe(T.Query())),
     rir: S.optional(BgpRpkiAspaTimeseriesRequestRirList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bgp/rpki/aspa/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bgp/rpki/aspa/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesBgpRpkiAspaRequest",
@@ -70394,13 +69208,7 @@ export const TimeseriesBgpRpkiRoaRequest = /*@__PURE__*/ S.suspend(() =>
     metric: S.optional(BgpRpkiRoasTimeseriesRequestMetric.pipe(T.Query())),
     name: S.optional(BgpRpkiRoasTimeseriesRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bgp/rpki/roas/timeseries",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bgp/rpki/roas/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesBgpRpkiRoaRequest",
@@ -70592,9 +69400,7 @@ export const TimeseriesBotRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/bots/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBotRequest",
-}) as any as S.Schema<TimeseriesBotRequest>;
+).annotate({ identifier: "TimeseriesBotRequest" }) as any as S.Schema<TimeseriesBotRequest>;
 
 export type BotsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -70759,9 +69565,7 @@ export const TimeseriesBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: BotsTimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesBotResponse",
-}) as any as S.Schema<TimeseriesBotResponse>;
+).annotate({ identifier: "TimeseriesBotResponse" }) as any as S.Schema<TimeseriesBotResponse>;
 
 export type CtTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const CtTimeseriesRequestAggInterval = S.String;
@@ -70987,9 +69791,7 @@ export const TimeseriesCtRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ct/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesCtRequest",
-}) as any as S.Schema<TimeseriesCtRequest>;
+).annotate({ identifier: "TimeseriesCtRequest" }) as any as S.Schema<TimeseriesCtRequest>;
 
 export type CtTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -71140,9 +69942,7 @@ export const CtTimeseriesResponseMeta = /*@__PURE__*/ S.suspend(() =>
     normalization: CtTimeseriesResponseMetaNormalization,
     units: CtTimeseriesResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "CtTimeseriesResponseMeta",
-}) as any as S.Schema<CtTimeseriesResponseMeta>;
+).annotate({ identifier: "CtTimeseriesResponseMeta" }) as any as S.Schema<CtTimeseriesResponseMeta>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TimeseriesCtResponse {
@@ -71153,9 +69953,7 @@ export const TimeseriesCtResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: CtTimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesCtResponse",
-}) as any as S.Schema<TimeseriesCtResponse>;
+).annotate({ identifier: "TimeseriesCtResponse" }) as any as S.Schema<TimeseriesCtResponse>;
 
 export type DnsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const DnsTimeseriesRequestAggInterval = S.String;
@@ -71473,9 +70271,7 @@ export const TimeseriesDnsRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesDnsRequest",
-}) as any as S.Schema<TimeseriesDnsRequest>;
+).annotate({ identifier: "TimeseriesDnsRequest" }) as any as S.Schema<TimeseriesDnsRequest>;
 
 export type DnsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -71639,9 +70435,7 @@ export const TimeseriesDnsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: DnsTimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesDnsResponse",
-}) as any as S.Schema<TimeseriesDnsResponse>;
+).annotate({ identifier: "TimeseriesDnsResponse" }) as any as S.Schema<TimeseriesDnsResponse>;
 
 export type AiBotsTimeseriesGroupsRequestDimension =
   | "USER_AGENT"
@@ -71830,13 +70624,7 @@ export const TimeseriesGroupsAiBotRequest = /*@__PURE__*/ S.suspend(() =>
     userAgent: S.optional(AiBotsTimeseriesGroupsRequestUserAgentList.pipe(T.Query())),
     vertical: S.optional(AiBotsTimeseriesGroupsRequestVerticalList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsAiBotRequest",
@@ -72192,13 +70980,7 @@ export const TimeseriesGroupsBotRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(BotsTimeseriesGroupsRequestLocationList.pipe(T.Query())),
     name: S.optional(BotsTimeseriesGroupsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/bots/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/bots/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsBotRequest",
@@ -73006,13 +71788,7 @@ export const TimeseriesGroupsCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     validationLevel: S.optional(CtTimeseriesGroupsRequestValidationLevelList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ct/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ct/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsCtRequest",
@@ -73559,11 +72335,7 @@ export const TimeseriesGroupsNetflowRequest = /*@__PURE__*/ S.suspend(() =>
     product: S.optional(NetflowsTimeseriesGroupsRequestProductList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/netflows/timeseries_groups/{dimension}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/netflows/timeseries_groups/{dimension}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -74104,13 +72876,7 @@ export const TimeseriesGroupsQualityIqiRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(QualityIqiTimeseriesGroupsRequestLocationList.pipe(T.Query())),
     name: S.optional(QualityIqiTimeseriesGroupsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/quality/iqi/timeseries_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/quality/iqi/timeseries_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsQualityIqiRequest",
@@ -74389,13 +73155,7 @@ export const TimeseriesGroupsRankingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(RankingTimeseriesGroupsRequestNameList.pipe(T.Query())),
     rankingType: S.optional(RankingTimeseriesGroupsRequestRankingType.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ranking/timeseries_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ranking/timeseries_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsRankingRequest",
@@ -74940,13 +73700,7 @@ export const TimeseriesGroupsTcpResetsTimeoutRequest = /*@__PURE__*/ S.suspend((
     location: S.optional(TcpResetsTimeoutsTimeseriesGroupsRequestLocationList.pipe(T.Query())),
     name: S.optional(TcpResetsTimeoutsTimeseriesGroupsRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/tcp_resets_timeouts/timeseries_groups",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/tcp_resets_timeouts/timeseries_groups", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsTcpResetsTimeoutRequest",
@@ -75708,13 +74462,7 @@ export const TimeseriesGroupsV2As112Request = /*@__PURE__*/ S.suspend(() =>
     queryType: S.optional(As112TimeseriesGroupsV2RequestQueryTypeList.pipe(T.Query())),
     responseCode: S.optional(As112TimeseriesGroupsV2RequestResponseCodeList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/as112/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/as112/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsV2As112Request",
@@ -76996,13 +75744,7 @@ export const TimeseriesGroupsV2DnsRequest = /*@__PURE__*/ S.suspend(() =>
     responseTtl: S.optional(DnsTimeseriesGroupsV2RequestResponseTtlList.pipe(T.Query())),
     tld: S.optional(DnsTimeseriesGroupsV2RequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/dns/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/dns/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsV2DnsRequest",
@@ -78147,13 +76889,7 @@ export const TimeseriesGroupsV2HttpRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(HttpTimeseriesGroupsV2RequestOsList.pipe(T.Query())),
     tlsVersion: S.optional(HttpTimeseriesGroupsV2RequestTlsVersionList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TimeseriesGroupsV2HttpRequest",
@@ -78949,9 +77685,7 @@ export const TimeseriesHttpRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesHttpRequest",
-}) as any as S.Schema<TimeseriesHttpRequest>;
+).annotate({ identifier: "TimeseriesHttpRequest" }) as any as S.Schema<TimeseriesHttpRequest>;
 
 export type HttpTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -79116,9 +77850,7 @@ export const TimeseriesHttpResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meta: HttpTimeseriesResponseMeta,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesHttpResponse",
-}) as any as S.Schema<TimeseriesHttpResponse>;
+).annotate({ identifier: "TimeseriesHttpResponse" }) as any as S.Schema<TimeseriesHttpResponse>;
 
 export type NetflowsTimeseriesRequestAggInterval = "15m" | "1h" | "1d" | "1w";
 export const NetflowsTimeseriesRequestAggInterval = S.String;
@@ -79222,9 +77954,7 @@ export const TimeseriesNetflowRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/netflows/timeseries", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TimeseriesNetflowRequest",
-}) as any as S.Schema<TimeseriesNetflowRequest>;
+).annotate({ identifier: "TimeseriesNetflowRequest" }) as any as S.Schema<TimeseriesNetflowRequest>;
 
 export type NetflowsTimeseriesResponseMetaAggInterval =
   | "FIFTEEN_MINUTES"
@@ -79505,13 +78235,7 @@ export const TldsPerformanceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     nameserver: S.optional(S.String.pipe(T.Query())),
     tld: S.optional(TldsPerformanceSummaryRequestTldList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/tlds/performance/summary/{dimension}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/tlds/performance/summary/{dimension}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TldsPerformanceSummaryRequest",
@@ -79666,9 +78390,7 @@ export const TldsPerformanceSummaryResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "TldsPerformanceSummaryResponseMeta",
 }) as any as S.Schema<TldsPerformanceSummaryResponseMeta>;
 
-export type TldsPerformanceSummaryResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type TldsPerformanceSummaryResponseSummary0Map = { [key: string]: string | undefined };
 export const TldsPerformanceSummaryResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -80080,13 +78802,7 @@ export const TlsVersionEmailSecuritySummaryRequest = /*@__PURE__*/ S.suspend(() 
     name: S.optional(EmailSecuritySummaryTlsVersionRequestNameList.pipe(T.Query())),
     spf: S.optional(EmailSecuritySummaryTlsVersionRequestSpfList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/email/security/summary/tls_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/email/security/summary/tls_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TlsVersionEmailSecuritySummaryRequest",
@@ -80794,13 +79510,7 @@ export const TlsVersionHttpSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(HttpSummaryTlsVersionRequestNameList.pipe(T.Query())),
     os: S.optional(HttpSummaryTlsVersionRequestOsList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/summary/tls_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/summary/tls_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TlsVersionHttpSummaryRequest",
@@ -81178,13 +79888,7 @@ export const TlsVersionHttpTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =
     name: S.optional(HttpTimeseriesGroupsTlsVersionRequestNameList.pipe(T.Query())),
     os: S.optional(HttpTimeseriesGroupsTlsVersionRequestOsList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/http/timeseries_groups/tls_version",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/http/timeseries_groups/tls_version", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TlsVersionHttpTimeseriesGroupRequest",
@@ -81474,9 +80178,7 @@ export const TopRankingRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/ranking/top", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TopRankingRequest",
-}) as any as S.Schema<TopRankingRequest>;
+).annotate({ identifier: "TopRankingRequest" }) as any as S.Schema<TopRankingRequest>;
 
 export type RankingTopResponseMetaConfidenceInfoAnnotationsItemDataSource =
   | "ALL"
@@ -81589,6 +80291,17 @@ export type RankingTopResponseMetaNormalization =
   | "RATIO";
 export const RankingTopResponseMetaNormalization = S.String;
 
+export interface RankingTopResponseMetaTop0 {
+  date: string;
+}
+export const RankingTopResponseMetaTop0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.String,
+  }),
+).annotate({
+  identifier: "RankingTopResponseMetaTop0",
+}) as any as S.Schema<RankingTopResponseMetaTop0>;
+
 export type RankingTopResponseMetaUnitsItem = AiTimeseriesGroupsSummaryResponseMetaUnitsItem;
 export const RankingTopResponseMetaUnitsItem = AiTimeseriesGroupsSummaryResponseMetaUnitsItem;
 
@@ -81604,6 +80317,7 @@ export interface RankingTopResponseMeta {
   lastUpdated: string;
   /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
   normalization: RankingTopResponseMetaNormalization;
+  top_0: RankingTopResponseMetaTop0;
   /** Measurement units for the results. */
   units: RankingTopResponseMetaUnitsList;
 }
@@ -81613,11 +80327,10 @@ export const RankingTopResponseMeta = /*@__PURE__*/ S.suspend(() =>
     dateRange: RankingTopResponseMetaDateRangeList,
     lastUpdated: S.String,
     normalization: RankingTopResponseMetaNormalization,
+    top_0: RankingTopResponseMetaTop0,
     units: RankingTopResponseMetaUnitsList,
   }),
-).annotate({
-  identifier: "RankingTopResponseMeta",
-}) as any as S.Schema<RankingTopResponseMeta>;
+).annotate({ identifier: "RankingTopResponseMeta" }) as any as S.Schema<RankingTopResponseMeta>;
 
 export type RankingTopResponseTop0ItemCategoriesItem =
   RankingDomainGetResponseDetails0CategoriesItem;
@@ -81663,9 +80376,7 @@ export const TopRankingResponse = /*@__PURE__*/ S.suspend(() =>
     meta: RankingTopResponseMeta,
     top_0: RankingTopResponseTop0List,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "TopRankingResponse",
-}) as any as S.Schema<TopRankingResponse>;
+).annotate({ identifier: "TopRankingResponse" }) as any as S.Schema<TopRankingResponse>;
 
 export type RankingInternetServicesTopRequestDateList = Array<string>;
 export const RankingInternetServicesTopRequestDateList = /*@__PURE__*/ S.Array(
@@ -81707,13 +80418,7 @@ export const TopRankingInternetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       RankingInternetServicesTopRequestServiceCategoryList.pipe(T.Query()),
     ),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ranking/internet_services/top",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ranking/internet_services/top", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TopRankingInternetServiceRequest",
@@ -81838,6 +80543,19 @@ export type RankingInternetServicesTopResponseMetaNormalization =
   | "RATIO";
 export const RankingInternetServicesTopResponseMetaNormalization = S.String;
 
+export interface RankingInternetServicesTopResponseMetaTop0 {
+  date: string;
+  serviceCategory: string;
+}
+export const RankingInternetServicesTopResponseMetaTop0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.String,
+    serviceCategory: S.String,
+  }),
+).annotate({
+  identifier: "RankingInternetServicesTopResponseMetaTop0",
+}) as any as S.Schema<RankingInternetServicesTopResponseMetaTop0>;
+
 export type RankingInternetServicesTopResponseMetaUnitsItem =
   AiTimeseriesGroupsSummaryResponseMetaUnitsItem;
 export const RankingInternetServicesTopResponseMetaUnitsItem =
@@ -81856,6 +80574,7 @@ export interface RankingInternetServicesTopResponseMeta {
   lastUpdated: string;
   /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
   normalization: RankingInternetServicesTopResponseMetaNormalization;
+  top_0: RankingInternetServicesTopResponseMetaTop0;
   /** Measurement units for the results. */
   units: RankingInternetServicesTopResponseMetaUnitsList;
 }
@@ -81865,6 +80584,7 @@ export const RankingInternetServicesTopResponseMeta = /*@__PURE__*/ S.suspend(()
     dateRange: RankingInternetServicesTopResponseMetaDateRangeList,
     lastUpdated: S.String,
     normalization: RankingInternetServicesTopResponseMetaNormalization,
+    top_0: RankingInternetServicesTopResponseMetaTop0,
     units: RankingInternetServicesTopResponseMetaUnitsList,
   }),
 ).annotate({
@@ -81910,7 +80630,9 @@ export const AiToMarkdownCreateRequestFilesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiToMarkdownCreateRequestFilesList>;
 
 export interface TransformToMarkdownRequest {
+  /** Cloudflare account ID used for this AI model request. */
   accountId: string;
+  /** Files to convert, supplied as multipart file uploads. */
   files: AiToMarkdownCreateRequestFilesList;
 }
 export const TransformToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
@@ -81918,13 +80640,7 @@ export const TransformToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     files: AiToMarkdownCreateRequestFilesList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/ai/tomarkdown",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/ai/tomarkdown", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "TransformToMarkdownRequest",
@@ -82031,13 +80747,7 @@ export const UserAgentAiBotSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(AiBotsSummaryUserAgentRequestLocationList.pipe(T.Query())),
     name: S.optional(AiBotsSummaryUserAgentRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/summary/user_agent",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/summary/user_agent", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UserAgentAiBotSummaryRequest",
@@ -82192,9 +80902,7 @@ export const AiBotsSummaryUserAgentResponseMeta = /*@__PURE__*/ S.suspend(() =>
   identifier: "AiBotsSummaryUserAgentResponseMeta",
 }) as any as S.Schema<AiBotsSummaryUserAgentResponseMeta>;
 
-export type AiBotsSummaryUserAgentResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AiBotsSummaryUserAgentResponseSummary0Map = { [key: string]: string | undefined };
 export const AiBotsSummaryUserAgentResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82291,13 +80999,7 @@ export const UserAgentAiTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(AiTimeseriesGroupsUserAgentRequestLocationList.pipe(T.Query())),
     name: S.optional(AiTimeseriesGroupsUserAgentRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/ai/bots/timeseries_groups/user_agent",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/ai/bots/timeseries_groups/user_agent", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UserAgentAiTimeseriesGroupRequest",
@@ -82591,13 +81293,7 @@ export const VectorAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryVectorRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryVectorRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/vector",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/vector", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "VectorAttackLayer3SummaryRequest",
@@ -82755,9 +81451,7 @@ export const AttacksLayer3SummaryVectorResponseMeta = /*@__PURE__*/ S.suspend(()
   identifier: "AttacksLayer3SummaryVectorResponseMeta",
 }) as any as S.Schema<AttacksLayer3SummaryVectorResponseMeta>;
 
-export type AttacksLayer3SummaryVectorResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer3SummaryVectorResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer3SummaryVectorResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82887,11 +81581,7 @@ export const VectorAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
     protocol: S.optional(AttacksLayer3TimeseriesGroupsVectorRequestProtocolList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/vector",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/vector", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -83192,13 +81882,7 @@ export const VerticalAttackLayer3SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3SummaryVerticalRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3SummaryVerticalRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/summary/vertical",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/summary/vertical", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "VerticalAttackLayer3SummaryRequest",
@@ -83356,9 +82040,7 @@ export const AttacksLayer3SummaryVerticalResponseMeta = /*@__PURE__*/ S.suspend(
   identifier: "AttacksLayer3SummaryVerticalResponseMeta",
 }) as any as S.Schema<AttacksLayer3SummaryVerticalResponseMeta>;
 
-export type AttacksLayer3SummaryVerticalResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer3SummaryVerticalResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer3SummaryVerticalResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -83498,11 +82180,7 @@ export const VerticalAttackLayer3TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     protocol: S.optional(AttacksLayer3TimeseriesGroupsVerticalRequestProtocolList.pipe(T.Query())),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/timeseries_groups/vertical",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer3/timeseries_groups/vertical", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -83797,13 +82475,7 @@ export const VerticalAttackLayer3TopRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(AttacksLayer3TopVerticalRequestNameList.pipe(T.Query())),
     protocol: S.optional(AttacksLayer3TopVerticalRequestProtocolList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer3/top/vertical",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer3/top/vertical", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "VerticalAttackLayer3TopRequest",
@@ -84162,13 +82834,7 @@ export const VerticalAttackLayer7SummaryRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7SummaryVerticalRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/summary/vertical",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/summary/vertical", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "VerticalAttackLayer7SummaryRequest",
@@ -84326,9 +82992,7 @@ export const AttacksLayer7SummaryVerticalResponseMeta = /*@__PURE__*/ S.suspend(
   identifier: "AttacksLayer7SummaryVerticalResponseMeta",
 }) as any as S.Schema<AttacksLayer7SummaryVerticalResponseMeta>;
 
-export type AttacksLayer7SummaryVerticalResponseSummary0Map = {
-  [key: string]: string | undefined;
-};
+export type AttacksLayer7SummaryVerticalResponseSummary0Map = { [key: string]: string | undefined };
 export const AttacksLayer7SummaryVerticalResponseSummary0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -84559,11 +83223,7 @@ export const VerticalAttackLayer7TimeseriesGroupRequest = /*@__PURE__*/ S.suspen
     ),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/timeseries_groups/vertical",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/radar/attacks/layer7/timeseries_groups/vertical", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -84947,13 +83607,7 @@ export const VerticalAttackLayer7TopRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     name: S.optional(AttacksLayer7TopVerticalRequestNameList.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/radar/attacks/layer7/top/vertical",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/radar/attacks/layer7/top/vertical", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "VerticalAttackLayer7TopRequest",
@@ -89186,7 +87840,7 @@ export const topRankingInternetService: API.OperationMethod<
 }));
 
 export type TransformToMarkdownError = CloudflareOpError;
-/** Converts uploaded files into Markdown format using Workers AI. */
+/** Converts files uploaded as multipart form data into Markdown using Workers AI. Returns a conversion result for each file. Use the supported-formats endpoint to check accepted file types. */
 export const transformToMarkdown: API.OperationMethod<
   TransformToMarkdownRequest,
   TransformToMarkdownResponse,

@@ -67,11 +67,7 @@ export const CreateControlCmbConfigRequest = /*@__PURE__*/ S.suspend(() =>
     regions: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logs/control/cmb/config",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/logs/control/cmb/config", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -108,11 +104,7 @@ export const CreateControlRetentionRequest = /*@__PURE__*/ S.suspend(() =>
     flag: S.optional(S.Boolean),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logs/control/retention/flag",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/logs/control/retention/flag", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -160,8 +152,10 @@ export interface CreateLogExplorerDatasetForAccountRequest {
   dataset: string;
   /** Controls which fields the API ingests. Defaults to all available fields when absent. */
   fields?: LogExplorerDatasetsCreateRequestFieldsList;
-  /** Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
+  /** Optional Logpush filter predicate to restrict which events are ingested. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
   filter?: string;
+  /** Whether to filter attack traffic from the Logpush job. Defaults to `true` for supported datasets when omitted. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`. */
+  filterAttackTraffic?: boolean;
 }
 export const CreateLogExplorerDatasetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -169,13 +163,10 @@ export const CreateLogExplorerDatasetForAccountRequest = /*@__PURE__*/ S.suspend
     dataset: S.String,
     fields: S.optional(LogExplorerDatasetsCreateRequestFieldsList),
     filter: S.optional(S.String),
+    filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logs/explorer/datasets",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/logs/explorer/datasets", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -218,6 +209,8 @@ export interface CreateLogExplorerDatasetResponse {
   updatedAt: string;
   /** The Logpush filter predicate applied to this dataset. Omitted when no filter is set. */
   filter?: string | null;
+  /** Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option. */
+  filterAttackTraffic?: boolean | null;
 }
 export const CreateLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -231,6 +224,7 @@ export const CreateLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     objectType: LogExplorerDatasetsCreateResponseObjectType.pipe(T.Body("object_type")),
     updatedAt: S.String.pipe(T.Body("updated_at")),
     filter: S.optional(S.NullOr(S.String)),
+    filterAttackTraffic: S.optional(S.NullOr(S.Boolean).pipe(T.Body("filter_attack_traffic"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateLogExplorerDatasetResponse",
@@ -243,8 +237,10 @@ export interface CreateLogExplorerDatasetForZoneRequest {
   dataset: string;
   /** Controls which fields the API ingests. Defaults to all available fields when absent. */
   fields?: LogExplorerDatasetsCreateRequestFieldsList;
-  /** Optional Logpush filter predicate to restrict which events are ingested. If provided, replaces the dataset's default filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
+  /** Optional Logpush filter predicate to restrict which events are ingested. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
   filter?: string;
+  /** Whether to filter attack traffic from the Logpush job. Defaults to `true` for supported datasets when omitted. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`. */
+  filterAttackTraffic?: boolean;
 }
 export const CreateLogExplorerDatasetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -252,14 +248,9 @@ export const CreateLogExplorerDatasetForZoneRequest = /*@__PURE__*/ S.suspend(()
     dataset: S.String,
     fields: S.optional(LogExplorerDatasetsCreateRequestFieldsList),
     filter: S.optional(S.String),
+    filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logs/explorer/datasets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logs/explorer/datasets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateLogExplorerDatasetForZoneRequest",
@@ -301,11 +292,7 @@ export const GetControlCmbConfigRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logs/control/cmb/config",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/logs/control/cmb/config", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -338,13 +325,7 @@ export const GetControlRetentionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logs/control/retention/flag",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logs/control/retention/flag", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetControlRetentionRequest",
@@ -419,6 +400,8 @@ export interface GetLogExplorerDatasetResponse {
   updatedAt: string;
   /** The Logpush filter predicate applied to this dataset. Omitted when no filter is set. */
   filter?: string | null;
+  /** Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option. */
+  filterAttackTraffic?: boolean | null;
 }
 export const GetLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -432,6 +415,7 @@ export const GetLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     objectType: LogExplorerDatasetsGetResponseObjectType.pipe(T.Body("object_type")),
     updatedAt: S.String.pipe(T.Body("updated_at")),
     filter: S.optional(S.NullOr(S.String)),
+    filterAttackTraffic: S.optional(S.NullOr(S.Boolean).pipe(T.Body("filter_attack_traffic"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetLogExplorerDatasetResponse",
@@ -479,25 +463,15 @@ export const GetRayidRequest = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(S.String.pipe(T.Query())),
     timestamps: S.optional(RayidGetRequestTimestamps.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logs/rayids/{ray_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logs/rayids/{ray_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRayidRequest",
-}) as any as S.Schema<GetRayidRequest>;
+).annotate({ identifier: "GetRayidRequest" }) as any as S.Schema<GetRayidRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetRayidResponse {}
 export const GetRayidResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRayidResponse",
-}) as any as S.Schema<GetRayidResponse>;
+).annotate({ identifier: "GetRayidResponse" }) as any as S.Schema<GetRayidResponse>;
 
 export type ReceivedGetRequestTimestamps = "unix" | "unixnano" | "rfc3339";
 export const ReceivedGetRequestTimestamps = S.String;
@@ -528,25 +502,15 @@ export const GetReceivedRequest = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.String.pipe(T.Query())),
     timestamps: S.optional(ReceivedGetRequestTimestamps.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logs/received",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logs/received", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetReceivedRequest",
-}) as any as S.Schema<GetReceivedRequest>;
+).annotate({ identifier: "GetReceivedRequest" }) as any as S.Schema<GetReceivedRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetReceivedResponse {}
 export const GetReceivedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetReceivedResponse",
-}) as any as S.Schema<GetReceivedResponse>;
+).annotate({ identifier: "GetReceivedResponse" }) as any as S.Schema<GetReceivedResponse>;
 
 export interface GetReceivedFieldRequest {
   /** Identifier. */
@@ -556,17 +520,9 @@ export const GetReceivedFieldRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logs/received/fields",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logs/received/fields", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetReceivedFieldRequest",
-}) as any as S.Schema<GetReceivedFieldRequest>;
+).annotate({ identifier: "GetReceivedFieldRequest" }) as any as S.Schema<GetReceivedFieldRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetReceivedFieldResponse {
@@ -576,9 +532,7 @@ export const GetReceivedFieldResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetReceivedFieldResponse",
-}) as any as S.Schema<GetReceivedFieldResponse>;
+).annotate({ identifier: "GetReceivedFieldResponse" }) as any as S.Schema<GetReceivedFieldResponse>;
 
 export interface ListLogExplorerDatasetAvailablesForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -708,11 +662,7 @@ export const ListLogExplorerDatasetsForAccountRequest = /*@__PURE__*/ S.suspend(
     includeZones: S.optional(S.Boolean.pipe(T.Query("include_zones"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/logs/explorer/datasets",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/logs/explorer/datasets", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -786,13 +736,7 @@ export const ListLogExplorerDatasetsForZoneRequest = /*@__PURE__*/ S.suspend(() 
     zoneId: S.String.pipe(T.Label("zone_id")),
     includeZones: S.optional(S.Boolean.pipe(T.Query("include_zones"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/logs/explorer/datasets",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/logs/explorer/datasets", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListLogExplorerDatasetsForZoneRequest",
@@ -856,6 +800,8 @@ export interface LogExplorerDatasetsDeleteResponse {
   updatedAt: string;
   /** The Logpush filter predicate applied to this dataset. Omitted when no filter is set. */
   filter?: string | null;
+  /** Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option. */
+  filterAttackTraffic?: boolean | null;
 }
 export const LogExplorerDatasetsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -869,6 +815,7 @@ export const LogExplorerDatasetsDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     objectType: LogExplorerDatasetsDeleteResponseObjectType.pipe(T.Body("object_type")),
     updatedAt: S.String.pipe(T.Body("updated_at")),
     filter: S.optional(S.NullOr(S.String)),
+    filterAttackTraffic: S.optional(S.NullOr(S.Boolean).pipe(T.Body("filter_attack_traffic"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "LogExplorerDatasetsDeleteResponse",
@@ -905,20 +852,14 @@ export const SqlLogExplorerQueryForAccountRequest = /*@__PURE__*/ S.suspend(() =
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/logs/explorer/query/sql",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/logs/explorer/query/sql", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SqlLogExplorerQueryForAccountRequest",
 }) as any as S.Schema<SqlLogExplorerQueryForAccountRequest>;
 
-export type LogExplorerQuerySqlResultItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogExplorerQuerySqlResultItemMap = { [key: string]: unknown | undefined };
 export const LogExplorerQuerySqlResultItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -952,13 +893,7 @@ export const SqlLogExplorerQueryForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/logs/explorer/query/sql",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logs/explorer/query/sql", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "SqlLogExplorerQueryForZoneRequest",
@@ -986,6 +921,8 @@ export interface UpdateLogExplorerDatasetForAccountRequest {
   fields?: LogExplorerDatasetsUpdateRequestFieldsList;
   /** Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`""`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
   filter?: string;
+  /** Whether to filter attack traffic from the Logpush job. If omitted, the existing setting is left unchanged. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`. */
+  filterAttackTraffic?: boolean;
 }
 export const UpdateLogExplorerDatasetForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -995,6 +932,7 @@ export const UpdateLogExplorerDatasetForAccountRequest = /*@__PURE__*/ S.suspend
     deletionProtection: S.optional(S.Boolean.pipe(T.Body("deletion_protection"))),
     fields: S.optional(LogExplorerDatasetsUpdateRequestFieldsList),
     filter: S.optional(S.String),
+    filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
   })
     .pipe(
       T.Http({
@@ -1044,6 +982,8 @@ export interface UpdateLogExplorerDatasetResponse {
   updatedAt: string;
   /** The Logpush filter predicate applied to this dataset. Omitted when no filter is set. */
   filter?: string | null;
+  /** Whether the Logpush job filters attack traffic. Omitted for datasets that do not support this option. */
+  filterAttackTraffic?: boolean | null;
 }
 export const UpdateLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1057,6 +997,7 @@ export const UpdateLogExplorerDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     objectType: LogExplorerDatasetsUpdateResponseObjectType.pipe(T.Body("object_type")),
     updatedAt: S.String.pipe(T.Body("updated_at")),
     filter: S.optional(S.NullOr(S.String)),
+    filterAttackTraffic: S.optional(S.NullOr(S.Boolean).pipe(T.Body("filter_attack_traffic"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateLogExplorerDatasetResponse",
@@ -1074,6 +1015,8 @@ export interface UpdateLogExplorerDatasetForZoneRequest {
   fields?: LogExplorerDatasetsUpdateRequestFieldsList;
   /** Optional Logpush filter predicate to restrict which events are ingested. If omitted, the existing filter is left unchanged. Set to an empty string (`""`) to clear the filter. Otherwise, replaces the dataset's filter entirely. See [Logpush filters](https://developers.cloudflare.com/logs/reference/filters/) for syntax and examples. */
   filter?: string;
+  /** Whether to filter attack traffic from the Logpush job. If omitted, the existing setting is left unchanged. Supported datasets are `http_requests`, `firewall_events`, and `network_analytics_logs`. */
+  filterAttackTraffic?: boolean;
 }
 export const UpdateLogExplorerDatasetForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1083,6 +1026,7 @@ export const UpdateLogExplorerDatasetForZoneRequest = /*@__PURE__*/ S.suspend(()
     deletionProtection: S.optional(S.Boolean.pipe(T.Body("deletion_protection"))),
     fields: S.optional(LogExplorerDatasetsUpdateRequestFieldsList),
     filter: S.optional(S.String),
+    filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
   })
     .pipe(
       T.Http({

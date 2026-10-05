@@ -8,9 +8,12 @@ import { join, sep } from "node:path";
  * ones (`[profile dev]`, `[sso-session x]`, `[services y]`), and a missing or
  * unreadable file is an empty file rather than an error.
  */
-import type { ParsedIniData, SharedConfigFiles } from "@smithy/types";
-import { IniSectionType } from "@smithy/types";
-import { parseIni } from "./parse-ini.ts";
+import {
+  IniSectionType,
+  parseIni,
+  type ParsedIniData,
+  type SharedConfigFiles,
+} from "./parse-ini.ts";
 
 const separator = ".";
 const homePrefix = "~/";

@@ -176,9 +176,7 @@ export const ApiPortalPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ssoProperties: S.optional(SsoProperties),
     apiTryOutEnabledState: S.optional(ApiPortalPropertiesInputApiTryOutEnabledState),
   }),
-).annotate({
-  identifier: "ApiPortalPropertiesInput",
-}) as any as S.Schema<ApiPortalPropertiesInput>;
+).annotate({ identifier: "ApiPortalPropertiesInput" }) as any as S.Schema<ApiPortalPropertiesInput>;
 
 /** Sku of Azure Spring Apps */
 export interface Sku {
@@ -279,9 +277,7 @@ export const ApiPortalInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiPortalInstance",
-}) as any as S.Schema<ApiPortalInstance>;
+).annotate({ identifier: "ApiPortalInstance" }) as any as S.Schema<ApiPortalInstance>;
 
 /** Collection of instances belong to API portal. */
 export type ApiPortalPropertiesInstancesList = Array<ApiPortalInstance>;
@@ -328,9 +324,7 @@ export const ApiPortalProperties = /*@__PURE__*/ S.suspend(() =>
     instances: S.optional(ApiPortalPropertiesInstancesList),
     apiTryOutEnabledState: S.optional(ApiPortalPropertiesApiTryOutEnabledState),
   }),
-).annotate({
-  identifier: "ApiPortalProperties",
-}) as any as S.Schema<ApiPortalProperties>;
+).annotate({ identifier: "ApiPortalProperties" }) as any as S.Schema<ApiPortalProperties>;
 
 export interface ApiPortalsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -358,18 +352,14 @@ export const ApiPortalsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApiPortalsCreateOrUpdateResponse>;
 
 /** Non-sensitive properties for the APM */
-export type ApmPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type ApmPropertiesInputPropertiesMap = { [key: string]: string | undefined };
 export const ApmPropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ApmPropertiesInputPropertiesMap>;
 
 /** Sensitive properties for the APM */
-export type ApmPropertiesInputSecretsMap = {
-  [key: string]: string | undefined;
-};
+export type ApmPropertiesInputSecretsMap = { [key: string]: string | undefined };
 export const ApmPropertiesInputSecretsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -390,9 +380,7 @@ export const ApmPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApmPropertiesInputPropertiesMap),
     secrets: S.optional(ApmPropertiesInputSecretsMap),
   }),
-).annotate({
-  identifier: "ApmPropertiesInput",
-}) as any as S.Schema<ApmPropertiesInput>;
+).annotate({ identifier: "ApmPropertiesInput" }) as any as S.Schema<ApmPropertiesInput>;
 
 export interface ApmsCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -792,9 +780,7 @@ export const ApplicationLiveViewsCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ApplicationLiveViewsCreateOrUpdateResponse>;
 
 /** Collection of addons */
-export type AppResourcePropertiesInputAddonConfigsMap = {
-  [key: string]: unknown | undefined;
-};
+export type AppResourcePropertiesInputAddonConfigsMap = { [key: string]: unknown | undefined };
 export const AppResourcePropertiesInputAddonConfigsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -826,9 +812,7 @@ export const PersistentDiskInput = /*@__PURE__*/ S.suspend(() =>
     sizeInGB: S.optional(S.Number),
     mountPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PersistentDiskInput",
-}) as any as S.Schema<PersistentDiskInput>;
+).annotate({ identifier: "PersistentDiskInput" }) as any as S.Schema<PersistentDiskInput>;
 
 /** The type of the underlying resource to mount as a persistent disk. */
 export type CustomPersistentDiskPropertiesType = "AzureFileVolume";
@@ -899,9 +883,7 @@ export const LoadedCertificate = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     loadTrustStore: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LoadedCertificate",
-}) as any as S.Schema<LoadedCertificate>;
+).annotate({ identifier: "LoadedCertificate" }) as any as S.Schema<LoadedCertificate>;
 
 /** Collection of loaded certificate resources list and a possible link for next page. */
 export type LoadedCertificateCollection = Array<LoadedCertificate>;
@@ -918,9 +900,7 @@ export const AppVNetAddonsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicEndpoint: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AppVNetAddonsInput",
-}) as any as S.Schema<AppVNetAddonsInput>;
+).annotate({ identifier: "AppVNetAddonsInput" }) as any as S.Schema<AppVNetAddonsInput>;
 
 /** Type of the affinity, set this to Cookie to enable session affinity. */
 export type IngressSettingsSessionAffinity = "Cookie" | "None";
@@ -973,9 +953,7 @@ export const IngressSettings = /*@__PURE__*/ S.suspend(() =>
     backendProtocol: S.optional(IngressSettingsBackendProtocol),
     clientAuth: S.optional(IngressSettingsClientAuth),
   }),
-).annotate({
-  identifier: "IngressSettings",
-}) as any as S.Schema<IngressSettings>;
+).annotate({ identifier: "IngressSettings" }) as any as S.Schema<IngressSettings>;
 
 /** App resource properties payload */
 export interface AppResourcePropertiesInput {
@@ -1098,9 +1076,7 @@ export const AppsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AppsCreateOrUpdateRequest>;
 
 /** Collection of addons */
-export type AppResourcePropertiesAddonConfigsMap = {
-  [key: string]: unknown | undefined;
-};
+export type AppResourcePropertiesAddonConfigsMap = { [key: string]: unknown | undefined };
 export const AppResourcePropertiesAddonConfigsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1191,9 +1167,7 @@ export const AppResourceProperties = /*@__PURE__*/ S.suspend(() =>
     vnetAddons: S.optional(AppVNetAddons),
     ingressSettings: S.optional(IngressSettings),
   }),
-).annotate({
-  identifier: "AppResourceProperties",
-}) as any as S.Schema<AppResourceProperties>;
+).annotate({ identifier: "AppResourceProperties" }) as any as S.Schema<AppResourceProperties>;
 
 /** Type of the managed identity */
 export type ManagedIdentityPropertiesType =
@@ -1319,9 +1293,7 @@ export const ResourceUploadDefinition = /*@__PURE__*/ S.suspend(() =>
     relativePath: S.optional(S.String),
     uploadUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceUploadDefinition",
-}) as any as S.Schema<ResourceUploadDefinition>;
+).annotate({ identifier: "ResourceUploadDefinition" }) as any as S.Schema<ResourceUploadDefinition>;
 
 /** Binding parameters of the Binding resource */
 export type BindingResourcePropertiesInputBindingParametersMap = {
@@ -1386,9 +1358,7 @@ export const BindingsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BindingsCreateOrUpdateRequest>;
 
 /** Binding parameters of the Binding resource */
-export type BindingResourcePropertiesBindingParametersMap = {
-  [key: string]: string | undefined;
-};
+export type BindingResourcePropertiesBindingParametersMap = { [key: string]: string | undefined };
 export const BindingResourcePropertiesBindingParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1462,18 +1432,14 @@ export type BuildpackBindingPropertiesInputBindingType =
 export const BuildpackBindingPropertiesInputBindingType = S.String;
 
 /** Non-sensitive properties for launchProperties */
-export type BuildpackBindingLaunchPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type BuildpackBindingLaunchPropertiesPropertiesMap = { [key: string]: string | undefined };
 export const BuildpackBindingLaunchPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<BuildpackBindingLaunchPropertiesPropertiesMap>;
 
 /** Sensitive properties for launchProperties */
-export type BuildpackBindingLaunchPropertiesSecretsMap = {
-  [key: string]: string | undefined;
-};
+export type BuildpackBindingLaunchPropertiesSecretsMap = { [key: string]: string | undefined };
 export const BuildpackBindingLaunchPropertiesSecretsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1739,9 +1705,7 @@ export const StackProperties = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StackProperties",
-}) as any as S.Schema<StackProperties>;
+).annotate({ identifier: "StackProperties" }) as any as S.Schema<StackProperties>;
 
 /** Buildpack properties payload */
 export interface BuildpackProperties {
@@ -1752,9 +1716,7 @@ export const BuildpackProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildpackProperties",
-}) as any as S.Schema<BuildpackProperties>;
+).annotate({ identifier: "BuildpackProperties" }) as any as S.Schema<BuildpackProperties>;
 
 /** Buildpacks in the buildpack group */
 export type BuildpacksGroupPropertiesBuildpacksList = Array<BuildpackProperties>;
@@ -1796,9 +1758,7 @@ export const BuilderPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     stack: S.optional(StackProperties),
     buildpackGroups: S.optional(BuilderPropertiesInputBuildpackGroupsList),
   }),
-).annotate({
-  identifier: "BuilderPropertiesInput",
-}) as any as S.Schema<BuilderPropertiesInput>;
+).annotate({ identifier: "BuilderPropertiesInput" }) as any as S.Schema<BuilderPropertiesInput>;
 
 export interface BuildServiceBuilderCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1864,9 +1824,7 @@ export const BuilderProperties = /*@__PURE__*/ S.suspend(() =>
     stack: S.optional(StackProperties),
     buildpackGroups: S.optional(BuilderPropertiesBuildpackGroupsList),
   }),
-).annotate({
-  identifier: "BuilderProperties",
-}) as any as S.Schema<BuilderProperties>;
+).annotate({ identifier: "BuilderProperties" }) as any as S.Schema<BuilderProperties>;
 
 export interface BuildServiceBuilderCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -1985,9 +1943,7 @@ export const BuildServiceProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(BuildServicePropertiesProvisioningState),
     resourceRequests: S.optional(BuildServicePropertiesResourceRequests),
   }),
-).annotate({
-  identifier: "BuildServiceProperties",
-}) as any as S.Schema<BuildServiceProperties>;
+).annotate({ identifier: "BuildServiceProperties" }) as any as S.Schema<BuildServiceProperties>;
 
 export interface BuildServiceCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -2045,9 +2001,7 @@ export const CertificateReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
   }),
-).annotate({
-  identifier: "CertificateReference",
-}) as any as S.Schema<CertificateReference>;
+).annotate({ identifier: "CertificateReference" }) as any as S.Schema<CertificateReference>;
 
 /** Collection of CertificateReferences */
 export type CertificateReferenceCollection = Array<CertificateReference>;
@@ -2067,9 +2021,7 @@ export const BuildResourceRequests = /*@__PURE__*/ S.suspend(() =>
     cpu: S.optional(S.String),
     memory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildResourceRequests",
-}) as any as S.Schema<BuildResourceRequests>;
+).annotate({ identifier: "BuildResourceRequests" }) as any as S.Schema<BuildResourceRequests>;
 
 /** Build resource properties payload */
 export interface BuildPropertiesInput {
@@ -2098,9 +2050,7 @@ export const BuildPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     certificates: S.optional(CertificateReferenceCollection),
     resourceRequests: S.optional(BuildResourceRequests),
   }),
-).annotate({
-  identifier: "BuildPropertiesInput",
-}) as any as S.Schema<BuildPropertiesInput>;
+).annotate({ identifier: "BuildPropertiesInput" }) as any as S.Schema<BuildPropertiesInput>;
 
 export interface BuildServiceCreateOrUpdateBuildRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2186,9 +2136,7 @@ export const TriggeredBuildResult = /*@__PURE__*/ S.suspend(() =>
     lastTransitionReason: S.optional(S.String),
     lastTransitionStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggeredBuildResult",
-}) as any as S.Schema<TriggeredBuildResult>;
+).annotate({ identifier: "TriggeredBuildResult" }) as any as S.Schema<TriggeredBuildResult>;
 
 /** Build resource properties payload */
 export interface BuildProperties {
@@ -2223,9 +2171,7 @@ export const BuildProperties = /*@__PURE__*/ S.suspend(() =>
     triggeredBuildResult: S.optional(TriggeredBuildResult),
     resourceRequests: S.optional(BuildResourceRequests),
   }),
-).annotate({
-  identifier: "BuildProperties",
-}) as any as S.Schema<BuildProperties>;
+).annotate({ identifier: "BuildProperties" }) as any as S.Schema<BuildProperties>;
 
 export interface BuildServiceCreateOrUpdateBuildResponse {
   /** Fully qualified resource Id for the resource. */
@@ -2370,9 +2316,7 @@ export const CertificateProperties = /*@__PURE__*/ S.suspend(() =>
     dnsNames: S.optional(CertificatePropertiesDnsNamesList),
     provisioningState: S.optional(CertificatePropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "CertificateProperties",
-}) as any as S.Schema<CertificateProperties>;
+).annotate({ identifier: "CertificateProperties" }) as any as S.Schema<CertificateProperties>;
 
 export interface CertificatesCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -2440,9 +2384,7 @@ export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailability",
-}) as any as S.Schema<NameAvailability>;
+).annotate({ identifier: "NameAvailability" }) as any as S.Schema<NameAvailability>;
 
 /** The error code compose of code and message. */
 export interface Error {
@@ -2509,9 +2451,7 @@ export const GitPatternRepository = /*@__PURE__*/ S.suspend(() =>
     privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     strictHostKeyChecking: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GitPatternRepository",
-}) as any as S.Schema<GitPatternRepository>;
+).annotate({ identifier: "GitPatternRepository" }) as any as S.Schema<GitPatternRepository>;
 
 /** Repositories of git. */
 export type ConfigServerGitPropertyRepositoriesList = Array<GitPatternRepository>;
@@ -2561,9 +2501,7 @@ export const ConfigServerGitProperty = /*@__PURE__*/ S.suspend(() =>
     privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     strictHostKeyChecking: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigServerGitProperty",
-}) as any as S.Schema<ConfigServerGitProperty>;
+).annotate({ identifier: "ConfigServerGitProperty" }) as any as S.Schema<ConfigServerGitProperty>;
 
 /** The settings of config server. */
 export interface ConfigServerSettings {
@@ -2574,9 +2512,7 @@ export const ConfigServerSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gitProperty: S.optional(ConfigServerGitProperty),
   }),
-).annotate({
-  identifier: "ConfigServerSettings",
-}) as any as S.Schema<ConfigServerSettings>;
+).annotate({ identifier: "ConfigServerSettings" }) as any as S.Schema<ConfigServerSettings>;
 
 /** Config server git properties payload */
 export interface ConfigServerPropertiesInput {
@@ -2646,9 +2582,7 @@ export const ConfigServerProperties = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(Error),
     configServer: S.optional(ConfigServerSettings),
   }),
-).annotate({
-  identifier: "ConfigServerProperties",
-}) as any as S.Schema<ConfigServerProperties>;
+).annotate({ identifier: "ConfigServerProperties" }) as any as S.Schema<ConfigServerProperties>;
 
 export interface ConfigServersUpdatePatchResponse {
   /** Fully qualified resource Id for the resource. */
@@ -3151,9 +3085,7 @@ export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
     certName: S.optional(S.String),
     provisioningState: S.optional(CustomDomainPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "CustomDomainProperties",
-}) as any as S.Schema<CustomDomainProperties>;
+).annotate({ identifier: "CustomDomainProperties" }) as any as S.Schema<CustomDomainProperties>;
 
 export interface CustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -3196,9 +3128,7 @@ export const AcceleratorAuthSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authType: S.String,
   }),
-).annotate({
-  identifier: "AcceleratorAuthSetting",
-}) as any as S.Schema<AcceleratorAuthSetting>;
+).annotate({ identifier: "AcceleratorAuthSetting" }) as any as S.Schema<AcceleratorAuthSetting>;
 
 export interface AcceleratorGitRepository {
   /** Git repository URL for the accelerator. */
@@ -3226,9 +3156,7 @@ export const AcceleratorGitRepository = /*@__PURE__*/ S.suspend(() =>
     authSetting: AcceleratorAuthSetting,
     subPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcceleratorGitRepository",
-}) as any as S.Schema<AcceleratorGitRepository>;
+).annotate({ identifier: "AcceleratorGitRepository" }) as any as S.Schema<AcceleratorGitRepository>;
 
 /** Customized accelerator properties payload */
 export interface CustomizedAcceleratorPropertiesInput {
@@ -3392,9 +3320,7 @@ export const DeleteApiPortalRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiPortalRequest",
-}) as any as S.Schema<DeleteApiPortalRequest>;
+).annotate({ identifier: "DeleteApiPortalRequest" }) as any as S.Schema<DeleteApiPortalRequest>;
 
 export interface DeleteApiPortalResponse {}
 export const DeleteApiPortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3463,9 +3389,7 @@ export const DeleteApmRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApmRequest",
-}) as any as S.Schema<DeleteApmRequest>;
+).annotate({ identifier: "DeleteApmRequest" }) as any as S.Schema<DeleteApmRequest>;
 
 export interface DeleteApmResponse {}
 export const DeleteApmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3496,9 +3420,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface DeleteAppResponse {}
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3602,9 +3524,7 @@ export const DeleteBindingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBindingRequest",
-}) as any as S.Schema<DeleteBindingRequest>;
+).annotate({ identifier: "DeleteBindingRequest" }) as any as S.Schema<DeleteBindingRequest>;
 
 export interface DeleteBindingResponse {}
 export const DeleteBindingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3683,9 +3603,7 @@ export const DeleteBuildServiceBuildRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteBuildServiceBuildResponse {}
 export const DeleteBuildServiceBuildResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteBuildServiceBuildResponse",
-  },
+  { identifier: "DeleteBuildServiceBuildResponse" },
 ) as any as S.Schema<DeleteBuildServiceBuildResponse>;
 
 export interface DeleteBuildServiceBuilderRequest {
@@ -3750,9 +3668,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export interface DeleteCertificateResponse {}
 export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3824,9 +3740,7 @@ export const DeleteContainerRegistryRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteContainerRegistryResponse {}
 export const DeleteContainerRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteContainerRegistryResponse",
-  },
+  { identifier: "DeleteContainerRegistryResponse" },
 ) as any as S.Schema<DeleteContainerRegistryResponse>;
 
 export interface DeleteCustomDomainRequest {
@@ -3930,9 +3844,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3996,9 +3908,7 @@ export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
+).annotate({ identifier: "DeleteGatewayRequest" }) as any as S.Schema<DeleteGatewayRequest>;
 
 export interface DeleteGatewayResponse {}
 export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4102,9 +4012,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4168,9 +4076,7 @@ export const DeleteStorageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteStorageRequest",
-}) as any as S.Schema<DeleteStorageRequest>;
+).annotate({ identifier: "DeleteStorageRequest" }) as any as S.Schema<DeleteStorageRequest>;
 
 export interface DeleteStorageResponse {}
 export const DeleteStorageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4203,23 +4109,17 @@ export const ResourceRequests = /*@__PURE__*/ S.suspend(() =>
     cpu: S.optional(S.String),
     memory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceRequests",
-}) as any as S.Schema<ResourceRequests>;
+).annotate({ identifier: "ResourceRequests" }) as any as S.Schema<ResourceRequests>;
 
 /** Collection of environment variables */
-export type DeploymentSettingsEnvironmentVariablesMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentSettingsEnvironmentVariablesMap = { [key: string]: string | undefined };
 export const DeploymentSettingsEnvironmentVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<DeploymentSettingsEnvironmentVariablesMap>;
 
 /** Collection of addons */
-export type DeploymentSettingsAddonConfigsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentSettingsAddonConfigsMap = { [key: string]: unknown | undefined };
 export const DeploymentSettingsAddonConfigsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4278,9 +4178,7 @@ export const ContainerProbeSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disableProbe: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContainerProbeSettings",
-}) as any as S.Schema<ContainerProbeSettings>;
+).annotate({ identifier: "ContainerProbeSettings" }) as any as S.Schema<ContainerProbeSettings>;
 
 /** Deployment settings payload */
 export interface DeploymentSettings {
@@ -4314,9 +4212,7 @@ export const DeploymentSettings = /*@__PURE__*/ S.suspend(() =>
     terminationGracePeriodSeconds: S.optional(S.Number),
     containerProbeSettings: S.optional(ContainerProbeSettings),
   }),
-).annotate({
-  identifier: "DeploymentSettings",
-}) as any as S.Schema<DeploymentSettings>;
+).annotate({ identifier: "DeploymentSettings" }) as any as S.Schema<DeploymentSettings>;
 
 /** Deployment resource properties payload */
 export interface DeploymentResourcePropertiesInput {
@@ -4410,9 +4306,7 @@ export const DeploymentInstance = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentInstance",
-}) as any as S.Schema<DeploymentInstance>;
+).annotate({ identifier: "DeploymentInstance" }) as any as S.Schema<DeploymentInstance>;
 
 /** Collection of instances belong to the Deployment */
 export type DeploymentResourcePropertiesInstancesList = Array<DeploymentInstance>;
@@ -4625,9 +4519,7 @@ export const DevToolPortalInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DevToolPortalInstance",
-}) as any as S.Schema<DevToolPortalInstance>;
+).annotate({ identifier: "DevToolPortalInstance" }) as any as S.Schema<DevToolPortalInstance>;
 
 /** Collection of instances belong to Dev Tool Portal. */
 export type DevToolPortalComponentInstancesList = Array<DevToolPortalInstance>;
@@ -4648,9 +4540,7 @@ export const DevToolPortalComponent = /*@__PURE__*/ S.suspend(() =>
     resourceRequests: S.optional(DevToolPortalResourceRequests),
     instances: S.optional(DevToolPortalComponentInstancesList),
   }),
-).annotate({
-  identifier: "DevToolPortalComponent",
-}) as any as S.Schema<DevToolPortalComponent>;
+).annotate({ identifier: "DevToolPortalComponent" }) as any as S.Schema<DevToolPortalComponent>;
 
 /** Collection of components belong to Dev Tool Portal. */
 export type DevToolPortalPropertiesComponentsList = Array<DevToolPortalComponent>;
@@ -4718,9 +4608,7 @@ export const DevToolPortalProperties = /*@__PURE__*/ S.suspend(() =>
     ssoProperties: S.optional(DevToolPortalSsoProperties),
     features: S.optional(DevToolPortalFeatureSettings),
   }),
-).annotate({
-  identifier: "DevToolPortalProperties",
-}) as any as S.Schema<DevToolPortalProperties>;
+).annotate({ identifier: "DevToolPortalProperties" }) as any as S.Schema<DevToolPortalProperties>;
 
 export interface DevToolPortalsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -4787,9 +4675,7 @@ export const RemoteDebugging = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RemoteDebugging",
-}) as any as S.Schema<RemoteDebugging>;
+).annotate({ identifier: "RemoteDebugging" }) as any as S.Schema<RemoteDebugging>;
 
 export interface DisablePredefinedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5210,9 +5096,7 @@ export const GatewayApiRoute = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(S.Number),
     tags: S.optional(GatewayApiRouteTagsList),
   }),
-).annotate({
-  identifier: "GatewayApiRoute",
-}) as any as S.Schema<GatewayApiRoute>;
+).annotate({ identifier: "GatewayApiRoute" }) as any as S.Schema<GatewayApiRoute>;
 
 /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
 export type GatewayRouteConfigPropertiesInputRoutesList = Array<GatewayApiRoute>;
@@ -5463,9 +5347,7 @@ export const GatewayCorsProperties = /*@__PURE__*/ S.suspend(() =>
     allowCredentials: S.optional(S.Boolean),
     exposedHeaders: S.optional(GatewayCorsPropertiesExposedHeadersList),
   }),
-).annotate({
-  identifier: "GatewayCorsProperties",
-}) as any as S.Schema<GatewayCorsProperties>;
+).annotate({ identifier: "GatewayCorsProperties" }) as any as S.Schema<GatewayCorsProperties>;
 
 /** Collection of certificate resource Ids in Azure Spring Apps. */
 export type GatewayPropertiesInputClientAuthCertificatesList = Array<string>;
@@ -5539,9 +5421,7 @@ export const GatewayResourceRequests = /*@__PURE__*/ S.suspend(() =>
     cpu: S.optional(S.String),
     memory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GatewayResourceRequests",
-}) as any as S.Schema<GatewayResourceRequests>;
+).annotate({ identifier: "GatewayResourceRequests" }) as any as S.Schema<GatewayResourceRequests>;
 
 /** Spring Cloud Gateway properties payload */
 export interface GatewayPropertiesInput {
@@ -5573,9 +5453,7 @@ export const GatewayPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     environmentVariables: S.optional(GatewayPropertiesInputEnvironmentVariables),
     resourceRequests: S.optional(GatewayResourceRequests),
   }),
-).annotate({
-  identifier: "GatewayPropertiesInput",
-}) as any as S.Schema<GatewayPropertiesInput>;
+).annotate({ identifier: "GatewayPropertiesInput" }) as any as S.Schema<GatewayPropertiesInput>;
 
 export interface GatewaysCreateOrUpdateRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5655,9 +5533,7 @@ export const GatewayPropertiesEnvironmentVariablesPropertiesMap = /*@__PURE__*/ 
 ) as any as S.Schema<GatewayPropertiesEnvironmentVariablesPropertiesMap>;
 
 /** Sensitive properties */
-export type GatewayPropertiesEnvironmentVariablesSecretsMap = {
-  [key: string]: string | undefined;
-};
+export type GatewayPropertiesEnvironmentVariablesSecretsMap = { [key: string]: string | undefined };
 export const GatewayPropertiesEnvironmentVariablesSecretsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5691,9 +5567,7 @@ export const GatewayInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GatewayInstance",
-}) as any as S.Schema<GatewayInstance>;
+).annotate({ identifier: "GatewayInstance" }) as any as S.Schema<GatewayInstance>;
 
 /** Collection of instances belong to Spring Cloud Gateway. */
 export type GatewayPropertiesInstancesList = Array<GatewayInstance>;
@@ -5783,9 +5657,7 @@ export const GatewayProperties = /*@__PURE__*/ S.suspend(() =>
     instances: S.optional(GatewayPropertiesInstancesList),
     operatorProperties: S.optional(GatewayOperatorProperties),
   }),
-).annotate({
-  identifier: "GatewayProperties",
-}) as any as S.Schema<GatewayProperties>;
+).annotate({ identifier: "GatewayProperties" }) as any as S.Schema<GatewayProperties>;
 
 export interface GatewaysCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -5930,9 +5802,7 @@ export const GetApiPortalRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiPortalRequest",
-}) as any as S.Schema<GetApiPortalRequest>;
+).annotate({ identifier: "GetApiPortalRequest" }) as any as S.Schema<GetApiPortalRequest>;
 
 export interface GetApiPortalResponse {
   /** Fully qualified resource Id for the resource. */
@@ -5955,9 +5825,7 @@ export const GetApiPortalResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApiPortalProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetApiPortalResponse",
-}) as any as S.Schema<GetApiPortalResponse>;
+).annotate({ identifier: "GetApiPortalResponse" }) as any as S.Schema<GetApiPortalResponse>;
 
 export interface GetApiPortalCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6245,9 +6113,7 @@ export const GetBindingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetBindingRequest",
-}) as any as S.Schema<GetBindingRequest>;
+).annotate({ identifier: "GetBindingRequest" }) as any as S.Schema<GetBindingRequest>;
 
 export interface GetBindingResponse {
   /** Fully qualified resource Id for the resource. */
@@ -6268,9 +6134,7 @@ export const GetBindingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BindingResourceProperties),
   }),
-).annotate({
-  identifier: "GetBindingResponse",
-}) as any as S.Schema<GetBindingResponse>;
+).annotate({ identifier: "GetBindingResponse" }) as any as S.Schema<GetBindingResponse>;
 
 export interface GetBuildpackBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6556,9 +6420,7 @@ export const BuildStageProperties = /*@__PURE__*/ S.suspend(() =>
     exitCode: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildStageProperties",
-}) as any as S.Schema<BuildStageProperties>;
+).annotate({ identifier: "BuildStageProperties" }) as any as S.Schema<BuildStageProperties>;
 
 /** All of the build stage (init-container and container) resources in build pod. */
 export type BuildResultPropertiesBuildStagesList = Array<BuildStageProperties>;
@@ -6590,9 +6452,7 @@ export const BuildResultProperties = /*@__PURE__*/ S.suspend(() =>
     buildStages: S.optional(BuildResultPropertiesBuildStagesList),
     image: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildResultProperties",
-}) as any as S.Schema<BuildResultProperties>;
+).annotate({ identifier: "BuildResultProperties" }) as any as S.Schema<BuildResultProperties>;
 
 export interface GetBuildServiceBuildResultResponse {
   /** Fully qualified resource Id for the resource. */
@@ -6872,9 +6732,7 @@ export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 export interface GetCertificateResponse {
   /** Fully qualified resource Id for the resource. */
@@ -6895,9 +6753,7 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CertificateProperties),
   }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
+).annotate({ identifier: "GetCertificateResponse" }) as any as S.Schema<GetCertificateResponse>;
 
 export interface GetConfigServerRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -6920,9 +6776,7 @@ export const GetConfigServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetConfigServerRequest",
-}) as any as S.Schema<GetConfigServerRequest>;
+).annotate({ identifier: "GetConfigServerRequest" }) as any as S.Schema<GetConfigServerRequest>;
 
 export interface GetConfigServerResponse {
   /** Fully qualified resource Id for the resource. */
@@ -6943,9 +6797,7 @@ export const GetConfigServerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConfigServerProperties),
   }),
-).annotate({
-  identifier: "GetConfigServerResponse",
-}) as any as S.Schema<GetConfigServerResponse>;
+).annotate({ identifier: "GetConfigServerResponse" }) as any as S.Schema<GetConfigServerResponse>;
 
 export interface GetConfigurationServiceRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7075,9 +6927,7 @@ export const GetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetCustomDomainRequest",
-}) as any as S.Schema<GetCustomDomainRequest>;
+).annotate({ identifier: "GetCustomDomainRequest" }) as any as S.Schema<GetCustomDomainRequest>;
 
 export interface GetCustomDomainResponse {
   /** Fully qualified resource Id for the resource. */
@@ -7098,9 +6948,7 @@ export const GetCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CustomDomainProperties),
   }),
-).annotate({
-  identifier: "GetCustomDomainResponse",
-}) as any as S.Schema<GetCustomDomainResponse>;
+).annotate({ identifier: "GetCustomDomainResponse" }) as any as S.Schema<GetCustomDomainResponse>;
 
 export interface GetCustomizedAcceleratorRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7185,9 +7033,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 export interface GetDeploymentResponse {
   /** Fully qualified resource Id for the resource. */
@@ -7211,9 +7057,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DeploymentResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 
 export interface GetDeploymentLogFileUrlRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7255,9 +7099,7 @@ export const LogFileUrlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "LogFileUrlResponse",
-}) as any as S.Schema<LogFileUrlResponse>;
+).annotate({ identifier: "LogFileUrlResponse" }) as any as S.Schema<LogFileUrlResponse>;
 
 export interface GetDeploymentRemoteDebuggingConfigRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7314,9 +7156,7 @@ export const GetDevToolPortalRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetDevToolPortalRequest",
-}) as any as S.Schema<GetDevToolPortalRequest>;
+).annotate({ identifier: "GetDevToolPortalRequest" }) as any as S.Schema<GetDevToolPortalRequest>;
 
 export interface GetDevToolPortalResponse {
   /** Fully qualified resource Id for the resource. */
@@ -7336,9 +7176,7 @@ export const GetDevToolPortalResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DevToolPortalProperties),
   }),
-).annotate({
-  identifier: "GetDevToolPortalResponse",
-}) as any as S.Schema<GetDevToolPortalResponse>;
+).annotate({ identifier: "GetDevToolPortalResponse" }) as any as S.Schema<GetDevToolPortalResponse>;
 
 export interface GetGatewayRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7364,9 +7202,7 @@ export const GetGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetGatewayRequest",
-}) as any as S.Schema<GetGatewayRequest>;
+).annotate({ identifier: "GetGatewayRequest" }) as any as S.Schema<GetGatewayRequest>;
 
 export interface GetGatewayResponse {
   /** Fully qualified resource Id for the resource. */
@@ -7389,9 +7225,7 @@ export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GatewayProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetGatewayResponse",
-}) as any as S.Schema<GetGatewayResponse>;
+).annotate({ identifier: "GetGatewayResponse" }) as any as S.Schema<GetGatewayResponse>;
 
 export interface GetGatewayCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -7715,9 +7549,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -7797,9 +7629,7 @@ export const RequiredTraffic = /*@__PURE__*/ S.suspend(() =>
     fqdns: S.optional(RequiredTrafficFqdnsList),
     direction: S.optional(RequiredTrafficDirection),
   }),
-).annotate({
-  identifier: "RequiredTraffic",
-}) as any as S.Schema<RequiredTraffic>;
+).annotate({ identifier: "RequiredTraffic" }) as any as S.Schema<RequiredTraffic>;
 
 /** Required inbound or outbound traffics for Azure Spring Apps resource. */
 export type NetworkProfileRequiredTrafficsList = Array<RequiredTraffic>;
@@ -7865,9 +7695,7 @@ export const ServiceVNetAddons = /*@__PURE__*/ S.suspend(() =>
     logStreamPublicEndpoint: S.optional(S.Boolean),
     dataPlanePublicEndpoint: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ServiceVNetAddons",
-}) as any as S.Schema<ServiceVNetAddons>;
+).annotate({ identifier: "ServiceVNetAddons" }) as any as S.Schema<ServiceVNetAddons>;
 
 /** Power state of the Service */
 export type ClusterResourcePropertiesPowerState = "Running" | "Stopped";
@@ -7888,9 +7716,7 @@ export const MarketplaceResource = /*@__PURE__*/ S.suspend(() =>
     publisher: S.optional(S.String),
     product: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarketplaceResource",
-}) as any as S.Schema<MarketplaceResource>;
+).annotate({ identifier: "MarketplaceResource" }) as any as S.Schema<MarketplaceResource>;
 
 /** Service properties payload */
 export interface ClusterResourceProperties {
@@ -7956,9 +7782,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ClusterResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetServiceRegistryRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8028,9 +7852,7 @@ export const ServiceRegistryInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceRegistryInstance",
-}) as any as S.Schema<ServiceRegistryInstance>;
+).annotate({ identifier: "ServiceRegistryInstance" }) as any as S.Schema<ServiceRegistryInstance>;
 
 /** Collection of instances belong to Service Registry. */
 export type ServiceRegistryPropertiesInstancesList = Array<ServiceRegistryInstance>;
@@ -8103,9 +7925,7 @@ export const GetStorageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetStorageRequest",
-}) as any as S.Schema<GetStorageRequest>;
+).annotate({ identifier: "GetStorageRequest" }) as any as S.Schema<GetStorageRequest>;
 
 /** The type of the storage. */
 export type StoragePropertiesStorageType = "StorageAccount";
@@ -8120,9 +7940,7 @@ export const StorageProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     storageType: StoragePropertiesStorageType,
   }),
-).annotate({
-  identifier: "StorageProperties",
-}) as any as S.Schema<StorageProperties>;
+).annotate({ identifier: "StorageProperties" }) as any as S.Schema<StorageProperties>;
 
 export interface GetStorageResponse {
   /** Fully qualified resource Id for the resource. */
@@ -8143,9 +7961,7 @@ export const GetStorageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(StorageProperties),
   }),
-).annotate({
-  identifier: "GetStorageResponse",
-}) as any as S.Schema<GetStorageResponse>;
+).annotate({ identifier: "GetStorageResponse" }) as any as S.Schema<GetStorageResponse>;
 
 export interface ListApiPortalCustomDomainsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8241,9 +8057,7 @@ export const ListApiPortalsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiPortalsRequest",
-}) as any as S.Schema<ListApiPortalsRequest>;
+).annotate({ identifier: "ListApiPortalsRequest" }) as any as S.Schema<ListApiPortalsRequest>;
 
 /** API portal resource */
 export interface ApiPortalResource {
@@ -8267,9 +8081,7 @@ export const ApiPortalResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApiPortalProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "ApiPortalResource",
-}) as any as S.Schema<ApiPortalResource>;
+).annotate({ identifier: "ApiPortalResource" }) as any as S.Schema<ApiPortalResource>;
 
 /** Collection of API portal resources */
 export type ApiPortalResourceCollectionValueList = Array<ApiPortalResource>;
@@ -8314,9 +8126,7 @@ export const ListApmsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListApmsRequest",
-}) as any as S.Schema<ListApmsRequest>;
+).annotate({ identifier: "ListApmsRequest" }) as any as S.Schema<ListApmsRequest>;
 
 /** APM Resource object */
 export interface ApmResource {
@@ -8358,9 +8168,7 @@ export const ApmResourceCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApmResourceCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApmResourceCollection",
-}) as any as S.Schema<ApmResourceCollection>;
+).annotate({ identifier: "ApmResourceCollection" }) as any as S.Schema<ApmResourceCollection>;
 
 export interface ListApmSecretKeysRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8386,9 +8194,7 @@ export const ListApmSecretKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListApmSecretKeysRequest",
-}) as any as S.Schema<ListApmSecretKeysRequest>;
+).annotate({ identifier: "ListApmSecretKeysRequest" }) as any as S.Schema<ListApmSecretKeysRequest>;
 
 /** Collection of the keys for the APM sensitive properties */
 export type ApmSecretKeysValueList = Array<string>;
@@ -8572,9 +8378,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 /** App resource payload */
 export interface AppResource {
@@ -8622,9 +8426,7 @@ export const AppResourceCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AppResourceCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppResourceCollection",
-}) as any as S.Schema<AppResourceCollection>;
+).annotate({ identifier: "AppResourceCollection" }) as any as S.Schema<AppResourceCollection>;
 
 export interface ListBindingsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -8650,9 +8452,7 @@ export const ListBindingsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListBindingsRequest",
-}) as any as S.Schema<ListBindingsRequest>;
+).annotate({ identifier: "ListBindingsRequest" }) as any as S.Schema<ListBindingsRequest>;
 
 /** Binding resource payload */
 export interface BindingResource {
@@ -8674,9 +8474,7 @@ export const BindingResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BindingResourceProperties),
   }),
-).annotate({
-  identifier: "BindingResource",
-}) as any as S.Schema<BindingResource>;
+).annotate({ identifier: "BindingResource" }) as any as S.Schema<BindingResource>;
 
 /** Collection of Binding resources */
 export type BindingResourceCollectionValueList = Array<BindingResource>;
@@ -8751,9 +8549,7 @@ export const BuildpackBindingResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BuildpackBindingProperties),
   }),
-).annotate({
-  identifier: "BuildpackBindingResource",
-}) as any as S.Schema<BuildpackBindingResource>;
+).annotate({ identifier: "BuildpackBindingResource" }) as any as S.Schema<BuildpackBindingResource>;
 
 /** Collection of BuildpackBinding resources */
 export type BuildpackBindingResourceCollectionValueList = Array<BuildpackBindingResource>;
@@ -8924,9 +8720,7 @@ export const BuilderResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BuilderProperties),
   }),
-).annotate({
-  identifier: "BuilderResource",
-}) as any as S.Schema<BuilderResource>;
+).annotate({ identifier: "BuilderResource" }) as any as S.Schema<BuilderResource>;
 
 /** Collection of Builder resources */
 export type BuilderResourceCollectionValueList = Array<BuilderResource>;
@@ -9069,9 +8863,7 @@ export const BuildResultCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(BuildResultCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildResultCollection",
-}) as any as S.Schema<BuildResultCollection>;
+).annotate({ identifier: "BuildResultCollection" }) as any as S.Schema<BuildResultCollection>;
 
 export interface ListBuildServiceBuildsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9141,9 +8933,7 @@ export const BuildCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(BuildCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildCollection",
-}) as any as S.Schema<BuildCollection>;
+).annotate({ identifier: "BuildCollection" }) as any as S.Schema<BuildCollection>;
 
 export interface ListBuildServiceBuildServicesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9210,9 +9000,7 @@ export const BuildServiceCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(BuildServiceCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildServiceCollection",
-}) as any as S.Schema<BuildServiceCollection>;
+).annotate({ identifier: "BuildServiceCollection" }) as any as S.Schema<BuildServiceCollection>;
 
 export interface ListBuildServiceSupportedBuildpacksRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9334,9 +9122,7 @@ export const SupportedStackResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SupportedStackResourceProperties),
   }),
-).annotate({
-  identifier: "SupportedStackResource",
-}) as any as S.Schema<SupportedStackResource>;
+).annotate({ identifier: "SupportedStackResource" }) as any as S.Schema<SupportedStackResource>;
 
 /** Collection of supported stacks resources */
 export type SupportedStacksCollectionValueList = Array<SupportedStackResource>;
@@ -9381,9 +9167,7 @@ export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 
 /** Certificate resource payload. */
 export interface CertificateResource {
@@ -9405,9 +9189,7 @@ export const CertificateResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CertificateProperties),
   }),
-).annotate({
-  identifier: "CertificateResource",
-}) as any as S.Schema<CertificateResource>;
+).annotate({ identifier: "CertificateResource" }) as any as S.Schema<CertificateResource>;
 
 /** The certificate resources list. */
 export type CertificateResourceCollectionValueList = Array<CertificateResource>;
@@ -9596,9 +9378,7 @@ export const ListCustomDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListCustomDomainsRequest",
-}) as any as S.Schema<ListCustomDomainsRequest>;
+).annotate({ identifier: "ListCustomDomainsRequest" }) as any as S.Schema<ListCustomDomainsRequest>;
 
 /** Custom domain resource payload. */
 export interface CustomDomainResource {
@@ -9620,9 +9400,7 @@ export const CustomDomainResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CustomDomainProperties),
   }),
-).annotate({
-  identifier: "CustomDomainResource",
-}) as any as S.Schema<CustomDomainResource>;
+).annotate({ identifier: "CustomDomainResource" }) as any as S.Schema<CustomDomainResource>;
 
 /** The custom domain resources list. */
 export type CustomDomainResourceCollectionValueList = Array<CustomDomainResource>;
@@ -9777,9 +9555,7 @@ export const DeploymentResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DeploymentResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "DeploymentResource",
-}) as any as S.Schema<DeploymentResource>;
+).annotate({ identifier: "DeploymentResource" }) as any as S.Schema<DeploymentResource>;
 
 /** Collection of Deployment resources */
 export type DeploymentResourceCollectionValueList = Array<DeploymentResource>;
@@ -9835,9 +9611,7 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 export interface ListDevToolPortalsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -9883,9 +9657,7 @@ export const DevToolPortalResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DevToolPortalProperties),
   }),
-).annotate({
-  identifier: "DevToolPortalResource",
-}) as any as S.Schema<DevToolPortalResource>;
+).annotate({ identifier: "DevToolPortalResource" }) as any as S.Schema<DevToolPortalResource>;
 
 /** Collection of Dev Tool Portal resources */
 export type DevToolPortalResourceCollectionValueList = Array<DevToolPortalResource>;
@@ -10099,9 +9871,7 @@ export const ListGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListGatewaysRequest",
-}) as any as S.Schema<ListGatewaysRequest>;
+).annotate({ identifier: "ListGatewaysRequest" }) as any as S.Schema<ListGatewaysRequest>;
 
 /** Spring Cloud Gateway resource */
 export interface GatewayResource {
@@ -10125,9 +9895,7 @@ export const GatewayResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GatewayProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GatewayResource",
-}) as any as S.Schema<GatewayResource>;
+).annotate({ identifier: "GatewayResource" }) as any as S.Schema<GatewayResource>;
 
 /** Collection of gateway resources */
 export type GatewayResourceCollectionValueList = Array<GatewayResource>;
@@ -10161,9 +9929,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display payload */
 export interface OperationDisplay {
@@ -10183,9 +9949,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationDetailActionType = "Internal";
@@ -10206,9 +9970,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -10243,9 +10005,7 @@ export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     toBeExportedForShoebox: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
@@ -10292,9 +10052,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(MetricSpecificationDimensionsList),
     sourceMdmNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -10314,9 +10072,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties */
 export interface OperationProperties {
@@ -10327,9 +10083,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Operation detail payload */
 export interface OperationDetail {
@@ -10355,9 +10109,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -10377,9 +10129,7 @@ export const AvailableOperations = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AvailableOperationsValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableOperations",
-}) as any as S.Schema<AvailableOperations>;
+).annotate({ identifier: "AvailableOperations" }) as any as S.Schema<AvailableOperations>;
 
 export interface ListPredefinedAcceleratorsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10490,9 +10240,7 @@ export const SupportedRuntimeVersion = /*@__PURE__*/ S.suspend(() =>
     platform: S.optional(SupportedRuntimeVersionPlatform),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedRuntimeVersion",
-}) as any as S.Schema<SupportedRuntimeVersion>;
+).annotate({ identifier: "SupportedRuntimeVersion" }) as any as S.Schema<SupportedRuntimeVersion>;
 
 /** A list of all supported runtime versions. */
 export type AvailableRuntimeVersionsValueList = Array<SupportedRuntimeVersion>;
@@ -10508,9 +10256,7 @@ export const AvailableRuntimeVersions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AvailableRuntimeVersionsValueList),
   }),
-).annotate({
-  identifier: "AvailableRuntimeVersions",
-}) as any as S.Schema<AvailableRuntimeVersions>;
+).annotate({ identifier: "AvailableRuntimeVersions" }) as any as S.Schema<AvailableRuntimeVersions>;
 
 export interface ListServiceBySubscriptionRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10567,9 +10313,7 @@ export const ServiceResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ClusterResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "ServiceResource",
-}) as any as S.Schema<ServiceResource>;
+).annotate({ identifier: "ServiceResource" }) as any as S.Schema<ServiceResource>;
 
 /** Collection of Service resources */
 export type ServiceResourceListValueList = Array<ServiceResource>;
@@ -10589,9 +10333,7 @@ export const ServiceResourceList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ServiceResourceListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceResourceList",
-}) as any as S.Schema<ServiceResourceList>;
+).annotate({ identifier: "ServiceResourceList" }) as any as S.Schema<ServiceResourceList>;
 
 export interface ListServiceGloballyEnabledApmsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10633,9 +10375,7 @@ export const GloballyEnabledApms = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GloballyEnabledApmsValueList),
   }),
-).annotate({
-  identifier: "GloballyEnabledApms",
-}) as any as S.Schema<GloballyEnabledApms>;
+).annotate({ identifier: "GloballyEnabledApms" }) as any as S.Schema<GloballyEnabledApms>;
 
 export interface ListServiceRegistriesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10681,9 +10421,7 @@ export const ServiceRegistryResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceRegistryProperties),
   }),
-).annotate({
-  identifier: "ServiceRegistryResource",
-}) as any as S.Schema<ServiceRegistryResource>;
+).annotate({ identifier: "ServiceRegistryResource" }) as any as S.Schema<ServiceRegistryResource>;
 
 /** Collection of Service Registry resources */
 export type ServiceRegistryResourceCollectionValueList = Array<ServiceRegistryResource>;
@@ -10725,9 +10463,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export interface ListServiceSupportedApmTypesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10763,9 +10499,7 @@ export const SupportedApmType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedApmType",
-}) as any as S.Schema<SupportedApmType>;
+).annotate({ identifier: "SupportedApmType" }) as any as S.Schema<SupportedApmType>;
 
 /** Collection of the supported APM type */
 export type SupportedApmTypesValueList = Array<SupportedApmType>;
@@ -10785,9 +10519,7 @@ export const SupportedApmTypes = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SupportedApmTypesValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedApmTypes",
-}) as any as S.Schema<SupportedApmTypes>;
+).annotate({ identifier: "SupportedApmTypes" }) as any as S.Schema<SupportedApmTypes>;
 
 export interface ListServiceSupportedServerVersionsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10829,9 +10561,7 @@ export const SupportedServerVersion = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedServerVersion",
-}) as any as S.Schema<SupportedServerVersion>;
+).annotate({ identifier: "SupportedServerVersion" }) as any as S.Schema<SupportedServerVersion>;
 
 /** Collection of the supported server versions. */
 export type SupportedServerVersionsValueList = Array<SupportedServerVersion>;
@@ -10851,9 +10581,7 @@ export const SupportedServerVersions = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SupportedServerVersionsValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedServerVersions",
-}) as any as S.Schema<SupportedServerVersions>;
+).annotate({ identifier: "SupportedServerVersions" }) as any as S.Schema<SupportedServerVersions>;
 
 export interface ListServiceTestKeysRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -10895,9 +10623,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListSkusRequest",
-}) as any as S.Schema<ListSkusRequest>;
+).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
 
 /** Gets or sets the type of the scale. */
 export type SkuCapacityScaleType = "None" | "Manual" | "Automatic";
@@ -10952,9 +10678,7 @@ export const ResourceSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCapabilities",
-}) as any as S.Schema<ResourceSkuCapabilities>;
+).annotate({ identifier: "ResourceSkuCapabilities" }) as any as S.Schema<ResourceSkuCapabilities>;
 
 /** Gets a list of capabilities that are available for the SKU in the specified list of zones. */
 export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -10974,9 +10698,7 @@ export const ResourceSkuZoneDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(ResourceSkuZoneDetailsNameList),
     capabilities: S.optional(ResourceSkuZoneDetailsCapabilitiesList),
   }),
-).annotate({
-  identifier: "ResourceSkuZoneDetails",
-}) as any as S.Schema<ResourceSkuZoneDetails>;
+).annotate({ identifier: "ResourceSkuZoneDetails" }) as any as S.Schema<ResourceSkuZoneDetails>;
 
 /** Gets details of capabilities available to a SKU in specific zones. */
 export type ResourceSkuLocationInfoZoneDetailsList = Array<ResourceSkuZoneDetails>;
@@ -10999,9 +10721,7 @@ export const ResourceSkuLocationInfo = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(ResourceSkuLocationInfoZonesList),
     zoneDetails: S.optional(ResourceSkuLocationInfoZoneDetailsList),
   }),
-).annotate({
-  identifier: "ResourceSkuLocationInfo",
-}) as any as S.Schema<ResourceSkuLocationInfo>;
+).annotate({ identifier: "ResourceSkuLocationInfo" }) as any as S.Schema<ResourceSkuLocationInfo>;
 
 /** Gets a list of locations and availability zones in those locations where the SKU is available. */
 export type ResourceSkuLocationInfoList = Array<ResourceSkuLocationInfo>;
@@ -11069,9 +10789,7 @@ export const ResourceSkuRestrictions = /*@__PURE__*/ S.suspend(() =>
     restrictionInfo: S.optional(ResourceSkuRestrictionInfo),
     reasonCode: S.optional(ResourceSkuRestrictionsReasonCode),
   }),
-).annotate({
-  identifier: "ResourceSkuRestrictions",
-}) as any as S.Schema<ResourceSkuRestrictions>;
+).annotate({ identifier: "ResourceSkuRestrictions" }) as any as S.Schema<ResourceSkuRestrictions>;
 
 /** Gets the restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -11126,9 +10844,7 @@ export const ResourceSkuCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ResourceSkuCollectionValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCollection",
-}) as any as S.Schema<ResourceSkuCollection>;
+).annotate({ identifier: "ResourceSkuCollection" }) as any as S.Schema<ResourceSkuCollection>;
 
 export interface ListStoragesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -11151,9 +10867,7 @@ export const ListStoragesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListStoragesRequest",
-}) as any as S.Schema<ListStoragesRequest>;
+).annotate({ identifier: "ListStoragesRequest" }) as any as S.Schema<ListStoragesRequest>;
 
 /** Storage resource payload. */
 export interface StorageResource {
@@ -11175,9 +10889,7 @@ export const StorageResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(StorageProperties),
   }),
-).annotate({
-  identifier: "StorageResource",
-}) as any as S.Schema<StorageResource>;
+).annotate({ identifier: "StorageResource" }) as any as S.Schema<StorageResource>;
 
 /** The storage resources list. */
 export type StorageResourceCollectionValueList = Array<StorageResource>;
@@ -11391,9 +11103,7 @@ export const RestartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "RestartDeploymentRequest",
-}) as any as S.Schema<RestartDeploymentRequest>;
+).annotate({ identifier: "RestartDeploymentRequest" }) as any as S.Schema<RestartDeploymentRequest>;
 
 export interface RestartDeploymentResponse {}
 export const RestartDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11424,9 +11134,7 @@ export const RestartGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "RestartGatewayRequest",
-}) as any as S.Schema<RestartGatewayRequest>;
+).annotate({ identifier: "RestartGatewayRequest" }) as any as S.Schema<RestartGatewayRequest>;
 
 export interface RestartGatewayResponse {}
 export const RestartGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11484,9 +11192,7 @@ export const ServiceRegistriesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ServiceRegistriesCreateOrUpdateResponse>;
 
 /** Tags of the service which is a list of key value pairs that describe the resource. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11519,9 +11225,7 @@ export const NetworkProfileInput = /*@__PURE__*/ S.suspend(() =>
     ingressConfig: S.optional(IngressConfig),
     outboundType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkProfileInput",
-}) as any as S.Schema<NetworkProfileInput>;
+).annotate({ identifier: "NetworkProfileInput" }) as any as S.Schema<NetworkProfileInput>;
 
 /** Service properties payload */
 export interface ClusterResourcePropertiesInput {
@@ -11582,9 +11286,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateRequest>;
 
 /** Tags of the service which is a list of key value pairs that describe the resource. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11715,9 +11417,7 @@ export const StartDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "StartDeploymentRequest",
-}) as any as S.Schema<StartDeploymentRequest>;
+).annotate({ identifier: "StartDeploymentRequest" }) as any as S.Schema<StartDeploymentRequest>;
 
 export interface StartDeploymentResponse {}
 export const StartDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11790,9 +11490,7 @@ export const StartServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "StartServiceRequest",
-}) as any as S.Schema<StartServiceRequest>;
+).annotate({ identifier: "StartServiceRequest" }) as any as S.Schema<StartServiceRequest>;
 
 export interface StartServiceResponse {}
 export const StartServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11826,9 +11524,7 @@ export const StopDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "StopDeploymentRequest",
-}) as any as S.Schema<StopDeploymentRequest>;
+).annotate({ identifier: "StopDeploymentRequest" }) as any as S.Schema<StopDeploymentRequest>;
 
 export interface StopDeploymentResponse {}
 export const StopDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11856,9 +11552,7 @@ export const StopServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "StopServiceRequest",
-}) as any as S.Schema<StopServiceRequest>;
+).annotate({ identifier: "StopServiceRequest" }) as any as S.Schema<StopServiceRequest>;
 
 export interface StopServiceResponse {}
 export const StopServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11952,9 +11646,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 export interface UpdateAppResponse {
   /** Fully qualified resource Id for the resource. */
@@ -11981,9 +11673,7 @@ export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedIdentityProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateAppResponse",
-}) as any as S.Schema<UpdateAppResponse>;
+).annotate({ identifier: "UpdateAppResponse" }) as any as S.Schema<UpdateAppResponse>;
 
 export interface UpdateBindingRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -12015,9 +11705,7 @@ export const UpdateBindingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateBindingRequest",
-}) as any as S.Schema<UpdateBindingRequest>;
+).annotate({ identifier: "UpdateBindingRequest" }) as any as S.Schema<UpdateBindingRequest>;
 
 export interface UpdateBindingResponse {
   /** Fully qualified resource Id for the resource. */
@@ -12038,9 +11726,7 @@ export const UpdateBindingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BindingResourceProperties),
   }),
-).annotate({
-  identifier: "UpdateBindingResponse",
-}) as any as S.Schema<UpdateBindingResponse>;
+).annotate({ identifier: "UpdateBindingResponse" }) as any as S.Schema<UpdateBindingResponse>;
 
 export interface UpdateCustomDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -12132,9 +11818,7 @@ export const UpdateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDeploymentRequest",
-}) as any as S.Schema<UpdateDeploymentRequest>;
+).annotate({ identifier: "UpdateDeploymentRequest" }) as any as S.Schema<UpdateDeploymentRequest>;
 
 export interface UpdateDeploymentResponse {
   /** Fully qualified resource Id for the resource. */
@@ -12158,9 +11842,7 @@ export const UpdateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DeploymentResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "UpdateDeploymentResponse",
-}) as any as S.Schema<UpdateDeploymentResponse>;
+).annotate({ identifier: "UpdateDeploymentResponse" }) as any as S.Schema<UpdateDeploymentResponse>;
 
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -12202,14 +11884,10 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** Tags of the service which is a list of key value pairs that describe the resource. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12243,9 +11921,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ClusterResourceProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export interface ValidateApiPortalDomainRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -12321,9 +11997,7 @@ export const ValidateAppDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-12-01",
     }),
   ),
-).annotate({
-  identifier: "ValidateAppDomainRequest",
-}) as any as S.Schema<ValidateAppDomainRequest>;
+).annotate({ identifier: "ValidateAppDomainRequest" }) as any as S.Schema<ValidateAppDomainRequest>;
 
 export interface ValidateConfigServerRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -12448,9 +12122,7 @@ export const ValidationMessages = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     messages: S.optional(ValidationMessagesMessagesList),
   }),
-).annotate({
-  identifier: "ValidationMessages",
-}) as any as S.Schema<ValidationMessages>;
+).annotate({ identifier: "ValidationMessages" }) as any as S.Schema<ValidationMessages>;
 
 /** The detail validation results */
 export type ConfigurationServiceGitPropertyValidateResultGitReposValidationResultList =

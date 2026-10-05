@@ -87,9 +87,7 @@ export const ConfigDataProperties = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(ConfigDataPropertiesDuration),
     digests: S.optional(ConfigDataPropertiesDigestsList),
   }),
-).annotate({
-  identifier: "ConfigDataProperties",
-}) as any as S.Schema<ConfigDataProperties>;
+).annotate({ identifier: "ConfigDataProperties" }) as any as S.Schema<ConfigDataProperties>;
 
 export interface CreateConfigurationInResourceGroupRequest {
   /** The Azure subscription ID. */
@@ -264,14 +262,12 @@ export const CreateSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSuppressionRequest",
-}) as any as S.Schema<CreateSuppressionRequest>;
+).annotate({ identifier: "CreateSuppressionRequest" }) as any as S.Schema<CreateSuppressionRequest>;
 
 /** The properties of the suppression. */
 export interface SuppressionProperties {
@@ -288,9 +284,7 @@ export const SuppressionProperties = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.String),
     expirationTimeStamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SuppressionProperties",
-}) as any as S.Schema<SuppressionProperties>;
+).annotate({ identifier: "SuppressionProperties" }) as any as S.Schema<SuppressionProperties>;
 
 export interface CreateSuppressionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -332,14 +326,12 @@ export const DeleteSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSuppressionRequest",
-}) as any as S.Schema<DeleteSuppressionRequest>;
+).annotate({ identifier: "DeleteSuppressionRequest" }) as any as S.Schema<DeleteSuppressionRequest>;
 
 export interface DeleteSuppressionResponse {}
 export const DeleteSuppressionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -388,9 +380,7 @@ export const GetAdvisorScoreRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetAdvisorScoreRequest",
-}) as any as S.Schema<GetAdvisorScoreRequest>;
+).annotate({ identifier: "GetAdvisorScoreRequest" }) as any as S.Schema<GetAdvisorScoreRequest>;
 
 /** The details of Advisor Score */
 export interface ScoreEntity {
@@ -440,9 +430,7 @@ export const TimeSeriesEntityItem = /*@__PURE__*/ S.suspend(() =>
     aggregationLevel: S.optional(TimeSeriesEntityItemAggregationLevel),
     scoreHistory: S.optional(TimeSeriesEntityItemScoreHistoryList),
   }),
-).annotate({
-  identifier: "TimeSeriesEntityItem",
-}) as any as S.Schema<TimeSeriesEntityItem>;
+).annotate({ identifier: "TimeSeriesEntityItem" }) as any as S.Schema<TimeSeriesEntityItem>;
 
 /** The historic data at different aggregation levels. */
 export type TimeSeriesEntity = Array<TimeSeriesEntityItem>;
@@ -486,9 +474,7 @@ export const GetAdvisorScoreResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GetAdvisorScoreResponseProperties),
   }),
-).annotate({
-  identifier: "GetAdvisorScoreResponse",
-}) as any as S.Schema<GetAdvisorScoreResponse>;
+).annotate({ identifier: "GetAdvisorScoreResponse" }) as any as S.Schema<GetAdvisorScoreResponse>;
 
 export interface GetRecommendationRequest {
   /** The fully qualified Azure Resource Manager identifier of the resource to which the recommendation applies. */
@@ -503,14 +489,12 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetRecommendationRequest",
-}) as any as S.Schema<GetRecommendationRequest>;
+).annotate({ identifier: "GetRecommendationRequest" }) as any as S.Schema<GetRecommendationRequest>;
 
 /** The category of the recommendation. */
 export type RecommendationPropertiesCategory =
@@ -539,9 +523,7 @@ export type RecommendationPropertiesImpact = "High" | "Medium" | "Low";
 export const RecommendationPropertiesImpact = S.String;
 
 /** The recommendation metadata. */
-export type RecommendationPropertiesMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type RecommendationPropertiesMetadataMap = { [key: string]: unknown | undefined };
 export const RecommendationPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -563,9 +545,7 @@ export const ShortDescription = /*@__PURE__*/ S.suspend(() =>
     problem: S.optional(S.String),
     solution: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShortDescription",
-}) as any as S.Schema<ShortDescription>;
+).annotate({ identifier: "ShortDescription" }) as any as S.Schema<ShortDescription>;
 
 /** The list of snoozed and dismissed rules for the recommendation. */
 export type RecommendationPropertiesSuppressionIdsList = Array<string>;
@@ -574,9 +554,7 @@ export const RecommendationPropertiesSuppressionIdsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RecommendationPropertiesSuppressionIdsList>;
 
 /** Extended properties */
-export type RecommendationPropertiesExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type RecommendationPropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 export const RecommendationPropertiesExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -610,13 +588,9 @@ export const ResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     singular: S.optional(S.String),
     plural: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceMetadata",
-}) as any as S.Schema<ResourceMetadata>;
+).annotate({ identifier: "ResourceMetadata" }) as any as S.Schema<ResourceMetadata>;
 
-export type RecommendationPropertiesActionsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type RecommendationPropertiesActionsItemMap = { [key: string]: unknown | undefined };
 export const RecommendationPropertiesActionsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -629,9 +603,7 @@ export const RecommendationPropertiesActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RecommendationPropertiesActionsList>;
 
 /** The automated way to apply recommendation. */
-export type RecommendationPropertiesRemediationMap = {
-  [key: string]: unknown | undefined;
-};
+export type RecommendationPropertiesRemediationMap = { [key: string]: unknown | undefined };
 export const RecommendationPropertiesRemediationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -712,9 +684,7 @@ export const RecommendationProperties = /*@__PURE__*/ S.suspend(() =>
     remediation: S.optional(RecommendationPropertiesRemediationMap),
     exposedMetadataProperties: S.optional(RecommendationPropertiesExposedMetadataPropertiesMap),
   }),
-).annotate({
-  identifier: "RecommendationProperties",
-}) as any as S.Schema<RecommendationProperties>;
+).annotate({ identifier: "RecommendationProperties" }) as any as S.Schema<RecommendationProperties>;
 
 export interface GetRecommendationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -815,9 +785,7 @@ export const MetadataEntityProperties = /*@__PURE__*/ S.suspend(() =>
     applicableScenarios: S.optional(MetadataEntityPropertiesApplicableScenariosList),
     supportedValues: S.optional(MetadataEntityPropertiesSupportedValuesList),
   }),
-).annotate({
-  identifier: "MetadataEntityProperties",
-}) as any as S.Schema<MetadataEntityProperties>;
+).annotate({ identifier: "MetadataEntityProperties" }) as any as S.Schema<MetadataEntityProperties>;
 
 /** The metadata entity contract. */
 export interface MetadataEntity {
@@ -855,14 +823,12 @@ export const GetSuppressionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Advisor/recommendations/{recommendationId}/suppressions/{name}",
       code: 200,
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetSuppressionRequest",
-}) as any as S.Schema<GetSuppressionRequest>;
+).annotate({ identifier: "GetSuppressionRequest" }) as any as S.Schema<GetSuppressionRequest>;
 
 export interface GetSuppressionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -884,9 +850,7 @@ export const GetSuppressionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SuppressionProperties),
   }),
-).annotate({
-  identifier: "GetSuppressionResponse",
-}) as any as S.Schema<GetSuppressionResponse>;
+).annotate({ identifier: "GetSuppressionResponse" }) as any as S.Schema<GetSuppressionResponse>;
 
 export interface ListAdvisorScoresRequest {
   /** The Azure subscription ID. */
@@ -903,9 +867,7 @@ export const ListAdvisorScoresRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListAdvisorScoresRequest",
-}) as any as S.Schema<ListAdvisorScoresRequest>;
+).annotate({ identifier: "ListAdvisorScoresRequest" }) as any as S.Schema<ListAdvisorScoresRequest>;
 
 /** The Advisor score data. */
 export type AdvisorScoreEntityProperties = GetAdvisorScoreResponseProperties;
@@ -932,9 +894,7 @@ export const AdvisorScoreEntity = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GetAdvisorScoreResponseProperties),
   }),
-).annotate({
-  identifier: "AdvisorScoreEntity",
-}) as any as S.Schema<AdvisorScoreEntity>;
+).annotate({ identifier: "AdvisorScoreEntity" }) as any as S.Schema<AdvisorScoreEntity>;
 
 /** The list of operations. */
 export type AdvisorScoreResponseValueList = Array<AdvisorScoreEntity>;
@@ -950,9 +910,7 @@ export const AdvisorScoreResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AdvisorScoreResponseValueList),
   }),
-).annotate({
-  identifier: "AdvisorScoreResponse",
-}) as any as S.Schema<AdvisorScoreResponse>;
+).annotate({ identifier: "AdvisorScoreResponse" }) as any as S.Schema<AdvisorScoreResponse>;
 
 export interface ListConfigurationByResourceGroupRequest {
   /** The Azure subscription ID. */
@@ -1017,9 +975,7 @@ export const ConfigurationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ConfigurationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationListResult",
-}) as any as S.Schema<ConfigurationListResult>;
+).annotate({ identifier: "ConfigurationListResult" }) as any as S.Schema<ConfigurationListResult>;
 
 export interface ListConfigurationBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -1050,9 +1006,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The operation supported by Advisor. */
 export interface OperationDisplayInfo {
@@ -1072,9 +1026,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** The operation supported by Advisor. */
 export interface OperationEntity {
@@ -1088,9 +1040,7 @@ export const OperationEntity = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     display: S.optional(OperationDisplayInfo),
   }),
-).annotate({
-  identifier: "OperationEntity",
-}) as any as S.Schema<OperationEntity>;
+).annotate({ identifier: "OperationEntity" }) as any as S.Schema<OperationEntity>;
 
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
@@ -1151,9 +1101,7 @@ export const MetadataEntityListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MetadataEntityListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetadataEntityListResult",
-}) as any as S.Schema<MetadataEntityListResult>;
+).annotate({ identifier: "MetadataEntityListResult" }) as any as S.Schema<MetadataEntityListResult>;
 
 export interface ListRecommendationsRequest {
   /** The Azure subscription ID. */
@@ -1251,9 +1199,7 @@ export const ListSuppressionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListSuppressionsRequest",
-}) as any as S.Schema<ListSuppressionsRequest>;
+).annotate({ identifier: "ListSuppressionsRequest" }) as any as S.Schema<ListSuppressionsRequest>;
 
 /** The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule. */
 export interface SuppressionContract {
@@ -1276,9 +1222,7 @@ export const SuppressionContract = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SuppressionProperties),
   }),
-).annotate({
-  identifier: "SuppressionContract",
-}) as any as S.Schema<SuppressionContract>;
+).annotate({ identifier: "SuppressionContract" }) as any as S.Schema<SuppressionContract>;
 
 /** The list of suppressions. */
 export type SuppressionContractListResultValueList = Array<SuppressionContract>;
@@ -1399,9 +1343,7 @@ export const PredictionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(PredictionResponseProperties),
   }),
-).annotate({
-  identifier: "PredictionResponse",
-}) as any as S.Schema<PredictionResponse>;
+).annotate({ identifier: "PredictionResponse" }) as any as S.Schema<PredictionResponse>;
 
 export interface RecommendationsGetGenerateStatusRequest {
   /** The Azure subscription ID. */

@@ -1,9 +1,9 @@
 import { exec } from "node:child_process";
+import * as Effect from "effect/Effect";
 /**
  * Credentials from the profile's `credential_process` command.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { createLazyProvider } from "../credentials-service.ts";
 import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { getProfileName, loadProfiles, type Profiles, profileRegion } from "./profile.ts";

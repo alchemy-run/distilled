@@ -29,9 +29,7 @@ export const DeletePrivateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePrivateZoneRequest",
-}) as any as S.Schema<DeletePrivateZoneRequest>;
+).annotate({ identifier: "DeletePrivateZoneRequest" }) as any as S.Schema<DeletePrivateZoneRequest>;
 
 export interface DeletePrivateZoneResponse {}
 export const DeletePrivateZoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -76,9 +74,7 @@ export const DeleteRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRecordSetRequest",
-}) as any as S.Schema<DeleteRecordSetRequest>;
+).annotate({ identifier: "DeleteRecordSetRequest" }) as any as S.Schema<DeleteRecordSetRequest>;
 
 export interface DeleteRecordSetResponse {}
 export const DeleteRecordSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -141,9 +137,7 @@ export const GetPrivateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetPrivateZoneRequest",
-}) as any as S.Schema<GetPrivateZoneRequest>;
+).annotate({ identifier: "GetPrivateZoneRequest" }) as any as S.Schema<GetPrivateZoneRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -219,14 +213,10 @@ export const PrivateZoneProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     internalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateZoneProperties",
-}) as any as S.Schema<PrivateZoneProperties>;
+).annotate({ identifier: "PrivateZoneProperties" }) as any as S.Schema<PrivateZoneProperties>;
 
 /** Resource tags. */
-export type GetPrivateZoneResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateZoneResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateZoneResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -261,9 +251,7 @@ export const GetPrivateZoneResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetPrivateZoneResponse",
-}) as any as S.Schema<GetPrivateZoneResponse>;
+).annotate({ identifier: "GetPrivateZoneResponse" }) as any as S.Schema<GetPrivateZoneResponse>;
 
 export type GetRecordSetRequestRecordType =
   | "A"
@@ -303,14 +291,10 @@ export const GetRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetRecordSetRequest",
-}) as any as S.Schema<GetRecordSetRequest>;
+).annotate({ identifier: "GetRecordSetRequest" }) as any as S.Schema<GetRecordSetRequest>;
 
 /** The metadata attached to the record set. */
-export type RecordSetPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type RecordSetPropertiesMetadataMap = { [key: string]: string | undefined };
 export const RecordSetPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -518,9 +502,7 @@ export const RecordSetProperties = /*@__PURE__*/ S.suspend(() =>
     srvRecords: S.optional(RecordSetPropertiesSrvRecordsList),
     txtRecords: S.optional(RecordSetPropertiesTxtRecordsList),
   }),
-).annotate({
-  identifier: "RecordSetProperties",
-}) as any as S.Schema<RecordSetProperties>;
+).annotate({ identifier: "RecordSetProperties" }) as any as S.Schema<RecordSetProperties>;
 
 export interface GetRecordSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -545,9 +527,7 @@ export const GetRecordSetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RecordSetProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRecordSetResponse",
-}) as any as S.Schema<GetRecordSetResponse>;
+).annotate({ identifier: "GetRecordSetResponse" }) as any as S.Schema<GetRecordSetResponse>;
 
 export interface GetVirtualNetworkLinkRequest {
   /** The ID of the target subscription. */
@@ -622,9 +602,7 @@ export const VirtualNetworkLinkProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualNetworkLinkProperties>;
 
 /** Resource tags. */
-export type GetVirtualNetworkLinkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkLinkResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkLinkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -745,9 +723,7 @@ export const PrivateZoneListResult = /*@__PURE__*/ S.suspend(() =>
     value: PrivateZoneListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateZoneListResult",
-}) as any as S.Schema<PrivateZoneListResult>;
+).annotate({ identifier: "PrivateZoneListResult" }) as any as S.Schema<PrivateZoneListResult>;
 
 export interface ListPrivateZonesRequest {
   /** The ID of the target subscription. */
@@ -767,9 +743,7 @@ export const ListPrivateZonesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListPrivateZonesRequest",
-}) as any as S.Schema<ListPrivateZonesRequest>;
+).annotate({ identifier: "ListPrivateZonesRequest" }) as any as S.Schema<ListPrivateZonesRequest>;
 
 export type ListRecordSetByTypeRequestRecordType =
   | "A"
@@ -860,9 +834,7 @@ export const RecordSetListResult = /*@__PURE__*/ S.suspend(() =>
     value: RecordSetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecordSetListResult",
-}) as any as S.Schema<RecordSetListResult>;
+).annotate({ identifier: "RecordSetListResult" }) as any as S.Schema<RecordSetListResult>;
 
 export interface ListRecordSetsRequest {
   /** The ID of the target subscription. */
@@ -891,9 +863,7 @@ export const ListRecordSetsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListRecordSetsRequest",
-}) as any as S.Schema<ListRecordSetsRequest>;
+).annotate({ identifier: "ListRecordSetsRequest" }) as any as S.Schema<ListRecordSetsRequest>;
 
 export interface ListVirtualNetworkLinksRequest {
   /** The ID of the target subscription. */
@@ -960,9 +930,7 @@ export const VirtualNetworkLink = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkLink",
-}) as any as S.Schema<VirtualNetworkLink>;
+).annotate({ identifier: "VirtualNetworkLink" }) as any as S.Schema<VirtualNetworkLink>;
 
 /** The VirtualNetworkLink items on this page */
 export type VirtualNetworkLinkListResultValueList = Array<VirtualNetworkLink>;
@@ -993,9 +961,7 @@ export const PrivateZonePropertiesInput = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<PrivateZonePropertiesInput>;
 
 /** Resource tags. */
-export type PrivateZonesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateZonesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PrivateZonesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1039,9 +1005,7 @@ export const PrivateZonesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateZonesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PrivateZonesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateZonesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PrivateZonesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1092,9 +1056,7 @@ export type RecordSetsCreateOrUpdateRequestRecordType =
 export const RecordSetsCreateOrUpdateRequestRecordType = S.String;
 
 /** The metadata attached to the record set. */
-export type RecordSetPropertiesInputMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type RecordSetPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export const RecordSetPropertiesInputMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1172,9 +1134,7 @@ export const RecordSetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     srvRecords: S.optional(RecordSetPropertiesInputSrvRecordsList),
     txtRecords: S.optional(RecordSetPropertiesInputTxtRecordsList),
   }),
-).annotate({
-  identifier: "RecordSetPropertiesInput",
-}) as any as S.Schema<RecordSetPropertiesInput>;
+).annotate({ identifier: "RecordSetPropertiesInput" }) as any as S.Schema<RecordSetPropertiesInput>;
 
 export interface RecordSetsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1241,9 +1201,7 @@ export const RecordSetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RecordSetsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type UpdatePrivateZoneRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateZoneRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateZoneRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1282,14 +1240,10 @@ export const UpdatePrivateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePrivateZoneRequest",
-}) as any as S.Schema<UpdatePrivateZoneRequest>;
+).annotate({ identifier: "UpdatePrivateZoneRequest" }) as any as S.Schema<UpdatePrivateZoneRequest>;
 
 /** Resource tags. */
-export type UpdatePrivateZoneResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateZoneResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateZoneResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1372,9 +1326,7 @@ export const UpdateRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRecordSetRequest",
-}) as any as S.Schema<UpdateRecordSetRequest>;
+).annotate({ identifier: "UpdateRecordSetRequest" }) as any as S.Schema<UpdateRecordSetRequest>;
 
 export interface UpdateRecordSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1399,9 +1351,7 @@ export const UpdateRecordSetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RecordSetProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateRecordSetResponse",
-}) as any as S.Schema<UpdateRecordSetResponse>;
+).annotate({ identifier: "UpdateRecordSetResponse" }) as any as S.Schema<UpdateRecordSetResponse>;
 
 /** Represents the properties of the Private DNS zone. */
 export interface VirtualNetworkLinkPropertiesInput {
@@ -1423,9 +1373,7 @@ export const VirtualNetworkLinkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualNetworkLinkPropertiesInput>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkLinkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkLinkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkLinkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1472,9 +1420,7 @@ export const UpdateVirtualNetworkLinkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkLinkRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkLinkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkLinkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkLinkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1514,9 +1460,7 @@ export const UpdateVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkLinkResponse>;
 
 /** Resource tags. */
-export type VirtualNetworkLinksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkLinksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworkLinksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

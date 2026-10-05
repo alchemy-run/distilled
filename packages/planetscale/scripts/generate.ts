@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
@@ -137,7 +137,7 @@ const makePlanetScaleSpec = (): SdkSpec => {
 
 runGeneratorCli({
   description: "Generate the PlanetScale Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

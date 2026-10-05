@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -9,6 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { describe, it } from "vitest";
 import type { Response } from "../client/response.ts";
 import * as Credentials from "../credentials.browser.ts";
 import * as Endpoint from "../endpoint.ts";
@@ -462,6 +462,23 @@ describe("AwsProtocol REST-XML empty values", () => {
 });
 
 const object = { Bucket: "examplebucket", Key: "reports/part.md" };
+
+describe("AwsProtocol REST-XML greedy {Key+} label", () => {
+  for (const [Key, path] of [
+    ["reports/2024/part.md", "/reports/2024/part.md"],
+    ["dir/a b+c~(x)!/é%.txt", "/dir/a%20b%2Bc~%28x%29%21/%C3%A9%25.txt"],
+    ["/leading", "//leading"],
+    ["trailing/", "/trailing/"],
+  ] as const) {
+    it(`GetObject keeps "/" in ${JSON.stringify(Key)}`, async () => {
+      const request = await Effect.runPromise(captureSigned(S3.getObject({ ...bucket, Key })));
+      assert.equal(request.method, "GET");
+      const url = new URL(request.url);
+      // The custom endpoint resolves path-style, so the bucket leads the path.
+      assert.equal(url.pathname, `/examplebucket${path}`);
+    });
+  }
+});
 
 describe("AwsProtocol Content-Type serialization", () => {
   it("preserves CreateMultipartUpload ContentType with an empty body", async () => {

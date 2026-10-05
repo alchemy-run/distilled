@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Forgejo's Swagger 2.0 description → Smithy JSON models in
  * .generated-specs.
@@ -50,7 +50,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-forgejo/specs/forgejo.spec.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -82,7 +82,7 @@ const toPascal = (slug: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
   throw new Error(
-    `${specPath} not found — run \`bun run specs:fetch\` to check out the spec mirror (or \`pnpm specs:local forgejo\` and set DISTILLED_SPECS_LOCAL=1)`,
+    `${specPath} not found — run \`pnpm run specs:fetch\` to check out the spec mirror (or \`pnpm specs:local forgejo\` and set DISTILLED_SPECS_LOCAL=1)`,
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));

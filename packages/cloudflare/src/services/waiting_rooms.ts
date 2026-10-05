@@ -155,9 +155,7 @@ export const CreateEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEventRequest",
-}) as any as S.Schema<CreateEventRequest>;
+).annotate({ identifier: "CreateEventRequest" }) as any as S.Schema<CreateEventRequest>;
 
 export type EventsCreateResponseTurnstileAction = "log" | "infinite_queue";
 export const EventsCreateResponseTurnstileAction = S.String;
@@ -230,9 +228,7 @@ export const CreateEventResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(EventsCreateResponseTurnstileMode).pipe(T.Body("turnstile_mode")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateEventResponse",
-}) as any as S.Schema<CreateEventResponse>;
+).annotate({ identifier: "CreateEventResponse" }) as any as S.Schema<CreateEventResponse>;
 
 export type RulesCreateRequestRulesAction = "bypass_waiting_room";
 export const RulesCreateRequestRulesAction = S.String;
@@ -254,9 +250,7 @@ export const RulesCreateRequestRules = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RulesCreateRequestRules",
-}) as any as S.Schema<RulesCreateRequestRules>;
+).annotate({ identifier: "RulesCreateRequestRules" }) as any as S.Schema<RulesCreateRequestRules>;
 
 export interface CreateRuleRequest {
   /** Identifier. */
@@ -278,9 +272,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResultItemAction = "bypass_waiting_room";
 export const RulesCreateResultItemAction = S.String;
@@ -310,9 +302,7 @@ export const RulesCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesCreateResultItem",
-}) as any as S.Schema<RulesCreateResultItem>;
+).annotate({ identifier: "RulesCreateResultItem" }) as any as S.Schema<RulesCreateResultItem>;
 
 export type RulesCreateResultList = Array<RulesCreateResultItem>;
 export const RulesCreateResultList = /*@__PURE__*/ S.Array(
@@ -330,9 +320,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export interface CreateRequestAdditionalRoutesItem {
   /** The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://). */
@@ -399,6 +387,7 @@ export type CreateRequestDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -521,17 +510,9 @@ export const CreateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
     turnstileAction: S.optional(CreateRequestTurnstileAction.pipe(T.Body("turnstile_action"))),
     turnstileMode: S.optional(CreateRequestTurnstileMode.pipe(T.Body("turnstile_mode"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/waiting_rooms",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/waiting_rooms", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWaitingRoomRequest",
-}) as any as S.Schema<CreateWaitingRoomRequest>;
+).annotate({ identifier: "CreateWaitingRoomRequest" }) as any as S.Schema<CreateWaitingRoomRequest>;
 
 export interface CreateResponseAdditionalRoutesItem {
   /** The hostname to which this waiting room will be applied (no wildcards). The hostname must be the primary domain, subdomain, or custom hostname (if using SSL for SaaS) of this zone. Please do not include the scheme (http:// or https://). */
@@ -598,6 +579,7 @@ export type CreateResponseDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -761,9 +743,7 @@ export const DeleteEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteEventRequest",
-}) as any as S.Schema<DeleteEventRequest>;
+).annotate({ identifier: "DeleteEventRequest" }) as any as S.Schema<DeleteEventRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteEventResponse {
@@ -773,9 +753,7 @@ export const DeleteEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteEventResponse",
-}) as any as S.Schema<DeleteEventResponse>;
+).annotate({ identifier: "DeleteEventResponse" }) as any as S.Schema<DeleteEventResponse>;
 
 export interface DeleteRuleRequest {
   /** Identifier. */
@@ -798,9 +776,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export type RulesDeleteResultItemAction = "bypass_waiting_room";
 export const RulesDeleteResultItemAction = S.String;
@@ -830,9 +806,7 @@ export const RulesDeleteResultItem = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesDeleteResultItem",
-}) as any as S.Schema<RulesDeleteResultItem>;
+).annotate({ identifier: "RulesDeleteResultItem" }) as any as S.Schema<RulesDeleteResultItem>;
 
 export type RulesDeleteResultList = Array<RulesDeleteResultItem>;
 export const RulesDeleteResultList = /*@__PURE__*/ S.Array(
@@ -850,9 +824,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesDeleteResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface DeleteWaitingRoomRequest {
   /** Identifier. */
@@ -872,9 +844,7 @@ export const DeleteWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWaitingRoomRequest",
-}) as any as S.Schema<DeleteWaitingRoomRequest>;
+).annotate({ identifier: "DeleteWaitingRoomRequest" }) as any as S.Schema<DeleteWaitingRoomRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteWaitingRoomResponse {
@@ -908,9 +878,7 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
+).annotate({ identifier: "GetEventRequest" }) as any as S.Schema<GetEventRequest>;
 
 export type EventsGetResponseTurnstileAction = "log" | "infinite_queue";
 export const EventsGetResponseTurnstileAction = S.String;
@@ -983,9 +951,7 @@ export const GetEventResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(EventsGetResponseTurnstileMode).pipe(T.Body("turnstile_mode")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEventResponse",
-}) as any as S.Schema<GetEventResponse>;
+).annotate({ identifier: "GetEventResponse" }) as any as S.Schema<GetEventResponse>;
 
 export interface GetEventDetailRequest {
   /** Identifier. */
@@ -1007,9 +973,7 @@ export const GetEventDetailRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEventDetailRequest",
-}) as any as S.Schema<GetEventDetailRequest>;
+).annotate({ identifier: "GetEventDetailRequest" }) as any as S.Schema<GetEventDetailRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetEventDetailResponse {
@@ -1056,9 +1020,7 @@ export const GetEventDetailResponse = /*@__PURE__*/ S.suspend(() =>
     suspended: S.optional(S.NullOr(S.Boolean)),
     totalActiveUsers: S.optional(S.NullOr(S.Number).pipe(T.Body("total_active_users"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEventDetailResponse",
-}) as any as S.Schema<GetEventDetailResponse>;
+).annotate({ identifier: "GetEventDetailResponse" }) as any as S.Schema<GetEventDetailResponse>;
 
 export interface GetRuleRequest {
   /** Identifier. */
@@ -1108,9 +1070,7 @@ export const RulesGetResultItem = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesGetResultItem",
-}) as any as S.Schema<RulesGetResultItem>;
+).annotate({ identifier: "RulesGetResultItem" }) as any as S.Schema<RulesGetResultItem>;
 
 export type RulesGetResultList = Array<RulesGetResultItem>;
 export const RulesGetResultList = /*@__PURE__*/ S.Array(
@@ -1128,9 +1088,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface GetSettingRequest {
   /** Identifier. */
@@ -1140,17 +1098,9 @@ export const GetSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/waiting_rooms/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/waiting_rooms/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingRequest",
-}) as any as S.Schema<GetSettingRequest>;
+).annotate({ identifier: "GetSettingRequest" }) as any as S.Schema<GetSettingRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingResponse {
@@ -1161,9 +1111,7 @@ export const GetSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     searchEngineCrawlerBypass: S.Boolean.pipe(T.Body("search_engine_crawler_bypass")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSettingResponse",
-}) as any as S.Schema<GetSettingResponse>;
+).annotate({ identifier: "GetSettingResponse" }) as any as S.Schema<GetSettingResponse>;
 
 export interface GetStatusRequest {
   /** Identifier. */
@@ -1183,9 +1131,7 @@ export const GetStatusRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStatusRequest",
-}) as any as S.Schema<GetStatusRequest>;
+).annotate({ identifier: "GetStatusRequest" }) as any as S.Schema<GetStatusRequest>;
 
 export type StatusesGetResponseStatus =
   | "event_prequeueing"
@@ -1214,9 +1160,7 @@ export const GetStatusResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     status: S.optional(S.NullOr(StatusesGetResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStatusResponse",
-}) as any as S.Schema<GetStatusResponse>;
+).annotate({ identifier: "GetStatusResponse" }) as any as S.Schema<GetStatusResponse>;
 
 export interface GetWaitingRoomRequest {
   /** Identifier. */
@@ -1229,16 +1173,10 @@ export const GetWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
     waitingRoomId: S.String.pipe(T.Label("waiting_room_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/waiting_rooms/{waiting_room_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/waiting_rooms/{waiting_room_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWaitingRoomRequest",
-}) as any as S.Schema<GetWaitingRoomRequest>;
+).annotate({ identifier: "GetWaitingRoomRequest" }) as any as S.Schema<GetWaitingRoomRequest>;
 
 export type GetResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
 export const GetResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
@@ -1293,6 +1231,7 @@ export type GetResponseDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -1429,9 +1368,7 @@ export const GetWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     turnstileMode: S.optional(S.NullOr(GetResponseTurnstileMode).pipe(T.Body("turnstile_mode"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWaitingRoomResponse",
-}) as any as S.Schema<GetWaitingRoomResponse>;
+).annotate({ identifier: "GetWaitingRoomResponse" }) as any as S.Schema<GetWaitingRoomResponse>;
 
 export interface ListEventsRequest {
   /** Identifier. */
@@ -1457,9 +1394,7 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEventsRequest",
-}) as any as S.Schema<ListEventsRequest>;
+).annotate({ identifier: "ListEventsRequest" }) as any as S.Schema<ListEventsRequest>;
 
 export type EventsListResultItemTurnstileAction = "log" | "infinite_queue";
 export const EventsListResultItemTurnstileAction = S.String;
@@ -1531,9 +1466,7 @@ export const EventsListResultItem = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(EventsListResultItemTurnstileMode).pipe(T.Body("turnstile_mode")),
     ),
   }),
-).annotate({
-  identifier: "EventsListResultItem",
-}) as any as S.Schema<EventsListResultItem>;
+).annotate({ identifier: "EventsListResultItem" }) as any as S.Schema<EventsListResultItem>;
 
 export type EventsListResultList = Array<EventsListResultItem>;
 export const EventsListResultList = /*@__PURE__*/ S.Array(
@@ -1551,9 +1484,7 @@ export const ListEventsResponse = /*@__PURE__*/ S.suspend(() =>
     result: EventsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListEventsResponse",
-}) as any as S.Schema<ListEventsResponse>;
+).annotate({ identifier: "ListEventsResponse" }) as any as S.Schema<ListEventsResponse>;
 
 export interface ListWaitingRoomsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1569,13 +1500,7 @@ export const ListWaitingRoomsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/waiting_rooms",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/waiting_rooms", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListWaitingRoomsForAccountRequest",
@@ -1634,6 +1559,7 @@ export type ListResultItemDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -1790,9 +1716,7 @@ export const ListWaitingRoomsResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWaitingRoomsResponse",
-}) as any as S.Schema<ListWaitingRoomsResponse>;
+).annotate({ identifier: "ListWaitingRoomsResponse" }) as any as S.Schema<ListWaitingRoomsResponse>;
 
 export interface ListWaitingRoomsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1808,13 +1732,7 @@ export const ListWaitingRoomsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/waiting_rooms",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/waiting_rooms", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListWaitingRoomsForZoneRequest",
@@ -1895,9 +1813,7 @@ export const PatchEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchEventRequest",
-}) as any as S.Schema<PatchEventRequest>;
+).annotate({ identifier: "PatchEventRequest" }) as any as S.Schema<PatchEventRequest>;
 
 export type EventsEditResponseTurnstileAction = "log" | "infinite_queue";
 export const EventsEditResponseTurnstileAction = S.String;
@@ -1970,9 +1886,7 @@ export const PatchEventResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(EventsEditResponseTurnstileMode).pipe(T.Body("turnstile_mode")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchEventResponse",
-}) as any as S.Schema<PatchEventResponse>;
+).annotate({ identifier: "PatchEventResponse" }) as any as S.Schema<PatchEventResponse>;
 
 export type RulesEditRequestAction = "bypass_waiting_room";
 export const RulesEditRequestAction = S.String;
@@ -2057,9 +1971,7 @@ export const PatchRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleRequest",
-}) as any as S.Schema<PatchRuleRequest>;
+).annotate({ identifier: "PatchRuleRequest" }) as any as S.Schema<PatchRuleRequest>;
 
 export type RulesEditResultItemAction = "bypass_waiting_room";
 export const RulesEditResultItemAction = S.String;
@@ -2089,9 +2001,7 @@ export const RulesEditResultItem = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesEditResultItem",
-}) as any as S.Schema<RulesEditResultItem>;
+).annotate({ identifier: "RulesEditResultItem" }) as any as S.Schema<RulesEditResultItem>;
 
 export type RulesEditResultList = Array<RulesEditResultItem>;
 export const RulesEditResultList = /*@__PURE__*/ S.Array(
@@ -2109,9 +2019,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesEditResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleResponse",
-}) as any as S.Schema<PatchRuleResponse>;
+).annotate({ identifier: "PatchRuleResponse" }) as any as S.Schema<PatchRuleResponse>;
 
 export interface PatchSettingRequest {
   /** Identifier. */
@@ -2124,17 +2032,9 @@ export const PatchSettingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     searchEngineCrawlerBypass: S.optional(S.Boolean.pipe(T.Body("search_engine_crawler_bypass"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/waiting_rooms/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/waiting_rooms/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingRequest",
-}) as any as S.Schema<PatchSettingRequest>;
+).annotate({ identifier: "PatchSettingRequest" }) as any as S.Schema<PatchSettingRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingResponse {
@@ -2145,9 +2045,7 @@ export const PatchSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     searchEngineCrawlerBypass: S.Boolean.pipe(T.Body("search_engine_crawler_bypass")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchSettingResponse",
-}) as any as S.Schema<PatchSettingResponse>;
+).annotate({ identifier: "PatchSettingResponse" }) as any as S.Schema<PatchSettingResponse>;
 
 export type EditRequestAdditionalRoutesItem = CreateRequestAdditionalRoutesItem;
 export const EditRequestAdditionalRoutesItem = CreateRequestAdditionalRoutesItem;
@@ -2202,6 +2100,7 @@ export type EditRequestDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -2332,9 +2231,7 @@ export const PatchWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchWaitingRoomRequest",
-}) as any as S.Schema<PatchWaitingRoomRequest>;
+).annotate({ identifier: "PatchWaitingRoomRequest" }) as any as S.Schema<PatchWaitingRoomRequest>;
 
 export type EditResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
 export const EditResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
@@ -2389,6 +2286,7 @@ export type EditResponseDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -2527,9 +2425,7 @@ export const PatchWaitingRoomResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     turnstileMode: S.optional(S.NullOr(EditResponseTurnstileMode).pipe(T.Body("turnstile_mode"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchWaitingRoomResponse",
-}) as any as S.Schema<PatchWaitingRoomResponse>;
+).annotate({ identifier: "PatchWaitingRoomResponse" }) as any as S.Schema<PatchWaitingRoomResponse>;
 
 export interface PreviewPageRequest {
   /** Identifier. */
@@ -2542,17 +2438,9 @@ export const PreviewPageRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     customHtml: S.String.pipe(T.Body("custom_html")),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/waiting_rooms/preview",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/waiting_rooms/preview", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PreviewPageRequest",
-}) as any as S.Schema<PreviewPageRequest>;
+).annotate({ identifier: "PreviewPageRequest" }) as any as S.Schema<PreviewPageRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PreviewPageResponse {
@@ -2563,9 +2451,7 @@ export const PreviewPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     previewUrl: S.optional(S.NullOr(S.String).pipe(T.Body("preview_url"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PreviewPageResponse",
-}) as any as S.Schema<PreviewPageResponse>;
+).annotate({ identifier: "PreviewPageResponse" }) as any as S.Schema<PreviewPageResponse>;
 
 export interface PutSettingRequest {
   /** Identifier. */
@@ -2578,17 +2464,9 @@ export const PutSettingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     searchEngineCrawlerBypass: S.optional(S.Boolean.pipe(T.Body("search_engine_crawler_bypass"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/waiting_rooms/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/waiting_rooms/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingRequest",
-}) as any as S.Schema<PutSettingRequest>;
+).annotate({ identifier: "PutSettingRequest" }) as any as S.Schema<PutSettingRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingResponse {
@@ -2599,9 +2477,7 @@ export const PutSettingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     searchEngineCrawlerBypass: S.Boolean.pipe(T.Body("search_engine_crawler_bypass")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutSettingResponse",
-}) as any as S.Schema<PutSettingResponse>;
+).annotate({ identifier: "PutSettingResponse" }) as any as S.Schema<PutSettingResponse>;
 
 export type EventsUpdateRequestTurnstileAction = "log" | "infinite_queue";
 export const EventsUpdateRequestTurnstileAction = S.String;
@@ -2680,9 +2556,7 @@ export const UpdateEventRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateEventRequest",
-}) as any as S.Schema<UpdateEventRequest>;
+).annotate({ identifier: "UpdateEventRequest" }) as any as S.Schema<UpdateEventRequest>;
 
 export type EventsUpdateResponseTurnstileAction = "log" | "infinite_queue";
 export const EventsUpdateResponseTurnstileAction = S.String;
@@ -2755,9 +2629,7 @@ export const UpdateEventResponse = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(EventsUpdateResponseTurnstileMode).pipe(T.Body("turnstile_mode")),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateEventResponse",
-}) as any as S.Schema<UpdateEventResponse>;
+).annotate({ identifier: "UpdateEventResponse" }) as any as S.Schema<UpdateEventResponse>;
 
 export type RulesUpdateRequestRulesItemAction = "bypass_waiting_room";
 export const RulesUpdateRequestRulesItemAction = S.String;
@@ -2808,9 +2680,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export type RulesUpdateResultItemAction = "bypass_waiting_room";
 export const RulesUpdateResultItemAction = S.String;
@@ -2840,9 +2710,7 @@ export const RulesUpdateResultItem = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.NullOr(S.String).pipe(T.Body("last_updated"))),
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesUpdateResultItem",
-}) as any as S.Schema<RulesUpdateResultItem>;
+).annotate({ identifier: "RulesUpdateResultItem" }) as any as S.Schema<RulesUpdateResultItem>;
 
 export type RulesUpdateResultList = Array<RulesUpdateResultItem>;
 export const RulesUpdateResultList = /*@__PURE__*/ S.Array(
@@ -2860,9 +2728,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export type UpdateRequestAdditionalRoutesItem = CreateRequestAdditionalRoutesItem;
 export const UpdateRequestAdditionalRoutesItem = CreateRequestAdditionalRoutesItem;
@@ -2917,6 +2783,7 @@ export type UpdateRequestDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"
@@ -3042,16 +2909,10 @@ export const UpdateWaitingRoomRequest = /*@__PURE__*/ S.suspend(() =>
     turnstileMode: S.optional(UpdateRequestTurnstileMode.pipe(T.Body("turnstile_mode"))),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/waiting_rooms/{waiting_room_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/waiting_rooms/{waiting_room_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateWaitingRoomRequest",
-}) as any as S.Schema<UpdateWaitingRoomRequest>;
+).annotate({ identifier: "UpdateWaitingRoomRequest" }) as any as S.Schema<UpdateWaitingRoomRequest>;
 
 export type UpdateResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
 export const UpdateResponseAdditionalRoutesItem = CreateResponseAdditionalRoutesItem;
@@ -3106,6 +2967,7 @@ export type UpdateResponseDefaultTemplateLanguage =
   | "da-DK"
   | "fi-FI"
   | "lt-LT"
+  | "lv-LV"
   | "ms-MY"
   | "nb-NO"
   | "ro-RO"

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
@@ -82,7 +82,7 @@ const coinbaseSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Coinbase CDP Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // No patch chain: v0 coinbase ships zero patches (its patchDir never
   // existed on disk), and convert.ts runs with patchesDir: false too.
   patchesDir: false,

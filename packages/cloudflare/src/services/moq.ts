@@ -34,17 +34,9 @@ export const CreateRelayRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/moq/relays",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/moq/relays", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRelayRequest",
-}) as any as S.Schema<CreateRelayRequest>;
+).annotate({ identifier: "CreateRelayRequest" }) as any as S.Schema<CreateRelayRequest>;
 
 export interface RelaysCreateResponseConfigUpstreamsUpstreamsItem {
   /** Upstream MOQT server publisher URL. Must be an absolute URL with a host and a scheme the relay can dial: moqt:// (raw QUIC) or https:// (WebTransport). Validated on update (PUT); rejected with 21013. */
@@ -183,9 +175,7 @@ export const CreateRelayResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     uid: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRelayResponse",
-}) as any as S.Schema<CreateRelayResponse>;
+).annotate({ identifier: "CreateRelayResponse" }) as any as S.Schema<CreateRelayResponse>;
 
 export type CreateRelaysTokenRequestOperationsItem = "publish" | "subscribe";
 export const CreateRelaysTokenRequestOperationsItem = S.String;
@@ -224,9 +214,7 @@ export const CreateRelaysTokenRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRelaysTokenRequest",
-}) as any as S.Schema<CreateRelaysTokenRequest>;
+).annotate({ identifier: "CreateRelaysTokenRequest" }) as any as S.Schema<CreateRelaysTokenRequest>;
 
 export type CreateRelaysTokenResponseIssuersItemCloudflareTokensItemOperationsItem =
   | "publish"
@@ -325,23 +313,15 @@ export const DeleteRelayRequest = /*@__PURE__*/ S.suspend(() =>
     relayId: S.String.pipe(T.Label("relay_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/moq/relays/{relay_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/moq/relays/{relay_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRelayRequest",
-}) as any as S.Schema<DeleteRelayRequest>;
+).annotate({ identifier: "DeleteRelayRequest" }) as any as S.Schema<DeleteRelayRequest>;
 
 export type DeleteRelayResponse = unknown;
 export const DeleteRelayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRelayResponse",
-}) as any as S.Schema<DeleteRelayResponse>;
+).annotate({ identifier: "DeleteRelayResponse" }) as any as S.Schema<DeleteRelayResponse>;
 
 export interface DeleteRelaysTokenRequest {
   /** Cloudflare account identifier. */
@@ -363,9 +343,7 @@ export const DeleteRelaysTokenRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRelaysTokenRequest",
-}) as any as S.Schema<DeleteRelaysTokenRequest>;
+).annotate({ identifier: "DeleteRelaysTokenRequest" }) as any as S.Schema<DeleteRelaysTokenRequest>;
 
 export interface DeleteRelaysTokenResponse {}
 export const DeleteRelaysTokenResponse = /*@__PURE__*/ S.suspend(() =>
@@ -384,17 +362,9 @@ export const GetRelayRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     relayId: S.String.pipe(T.Label("relay_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/moq/relays/{relay_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/moq/relays/{relay_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRelayRequest",
-}) as any as S.Schema<GetRelayRequest>;
+).annotate({ identifier: "GetRelayRequest" }) as any as S.Schema<GetRelayRequest>;
 
 export type RelaysGetResponseConfigUpstreamsUpstreamsItem =
   RelaysCreateResponseConfigUpstreamsUpstreamsItem;
@@ -429,9 +399,7 @@ export const RelaysGetResponseConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     upstreams: S.optional(S.NullOr(RelaysGetResponseConfigUpstreams)),
   }),
-).annotate({
-  identifier: "RelaysGetResponseConfig",
-}) as any as S.Schema<RelaysGetResponseConfig>;
+).annotate({ identifier: "RelaysGetResponseConfig" }) as any as S.Schema<RelaysGetResponseConfig>;
 
 export type RelaysGetResponseStatus = "connected";
 export const RelaysGetResponseStatus = S.String;
@@ -455,9 +423,7 @@ export const GetRelayResponse = /*@__PURE__*/ S.suspend(() =>
     uid: S.String,
     status: S.optional(S.NullOr(RelaysGetResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRelayResponse",
-}) as any as S.Schema<GetRelayResponse>;
+).annotate({ identifier: "GetRelayResponse" }) as any as S.Schema<GetRelayResponse>;
 
 export interface ListRelaysRequest {
   /** Cloudflare account identifier. */
@@ -479,17 +445,9 @@ export const ListRelaysRequest = /*@__PURE__*/ S.suspend(() =>
     createdBefore: S.optional(S.String.pipe(T.Query("created_before"))),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/moq/relays",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/moq/relays", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRelaysRequest",
-}) as any as S.Schema<ListRelaysRequest>;
+).annotate({ identifier: "ListRelaysRequest" }) as any as S.Schema<ListRelaysRequest>;
 
 export interface RelaysListResultItem {
   created: string;
@@ -504,9 +462,7 @@ export const RelaysListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     uid: S.String,
   }),
-).annotate({
-  identifier: "RelaysListResultItem",
-}) as any as S.Schema<RelaysListResultItem>;
+).annotate({ identifier: "RelaysListResultItem" }) as any as S.Schema<RelaysListResultItem>;
 
 export type RelaysListResultList = Array<RelaysListResultItem>;
 export const RelaysListResultList = /*@__PURE__*/ S.Array(
@@ -524,9 +480,7 @@ export const ListRelaysResponse = /*@__PURE__*/ S.suspend(() =>
     result: RelaysListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRelaysResponse",
-}) as any as S.Schema<ListRelaysResponse>;
+).annotate({ identifier: "ListRelaysResponse" }) as any as S.Schema<ListRelaysResponse>;
 
 export interface ListRelaysTokensRequest {
   /** Cloudflare account identifier. */
@@ -546,9 +500,7 @@ export const ListRelaysTokensRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRelaysTokensRequest",
-}) as any as S.Schema<ListRelaysTokensRequest>;
+).annotate({ identifier: "ListRelaysTokensRequest" }) as any as S.Schema<ListRelaysTokensRequest>;
 
 export type ListRelaysTokensResponseIssuersItemCloudflareTokensItemOperationsItem =
   | "publish"
@@ -631,9 +583,7 @@ export const ListRelaysTokensResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     issuers: ListRelaysTokensResponseIssuersList,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRelaysTokensResponse",
-}) as any as S.Schema<ListRelaysTokensResponse>;
+).annotate({ identifier: "ListRelaysTokensResponse" }) as any as S.Schema<ListRelaysTokensResponse>;
 
 export type RelaysTokensRotateRequestType = "publish_subscribe" | "subscribe";
 export const RelaysTokensRotateRequestType = S.String;
@@ -659,9 +609,7 @@ export const RotateRelayTokenRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RotateRelayTokenRequest",
-}) as any as S.Schema<RotateRelayTokenRequest>;
+).annotate({ identifier: "RotateRelayTokenRequest" }) as any as S.Schema<RotateRelayTokenRequest>;
 
 export type RelaysTokensRotateResponseType = "publish_subscribe" | "subscribe";
 export const RelaysTokensRotateResponseType = S.String;
@@ -677,9 +625,7 @@ export const RotateRelayTokenResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     type: RelaysTokensRotateResponseType,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "RotateRelayTokenResponse",
-}) as any as S.Schema<RotateRelayTokenResponse>;
+).annotate({ identifier: "RotateRelayTokenResponse" }) as any as S.Schema<RotateRelayTokenResponse>;
 
 export type RelaysUpdateRequestConfigUpstreamsUpstreamsItem =
   RelaysCreateResponseConfigUpstreamsUpstreamsItem;
@@ -732,17 +678,9 @@ export const UpdateRelayRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(RelaysUpdateRequestConfig),
     name: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/moq/relays/{relay_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/moq/relays/{relay_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRelayRequest",
-}) as any as S.Schema<UpdateRelayRequest>;
+).annotate({ identifier: "UpdateRelayRequest" }) as any as S.Schema<UpdateRelayRequest>;
 
 export type RelaysUpdateResponseConfigUpstreamsUpstreamsItem =
   RelaysCreateResponseConfigUpstreamsUpstreamsItem;
@@ -803,9 +741,7 @@ export const UpdateRelayResponse = /*@__PURE__*/ S.suspend(() =>
     uid: S.String,
     status: S.optional(S.NullOr(RelaysUpdateResponseStatus)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRelayResponse",
-}) as any as S.Schema<UpdateRelayResponse>;
+).annotate({ identifier: "UpdateRelayResponse" }) as any as S.Schema<UpdateRelayResponse>;
 
 export type CreateRelayError = CloudflareOpError;
 /** Provisions a new MoQ relay instance. Auto-creates a publish+subscribe token and a subscribe-only token. Token values are included in the response (shown once). Config is always set to defaults (upstreams off) and cannot be supplied here — sending a non-empty `config` is rejected (21014); `null` or `{}` is accepted as absent. Use PUT to configure the relay after it exists. */

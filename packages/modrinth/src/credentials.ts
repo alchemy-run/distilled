@@ -35,14 +35,14 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 /** Layer from an optional API token + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
-  readonly apiKey?: string;
+  readonly apiKey?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly userAgent?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: config.apiKey !== undefined ? Redacted.make(config.apiKey) : undefined,
+      apiKey: config.apiKey !== undefined ? config.apiKey : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       userAgent: config.userAgent ?? DEFAULT_USER_AGENT,
     }),

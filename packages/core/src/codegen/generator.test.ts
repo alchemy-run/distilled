@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { generateService, type SdkSpec } from "./generator.ts";
 
 const primitiveUnionModel = (kind: "enum" | "intEnum", request: boolean) => ({

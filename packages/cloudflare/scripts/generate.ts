@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * generate — turn the Smithy JSON models in .generated-specs into an Effect SDK.
  *
@@ -144,7 +144,7 @@ const makeCfSpec = (
 
 runGeneratorCli({
   description: "Generate the Cloudflare Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   excludeModel: (f) => f === "cloudflare.protocols.json",
   manualSpecsDir: "manual-specs",
   // Per-service fallback key dictionary and route aliases arrive via the

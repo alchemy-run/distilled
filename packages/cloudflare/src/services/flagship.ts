@@ -54,8 +54,9 @@ export class FlagshipFlagNotFound
   ) {}
 
 export interface CreateAppRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
+  /** Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores). */
   name: string;
 }
 export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -63,17 +64,9 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     name: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/flagship/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/flagship/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAppResponse {
@@ -92,9 +85,7 @@ export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String.pipe(T.Body("updated_at")),
     updatedBy: S.String.pipe(T.Body("updated_by")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppResponse",
-}) as any as S.Schema<CreateAppResponse>;
+).annotate({ identifier: "CreateAppResponse" }) as any as S.Schema<CreateAppResponse>;
 
 export type AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -107,7 +98,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map = {
@@ -161,7 +154,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Op
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -218,7 +213,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -278,7 +275,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -338,7 +337,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -398,7 +399,9 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -730,7 +733,7 @@ export const AppsFlagsCreateRequestRulesItemConditionsList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsList>;
 
 export interface AppsFlagsCreateRequestRulesItemRollout {
-  /** Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
+  /** Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
   percentage: number;
   /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
   attribute?: string;
@@ -779,9 +782,9 @@ export type AppsFlagsCreateRequestType = "boolean" | "string" | "number" | "json
 export const AppsFlagsCreateRequestType = S.String;
 
 export interface CreateAppFlagRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
   /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
@@ -793,6 +796,7 @@ export interface CreateAppFlagRequest {
   rules: AppsFlagsCreateRequestRulesList;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string;
   /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
   type?: AppsFlagsCreateRequestType | (string & {});
@@ -817,9 +821,7 @@ export const CreateAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppFlagRequest",
-}) as any as S.Schema<CreateAppFlagRequest>;
+).annotate({ identifier: "CreateAppFlagRequest" }) as any as S.Schema<CreateAppFlagRequest>;
 
 export type AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -832,7 +834,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map = {
@@ -885,7 +889,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0O
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -940,7 +946,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -998,7 +1006,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -1056,7 +1066,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -1114,7 +1126,9 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -1432,7 +1446,7 @@ export const AppsFlagsCreateResponseRulesItemConditionsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsList>;
 
 export interface AppsFlagsCreateResponseRulesItemRollout {
-  /** Percentage of matching traffic (0–100) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
+  /** Percentage of matching traffic (0–100, up to 2 decimal places) served this variation. For multi-way splits, use cumulative upper bounds across rules (e.g. 30, 70, 100). */
   percentage: number;
   /** Context attribute used for sticky bucketing. Defaults to `targetingKey`. If absent at evaluation time, bucketing is random per request. */
   attribute?: string | null;
@@ -1488,6 +1502,7 @@ export interface CreateAppFlagResponse {
   type: AppsFlagsCreateResponseType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -1504,14 +1519,12 @@ export const CreateAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAppFlagResponse",
-}) as any as S.Schema<CreateAppFlagResponse>;
+).annotate({ identifier: "CreateAppFlagResponse" }) as any as S.Schema<CreateAppFlagResponse>;
 
 export interface DeleteAppRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
 }
 export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1520,16 +1533,10 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label("app_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/flagship/apps/{app_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/flagship/apps/{app_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAppResponse {
@@ -1539,16 +1546,14 @@ export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 
 export interface DeleteAppFlagRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
-  /** Flag key (slug). */
+  /** Case-sensitive key identifying the flag within the app. */
   flagKey: string;
 }
 export const DeleteAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1565,9 +1570,7 @@ export const DeleteAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppFlagRequest",
-}) as any as S.Schema<DeleteAppFlagRequest>;
+).annotate({ identifier: "DeleteAppFlagRequest" }) as any as S.Schema<DeleteAppFlagRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAppFlagResponse {
@@ -1577,14 +1580,12 @@ export const DeleteAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAppFlagResponse",
-}) as any as S.Schema<DeleteAppFlagResponse>;
+).annotate({ identifier: "DeleteAppFlagResponse" }) as any as S.Schema<DeleteAppFlagResponse>;
 
 export interface GetAppRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
 }
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1593,11 +1594,7 @@ export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label("app_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/flagship/apps/{app_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/flagship/apps/{app_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
@@ -1622,9 +1619,9 @@ export const GetAppResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetAppResponse" }) as any as S.Schema<GetAppResponse>;
 
 export interface GetAppEvaluateRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
   /** The flag key to evaluate. */
   flagKey: string;
@@ -1646,16 +1643,17 @@ export const GetAppEvaluateRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAppEvaluateRequest",
-}) as any as S.Schema<GetAppEvaluateRequest>;
+).annotate({ identifier: "GetAppEvaluateRequest" }) as any as S.Schema<GetAppEvaluateRequest>;
 
-export type AppsEvaluateGetResponseReason = "TARGETING_MATCH" | "DEFAULT" | "DISABLED" | "SPLIT";
+export type AppsEvaluateGetResponseReason =
+  | "STATIC"
+  | "TARGETING_MATCH"
+  | "DEFAULT"
+  | "DISABLED"
+  | "SPLIT";
 export const AppsEvaluateGetResponseReason = S.String;
 
-export type AppsEvaluateGetResponseValueCase3Map = {
-  [key: string]: unknown | undefined;
-};
+export type AppsEvaluateGetResponseValueCase3Map = { [key: string]: unknown | undefined };
 export const AppsEvaluateGetResponseValueCase3Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1678,8 +1676,11 @@ export const AppsEvaluateGetResponseValue = /*@__PURE__*/ S.Unknown.pipe(
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetAppEvaluateResponse {
+  /** Key of the evaluated flag. */
   flagKey: string;
+  /** Reason the evaluator selected this variation. */
   reason: AppsEvaluateGetResponseReason;
+  /** Name of the variation that supplied the resolved value. */
   variant: string;
   value?: AppsEvaluateGetResponseValue | null;
 }
@@ -1690,16 +1691,14 @@ export const GetAppEvaluateResponse = /*@__PURE__*/ S.suspend(() =>
     variant: S.String,
     value: S.optional(S.NullOr(AppsEvaluateGetResponseValue)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAppEvaluateResponse",
-}) as any as S.Schema<GetAppEvaluateResponse>;
+).annotate({ identifier: "GetAppEvaluateResponse" }) as any as S.Schema<GetAppEvaluateResponse>;
 
 export interface GetAppFlagRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
-  /** Flag key (slug). */
+  /** Case-sensitive key identifying the flag within the app. */
   flagKey: string;
 }
 export const GetAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1716,9 +1715,7 @@ export const GetAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAppFlagRequest",
-}) as any as S.Schema<GetAppFlagRequest>;
+).annotate({ identifier: "GetAppFlagRequest" }) as any as S.Schema<GetAppFlagRequest>;
 
 export type AppsFlagsGetResponseRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -1731,7 +1728,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map = {
@@ -1783,7 +1782,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Oper
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -1838,7 +1839,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -1894,7 +1897,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -1952,7 +1957,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2010,7 +2017,9 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2371,6 +2380,7 @@ export interface GetAppFlagResponse {
   type: AppsFlagsGetResponseType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -2387,21 +2397,19 @@ export const GetAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAppFlagResponse",
-}) as any as S.Schema<GetAppFlagResponse>;
+).annotate({ identifier: "GetAppFlagResponse" }) as any as S.Schema<GetAppFlagResponse>;
 
 export interface ListAppFlagChangelogsRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
-  /** Flag key (slug). */
+  /** Case-sensitive key identifying the flag within the app. */
   flagKey: string;
   /** Pagination cursor from a previous response. */
   cursor?: string;
   /** Max items to return (1–200). */
-  limit?: string;
+  limit?: number;
 }
 export const ListAppFlagChangelogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2409,7 +2417,7 @@ export const ListAppFlagChangelogsRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label("app_id")),
     flagKey: S.String.pipe(T.Label("flag_key")),
     cursor: S.optional(S.String.pipe(T.Query())),
-    limit: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
   })
     .pipe(
       T.Http({
@@ -2434,7 +2442,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
@@ -2490,7 +2500,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2548,7 +2560,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2606,7 +2620,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2664,7 +2680,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -2722,7 +2740,9 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3100,6 +3120,7 @@ export interface AppsFlagsChangelogListResultItemCase0After {
   type: AppsFlagsChangelogListResultItemCase0AfterType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -3149,7 +3170,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
@@ -3205,7 +3228,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3263,7 +3288,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3321,7 +3348,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3379,7 +3408,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3437,7 +3468,9 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3815,6 +3848,7 @@ export interface AppsFlagsChangelogListResultItemCase1After {
   type: AppsFlagsChangelogListResultItemCase1AfterType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -3864,7 +3898,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
@@ -3920,7 +3956,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -3978,7 +4016,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4036,7 +4076,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4094,7 +4136,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4152,7 +4196,9 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4530,6 +4576,7 @@ export interface AppsFlagsChangelogListResultItemCase2After {
   type: AppsFlagsChangelogListResultItemCase2AfterType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -4673,21 +4720,21 @@ export const ListAppFlagChangelogsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAppFlagChangelogsResponse>;
 
 export interface ListAppFlagsRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
   /** Pagination cursor from a previous response. */
   cursor?: string;
   /** Max items to return (1–200). */
-  limit?: string;
+  limit?: number;
 }
 export const ListAppFlagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
     appId: S.String.pipe(T.Label("app_id")),
     cursor: S.optional(S.String.pipe(T.Query())),
-    limit: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
   })
     .pipe(
       T.Http({
@@ -4697,9 +4744,7 @@ export const ListAppFlagsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppFlagsRequest",
-}) as any as S.Schema<ListAppFlagsRequest>;
+).annotate({ identifier: "ListAppFlagsRequest" }) as any as S.Schema<ListAppFlagsRequest>;
 
 export type AppsFlagsListResultItemRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -4712,7 +4757,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map = {
@@ -4765,7 +4812,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0O
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -4820,7 +4869,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4878,7 +4929,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4936,7 +4989,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -4994,7 +5049,9 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -5355,6 +5412,7 @@ export interface AppsFlagsListResultItem {
   type: AppsFlagsListResultItemType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -5371,9 +5429,7 @@ export const AppsFlagsListResultItem = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }),
-).annotate({
-  identifier: "AppsFlagsListResultItem",
-}) as any as S.Schema<AppsFlagsListResultItem>;
+).annotate({ identifier: "AppsFlagsListResultItem" }) as any as S.Schema<AppsFlagsListResultItem>;
 
 export type AppsFlagsListResultList = Array<AppsFlagsListResultItem>;
 export const AppsFlagsListResultList = /*@__PURE__*/ S.Array(
@@ -5391,29 +5447,19 @@ export const ListAppFlagsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AppsFlagsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppFlagsResponse",
-}) as any as S.Schema<ListAppFlagsResponse>;
+).annotate({ identifier: "ListAppFlagsResponse" }) as any as S.Schema<ListAppFlagsResponse>;
 
 export interface ListAppsRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
 }
 export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/flagship/apps",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/flagship/apps", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 export interface AppsListResultItem {
   id: string;
@@ -5431,9 +5477,7 @@ export const AppsListResultItem = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String.pipe(T.Body("updated_at")),
     updatedBy: S.String.pipe(T.Body("updated_by")),
   }),
-).annotate({
-  identifier: "AppsListResultItem",
-}) as any as S.Schema<AppsListResultItem>;
+).annotate({ identifier: "AppsListResultItem" }) as any as S.Schema<AppsListResultItem>;
 
 export type AppsListResultList = Array<AppsListResultItem>;
 export const AppsListResultList = /*@__PURE__*/ S.Array(
@@ -5451,15 +5495,14 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AppsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 export interface UpdateAppRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
+  /** Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores). */
   name?: string;
 }
 export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5469,16 +5512,10 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/flagship/apps/{app_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/flagship/apps/{app_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateAppResponse {
@@ -5497,9 +5534,7 @@ export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String.pipe(T.Body("updated_at")),
     updatedBy: S.String.pipe(T.Body("updated_by")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppResponse",
-}) as any as S.Schema<UpdateAppResponse>;
+).annotate({ identifier: "UpdateAppResponse" }) as any as S.Schema<UpdateAppResponse>;
 
 export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -5512,7 +5547,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map = {
@@ -5566,7 +5603,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Op
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -5623,7 +5662,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -5683,7 +5724,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -5743,7 +5786,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -5803,7 +5848,9 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -6166,11 +6213,11 @@ export type AppsFlagsUpdateRequestType = "boolean" | "string" | "number" | "json
 export const AppsFlagsUpdateRequestType = S.String;
 
 export interface UpdateAppFlagRequest {
-  /** Cloudflare account ID. */
+  /** Cloudflare account ID that owns the Flagship app. */
   accountId: string;
-  /** App identifier. */
+  /** Flagship app ID returned when the app was created. */
   appId: string;
-  /** Flag key (slug). */
+  /** Case-sensitive key identifying the flag within the app. */
   flagKey: string;
   /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
@@ -6182,6 +6229,7 @@ export interface UpdateAppFlagRequest {
   rules: AppsFlagsUpdateRequestRulesList;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string;
   /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
   type?: AppsFlagsUpdateRequestType | (string & {});
@@ -6207,9 +6255,7 @@ export const UpdateAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppFlagRequest",
-}) as any as S.Schema<UpdateAppFlagRequest>;
+).annotate({ identifier: "UpdateAppFlagRequest" }) as any as S.Schema<UpdateAppFlagRequest>;
 
 export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator =
   | "equals"
@@ -6222,7 +6268,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator =
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator = S.String;
 
 export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map = {
@@ -6275,7 +6323,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0O
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator = S.String;
 
 export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map = {
@@ -6330,7 +6380,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -6388,7 +6440,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -6446,7 +6500,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -6504,7 +6560,9 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
   | "starts_with"
   | "ends_with"
   | "in"
-  | "not_in";
+  | "not_in"
+  | "has"
+  | "not_has";
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
@@ -6866,6 +6924,7 @@ export interface UpdateAppFlagResponse {
   type: AppsFlagsUpdateResponseType;
   /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
+  /** Optional operator-facing description. It does not affect flag evaluation. */
   description?: string | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
@@ -6882,9 +6941,7 @@ export const UpdateAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateAppFlagResponse",
-}) as any as S.Schema<UpdateAppFlagResponse>;
+).annotate({ identifier: "UpdateAppFlagResponse" }) as any as S.Schema<UpdateAppFlagResponse>;
 
 export type CreateAppError = CloudflareOpError;
 /** Creates an app. The returned `id` is used in all subsequent flag, changelog, and evaluation requests. */
@@ -6935,7 +6992,7 @@ export const deleteApp: API.OperationMethod<
 }));
 
 export type DeleteAppFlagError = FlagshipFlagNotFound | FlagshipAppNotFound | CloudflareOpError;
-/** Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone. */
+/** Deletes a flag permanently. After deletion propagates, direct evaluations return not found; typed binding accessors may return the caller-supplied default. Cannot be undone. */
 export const deleteAppFlag: API.OperationMethod<
   DeleteAppFlagRequest,
   DeleteAppFlagResponse,
@@ -6965,7 +7022,7 @@ export const getApp: API.OperationMethod<
 }));
 
 export type GetAppEvaluateError = CloudflareOpError;
-/** Evaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint. */
+/** Evaluates a flag against the provided context. Pass context attributes as query parameters; values are coerced to numbers or booleans where unambiguous. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint. */
 export const getAppEvaluate: API.OperationMethod<
   GetAppEvaluateRequest,
   GetAppEvaluateResponse,
@@ -7045,7 +7102,7 @@ export const listAppFlags: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListAppsError = CloudflareOpError;
-/** Lists all apps in the account. Returns identity and audit fields only — flag definitions are not included. */
+/** Lists all Flagship apps in the account. Returns identity and audit fields only; flag definitions are not included. */
 export const listApps: API.PaginatedOperationMethod<
   ListAppsRequest,
   ListAppsResponse,
@@ -7080,7 +7137,7 @@ export const updateApp: API.OperationMethod<
 }));
 
 export type UpdateAppFlagError = FlagshipFlagNotFound | FlagshipAppNotFound | CloudflareOpError;
-/** Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. Each update appends a changelog entry. */
+/** Replaces the entire flag definition. Omitted fields are dropped, not preserved — read before writing. The path key identifies the flag and cannot be renamed by changing the body `key`. Each update appends a changelog entry. */
 export const updateAppFlag: API.OperationMethod<
   UpdateAppFlagRequest,
   UpdateAppFlagResponse,

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Intercom REST API spec into ../specs/.
  *
@@ -9,13 +9,15 @@
  * it, then writes deterministic JSON.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "intercom/Intercom-OpenAPI";
@@ -59,7 +61,7 @@ async function main() {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
-  const spec = Bun.YAML.parse(await response.text()) as Record<string, unknown>;
+  const spec = YAML.parse(await response.text()) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI
@@ -71,7 +73,7 @@ async function main() {
   console.log(`Writing ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

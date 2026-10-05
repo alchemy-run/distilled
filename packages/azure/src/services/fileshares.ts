@@ -183,9 +183,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -262,9 +260,7 @@ export const DeleteFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFileShareRequest",
-}) as any as S.Schema<DeleteFileShareRequest>;
+).annotate({ identifier: "DeleteFileShareRequest" }) as any as S.Schema<DeleteFileShareRequest>;
 
 export interface DeleteFileShareResponse {}
 export const DeleteFileShareResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -301,9 +297,7 @@ export const DeleteFileShareSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteFileShareSnapshotResponse {}
 export const DeleteFileShareSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteFileShareSnapshotResponse",
-  },
+  { identifier: "DeleteFileShareSnapshotResponse" },
 ) as any as S.Schema<DeleteFileShareSnapshotResponse>;
 
 export interface DeletePrivateEndpointConnectionRequest {
@@ -342,9 +336,7 @@ export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type FileSharesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FileSharesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FileSharesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -382,9 +374,7 @@ export const NfsProtocolProperties = /*@__PURE__*/ S.suspend(() =>
     rootSquash: S.optional(ShareRootSquash),
     encryptionInTransitRequired: S.optional(EncryptionInTransitRequired),
   }),
-).annotate({
-  identifier: "NfsProtocolProperties",
-}) as any as S.Schema<NfsProtocolProperties>;
+).annotate({ identifier: "NfsProtocolProperties" }) as any as S.Schema<NfsProtocolProperties>;
 
 /** The allowed set of subnets when access is restricted. */
 export type PublicAccessPropertiesAllowedSubnetsList = Array<string>;
@@ -401,9 +391,7 @@ export const PublicAccessProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowedSubnets: S.optional(PublicAccessPropertiesAllowedSubnetsList),
   }),
-).annotate({
-  identifier: "PublicAccessProperties",
-}) as any as S.Schema<PublicAccessProperties>;
+).annotate({ identifier: "PublicAccessProperties" }) as any as S.Schema<PublicAccessProperties>;
 
 /** State of the public network access. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
@@ -445,9 +433,7 @@ export const FileSharePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     publicAccessProperties: S.optional(PublicAccessProperties),
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "FileSharePropertiesInput",
-}) as any as S.Schema<FileSharePropertiesInput>;
+).annotate({ identifier: "FileSharePropertiesInput" }) as any as S.Schema<FileSharePropertiesInput>;
 
 export interface FileSharesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -484,9 +470,7 @@ export const FileSharesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FileSharesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FileSharesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FileSharesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FileSharesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -600,9 +584,7 @@ export const FileShareProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(PublicNetworkAccess),
     privateEndpointConnections: S.optional(FileSharePropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "FileShareProperties",
-}) as any as S.Schema<FileShareProperties>;
+).annotate({ identifier: "FileShareProperties" }) as any as S.Schema<FileShareProperties>;
 
 export interface FileSharesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -635,9 +617,7 @@ export const FileSharesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FileSharesCreateOrUpdateResponse>;
 
 /** The metadata */
-export type FileShareSnapshotPropertiesInputMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type FileShareSnapshotPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export const FileShareSnapshotPropertiesInputMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -718,9 +698,7 @@ export const GetFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetFileShareRequest",
-}) as any as S.Schema<GetFileShareRequest>;
+).annotate({ identifier: "GetFileShareRequest" }) as any as S.Schema<GetFileShareRequest>;
 
 /** Resource tags. */
 export type GetFileShareResponseTagsMap = { [key: string]: string | undefined };
@@ -755,9 +733,7 @@ export const GetFileShareResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(FileShareProperties),
   }),
-).annotate({
-  identifier: "GetFileShareResponse",
-}) as any as S.Schema<GetFileShareResponse>;
+).annotate({ identifier: "GetFileShareResponse" }) as any as S.Schema<GetFileShareResponse>;
 
 export interface GetFileShareLimitsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -817,9 +793,7 @@ export const FileShareLimits = /*@__PURE__*/ S.suspend(() =>
     minProvisionedThroughputMiBPerSec: S.Number,
     maxProvisionedThroughputMiBPerSec: S.Number,
   }),
-).annotate({
-  identifier: "FileShareLimits",
-}) as any as S.Schema<FileShareLimits>;
+).annotate({ identifier: "FileShareLimits" }) as any as S.Schema<FileShareLimits>;
 
 /** Constants used for calculating recommended values of file share provisioning properties. */
 export interface FileShareProvisioningConstants {
@@ -861,9 +835,7 @@ export const FileShareLimitsOutput = /*@__PURE__*/ S.suspend(() =>
     limits: FileShareLimits,
     provisioningConstants: FileShareProvisioningConstants,
   }),
-).annotate({
-  identifier: "FileShareLimitsOutput",
-}) as any as S.Schema<FileShareLimitsOutput>;
+).annotate({ identifier: "FileShareLimitsOutput" }) as any as S.Schema<FileShareLimitsOutput>;
 
 /** Response structure for file share limits API. */
 export interface FileShareLimitsResponse {
@@ -874,9 +846,7 @@ export const FileShareLimitsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: FileShareLimitsOutput,
   }),
-).annotate({
-  identifier: "FileShareLimitsResponse",
-}) as any as S.Schema<FileShareLimitsResponse>;
+).annotate({ identifier: "FileShareLimitsResponse" }) as any as S.Schema<FileShareLimitsResponse>;
 
 /** File share provisioning parameters recommendation API input structure. */
 export interface FileShareProvisioningRecommendationInput {
@@ -986,9 +956,7 @@ export const GetFileShareSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFileShareSnapshotRequest>;
 
 /** The metadata */
-export type FileShareSnapshotPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type FileShareSnapshotPropertiesMetadataMap = { [key: string]: string | undefined };
 export const FileShareSnapshotPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1068,9 +1036,7 @@ export const LiveSharesUsageData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fileShareCount: S.Number,
   }),
-).annotate({
-  identifier: "LiveSharesUsageData",
-}) as any as S.Schema<LiveSharesUsageData>;
+).annotate({ identifier: "LiveSharesUsageData" }) as any as S.Schema<LiveSharesUsageData>;
 
 /** File shares usage result. */
 export interface FileShareUsageDataOutput {
@@ -1081,9 +1047,7 @@ export const FileShareUsageDataOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     liveShares: LiveSharesUsageData,
   }),
-).annotate({
-  identifier: "FileShareUsageDataOutput",
-}) as any as S.Schema<FileShareUsageDataOutput>;
+).annotate({ identifier: "FileShareUsageDataOutput" }) as any as S.Schema<FileShareUsageDataOutput>;
 
 /** Response structure for file shares usage in the specified subscription/location. */
 export interface FileShareUsageDataResponse {
@@ -1309,9 +1273,7 @@ export const FileShareListResult = /*@__PURE__*/ S.suspend(() =>
     value: FileShareListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FileShareListResult",
-}) as any as S.Schema<FileShareListResult>;
+).annotate({ identifier: "FileShareListResult" }) as any as S.Schema<FileShareListResult>;
 
 export interface ListFileShareBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1378,9 +1340,7 @@ export const FileShareSnapshot = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FileShareSnapshotProperties),
   }),
-).annotate({
-  identifier: "FileShareSnapshot",
-}) as any as S.Schema<FileShareSnapshot>;
+).annotate({ identifier: "FileShareSnapshot" }) as any as S.Schema<FileShareSnapshot>;
 
 /** The FileShareSnapshot items on this page */
 export type FileShareSnapshotListResultValueList = Array<FileShareSnapshot>;
@@ -1414,9 +1374,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1436,9 +1394,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1488,9 +1444,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionByFileShareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1592,9 +1546,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -1619,9 +1571,7 @@ export const PrivateLinkResourceListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateLinkResourceListResult>;
 
 /** Resource tags. */
-export type UpdateFileShareRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFileShareRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFileShareRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1682,14 +1632,10 @@ export const UpdateFileShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFileShareRequest",
-}) as any as S.Schema<UpdateFileShareRequest>;
+).annotate({ identifier: "UpdateFileShareRequest" }) as any as S.Schema<UpdateFileShareRequest>;
 
 /** Resource tags. */
-export type UpdateFileShareResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFileShareResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFileShareResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1721,14 +1667,10 @@ export const UpdateFileShareResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(FileShareProperties),
   }),
-).annotate({
-  identifier: "UpdateFileShareResponse",
-}) as any as S.Schema<UpdateFileShareResponse>;
+).annotate({ identifier: "UpdateFileShareResponse" }) as any as S.Schema<UpdateFileShareResponse>;
 
 /** The metadata */
-export type FileShareSnapshotUpdatePropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type FileShareSnapshotUpdatePropertiesMetadataMap = { [key: string]: string | undefined };
 export const FileShareSnapshotUpdatePropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

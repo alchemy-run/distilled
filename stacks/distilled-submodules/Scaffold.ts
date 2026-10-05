@@ -32,11 +32,11 @@ const MANAGED_PREFIXES = [".github/", ".meta/"] as const;
 /**
  * Paths under a managed prefix that survive anyway.
  *
- * `.meta/bun.lock` is written by the repository's own workflow (the first run
- * after a dependency changes commits it), so the stack has no correct value
- * for it and must not delete the one that is there.
+ * `.meta/pnpm-lock.yaml` is written by the repository's own workflow (the
+ * first run after a dependency changes commits it), so the stack has no
+ * correct value for it and must not delete the one that is there.
  */
-const PRESERVED = new Set([".meta/bun.lock"]);
+const PRESERVED = new Set([".meta/pnpm-lock.yaml"]);
 
 /** Git's blob object id for `content` — the same hash the tree API returns. */
 const blobSha = (content: string) => {

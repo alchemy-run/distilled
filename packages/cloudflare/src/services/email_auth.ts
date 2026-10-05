@@ -38,17 +38,9 @@ export const GetDmarcReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/auth/dmarc-reports",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/auth/dmarc-reports", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDmarcReportRequest",
-}) as any as S.Schema<GetDmarcReportRequest>;
+).annotate({ identifier: "GetDmarcReportRequest" }) as any as S.Schema<GetDmarcReportRequest>;
 
 export type DmarcReportsGetResponseApprovedSourcesItemIpsList = Array<string>;
 export const DmarcReportsGetResponseApprovedSourcesItemIpsList = /*@__PURE__*/ S.Array(
@@ -492,9 +484,7 @@ export const GetDmarcReportResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     zoneId: S.optional(S.NullOr(S.String).pipe(T.Body("zone_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetDmarcReportResponse",
-}) as any as S.Schema<GetDmarcReportResponse>;
+).annotate({ identifier: "GetDmarcReportResponse" }) as any as S.Schema<GetDmarcReportResponse>;
 
 export interface GetSpfInspectRequest {
   /** Identifier. */
@@ -507,17 +497,9 @@ export const GetSpfInspectRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     id: S.String.pipe(T.Query()),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/email/auth/spf/inspect",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/email/auth/spf/inspect", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSpfInspectRequest",
-}) as any as S.Schema<GetSpfInspectRequest>;
+).annotate({ identifier: "GetSpfInspectRequest" }) as any as S.Schema<GetSpfInspectRequest>;
 
 export type SpfInspectGetResponseComponentsList = Array<unknown>;
 export const SpfInspectGetResponseComponentsList = /*@__PURE__*/ S.Array(
@@ -571,9 +553,7 @@ export const GetSpfInspectResponse = /*@__PURE__*/ S.suspend(() =>
     totalLookups: S.Number.pipe(T.Body("total_lookups")),
     errors: S.optional(S.NullOr(SpfInspectGetResponseErrorsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSpfInspectResponse",
-}) as any as S.Schema<GetSpfInspectResponse>;
+).annotate({ identifier: "GetSpfInspectResponse" }) as any as S.Schema<GetSpfInspectResponse>;
 
 export interface PatchDmarcReportRequest {
   /** Identifier. */
@@ -589,17 +569,9 @@ export const PatchDmarcReportRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     skipWizard: S.optional(S.Boolean.pipe(T.Body("skip_wizard"))),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/email/auth/dmarc-reports",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/email/auth/dmarc-reports", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDmarcReportRequest",
-}) as any as S.Schema<PatchDmarcReportRequest>;
+).annotate({ identifier: "PatchDmarcReportRequest" }) as any as S.Schema<PatchDmarcReportRequest>;
 
 export type DmarcReportsEditResponseApprovedSourcesItemIpsList = Array<string>;
 export const DmarcReportsEditResponseApprovedSourcesItemIpsList = /*@__PURE__*/ S.Array(
@@ -1038,9 +1010,7 @@ export const PatchDmarcReportResponse = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.NullOr(S.String)),
     zoneId: S.optional(S.NullOr(S.String).pipe(T.Body("zone_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchDmarcReportResponse",
-}) as any as S.Schema<PatchDmarcReportResponse>;
+).annotate({ identifier: "PatchDmarcReportResponse" }) as any as S.Schema<PatchDmarcReportResponse>;
 
 export type GetDmarcReportError = CloudflareOpError;
 /** Retrieves the current DMARC report configuration and status for a zone. Returns the RUA prefix, enabled status, approved sources, and DNS records. */

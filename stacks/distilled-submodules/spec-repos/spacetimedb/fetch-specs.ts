@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Assembles SpacetimeDB's HTTP management API into ../specs/.
  *
@@ -10,7 +10,7 @@
  * /v1/ping. Generate never crawls live docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/llms.txt
@@ -44,12 +44,15 @@ const SKIPPED_ROUTES = new Set([
 ]);
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 

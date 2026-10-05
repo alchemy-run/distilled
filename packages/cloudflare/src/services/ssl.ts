@@ -95,24 +95,14 @@ export const CreateAnalyzeRequest = /*@__PURE__*/ S.suspend(() =>
     bundleMethod: S.optional(AnalyzeCreateRequestBundleMethod.pipe(T.Body("bundle_method"))),
     certificate: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/ssl/analyze",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/ssl/analyze", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAnalyzeRequest",
-}) as any as S.Schema<CreateAnalyzeRequest>;
+).annotate({ identifier: "CreateAnalyzeRequest" }) as any as S.Schema<CreateAnalyzeRequest>;
 
 export type CreateAnalyzeResponse = unknown;
 export const CreateAnalyzeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAnalyzeResponse",
-}) as any as S.Schema<CreateAnalyzeResponse>;
+).annotate({ identifier: "CreateAnalyzeResponse" }) as any as S.Schema<CreateAnalyzeResponse>;
 
 export type CertificatePacksCreateRequestCertificateAuthority =
   | "google"
@@ -165,11 +155,7 @@ export const CreateCertificatePackRequest = /*@__PURE__*/ S.suspend(() =>
     cloudflareBranding: S.optional(S.Boolean.pipe(T.Body("cloudflare_branding"))),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/ssl/certificate_packs/order",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/ssl/certificate_packs/order", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -417,7 +403,7 @@ export const CertificatePacksCreateResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateCertificatePackResponse {
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   id: string;
   /** Array of certificates in this pack. */
   certificates: CertificatePacksCreateResponseCertificatesList;
@@ -487,7 +473,7 @@ export const CreateCertificatePackResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteCertificatePackRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   certificatePackId: string;
 }
 export const DeleteCertificatePackRequest = /*@__PURE__*/ S.suspend(() =>
@@ -509,7 +495,7 @@ export const DeleteCertificatePackRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCertificatePackResponse {
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   id?: string | null;
 }
 export const DeleteCertificatePackResponse = /*@__PURE__*/ S.suspend(() =>
@@ -527,13 +513,7 @@ export const GetAutomaticUpgraderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/ssl_automatic_mode", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetAutomaticUpgraderRequest",
@@ -574,11 +554,7 @@ export const GetAutoOriginTlsKexRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/settings/auto_origin_tls_kex",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/auto_origin_tls_kex", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -606,7 +582,7 @@ export const GetAutoOriginTlsKexResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetCertificatePackRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   certificatePackId: string;
 }
 export const GetCertificatePackRequest = /*@__PURE__*/ S.suspend(() =>
@@ -854,7 +830,7 @@ export const CertificatePacksGetResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCertificatePackResponse {
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   id: string;
   /** Array of certificates in this pack. */
   certificates: CertificatePacksGetResponseCertificatesList;
@@ -925,13 +901,7 @@ export const GetCertificatePackQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/ssl/certificate_packs/quota",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ssl/certificate_packs/quota", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetCertificatePackQuotaRequest",
@@ -971,17 +941,9 @@ export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/ssl/recommendation",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ssl/recommendation", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRecommendationRequest",
-}) as any as S.Schema<GetRecommendationRequest>;
+).annotate({ identifier: "GetRecommendationRequest" }) as any as S.Schema<GetRecommendationRequest>;
 
 export type GetRecommendationResponseValue = "auto" | "custom";
 export const GetRecommendationResponseValue = S.String;
@@ -1018,13 +980,7 @@ export const GetUniversalSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/ssl/universal/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ssl/universal/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetUniversalSettingRequest",
@@ -1054,17 +1010,9 @@ export const GetVerificationRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     retry: S.optional(S.Boolean.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/ssl/verification",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ssl/verification", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVerificationRequest",
-}) as any as S.Schema<GetVerificationRequest>;
+).annotate({ identifier: "GetVerificationRequest" }) as any as S.Schema<GetVerificationRequest>;
 
 export type VerificationGetResultItemCertificateStatus =
   | "initializing"
@@ -1170,9 +1118,7 @@ export const VerificationGetResultList = /*@__PURE__*/ S.Array(
 export type GetVerificationResponse = VerificationGetResultList;
 export const GetVerificationResponse = /*@__PURE__*/ S.suspend(() =>
   VerificationGetResultList.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetVerificationResponse",
-}) as any as S.Schema<GetVerificationResponse>;
+).annotate({ identifier: "GetVerificationResponse" }) as any as S.Schema<GetVerificationResponse>;
 
 export type CertificatePacksListRequestDeploy = "staging" | "production";
 export const CertificatePacksListRequestDeploy = S.String;
@@ -1200,13 +1146,7 @@ export const ListCertificatePacksRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     status: S.optional(CertificatePacksListRequestStatus.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/ssl/certificate_packs",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/ssl/certificate_packs", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListCertificatePacksRequest",
@@ -1445,7 +1385,7 @@ export type CertificatePacksListResultItemValidityDays = 14 | 30 | 90 | 365;
 export const CertificatePacksListResultItemValidityDays = S.Number;
 
 export interface CertificatePacksListResultItem {
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   id: string;
   /** Array of certificates in this pack. */
   certificates: CertificatePacksListResultItemCertificatesList;
@@ -1546,11 +1486,7 @@ export const PatchAutomaticUpgraderRequest = /*@__PURE__*/ S.suspend(() =>
     value: PatchAutomaticUpgraderRequestValue,
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/ssl_automatic_mode",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/ssl_automatic_mode", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1595,11 +1531,7 @@ export const PatchAutoOriginTlsKexRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/settings/auto_origin_tls_kex",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/auto_origin_tls_kex", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -1627,7 +1559,7 @@ export const PatchAutoOriginTlsKexResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchCertificatePackRequest {
   /** Identifier. */
   zoneId: string;
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   certificatePackId: string;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
   cloudflareBranding?: boolean;
@@ -1881,7 +1813,7 @@ export const CertificatePacksEditResponseValidityDays = S.Number;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCertificatePackResponse {
-  /** Identifier. */
+  /** The unique identifier for a certificate_pack. */
   id: string;
   /** Array of certificates in this pack. */
   certificates: CertificatePacksEditResponseCertificatesList;
@@ -1957,13 +1889,7 @@ export const PatchUniversalSettingRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     enabled: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/ssl/universal/settings",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/ssl/universal/settings", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PatchUniversalSettingRequest",
@@ -2007,9 +1933,7 @@ export const PatchVerificationRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchVerificationRequest",
-}) as any as S.Schema<PatchVerificationRequest>;
+).annotate({ identifier: "PatchVerificationRequest" }) as any as S.Schema<PatchVerificationRequest>;
 
 export type VerificationEditResponseValidationMethod = "http" | "cname" | "txt" | "email";
 export const VerificationEditResponseValidationMethod = S.String;

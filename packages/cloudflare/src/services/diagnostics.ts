@@ -171,16 +171,10 @@ export const CreateTracerouteRequest = /*@__PURE__*/ S.suspend(() =>
     options: S.optional(TraceroutesCreateRequestOptions),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/diagnostics/traceroute",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/diagnostics/traceroute", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTracerouteRequest",
-}) as any as S.Schema<CreateTracerouteRequest>;
+).annotate({ identifier: "CreateTracerouteRequest" }) as any as S.Schema<CreateTracerouteRequest>;
 
 export interface TraceroutesCreateResultItemColosItemColo {
   /** Source colo city. */
@@ -337,9 +331,7 @@ export const CreateTracerouteResponse = /*@__PURE__*/ S.suspend(() =>
     result: TraceroutesCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateTracerouteResponse",
-}) as any as S.Schema<CreateTracerouteResponse>;
+).annotate({ identifier: "CreateTracerouteResponse" }) as any as S.Schema<CreateTracerouteResponse>;
 
 export interface DeleteEndpointHealthcheckRequest {
   /** Identifier */

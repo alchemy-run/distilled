@@ -29,9 +29,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-10-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -59,9 +57,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** The tags of the resource. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -134,9 +130,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
     studioEndpoint: S.optional(S.String),
     keyVaultIdentifierId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 export interface GetWorkspaceResponse {
   /** The resource ID. */
@@ -164,9 +158,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     properties: S.optional(WorkspaceProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -178,9 +170,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display name of operation */
 export interface OperationDisplay {
@@ -200,9 +190,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Azure Machine Learning Studio REST API operation */
 export interface Operation {
@@ -233,9 +221,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(OperationListResultValueList),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListWorkspaceByResourceGroupRequest {
   /** The Microsoft Azure subscription ID. */
@@ -313,9 +299,7 @@ export const WorkspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkspaceListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceListResult",
-}) as any as S.Schema<WorkspaceListResult>;
+).annotate({ identifier: "WorkspaceListResult" }) as any as S.Schema<WorkspaceListResult>;
 
 export interface ListWorkspacesRequest {
   /** The Microsoft Azure subscription ID. */
@@ -332,9 +316,7 @@ export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkspacesRequest",
-}) as any as S.Schema<ListWorkspacesRequest>;
+).annotate({ identifier: "ListWorkspacesRequest" }) as any as S.Schema<ListWorkspacesRequest>;
 
 export interface ListWorkspaceWorkspaceKeysRequest {
   /** The Microsoft Azure subscription ID. */
@@ -373,14 +355,10 @@ export const WorkspaceKeysResponse = /*@__PURE__*/ S.suspend(() =>
     primaryToken: S.optional(S.String),
     secondaryToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceKeysResponse",
-}) as any as S.Schema<WorkspaceKeysResponse>;
+).annotate({ identifier: "WorkspaceKeysResponse" }) as any as S.Schema<WorkspaceKeysResponse>;
 
 /** The resource tags for the machine learning workspace. */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -443,14 +421,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-10-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** The tags of the resource. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -482,14 +456,10 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     properties: S.optional(WorkspaceProperties),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 /** The tags of the resource. */
-export type WorkspacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -510,9 +480,7 @@ export const WorkspacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ownerEmail: S.String,
     keyVaultIdentifierId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspacePropertiesInput",
-}) as any as S.Schema<WorkspacePropertiesInput>;
+).annotate({ identifier: "WorkspacePropertiesInput" }) as any as S.Schema<WorkspacePropertiesInput>;
 
 export interface WorkspacesCreateOrUpdateRequest {
   /** The Microsoft Azure subscription ID. */
@@ -552,9 +520,7 @@ export const WorkspacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacesCreateOrUpdateRequest>;
 
 /** The tags of the resource. */
-export type WorkspacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

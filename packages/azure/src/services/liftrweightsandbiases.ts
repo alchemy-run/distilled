@@ -29,9 +29,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-18",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -59,9 +57,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-18",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -136,9 +132,7 @@ export const LiftrBaseOfferDetails = /*@__PURE__*/ S.suspend(() =>
     termUnit: S.optional(S.String),
     termId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LiftrBaseOfferDetails",
-}) as any as S.Schema<LiftrBaseOfferDetails>;
+).annotate({ identifier: "LiftrBaseOfferDetails" }) as any as S.Schema<LiftrBaseOfferDetails>;
 
 /** Marketplace details for an organization */
 export interface LiftrBaseMarketplaceDetails {
@@ -180,9 +174,7 @@ export const LiftrBaseUserDetails = /*@__PURE__*/ S.suspend(() =>
     upn: S.optional(S.String),
     phoneNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LiftrBaseUserDetails",
-}) as any as S.Schema<LiftrBaseUserDetails>;
+).annotate({ identifier: "LiftrBaseUserDetails" }) as any as S.Schema<LiftrBaseUserDetails>;
 
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -210,9 +202,7 @@ export const PartnerProperties = /*@__PURE__*/ S.suspend(() =>
     region: Region,
     subdomain: S.String,
   }),
-).annotate({
-  identifier: "PartnerProperties",
-}) as any as S.Schema<PartnerProperties>;
+).annotate({ identifier: "PartnerProperties" }) as any as S.Schema<PartnerProperties>;
 
 /** Defines the type of Single Sign-On (SSO) mechanism being used */
 export type LiftrBaseSingleSignOnType = "Saml" | "OpenId";
@@ -274,9 +264,7 @@ export const InstanceProperties = /*@__PURE__*/ S.suspend(() =>
     partnerProperties: PartnerProperties,
     singleSignOnProperties: S.optional(LiftrBaseSingleSignOnPropertiesV2),
   }),
-).annotate({
-  identifier: "InstanceProperties",
-}) as any as S.Schema<InstanceProperties>;
+).annotate({ identifier: "InstanceProperties" }) as any as S.Schema<InstanceProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -298,14 +286,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -360,14 +344,10 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 /** Resource tags. */
-export type InstancesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InstancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const InstancesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -391,9 +371,7 @@ export const InstancePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     partnerProperties: PartnerProperties,
     singleSignOnProperties: S.optional(LiftrBaseSingleSignOnPropertiesV2),
   }),
-).annotate({
-  identifier: "InstancePropertiesInput",
-}) as any as S.Schema<InstancePropertiesInput>;
+).annotate({ identifier: "InstancePropertiesInput" }) as any as S.Schema<InstancePropertiesInput>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -462,9 +440,7 @@ export const InstancesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InstancesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type InstancesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InstancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const InstancesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -570,9 +546,7 @@ export const InstanceResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "InstanceResource",
-}) as any as S.Schema<InstanceResource>;
+).annotate({ identifier: "InstanceResource" }) as any as S.Schema<InstanceResource>;
 
 /** The InstanceResource items on this page */
 export type InstanceResourceListResultValueList = Array<InstanceResource>;
@@ -625,9 +599,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-18",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -647,9 +619,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -699,14 +669,10 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Resource tags. */
-export type UpdateInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -781,14 +747,10 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-18",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -827,9 +789,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(InstanceProperties),
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateInstanceResponse",
-}) as any as S.Schema<UpdateInstanceResponse>;
+).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type DeleteInstanceError = AzureOpError;
 /** Delete a InstanceResource */

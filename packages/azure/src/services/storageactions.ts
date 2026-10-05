@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type CreateStorageTaskRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateStorageTaskRequestTagsMap = { [key: string]: string | undefined };
 export const CreateStorageTaskRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -29,9 +27,7 @@ export type StorageTaskOperationName =
 export const StorageTaskOperationName = S.String;
 
 /** Key-value parameters for the operation. */
-export type StorageTaskOperationParametersMap = {
-  [key: string]: string | undefined;
-};
+export type StorageTaskOperationParametersMap = { [key: string]: string | undefined };
 export const StorageTaskOperationParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -63,9 +59,7 @@ export const StorageTaskOperation = /*@__PURE__*/ S.suspend(() =>
     onSuccess: S.optional(OnSuccess),
     onFailure: S.optional(OnFailure),
   }),
-).annotate({
-  identifier: "StorageTaskOperation",
-}) as any as S.Schema<StorageTaskOperation>;
+).annotate({ identifier: "StorageTaskOperation" }) as any as S.Schema<StorageTaskOperation>;
 
 /** List of operations to execute when the condition predicate satisfies. */
 export type IfConditionOperationsList = Array<StorageTaskOperation>;
@@ -116,9 +110,7 @@ export const StorageTaskAction = /*@__PURE__*/ S.suspend(() =>
     if: IfCondition,
     else: S.optional(ElseCondition),
   }),
-).annotate({
-  identifier: "StorageTaskAction",
-}) as any as S.Schema<StorageTaskAction>;
+).annotate({ identifier: "StorageTaskAction" }) as any as S.Schema<StorageTaskAction>;
 
 /** Properties of the storage task. */
 export interface StorageTaskPropertiesInput {
@@ -206,12 +198,10 @@ export const CreateStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
-).annotate({
-  identifier: "CreateStorageTaskRequest",
-}) as any as S.Schema<CreateStorageTaskRequest>;
+).annotate({ identifier: "CreateStorageTaskRequest" }) as any as S.Schema<CreateStorageTaskRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -248,9 +238,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateStorageTaskResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateStorageTaskResponseTagsMap = { [key: string]: string | undefined };
 export const CreateStorageTaskResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -292,9 +280,7 @@ export const StorageTaskProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     creationTimeInUtc: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageTaskProperties",
-}) as any as S.Schema<StorageTaskProperties>;
+).annotate({ identifier: "StorageTaskProperties" }) as any as S.Schema<StorageTaskProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -308,14 +294,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -392,12 +374,10 @@ export const DeleteStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteStorageTaskRequest",
-}) as any as S.Schema<DeleteStorageTaskRequest>;
+).annotate({ identifier: "DeleteStorageTaskRequest" }) as any as S.Schema<DeleteStorageTaskRequest>;
 
 export interface DeleteStorageTaskResponse {}
 export const DeleteStorageTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -422,17 +402,13 @@ export const GetStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetStorageTaskRequest",
-}) as any as S.Schema<GetStorageTaskRequest>;
+).annotate({ identifier: "GetStorageTaskRequest" }) as any as S.Schema<GetStorageTaskRequest>;
 
 /** Resource tags. */
-export type GetStorageTaskResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageTaskResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageTaskResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -471,9 +447,7 @@ export const GetStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
     properties: StorageTaskProperties,
     identity: CreateStorageTaskResponseIdentity,
   }),
-).annotate({
-  identifier: "GetStorageTaskResponse",
-}) as any as S.Schema<GetStorageTaskResponse>;
+).annotate({ identifier: "GetStorageTaskResponse" }) as any as S.Schema<GetStorageTaskResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -482,12 +456,10 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.StorageActions/operations",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -507,9 +479,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -559,9 +529,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListStorageTaskAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -584,7 +552,7 @@ export const ListStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/storageTaskAssignments",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -600,9 +568,7 @@ export const StorageTaskAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageTaskAssignment",
-}) as any as S.Schema<StorageTaskAssignment>;
+).annotate({ identifier: "StorageTaskAssignment" }) as any as S.Schema<StorageTaskAssignment>;
 
 /** List of Storage Task Assignment Resource IDs associated with this Storage Task. */
 export type StorageTaskAssignmentsListResultValueList = Array<StorageTaskAssignment>;
@@ -641,7 +607,7 @@ export const ListStorageTaskByResourceGroupRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -709,9 +675,7 @@ export const StorageTasksListResult = /*@__PURE__*/ S.suspend(() =>
     value: StorageTasksListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageTasksListResult",
-}) as any as S.Schema<StorageTasksListResult>;
+).annotate({ identifier: "StorageTasksListResult" }) as any as S.Schema<StorageTasksListResult>;
 
 export interface ListStorageTaskBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -725,7 +689,7 @@ export const ListStorageTaskBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/storageTasks",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -756,7 +720,7 @@ export const ListStorageTasksReportRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/reports",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -866,9 +830,7 @@ export const StorageTaskReportSummary = /*@__PURE__*/ S.suspend(() =>
     value: StorageTaskReportSummaryValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageTaskReportSummary",
-}) as any as S.Schema<StorageTaskReportSummary>;
+).annotate({ identifier: "StorageTaskReportSummary" }) as any as S.Schema<StorageTaskReportSummary>;
 
 /** Storage task preview object key value pair properties. */
 export interface StorageTaskPreviewKeyValueProperties {
@@ -1023,7 +985,7 @@ export const PreviewStorageTaskActionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/locations/{location}/previewActions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -1039,9 +1001,7 @@ export const StorageTaskPreviewAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: StorageTaskPreviewActionProperties,
   }),
-).annotate({
-  identifier: "StorageTaskPreviewAction",
-}) as any as S.Schema<StorageTaskPreviewAction>;
+).annotate({ identifier: "StorageTaskPreviewAction" }) as any as S.Schema<StorageTaskPreviewAction>;
 
 export interface StopStorageTaskAllAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1061,7 +1021,7 @@ export const StopStorageTaskAllAssignmentsRequest = /*@__PURE__*/ S.suspend(() =
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/stopAllAssignments",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -1080,9 +1040,7 @@ export type UpdateStorageTaskRequestIdentity = CreateStorageTaskRequestIdentity;
 export const UpdateStorageTaskRequestIdentity = CreateStorageTaskRequestIdentity;
 
 /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. */
-export type UpdateStorageTaskRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageTaskRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageTaskRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1134,17 +1092,13 @@ export const UpdateStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateStorageTaskRequest",
-}) as any as S.Schema<UpdateStorageTaskRequest>;
+).annotate({ identifier: "UpdateStorageTaskRequest" }) as any as S.Schema<UpdateStorageTaskRequest>;
 
 /** Resource tags. */
-export type UpdateStorageTaskResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageTaskResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageTaskResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

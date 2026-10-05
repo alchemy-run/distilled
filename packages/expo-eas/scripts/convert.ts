@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the EAS GraphQL introspection schema into a Smithy 2.0 JSON
  * model.
@@ -30,7 +30,7 @@ import {
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const ROOT = path.resolve(import.meta.dir, "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const SCHEMA_PATH = resolveSpecPath(ROOT, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 const OUT_FILE = path.join(OUT_DIR, "eas.json");

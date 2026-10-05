@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Azure ARM Swagger 2.0 specs into Smithy 2.0 JSON models,
  * one merged model per Azure service.
@@ -45,7 +45,7 @@ import {
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(rootDir, "specs/spec-mirror-azure/specs/specification");
 const outDir = path.join(rootDir, ".generated-specs");
 
@@ -352,7 +352,7 @@ function discoverSpecs(): SpecFile[] {
   const specs: SpecFile[] = [];
 
   if (!fs.existsSync(specsRoot)) {
-    console.error("Azure specs not found. Run `bun run specs:fetch` first.");
+    console.error("Azure specs not found. Run `pnpm run specs:fetch` first.");
     process.exit(1);
   }
 
@@ -698,7 +698,7 @@ async function main() {
 
   if (specs.length === 0) {
     console.error("No specs found. Ensure the submodule is fetched:");
-    console.error("  bun run specs:fetch");
+    console.error("  pnpm run specs:fetch");
     process.exit(1);
   }
 

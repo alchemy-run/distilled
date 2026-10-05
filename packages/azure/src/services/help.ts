@@ -24,7 +24,7 @@ export const CheckDiagnosticNameAvailabilityRequest = /*@__PURE__*/ S.suspend(()
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Help/checkNameAvailability",
+      uri: "/{scope+}/providers/Microsoft.Help/checkNameAvailability",
       code: 200,
       apiVersion: "2023-06-01",
     }),
@@ -62,9 +62,7 @@ export const DiagnosticResourcePropertiesInputGlobalParametersMap = /*@__PURE__*
 ) as any as S.Schema<DiagnosticResourcePropertiesInputGlobalParametersMap>;
 
 /** Additional parameters required to invoke the solutionId. */
-export type DiagnosticInvocationAdditionalParametersMap = {
-  [key: string]: string | undefined;
-};
+export type DiagnosticInvocationAdditionalParametersMap = { [key: string]: string | undefined };
 export const DiagnosticInvocationAdditionalParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -82,9 +80,7 @@ export const DiagnosticInvocation = /*@__PURE__*/ S.suspend(() =>
     solutionId: S.optional(S.String),
     additionalParameters: S.optional(DiagnosticInvocationAdditionalParametersMap),
   }),
-).annotate({
-  identifier: "DiagnosticInvocation",
-}) as any as S.Schema<DiagnosticInvocation>;
+).annotate({ identifier: "DiagnosticInvocation" }) as any as S.Schema<DiagnosticInvocation>;
 
 /** SolutionIds that are needed to be invoked. */
 export type DiagnosticResourcePropertiesInputInsightsList = Array<DiagnosticInvocation>;
@@ -124,14 +120,12 @@ export const CreateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+      uri: "/{scope+}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
       code: 200,
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateDiagnosticRequest",
-}) as any as S.Schema<CreateDiagnosticRequest>;
+).annotate({ identifier: "CreateDiagnosticRequest" }) as any as S.Schema<CreateDiagnosticRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -168,9 +162,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Global parameters that can be passed to all solutionIds. */
-export type DiagnosticResourcePropertiesGlobalParametersMap = {
-  [key: string]: string | undefined;
-};
+export type DiagnosticResourcePropertiesGlobalParametersMap = { [key: string]: string | undefined };
 export const DiagnosticResourcePropertiesGlobalParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -319,9 +311,7 @@ export const CreateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DiagnosticResourceProperties),
   }),
-).annotate({
-  identifier: "CreateDiagnosticResponse",
-}) as any as S.Schema<CreateDiagnosticResponse>;
+).annotate({ identifier: "CreateDiagnosticResponse" }) as any as S.Schema<CreateDiagnosticResponse>;
 
 export interface GetDiagnosticRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
@@ -336,14 +326,12 @@ export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+      uri: "/{scope+}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
       code: 200,
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetDiagnosticRequest",
-}) as any as S.Schema<GetDiagnosticRequest>;
+).annotate({ identifier: "GetDiagnosticRequest" }) as any as S.Schema<GetDiagnosticRequest>;
 
 export interface GetDiagnosticResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -365,9 +353,7 @@ export const GetDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DiagnosticResourceProperties),
   }),
-).annotate({
-  identifier: "GetDiagnosticResponse",
-}) as any as S.Schema<GetDiagnosticResponse>;
+).annotate({ identifier: "GetDiagnosticResponse" }) as any as S.Schema<GetDiagnosticResponse>;
 
 export interface ListDiscoverySolutionRequest {
   /** This is an extension resource provider and only resource level extension is supported at the moment. */
@@ -385,7 +371,7 @@ export const ListDiscoverySolutionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Help/discoverySolutions",
+      uri: "/{scope+}/providers/Microsoft.Help/discoverySolutions",
       code: 200,
       apiVersion: "2023-06-01",
     }),
@@ -449,9 +435,7 @@ export const SolutionMetadataResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SolutionMetadataProperties),
   }),
-).annotate({
-  identifier: "SolutionMetadataResource",
-}) as any as S.Schema<SolutionMetadataResource>;
+).annotate({ identifier: "SolutionMetadataResource" }) as any as S.Schema<SolutionMetadataResource>;
 
 /** The list of solution metadata. */
 export type DiscoveryResponseValueList = Array<SolutionMetadataResource>;
@@ -471,9 +455,7 @@ export const DiscoveryResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DiscoveryResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiscoveryResponse",
-}) as any as S.Schema<DiscoveryResponse>;
+).annotate({ identifier: "DiscoveryResponse" }) as any as S.Schema<DiscoveryResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -485,9 +467,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -507,9 +487,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -559,9 +537,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export type CheckDiagnosticNameAvailabilityError = AzureOpError;
 /** This API is used to check the uniqueness of a resource name used for a diagnostic check. */

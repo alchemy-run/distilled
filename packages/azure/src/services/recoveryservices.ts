@@ -71,9 +71,7 @@ export const RawCertificateData = /*@__PURE__*/ S.suspend(() =>
     authType: S.optional(AuthType),
     certificate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RawCertificateData",
-}) as any as S.Schema<RawCertificateData>;
+).annotate({ identifier: "RawCertificateData" }) as any as S.Schema<RawCertificateData>;
 
 export interface CreateVaultCertificateRequest {
   /** The ID of the target subscription. */
@@ -161,9 +159,7 @@ export const VaultCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     properties: S.optional(ResourceCertificateDetails),
   }),
-).annotate({
-  identifier: "VaultCertificateResponse",
-}) as any as S.Schema<VaultCertificateResponse>;
+).annotate({ identifier: "VaultCertificateResponse" }) as any as S.Schema<VaultCertificateResponse>;
 
 export interface DeleteRegisteredIdentityRequest {
   /** The ID of the target subscription. */
@@ -221,9 +217,7 @@ export const DeleteVaultRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVaultRequest",
-}) as any as S.Schema<DeleteVaultRequest>;
+).annotate({ identifier: "DeleteVaultRequest" }) as any as S.Schema<DeleteVaultRequest>;
 
 export interface DeleteVaultResponse {}
 export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -251,9 +245,7 @@ export const GetDeletedVaultRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeletedVaultRequest",
-}) as any as S.Schema<GetDeletedVaultRequest>;
+).annotate({ identifier: "GetDeletedVaultRequest" }) as any as S.Schema<GetDeletedVaultRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -304,9 +296,7 @@ export const DeletedVaultProperties = /*@__PURE__*/ S.suspend(() =>
     vaultDeletionTime: S.optional(S.String),
     purgeAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeletedVaultProperties",
-}) as any as S.Schema<DeletedVaultProperties>;
+).annotate({ identifier: "DeletedVaultProperties" }) as any as S.Schema<DeletedVaultProperties>;
 
 export interface GetDeletedVaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -328,9 +318,7 @@ export const GetDeletedVaultResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DeletedVaultProperties),
   }),
-).annotate({
-  identifier: "GetDeletedVaultResponse",
-}) as any as S.Schema<GetDeletedVaultResponse>;
+).annotate({ identifier: "GetDeletedVaultResponse" }) as any as S.Schema<GetDeletedVaultResponse>;
 
 export interface GetDeletedVaultOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -371,9 +359,7 @@ export const ErrorAdditionalInfoItem = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfoItem",
-}) as any as S.Schema<ErrorAdditionalInfoItem>;
+).annotate({ identifier: "ErrorAdditionalInfoItem" }) as any as S.Schema<ErrorAdditionalInfoItem>;
 
 /** The error additional info. */
 export type ErrorAdditionalInfoList = Array<ErrorAdditionalInfoItem>;
@@ -434,9 +420,7 @@ export const OperationResource = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     startTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResource",
-}) as any as S.Schema<OperationResource>;
+).annotate({ identifier: "OperationResource" }) as any as S.Schema<OperationResource>;
 
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -467,9 +451,7 @@ export const GetOperationResultRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOperationResultRequest>;
 
 /** Resource tags. */
-export type GetOperationResultResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetOperationResultResponseTagsMap = { [key: string]: string | undefined };
 export const GetOperationResultResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -531,9 +513,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Gets or sets the status. */
 export type PrivateEndpointConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -635,9 +615,7 @@ export const CmkKeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CmkKeyVaultProperties",
-}) as any as S.Schema<CmkKeyVaultProperties>;
+).annotate({ identifier: "CmkKeyVaultProperties" }) as any as S.Schema<CmkKeyVaultProperties>;
 
 /** The details of the identity used for CMK */
 export interface CmkKekIdentity {
@@ -752,9 +730,7 @@ export const ClassicAlertSettings = /*@__PURE__*/ S.suspend(() =>
     alertsForCriticalOperations: S.optional(AlertsState),
     emailNotificationsForSiteRecovery: S.optional(AlertsState),
   }),
-).annotate({
-  identifier: "ClassicAlertSettings",
-}) as any as S.Schema<ClassicAlertSettings>;
+).annotate({ identifier: "ClassicAlertSettings" }) as any as S.Schema<ClassicAlertSettings>;
 
 /** Monitoring Settings of the vault */
 export interface MonitoringSettings {
@@ -768,9 +744,7 @@ export const MonitoringSettings = /*@__PURE__*/ S.suspend(() =>
     azureMonitorAlertSettings: S.optional(AzureMonitorAlertSettings),
     classicAlertSettings: S.optional(ClassicAlertSettings),
   }),
-).annotate({
-  identifier: "MonitoringSettings",
-}) as any as S.Schema<MonitoringSettings>;
+).annotate({ identifier: "MonitoringSettings" }) as any as S.Schema<MonitoringSettings>;
 
 export type GranularityLevel = "VaultLevel" | "ProtectedItemLevel" | "ProtectedItemWithParentTag";
 export const GranularityLevel = S.String;
@@ -784,9 +758,7 @@ export const CostManagementSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     granularityLevel: S.optional(GranularityLevel),
   }),
-).annotate({
-  identifier: "CostManagementSettings",
-}) as any as S.Schema<CostManagementSettings>;
+).annotate({ identifier: "CostManagementSettings" }) as any as S.Schema<CostManagementSettings>;
 
 export type CrossSubscriptionRestoreState = "Enabled" | "Disabled" | "PermanentlyDisabled";
 export const CrossSubscriptionRestoreState = S.String;
@@ -812,9 +784,7 @@ export const RestoreSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     crossSubscriptionRestoreSettings: S.optional(CrossSubscriptionRestoreSettings),
   }),
-).annotate({
-  identifier: "RestoreSettings",
-}) as any as S.Schema<RestoreSettings>;
+).annotate({ identifier: "RestoreSettings" }) as any as S.Schema<RestoreSettings>;
 
 /** The storage redundancy setting of a vault */
 export type StandardTierStorageRedundancy =
@@ -878,9 +848,7 @@ export const ImmutabilitySettings = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ImmutabilityState),
     configuration: S.optional(ImmutabilityConfiguration),
   }),
-).annotate({
-  identifier: "ImmutabilitySettings",
-}) as any as S.Schema<ImmutabilitySettings>;
+).annotate({ identifier: "ImmutabilitySettings" }) as any as S.Schema<ImmutabilitySettings>;
 
 export type SoftDeleteState = "Invalid" | "Enabled" | "Disabled" | "AlwaysON";
 export const SoftDeleteState = S.String;
@@ -901,9 +869,7 @@ export const SoftDeleteSettings = /*@__PURE__*/ S.suspend(() =>
     softDeleteRetentionPeriodInDays: S.optional(S.Number),
     enhancedSecurityState: S.optional(EnhancedSecurityState),
   }),
-).annotate({
-  identifier: "SoftDeleteSettings",
-}) as any as S.Schema<SoftDeleteSettings>;
+).annotate({ identifier: "SoftDeleteSettings" }) as any as S.Schema<SoftDeleteSettings>;
 
 /** MUA Settings of vault */
 export type MultiUserAuthorization = "Invalid" | "Enabled" | "Disabled";
@@ -928,9 +894,7 @@ export const AssociatedIdentity = /*@__PURE__*/ S.suspend(() =>
     operationIdentityType: S.optional(IdentityType),
     userAssignedIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedIdentity",
-}) as any as S.Schema<AssociatedIdentity>;
+).annotate({ identifier: "AssociatedIdentity" }) as any as S.Schema<AssociatedIdentity>;
 
 /** Source scan configuration of vault */
 export interface SourceScanConfiguration {
@@ -943,9 +907,7 @@ export const SourceScanConfiguration = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(State),
     sourceScanIdentity: S.optional(AssociatedIdentity),
   }),
-).annotate({
-  identifier: "SourceScanConfiguration",
-}) as any as S.Schema<SourceScanConfiguration>;
+).annotate({ identifier: "SourceScanConfiguration" }) as any as S.Schema<SourceScanConfiguration>;
 
 /** Security Settings of the vault */
 export interface SecuritySettings {
@@ -965,9 +927,7 @@ export const SecuritySettings = /*@__PURE__*/ S.suspend(() =>
     multiUserAuthorization: S.optional(MultiUserAuthorization),
     sourceScanConfiguration: S.optional(SourceScanConfiguration),
   }),
-).annotate({
-  identifier: "SecuritySettings",
-}) as any as S.Schema<SecuritySettings>;
+).annotate({ identifier: "SecuritySettings" }) as any as S.Schema<SecuritySettings>;
 
 /** Secure Score of Recovery Services Vault */
 export type SecureScoreLevel = "None" | "Minimum" | "Adequate" | "Maximum";
@@ -992,9 +952,7 @@ export const RegionOfChoiceSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(State),
   }),
-).annotate({
-  identifier: "RegionOfChoiceSettings",
-}) as any as S.Schema<RegionOfChoiceSettings>;
+).annotate({ identifier: "RegionOfChoiceSettings" }) as any as S.Schema<RegionOfChoiceSettings>;
 
 /** Properties of the vault. */
 export interface VaultProperties {
@@ -1059,9 +1017,7 @@ export const VaultProperties = /*@__PURE__*/ S.suspend(() =>
     resourceGuardOperationRequests: S.optional(VaultPropertiesResourceGuardOperationRequestsList),
     regionOfChoiceSettings: S.optional(RegionOfChoiceSettings),
   }),
-).annotate({
-  identifier: "VaultProperties",
-}) as any as S.Schema<VaultProperties>;
+).annotate({ identifier: "VaultProperties" }) as any as S.Schema<VaultProperties>;
 
 /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
 export type ResourceIdentityType =
@@ -1086,9 +1042,7 @@ export const UserIdentity = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
 
 /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-export type IdentityDataUserAssignedIdentitiesMap = {
-  [key: string]: UserIdentity | undefined;
-};
+export type IdentityDataUserAssignedIdentitiesMap = { [key: string]: UserIdentity | undefined };
 export const IdentityDataUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserIdentity,
@@ -1310,9 +1264,7 @@ export const GetVaultRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetVaultRequest",
-}) as any as S.Schema<GetVaultRequest>;
+).annotate({ identifier: "GetVaultRequest" }) as any as S.Schema<GetVaultRequest>;
 
 /** Resource tags. */
 export type GetVaultResponseTagsMap = { [key: string]: string | undefined };
@@ -1356,9 +1308,7 @@ export const GetVaultResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetVaultResponse",
-}) as any as S.Schema<GetVaultResponse>;
+).annotate({ identifier: "GetVaultResponse" }) as any as S.Schema<GetVaultResponse>;
 
 export interface GetVaultExtendedInfoRequest {
   /** The ID of the target subscription. */
@@ -1403,9 +1353,7 @@ export const VaultExtendedInfo = /*@__PURE__*/ S.suspend(() =>
     encryptionKeyThumbprint: S.optional(S.String),
     algorithm: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VaultExtendedInfo",
-}) as any as S.Schema<VaultExtendedInfo>;
+).annotate({ identifier: "VaultExtendedInfo" }) as any as S.Schema<VaultExtendedInfo>;
 
 export interface GetVaultExtendedInfoResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1497,9 +1445,7 @@ export const DeletedVaultList = /*@__PURE__*/ S.suspend(() =>
     value: DeletedVaultListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeletedVaultList",
-}) as any as S.Schema<DeletedVaultList>;
+).annotate({ identifier: "DeletedVaultList" }) as any as S.Schema<DeletedVaultList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1511,9 +1457,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
@@ -1533,9 +1477,7 @@ export const ClientDiscoveryDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientDiscoveryDisplay",
-}) as any as S.Schema<ClientDiscoveryDisplay>;
+).annotate({ identifier: "ClientDiscoveryDisplay" }) as any as S.Schema<ClientDiscoveryDisplay>;
 
 /** Class to represent shoebox log specification in json client discovery. */
 export interface ClientDiscoveryForLogSpecification {
@@ -1629,9 +1571,7 @@ export const ClientDiscoveryResponse = /*@__PURE__*/ S.suspend(() =>
     value: ClientDiscoveryResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientDiscoveryResponse",
-}) as any as S.Schema<ClientDiscoveryResponse>;
+).annotate({ identifier: "ClientDiscoveryResponse" }) as any as S.Schema<ClientDiscoveryResponse>;
 
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -1679,9 +1619,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourcesValueList = Array<PrivateLinkResource>;
@@ -1701,9 +1639,7 @@ export const PrivateLinkResources = /*@__PURE__*/ S.suspend(() =>
     value: PrivateLinkResourcesValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResources",
-}) as any as S.Schema<PrivateLinkResources>;
+).annotate({ identifier: "PrivateLinkResources" }) as any as S.Schema<PrivateLinkResources>;
 
 export interface ListReplicationUsagesRequest {
   /** The ID of the target subscription. */
@@ -1754,9 +1690,7 @@ export const MonitoringSummary = /*@__PURE__*/ S.suspend(() =>
     supportedProviderCount: S.optional(S.Number),
     unsupportedProviderCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MonitoringSummary",
-}) as any as S.Schema<MonitoringSummary>;
+).annotate({ identifier: "MonitoringSummary" }) as any as S.Schema<MonitoringSummary>;
 
 /** Summary of the replication job data for this vault. */
 export interface JobsSummary {
@@ -1799,9 +1733,7 @@ export const ReplicationUsage = /*@__PURE__*/ S.suspend(() =>
     registeredServersCount: S.optional(S.Number),
     recoveryServicesProviderAuthType: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReplicationUsage",
-}) as any as S.Schema<ReplicationUsage>;
+).annotate({ identifier: "ReplicationUsage" }) as any as S.Schema<ReplicationUsage>;
 
 /** The list of replication usages for the given vault. */
 export type ReplicationUsageListValueList = Array<ReplicationUsage>;
@@ -1820,9 +1752,7 @@ export const ReplicationUsageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ReplicationUsageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicationUsageList",
-}) as any as S.Schema<ReplicationUsageList>;
+).annotate({ identifier: "ReplicationUsageList" }) as any as S.Schema<ReplicationUsageList>;
 
 export interface ListUsageByVaultsRequest {
   /** The ID of the target subscription. */
@@ -1845,9 +1775,7 @@ export const ListUsageByVaultsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsageByVaultsRequest",
-}) as any as S.Schema<ListUsageByVaultsRequest>;
+).annotate({ identifier: "ListUsageByVaultsRequest" }) as any as S.Schema<ListUsageByVaultsRequest>;
 
 /** Unit of the usage. */
 export type UsagesUnit =
@@ -2048,9 +1976,7 @@ export const CapabilitiesProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dnsZones: S.optional(CapabilitiesPropertiesDnsZonesList),
   }),
-).annotate({
-  identifier: "CapabilitiesProperties",
-}) as any as S.Schema<CapabilitiesProperties>;
+).annotate({ identifier: "CapabilitiesProperties" }) as any as S.Schema<CapabilitiesProperties>;
 
 export interface RecoveryServicesCapabilitiesRequest {
   /** The ID of the target subscription. */
@@ -2098,9 +2024,7 @@ export const DNSZoneResponse = /*@__PURE__*/ S.suspend(() =>
     subResource: S.optional(VaultSubResourceType),
     requiredZoneNames: S.optional(DNSZoneResponseRequiredZoneNamesList),
   }),
-).annotate({
-  identifier: "DNSZoneResponse",
-}) as any as S.Schema<DNSZoneResponse>;
+).annotate({ identifier: "DNSZoneResponse" }) as any as S.Schema<DNSZoneResponse>;
 
 export type CapabilitiesResponsePropertiesDnsZonesList = Array<DNSZoneResponse>;
 export const CapabilitiesResponsePropertiesDnsZonesList = /*@__PURE__*/ S.Array(
@@ -2263,9 +2187,7 @@ export const VaultPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ),
     regionOfChoiceSettings: S.optional(RegionOfChoiceSettings),
   }),
-).annotate({
-  identifier: "VaultPropertiesInput",
-}) as any as S.Schema<VaultPropertiesInput>;
+).annotate({ identifier: "VaultPropertiesInput" }) as any as S.Schema<VaultPropertiesInput>;
 
 /** A resource identity that is managed by the user of the service. */
 export type UserIdentityInput = UpgradeDetailsInput;
@@ -2292,9 +2214,7 @@ export const IdentityDataInput = /*@__PURE__*/ S.suspend(() =>
     type: ResourceIdentityType,
     userAssignedIdentities: S.optional(IdentityDataInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "IdentityDataInput",
-}) as any as S.Schema<IdentityDataInput>;
+).annotate({ identifier: "IdentityDataInput" }) as any as S.Schema<IdentityDataInput>;
 
 export interface UpdateVaultRequest {
   /** The ID of the target subscription. */
@@ -2335,9 +2255,7 @@ export const UpdateVaultRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateVaultRequest",
-}) as any as S.Schema<UpdateVaultRequest>;
+).annotate({ identifier: "UpdateVaultRequest" }) as any as S.Schema<UpdateVaultRequest>;
 
 /** Resource tags. */
 export type UpdateVaultResponseTagsMap = { [key: string]: string | undefined };
@@ -2381,9 +2299,7 @@ export const UpdateVaultResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateVaultResponse",
-}) as any as S.Schema<UpdateVaultResponse>;
+).annotate({ identifier: "UpdateVaultResponse" }) as any as S.Schema<UpdateVaultResponse>;
 
 export interface UpdateVaultExtendedInfoRequest {
   /** The ID of the target subscription. */
@@ -2502,9 +2418,7 @@ export const VaultExtendedInfoCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<VaultExtendedInfoCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type VaultsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VaultsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VaultsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2554,9 +2468,7 @@ export const VaultsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VaultsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VaultsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VaultsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VaultsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

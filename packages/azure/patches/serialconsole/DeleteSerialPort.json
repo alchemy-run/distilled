@@ -1,0 +1,95 @@
+{
+  "description": "The 2024-07-01 spec dropped `SerialPorts_Delete` (present in 2018-05-01), but the Microsoft.SerialConsole RP still serves DELETE on serialPorts. Add the operation so a serial port resource can be removed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.serialconsole#DeleteSerialPortRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "subscriptionId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The ID of the target subscription. The value must be an UUID."
+            }
+          },
+          "resourceGroupName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the resource group."
+            }
+          },
+          "resourceProviderNamespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The resource provider namespace of the parent resource."
+            }
+          },
+          "parentResourceType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The resource type of the parent resource. For example: 'virtualMachines' or 'virtualMachineScaleSets'"
+            }
+          },
+          "parentResource": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the parent resource."
+            }
+          },
+          "serialPort": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the serial port to delete."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.serialconsole#DeleteSerialPort",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.azure.serialconsole#DeleteSerialPortRequest"
+        },
+        "output": {
+          "target": "smithy.api#Unit"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "DELETE",
+            "uri": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourceType}/{parentResource}/providers/Microsoft.SerialConsole/serialPorts/{serialPort}",
+            "code": 200,
+            "apiVersion": "2024-07-01"
+          },
+          "smithy.api#documentation": "Deletes a serial port",
+          "com.distilled.openapi#apiVersion": "2024-07-01"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.serialconsole#Serialconsole/operations/-",
+      "value": {
+        "target": "com.azure.serialconsole#DeleteSerialPort"
+      }
+    }
+  ]
+}

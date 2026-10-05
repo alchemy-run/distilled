@@ -28,13 +28,7 @@ export interface DeleteUrlNormalizationRequest {
 export const DeleteUrlNormalizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/zones/{zone_id}/url_normalization",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/url_normalization", code: 200 })),
 ).annotate({
   identifier: "DeleteUrlNormalizationRequest",
 }) as any as S.Schema<DeleteUrlNormalizationRequest>;
@@ -51,13 +45,7 @@ export interface GetUrlNormalizationRequest {
 export const GetUrlNormalizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/zones/{zone_id}/url_normalization",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/url_normalization", code: 200 })),
 ).annotate({
   identifier: "GetUrlNormalizationRequest",
 }) as any as S.Schema<GetUrlNormalizationRequest>;
@@ -103,13 +91,7 @@ export const PutUrlNormalizationRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     scope: UpdateRequestScope,
     type: UpdateRequestType,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/zones/{zone_id}/url_normalization",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/url_normalization", code: 200 })),
 ).annotate({
   identifier: "PutUrlNormalizationRequest",
 }) as any as S.Schema<PutUrlNormalizationRequest>;

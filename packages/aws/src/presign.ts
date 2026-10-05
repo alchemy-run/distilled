@@ -5,6 +5,7 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
+import { encodeGreedyLabel } from "./util/serialize-input.ts";
 
 /** Errors returned when resolving credentials or signing a URL. */
 export type PresignError = Credentials.CredentialsError | SigV4.SigningError;
@@ -164,7 +165,7 @@ export const presignS3Url: (
     Effect.map(Option.getOrElse(() => Effect.undefined)),
   );
 
-  const encodedKey = options.key.split("/").map(encodeURIComponent).join("/");
+  const encodedKey = encodeGreedyLabel(options.key);
   const url = new URL(
     customEndpoint
       ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`

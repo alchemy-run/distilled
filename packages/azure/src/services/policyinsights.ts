@@ -24,9 +24,7 @@ export const AttestationEvidence = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     sourceUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AttestationEvidence",
-}) as any as S.Schema<AttestationEvidence>;
+).annotate({ identifier: "AttestationEvidence" }) as any as S.Schema<AttestationEvidence>;
 
 /** The evidence supporting the compliance state set in this attestation. */
 export type AttestationPropertiesInputEvidenceList = Array<AttestationEvidence>;
@@ -87,7 +85,7 @@ export const AttestationsCreateOrUpdateAtResourceRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -175,9 +173,7 @@ export const AttestationProperties = /*@__PURE__*/ S.suspend(() =>
     assessmentDate: S.optional(S.String),
     metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "AttestationProperties",
-}) as any as S.Schema<AttestationProperties>;
+).annotate({ identifier: "AttestationProperties" }) as any as S.Schema<AttestationProperties>;
 
 export interface AttestationsCreateOrUpdateAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -364,9 +360,7 @@ export const RemediationFilters = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(RemediationFiltersLocationsList),
     resourceIds: S.optional(RemediationFiltersResourceIdsList),
   }),
-).annotate({
-  identifier: "RemediationFilters",
-}) as any as S.Schema<RemediationFilters>;
+).annotate({ identifier: "RemediationFilters" }) as any as S.Schema<RemediationFilters>;
 
 /** The deployment status summary for all deployments created by the remediation. */
 export interface RemediationDeploymentSummary {
@@ -445,9 +439,7 @@ export const RemediationProperties = /*@__PURE__*/ S.suspend(() =>
     parallelDeployments: S.optional(S.Number),
     failureThreshold: S.optional(RemediationPropertiesFailureThreshold),
   }),
-).annotate({
-  identifier: "RemediationProperties",
-}) as any as S.Schema<RemediationProperties>;
+).annotate({ identifier: "RemediationProperties" }) as any as S.Schema<RemediationProperties>;
 
 export interface CancelRemediationAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -486,7 +478,7 @@ export const CancelRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/cancel",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -725,9 +717,7 @@ export const PolicyReference = /*@__PURE__*/ S.suspend(() =>
     policyDefinitionReferenceId: S.optional(S.String),
     policyAssignmentId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyReference",
-}) as any as S.Schema<PolicyReference>;
+).annotate({ identifier: "PolicyReference" }) as any as S.Schema<PolicyReference>;
 
 /** The restrictions on a field imposed by a specific policy. */
 export interface FieldRestriction {
@@ -753,9 +743,7 @@ export const FieldRestriction = /*@__PURE__*/ S.suspend(() =>
     policyEffect: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FieldRestriction",
-}) as any as S.Schema<FieldRestriction>;
+).annotate({ identifier: "FieldRestriction" }) as any as S.Schema<FieldRestriction>;
 
 /** The restrictions placed on that field by policy. */
 export type FieldRestrictionsRestrictionsList = Array<FieldRestriction>;
@@ -775,9 +763,7 @@ export const FieldRestrictions = /*@__PURE__*/ S.suspend(() =>
     field: S.optional(S.String),
     restrictions: S.optional(FieldRestrictionsRestrictionsList),
   }),
-).annotate({
-  identifier: "FieldRestrictions",
-}) as any as S.Schema<FieldRestrictions>;
+).annotate({ identifier: "FieldRestrictions" }) as any as S.Schema<FieldRestrictions>;
 
 /** The restrictions that will be placed on various fields in the resource by policy. */
 export type CheckRestrictionsResultFieldRestrictionsList = Array<FieldRestrictions>;
@@ -867,9 +853,7 @@ export const PolicyEffectDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyEffect: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyEffectDetails",
-}) as any as S.Schema<PolicyEffectDetails>;
+).annotate({ identifier: "PolicyEffectDetails" }) as any as S.Schema<PolicyEffectDetails>;
 
 /** The result of a non-compliant policy evaluation against the given resource content. */
 export interface PolicyEvaluationResult {
@@ -889,9 +873,7 @@ export const PolicyEvaluationResult = /*@__PURE__*/ S.suspend(() =>
     evaluationDetails: S.optional(CheckRestrictionEvaluationDetails),
     effectDetails: S.optional(PolicyEffectDetails),
   }),
-).annotate({
-  identifier: "PolicyEvaluationResult",
-}) as any as S.Schema<PolicyEvaluationResult>;
+).annotate({ identifier: "PolicyEvaluationResult" }) as any as S.Schema<PolicyEvaluationResult>;
 
 /** Policy evaluation results against the given resource content. This will indicate if the partial content that was provided will be denied as-is. */
 export type CheckRestrictionsResultContentEvaluationResultPolicyEvaluationsList =
@@ -928,9 +910,7 @@ export const CheckRestrictionsResult = /*@__PURE__*/ S.suspend(() =>
     fieldRestrictions: S.optional(CheckRestrictionsResultFieldRestrictionsList),
     contentEvaluationResult: S.optional(CheckRestrictionsResultContentEvaluationResult),
   }),
-).annotate({
-  identifier: "CheckRestrictionsResult",
-}) as any as S.Schema<CheckRestrictionsResult>;
+).annotate({ identifier: "CheckRestrictionsResult" }) as any as S.Schema<CheckRestrictionsResult>;
 
 /** The list of fields and values that should be evaluated for potential restrictions. */
 export type CheckPolicyRestrictionAtResourceGroupScopeRequestPendingFieldsList =
@@ -1019,7 +999,7 @@ export const DeleteAttestationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1165,7 +1145,7 @@ export const DeleteRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1306,7 +1286,7 @@ export const GetAttestationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations/{attestationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1483,9 +1463,7 @@ export const PolicyMetadataProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     requirements: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyMetadataProperties",
-}) as any as S.Schema<PolicyMetadataProperties>;
+).annotate({ identifier: "PolicyMetadataProperties" }) as any as S.Schema<PolicyMetadataProperties>;
 
 export interface GetPolicyMetadataResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1581,7 +1559,7 @@ export const GetRemediationAtResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1725,7 +1703,7 @@ export const ListAttestationForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/attestations",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/attestations",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -1775,9 +1753,7 @@ export const AttestationListResult = /*@__PURE__*/ S.suspend(() =>
     value: AttestationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AttestationListResult",
-}) as any as S.Schema<AttestationListResult>;
+).annotate({ identifier: "AttestationListResult" }) as any as S.Schema<AttestationListResult>;
 
 export interface ListAttestationForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2037,9 +2013,7 @@ export const ComponentPolicyState = /*@__PURE__*/ S.suspend(() =>
     policySetDefinitionVersion: S.optional(S.String),
     policyAssignmentVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComponentPolicyState",
-}) as any as S.Schema<ComponentPolicyState>;
+).annotate({ identifier: "ComponentPolicyState" }) as any as S.Schema<ComponentPolicyState>;
 
 /** Query results. */
 export type ComponentPolicyStatesQueryResultsValueList = Array<ComponentPolicyState>;
@@ -2113,7 +2087,7 @@ export const ListComponentPolicyStateQueryResultsForResourceRequest = /*@__PURE_
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/componentPolicyStates/{componentPolicyStatesResource}/queryResults",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -2386,9 +2360,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -2408,9 +2380,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation definition. */
 export interface Operation {
@@ -2447,9 +2417,7 @@ export const OperationsListResults = /*@__PURE__*/ S.suspend(() =>
     _odata_count: S.optional(S.Number.pipe(T.Body("@odata.count"))),
     value: S.optional(OperationsListResultsValueList),
   }),
-).annotate({
-  identifier: "OperationsListResults",
-}) as any as S.Schema<OperationsListResults>;
+).annotate({ identifier: "OperationsListResults" }) as any as S.Schema<OperationsListResults>;
 
 export type ListPolicyEventQueryResultsForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -2541,9 +2509,7 @@ export const ComponentEventDetails = /*@__PURE__*/ S.suspend(() =>
     principalOid: S.optional(S.String),
     policyDefinitionAction: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComponentEventDetails",
-}) as any as S.Schema<ComponentEventDetails>;
+).annotate({ identifier: "ComponentEventDetails" }) as any as S.Schema<ComponentEventDetails>;
 
 /** Components events records populated only when URL contains $expand=components clause. */
 export type PolicyEventComponentsList = Array<ComponentEventDetails>;
@@ -2676,9 +2642,7 @@ export const PolicyEventsQueryResults = /*@__PURE__*/ S.suspend(() =>
     _odata_nextLink: S.optional(S.String.pipe(T.Body("@odata.nextLink"))),
     value: S.optional(PolicyEventsQueryResultsValueList),
   }),
-).annotate({
-  identifier: "PolicyEventsQueryResults",
-}) as any as S.Schema<PolicyEventsQueryResults>;
+).annotate({ identifier: "PolicyEventsQueryResults" }) as any as S.Schema<PolicyEventsQueryResults>;
 
 export type ListPolicyEventQueryResultsForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -2865,7 +2829,7 @@ export const ListPolicyEventQueryResultsForResourceRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -3195,9 +3159,7 @@ export const SlimPolicyMetadata = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SlimPolicyMetadata",
-}) as any as S.Schema<SlimPolicyMetadata>;
+).annotate({ identifier: "SlimPolicyMetadata" }) as any as S.Schema<SlimPolicyMetadata>;
 
 /** The SlimPolicyMetadata items on this page */
 export type PolicyMetadataCollectionValueList = Array<SlimPolicyMetadata>;
@@ -3217,9 +3179,7 @@ export const PolicyMetadataCollection = /*@__PURE__*/ S.suspend(() =>
     value: PolicyMetadataCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyMetadataCollection",
-}) as any as S.Schema<PolicyMetadataCollection>;
+).annotate({ identifier: "PolicyMetadataCollection" }) as any as S.Schema<PolicyMetadataCollection>;
 
 export type ListPolicyStateQueryResultsForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -3304,9 +3264,7 @@ export const PolicyEvaluationDetails = /*@__PURE__*/ S.suspend(() =>
     evaluatedExpressions: S.optional(PolicyEvaluationDetailsEvaluatedExpressionsList),
     ifNotExistsDetails: S.optional(IfNotExistsEvaluationDetails),
   }),
-).annotate({
-  identifier: "PolicyEvaluationDetails",
-}) as any as S.Schema<PolicyEvaluationDetails>;
+).annotate({ identifier: "PolicyEvaluationDetails" }) as any as S.Schema<PolicyEvaluationDetails>;
 
 /** Policy definition group names. */
 export type PolicyStatePolicyDefinitionGroupNamesList = Array<string>;
@@ -3335,9 +3293,7 @@ export const ComponentStateDetails = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     complianceState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComponentStateDetails",
-}) as any as S.Schema<ComponentStateDetails>;
+).annotate({ identifier: "ComponentStateDetails" }) as any as S.Schema<ComponentStateDetails>;
 
 /** Components state compliance records populated only when URL contains $expand=components clause. */
 export type PolicyStateComponentsList = Array<ComponentStateDetails>;
@@ -3479,9 +3435,7 @@ export const PolicyStatesQueryResults = /*@__PURE__*/ S.suspend(() =>
     _odata_nextLink: S.optional(S.String.pipe(T.Body("@odata.nextLink"))),
     value: S.optional(PolicyStatesQueryResultsValueList),
   }),
-).annotate({
-  identifier: "PolicyStatesQueryResults",
-}) as any as S.Schema<PolicyStatesQueryResults>;
+).annotate({ identifier: "PolicyStatesQueryResults" }) as any as S.Schema<PolicyStatesQueryResults>;
 
 export type ListPolicyStateQueryResultsForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -3673,7 +3627,7 @@ export const ListPolicyStateQueryResultsForResourceRequest = /*@__PURE__*/ S.sus
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesResource}/queryResults",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -4026,9 +3980,7 @@ export const ErrorDefinition = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ErrorDefinitionDetailsList),
     additionalInfo: S.optional(ErrorDefinitionAdditionalInfoList),
   }),
-).annotate({
-  identifier: "ErrorDefinition",
-}) as any as S.Schema<ErrorDefinition>;
+).annotate({ identifier: "ErrorDefinition" }) as any as S.Schema<ErrorDefinition>;
 
 /** Details of a single deployment created by the remediation. */
 export interface RemediationDeployment {
@@ -4057,9 +4009,7 @@ export const RemediationDeployment = /*@__PURE__*/ S.suspend(() =>
     createdOn: S.optional(S.String),
     lastUpdatedOn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RemediationDeployment",
-}) as any as S.Schema<RemediationDeployment>;
+).annotate({ identifier: "RemediationDeployment" }) as any as S.Schema<RemediationDeployment>;
 
 /** The RemediationDeployment items on this page */
 export type RemediationDeploymentsListResultValueList = Array<RemediationDeployment>;
@@ -4099,7 +4049,7 @@ export const ListRemediationDeploymentsAtResourceRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}/listDeployments",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -4237,9 +4187,7 @@ export const RemediationListResult = /*@__PURE__*/ S.suspend(() =>
     value: RemediationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RemediationListResult",
-}) as any as S.Schema<RemediationListResult>;
+).annotate({ identifier: "RemediationListResult" }) as any as S.Schema<RemediationListResult>;
 
 export interface ListRemediationForResourceRequest {
   /** Resource ID. */
@@ -4257,7 +4205,7 @@ export const ListRemediationForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -4381,9 +4329,7 @@ export const ComplianceDetail = /*@__PURE__*/ S.suspend(() =>
     complianceState: S.optional(S.String),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ComplianceDetail",
-}) as any as S.Schema<ComplianceDetail>;
+).annotate({ identifier: "ComplianceDetail" }) as any as S.Schema<ComplianceDetail>;
 
 /** The resources summary at this level. */
 export type SummaryResultsResourceDetailsList = Array<ComplianceDetail>;
@@ -4456,9 +4402,7 @@ export const PolicyDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
     effect: S.optional(S.String),
     results: S.optional(SummaryResults),
   }),
-).annotate({
-  identifier: "PolicyDefinitionSummary",
-}) as any as S.Schema<PolicyDefinitionSummary>;
+).annotate({ identifier: "PolicyDefinitionSummary" }) as any as S.Schema<PolicyDefinitionSummary>;
 
 /** Policy definitions summary. */
 export type PolicyAssignmentSummaryPolicyDefinitionsList = Array<PolicyDefinitionSummary>;
@@ -4478,9 +4422,7 @@ export const PolicyGroupSummary = /*@__PURE__*/ S.suspend(() =>
     policyGroupName: S.optional(S.String),
     results: S.optional(SummaryResults),
   }),
-).annotate({
-  identifier: "PolicyGroupSummary",
-}) as any as S.Schema<PolicyGroupSummary>;
+).annotate({ identifier: "PolicyGroupSummary" }) as any as S.Schema<PolicyGroupSummary>;
 
 /** Policy definition group summary. */
 export type PolicyAssignmentSummaryPolicyGroupsList = Array<PolicyGroupSummary>;
@@ -4509,9 +4451,7 @@ export const PolicyAssignmentSummary = /*@__PURE__*/ S.suspend(() =>
     policyDefinitions: S.optional(PolicyAssignmentSummaryPolicyDefinitionsList),
     policyGroups: S.optional(PolicyAssignmentSummaryPolicyGroupsList),
   }),
-).annotate({
-  identifier: "PolicyAssignmentSummary",
-}) as any as S.Schema<PolicyAssignmentSummary>;
+).annotate({ identifier: "PolicyAssignmentSummary" }) as any as S.Schema<PolicyAssignmentSummary>;
 
 /** Policy assignments summary. */
 export type SummaryPolicyAssignmentsList = Array<PolicyAssignmentSummary>;
@@ -4560,9 +4500,7 @@ export const SummarizeResults = /*@__PURE__*/ S.suspend(() =>
     _odata_count: S.optional(S.Number.pipe(T.Body("@odata.count"))),
     value: S.optional(SummarizeResultsValueList),
   }),
-).annotate({
-  identifier: "SummarizeResults",
-}) as any as S.Schema<SummarizeResults>;
+).annotate({ identifier: "SummarizeResults" }) as any as S.Schema<SummarizeResults>;
 
 export type PolicyStatesSummarizeForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -4703,7 +4641,7 @@ export const PolicyStatesSummarizeForResourceRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/policyStates/{policyStatesSummaryResource}/summarize",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -5026,7 +4964,7 @@ export const RemediationsCreateOrUpdateAtResourceRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceId}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
+      uri: "/{resourceId+}/providers/Microsoft.PolicyInsights/remediations/{remediationName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),

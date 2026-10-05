@@ -1,10 +1,10 @@
-/**
- * Credentials of the EC2 instance role, from the instance metadata service.
- */
-import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Option from "effect/Option";
+/**
+ * Credentials of the EC2 instance role, from the instance metadata service.
+ */
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { createLazyProvider } from "../credentials-service.ts";
 import { type CredentialSource, CredentialSourceError, env, retry } from "./credential-source.ts";
 import { requestText } from "./http-client.ts";

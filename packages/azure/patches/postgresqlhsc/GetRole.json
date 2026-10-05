@@ -1,0 +1,9 @@
+{
+  "description": "GET/LIST of a cluster role never return the write-only `password`; the model marks it required on the shared RoleProperties response shape, so decoding a real role fails. Make it optional.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.postgresqlhsc#RoleProperties/members/password/traits/smithy.api#required"
+    }
+  ]
+}

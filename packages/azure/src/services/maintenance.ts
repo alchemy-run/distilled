@@ -107,9 +107,7 @@ export const ApplyUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     lastUpdateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplyUpdateProperties",
-}) as any as S.Schema<ApplyUpdateProperties>;
+).annotate({ identifier: "ApplyUpdateProperties" }) as any as S.Schema<ApplyUpdateProperties>;
 
 export interface ApplyUpdatesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
@@ -296,9 +294,7 @@ export const TagSettingsProperties = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagSettingsPropertiesTagsMap),
     filterOperator: S.optional(TagSettingsPropertiesFilterOperator),
   }),
-).annotate({
-  identifier: "TagSettingsProperties",
-}) as any as S.Schema<TagSettingsProperties>;
+).annotate({ identifier: "TagSettingsProperties" }) as any as S.Schema<TagSettingsProperties>;
 
 /** Azure query for the update configuration. */
 export interface ConfigurationAssignmentFilterProperties {
@@ -1301,9 +1297,7 @@ export const DeleteMaintenanceConfigurationResponseSystemData = /*@__PURE__*/ S.
 }) as any as S.Schema<DeleteMaintenanceConfigurationResponseSystemData>;
 
 /** Gets or sets tags of the resource */
-export type DeleteMaintenanceConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const DeleteMaintenanceConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1350,9 +1344,7 @@ export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
     timeZone: S.optional(S.String),
     recurEvery: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Schema<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Schema<MaintenanceWindow>;
 
 /** Gets or sets the visibility of the configuration. The default value is 'Custom' */
 export type MaintenanceConfigurationPropertiesVisibility = "Custom" | "Public";
@@ -1398,9 +1390,7 @@ export const InputWindowsParameters = /*@__PURE__*/ S.suspend(() =>
     classificationsToInclude: S.optional(InputWindowsParametersClassificationsToIncludeList),
     excludeKbsRequiringReboot: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InputWindowsParameters",
-}) as any as S.Schema<InputWindowsParameters>;
+).annotate({ identifier: "InputWindowsParameters" }) as any as S.Schema<InputWindowsParameters>;
 
 /** Package names to be excluded for patching. */
 export type InputLinuxParametersPackageNameMasksToExcludeList = Array<string>;
@@ -1435,9 +1425,7 @@ export const InputLinuxParameters = /*@__PURE__*/ S.suspend(() =>
     packageNameMasksToInclude: S.optional(InputLinuxParametersPackageNameMasksToIncludeList),
     classificationsToInclude: S.optional(InputLinuxParametersClassificationsToIncludeList),
   }),
-).annotate({
-  identifier: "InputLinuxParameters",
-}) as any as S.Schema<InputLinuxParameters>;
+).annotate({ identifier: "InputLinuxParameters" }) as any as S.Schema<InputLinuxParameters>;
 
 /** Input configuration for a patch run */
 export interface InputPatchConfiguration {
@@ -1454,9 +1442,7 @@ export const InputPatchConfiguration = /*@__PURE__*/ S.suspend(() =>
     windowsParameters: S.optional(InputWindowsParameters),
     linuxParameters: S.optional(InputLinuxParameters),
   }),
-).annotate({
-  identifier: "InputPatchConfiguration",
-}) as any as S.Schema<InputPatchConfiguration>;
+).annotate({ identifier: "InputPatchConfiguration" }) as any as S.Schema<InputPatchConfiguration>;
 
 /** Properties for maintenance configuration */
 export interface MaintenanceConfigurationProperties {
@@ -1546,9 +1532,7 @@ export const GetApplyUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetApplyUpdateRequest",
-}) as any as S.Schema<GetApplyUpdateRequest>;
+).annotate({ identifier: "GetApplyUpdateRequest" }) as any as S.Schema<GetApplyUpdateRequest>;
 
 /** The type of identity that created the resource. */
 export type GetApplyUpdateResponseSystemDataCreatedByType =
@@ -1614,9 +1598,7 @@ export const GetApplyUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetApplyUpdateResponseSystemData),
     properties: S.optional(ApplyUpdateProperties),
   }),
-).annotate({
-  identifier: "GetApplyUpdateResponse",
-}) as any as S.Schema<GetApplyUpdateResponse>;
+).annotate({ identifier: "GetApplyUpdateResponse" }) as any as S.Schema<GetApplyUpdateResponse>;
 
 export interface GetApplyUpdateParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2215,9 +2197,7 @@ export const GetMaintenanceConfigurationResponseSystemData = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetMaintenanceConfigurationResponseSystemData>;
 
 /** Gets or sets tags of the resource */
-export type GetMaintenanceConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const GetMaintenanceConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2465,9 +2445,7 @@ export const ConfigurationAssignment = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(ConfigurationAssignmentProperties),
   }),
-).annotate({
-  identifier: "ConfigurationAssignment",
-}) as any as S.Schema<ConfigurationAssignment>;
+).annotate({ identifier: "ConfigurationAssignment" }) as any as S.Schema<ConfigurationAssignment>;
 
 /** The list of configuration Assignments */
 export type ListConfigurationAssignmentsResultValueList = Array<ConfigurationAssignment>;
@@ -2602,9 +2580,7 @@ export const MaintenanceConfigurationSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MaintenanceConfigurationSystemData>;
 
 /** Gets or sets tags of the resource */
-export type MaintenanceConfigurationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MaintenanceConfigurationTagsMap = { [key: string]: string | undefined };
 export const MaintenanceConfigurationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2637,9 +2613,7 @@ export const MaintenanceConfiguration = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(MaintenanceConfigurationTagsMap),
     properties: S.optional(MaintenanceConfigurationProperties),
   }),
-).annotate({
-  identifier: "MaintenanceConfiguration",
-}) as any as S.Schema<MaintenanceConfiguration>;
+).annotate({ identifier: "MaintenanceConfiguration" }) as any as S.Schema<MaintenanceConfiguration>;
 
 /** The list of maintenance Configurations */
 export type ListMaintenanceConfigurationsResultValueList = Array<MaintenanceConfiguration>;
@@ -2692,9 +2666,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Information about an operation */
 export interface OperationInfo {
@@ -2754,9 +2726,7 @@ export const OperationsListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(OperationsListResultValueList),
   }),
-).annotate({
-  identifier: "OperationsListResult",
-}) as any as S.Schema<OperationsListResult>;
+).annotate({ identifier: "OperationsListResult" }) as any as S.Schema<OperationsListResult>;
 
 export interface ListPublicMaintenanceConfigurationsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2810,9 +2780,7 @@ export const ListUpdateParentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListUpdateParentRequest",
-}) as any as S.Schema<ListUpdateParentRequest>;
+).annotate({ identifier: "ListUpdateParentRequest" }) as any as S.Schema<ListUpdateParentRequest>;
 
 /** The impact area */
 export type UpdateMaintenanceScope =
@@ -2842,9 +2810,7 @@ export const UpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateProperties",
-}) as any as S.Schema<UpdateProperties>;
+).annotate({ identifier: "UpdateProperties" }) as any as S.Schema<UpdateProperties>;
 
 /** Maintenance update on a resource */
 export interface Update {
@@ -2887,9 +2853,7 @@ export const ListUpdatesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ListUpdatesResultValueList),
   }),
-).annotate({
-  identifier: "ListUpdatesResult",
-}) as any as S.Schema<ListUpdatesResult>;
+).annotate({ identifier: "ListUpdatesResult" }) as any as S.Schema<ListUpdatesResult>;
 
 export interface ListUpdatesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2918,9 +2882,7 @@ export const ListUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListUpdatesRequest",
-}) as any as S.Schema<ListUpdatesRequest>;
+).annotate({ identifier: "ListUpdatesRequest" }) as any as S.Schema<ListUpdatesRequest>;
 
 /** Gets or sets tags of the resource */
 export type MaintenanceConfigurationsCreateOrUpdateRequestTagsMap = {
@@ -3269,9 +3231,7 @@ export const UpdateConfigurationAssignmentsForSubscriptionResponse = /*@__PURE__
 }) as any as S.Schema<UpdateConfigurationAssignmentsForSubscriptionResponse>;
 
 /** Gets or sets tags of the resource */
-export type UpdateMaintenanceConfigurationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMaintenanceConfigurationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMaintenanceConfigurationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3358,9 +3318,7 @@ export const UpdateMaintenanceConfigurationResponseSystemData = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateMaintenanceConfigurationResponseSystemData>;
 
 /** Gets or sets tags of the resource */
-export type UpdateMaintenanceConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMaintenanceConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

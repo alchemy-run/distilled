@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Tags for the subscription */
-export type AcceptOwnershipRequestPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AcceptOwnershipRequestPropertiesTagsMap = { [key: string]: string | undefined };
 export const AcceptOwnershipRequestPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -93,9 +91,7 @@ export type ProvisioningState = "Pending" | "Accepted" | "Succeeded";
 export const ProvisioningState = S.String;
 
 /** Tags for the subscription */
-export type AcceptOwnershipStatusResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AcceptOwnershipStatusResponseTagsMap = { [key: string]: string | undefined };
 export const AcceptOwnershipStatusResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -158,18 +154,14 @@ export const CanceledSubscriptionId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CanceledSubscriptionId",
-}) as any as S.Schema<CanceledSubscriptionId>;
+).annotate({ identifier: "CanceledSubscriptionId" }) as any as S.Schema<CanceledSubscriptionId>;
 
 /** The workload type of the subscription. It can be either Production or DevTest. */
 export type Workload = "Production" | "DevTest";
 export const Workload = S.String;
 
 /** Tags for the subscription */
-export type PutAliasRequestAdditionalPropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutAliasRequestAdditionalPropertiesTagsMap = { [key: string]: string | undefined };
 export const PutAliasRequestAdditionalPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -241,9 +233,7 @@ export const CreateAliasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-10-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAliasRequest",
-}) as any as S.Schema<CreateAliasRequest>;
+).annotate({ identifier: "CreateAliasRequest" }) as any as S.Schema<CreateAliasRequest>;
 
 /** The provisioning state of the resource. */
 export type SubscriptionAliasResponsePropertiesProvisioningState =
@@ -253,9 +243,7 @@ export type SubscriptionAliasResponsePropertiesProvisioningState =
 export const SubscriptionAliasResponsePropertiesProvisioningState = S.String;
 
 /** Tags for the subscription */
-export type SubscriptionAliasResponsePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SubscriptionAliasResponsePropertiesTagsMap = { [key: string]: string | undefined };
 export const SubscriptionAliasResponsePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -388,9 +376,7 @@ export const DeleteAliasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-10-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAliasRequest",
-}) as any as S.Schema<DeleteAliasRequest>;
+).annotate({ identifier: "DeleteAliasRequest" }) as any as S.Schema<DeleteAliasRequest>;
 
 export interface DeleteAliasResponse {}
 export const DeleteAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -425,9 +411,7 @@ export const EnabledSubscriptionId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnabledSubscriptionId",
-}) as any as S.Schema<EnabledSubscriptionId>;
+).annotate({ identifier: "EnabledSubscriptionId" }) as any as S.Schema<EnabledSubscriptionId>;
 
 export interface GetAliasRequest {
   /** AliasName is the name for the subscription creation request. Note that this is not the same as subscription name and this doesn’t have any other lifecycle need beyond the request for subscription creation. */
@@ -444,9 +428,7 @@ export const GetAliasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetAliasRequest",
-}) as any as S.Schema<GetAliasRequest>;
+).annotate({ identifier: "GetAliasRequest" }) as any as S.Schema<GetAliasRequest>;
 
 export interface GetBillingAccountPolicyRequest {
   /** Billing Account Id. */
@@ -479,9 +461,7 @@ export const ServiceTenantResponse = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     tenantName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceTenantResponse",
-}) as any as S.Schema<ServiceTenantResponse>;
+).annotate({ identifier: "ServiceTenantResponse" }) as any as S.Schema<ServiceTenantResponse>;
 
 /** Service tenant for the billing account. */
 export type BillingAccountPoliciesResponsePropertiesServiceTenantsList =
@@ -712,9 +692,7 @@ export const GetTenantPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(TenantPolicy),
     systemData: S.optional(GetTenantPolicyResponseSystemData),
   }),
-).annotate({
-  identifier: "GetTenantPolicyResponse",
-}) as any as S.Schema<GetTenantPolicyResponse>;
+).annotate({ identifier: "GetTenantPolicyResponse" }) as any as S.Schema<GetTenantPolicyResponse>;
 
 export interface ListAliasRequest {}
 export const ListAliasRequest = /*@__PURE__*/ S.suspend(() =>
@@ -726,9 +704,7 @@ export const ListAliasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListAliasRequest",
-}) as any as S.Schema<ListAliasRequest>;
+).annotate({ identifier: "ListAliasRequest" }) as any as S.Schema<ListAliasRequest>;
 
 /** The list of alias. */
 export type SubscriptionAliasListResultValueList = Array<SubscriptionAliasResponse>;
@@ -762,9 +738,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -784,9 +758,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** REST API operation */
 export interface Operation {
@@ -823,9 +795,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListSubscriptionPolicyPolicyForTenantRequest {}
 export const ListSubscriptionPolicyPolicyForTenantRequest = /*@__PURE__*/ S.suspend(() =>
@@ -894,9 +864,7 @@ export const RenamedSubscriptionId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RenamedSubscriptionId",
-}) as any as S.Schema<RenamedSubscriptionId>;
+).annotate({ identifier: "RenamedSubscriptionId" }) as any as S.Schema<RenamedSubscriptionId>;
 
 /** List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant. */
 export type SubscriptionPolicyAddUpdatePolicyForTenantRequestExemptedPrincipalsList = Array<string>;

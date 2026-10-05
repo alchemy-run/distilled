@@ -60,9 +60,7 @@ export const CheckNameResult = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.NullOr(S.String)),
     reason: S.optional(S.NullOr(CheckNameResultReason)),
   }),
-).annotate({
-  identifier: "CheckNameResult",
-}) as any as S.Schema<CheckNameResult>;
+).annotate({ identifier: "CheckNameResult" }) as any as S.Schema<CheckNameResult>;
 
 export interface DeleteDigitalTwinRequest {
   /** The subscription identifier. */
@@ -85,14 +83,10 @@ export const DeleteDigitalTwinRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-31",
     }),
   ),
-).annotate({
-  identifier: "DeleteDigitalTwinRequest",
-}) as any as S.Schema<DeleteDigitalTwinRequest>;
+).annotate({ identifier: "DeleteDigitalTwinRequest" }) as any as S.Schema<DeleteDigitalTwinRequest>;
 
 /** The resource tags. */
-export type DeleteDigitalTwinResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteDigitalTwinResponseTagsMap = { [key: string]: string | undefined };
 export const DeleteDigitalTwinResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -118,9 +112,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     principalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. . */
 export type DigitalTwinsIdentityUserAssignedIdentitiesMap = {
@@ -149,9 +141,7 @@ export const DigitalTwinsIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.NullOr(S.String)),
     userAssignedIdentities: S.optional(S.NullOr(DigitalTwinsIdentityUserAssignedIdentitiesMap)),
   }),
-).annotate({
-  identifier: "DigitalTwinsIdentity",
-}) as any as S.Schema<DigitalTwinsIdentity>;
+).annotate({ identifier: "DigitalTwinsIdentity" }) as any as S.Schema<DigitalTwinsIdentity>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -219,9 +209,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The list of group ids for the private endpoint connection. */
 export type ConnectionPropertiesGroupIdsList = Array<string>;
@@ -248,9 +236,7 @@ export const ConnectionState = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     actionsRequired: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionState",
-}) as any as S.Schema<ConnectionState>;
+).annotate({ identifier: "ConnectionState" }) as any as S.Schema<ConnectionState>;
 
 /** The properties of a private endpoint connection. */
 export interface ConnectionProperties {
@@ -270,9 +256,7 @@ export const ConnectionProperties = /*@__PURE__*/ S.suspend(() =>
     groupIds: S.optional(ConnectionPropertiesGroupIdsList),
     privateLinkServiceConnectionState: S.optional(ConnectionState),
   }),
-).annotate({
-  identifier: "ConnectionProperties",
-}) as any as S.Schema<ConnectionProperties>;
+).annotate({ identifier: "ConnectionProperties" }) as any as S.Schema<ConnectionProperties>;
 
 /** The private endpoint connection of a Digital Twin. */
 export interface PrivateEndpointConnection {
@@ -335,9 +319,7 @@ export const DigitalTwinsProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     publicNetworkAccess: S.optional(S.NullOr(DigitalTwinsPropertiesPublicNetworkAccess)),
   }),
-).annotate({
-  identifier: "DigitalTwinsProperties",
-}) as any as S.Schema<DigitalTwinsProperties>;
+).annotate({ identifier: "DigitalTwinsProperties" }) as any as S.Schema<DigitalTwinsProperties>;
 
 export interface DeleteDigitalTwinResponse {
   /** The resource identifier. */
@@ -443,9 +425,7 @@ export const ManagedIdentityReference = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ManagedIdentityReferenceType),
     userAssignedIdentity: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ManagedIdentityReference",
-}) as any as S.Schema<ManagedIdentityReference>;
+).annotate({ identifier: "ManagedIdentityReference" }) as any as S.Schema<ManagedIdentityReference>;
 
 /** Properties related to Digital Twins Endpoint */
 export interface DigitalTwinsEndpointResourceProperties {
@@ -463,6 +443,24 @@ export interface DigitalTwinsEndpointResourceProperties {
   deadLetterUri?: string | null;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null;
+  /** EventHub (KeyBased): primary connection string. */
+  connectionStringPrimaryKey?: string | null;
+  /** EventHub (KeyBased): secondary connection string. */
+  connectionStringSecondaryKey?: string | null;
+  /** ServiceBus (KeyBased): primary connection string. */
+  primaryConnectionString?: string | null;
+  /** ServiceBus (KeyBased): secondary connection string. */
+  secondaryConnectionString?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  endpointUri?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  entityPath?: string | null;
+  /** EventGrid: the topic endpoint URL. */
+  TopicEndpoint?: string | null;
+  /** EventGrid: primary access key. Obfuscated on read. */
+  accessKey1?: string | null;
+  /** EventGrid: secondary access key. Obfuscated on read. */
+  accessKey2?: string | null;
 }
 export const DigitalTwinsEndpointResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -475,6 +473,15 @@ export const DigitalTwinsEndpointResourceProperties = /*@__PURE__*/ S.suspend(()
     deadLetterSecret: S.optional(S.NullOr(S.String)),
     deadLetterUri: S.optional(S.NullOr(S.String)),
     identity: S.optional(S.NullOr(ManagedIdentityReference)),
+    connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+    connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+    primaryConnectionString: S.optional(S.NullOr(S.String)),
+    secondaryConnectionString: S.optional(S.NullOr(S.String)),
+    endpointUri: S.optional(S.NullOr(S.String)),
+    entityPath: S.optional(S.NullOr(S.String)),
+    TopicEndpoint: S.optional(S.NullOr(S.String)),
+    accessKey1: S.optional(S.NullOr(S.String)),
+    accessKey2: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "DigitalTwinsEndpointResourceProperties",
@@ -598,12 +605,45 @@ export interface TimeSeriesDatabaseConnectionProperties {
   provisioningState?: TimeSeriesDatabaseConnectionPropertiesProvisioningState;
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null;
+  /** The resource ID of the Azure Data Explorer cluster. */
+  adxResourceId?: string | null;
+  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
+  adxEndpointUri?: string | null;
+  /** The name of the Azure Data Explorer database. */
+  adxDatabaseName?: string | null;
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
+  adxTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string | null;
+  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
+  eventHubEndpointUri?: string | null;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  eventHubEntityPath?: string | null;
+  /** The resource ID of the EventHub namespace. */
+  eventHubNamespaceResourceId?: string | null;
+  /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
+  eventHubConsumerGroup?: string | null;
+  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
+  recordPropertyAndItemRemovals?: string | null;
 }
 export const TimeSeriesDatabaseConnectionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionType: TimeSeriesDatabaseConnectionPropertiesConnectionType,
     provisioningState: S.optional(TimeSeriesDatabaseConnectionPropertiesProvisioningState),
     identity: S.optional(S.NullOr(ManagedIdentityReference)),
+    adxResourceId: S.optional(S.NullOr(S.String)),
+    adxEndpointUri: S.optional(S.NullOr(S.String)),
+    adxDatabaseName: S.optional(S.NullOr(S.String)),
+    adxTableName: S.optional(S.NullOr(S.String)),
+    adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+    adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+    eventHubEndpointUri: S.optional(S.NullOr(S.String)),
+    eventHubEntityPath: S.optional(S.NullOr(S.String)),
+    eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+    eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
+    recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "TimeSeriesDatabaseConnectionProperties",
@@ -634,9 +674,7 @@ export const DeleteTimeSeriesDatabaseConnectionResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<DeleteTimeSeriesDatabaseConnectionResponse>;
 
 /** The resource tags. */
-export type DigitalTwinsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DigitalTwinsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DigitalTwinsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -792,9 +830,7 @@ export const DigitalTwinsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DigitalTwinsCreateOrUpdateRequest>;
 
 /** The resource tags. */
-export type DigitalTwinsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DigitalTwinsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DigitalTwinsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -860,6 +896,24 @@ export interface DigitalTwinsEndpointResourcePropertiesInput {
   deadLetterUri?: string | null;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null;
+  /** EventHub (KeyBased): primary connection string. */
+  connectionStringPrimaryKey?: string | null;
+  /** EventHub (KeyBased): secondary connection string. */
+  connectionStringSecondaryKey?: string | null;
+  /** ServiceBus (KeyBased): primary connection string. */
+  primaryConnectionString?: string | null;
+  /** ServiceBus (KeyBased): secondary connection string. */
+  secondaryConnectionString?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  endpointUri?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  entityPath?: string | null;
+  /** EventGrid: the topic endpoint URL. */
+  TopicEndpoint?: string | null;
+  /** EventGrid: primary access key. Obfuscated on read. */
+  accessKey1?: string | null;
+  /** EventGrid: secondary access key. Obfuscated on read. */
+  accessKey2?: string | null;
 }
 export const DigitalTwinsEndpointResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -868,6 +922,15 @@ export const DigitalTwinsEndpointResourcePropertiesInput = /*@__PURE__*/ S.suspe
     deadLetterSecret: S.optional(S.NullOr(S.String)),
     deadLetterUri: S.optional(S.NullOr(S.String)),
     identity: S.optional(S.NullOr(ManagedIdentityReference)),
+    connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+    connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+    primaryConnectionString: S.optional(S.NullOr(S.String)),
+    secondaryConnectionString: S.optional(S.NullOr(S.String)),
+    endpointUri: S.optional(S.NullOr(S.String)),
+    entityPath: S.optional(S.NullOr(S.String)),
+    TopicEndpoint: S.optional(S.NullOr(S.String)),
+    accessKey1: S.optional(S.NullOr(S.String)),
+    accessKey2: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "DigitalTwinsEndpointResourcePropertiesInput",
@@ -949,14 +1012,10 @@ export const GetDigitalTwinRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-31",
     }),
   ),
-).annotate({
-  identifier: "GetDigitalTwinRequest",
-}) as any as S.Schema<GetDigitalTwinRequest>;
+).annotate({ identifier: "GetDigitalTwinRequest" }) as any as S.Schema<GetDigitalTwinRequest>;
 
 /** The resource tags. */
-export type GetDigitalTwinResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDigitalTwinResponseTagsMap = { [key: string]: string | undefined };
 export const GetDigitalTwinResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -991,9 +1050,7 @@ export const GetDigitalTwinResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DigitalTwinsProperties),
   }),
-).annotate({
-  identifier: "GetDigitalTwinResponse",
-}) as any as S.Schema<GetDigitalTwinResponse>;
+).annotate({ identifier: "GetDigitalTwinResponse" }) as any as S.Schema<GetDigitalTwinResponse>;
 
 export interface GetDigitalTwinsEndpointRequest {
   /** The subscription identifier. */
@@ -1152,9 +1209,7 @@ export const GroupIdInformation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupIdInformation",
-}) as any as S.Schema<GroupIdInformation>;
+).annotate({ identifier: "GroupIdInformation" }) as any as S.Schema<GroupIdInformation>;
 
 export interface GetTimeSeriesDatabaseConnectionRequest {
   /** The subscription identifier. */
@@ -1231,9 +1286,7 @@ export const ListDigitalTwinByResourceGroupRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListDigitalTwinByResourceGroupRequest>;
 
 /** The resource tags. */
-export type DigitalTwinsDescriptionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DigitalTwinsDescriptionTagsMap = { [key: string]: string | undefined };
 export const DigitalTwinsDescriptionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1269,9 +1322,7 @@ export const DigitalTwinsDescription = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DigitalTwinsProperties),
   }),
-).annotate({
-  identifier: "DigitalTwinsDescription",
-}) as any as S.Schema<DigitalTwinsDescription>;
+).annotate({ identifier: "DigitalTwinsDescription" }) as any as S.Schema<DigitalTwinsDescription>;
 
 /** A list of DigitalTwins description objects. */
 export type DigitalTwinsDescriptionListResultValueList = Array<DigitalTwinsDescription>;
@@ -1310,9 +1361,7 @@ export const ListDigitalTwinsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-31",
     }),
   ),
-).annotate({
-  identifier: "ListDigitalTwinsRequest",
-}) as any as S.Schema<ListDigitalTwinsRequest>;
+).annotate({ identifier: "ListDigitalTwinsRequest" }) as any as S.Schema<ListDigitalTwinsRequest>;
 
 export interface ListDigitalTwinsEndpointRequest {
   /** The subscription identifier. */
@@ -1396,9 +1445,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-31",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -1418,9 +1465,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation properties. */
 export type OperationPropertiesMap = { [key: string]: unknown | undefined };
@@ -1470,9 +1515,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.NullOr(S.String)),
     value: S.optional(OperationListResultValueList),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The subscription identifier. */
@@ -1675,11 +1718,44 @@ export interface TimeSeriesDatabaseConnectionPropertiesInput {
   connectionType: TimeSeriesDatabaseConnectionPropertiesInputConnectionType | (string & {});
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null;
+  /** The resource ID of the Azure Data Explorer cluster. */
+  adxResourceId?: string | null;
+  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
+  adxEndpointUri?: string | null;
+  /** The name of the Azure Data Explorer database. */
+  adxDatabaseName?: string | null;
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
+  adxTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string | null;
+  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
+  eventHubEndpointUri?: string | null;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  eventHubEntityPath?: string | null;
+  /** The resource ID of the EventHub namespace. */
+  eventHubNamespaceResourceId?: string | null;
+  /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
+  eventHubConsumerGroup?: string | null;
+  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
+  recordPropertyAndItemRemovals?: string | null;
 }
 export const TimeSeriesDatabaseConnectionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionType: TimeSeriesDatabaseConnectionPropertiesInputConnectionType,
     identity: S.optional(S.NullOr(ManagedIdentityReference)),
+    adxResourceId: S.optional(S.NullOr(S.String)),
+    adxEndpointUri: S.optional(S.NullOr(S.String)),
+    adxDatabaseName: S.optional(S.NullOr(S.String)),
+    adxTableName: S.optional(S.NullOr(S.String)),
+    adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+    adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+    eventHubEndpointUri: S.optional(S.NullOr(S.String)),
+    eventHubEntityPath: S.optional(S.NullOr(S.String)),
+    eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+    eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
+    recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "TimeSeriesDatabaseConnectionPropertiesInput",
@@ -1741,9 +1817,7 @@ export const TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = /*@__PURE__*/
 }) as any as S.Schema<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>;
 
 /** Instance patch properties */
-export type UpdateDigitalTwinRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDigitalTwinRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDigitalTwinRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1796,14 +1870,10 @@ export const UpdateDigitalTwinRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-31",
     }),
   ),
-).annotate({
-  identifier: "UpdateDigitalTwinRequest",
-}) as any as S.Schema<UpdateDigitalTwinRequest>;
+).annotate({ identifier: "UpdateDigitalTwinRequest" }) as any as S.Schema<UpdateDigitalTwinRequest>;
 
 /** The resource tags. */
-export type UpdateDigitalTwinResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDigitalTwinResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDigitalTwinResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

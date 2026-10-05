@@ -30,9 +30,7 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFleetRequest",
-}) as any as S.Schema<DeleteFleetRequest>;
+).annotate({ identifier: "DeleteFleetRequest" }) as any as S.Schema<DeleteFleetRequest>;
 
 export interface DeleteFleetResponse {}
 export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -40,9 +38,7 @@ export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<DeleteFleetResponse>;
 
 /** Resource tags. */
-export type FleetsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FleetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FleetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -80,9 +76,7 @@ export const SpotPriorityProfile = /*@__PURE__*/ S.suspend(() =>
     allocationStrategy: S.optional(SpotAllocationStrategy),
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SpotPriorityProfile",
-}) as any as S.Schema<SpotPriorityProfile>;
+).annotate({ identifier: "SpotPriorityProfile" }) as any as S.Schema<SpotPriorityProfile>;
 
 /** Regular VM Allocation strategy types for Compute Fleet */
 export type RegularPriorityAllocationStrategy = "LowestPrice" | "Prioritized";
@@ -103,9 +97,7 @@ export const RegularPriorityProfile = /*@__PURE__*/ S.suspend(() =>
     minCapacity: S.optional(S.Number),
     allocationStrategy: S.optional(RegularPriorityAllocationStrategy),
   }),
-).annotate({
-  identifier: "RegularPriorityProfile",
-}) as any as S.Schema<RegularPriorityProfile>;
+).annotate({ identifier: "RegularPriorityProfile" }) as any as S.Schema<RegularPriorityProfile>;
 
 /** Specifications about a VM Size. This will also contain the corresponding rank and weight in future. */
 export interface VmSizeProfile {
@@ -139,9 +131,7 @@ export const VMAttributeMinMaxInteger = /*@__PURE__*/ S.suspend(() =>
     min: S.optional(S.Number),
     max: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VMAttributeMinMaxInteger",
-}) as any as S.Schema<VMAttributeMinMaxInteger>;
+).annotate({ identifier: "VMAttributeMinMaxInteger" }) as any as S.Schema<VMAttributeMinMaxInteger>;
 
 /** VMAttributes using double values. */
 export interface VMAttributeMinMaxDouble {
@@ -155,9 +145,7 @@ export const VMAttributeMinMaxDouble = /*@__PURE__*/ S.suspend(() =>
     min: S.optional(S.Number),
     max: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VMAttributeMinMaxDouble",
-}) as any as S.Schema<VMAttributeMinMaxDouble>;
+).annotate({ identifier: "VMAttributeMinMaxDouble" }) as any as S.Schema<VMAttributeMinMaxDouble>;
 
 /** VMSizes supported by Azure VMs. Included is a union of Excluded and Required. */
 export type VMAttributeSupport = "Excluded" | "Included" | "Required";
@@ -431,9 +419,7 @@ export const WinRMConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     listeners: S.optional(WinRMConfigurationListenersList),
   }),
-).annotate({
-  identifier: "WinRMConfiguration",
-}) as any as S.Schema<WinRMConfiguration>;
+).annotate({ identifier: "WinRMConfiguration" }) as any as S.Schema<WinRMConfiguration>;
 
 /** Specifies Windows operating system settings on the virtual machine. */
 export interface WindowsConfiguration {
@@ -462,9 +448,7 @@ export const WindowsConfiguration = /*@__PURE__*/ S.suspend(() =>
     winRM: S.optional(WinRMConfiguration),
     enableVMAgentPlatformUpdates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WindowsConfiguration",
-}) as any as S.Schema<WindowsConfiguration>;
+).annotate({ identifier: "WindowsConfiguration" }) as any as S.Schema<WindowsConfiguration>;
 
 /** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
 export interface SshPublicKey {
@@ -495,9 +479,7 @@ export const SshConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicKeys: S.optional(SshConfigurationPublicKeysList),
   }),
-).annotate({
-  identifier: "SshConfiguration",
-}) as any as S.Schema<SshConfiguration>;
+).annotate({ identifier: "SshConfiguration" }) as any as S.Schema<SshConfiguration>;
 
 /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible. */
 export type LinuxVMGuestPatchMode = "ImageDefault" | "AutomaticByPlatform";
@@ -546,9 +528,7 @@ export const LinuxPatchSettings = /*@__PURE__*/ S.suspend(() =>
     assessmentMode: S.optional(LinuxPatchAssessmentMode),
     automaticByPlatformSettings: S.optional(LinuxVMGuestPatchAutomaticByPlatformSettings),
   }),
-).annotate({
-  identifier: "LinuxPatchSettings",
-}) as any as S.Schema<LinuxPatchSettings>;
+).annotate({ identifier: "LinuxPatchSettings" }) as any as S.Schema<LinuxPatchSettings>;
 
 /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://learn.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
 export interface LinuxConfiguration {
@@ -571,9 +551,7 @@ export const LinuxConfiguration = /*@__PURE__*/ S.suspend(() =>
     patchSettings: S.optional(LinuxPatchSettings),
     enableVMAgentPlatformUpdates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LinuxConfiguration",
-}) as any as S.Schema<LinuxConfiguration>;
+).annotate({ identifier: "LinuxConfiguration" }) as any as S.Schema<LinuxConfiguration>;
 
 /** Describes SubResource */
 export interface SubResource {
@@ -598,9 +576,7 @@ export const VaultCertificate = /*@__PURE__*/ S.suspend(() =>
     certificateUrl: S.optional(S.String),
     certificateStore: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VaultCertificate",
-}) as any as S.Schema<VaultCertificate>;
+).annotate({ identifier: "VaultCertificate" }) as any as S.Schema<VaultCertificate>;
 
 /** The list of key vault references in SourceVault which contain certificates. */
 export type VaultSecretGroupVaultCertificatesList = Array<VaultCertificate>;
@@ -620,9 +596,7 @@ export const VaultSecretGroup = /*@__PURE__*/ S.suspend(() =>
     sourceVault: S.optional(SubResource),
     vaultCertificates: S.optional(VaultSecretGroupVaultCertificatesList),
   }),
-).annotate({
-  identifier: "VaultSecretGroup",
-}) as any as S.Schema<VaultSecretGroup>;
+).annotate({ identifier: "VaultSecretGroup" }) as any as S.Schema<VaultSecretGroup>;
 
 /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://learn.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://learn.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type VirtualMachineScaleSetOSProfileSecretsList = Array<VaultSecretGroup>;
@@ -694,9 +668,7 @@ export const ImageReferenceInput = /*@__PURE__*/ S.suspend(() =>
     sharedGalleryImageId: S.optional(S.String),
     communityGalleryImageId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageReferenceInput",
-}) as any as S.Schema<ImageReferenceInput>;
+).annotate({ identifier: "ImageReferenceInput" }) as any as S.Schema<ImageReferenceInput>;
 
 /** Specifies the caching requirements. */
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
@@ -726,9 +698,7 @@ export const DiffDiskSettings = /*@__PURE__*/ S.suspend(() =>
     option: S.optional(DiffDiskOptions),
     placement: S.optional(DiffDiskPlacement),
   }),
-).annotate({
-  identifier: "DiffDiskSettings",
-}) as any as S.Schema<DiffDiskSettings>;
+).annotate({ identifier: "DiffDiskSettings" }) as any as S.Schema<DiffDiskSettings>;
 
 /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: **Windows,** **Linux.** */
 export type OperatingSystemTypes = "Windows" | "Linux";
@@ -743,9 +713,7 @@ export const VirtualHardDisk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualHardDisk",
-}) as any as S.Schema<VirtualHardDisk>;
+).annotate({ identifier: "VirtualHardDisk" }) as any as S.Schema<VirtualHardDisk>;
 
 /** Specifies the container urls that are used to store operating system disks for the scale set. */
 export type VirtualMachineScaleSetOSDiskVhdContainersList = Array<string>;
@@ -787,9 +755,7 @@ export const VMDiskSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     securityEncryptionType: S.optional(SecurityEncryptionTypes),
     diskEncryptionSet: S.optional(SubResource),
   }),
-).annotate({
-  identifier: "VMDiskSecurityProfile",
-}) as any as S.Schema<VMDiskSecurityProfile>;
+).annotate({ identifier: "VMDiskSecurityProfile" }) as any as S.Schema<VMDiskSecurityProfile>;
 
 /** Describes the parameters of a ScaleSet managed disk. */
 export interface VirtualMachineScaleSetManagedDiskParameters {
@@ -939,9 +905,7 @@ export const ApiEntityReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiEntityReference",
-}) as any as S.Schema<ApiEntityReference>;
+).annotate({ identifier: "ApiEntityReference" }) as any as S.Schema<ApiEntityReference>;
 
 /** List of DNS servers IP addresses */
 export type VirtualMachineScaleSetNetworkConfigurationDnsSettingsDnsServersList = Array<string>;
@@ -1069,9 +1033,7 @@ export const PublicIPAddressSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PublicIPAddressSkuName),
     tier: S.optional(PublicIPAddressSkuTier),
   }),
-).annotate({
-  identifier: "PublicIPAddressSku",
-}) as any as S.Schema<PublicIPAddressSku>;
+).annotate({ identifier: "PublicIPAddressSku" }) as any as S.Schema<PublicIPAddressSku>;
 
 /** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
 export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
@@ -1317,9 +1279,7 @@ export const EncryptionIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userAssignedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionIdentity",
-}) as any as S.Schema<EncryptionIdentity>;
+).annotate({ identifier: "EncryptionIdentity" }) as any as S.Schema<EncryptionIdentity>;
 
 /** Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will start to audit or monitor but not enforce access control over requests to host endpoints in Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce mode. */
 export type Mode = "Audit" | "Enforce";
@@ -1340,9 +1300,7 @@ export const ProxyAgentSettings = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(Mode),
     keyIncarnationId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProxyAgentSettings",
-}) as any as S.Schema<ProxyAgentSettings>;
+).annotate({ identifier: "ProxyAgentSettings" }) as any as S.Schema<ProxyAgentSettings>;
 
 /** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
@@ -1365,9 +1323,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
     encryptionIdentity: S.optional(EncryptionIdentity),
     proxyAgentSettings: S.optional(ProxyAgentSettings),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. You can easily view the output of your console log. Azure also enables you to see a screenshot of the VM from the hypervisor. */
 export interface BootDiagnostics {
@@ -1381,9 +1337,7 @@ export const BootDiagnostics = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     storageUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BootDiagnostics",
-}) as any as S.Schema<BootDiagnostics>;
+).annotate({ identifier: "BootDiagnostics" }) as any as S.Schema<BootDiagnostics>;
 
 /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
 export interface DiagnosticsProfile {
@@ -1394,9 +1348,7 @@ export const DiagnosticsProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bootDiagnostics: S.optional(BootDiagnostics),
   }),
-).annotate({
-  identifier: "DiagnosticsProfile",
-}) as any as S.Schema<DiagnosticsProfile>;
+).annotate({ identifier: "DiagnosticsProfile" }) as any as S.Schema<DiagnosticsProfile>;
 
 /** Json formatted public settings for the extension. */
 export type VirtualMachineScaleSetExtensionPropertiesInputSettingsMap = {
@@ -1437,9 +1389,7 @@ export const KeyVaultSecretReference = /*@__PURE__*/ S.suspend(() =>
     secretUrl: S.String,
     sourceVault: SubResource,
   }),
-).annotate({
-  identifier: "KeyVaultSecretReference",
-}) as any as S.Schema<KeyVaultSecretReference>;
+).annotate({ identifier: "KeyVaultSecretReference" }) as any as S.Schema<KeyVaultSecretReference>;
 
 /** Describes the properties of a Virtual Machine Scale Set Extension. */
 export interface VirtualMachineScaleSetExtensionPropertiesInput {
@@ -1571,9 +1521,7 @@ export const ScheduledEventsProfile = /*@__PURE__*/ S.suspend(() =>
     terminateNotificationProfile: S.optional(TerminateNotificationProfile),
     osImageNotificationProfile: S.optional(OSImageNotificationProfile),
   }),
-).annotate({
-  identifier: "ScheduledEventsProfile",
-}) as any as S.Schema<ScheduledEventsProfile>;
+).annotate({ identifier: "ScheduledEventsProfile" }) as any as S.Schema<ScheduledEventsProfile>;
 
 /** The parameters of a capacity reservation Profile. */
 export interface CapacityReservationProfile {
@@ -1612,9 +1560,7 @@ export const VMGalleryApplication = /*@__PURE__*/ S.suspend(() =>
     treatFailureAsDeploymentFailure: S.optional(S.Boolean),
     enableAutomaticUpgrade: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VMGalleryApplication",
-}) as any as S.Schema<VMGalleryApplication>;
+).annotate({ identifier: "VMGalleryApplication" }) as any as S.Schema<VMGalleryApplication>;
 
 /** Specifies the gallery applications that should be made available to the VM/VMSS */
 export type ApplicationProfileGalleryApplicationsList = Array<VMGalleryApplication>;
@@ -1631,9 +1577,7 @@ export const ApplicationProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     galleryApplications: S.optional(ApplicationProfileGalleryApplicationsList),
   }),
-).annotate({
-  identifier: "ApplicationProfile",
-}) as any as S.Schema<ApplicationProfile>;
+).annotate({ identifier: "ApplicationProfile" }) as any as S.Schema<ApplicationProfile>;
 
 /** Specifies VM Size Property settings on the virtual machine. */
 export interface VMSizeProperties {
@@ -1647,9 +1591,7 @@ export const VMSizeProperties = /*@__PURE__*/ S.suspend(() =>
     vCPUsAvailable: S.optional(S.Number),
     vCPUsPerCore: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VMSizeProperties",
-}) as any as S.Schema<VMSizeProperties>;
+).annotate({ identifier: "VMSizeProperties" }) as any as S.Schema<VMSizeProperties>;
 
 /** Specifies the hardware settings for the virtual machine scale set. */
 export interface VirtualMachineScaleSetHardwareProfile {
@@ -1673,9 +1615,7 @@ export const ServiceArtifactReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceArtifactReference",
-}) as any as S.Schema<ServiceArtifactReference>;
+).annotate({ identifier: "ServiceArtifactReference" }) as any as S.Schema<ServiceArtifactReference>;
 
 /** List of virtual machine extension names to exclude when applying the security posture. */
 export type SecurityPostureReferenceExcludeExtensionsList = Array<string>;
@@ -1698,9 +1638,7 @@ export const SecurityPostureReference = /*@__PURE__*/ S.suspend(() =>
     excludeExtensions: S.optional(SecurityPostureReferenceExcludeExtensionsList),
     isOverridable: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SecurityPostureReference",
-}) as any as S.Schema<SecurityPostureReference>;
+).annotate({ identifier: "SecurityPostureReference" }) as any as S.Schema<SecurityPostureReference>;
 
 /** Describes the base virtual machine profile for fleet */
 export interface BaseVirtualMachineProfileInput {
@@ -1766,9 +1704,7 @@ export const LocationProfileInput = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     virtualMachineProfileOverride: S.optional(BaseVirtualMachineProfileInput),
   }),
-).annotate({
-  identifier: "LocationProfileInput",
-}) as any as S.Schema<LocationProfileInput>;
+).annotate({ identifier: "LocationProfileInput" }) as any as S.Schema<LocationProfileInput>;
 
 /** The list of location profiles. */
 export type AdditionalLocationsProfileInputLocationProfilesList = Array<LocationProfileInput>;
@@ -1801,9 +1737,7 @@ export const AdditionalCapabilities = /*@__PURE__*/ S.suspend(() =>
     ultraSSDEnabled: S.optional(S.Boolean),
     hibernationEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AdditionalCapabilities",
-}) as any as S.Schema<AdditionalCapabilities>;
+).annotate({ identifier: "AdditionalCapabilities" }) as any as S.Schema<AdditionalCapabilities>;
 
 /** Compute Profile to use for running user's workloads. */
 export interface ComputeProfileInput {
@@ -1823,9 +1757,7 @@ export const ComputeProfileInput = /*@__PURE__*/ S.suspend(() =>
     platformFaultDomainCount: S.optional(S.Number),
     additionalVirtualMachineCapabilities: S.optional(AdditionalCapabilities),
   }),
-).annotate({
-  identifier: "ComputeProfileInput",
-}) as any as S.Schema<ComputeProfileInput>;
+).annotate({ identifier: "ComputeProfileInput" }) as any as S.Schema<ComputeProfileInput>;
 
 /** Details of the Compute Fleet. */
 export interface FleetPropertiesInput {
@@ -1851,9 +1783,7 @@ export const FleetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     additionalLocationsProfile: S.optional(AdditionalLocationsProfileInput),
     computeProfile: ComputeProfileInput,
   }),
-).annotate({
-  identifier: "FleetPropertiesInput",
-}) as any as S.Schema<FleetPropertiesInput>;
+).annotate({ identifier: "FleetPropertiesInput" }) as any as S.Schema<FleetPropertiesInput>;
 
 /** Zones in which the Compute Fleet is available */
 export type FleetsCreateOrUpdateRequestZonesList = Array<string>;
@@ -2001,9 +1931,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type FleetsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FleetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FleetsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2272,9 +2200,7 @@ export const LocationProfile = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     virtualMachineProfileOverride: S.optional(BaseVirtualMachineProfile),
   }),
-).annotate({
-  identifier: "LocationProfile",
-}) as any as S.Schema<LocationProfile>;
+).annotate({ identifier: "LocationProfile" }) as any as S.Schema<LocationProfile>;
 
 /** The list of location profiles. */
 export type AdditionalLocationsProfileLocationProfilesList = Array<LocationProfile>;
@@ -2348,9 +2274,7 @@ export const FleetProperties = /*@__PURE__*/ S.suspend(() =>
     timeCreated: S.optional(S.String),
     uniqueId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FleetProperties",
-}) as any as S.Schema<FleetProperties>;
+).annotate({ identifier: "FleetProperties" }) as any as S.Schema<FleetProperties>;
 
 /** Zones in which the Compute Fleet is available */
 export type FleetsCreateOrUpdateResponseZonesList = Array<string>;
@@ -2370,14 +2294,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -2467,9 +2387,7 @@ export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFleetRequest",
-}) as any as S.Schema<GetFleetRequest>;
+).annotate({ identifier: "GetFleetRequest" }) as any as S.Schema<GetFleetRequest>;
 
 /** Resource tags. */
 export type GetFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -2527,9 +2445,7 @@ export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
   }),
-).annotate({
-  identifier: "GetFleetResponse",
-}) as any as S.Schema<GetFleetResponse>;
+).annotate({ identifier: "GetFleetResponse" }) as any as S.Schema<GetFleetResponse>;
 
 export interface ListFleetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2628,9 +2544,7 @@ export const FleetListResult = /*@__PURE__*/ S.suspend(() =>
     value: FleetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FleetListResult",
-}) as any as S.Schema<FleetListResult>;
+).annotate({ identifier: "FleetListResult" }) as any as S.Schema<FleetListResult>;
 
 export interface ListFleetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2757,9 +2671,7 @@ export const VirtualMachineScaleSet = /*@__PURE__*/ S.suspend(() =>
     operationStatus: ProvisioningState,
     error: S.optional(ApiError),
   }),
-).annotate({
-  identifier: "VirtualMachineScaleSet",
-}) as any as S.Schema<VirtualMachineScaleSet>;
+).annotate({ identifier: "VirtualMachineScaleSet" }) as any as S.Schema<VirtualMachineScaleSet>;
 
 /** The VirtualMachineScaleSet items on this page */
 export type VirtualMachineScaleSetListResultValueList = Array<VirtualMachineScaleSet>;
@@ -2793,9 +2705,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2815,9 +2725,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2867,9 +2775,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Resource tags. */
 export type UpdateFleetRequestTagsMap = { [key: string]: string | undefined };
@@ -2938,9 +2844,7 @@ export const ResourcePlanUpdate = /*@__PURE__*/ S.suspend(() =>
     promotionCode: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourcePlanUpdate",
-}) as any as S.Schema<ResourcePlanUpdate>;
+).annotate({ identifier: "ResourcePlanUpdate" }) as any as S.Schema<ResourcePlanUpdate>;
 
 export interface UpdateFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2975,9 +2879,7 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFleetRequest",
-}) as any as S.Schema<UpdateFleetRequest>;
+).annotate({ identifier: "UpdateFleetRequest" }) as any as S.Schema<UpdateFleetRequest>;
 
 /** Resource tags. */
 export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -3035,9 +2937,7 @@ export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
   }),
-).annotate({
-  identifier: "UpdateFleetResponse",
-}) as any as S.Schema<UpdateFleetResponse>;
+).annotate({ identifier: "UpdateFleetResponse" }) as any as S.Schema<UpdateFleetResponse>;
 
 export type DeleteFleetError = AzureOpError;
 /** Delete a Fleet */

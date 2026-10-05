@@ -29,9 +29,7 @@ export const DeleteEmployeeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEmployeeRequest",
-}) as any as S.Schema<DeleteEmployeeRequest>;
+).annotate({ identifier: "DeleteEmployeeRequest" }) as any as S.Schema<DeleteEmployeeRequest>;
 
 export interface DeleteEmployeeResponse {}
 export const DeleteEmployeeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -39,9 +37,7 @@ export const DeleteEmployeeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteEmployeeResponse>;
 
 /** Resource tags. */
-export type EmployeesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EmployeesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EmployeesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -62,9 +58,7 @@ export const EmployeePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     city: S.optional(S.String),
     profile: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmployeePropertiesInput",
-}) as any as S.Schema<EmployeePropertiesInput>;
+).annotate({ identifier: "EmployeePropertiesInput" }) as any as S.Schema<EmployeePropertiesInput>;
 
 export interface EmployeesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -135,9 +129,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type EmployeesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EmployeesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EmployeesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -172,9 +164,7 @@ export const EmployeeProperties = /*@__PURE__*/ S.suspend(() =>
     profile: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "EmployeeProperties",
-}) as any as S.Schema<EmployeeProperties>;
+).annotate({ identifier: "EmployeeProperties" }) as any as S.Schema<EmployeeProperties>;
 
 export interface EmployeesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -227,9 +217,7 @@ export const GetEmployeeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetEmployeeRequest",
-}) as any as S.Schema<GetEmployeeRequest>;
+).annotate({ identifier: "GetEmployeeRequest" }) as any as S.Schema<GetEmployeeRequest>;
 
 /** Resource tags. */
 export type GetEmployeeResponseTagsMap = { [key: string]: string | undefined };
@@ -264,9 +252,7 @@ export const GetEmployeeResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EmployeeProperties),
   }),
-).annotate({
-  identifier: "GetEmployeeResponse",
-}) as any as S.Schema<GetEmployeeResponse>;
+).annotate({ identifier: "GetEmployeeResponse" }) as any as S.Schema<GetEmployeeResponse>;
 
 export interface ListEmployeeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -344,9 +330,7 @@ export const EmployeeListResult = /*@__PURE__*/ S.suspend(() =>
     value: EmployeeListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmployeeListResult",
-}) as any as S.Schema<EmployeeListResult>;
+).annotate({ identifier: "EmployeeListResult" }) as any as S.Schema<EmployeeListResult>;
 
 export interface ListEmployeeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -377,9 +361,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -399,9 +381,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -451,14 +431,10 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Resource tags. */
-export type UpdateEmployeeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEmployeeRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEmployeeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -491,14 +467,10 @@ export const UpdateEmployeeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateEmployeeRequest",
-}) as any as S.Schema<UpdateEmployeeRequest>;
+).annotate({ identifier: "UpdateEmployeeRequest" }) as any as S.Schema<UpdateEmployeeRequest>;
 
 /** Resource tags. */
-export type UpdateEmployeeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEmployeeResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEmployeeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -530,9 +502,7 @@ export const UpdateEmployeeResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EmployeeProperties),
   }),
-).annotate({
-  identifier: "UpdateEmployeeResponse",
-}) as any as S.Schema<UpdateEmployeeResponse>;
+).annotate({ identifier: "UpdateEmployeeResponse" }) as any as S.Schema<UpdateEmployeeResponse>;
 
 export type DeleteEmployeeError = AzureOpError;
 /** Delete a Employee */

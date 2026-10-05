@@ -79,9 +79,7 @@ export const EncryptionIdentityInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EncryptionIdentityInputType,
   }),
-).annotate({
-  identifier: "EncryptionIdentityInput",
-}) as any as S.Schema<EncryptionIdentityInput>;
+).annotate({ identifier: "EncryptionIdentityInput" }) as any as S.Schema<EncryptionIdentityInput>;
 
 /** The type of encryption configuration being used. Currently the only supported types are 'UserManaged' and 'ServiceManaged'. */
 export type EncryptionConfigType = "UserManaged" | "ServiceManaged";
@@ -102,9 +100,7 @@ export const KeyVaultMetaInfo = /*@__PURE__*/ S.suspend(() =>
     encryptionKeyName: S.String,
     encryptionKeyVersion: S.String,
   }),
-).annotate({
-  identifier: "KeyVaultMetaInfo",
-}) as any as S.Schema<KeyVaultMetaInfo>;
+).annotate({ identifier: "KeyVaultMetaInfo" }) as any as S.Schema<KeyVaultMetaInfo>;
 
 /** The encryption configuration for the account. */
 export interface EncryptionConfig {
@@ -118,9 +114,7 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
     type: EncryptionConfigType,
     keyVaultMetaInfo: S.optional(KeyVaultMetaInfo),
   }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
+).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 
 /** The current state of encryption for this Data Lake Store account. */
 export type CreateDataLakeStoreAccountPropertiesEncryptionState = "Enabled" | "Disabled";
@@ -334,14 +328,10 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** The resource tags. */
-export type CreateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -366,9 +356,7 @@ export const EncryptionIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionIdentity",
-}) as any as S.Schema<EncryptionIdentity>;
+).annotate({ identifier: "EncryptionIdentity" }) as any as S.Schema<EncryptionIdentity>;
 
 /** The provisioning status of the Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesProvisioningState =
@@ -409,9 +397,7 @@ export const FirewallRuleProperties = /*@__PURE__*/ S.suspend(() =>
     startIpAddress: S.optional(S.String),
     endIpAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleProperties",
-}) as any as S.Schema<FirewallRuleProperties>;
+).annotate({ identifier: "FirewallRuleProperties" }) as any as S.Schema<FirewallRuleProperties>;
 
 /** Data Lake Store firewall rule information. */
 export interface FirewallRule {
@@ -470,9 +456,7 @@ export const VirtualNetworkRule = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(VirtualNetworkRuleProperties),
   }),
-).annotate({
-  identifier: "VirtualNetworkRule",
-}) as any as S.Schema<VirtualNetworkRule>;
+).annotate({ identifier: "VirtualNetworkRule" }) as any as S.Schema<VirtualNetworkRule>;
 
 /** The list of virtual network rules associated with this Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesVirtualNetworkRulesList = Array<VirtualNetworkRule>;
@@ -519,9 +503,7 @@ export const TrustedIdProvider = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(TrustedIdProviderProperties),
   }),
-).annotate({
-  identifier: "TrustedIdProvider",
-}) as any as S.Schema<TrustedIdProvider>;
+).annotate({ identifier: "TrustedIdProvider" }) as any as S.Schema<TrustedIdProvider>;
 
 /** The list of trusted identity providers associated with this Data Lake Store account. */
 export type DataLakeStoreAccountPropertiesTrustedIdProvidersList = Array<TrustedIdProvider>;
@@ -647,9 +629,7 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(EncryptionIdentity),
     properties: S.optional(DataLakeStoreAccountProperties),
   }),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 export interface DeleteAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -672,9 +652,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -744,9 +722,7 @@ export const DeleteTrustedIdProviderRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteTrustedIdProviderResponse {}
 export const DeleteTrustedIdProviderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteTrustedIdProviderResponse",
-  },
+  { identifier: "DeleteTrustedIdProviderResponse" },
 ) as any as S.Schema<DeleteTrustedIdProviderResponse>;
 
 export interface DeleteVirtualNetworkRuleRequest {
@@ -887,9 +863,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** The resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -924,9 +898,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(EncryptionIdentity),
     properties: S.optional(DataLakeStoreAccountProperties),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetFirewallRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -952,9 +924,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** The resource identifier. */
@@ -973,9 +943,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(FirewallRuleProperties),
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetLocationCapabilityRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1029,9 +997,7 @@ export const CapabilityInformation = /*@__PURE__*/ S.suspend(() =>
     accountCount: S.optional(S.Number),
     migrationState: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CapabilityInformation",
-}) as any as S.Schema<CapabilityInformation>;
+).annotate({ identifier: "CapabilityInformation" }) as any as S.Schema<CapabilityInformation>;
 
 export interface GetLocationUsageRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1051,9 +1017,7 @@ export const GetLocationUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetLocationUsageRequest",
-}) as any as S.Schema<GetLocationUsageRequest>;
+).annotate({ identifier: "GetLocationUsageRequest" }) as any as S.Schema<GetLocationUsageRequest>;
 
 /** Gets the unit of measurement. */
 export type UsageUnit =
@@ -1117,9 +1081,7 @@ export const UsageListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(UsageListResultValueList),
   }),
-).annotate({
-  identifier: "UsageListResult",
-}) as any as S.Schema<UsageListResult>;
+).annotate({ identifier: "UsageListResult" }) as any as S.Schema<UsageListResult>;
 
 export interface GetTrustedIdProviderRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1260,9 +1222,7 @@ export const ListAccountByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccountByResourceGroupRequest>;
 
 /** The resource tags. */
-export type DataLakeStoreAccountBasicTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DataLakeStoreAccountBasicTagsMap = { [key: string]: string | undefined };
 export const DataLakeStoreAccountBasicTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1398,9 +1358,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export interface ListFirewallRuleByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1445,9 +1403,7 @@ export const FirewallRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FirewallRuleListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleListResult",
-}) as any as S.Schema<FirewallRuleListResult>;
+).annotate({ identifier: "FirewallRuleListResult" }) as any as S.Schema<FirewallRuleListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1459,9 +1415,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information for a particular operation. */
 export interface OperationDisplay {
@@ -1481,9 +1435,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation. */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1524,9 +1476,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListTrustedIdProviderByAccountRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1690,9 +1640,7 @@ export const UpdateKeyVaultMetaInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     encryptionKeyVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateKeyVaultMetaInfo",
-}) as any as S.Schema<UpdateKeyVaultMetaInfo>;
+).annotate({ identifier: "UpdateKeyVaultMetaInfo" }) as any as S.Schema<UpdateKeyVaultMetaInfo>;
 
 /** The encryption configuration used to update a user managed Key Vault key. */
 export interface UpdateEncryptionConfig {
@@ -1703,9 +1651,7 @@ export const UpdateEncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyVaultMetaInfo: S.optional(UpdateKeyVaultMetaInfo),
   }),
-).annotate({
-  identifier: "UpdateEncryptionConfig",
-}) as any as S.Schema<UpdateEncryptionConfig>;
+).annotate({ identifier: "UpdateEncryptionConfig" }) as any as S.Schema<UpdateEncryptionConfig>;
 
 /** The firewall rule properties to use when updating a firewall rule. */
 export type UpdateFirewallRuleProperties = FirewallRuleProperties;
@@ -1877,14 +1823,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** The resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1916,9 +1858,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(EncryptionIdentity),
     properties: S.optional(DataLakeStoreAccountProperties),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export interface UpdateFirewallRuleRequest {
   /** Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */

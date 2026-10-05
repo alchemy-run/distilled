@@ -60,9 +60,7 @@ export const ApplicationAuthorization = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     roleDefinitionId: S.String,
   }),
-).annotate({
-  identifier: "ApplicationAuthorization",
-}) as any as S.Schema<ApplicationAuthorization>;
+).annotate({ identifier: "ApplicationAuthorization" }) as any as S.Schema<ApplicationAuthorization>;
 
 /** The managed application provider authorizations. */
 export type ApplicationDefinitionPropertiesAuthorizationsList = Array<ApplicationAuthorization>;
@@ -218,9 +216,7 @@ export const ApplicationPolicy = /*@__PURE__*/ S.suspend(() =>
     policyDefinitionId: S.optional(S.String),
     parameters: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationPolicy",
-}) as any as S.Schema<ApplicationPolicy>;
+).annotate({ identifier: "ApplicationPolicy" }) as any as S.Schema<ApplicationPolicy>;
 
 /** The managed application provider policies. */
 export type ApplicationDefinitionPropertiesPoliciesList = Array<ApplicationPolicy>;
@@ -415,9 +411,7 @@ export const ApplicationDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ApplicationDefinitionsCreateOrUpdateResponse>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -446,9 +440,7 @@ export const JitApproverDefinition = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(JitApproverDefinitionType),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JitApproverDefinition",
-}) as any as S.Schema<JitApproverDefinition>;
+).annotate({ identifier: "JitApproverDefinition" }) as any as S.Schema<JitApproverDefinition>;
 
 /** The JIT approvers */
 export type ApplicationJitAccessPolicyJitApproversList = Array<JitApproverDefinition>;
@@ -612,9 +604,7 @@ export const ApplicationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -754,9 +744,7 @@ export const ApplicationArtifact = /*@__PURE__*/ S.suspend(() =>
     uri: S.String,
     type: ApplicationArtifactType,
   }),
-).annotate({
-  identifier: "ApplicationArtifact",
-}) as any as S.Schema<ApplicationArtifact>;
+).annotate({ identifier: "ApplicationArtifact" }) as any as S.Schema<ApplicationArtifact>;
 
 /** The collection of managed application artifacts. */
 export type ApplicationPropertiesArtifactsList = Array<ApplicationArtifact>;
@@ -779,9 +767,7 @@ export const ApplicationClientDetails = /*@__PURE__*/ S.suspend(() =>
     puid: S.optional(S.String),
     applicationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationClientDetails",
-}) as any as S.Schema<ApplicationClientDetails>;
+).annotate({ identifier: "ApplicationClientDetails" }) as any as S.Schema<ApplicationClientDetails>;
 
 /** The managed application properties. */
 export interface ApplicationProperties {
@@ -834,9 +820,7 @@ export const ApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(ApplicationClientDetails),
     updatedBy: S.optional(ApplicationClientDetails),
   }),
-).annotate({
-  identifier: "ApplicationProperties",
-}) as any as S.Schema<ApplicationProperties>;
+).annotate({ identifier: "ApplicationProperties" }) as any as S.Schema<ApplicationProperties>;
 
 /** The identity type. */
 export type IdentityType =
@@ -937,9 +921,7 @@ export const ApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationsCreateOrUpdateResponse>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -976,22 +958,13 @@ export const ApplicationsCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(() 
     plan: S.optional(Plan),
     kind: S.String,
     identity: S.optional(IdentityInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2021-07-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/{applicationId+}", code: 200, apiVersion: "2021-07-01" })),
 ).annotate({
   identifier: "ApplicationsCreateOrUpdateByIdRequest",
 }) as any as S.Schema<ApplicationsCreateOrUpdateByIdRequest>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1109,9 +1082,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1126,12 +1097,7 @@ export const DeleteApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2021-07-01",
-    }),
+    T.Http({ method: "DELETE", uri: "/{applicationId+}", code: 200, apiVersion: "2021-07-01" }),
   ),
 ).annotate({
   identifier: "DeleteApplicationByIdRequest",
@@ -1195,9 +1161,7 @@ export const DeleteJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteJitRequestRequest",
-}) as any as S.Schema<DeleteJitRequestRequest>;
+).annotate({ identifier: "DeleteJitRequestRequest" }) as any as S.Schema<DeleteJitRequestRequest>;
 
 export interface DeleteJitRequestResponse {}
 export const DeleteJitRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1225,14 +1189,10 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** Resource tags */
-export type GetApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1323,9 +1283,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 
 export interface GetApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
@@ -1334,22 +1292,13 @@ export interface GetApplicationByIdRequest {
 export const GetApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2021-07-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{applicationId+}", code: 200, apiVersion: "2021-07-01" })),
 ).annotate({
   identifier: "GetApplicationByIdRequest",
 }) as any as S.Schema<GetApplicationByIdRequest>;
 
 /** Resource tags */
-export type GetApplicationByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1470,9 +1419,7 @@ export const GetApplicationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationDefinitionRequest>;
 
 /** Resource tags */
-export type GetApplicationDefinitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationDefinitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1579,14 +1526,10 @@ export const GetJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetJitRequestRequest",
-}) as any as S.Schema<GetJitRequestRequest>;
+).annotate({ identifier: "GetJitRequestRequest" }) as any as S.Schema<GetJitRequestRequest>;
 
 /** Resource tags */
-export type GetJitRequestResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetJitRequestResponseTagsMap = { [key: string]: string | undefined };
 export const GetJitRequestResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1648,9 +1591,7 @@ export const JitAuthorizationPolicies = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     roleDefinitionId: S.String,
   }),
-).annotate({
-  identifier: "JitAuthorizationPolicies",
-}) as any as S.Schema<JitAuthorizationPolicies>;
+).annotate({ identifier: "JitAuthorizationPolicies" }) as any as S.Schema<JitAuthorizationPolicies>;
 
 /** The JIT authorization policies. */
 export type JitRequestPropertiesJitAuthorizationPoliciesList = Array<JitAuthorizationPolicies>;
@@ -1676,9 +1617,7 @@ export const JitSchedulingPolicy = /*@__PURE__*/ S.suspend(() =>
     duration: S.String,
     startTime: S.String,
   }),
-).annotate({
-  identifier: "JitSchedulingPolicy",
-}) as any as S.Schema<JitSchedulingPolicy>;
+).annotate({ identifier: "JitSchedulingPolicy" }) as any as S.Schema<JitSchedulingPolicy>;
 
 /** The JIT request state. */
 export type JitRequestState =
@@ -1722,9 +1661,7 @@ export const JitRequestProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(ApplicationClientDetails),
     updatedBy: S.optional(ApplicationClientDetails),
   }),
-).annotate({
-  identifier: "JitRequestProperties",
-}) as any as S.Schema<JitRequestProperties>;
+).annotate({ identifier: "JitRequestProperties" }) as any as S.Schema<JitRequestProperties>;
 
 export interface GetJitRequestResponse {
   /** Resource ID */
@@ -1752,14 +1689,10 @@ export const GetJitRequestResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetJitRequestResponseSystemData),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "GetJitRequestResponse",
-}) as any as S.Schema<GetJitRequestResponse>;
+).annotate({ identifier: "GetJitRequestResponse" }) as any as S.Schema<GetJitRequestResponse>;
 
 /** Resource tags */
-export type JitRequestsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JitRequestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const JitRequestsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1825,9 +1758,7 @@ export const JitRequestsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<JitRequestsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type JitRequestsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JitRequestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const JitRequestsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2016,9 +1947,7 @@ export const ApplicationSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ApplicationSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSystemData",
-}) as any as S.Schema<ApplicationSystemData>;
+).annotate({ identifier: "ApplicationSystemData" }) as any as S.Schema<ApplicationSystemData>;
 
 /** Information about managed application. */
 export interface Application {
@@ -2082,9 +2011,7 @@ export const ApplicationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationListResult",
-}) as any as S.Schema<ApplicationListResult>;
+).annotate({ identifier: "ApplicationListResult" }) as any as S.Schema<ApplicationListResult>;
 
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2128,9 +2055,7 @@ export const ListApplicationDefinitionByResourceGroupRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>;
 
 /** Resource tags */
-export type ApplicationDefinitionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationDefinitionTagsMap = { [key: string]: string | undefined };
 export const ApplicationDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2213,9 +2138,7 @@ export const ApplicationDefinition = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     properties: ApplicationDefinitionProperties,
   }),
-).annotate({
-  identifier: "ApplicationDefinition",
-}) as any as S.Schema<ApplicationDefinition>;
+).annotate({ identifier: "ApplicationDefinition" }) as any as S.Schema<ApplicationDefinition>;
 
 /** The array of managed application definitions. */
 export type ApplicationDefinitionListResultValueList = Array<ApplicationDefinition>;
@@ -2322,9 +2245,7 @@ export const ManagedIdentityToken = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     tokenType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedIdentityToken",
-}) as any as S.Schema<ManagedIdentityToken>;
+).annotate({ identifier: "ManagedIdentityToken" }) as any as S.Schema<ManagedIdentityToken>;
 
 /** The array of managed identity tokens. */
 export type ManagedIdentityTokenResultValueList = Array<ManagedIdentityToken>;
@@ -2445,9 +2366,7 @@ export const JitRequestDefinition = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(JitRequestDefinitionSystemData),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "JitRequestDefinition",
-}) as any as S.Schema<JitRequestDefinition>;
+).annotate({ identifier: "JitRequestDefinition" }) as any as S.Schema<JitRequestDefinition>;
 
 /** The array of Jit request definition. */
 export type JitRequestDefinitionListResultValueList = Array<JitRequestDefinition>;
@@ -2500,9 +2419,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2522,9 +2439,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2574,9 +2489,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface RefreshApplicationPermissionsRequest {
   /** The ID of the target subscription. */
@@ -2611,9 +2524,7 @@ export const RefreshApplicationPermissionsResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<RefreshApplicationPermissionsResponse>;
 
 /** Resource tags */
-export type UpdateApplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2687,14 +2598,10 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 /** Resource tags */
-export type UpdateApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2807,9 +2714,7 @@ export const JitRequestMetadata = /*@__PURE__*/ S.suspend(() =>
     tenantDisplayName: S.optional(S.String),
     subjectDisplayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JitRequestMetadata",
-}) as any as S.Schema<JitRequestMetadata>;
+).annotate({ identifier: "JitRequestMetadata" }) as any as S.Schema<JitRequestMetadata>;
 
 /** The JIT status. */
 export type Status = "NotSpecified" | "Elevate" | "Remove";
@@ -2858,15 +2763,11 @@ export const UpdateApplicationAccessRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateApplicationAccessResponse {}
 export const UpdateApplicationAccessResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateApplicationAccessResponse",
-  },
+  { identifier: "UpdateApplicationAccessResponse" },
 ) as any as S.Schema<UpdateApplicationAccessResponse>;
 
 /** Resource tags */
-export type UpdateApplicationByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationByIdRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2904,21 +2805,14 @@ export const UpdateApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     identity: S.optional(IdentityInput),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2021-07-01",
-    }),
+    T.Http({ method: "PATCH", uri: "/{applicationId+}", code: 200, apiVersion: "2021-07-01" }),
   ),
 ).annotate({
   identifier: "UpdateApplicationByIdRequest",
 }) as any as S.Schema<UpdateApplicationByIdRequest>;
 
 /** Resource tags */
-export type UpdateApplicationByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3014,9 +2908,7 @@ export const UpdateApplicationByIdResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationByIdResponse>;
 
 /** Application definition tags */
-export type UpdateApplicationDefinitionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationDefinitionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationDefinitionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3051,9 +2943,7 @@ export const UpdateApplicationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationDefinitionRequest>;
 
 /** Resource tags */
-export type UpdateApplicationDefinitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationDefinitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3140,9 +3030,7 @@ export const UpdateApplicationDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationDefinitionResponse>;
 
 /** Jit request tags */
-export type UpdateJitRequestRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJitRequestRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateJitRequestRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3172,14 +3060,10 @@ export const UpdateJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateJitRequestRequest",
-}) as any as S.Schema<UpdateJitRequestRequest>;
+).annotate({ identifier: "UpdateJitRequestRequest" }) as any as S.Schema<UpdateJitRequestRequest>;
 
 /** Resource tags */
-export type UpdateJitRequestResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJitRequestResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateJitRequestResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3255,9 +3139,7 @@ export const UpdateJitRequestResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateJitRequestResponseSystemData),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "UpdateJitRequestResponse",
-}) as any as S.Schema<UpdateJitRequestResponse>;
+).annotate({ identifier: "UpdateJitRequestResponse" }) as any as S.Schema<UpdateJitRequestResponse>;
 
 export type ApplicationDefinitionsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a managed application definition. */

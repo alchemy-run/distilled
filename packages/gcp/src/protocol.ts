@@ -53,9 +53,9 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials, type Config } from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { GCPParseError, UnknownGCPError } from "./errors.ts";
+import { type GCPCredentialsError, GCPParseError, UnknownGCPError } from "./errors.ts";
 import * as Region from "./region.ts";
 import type { GcpHttpTrait } from "./traits.ts";
 
@@ -69,6 +69,7 @@ export type GcpOpError =
   | DefaultErrors
   | UnknownGCPError
   | GCPParseError
+  | GCPCredentialsError
   | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated GCP operation. */

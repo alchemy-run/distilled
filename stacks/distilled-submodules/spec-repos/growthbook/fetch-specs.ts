@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the GrowthBook REST API OpenAPI spec and a snapshot of vendor
  * docs to ../specs/.
@@ -10,7 +10,7 @@
  * so generate never crawls docs.growthbook.io at convert time.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
@@ -39,7 +39,9 @@ const DOCS: { url: string; output: string }[] = [
 ];
 
 import { mkdirSync } from "fs";
+import { writeFile as fsWriteFile } from "fs/promises";
 import { dirname } from "path";
+import YAML from "yaml";
 
 mkdirSync(SPECS_DIR, { recursive: true });
 mkdirSync(DOCS_DIR, { recursive: true });
@@ -59,14 +61,14 @@ const fetchText = async (url: string, accept: string): Promise<string> => {
 
 const writeFile = async (path: string, body: string): Promise<void> => {
   mkdirSync(dirname(path), { recursive: true });
-  await Bun.write(path, body.endsWith("\n") ? body : `${body}\n`);
+  await fsWriteFile(path, body.endsWith("\n") ? body : `${body}\n`);
 };
 
 async function main() {
   console.log(`Fetching OpenAPI spec from ${OPENAPI_SPEC_URL}...`);
 
   const yaml = await fetchText(OPENAPI_SPEC_URL, "application/yaml, text/yaml, text/plain, */*");
-  const spec = Bun.YAML.parse(yaml) as Record<string, unknown>;
+  const spec = YAML.parse(yaml) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page
   // or a gutted response is still parseable YAML, but it is not an OpenAPI
@@ -80,7 +82,7 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff. YAML dates stringify as ISO strings, which is stable.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await fsWriteFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);

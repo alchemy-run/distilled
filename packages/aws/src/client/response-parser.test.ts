@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
+import { describe, expect, test } from "vitest";
 import { isTransientError } from "../category.ts";
 import { InternalError, ParseError } from "../errors.ts";
 import {

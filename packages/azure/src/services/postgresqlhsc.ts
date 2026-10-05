@@ -56,9 +56,7 @@ export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailability",
-}) as any as S.Schema<NameAvailability>;
+).annotate({ identifier: "NameAvailability" }) as any as S.Schema<NameAvailability>;
 
 export interface ClustersPromoteReadReplicaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -117,9 +115,7 @@ export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
     startMinute: S.optional(S.Number),
     dayOfWeek: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Schema<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Schema<MaintenanceWindow>;
 
 /** Properties of the cluster. */
 export interface ClusterPropertiesInput {
@@ -184,9 +180,7 @@ export const ClusterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     sourceLocation: S.optional(S.String),
     pointInTimeUTC: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterPropertiesInput",
-}) as any as S.Schema<ClusterPropertiesInput>;
+).annotate({ identifier: "ClusterPropertiesInput" }) as any as S.Schema<ClusterPropertiesInput>;
 
 export interface CreateClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -218,9 +212,7 @@ export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
+).annotate({ identifier: "CreateClusterRequest" }) as any as S.Schema<CreateClusterRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -257,9 +249,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const CreateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -300,9 +290,7 @@ export const PrivateEndpointProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpointProperty",
-}) as any as S.Schema<PrivateEndpointProperty>;
+).annotate({ identifier: "PrivateEndpointProperty" }) as any as S.Schema<PrivateEndpointProperty>;
 
 /** Group ids of the private endpoint connection. */
 export type PrivateEndpointConnectionSimplePropertiesGroupIdsList = Array<string>;
@@ -471,9 +459,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     earliestRestoreTime: S.optional(S.String),
     privateEndpointConnections: S.optional(ClusterPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 export interface CreateClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -501,9 +487,7 @@ export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
+).annotate({ identifier: "CreateClusterResponse" }) as any as S.Schema<CreateClusterResponse>;
 
 /** The properties of a cluster role. */
 export interface RolePropertiesInput {
@@ -514,9 +498,7 @@ export const RolePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     password: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "RolePropertiesInput",
-}) as any as S.Schema<RolePropertiesInput>;
+).annotate({ identifier: "RolePropertiesInput" }) as any as S.Schema<RolePropertiesInput>;
 
 export interface CreateRoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -545,9 +527,7 @@ export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
+).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
 /** The current provisioning state. */
 export type ProvisioningState = "Succeeded" | "Canceled" | "InProgress" | "Failed";
@@ -556,13 +536,13 @@ export const ProvisioningState = S.String;
 /** The properties of a cluster role. */
 export interface RoleProperties {
   /** The password of the cluster role. */
-  password: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string>;
   /** Provisioning state of the role */
   provisioningState?: ProvisioningState;
 }
 export const RoleProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    password: S.String.pipe(T.SensitiveValue({})),
+    password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     provisioningState: S.optional(ProvisioningState),
   }),
 ).annotate({ identifier: "RoleProperties" }) as any as S.Schema<RoleProperties>;
@@ -587,9 +567,7 @@ export const CreateRoleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: RoleProperties,
   }),
-).annotate({
-  identifier: "CreateRoleResponse",
-}) as any as S.Schema<CreateRoleResponse>;
+).annotate({ identifier: "CreateRoleResponse" }) as any as S.Schema<CreateRoleResponse>;
 
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -612,9 +590,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -713,9 +689,7 @@ export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "DeleteRoleRequest",
-}) as any as S.Schema<DeleteRoleRequest>;
+).annotate({ identifier: "DeleteRoleRequest" }) as any as S.Schema<DeleteRoleRequest>;
 
 export interface DeleteRoleResponse {}
 export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -784,9 +758,7 @@ export const FirewallRuleProperties = /*@__PURE__*/ S.suspend(() =>
     endIpAddress: S.String,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "FirewallRuleProperties",
-}) as any as S.Schema<FirewallRuleProperties>;
+).annotate({ identifier: "FirewallRuleProperties" }) as any as S.Schema<FirewallRuleProperties>;
 
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -833,9 +805,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -870,9 +840,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -898,9 +866,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 /** Data type of the configuration. */
 export type ConfigurationPropertiesDataType = "Boolean" | "Numeric" | "Integer" | "Enumeration";
@@ -963,9 +929,7 @@ export const ConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
     serverRoleGroupConfigurations: ConfigurationPropertiesServerRoleGroupConfigurationsList,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ConfigurationProperties",
-}) as any as S.Schema<ConfigurationProperties>;
+).annotate({ identifier: "ConfigurationProperties" }) as any as S.Schema<ConfigurationProperties>;
 
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -987,9 +951,7 @@ export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConfigurationProperties),
   }),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
+).annotate({ identifier: "GetConfigurationResponse" }) as any as S.Schema<GetConfigurationResponse>;
 
 export interface GetConfigurationCoordinatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1161,9 +1123,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1185,9 +1145,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: FirewallRuleProperties,
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1232,9 +1190,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
@@ -1438,9 +1394,7 @@ export const GetRoleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: RoleProperties,
   }),
-).annotate({
-  identifier: "GetRoleResponse",
-}) as any as S.Schema<GetRoleResponse>;
+).annotate({ identifier: "GetRoleResponse" }) as any as S.Schema<GetRoleResponse>;
 
 export interface GetServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1466,9 +1420,7 @@ export const GetServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "GetServerRequest",
-}) as any as S.Schema<GetServerRequest>;
+).annotate({ identifier: "GetServerRequest" }) as any as S.Schema<GetServerRequest>;
 
 /** The properties of a server in cluster. */
 export interface ClusterServerProperties {
@@ -1518,9 +1470,7 @@ export const ClusterServerProperties = /*@__PURE__*/ S.suspend(() =>
     postgresqlVersion: S.optional(S.String),
     citusVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterServerProperties",
-}) as any as S.Schema<ClusterServerProperties>;
+).annotate({ identifier: "ClusterServerProperties" }) as any as S.Schema<ClusterServerProperties>;
 
 export interface GetServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1542,9 +1492,7 @@ export const GetServerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ClusterServerProperties),
   }),
-).annotate({
-  identifier: "GetServerResponse",
-}) as any as S.Schema<GetServerResponse>;
+).annotate({ identifier: "GetServerResponse" }) as any as S.Schema<GetServerResponse>;
 
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1622,9 +1570,7 @@ export const ClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClusterListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterListResult",
-}) as any as S.Schema<ClusterListResult>;
+).annotate({ identifier: "ClusterListResult" }) as any as S.Schema<ClusterListResult>;
 
 export interface ListClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1641,9 +1587,7 @@ export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
+).annotate({ identifier: "ListClustersRequest" }) as any as S.Schema<ListClustersRequest>;
 
 export interface ListConfigurationByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1764,9 +1708,7 @@ export const ServerConfiguration = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServerConfigurationProperties),
   }),
-).annotate({
-  identifier: "ServerConfiguration",
-}) as any as S.Schema<ServerConfiguration>;
+).annotate({ identifier: "ServerConfiguration" }) as any as S.Schema<ServerConfiguration>;
 
 /** The list of server configurations. */
 export type ServerConfigurationListResultValueList = Array<ServerConfiguration>;
@@ -1853,9 +1795,7 @@ export const FirewallRuleListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(FirewallRuleListResultValueList),
   }),
-).annotate({
-  identifier: "FirewallRuleListResult",
-}) as any as S.Schema<FirewallRuleListResult>;
+).annotate({ identifier: "FirewallRuleListResult" }) as any as S.Schema<FirewallRuleListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1867,9 +1807,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -1889,9 +1827,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation. */
 export type OperationOrigin = "NotSpecified" | "user" | "system";
@@ -1945,9 +1881,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2109,9 +2043,7 @@ export const ListRoleByClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "ListRoleByClusterRequest",
-}) as any as S.Schema<ListRoleByClusterRequest>;
+).annotate({ identifier: "ListRoleByClusterRequest" }) as any as S.Schema<ListRoleByClusterRequest>;
 
 /** Represents a cluster role. */
 export interface Role {
@@ -2216,9 +2148,7 @@ export const ClusterServerListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ClusterServerListResultValueList),
   }),
-).annotate({
-  identifier: "ClusterServerListResult",
-}) as any as S.Schema<ClusterServerListResult>;
+).annotate({ identifier: "ClusterServerListResult" }) as any as S.Schema<ClusterServerListResult>;
 
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -2318,9 +2248,7 @@ export const RestartClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "RestartClusterRequest",
-}) as any as S.Schema<RestartClusterRequest>;
+).annotate({ identifier: "RestartClusterRequest" }) as any as S.Schema<RestartClusterRequest>;
 
 export interface RestartClusterResponse {}
 export const RestartClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2348,9 +2276,7 @@ export const StartClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "StartClusterRequest",
-}) as any as S.Schema<StartClusterRequest>;
+).annotate({ identifier: "StartClusterRequest" }) as any as S.Schema<StartClusterRequest>;
 
 export interface StartClusterResponse {}
 export const StartClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2378,9 +2304,7 @@ export const StopClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "StopClusterRequest",
-}) as any as S.Schema<StopClusterRequest>;
+).annotate({ identifier: "StopClusterRequest" }) as any as S.Schema<StopClusterRequest>;
 
 export interface StopClusterResponse {}
 export const StopClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2476,14 +2400,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-08",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2515,9 +2435,7 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 /** The properties of a configuration. */
 export interface ServerConfigurationPropertiesInput {

@@ -1,11 +1,11 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetch every Cloudflare API doc page as Markdown into ../specs.
  *
  * Usage:
- *   bun run fetch-specs.ts
- *   bun run fetch-specs.ts --concurrency 16
- *   bun run fetch-specs.ts --limit 20            # smoke test
+ *   node fetch-specs.ts
+ *   node fetch-specs.ts --concurrency 16
+ *   node fetch-specs.ts --limit 20            # smoke test
  *
  * Cloudflare publishes no machine-readable description of this surface that
  * the `@distilled.cloud/cloudflare` generator can read; it reads the docs.
@@ -21,8 +21,9 @@
  * Two upstream quirks shape the rest of this script:
  *
  *   - The Markdown endpoint truncates the largest pages mid-stream (the Access
- *     application schemas, for one): the response ends early with `<details>`
- *     elements left unclosed. The page's HTML is served complete, so such a
+ *     application schemas, for one): the response ends early, either with
+ *     `<details>` elements left unclosed or with an "incomplete conversion"
+ *     comment. The page's HTML is served complete, so such a
  *     page falls back to rendering the HTML as the same Markdown
  *     ({@link pageHtmlToMarkdown}).
  *   - Some pages the sidebar links 404 altogether. A failed page is reported
@@ -39,7 +40,7 @@ import { dirname, join, relative, resolve } from "node:path";
 
 const ORIGIN = "https://developers.cloudflare.com";
 const INDEX_URL = `${ORIGIN}/api/`;
-const SPECS_DIR = resolve(import.meta.dir, "..", "specs");
+const SPECS_DIR = resolve(import.meta.dirname, "..", "specs");
 
 /** `--name value`, absent means the default. */
 const flag = (name: string, fallback: number): number => {
@@ -448,10 +449,12 @@ const compactDeepLinks = (markdown: string): string =>
     );
 
 /**
- * A truncated response stops mid-page, leaving `<details>` elements unclosed.
- * Both counts match on every complete page.
+ * A truncated response stops mid-page. Older responses left `<details>`
+ * elements unclosed; by October 2026 the converter closes them and appends
+ * `<!-- Cloudflare Markdown for Agents: incomplete conversion; … -->`.
  */
 const isTruncatedMarkdown = (markdown: string): boolean => {
+  if (/<!--[^>]*incomplete conversion/.test(markdown)) return true;
   const opened = markdown.match(/<details\b/g)?.length ?? 0;
   const closed = markdown.match(/<\/details>/g)?.length ?? 0;
   return opened !== closed;

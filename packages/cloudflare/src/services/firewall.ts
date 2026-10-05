@@ -55,12 +55,7 @@ export class DuplicateLockdown
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 10009,
-        message: { includes: "zonelockdown.api.duplicate_of_existing" },
-      },
-    ],
+    [{ code: 10009, message: { includes: "zonelockdown.api.duplicate_of_existing" } }],
   ) {}
 
 export class DuplicateUaRule
@@ -69,12 +64,7 @@ export class DuplicateUaRule
       code: S.Number,
       message: S.String,
     }),
-    [
-      {
-        code: 10009,
-        message: { includes: "firewalluablock.api.duplicate_of_existing" },
-      },
-    ],
+    [{ code: 10009, message: { includes: "firewalluablock.api.duplicate_of_existing" } }],
   ) {}
 
 export class Forbidden
@@ -112,17 +102,9 @@ export const BulkDeleteRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/firewall/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/firewall/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkDeleteRulesRequest",
-}) as any as S.Schema<BulkDeleteRulesRequest>;
+).annotate({ identifier: "BulkDeleteRulesRequest" }) as any as S.Schema<BulkDeleteRulesRequest>;
 
 export type RulesBulkDeleteResultItemAction =
   | "block"
@@ -245,29 +227,22 @@ export const BulkDeleteRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesBulkDeleteResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkDeleteRulesResponse",
-}) as any as S.Schema<BulkDeleteRulesResponse>;
+).annotate({ identifier: "BulkDeleteRulesResponse" }) as any as S.Schema<BulkDeleteRulesResponse>;
 
 export interface BulkPatchRulesRequest {
   /** Defines an identifier. */
   zoneId: string;
+  /** The unique identifier of the firewall rule. */
+  id: string;
 }
 export const BulkPatchRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
+    id: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/firewall/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/firewall/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchRulesRequest",
-}) as any as S.Schema<BulkPatchRulesRequest>;
+).annotate({ identifier: "BulkPatchRulesRequest" }) as any as S.Schema<BulkPatchRulesRequest>;
 
 export type RulesBulkEditResultItemAction =
   | "block"
@@ -341,9 +316,7 @@ export const RulesBulkEditResultItem = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesBulkEditResultItemProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesBulkEditResultItem",
-}) as any as S.Schema<RulesBulkEditResultItem>;
+).annotate({ identifier: "RulesBulkEditResultItem" }) as any as S.Schema<RulesBulkEditResultItem>;
 
 export type RulesBulkEditResultList = Array<RulesBulkEditResultItem>;
 export const RulesBulkEditResultList = /*@__PURE__*/ S.Array(
@@ -361,29 +334,22 @@ export const BulkPatchRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesBulkEditResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchRulesResponse",
-}) as any as S.Schema<BulkPatchRulesResponse>;
+).annotate({ identifier: "BulkPatchRulesResponse" }) as any as S.Schema<BulkPatchRulesResponse>;
 
 export interface BulkPutRulesRequest {
   /** Defines an identifier. */
   zoneId: string;
+  /** The unique identifier of the firewall rule. */
+  id: string;
 }
 export const BulkPutRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
+    id: S.String,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/firewall/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/firewall/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutRulesRequest",
-}) as any as S.Schema<BulkPutRulesRequest>;
+).annotate({ identifier: "BulkPutRulesRequest" }) as any as S.Schema<BulkPutRulesRequest>;
 
 export type RulesBulkUpdateResultItemAction =
   | "block"
@@ -477,9 +443,7 @@ export const BulkPutRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesBulkUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPutRulesResponse",
-}) as any as S.Schema<BulkPutRulesResponse>;
+).annotate({ identifier: "BulkPutRulesResponse" }) as any as S.Schema<BulkPutRulesResponse>;
 
 export type AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export const AccessRulesCreateRequestConfigurationAccessRuleIPConfigurationTarget = S.String;
@@ -821,9 +785,7 @@ export const CreateAccessRuleResponse = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.NullOr(S.String)),
     scope: S.optional(S.NullOr(AccessRulesCreateResponseScope)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateAccessRuleResponse",
-}) as any as S.Schema<CreateAccessRuleResponse>;
+).annotate({ identifier: "CreateAccessRuleResponse" }) as any as S.Schema<CreateAccessRuleResponse>;
 
 export interface CreateAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -843,11 +805,7 @@ export const CreateAccessRuleForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.String),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/firewall/access_rules/rules",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/zones/{zone_id}/firewall/access_rules/rules", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -945,17 +903,9 @@ export const CreateLockdownRequest = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.Boolean),
     priority: S.optional(S.Number),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/firewall/lockdowns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/firewall/lockdowns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLockdownRequest",
-}) as any as S.Schema<CreateLockdownRequest>;
+).annotate({ identifier: "CreateLockdownRequest" }) as any as S.Schema<CreateLockdownRequest>;
 
 export type LockdownsCreateResponseUrlsList = Array<string>;
 export const LockdownsCreateResponseUrlsList = /*@__PURE__*/ S.Array(
@@ -992,9 +942,7 @@ export const CreateLockdownResponse = /*@__PURE__*/ S.suspend(() =>
     urls: LockdownsCreateResponseUrlsList,
     priority: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateLockdownResponse",
-}) as any as S.Schema<CreateLockdownResponse>;
+).annotate({ identifier: "CreateLockdownResponse" }) as any as S.Schema<CreateLockdownResponse>;
 
 export type RulesCreateRequestActionMode =
   | "simulate"
@@ -1033,9 +981,7 @@ export const RulesCreateRequestAction = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(RulesCreateRequestActionResponse),
     timeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RulesCreateRequestAction",
-}) as any as S.Schema<RulesCreateRequestAction>;
+).annotate({ identifier: "RulesCreateRequestAction" }) as any as S.Schema<RulesCreateRequestAction>;
 
 export interface RulesCreateRequestFilter {
   /** The unique identifier of the filter. */
@@ -1057,9 +1003,7 @@ export const RulesCreateRequestFilter = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.Boolean),
     ref: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RulesCreateRequestFilter",
-}) as any as S.Schema<RulesCreateRequestFilter>;
+).annotate({ identifier: "RulesCreateRequestFilter" }) as any as S.Schema<RulesCreateRequestFilter>;
 
 export interface CreateRuleRequest {
   /** Defines an identifier. */
@@ -1074,17 +1018,9 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     action: RulesCreateRequestAction,
     filter: RulesCreateRequestFilter,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/firewall/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/firewall/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export type RulesCreateResultItemAction =
   | "block"
@@ -1157,9 +1093,7 @@ export const RulesCreateResultItem = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesCreateResultItemProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesCreateResultItem",
-}) as any as S.Schema<RulesCreateResultItem>;
+).annotate({ identifier: "RulesCreateResultItem" }) as any as S.Schema<RulesCreateResultItem>;
 
 export type RulesCreateResultList = Array<RulesCreateResultItem>;
 export const RulesCreateResultList = /*@__PURE__*/ S.Array(
@@ -1177,9 +1111,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesCreateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export type UaRulesCreateRequestConfigurationTarget = "ua";
 export const UaRulesCreateRequestConfigurationTarget = S.String;
@@ -1226,17 +1158,9 @@ export const CreateUaRuleRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     paused: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/firewall/ua_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/firewall/ua_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateUaRuleRequest",
-}) as any as S.Schema<CreateUaRuleRequest>;
+).annotate({ identifier: "CreateUaRuleRequest" }) as any as S.Schema<CreateUaRuleRequest>;
 
 export interface UaRulesCreateResponseConfiguration {
   /** The configuration target for this rule. You must set the target to `ua` for User Agent Blocking rules. */
@@ -1281,9 +1205,7 @@ export const CreateUaRuleResponse = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(UaRulesCreateResponseMode)),
     paused: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateUaRuleResponse",
-}) as any as S.Schema<CreateUaRuleResponse>;
+).annotate({ identifier: "CreateUaRuleResponse" }) as any as S.Schema<CreateUaRuleResponse>;
 
 export type WafOverridesCreateRequestUrlsList = Array<string>;
 export const WafOverridesCreateRequestUrlsList = /*@__PURE__*/ S.Array(
@@ -1301,135 +1223,13 @@ export const CreateWafOverrideRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     urls: WafOverridesCreateRequestUrlsList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/firewall/waf/overrides",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/firewall/waf/overrides", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateWafOverrideRequest",
-}) as any as S.Schema<CreateWafOverrideRequest>;
+).annotate({ identifier: "CreateWafOverrideRequest" }) as any as S.Schema<CreateWafOverrideRequest>;
 
-export type WafOverridesCreateResponseGroupsMap = {
-  [key: string]: unknown | undefined;
-};
-export const WafOverridesCreateResponseGroupsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<WafOverridesCreateResponseGroupsMap>;
-
-export type WafOverridesCreateResponseRewriteActionBlock =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRewriteActionBlock = S.String;
-
-export type WafOverridesCreateResponseRewriteActionChallenge =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRewriteActionChallenge = S.String;
-
-export type WafOverridesCreateResponseRewriteActionDefault =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRewriteActionDefault = S.String;
-
-export type WafOverridesCreateResponseRewriteActionDisable =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRewriteActionDisable = S.String;
-
-export type WafOverridesCreateResponseRewriteActionSimulate =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRewriteActionSimulate = S.String;
-
-export interface WafOverridesCreateResponseRewriteAction {
-  /** The WAF rule action to apply. */
-  block?: WafOverridesCreateResponseRewriteActionBlock | null;
-  /** The WAF rule action to apply. */
-  challenge?: WafOverridesCreateResponseRewriteActionChallenge | null;
-  /** The WAF rule action to apply. */
-  default?: WafOverridesCreateResponseRewriteActionDefault | null;
-  /** The WAF rule action to apply. */
-  disable?: WafOverridesCreateResponseRewriteActionDisable | null;
-  /** The WAF rule action to apply. */
-  simulate?: WafOverridesCreateResponseRewriteActionSimulate | null;
-}
-export const WafOverridesCreateResponseRewriteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    block: S.optional(S.NullOr(WafOverridesCreateResponseRewriteActionBlock)),
-    challenge: S.optional(S.NullOr(WafOverridesCreateResponseRewriteActionChallenge)),
-    default: S.optional(S.NullOr(WafOverridesCreateResponseRewriteActionDefault)),
-    disable: S.optional(S.NullOr(WafOverridesCreateResponseRewriteActionDisable)),
-    simulate: S.optional(S.NullOr(WafOverridesCreateResponseRewriteActionSimulate)),
-  }),
-).annotate({
-  identifier: "WafOverridesCreateResponseRewriteAction",
-}) as any as S.Schema<WafOverridesCreateResponseRewriteAction>;
-
-export type WafOverridesCreateResponseRules =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesCreateResponseRules = S.String;
-
-export type WafOverridesCreateResponseUrlsList = Array<string>;
-export const WafOverridesCreateResponseUrlsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<WafOverridesCreateResponseUrlsList>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface CreateWafOverrideResponse {
-  /** The unique identifier of the WAF override. */
-  id?: string | null;
-  /** An informative summary of the current URI-based WAF override. */
-  description?: string | null;
-  /** An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  groups?: WafOverridesCreateResponseGroupsMap | null;
-  /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
-  /** The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides. */
-  priority?: number | null;
-  /** Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object. */
-  rewriteAction?: WafOverridesCreateResponseRewriteAction | null;
-  /** An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  rules?: WafOverridesCreateResponseRules | null;
-  /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
-  urls?: WafOverridesCreateResponseUrlsList | null;
-}
+export interface CreateWafOverrideResponse {}
 export const CreateWafOverrideResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.NullOr(S.String)),
-    groups: S.optional(S.NullOr(WafOverridesCreateResponseGroupsMap)),
-    paused: S.optional(S.NullOr(S.Boolean)),
-    priority: S.optional(S.NullOr(S.Number)),
-    rewriteAction: S.optional(
-      S.NullOr(WafOverridesCreateResponseRewriteAction).pipe(T.Body("rewrite_action")),
-    ),
-    rules: S.optional(S.NullOr(WafOverridesCreateResponseRules)),
-    urls: S.optional(S.NullOr(WafOverridesCreateResponseUrlsList)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateWafOverrideResponse",
 }) as any as S.Schema<CreateWafOverrideResponse>;
@@ -1466,9 +1266,7 @@ export const DeleteAccessRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteAccessRuleResponse",
-}) as any as S.Schema<DeleteAccessRuleResponse>;
+).annotate({ identifier: "DeleteAccessRuleResponse" }) as any as S.Schema<DeleteAccessRuleResponse>;
 
 export interface DeleteAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1512,9 +1310,7 @@ export const DeleteLockdownRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLockdownRequest",
-}) as any as S.Schema<DeleteLockdownRequest>;
+).annotate({ identifier: "DeleteLockdownRequest" }) as any as S.Schema<DeleteLockdownRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteLockdownResponse {
@@ -1525,9 +1321,7 @@ export const DeleteLockdownResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteLockdownResponse",
-}) as any as S.Schema<DeleteLockdownResponse>;
+).annotate({ identifier: "DeleteLockdownResponse" }) as any as S.Schema<DeleteLockdownResponse>;
 
 export interface DeleteRuleRequest {
   /** Defines an identifier. */
@@ -1540,17 +1334,9 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     ruleId: S.String.pipe(T.Label("rule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/zones/{zone_id}/firewall/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "DELETE", uri: "/zones/{zone_id}/firewall/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export type RulesDeleteResponseAction =
   | "block"
@@ -1622,9 +1408,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesDeleteResponseProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export interface DeleteUaRuleRequest {
   /** Defines an identifier. */
@@ -1645,9 +1429,7 @@ export const DeleteUaRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteUaRuleRequest",
-}) as any as S.Schema<DeleteUaRuleRequest>;
+).annotate({ identifier: "DeleteUaRuleRequest" }) as any as S.Schema<DeleteUaRuleRequest>;
 
 export type UaRulesDeleteResponseConfiguration = UaRulesCreateResponseConfiguration;
 export const UaRulesDeleteResponseConfiguration = UaRulesCreateResponseConfiguration;
@@ -1680,9 +1462,7 @@ export const DeleteUaRuleResponse = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(UaRulesDeleteResponseMode)),
     paused: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteUaRuleResponse",
-}) as any as S.Schema<DeleteUaRuleResponse>;
+).annotate({ identifier: "DeleteUaRuleResponse" }) as any as S.Schema<DeleteUaRuleResponse>;
 
 export interface DeleteWafOverrideRequest {
   /** Defines an identifier. */
@@ -1703,19 +1483,11 @@ export const DeleteWafOverrideRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteWafOverrideRequest",
-}) as any as S.Schema<DeleteWafOverrideRequest>;
+).annotate({ identifier: "DeleteWafOverrideRequest" }) as any as S.Schema<DeleteWafOverrideRequest>;
 
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface DeleteWafOverrideResponse {
-  /** The unique identifier of the WAF override. */
-  id?: string | null;
-}
+export interface DeleteWafOverrideResponse {}
 export const DeleteWafOverrideResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.NullOr(S.String)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "DeleteWafOverrideResponse",
 }) as any as S.Schema<DeleteWafOverrideResponse>;
@@ -1930,9 +1702,7 @@ export const GetAccessRuleResponse = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.NullOr(S.String)),
     scope: S.optional(S.NullOr(AccessRulesGetResponseScope)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetAccessRuleResponse",
-}) as any as S.Schema<GetAccessRuleResponse>;
+).annotate({ identifier: "GetAccessRuleResponse" }) as any as S.Schema<GetAccessRuleResponse>;
 
 export interface GetAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1976,9 +1746,7 @@ export const GetLockdownRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLockdownRequest",
-}) as any as S.Schema<GetLockdownRequest>;
+).annotate({ identifier: "GetLockdownRequest" }) as any as S.Schema<GetLockdownRequest>;
 
 export type LockdownsGetResponseUrlsList = Array<string>;
 export const LockdownsGetResponseUrlsList = /*@__PURE__*/ S.Array(
@@ -2015,9 +1783,7 @@ export const GetLockdownResponse = /*@__PURE__*/ S.suspend(() =>
     urls: LockdownsGetResponseUrlsList,
     priority: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLockdownResponse",
-}) as any as S.Schema<GetLockdownResponse>;
+).annotate({ identifier: "GetLockdownResponse" }) as any as S.Schema<GetLockdownResponse>;
 
 export interface GetRuleRequest {
   /** Defines an identifier. */
@@ -2030,13 +1796,7 @@ export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     ruleId: S.String.pipe(T.Label("rule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
 
@@ -2109,9 +1869,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesGetResponseProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface GetUaRuleRequest {
   /** Defines an identifier. */
@@ -2125,16 +1883,10 @@ export const GetUaRuleRequest = /*@__PURE__*/ S.suspend(() =>
     uaRuleId: S.String.pipe(T.Label("ua_rule_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUaRuleRequest",
-}) as any as S.Schema<GetUaRuleRequest>;
+).annotate({ identifier: "GetUaRuleRequest" }) as any as S.Schema<GetUaRuleRequest>;
 
 export type UaRulesGetResponseConfiguration = UaRulesCreateResponseConfiguration;
 export const UaRulesGetResponseConfiguration = UaRulesCreateResponseConfiguration;
@@ -2163,9 +1915,7 @@ export const GetUaRuleResponse = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(UaRulesGetResponseMode)),
     paused: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetUaRuleResponse",
-}) as any as S.Schema<GetUaRuleResponse>;
+).annotate({ identifier: "GetUaRuleResponse" }) as any as S.Schema<GetUaRuleResponse>;
 
 export interface GetWafOverrideRequest {
   /** Defines an identifier. */
@@ -2186,130 +1936,12 @@ export const GetWafOverrideRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWafOverrideRequest",
-}) as any as S.Schema<GetWafOverrideRequest>;
+).annotate({ identifier: "GetWafOverrideRequest" }) as any as S.Schema<GetWafOverrideRequest>;
 
-export type WafOverridesGetResponseGroupsMap = {
-  [key: string]: unknown | undefined;
-};
-export const WafOverridesGetResponseGroupsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<WafOverridesGetResponseGroupsMap>;
-
-export type WafOverridesGetResponseRewriteActionBlock =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRewriteActionBlock = S.String;
-
-export type WafOverridesGetResponseRewriteActionChallenge =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRewriteActionChallenge = S.String;
-
-export type WafOverridesGetResponseRewriteActionDefault =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRewriteActionDefault = S.String;
-
-export type WafOverridesGetResponseRewriteActionDisable =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRewriteActionDisable = S.String;
-
-export type WafOverridesGetResponseRewriteActionSimulate =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRewriteActionSimulate = S.String;
-
-export interface WafOverridesGetResponseRewriteAction {
-  /** The WAF rule action to apply. */
-  block?: WafOverridesGetResponseRewriteActionBlock | null;
-  /** The WAF rule action to apply. */
-  challenge?: WafOverridesGetResponseRewriteActionChallenge | null;
-  /** The WAF rule action to apply. */
-  default?: WafOverridesGetResponseRewriteActionDefault | null;
-  /** The WAF rule action to apply. */
-  disable?: WafOverridesGetResponseRewriteActionDisable | null;
-  /** The WAF rule action to apply. */
-  simulate?: WafOverridesGetResponseRewriteActionSimulate | null;
-}
-export const WafOverridesGetResponseRewriteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    block: S.optional(S.NullOr(WafOverridesGetResponseRewriteActionBlock)),
-    challenge: S.optional(S.NullOr(WafOverridesGetResponseRewriteActionChallenge)),
-    default: S.optional(S.NullOr(WafOverridesGetResponseRewriteActionDefault)),
-    disable: S.optional(S.NullOr(WafOverridesGetResponseRewriteActionDisable)),
-    simulate: S.optional(S.NullOr(WafOverridesGetResponseRewriteActionSimulate)),
-  }),
-).annotate({
-  identifier: "WafOverridesGetResponseRewriteAction",
-}) as any as S.Schema<WafOverridesGetResponseRewriteAction>;
-
-export type WafOverridesGetResponseRules =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesGetResponseRules = S.String;
-
-export type WafOverridesGetResponseUrlsList = Array<string>;
-export const WafOverridesGetResponseUrlsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<WafOverridesGetResponseUrlsList>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface GetWafOverrideResponse {
-  /** The unique identifier of the WAF override. */
-  id?: string | null;
-  /** An informative summary of the current URI-based WAF override. */
-  description?: string | null;
-  /** An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  groups?: WafOverridesGetResponseGroupsMap | null;
-  /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
-  /** The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides. */
-  priority?: number | null;
-  /** Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object. */
-  rewriteAction?: WafOverridesGetResponseRewriteAction | null;
-  /** An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  rules?: WafOverridesGetResponseRules | null;
-  /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
-  urls?: WafOverridesGetResponseUrlsList | null;
-}
+export interface GetWafOverrideResponse {}
 export const GetWafOverrideResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.NullOr(S.String)),
-    groups: S.optional(S.NullOr(WafOverridesGetResponseGroupsMap)),
-    paused: S.optional(S.NullOr(S.Boolean)),
-    priority: S.optional(S.NullOr(S.Number)),
-    rewriteAction: S.optional(
-      S.NullOr(WafOverridesGetResponseRewriteAction).pipe(T.Body("rewrite_action")),
-    ),
-    rules: S.optional(S.NullOr(WafOverridesGetResponseRules)),
-    urls: S.optional(S.NullOr(WafOverridesGetResponseUrlsList)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWafOverrideResponse",
-}) as any as S.Schema<GetWafOverrideResponse>;
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetWafOverrideResponse" }) as any as S.Schema<GetWafOverrideResponse>;
 
 export interface GetWafPackageRequest {
   /** Defines an identifier. */
@@ -2330,17 +1962,12 @@ export const GetWafPackageRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWafPackageRequest",
-}) as any as S.Schema<GetWafPackageRequest>;
+).annotate({ identifier: "GetWafPackageRequest" }) as any as S.Schema<GetWafPackageRequest>;
 
-/** Raw response payload (operation does not use the standard v4 result envelope). */
-export interface GetWafPackageResponse {}
+export type GetWafPackageResponse = unknown;
 export const GetWafPackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWafPackageResponse",
-}) as any as S.Schema<GetWafPackageResponse>;
+  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "GetWafPackageResponse" }) as any as S.Schema<GetWafPackageResponse>;
 
 export interface GetWafPackageGroupRequest {
   /** Defines an identifier of a schema. */
@@ -2397,9 +2024,7 @@ export const GetWafPackageRuleRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetWafPackageRuleRequest",
-}) as any as S.Schema<GetWafPackageRuleRequest>;
+).annotate({ identifier: "GetWafPackageRuleRequest" }) as any as S.Schema<GetWafPackageRuleRequest>;
 
 export type GetWafPackageRuleResponse = unknown;
 export const GetWafPackageRuleResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2698,9 +2323,7 @@ export const ListAccessRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: AccessRulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccessRulesResponse",
-}) as any as S.Schema<ListAccessRulesResponse>;
+).annotate({ identifier: "ListAccessRulesResponse" }) as any as S.Schema<ListAccessRulesResponse>;
 
 export interface ListAccessRulesForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -2735,13 +2358,7 @@ export const ListAccessRulesForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/access_rules/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/access_rules/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "ListAccessRulesForZoneRequest",
@@ -2788,17 +2405,9 @@ export const ListLockdownsRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number.pipe(T.Query())),
     uriSearch: S.optional(S.String.pipe(T.Query("uri_search"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/lockdowns",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/lockdowns", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLockdownsRequest",
-}) as any as S.Schema<ListLockdownsRequest>;
+).annotate({ identifier: "ListLockdownsRequest" }) as any as S.Schema<ListLockdownsRequest>;
 
 export type LockdownsListResultItemUrlsList = Array<string>;
 export const LockdownsListResultItemUrlsList = /*@__PURE__*/ S.Array(
@@ -2834,9 +2443,7 @@ export const LockdownsListResultItem = /*@__PURE__*/ S.suspend(() =>
     urls: LockdownsListResultItemUrlsList,
     priority: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LockdownsListResultItem",
-}) as any as S.Schema<LockdownsListResultItem>;
+).annotate({ identifier: "LockdownsListResultItem" }) as any as S.Schema<LockdownsListResultItem>;
 
 export type LockdownsListResultList = Array<LockdownsListResultItem>;
 export const LockdownsListResultList = /*@__PURE__*/ S.Array(
@@ -2854,9 +2461,7 @@ export const ListLockdownsResponse = /*@__PURE__*/ S.suspend(() =>
     result: LockdownsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLockdownsResponse",
-}) as any as S.Schema<ListLockdownsResponse>;
+).annotate({ identifier: "ListLockdownsResponse" }) as any as S.Schema<ListLockdownsResponse>;
 
 export interface ListRulesRequest {
   /** Defines an identifier. */
@@ -2884,17 +2489,9 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.Boolean.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export type RulesListResultItemAction =
   | "block"
@@ -2965,9 +2562,7 @@ export const RulesListResultItem = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesListResultItemProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesListResultItem",
-}) as any as S.Schema<RulesListResultItem>;
+).annotate({ identifier: "RulesListResultItem" }) as any as S.Schema<RulesListResultItem>;
 
 export type RulesListResultList = Array<RulesListResultItem>;
 export const RulesListResultList = /*@__PURE__*/ S.Array(
@@ -2985,9 +2580,7 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export interface ListUaRulesRequest {
   /** Defines an identifier. */
@@ -3012,17 +2605,9 @@ export const ListUaRulesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     userAgent: S.optional(S.String.pipe(T.Query("user_agent"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/ua_rules",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/ua_rules", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListUaRulesRequest",
-}) as any as S.Schema<ListUaRulesRequest>;
+).annotate({ identifier: "ListUaRulesRequest" }) as any as S.Schema<ListUaRulesRequest>;
 
 export type UaRulesListResultItemConfiguration = UaRulesCreateResponseConfiguration;
 export const UaRulesListResultItemConfiguration = UaRulesCreateResponseConfiguration;
@@ -3054,9 +2639,7 @@ export const UaRulesListResultItem = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(UaRulesListResultItemMode)),
     paused: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "UaRulesListResultItem",
-}) as any as S.Schema<UaRulesListResultItem>;
+).annotate({ identifier: "UaRulesListResultItem" }) as any as S.Schema<UaRulesListResultItem>;
 
 export type UaRulesListResultList = Array<UaRulesListResultItem>;
 export const UaRulesListResultList = /*@__PURE__*/ S.Array(
@@ -3074,9 +2657,7 @@ export const ListUaRulesResponse = /*@__PURE__*/ S.suspend(() =>
     result: UaRulesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListUaRulesResponse",
-}) as any as S.Schema<ListUaRulesResponse>;
+).annotate({ identifier: "ListUaRulesResponse" }) as any as S.Schema<ListUaRulesResponse>;
 
 export interface ListWafOverridesRequest {
   /** Defines an identifier. */
@@ -3092,157 +2673,14 @@ export const ListWafOverridesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/waf/overrides",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/waf/overrides", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWafOverridesRequest",
-}) as any as S.Schema<ListWafOverridesRequest>;
+).annotate({ identifier: "ListWafOverridesRequest" }) as any as S.Schema<ListWafOverridesRequest>;
 
-export type WafOverridesListResultItemGroupsMap = {
-  [key: string]: unknown | undefined;
-};
-export const WafOverridesListResultItemGroupsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<WafOverridesListResultItemGroupsMap>;
-
-export type WafOverridesListResultItemRewriteActionBlock =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRewriteActionBlock = S.String;
-
-export type WafOverridesListResultItemRewriteActionChallenge =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRewriteActionChallenge = S.String;
-
-export type WafOverridesListResultItemRewriteActionDefault =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRewriteActionDefault = S.String;
-
-export type WafOverridesListResultItemRewriteActionDisable =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRewriteActionDisable = S.String;
-
-export type WafOverridesListResultItemRewriteActionSimulate =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRewriteActionSimulate = S.String;
-
-export interface WafOverridesListResultItemRewriteAction {
-  /** The WAF rule action to apply. */
-  block?: WafOverridesListResultItemRewriteActionBlock | null;
-  /** The WAF rule action to apply. */
-  challenge?: WafOverridesListResultItemRewriteActionChallenge | null;
-  /** The WAF rule action to apply. */
-  default?: WafOverridesListResultItemRewriteActionDefault | null;
-  /** The WAF rule action to apply. */
-  disable?: WafOverridesListResultItemRewriteActionDisable | null;
-  /** The WAF rule action to apply. */
-  simulate?: WafOverridesListResultItemRewriteActionSimulate | null;
-}
-export const WafOverridesListResultItemRewriteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    block: S.optional(S.NullOr(WafOverridesListResultItemRewriteActionBlock)),
-    challenge: S.optional(S.NullOr(WafOverridesListResultItemRewriteActionChallenge)),
-    default: S.optional(S.NullOr(WafOverridesListResultItemRewriteActionDefault)),
-    disable: S.optional(S.NullOr(WafOverridesListResultItemRewriteActionDisable)),
-    simulate: S.optional(S.NullOr(WafOverridesListResultItemRewriteActionSimulate)),
-  }),
-).annotate({
-  identifier: "WafOverridesListResultItemRewriteAction",
-}) as any as S.Schema<WafOverridesListResultItemRewriteAction>;
-
-export type WafOverridesListResultItemRules =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesListResultItemRules = S.String;
-
-export type WafOverridesListResultItemUrlsList = Array<string>;
-export const WafOverridesListResultItemUrlsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<WafOverridesListResultItemUrlsList>;
-
-export interface WafOverridesListResultItem {
-  /** The unique identifier of the WAF override. */
-  id?: string | null;
-  /** An informative summary of the current URI-based WAF override. */
-  description?: string | null;
-  /** An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  groups?: WafOverridesListResultItemGroupsMap | null;
-  /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
-  /** The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides. */
-  priority?: number | null;
-  /** Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object. */
-  rewriteAction?: WafOverridesListResultItemRewriteAction | null;
-  /** An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  rules?: WafOverridesListResultItemRules | null;
-  /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
-  urls?: WafOverridesListResultItemUrlsList | null;
-}
-export const WafOverridesListResultItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.NullOr(S.String)),
-    groups: S.optional(S.NullOr(WafOverridesListResultItemGroupsMap)),
-    paused: S.optional(S.NullOr(S.Boolean)),
-    priority: S.optional(S.NullOr(S.Number)),
-    rewriteAction: S.optional(
-      S.NullOr(WafOverridesListResultItemRewriteAction).pipe(T.Body("rewrite_action")),
-    ),
-    rules: S.optional(S.NullOr(WafOverridesListResultItemRules)),
-    urls: S.optional(S.NullOr(WafOverridesListResultItemUrlsList)),
-  }),
-).annotate({
-  identifier: "WafOverridesListResultItem",
-}) as any as S.Schema<WafOverridesListResultItem>;
-
-export type WafOverridesListResultList = Array<WafOverridesListResultItem>;
-export const WafOverridesListResultList = /*@__PURE__*/ S.Array(
-  WafOverridesListResultItem,
-) as any as S.Schema<WafOverridesListResultList>;
-
-export interface ListWafOverridesResponse {
-  /** The unwrapped `result` payload of the v4 response envelope. */
-  result: WafOverridesListResultList;
-  /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
-}
+export interface ListWafOverridesResponse {}
 export const ListWafOverridesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    result: WafOverridesListResultList.pipe(T.EnvelopePayload()),
-    resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWafOverridesResponse",
-}) as any as S.Schema<ListWafOverridesResponse>;
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({ identifier: "ListWafOverridesResponse" }) as any as S.Schema<ListWafOverridesResponse>;
 
 export type WafPackagesGroupsListRequestDirection = "asc" | "desc";
 export const WafPackagesGroupsListRequestDirection = S.String;
@@ -3691,25 +3129,15 @@ export const ListWafPackagesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/firewall/waf/packages",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/firewall/waf/packages", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWafPackagesRequest",
-}) as any as S.Schema<ListWafPackagesRequest>;
+).annotate({ identifier: "ListWafPackagesRequest" }) as any as S.Schema<ListWafPackagesRequest>;
 
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListWafPackagesResponse {}
 export const ListWafPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListWafPackagesResponse",
-}) as any as S.Schema<ListWafPackagesResponse>;
+).annotate({ identifier: "ListWafPackagesResponse" }) as any as S.Schema<ListWafPackagesResponse>;
 
 export type AccessRulesEditRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export const AccessRulesEditRequestConfigurationAccessRuleIPConfigurationTarget = S.String;
@@ -4051,9 +3479,7 @@ export const PatchAccessRuleResponse = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.NullOr(S.String)),
     scope: S.optional(S.NullOr(AccessRulesEditResponseScope)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchAccessRuleResponse",
-}) as any as S.Schema<PatchAccessRuleResponse>;
+).annotate({ identifier: "PatchAccessRuleResponse" }) as any as S.Schema<PatchAccessRuleResponse>;
 
 export interface PatchAccessRuleForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -4098,17 +3524,9 @@ export const PatchRuleRequest = /*@__PURE__*/ S.suspend(() =>
     zoneId: S.String.pipe(T.Label("zone_id")),
     ruleId: S.String.pipe(T.Label("rule_id")),
   })
-    .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/zones/{zone_id}/firewall/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/firewall/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleRequest",
-}) as any as S.Schema<PatchRuleRequest>;
+).annotate({ identifier: "PatchRuleRequest" }) as any as S.Schema<PatchRuleRequest>;
 
 export type RulesEditResultItemAction =
   | "block"
@@ -4179,9 +3597,7 @@ export const RulesEditResultItem = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesEditResultItemProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "RulesEditResultItem",
-}) as any as S.Schema<RulesEditResultItem>;
+).annotate({ identifier: "RulesEditResultItem" }) as any as S.Schema<RulesEditResultItem>;
 
 export type RulesEditResultList = Array<RulesEditResultItem>;
 export const RulesEditResultList = /*@__PURE__*/ S.Array(
@@ -4199,9 +3615,7 @@ export const PatchRuleResponse = /*@__PURE__*/ S.suspend(() =>
     result: RulesEditResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchRuleResponse",
-}) as any as S.Schema<PatchRuleResponse>;
+).annotate({ identifier: "PatchRuleResponse" }) as any as S.Schema<PatchRuleResponse>;
 
 export type WafPackagesGroupsEditRequestMode = "on" | "off";
 export const WafPackagesGroupsEditRequestMode = S.String;
@@ -4519,9 +3933,7 @@ export const UpdateLockdownRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateLockdownRequest",
-}) as any as S.Schema<UpdateLockdownRequest>;
+).annotate({ identifier: "UpdateLockdownRequest" }) as any as S.Schema<UpdateLockdownRequest>;
 
 export type LockdownsUpdateResponseUrlsList = Array<string>;
 export const LockdownsUpdateResponseUrlsList = /*@__PURE__*/ S.Array(
@@ -4558,9 +3970,7 @@ export const UpdateLockdownResponse = /*@__PURE__*/ S.suspend(() =>
     urls: LockdownsUpdateResponseUrlsList,
     priority: S.optional(S.NullOr(S.Number)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateLockdownResponse",
-}) as any as S.Schema<UpdateLockdownResponse>;
+).annotate({ identifier: "UpdateLockdownResponse" }) as any as S.Schema<UpdateLockdownResponse>;
 
 export type RulesUpdateRequestActionMode =
   | "simulate"
@@ -4587,9 +3997,7 @@ export const RulesUpdateRequestAction = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(RulesCreateRequestActionResponse),
     timeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RulesUpdateRequestAction",
-}) as any as S.Schema<RulesUpdateRequestAction>;
+).annotate({ identifier: "RulesUpdateRequestAction" }) as any as S.Schema<RulesUpdateRequestAction>;
 
 export type RulesUpdateRequestFilter = RulesCreateRequestFilter;
 export const RulesUpdateRequestFilter = RulesCreateRequestFilter;
@@ -4610,17 +4018,9 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     action: RulesUpdateRequestAction,
     filter: RulesCreateRequestFilter,
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/firewall/rules/{rule_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/firewall/rules/{rule_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export type RulesUpdateResponseAction =
   | "block"
@@ -4692,9 +4092,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     products: S.optional(S.NullOr(RulesUpdateResponseProductsList)),
     ref: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export type UaRulesUpdateRequestConfigurationAccessRuleIPConfigurationTarget = "ip";
 export const UaRulesUpdateRequestConfigurationAccessRuleIPConfigurationTarget = S.String;
@@ -4839,16 +4237,10 @@ export const UpdateUaRuleRequest = /*@__PURE__*/ S.suspend(() =>
     paused: S.optional(S.Boolean),
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/zones/{zone_id}/firewall/ua_rules/{ua_rule_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateUaRuleRequest",
-}) as any as S.Schema<UpdateUaRuleRequest>;
+).annotate({ identifier: "UpdateUaRuleRequest" }) as any as S.Schema<UpdateUaRuleRequest>;
 
 export type UaRulesUpdateResponseConfiguration = UaRulesCreateResponseConfiguration;
 export const UaRulesUpdateResponseConfiguration = UaRulesCreateResponseConfiguration;
@@ -4881,9 +4273,7 @@ export const UpdateUaRuleResponse = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.NullOr(UaRulesUpdateResponseMode)),
     paused: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateUaRuleResponse",
-}) as any as S.Schema<UpdateUaRuleResponse>;
+).annotate({ identifier: "UpdateUaRuleResponse" }) as any as S.Schema<UpdateUaRuleResponse>;
 
 export type WafOverridesUpdateRequestRewriteActionBlock =
   | "challenge"
@@ -4993,127 +4383,11 @@ export const UpdateWafOverrideRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateWafOverrideRequest",
-}) as any as S.Schema<UpdateWafOverrideRequest>;
+).annotate({ identifier: "UpdateWafOverrideRequest" }) as any as S.Schema<UpdateWafOverrideRequest>;
 
-export type WafOverridesUpdateResponseGroupsMap = {
-  [key: string]: unknown | undefined;
-};
-export const WafOverridesUpdateResponseGroupsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<WafOverridesUpdateResponseGroupsMap>;
-
-export type WafOverridesUpdateResponseRewriteActionBlock =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRewriteActionBlock = S.String;
-
-export type WafOverridesUpdateResponseRewriteActionChallenge =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRewriteActionChallenge = S.String;
-
-export type WafOverridesUpdateResponseRewriteActionDefault =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRewriteActionDefault = S.String;
-
-export type WafOverridesUpdateResponseRewriteActionDisable =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRewriteActionDisable = S.String;
-
-export type WafOverridesUpdateResponseRewriteActionSimulate =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRewriteActionSimulate = S.String;
-
-export interface WafOverridesUpdateResponseRewriteAction {
-  /** The WAF rule action to apply. */
-  block?: WafOverridesUpdateResponseRewriteActionBlock | null;
-  /** The WAF rule action to apply. */
-  challenge?: WafOverridesUpdateResponseRewriteActionChallenge | null;
-  /** The WAF rule action to apply. */
-  default?: WafOverridesUpdateResponseRewriteActionDefault | null;
-  /** The WAF rule action to apply. */
-  disable?: WafOverridesUpdateResponseRewriteActionDisable | null;
-  /** The WAF rule action to apply. */
-  simulate?: WafOverridesUpdateResponseRewriteActionSimulate | null;
-}
-export const WafOverridesUpdateResponseRewriteAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    block: S.optional(S.NullOr(WafOverridesUpdateResponseRewriteActionBlock)),
-    challenge: S.optional(S.NullOr(WafOverridesUpdateResponseRewriteActionChallenge)),
-    default: S.optional(S.NullOr(WafOverridesUpdateResponseRewriteActionDefault)),
-    disable: S.optional(S.NullOr(WafOverridesUpdateResponseRewriteActionDisable)),
-    simulate: S.optional(S.NullOr(WafOverridesUpdateResponseRewriteActionSimulate)),
-  }),
-).annotate({
-  identifier: "WafOverridesUpdateResponseRewriteAction",
-}) as any as S.Schema<WafOverridesUpdateResponseRewriteAction>;
-
-export type WafOverridesUpdateResponseRules =
-  | "challenge"
-  | "block"
-  | "simulate"
-  | "disable"
-  | "default";
-export const WafOverridesUpdateResponseRules = S.String;
-
-export type WafOverridesUpdateResponseUrlsList = Array<string>;
-export const WafOverridesUpdateResponseUrlsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<WafOverridesUpdateResponseUrlsList>;
-
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface UpdateWafOverrideResponse {
-  /** The unique identifier of the WAF override. */
-  id?: string | null;
-  /** An informative summary of the current URI-based WAF override. */
-  description?: string | null;
-  /** An object that allows you to enable or disable WAF rule groups for the current WAF override. Each key of this object must be the ID of a WAF rule group, and each value must be a valid WAF action (usually `default` or `disable`). When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  groups?: WafOverridesUpdateResponseGroupsMap | null;
-  /** When true, indicates that the rule is currently paused. */
-  paused?: boolean | null;
-  /** The relative priority of the current URI-based WAF override when multiple overrides match a single URL. A lower number indicates higher priority. Higher priority overrides may overwrite values set by lower priority overrides. */
-  priority?: number | null;
-  /** Specifies that, when a WAF rule matches, its configured action will be replaced by the action configured in this object. */
-  rewriteAction?: WafOverridesUpdateResponseRewriteAction | null;
-  /** An object that allows you to override the action of specific WAF rules. Each key of this object must be the ID of a WAF rule, and each value must be a valid WAF action. Unless you are disabling a rule, ensure that you also enable the rule group that this WAF rule belongs to. When creating a new URI-based WAF override, you must provide a `groups` object or a `rules` object. */
-  rules?: WafOverridesUpdateResponseRules | null;
-  /** The URLs to include in the current WAF override. You can use wildcards. Each entered URL will be escaped before use, which means you can only use simple wildcard patterns. */
-  urls?: WafOverridesUpdateResponseUrlsList | null;
-}
+export interface UpdateWafOverrideResponse {}
 export const UpdateWafOverrideResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.NullOr(S.String)),
-    description: S.optional(S.NullOr(S.String)),
-    groups: S.optional(S.NullOr(WafOverridesUpdateResponseGroupsMap)),
-    paused: S.optional(S.NullOr(S.Boolean)),
-    priority: S.optional(S.NullOr(S.Number)),
-    rewriteAction: S.optional(
-      S.NullOr(WafOverridesUpdateResponseRewriteAction).pipe(T.Body("rewrite_action")),
-    ),
-    rules: S.optional(S.NullOr(WafOverridesUpdateResponseRules)),
-    urls: S.optional(S.NullOr(WafOverridesUpdateResponseUrlsList)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateWafOverrideResponse",
 }) as any as S.Schema<UpdateWafOverrideResponse>;
@@ -5630,29 +4904,18 @@ export const listUaRules: API.PaginatedOperationMethod<
 
 export type ListWafOverridesError = CloudflareOpError;
 /** **This endpoint has been deprecated and returns 410 Gone. Please use the [Rulesets API](https://developers.cloudflare.com/ruleset-engine/) instead.** Previously fetched the URI-based WAF overrides in a zone. */
-export const listWafOverrides: API.PaginatedOperationMethod<
+export const listWafOverrides: API.OperationMethod<
   ListWafOverridesRequest,
   ListWafOverridesResponse,
   ListWafOverridesError,
-  CloudflareOpContext,
-  WafOverridesListResultItem
-> = /*@__PURE__*/ API.makePaginated(
-  () => ({
-    input: ListWafOverridesRequest,
-    output: ListWafOverridesResponse,
-    errors: [CloudflareRateLimited, CloudflareError],
-    protocol: CloudflarePaginatedProtocol,
-    retry: Retry.Retry,
-    pagination: {
-      mode: "page",
-      inputToken: "page",
-      outputToken: "resultInfo.page",
-      items: "result",
-      pageSize: "perPage",
-    } as const,
-  }),
-  cloudflarePaginate,
-) as any;
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListWafOverridesRequest,
+  output: ListWafOverridesResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
 
 export type ListWafPackageGroupsError = CloudflareOpError;
 /** Fetches the WAF rule groups in a WAF package. **Note:** Applies only to the [previous version of WAF managed rules](https://developers.cloudflare.com/support/firewall/managed-rules-web-application-firewall-waf/understanding-waf-managed-rules-web-application-firewall/). */

@@ -57,17 +57,9 @@ export const GetEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantId: S.String.pipe(T.Label("tenant_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/tenants/{tenant_id}/entitlements",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}/entitlements", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntitlementRequest",
-}) as any as S.Schema<GetEntitlementRequest>;
+).annotate({ identifier: "GetEntitlementRequest" }) as any as S.Schema<GetEntitlementRequest>;
 
 export type EntitlementsGetResponseAllowAddSubdomainType = "bool";
 export const EntitlementsGetResponseAllowAddSubdomainType = S.String;
@@ -280,9 +272,7 @@ export const GetEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
       T.Body("partial_setup_allowed"),
     ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetEntitlementResponse",
-}) as any as S.Schema<GetEntitlementResponse>;
+).annotate({ identifier: "GetEntitlementResponse" }) as any as S.Schema<GetEntitlementResponse>;
 
 export interface GetTenantRequest {
   tenantId: string;
@@ -293,9 +283,7 @@ export const GetTenantRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTenantRequest",
-}) as any as S.Schema<GetTenantRequest>;
+).annotate({ identifier: "GetTenantRequest" }) as any as S.Schema<GetTenantRequest>;
 
 export interface GetResponseTenantContacts {
   email?: string | null;
@@ -409,9 +397,7 @@ export const GetTenantResponse = /*@__PURE__*/ S.suspend(() =>
     tenantUnits: GetResponseTenantUnitsList.pipe(T.Body("tenant_units")),
     customerId: S.optional(S.NullOr(S.String).pipe(T.Body("customer_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetTenantResponse",
-}) as any as S.Schema<GetTenantResponse>;
+).annotate({ identifier: "GetTenantResponse" }) as any as S.Schema<GetTenantResponse>;
 
 export interface ListAccountsRequest {
   tenantId: string;
@@ -420,17 +406,9 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantId: S.String.pipe(T.Label("tenant_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/tenants/{tenant_id}/accounts",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}/accounts", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export interface AccountsListResultItemSettings {
   abuseContactEmail: string;
@@ -458,9 +436,7 @@ export const AccountsListResultItemSettings = /*@__PURE__*/ S.suspend(() =>
 export type AccountsListResultItemType = "standard" | "enterprise";
 export const AccountsListResultItemType = S.String;
 
-export type AccountsListResultItemTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsListResultItemTagsMap = { [key: string]: string | undefined };
 export const AccountsListResultItemTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -484,9 +460,7 @@ export const AccountsListResultItem = /*@__PURE__*/ S.suspend(() =>
     type: AccountsListResultItemType,
     tags: S.optional(S.NullOr(AccountsListResultItemTagsMap)),
   }),
-).annotate({
-  identifier: "AccountsListResultItem",
-}) as any as S.Schema<AccountsListResultItem>;
+).annotate({ identifier: "AccountsListResultItem" }) as any as S.Schema<AccountsListResultItem>;
 
 export type AccountsListResultList = Array<AccountsListResultItem>;
 export const AccountsListResultList = /*@__PURE__*/ S.Array(
@@ -504,9 +478,7 @@ export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
     result: AccountsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccountsResponse",
-}) as any as S.Schema<ListAccountsResponse>;
+).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 
 export interface ListAccountTypesRequest {
   tenantId: string;
@@ -515,17 +487,9 @@ export const ListAccountTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantId: S.String.pipe(T.Label("tenant_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/tenants/{tenant_id}/account_types",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}/account_types", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccountTypesRequest",
-}) as any as S.Schema<ListAccountTypesRequest>;
+).annotate({ identifier: "ListAccountTypesRequest" }) as any as S.Schema<ListAccountTypesRequest>;
 
 export type AccountTypesListResultList = Array<string>;
 export const AccountTypesListResultList = /*@__PURE__*/ S.Array(
@@ -543,9 +507,7 @@ export const ListAccountTypesResponse = /*@__PURE__*/ S.suspend(() =>
     result: AccountTypesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListAccountTypesResponse",
-}) as any as S.Schema<ListAccountTypesResponse>;
+).annotate({ identifier: "ListAccountTypesResponse" }) as any as S.Schema<ListAccountTypesResponse>;
 
 export interface ListMembershipsRequest {
   tenantId: string;
@@ -554,17 +516,9 @@ export const ListMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantId: S.String.pipe(T.Label("tenant_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/tenants/{tenant_id}/memberships",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/tenants/{tenant_id}/memberships", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembershipsRequest",
-}) as any as S.Schema<ListMembershipsRequest>;
+).annotate({ identifier: "ListMembershipsRequest" }) as any as S.Schema<ListMembershipsRequest>;
 
 export interface MembershipsListResultItem {
   userEmail: string;
@@ -597,12 +551,10 @@ export const ListMembershipsResponse = /*@__PURE__*/ S.suspend(() =>
     result: MembershipsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMembershipsResponse",
-}) as any as S.Schema<ListMembershipsResponse>;
+).annotate({ identifier: "ListMembershipsResponse" }) as any as S.Schema<ListMembershipsResponse>;
 
 export type GetEntitlementError = CloudflareOpError;
-/** List of innate entitlements available for the Tenant. */
+/** Retrieves the innate and custom entitlement allocations available to this tenant. */
 export const getEntitlement: API.OperationMethod<
   GetEntitlementRequest,
   GetEntitlementResponse,
@@ -617,7 +569,7 @@ export const getEntitlement: API.OperationMethod<
 }));
 
 export type GetTenantError = CloudflareOpError;
-/** Retrieves a Tenant by Tenant ID. */
+/** Retrieves a tenant's identity, status, metadata, contacts, and organizational units. */
 export const getTenant: API.OperationMethod<
   GetTenantRequest,
   GetTenantResponse,
@@ -632,7 +584,7 @@ export const getTenant: API.OperationMethod<
 }));
 
 export type ListAccountsError = CloudflareOpError;
-/** List of accounts for the Tenant. */
+/** Lists the Cloudflare accounts associated with this tenant. */
 export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
@@ -652,7 +604,7 @@ export const listAccounts: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListAccountTypesError = CloudflareOpError;
-/** List of account types available for the Tenant to provision accounts. */
+/** Lists the account types this tenant is allowed to provision. */
 export const listAccountTypes: API.PaginatedOperationMethod<
   ListAccountTypesRequest,
   ListAccountTypesResponse,
@@ -672,7 +624,7 @@ export const listAccountTypes: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListMembershipsError = CloudflareOpError;
-/** List of active members (Cloudflare users) for the Tenant. */
+/** Lists active Cloudflare users with memberships in this tenant. */
 export const listMemberships: API.PaginatedOperationMethod<
   ListMembershipsRequest,
   ListMembershipsResponse,

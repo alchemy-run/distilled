@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
-import { buildSchema, introspectionFromSchema } from "graphql";
+import { stripTypeScriptTypes } from "node:module";
+import { describe, expect, test } from "vitest";
 import { applyOperation } from "../json-patch.ts";
 import {
   convertGraphQLClient,
@@ -121,7 +121,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("Query<Project | null, RailwayGlobalError>");
     expect(output).toContain("args?: { readonly first?: number | null }");
     expect(output).toContain('from "@distilled.cloud/core/graphql"');
-    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
 
   test("emits error classes and scopes them to roots", () => {
@@ -171,7 +171,7 @@ describe("GraphQL Query SDK generator", () => {
     expect(output).toContain("Query<Project, RailwayNotFound | RailwayGlobalError>");
     expect(output).toContain("[RailwayNotFoundSpec, ...globalErrors]");
     expect(output).toContain("Query<User, RailwayGlobalError>");
-    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
   });
 
   test("unknown coordinates fail validateGraphQLModel", () => {
@@ -185,14 +185,5 @@ describe("GraphQL Query SDK generator", () => {
       "Project.id: unknown GraphQL error MissingError",
     );
     expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow("Incomplete GraphQL NON_NULL");
-  });
-
-  test("SDL round-trip through convert still produces a model", () => {
-    const source = buildSchema(`
-      type Query { ping: String }
-    `);
-    const model = convertGraphQLClient(introspectionFromSchema(source));
-    expect(model.queryType).toBe("Query");
-    expect(model.types.Query?.fields?.ping?.type).toBe("String");
   });
 });

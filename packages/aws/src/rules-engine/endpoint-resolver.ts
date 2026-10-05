@@ -25,6 +25,7 @@ import {
   hasHttpLabel,
 } from "../traits.ts";
 import { getPropertySignatures } from "../util/ast.ts";
+import { encodeLabel } from "../util/serialize-input.ts";
 import { isVirtualHostableS3Bucket, parseArn, partition } from "./aws-functions.ts";
 import type { EndpointParams, ResolvedEndpoint, RulesValue } from "./expression.ts";
 import { getAttr, isValidHostLabel, parseURL, substring, uriEncode } from "./standard-functions.ts";
@@ -206,7 +207,7 @@ function adjustRequestPath(
       // e.g., "mybucket.s3.us-east-1.amazonaws.com" starts with "mybucket."
       if (hostname.startsWith(`${value}.`)) {
         // The HTTP label would have been serialized as "/{value}" in the path
-        const pathPrefix = `/${encodeURIComponent(value)}`;
+        const pathPrefix = `/${encodeLabel(value)}`;
 
         if (request.path.startsWith(pathPrefix)) {
           let adjustedPath = request.path.slice(pathPrefix.length);

@@ -25,6 +25,7 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { type DefaultErrors, UnknownPosthogError, PosthogParseError } from "./errors.ts";
 
@@ -72,7 +73,9 @@ export const PosthogProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Confi
   // protocol boundary; PosthogOpError reintroduces it for callers.
   credentials: Effect.flatMap(Credentials, (resolve) => resolve),
   baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({ Authorization: `Bearer ${creds.apiKey}` }),
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
   errorEnvelope: drfErrorEnvelope,
   unknownError: ({ code, message, body }) =>
     new UnknownPosthogError({

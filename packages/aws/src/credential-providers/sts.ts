@@ -1,3 +1,5 @@
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 /**
  * The STS calls the credential providers make: `sts:AssumeRole` and
  * `sts:AssumeRoleWithWebIdentity`, the region they are made in, and the MFA
@@ -7,9 +9,7 @@
  * the browser as well as in Node. The generated `sts` service is imported on
  * first use so an application that never assumes a role never pays for it.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { Credentials, fromAwsCredentialIdentity } from "../credentials-service.ts";
 import * as Region from "../region.ts";
 import type { AssumeRoleRequest, AssumeRoleWithWebIdentityRequest } from "../services/sts.ts";

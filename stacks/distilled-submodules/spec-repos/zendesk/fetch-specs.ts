@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Zendesk's first-party OpenAPI specs and snapshots vendor docs
  * into ../specs/.
@@ -10,7 +10,7 @@
  * never crawls the live site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -19,7 +19,9 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import { dirname } from "path";
+import YAML from "yaml";
 
 const SPECS_DIR = "../specs";
 const DOCS_DIR = `${SPECS_DIR}/docs`;
@@ -100,7 +102,7 @@ async function main() {
   for (const file of OPENAPI_FILES) {
     console.log(`Fetching OpenAPI spec from ${file.url}...`);
     const yaml = await fetchText(file.url);
-    const spec = Bun.YAML.parse(yaml) as Record<string, unknown>;
+    const spec = YAML.parse(yaml) as Record<string, unknown>;
 
     // Fail here rather than three steps later in the generator: a login page
     // or a gutted response is still valid YAML, but it is not an OpenAPI
@@ -113,7 +115,7 @@ async function main() {
 
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing spec to ${outputPath}...`);
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
     const info =
       spec.info && typeof spec.info === "object"
@@ -143,7 +145,7 @@ async function main() {
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     mkdirSync(dirname(outputPath), { recursive: true });
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, body.endsWith("\n") ? body : `${body}\n`);
+    await writeFile(outputPath, body.endsWith("\n") ? body : `${body}\n`);
     docs.push({ path: doc.output, source: doc.url, bytes: body.length });
   }
 
@@ -152,7 +154,7 @@ async function main() {
     openapi: openapiManifest,
     docs,
   };
-  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
+  await writeFile(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   const pathCount = openapiManifest.reduce((n, s) => n + s.paths, 0);
   console.log(

@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** The resource tags. */
-export type AppsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AppsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -32,9 +30,7 @@ export const AppPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     subdomain: S.optional(S.String),
     template: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppPropertiesInput",
-}) as any as S.Schema<AppPropertiesInput>;
+).annotate({ identifier: "AppPropertiesInput" }) as any as S.Schema<AppPropertiesInput>;
 
 /** The name of the SKU. */
 export type AppSkuInfoName = "ST0" | "ST1" | "ST2";
@@ -108,9 +104,7 @@ export const AppsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AppsCreateOrUpdateRequest>;
 
 /** The resource tags. */
-export type AppsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AppsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -234,9 +228,7 @@ export const AppAvailabilityInfo = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppAvailabilityInfo",
-}) as any as S.Schema<AppAvailabilityInfo>;
+).annotate({ identifier: "AppAvailabilityInfo" }) as any as S.Schema<AppAvailabilityInfo>;
 
 export interface CheckAppSubdomainAvailabilityRequest {
   /** The subscription identifier. */
@@ -284,9 +276,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface DeleteAppResponse {}
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -474,9 +464,7 @@ export const ListAppTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListAppTemplatesRequest",
-}) as any as S.Schema<ListAppTemplatesRequest>;
+).annotate({ identifier: "ListAppTemplatesRequest" }) as any as S.Schema<ListAppTemplatesRequest>;
 
 /** IoT Central Application Template Locations. */
 export interface AppTemplateLocations {
@@ -490,9 +478,7 @@ export const AppTemplateLocations = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppTemplateLocations",
-}) as any as S.Schema<AppTemplateLocations>;
+).annotate({ identifier: "AppTemplateLocations" }) as any as S.Schema<AppTemplateLocations>;
 
 /** A list of locations that support the template. */
 export type AppTemplateLocationsList = Array<AppTemplateLocations>;
@@ -550,9 +536,7 @@ export const AppTemplatesResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(AppTemplatesResultValueList),
   }),
-).annotate({
-  identifier: "AppTemplatesResult",
-}) as any as S.Schema<AppTemplatesResult>;
+).annotate({ identifier: "AppTemplatesResult" }) as any as S.Schema<AppTemplatesResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -564,9 +548,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -586,9 +568,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** IoT Central REST API operation */
 export interface Operation {
@@ -628,9 +608,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(OperationListResultValueList),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 /** Instance tags */
 export type UpdateAppRequestTagsMap = { [key: string]: string | undefined };
@@ -676,9 +654,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 /** The resource tags. */
 export type UpdateAppResponseTagsMap = { [key: string]: string | undefined };
@@ -720,9 +696,7 @@ export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
     sku: AppSkuInfo,
     identity: S.optional(AppsCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateAppResponse",
-}) as any as S.Schema<UpdateAppResponse>;
+).annotate({ identifier: "UpdateAppResponse" }) as any as S.Schema<UpdateAppResponse>;
 
 export type AppsCreateOrUpdateError = AzureOpError;
 /** Create or update the metadata of an IoT Central application. The usual pattern to modify a property is to retrieve the IoT Central application metadata and security metadata, and then combine them with the modified values in a new body to update the IoT Central application. */

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Resend's OpenAPI document and vendor docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * under docs/ so generate never crawls live docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/openapi.json
@@ -37,12 +37,15 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -182,7 +185,7 @@ async function main() {
     );
   }
   console.log(`Writing spec to ${OPENAPI_PATH}...`);
-  await Bun.write(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching docs indexes from ${LLMS_URL} and ${DOCS_LLMS_URL}...`);
@@ -195,7 +198,7 @@ async function main() {
       `${DOCS_LLMS_URL} did not look like Resend's docs index — refusing to continue`,
     );
   }
-  await Bun.write(`${SPECS_DIR}/llms.txt`, withTrailingNewline(rootLlms));
+  await writeFile(`${SPECS_DIR}/llms.txt`, withTrailingNewline(rootLlms));
 
   const pages = pagesFromLlms(docsLlms);
   if (pages.length === 0) {

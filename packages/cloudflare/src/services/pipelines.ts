@@ -282,9 +282,7 @@ export const CreateRequestDestination = /*@__PURE__*/ S.suspend(() =>
     path: CreateRequestDestinationPath,
     type: CreateRequestDestinationType,
   }),
-).annotate({
-  identifier: "CreateRequestDestination",
-}) as any as S.Schema<CreateRequestDestination>;
+).annotate({ identifier: "CreateRequestDestination" }) as any as S.Schema<CreateRequestDestination>;
 
 export type CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = "json";
 export const CreateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = S.String;
@@ -380,17 +378,9 @@ export const CreatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     source: CreateRequestSourceList,
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pipelines",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pipelines", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePipelineRequest",
-}) as any as S.Schema<CreatePipelineRequest>;
+).annotate({ identifier: "CreatePipelineRequest" }) as any as S.Schema<CreatePipelineRequest>;
 
 export interface CreateResponseDestinationBatch {
   /** Specifies rough maximum size of files. */
@@ -578,11 +568,9 @@ export const CreatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
     source: CreateResponseSourceList,
     version: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePipelineResponse",
-}) as any as S.Schema<CreatePipelineResponse>;
+).annotate({ identifier: "CreatePipelineResponse" }) as any as S.Schema<CreatePipelineResponse>;
 
-export type SinksCreateRequestType = "r2" | "r2_data_catalog";
+export type SinksCreateRequestType = "r2" | "r2_data_catalog" | "basin_catalog";
 export const SinksCreateRequestType = S.String;
 
 export interface SinksCreateRequestConfigCloudflarePipelinesR2TableCredentials {
@@ -1139,9 +1127,7 @@ export const SinksCreateRequestSchema = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(SinksCreateRequestSchemaFieldsList),
     inferred: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SinksCreateRequestSchema",
-}) as any as S.Schema<SinksCreateRequestSchema>;
+).annotate({ identifier: "SinksCreateRequestSchema" }) as any as S.Schema<SinksCreateRequestSchema>;
 
 export interface CreateSinkRequest {
   /** Specifies the public ID of the account. */
@@ -1166,19 +1152,11 @@ export const CreateSinkRequest = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(SinksCreateRequestFormat),
     schema: S.optional(SinksCreateRequestSchema),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pipelines/v1/sinks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pipelines/v1/sinks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSinkRequest",
-}) as any as S.Schema<CreateSinkRequest>;
+).annotate({ identifier: "CreateSinkRequest" }) as any as S.Schema<CreateSinkRequest>;
 
-export type SinksCreateResponseType = "r2" | "r2_data_catalog";
+export type SinksCreateResponseType = "r2" | "r2_data_catalog" | "basin_catalog";
 export const SinksCreateResponseType = S.String;
 
 export type SinksCreateResponseConfigCloudflarePipelinesR2TableCredentials =
@@ -1762,9 +1740,7 @@ export const CreateSinkResponse = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(SinksCreateResponseFormat)),
     schema: S.optional(S.NullOr(SinksCreateResponseSchema)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSinkResponse",
-}) as any as S.Schema<CreateSinkResponse>;
+).annotate({ identifier: "CreateSinkResponse" }) as any as S.Schema<CreateSinkResponse>;
 
 export type StreamsCreateRequestFormatJsonType = "json";
 export const StreamsCreateRequestFormatJsonType = S.String;
@@ -1865,9 +1841,7 @@ export const StreamsCreateRequestHttp = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     cors: S.optional(StreamsCreateRequestHttpCors),
   }),
-).annotate({
-  identifier: "StreamsCreateRequestHttp",
-}) as any as S.Schema<StreamsCreateRequestHttp>;
+).annotate({ identifier: "StreamsCreateRequestHttp" }) as any as S.Schema<StreamsCreateRequestHttp>;
 
 export type StreamsCreateRequestSchemaFieldsItemInt32Type = "int32";
 export const StreamsCreateRequestSchemaFieldsItemInt32Type = S.String;
@@ -2217,17 +2191,9 @@ export const CreateStreamRequest = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(StreamsCreateRequestSchema),
     workerBinding: S.optional(StreamsCreateRequestWorkerBinding.pipe(T.Body("worker_binding"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pipelines/v1/streams",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/pipelines/v1/streams", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStreamRequest",
-}) as any as S.Schema<CreateStreamRequest>;
+).annotate({ identifier: "CreateStreamRequest" }) as any as S.Schema<CreateStreamRequest>;
 
 export type StreamsCreateResponseHttpCorsOriginsList = Array<string>;
 export const StreamsCreateResponseHttpCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -2682,9 +2648,7 @@ export const CreateStreamResponse = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(StreamsCreateResponseFormat)),
     schema: S.optional(S.NullOr(StreamsCreateResponseSchema)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateStreamResponse",
-}) as any as S.Schema<CreateStreamResponse>;
+).annotate({ identifier: "CreateStreamResponse" }) as any as S.Schema<CreateStreamResponse>;
 
 export interface CreateV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -2701,16 +2665,10 @@ export const CreateV1PipelineRequest = /*@__PURE__*/ S.suspend(() =>
     sql: S.String,
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/pipelines/v1/pipelines",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/pipelines/v1/pipelines", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1PipelineRequest",
-}) as any as S.Schema<CreateV1PipelineRequest>;
+).annotate({ identifier: "CreateV1PipelineRequest" }) as any as S.Schema<CreateV1PipelineRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateV1PipelineResponse {
@@ -2734,9 +2692,7 @@ export const CreateV1PipelineResponse = /*@__PURE__*/ S.suspend(() =>
     sql: S.String,
     status: S.String,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1PipelineResponse",
-}) as any as S.Schema<CreateV1PipelineResponse>;
+).annotate({ identifier: "CreateV1PipelineResponse" }) as any as S.Schema<CreateV1PipelineResponse>;
 
 export interface DeletePipelineRequest {
   /** Specifies the public ID of the account. */
@@ -2757,16 +2713,12 @@ export const DeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePipelineRequest",
-}) as any as S.Schema<DeletePipelineRequest>;
+).annotate({ identifier: "DeletePipelineRequest" }) as any as S.Schema<DeletePipelineRequest>;
 
 export interface DeletePipelineResponse {}
 export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePipelineResponse",
-}) as any as S.Schema<DeletePipelineResponse>;
+).annotate({ identifier: "DeletePipelineResponse" }) as any as S.Schema<DeletePipelineResponse>;
 
 export interface DeleteSinkRequest {
   /** Specifies the public ID of the account. */
@@ -2787,16 +2739,12 @@ export const DeleteSinkRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSinkRequest",
-}) as any as S.Schema<DeleteSinkRequest>;
+).annotate({ identifier: "DeleteSinkRequest" }) as any as S.Schema<DeleteSinkRequest>;
 
 export type DeleteSinkResponse = unknown;
 export const DeleteSinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSinkResponse",
-}) as any as S.Schema<DeleteSinkResponse>;
+).annotate({ identifier: "DeleteSinkResponse" }) as any as S.Schema<DeleteSinkResponse>;
 
 export interface DeleteStreamRequest {
   /** Specifies the public ID of the account. */
@@ -2817,16 +2765,12 @@ export const DeleteStreamRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStreamRequest",
-}) as any as S.Schema<DeleteStreamRequest>;
+).annotate({ identifier: "DeleteStreamRequest" }) as any as S.Schema<DeleteStreamRequest>;
 
 export type DeleteStreamResponse = unknown;
 export const DeleteStreamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteStreamResponse",
-}) as any as S.Schema<DeleteStreamResponse>;
+).annotate({ identifier: "DeleteStreamResponse" }) as any as S.Schema<DeleteStreamResponse>;
 
 export interface DeleteV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -2847,16 +2791,12 @@ export const DeleteV1PipelineRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1PipelineRequest",
-}) as any as S.Schema<DeleteV1PipelineRequest>;
+).annotate({ identifier: "DeleteV1PipelineRequest" }) as any as S.Schema<DeleteV1PipelineRequest>;
 
 export type DeleteV1PipelineResponse = unknown;
 export const DeleteV1PipelineResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1PipelineResponse",
-}) as any as S.Schema<DeleteV1PipelineResponse>;
+).annotate({ identifier: "DeleteV1PipelineResponse" }) as any as S.Schema<DeleteV1PipelineResponse>;
 
 export interface GetPipelineRequest {
   /** Specifies the public ID of the account. */
@@ -2870,16 +2810,10 @@ export const GetPipelineRequest = /*@__PURE__*/ S.suspend(() =>
     pipelineName: S.String.pipe(T.Label("pipeline_name")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pipelines/{pipeline_name}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines/{pipeline_name}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPipelineRequest",
-}) as any as S.Schema<GetPipelineRequest>;
+).annotate({ identifier: "GetPipelineRequest" }) as any as S.Schema<GetPipelineRequest>;
 
 export type GetResponseDestinationBatch = CreateResponseDestinationBatch;
 export const GetResponseDestinationBatch = CreateResponseDestinationBatch;
@@ -2925,9 +2859,7 @@ export const GetResponseDestination = /*@__PURE__*/ S.suspend(() =>
     path: CreateResponseDestinationPath,
     type: GetResponseDestinationType,
   }),
-).annotate({
-  identifier: "GetResponseDestination",
-}) as any as S.Schema<GetResponseDestination>;
+).annotate({ identifier: "GetResponseDestination" }) as any as S.Schema<GetResponseDestination>;
 
 export type GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = "json";
 export const GetResponseSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = S.String;
@@ -3031,9 +2963,7 @@ export const GetPipelineResponse = /*@__PURE__*/ S.suspend(() =>
     source: GetResponseSourceList,
     version: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPipelineResponse",
-}) as any as S.Schema<GetPipelineResponse>;
+).annotate({ identifier: "GetPipelineResponse" }) as any as S.Schema<GetPipelineResponse>;
 
 export interface GetSinkRequest {
   /** Specifies the public ID of the account. */
@@ -3056,7 +2986,7 @@ export const GetSinkRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetSinkRequest" }) as any as S.Schema<GetSinkRequest>;
 
-export type SinksGetResponseType = "r2" | "r2_data_catalog";
+export type SinksGetResponseType = "r2" | "r2_data_catalog" | "basin_catalog";
 export const SinksGetResponseType = S.String;
 
 export type SinksGetResponseConfigCloudflarePipelinesR2TablePublicFileNamingStrategy =
@@ -3565,9 +3495,7 @@ export const SinksGetResponseSchema = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(S.NullOr(SinksGetResponseSchemaFieldsList)),
     inferred: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "SinksGetResponseSchema",
-}) as any as S.Schema<SinksGetResponseSchema>;
+).annotate({ identifier: "SinksGetResponseSchema" }) as any as S.Schema<SinksGetResponseSchema>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkResponse {
@@ -3597,9 +3525,7 @@ export const GetSinkResponse = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(SinksGetResponseFormat)),
     schema: S.optional(S.NullOr(SinksGetResponseSchema)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSinkResponse",
-}) as any as S.Schema<GetSinkResponse>;
+).annotate({ identifier: "GetSinkResponse" }) as any as S.Schema<GetSinkResponse>;
 
 export interface GetStreamRequest {
   /** Specifies the public ID of the account. */
@@ -3620,9 +3546,7 @@ export const GetStreamRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStreamRequest",
-}) as any as S.Schema<GetStreamRequest>;
+).annotate({ identifier: "GetStreamRequest" }) as any as S.Schema<GetStreamRequest>;
 
 export type StreamsGetResponseHttpCorsOriginsList = Array<string>;
 export const StreamsGetResponseHttpCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -3654,9 +3578,7 @@ export const StreamsGetResponseHttp = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     cors: S.optional(S.NullOr(StreamsGetResponseHttpCors)),
   }),
-).annotate({
-  identifier: "StreamsGetResponseHttp",
-}) as any as S.Schema<StreamsGetResponseHttp>;
+).annotate({ identifier: "StreamsGetResponseHttp" }) as any as S.Schema<StreamsGetResponseHttp>;
 
 export type StreamsGetResponseWorkerBinding = StreamsCreateRequestWorkerBinding;
 export const StreamsGetResponseWorkerBinding = StreamsCreateRequestWorkerBinding;
@@ -4041,9 +3963,7 @@ export const StreamsGetResponseSchema = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(S.NullOr(StreamsGetResponseSchemaFieldsList)),
     inferred: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "StreamsGetResponseSchema",
-}) as any as S.Schema<StreamsGetResponseSchema>;
+).annotate({ identifier: "StreamsGetResponseSchema" }) as any as S.Schema<StreamsGetResponseSchema>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetStreamResponse {
@@ -4077,9 +3997,7 @@ export const GetStreamResponse = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(StreamsGetResponseFormat)),
     schema: S.optional(S.NullOr(StreamsGetResponseSchema)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetStreamResponse",
-}) as any as S.Schema<GetStreamResponse>;
+).annotate({ identifier: "GetStreamResponse" }) as any as S.Schema<GetStreamResponse>;
 
 export interface GetV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -4100,9 +4018,7 @@ export const GetV1PipelineRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1PipelineRequest",
-}) as any as S.Schema<GetV1PipelineRequest>;
+).annotate({ identifier: "GetV1PipelineRequest" }) as any as S.Schema<GetV1PipelineRequest>;
 
 export type GetV1ResponseTablesItemType = "stream" | "sink";
 export const GetV1ResponseTablesItemType = S.String;
@@ -4127,9 +4043,7 @@ export const GetV1ResponseTablesItem = /*@__PURE__*/ S.suspend(() =>
     type: GetV1ResponseTablesItemType,
     version: S.Number,
   }),
-).annotate({
-  identifier: "GetV1ResponseTablesItem",
-}) as any as S.Schema<GetV1ResponseTablesItem>;
+).annotate({ identifier: "GetV1ResponseTablesItem" }) as any as S.Schema<GetV1ResponseTablesItem>;
 
 export type GetV1ResponseTablesList = Array<GetV1ResponseTablesItem>;
 export const GetV1ResponseTablesList = /*@__PURE__*/ S.Array(
@@ -4164,9 +4078,7 @@ export const GetV1PipelineResponse = /*@__PURE__*/ S.suspend(() =>
     tables: GetV1ResponseTablesList,
     failureReason: S.optional(S.NullOr(S.String).pipe(T.Body("failure_reason"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1PipelineResponse",
-}) as any as S.Schema<GetV1PipelineResponse>;
+).annotate({ identifier: "GetV1PipelineResponse" }) as any as S.Schema<GetV1PipelineResponse>;
 
 export interface ListPipelinesRequest {
   /** Specifies the public ID of the account. */
@@ -4185,17 +4097,9 @@ export const ListPipelinesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.String.pipe(T.Query("per_page"))),
     search: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pipelines",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPipelinesRequest",
-}) as any as S.Schema<ListPipelinesRequest>;
+).annotate({ identifier: "ListPipelinesRequest" }) as any as S.Schema<ListPipelinesRequest>;
 
 export type ListResponseResultsItemDestinationBatch = CreateResponseDestinationBatch;
 export const ListResponseResultsItemDestinationBatch = CreateResponseDestinationBatch;
@@ -4356,9 +4260,7 @@ export const ListResponseResultsItem = /*@__PURE__*/ S.suspend(() =>
     source: ListResponseResultsItemSourceList,
     version: S.Number,
   }),
-).annotate({
-  identifier: "ListResponseResultsItem",
-}) as any as S.Schema<ListResponseResultsItem>;
+).annotate({ identifier: "ListResponseResultsItem" }) as any as S.Schema<ListResponseResultsItem>;
 
 export type ListResponseResultsList = Array<ListResponseResultsItem>;
 export const ListResponseResultsList = /*@__PURE__*/ S.Array(
@@ -4376,9 +4278,7 @@ export const ListPipelinesResponse = /*@__PURE__*/ S.suspend(() =>
     results: ListResponseResultsList,
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPipelinesResponse",
-}) as any as S.Schema<ListPipelinesResponse>;
+).annotate({ identifier: "ListPipelinesResponse" }) as any as S.Schema<ListPipelinesResponse>;
 
 export interface ListSinksRequest {
   /** Specifies the public ID of the account. */
@@ -4397,19 +4297,11 @@ export const ListSinksRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     pipelineId: S.optional(S.String.pipe(T.Query("pipeline_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pipelines/v1/sinks",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines/v1/sinks", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSinksRequest",
-}) as any as S.Schema<ListSinksRequest>;
+).annotate({ identifier: "ListSinksRequest" }) as any as S.Schema<ListSinksRequest>;
 
-export type SinksListResultItemType = "r2" | "r2_data_catalog";
+export type SinksListResultItemType = "r2" | "r2_data_catalog" | "basin_catalog";
 export const SinksListResultItemType = S.String;
 
 export type SinksListResultItemConfigCloudflarePipelinesR2TablePublicFileNamingStrategy =
@@ -4928,9 +4820,7 @@ export const SinksListResultItem = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(SinksListResultItemFormat)),
     schema: S.optional(S.NullOr(SinksListResultItemSchema)),
   }),
-).annotate({
-  identifier: "SinksListResultItem",
-}) as any as S.Schema<SinksListResultItem>;
+).annotate({ identifier: "SinksListResultItem" }) as any as S.Schema<SinksListResultItem>;
 
 export type SinksListResultList = Array<SinksListResultItem>;
 export const SinksListResultList = /*@__PURE__*/ S.Array(
@@ -4948,9 +4838,7 @@ export const ListSinksResponse = /*@__PURE__*/ S.suspend(() =>
     result: SinksListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSinksResponse",
-}) as any as S.Schema<ListSinksResponse>;
+).annotate({ identifier: "ListSinksResponse" }) as any as S.Schema<ListSinksResponse>;
 
 export interface ListStreamsRequest {
   /** Specifies the public ID of the account. */
@@ -4970,17 +4858,9 @@ export const ListStreamsRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     pipelineId: S.optional(S.String.pipe(T.Query("pipeline_id"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pipelines/v1/streams",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines/v1/streams", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStreamsRequest",
-}) as any as S.Schema<ListStreamsRequest>;
+).annotate({ identifier: "ListStreamsRequest" }) as any as S.Schema<ListStreamsRequest>;
 
 export type StreamsListResultItemHttpCorsOriginsList = Array<string>;
 export const StreamsListResultItemHttpCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -5434,9 +5314,7 @@ export const StreamsListResultItem = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(StreamsListResultItemFormat)),
     schema: S.optional(S.NullOr(StreamsListResultItemSchema)),
   }),
-).annotate({
-  identifier: "StreamsListResultItem",
-}) as any as S.Schema<StreamsListResultItem>;
+).annotate({ identifier: "StreamsListResultItem" }) as any as S.Schema<StreamsListResultItem>;
 
 export type StreamsListResultList = Array<StreamsListResultItem>;
 export const StreamsListResultList = /*@__PURE__*/ S.Array(
@@ -5454,9 +5332,7 @@ export const ListStreamsResponse = /*@__PURE__*/ S.suspend(() =>
     result: StreamsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListStreamsResponse",
-}) as any as S.Schema<ListStreamsResponse>;
+).annotate({ identifier: "ListStreamsResponse" }) as any as S.Schema<ListStreamsResponse>;
 
 export interface ListV1PipelineRequest {
   /** Specifies the public ID of the account. */
@@ -5474,16 +5350,10 @@ export const ListV1PipelineRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/pipelines/v1/pipelines",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/pipelines/v1/pipelines", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1PipelineRequest",
-}) as any as S.Schema<ListV1PipelineRequest>;
+).annotate({ identifier: "ListV1PipelineRequest" }) as any as S.Schema<ListV1PipelineRequest>;
 
 export interface ListV1ResultItem {
   /** Indicates a unique identifier for this pipeline. */
@@ -5506,9 +5376,7 @@ export const ListV1ResultItem = /*@__PURE__*/ S.suspend(() =>
     sql: S.String,
     status: S.String,
   }),
-).annotate({
-  identifier: "ListV1ResultItem",
-}) as any as S.Schema<ListV1ResultItem>;
+).annotate({ identifier: "ListV1ResultItem" }) as any as S.Schema<ListV1ResultItem>;
 
 export type ListV1ResultList = Array<ListV1ResultItem>;
 export const ListV1ResultList = /*@__PURE__*/ S.Array(
@@ -5526,9 +5394,7 @@ export const ListV1PipelineResponse = /*@__PURE__*/ S.suspend(() =>
     result: ListV1ResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1PipelineResponse",
-}) as any as S.Schema<ListV1PipelineResponse>;
+).annotate({ identifier: "ListV1PipelineResponse" }) as any as S.Schema<ListV1PipelineResponse>;
 
 export type StreamsUpdateRequestHttpCorsOriginsList = Array<string>;
 export const StreamsUpdateRequestHttpCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -5560,9 +5426,7 @@ export const StreamsUpdateRequestHttp = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     cors: S.optional(StreamsUpdateRequestHttpCors),
   }),
-).annotate({
-  identifier: "StreamsUpdateRequestHttp",
-}) as any as S.Schema<StreamsUpdateRequestHttp>;
+).annotate({ identifier: "StreamsUpdateRequestHttp" }) as any as S.Schema<StreamsUpdateRequestHttp>;
 
 export type StreamsUpdateRequestWorkerBinding = StreamsCreateRequestWorkerBinding;
 export const StreamsUpdateRequestWorkerBinding = StreamsCreateRequestWorkerBinding;
@@ -5590,9 +5454,7 @@ export const PatchStreamRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchStreamRequest",
-}) as any as S.Schema<PatchStreamRequest>;
+).annotate({ identifier: "PatchStreamRequest" }) as any as S.Schema<PatchStreamRequest>;
 
 export type StreamsUpdateResponseHttpCorsOriginsList = Array<string>;
 export const StreamsUpdateResponseHttpCorsOriginsList = /*@__PURE__*/ S.Array(
@@ -6047,9 +5909,7 @@ export const PatchStreamResponse = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(S.NullOr(StreamsUpdateResponseFormat)),
     schema: S.optional(S.NullOr(StreamsUpdateResponseSchema)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchStreamResponse",
-}) as any as S.Schema<PatchStreamResponse>;
+).annotate({ identifier: "PatchStreamResponse" }) as any as S.Schema<PatchStreamResponse>;
 
 export type UpdateRequestDestinationBatch = CreateRequestDestinationBatch;
 export const UpdateRequestDestinationBatch = CreateRequestDestinationBatch;
@@ -6100,9 +5960,7 @@ export const UpdateRequestDestination = /*@__PURE__*/ S.suspend(() =>
     type: UpdateRequestDestinationType,
     credentials: S.optional(CreateRequestDestinationCredentials),
   }),
-).annotate({
-  identifier: "UpdateRequestDestination",
-}) as any as S.Schema<UpdateRequestDestination>;
+).annotate({ identifier: "UpdateRequestDestination" }) as any as S.Schema<UpdateRequestDestination>;
 
 export type UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = "json";
 export const UpdateRequestSourceItemCloudflarePipelinesWorkersPipelinesHTTPSourceFormat = S.String;
@@ -6202,16 +6060,10 @@ export const UpdatePipelineRequest = /*@__PURE__*/ S.suspend(() =>
     source: UpdateRequestSourceList,
   })
     .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/pipelines/{pipeline_name}",
-        code: 200,
-      }),
+      T.Http({ method: "PUT", uri: "/accounts/{account_id}/pipelines/{pipeline_name}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePipelineRequest",
-}) as any as S.Schema<UpdatePipelineRequest>;
+).annotate({ identifier: "UpdatePipelineRequest" }) as any as S.Schema<UpdatePipelineRequest>;
 
 export type UpdateResponseDestinationBatch = CreateResponseDestinationBatch;
 export const UpdateResponseDestinationBatch = CreateResponseDestinationBatch;
@@ -6366,9 +6218,7 @@ export const UpdatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
     source: UpdateResponseSourceList,
     version: S.Number,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePipelineResponse",
-}) as any as S.Schema<UpdatePipelineResponse>;
+).annotate({ identifier: "UpdatePipelineResponse" }) as any as S.Schema<UpdatePipelineResponse>;
 
 export interface ValidateSqlPipelineRequest {
   /** Specifies the public ID of the account. */
@@ -6473,9 +6323,7 @@ export const ValidateSqlResponseGraph = /*@__PURE__*/ S.suspend(() =>
     edges: ValidateSqlResponseGraphEdgesList,
     nodes: ValidateSqlResponseGraphNodesList,
   }),
-).annotate({
-  identifier: "ValidateSqlResponseGraph",
-}) as any as S.Schema<ValidateSqlResponseGraph>;
+).annotate({ identifier: "ValidateSqlResponseGraph" }) as any as S.Schema<ValidateSqlResponseGraph>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ValidateSqlPipelineResponse {
@@ -6720,11 +6568,7 @@ export const listPipelines: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
-    pagination: {
-      inputToken: "page",
-      pageSize: "per_page",
-      items: "results",
-    } as const,
+    pagination: { inputToken: "page", pageSize: "per_page", items: "results" } as const,
   }),
   cloudflarePaginate,
 ) as any;

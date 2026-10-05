@@ -1,0 +1,15 @@
+{
+  "description": "InputSchemaMapping is polymorphic on inputSchemaMappingType (JsonInputSchemaMapping); the converted model keeps only the discriminator, so S.Struct strips the mapping `properties` on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#InputSchemaMapping/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Mapping-type-specific properties (polymorphic on `inputSchemaMappingType`), e.g. JSON field mappings for `Json`."
+        }
+      }
+    }
+  ]
+}

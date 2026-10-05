@@ -83,8 +83,8 @@ Every mirror gets exactly:
 readme.md                            # per repo
 ```
 
-plus `.meta/bun.lock`, which the mirror's own workflow commits and the stack
-never touches.
+plus `.meta/pnpm-lock.yaml`, which the mirror's own workflow commits and the
+stack never touches.
 
 Shared files live in [`scaffold/`](./scaffold); per-repository files live in
 [`spec-repos/<package>/`](./spec-repos). **There is no generic fetch script** —
@@ -95,8 +95,9 @@ download (`github`, `kubernetes`, `stripe`, `turso`, …), and a sparse partial
 clone (`aws`, `azure`).
 
 `spec-repos/` is outside this stack's TypeScript program on purpose: those
-files are shipped verbatim into the mirrors, where they run under Bun against
-each mirror's own dependencies. They are data to this stack, not part of it.
+files are shipped verbatim into the mirrors, where they run under Node 24
+(native type stripping, no build step) against each mirror's own dependencies,
+installed with pnpm. They are data to this stack, not part of it.
 
 ### The sparse-clone mirrors
 

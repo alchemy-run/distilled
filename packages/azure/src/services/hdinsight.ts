@@ -57,9 +57,7 @@ export const NameAvailabilityCheckResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NameAvailabilityCheckResult>;
 
 /** The tags for the application. */
-export type CreateApplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -77,9 +75,7 @@ export const AutoscaleCapacity = /*@__PURE__*/ S.suspend(() =>
     minInstanceCount: S.optional(S.Number),
     maxInstanceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoscaleCapacity",
-}) as any as S.Schema<AutoscaleCapacity>;
+).annotate({ identifier: "AutoscaleCapacity" }) as any as S.Schema<AutoscaleCapacity>;
 
 export type AutoscaleScheduleDaysItem =
   | "Monday"
@@ -112,9 +108,7 @@ export const AutoscaleTimeAndCapacity = /*@__PURE__*/ S.suspend(() =>
     minInstanceCount: S.optional(S.Number),
     maxInstanceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoscaleTimeAndCapacity",
-}) as any as S.Schema<AutoscaleTimeAndCapacity>;
+).annotate({ identifier: "AutoscaleTimeAndCapacity" }) as any as S.Schema<AutoscaleTimeAndCapacity>;
 
 /** Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and capacity */
 export interface AutoscaleSchedule {
@@ -128,9 +122,7 @@ export const AutoscaleSchedule = /*@__PURE__*/ S.suspend(() =>
     days: S.optional(AutoscaleScheduleDaysList),
     timeAndCapacity: S.optional(AutoscaleTimeAndCapacity),
   }),
-).annotate({
-  identifier: "AutoscaleSchedule",
-}) as any as S.Schema<AutoscaleSchedule>;
+).annotate({ identifier: "AutoscaleSchedule" }) as any as S.Schema<AutoscaleSchedule>;
 
 /** Array of schedule-based autoscale rules */
 export type AutoscaleRecurrenceScheduleList = Array<AutoscaleSchedule>;
@@ -150,9 +142,7 @@ export const AutoscaleRecurrence = /*@__PURE__*/ S.suspend(() =>
     timeZone: S.optional(S.String),
     schedule: S.optional(AutoscaleRecurrenceScheduleList),
   }),
-).annotate({
-  identifier: "AutoscaleRecurrence",
-}) as any as S.Schema<AutoscaleRecurrence>;
+).annotate({ identifier: "AutoscaleRecurrence" }) as any as S.Schema<AutoscaleRecurrence>;
 
 /** The autoscale request parameters */
 export interface Autoscale {
@@ -177,9 +167,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vmSize: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** The SSH public key for the cluster nodes. */
 export interface SshPublicKey {
@@ -251,9 +239,7 @@ export const VirtualNetworkProfile = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     subnet: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkProfile",
-}) as any as S.Schema<VirtualNetworkProfile>;
+).annotate({ identifier: "VirtualNetworkProfile" }) as any as S.Schema<VirtualNetworkProfile>;
 
 /** The data disks groups for the role. */
 export interface DataDisksGroupsInput {
@@ -264,9 +250,7 @@ export const DataDisksGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disksPerNode: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataDisksGroupsInput",
-}) as any as S.Schema<DataDisksGroupsInput>;
+).annotate({ identifier: "DataDisksGroupsInput" }) as any as S.Schema<DataDisksGroupsInput>;
 
 /** The data disks groups for the role. */
 export type RoleInputDataDisksGroupsList = Array<DataDisksGroupsInput>;
@@ -484,9 +468,7 @@ export const ApplicationGetEndpoint = /*@__PURE__*/ S.suspend(() =>
     publicPort: S.optional(S.Number),
     privateIPAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationGetEndpoint",
-}) as any as S.Schema<ApplicationGetEndpoint>;
+).annotate({ identifier: "ApplicationGetEndpoint" }) as any as S.Schema<ApplicationGetEndpoint>;
 
 /** The list of application SSH endpoints. */
 export type ApplicationPropertiesInputSshEndpointsList = Array<ApplicationGetEndpoint>;
@@ -567,9 +549,7 @@ export const IPConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: S.optional(IPConfigurationPropertiesInput),
   }),
-).annotate({
-  identifier: "IPConfigurationInput",
-}) as any as S.Schema<IPConfigurationInput>;
+).annotate({ identifier: "IPConfigurationInput" }) as any as S.Schema<IPConfigurationInput>;
 
 /** The IP configurations for the private link service. */
 export type PrivateLinkConfigurationPropertiesInputIpConfigurationsList =
@@ -684,14 +664,10 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 
 /** The tags for the application. */
-export type CreateApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -712,9 +688,7 @@ export const DataDisksGroups = /*@__PURE__*/ S.suspend(() =>
     storageAccountType: S.optional(S.String),
     diskSizeGB: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataDisksGroups",
-}) as any as S.Schema<DataDisksGroups>;
+).annotate({ identifier: "DataDisksGroups" }) as any as S.Schema<DataDisksGroups>;
 
 /** The data disks groups for the role. */
 export type RoleDataDisksGroupsList = Array<DataDisksGroups>;
@@ -992,9 +966,7 @@ export const IPConfiguration = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(IPConfigurationProperties),
   }),
-).annotate({
-  identifier: "IPConfiguration",
-}) as any as S.Schema<IPConfiguration>;
+).annotate({ identifier: "IPConfiguration" }) as any as S.Schema<IPConfiguration>;
 
 /** The IP configurations for the private link service. */
 export type PrivateLinkConfigurationPropertiesIpConfigurationsList = Array<IPConfiguration>;
@@ -1092,9 +1064,7 @@ export const ApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     marketplaceIdentifier: S.optional(S.String),
     privateLinkConfigurations: S.optional(ApplicationPropertiesPrivateLinkConfigurationsList),
   }),
-).annotate({
-  identifier: "ApplicationProperties",
-}) as any as S.Schema<ApplicationProperties>;
+).annotate({ identifier: "ApplicationProperties" }) as any as S.Schema<ApplicationProperties>;
 
 /** The type of identity that created the resource. */
 export type CreateApplicationResponseSystemDataCreatedByType =
@@ -1192,9 +1162,7 @@ export type ClusterCreatePropertiesInputTier = "Standard" | "Premium";
 export const ClusterCreatePropertiesInputTier = S.String;
 
 /** The versions of different services in the cluster. */
-export type ClusterDefinitionComponentVersionMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterDefinitionComponentVersionMap = { [key: string]: string | undefined };
 export const ClusterDefinitionComponentVersionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1218,9 +1186,7 @@ export const ClusterDefinition = /*@__PURE__*/ S.suspend(() =>
     componentVersion: S.optional(ClusterDefinitionComponentVersionMap),
     configurations: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ClusterDefinition",
-}) as any as S.Schema<ClusterDefinition>;
+).annotate({ identifier: "ClusterDefinition" }) as any as S.Schema<ClusterDefinition>;
 
 /** The information of AAD security group. */
 export interface ClientGroupInfo {
@@ -1234,14 +1200,10 @@ export const ClientGroupInfo = /*@__PURE__*/ S.suspend(() =>
     groupName: S.optional(S.String),
     groupId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientGroupInfo",
-}) as any as S.Schema<ClientGroupInfo>;
+).annotate({ identifier: "ClientGroupInfo" }) as any as S.Schema<ClientGroupInfo>;
 
 /** The configurations that need to be overriden. */
-export type KafkaRestPropertiesConfigurationOverrideMap = {
-  [key: string]: string | undefined;
-};
+export type KafkaRestPropertiesConfigurationOverrideMap = { [key: string]: string | undefined };
 export const KafkaRestPropertiesConfigurationOverrideMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1259,9 +1221,7 @@ export const KafkaRestProperties = /*@__PURE__*/ S.suspend(() =>
     clientGroupInfo: S.optional(ClientGroupInfo),
     configurationOverride: S.optional(KafkaRestPropertiesConfigurationOverrideMap),
   }),
-).annotate({
-  identifier: "KafkaRestProperties",
-}) as any as S.Schema<KafkaRestProperties>;
+).annotate({ identifier: "KafkaRestProperties" }) as any as S.Schema<KafkaRestProperties>;
 
 /** The directory type. */
 export type SecurityProfileDirectoryType = "ActiveDirectory";
@@ -1312,9 +1272,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
     aaddsResourceId: S.optional(S.String),
     msiResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** The list of roles in the cluster. */
 export type ComputeProfileInputRolesList = Array<RoleInput>;
@@ -1331,9 +1289,7 @@ export const ComputeProfileInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: S.optional(ComputeProfileInputRolesList),
   }),
-).annotate({
-  identifier: "ComputeProfileInput",
-}) as any as S.Schema<ComputeProfileInput>;
+).annotate({ identifier: "ComputeProfileInput" }) as any as S.Schema<ComputeProfileInput>;
 
 /** The storage Account. */
 export interface StorageAccount {
@@ -1415,9 +1371,7 @@ export const DiskEncryptionProperties = /*@__PURE__*/ S.suspend(() =>
     msiResourceId: S.optional(S.String),
     encryptionAtHost: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DiskEncryptionProperties",
-}) as any as S.Schema<DiskEncryptionProperties>;
+).annotate({ identifier: "DiskEncryptionProperties" }) as any as S.Schema<DiskEncryptionProperties>;
 
 /** The encryption-in-transit properties. */
 export interface EncryptionInTransitProperties {
@@ -1452,9 +1406,7 @@ export const NetworkProperties = /*@__PURE__*/ S.suspend(() =>
     resourceProviderConnection: S.optional(NetworkPropertiesResourceProviderConnection),
     privateLink: S.optional(NetworkPropertiesPrivateLink),
   }),
-).annotate({
-  identifier: "NetworkProperties",
-}) as any as S.Schema<NetworkProperties>;
+).annotate({ identifier: "NetworkProperties" }) as any as S.Schema<NetworkProperties>;
 
 /** The compute isolation properties. */
 export interface ComputeIsolationProperties {
@@ -1580,9 +1532,7 @@ export const ClusterIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ClusterIdentityInputType),
     userAssignedIdentities: S.optional(ClusterIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ClusterIdentityInput",
-}) as any as S.Schema<ClusterIdentityInput>;
+).annotate({ identifier: "ClusterIdentityInput" }) as any as S.Schema<ClusterIdentityInput>;
 
 export interface CreateClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1620,14 +1570,10 @@ export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
+).annotate({ identifier: "CreateClusterRequest" }) as any as S.Schema<CreateClusterRequest>;
 
 /** Resource tags. */
-export type CreateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const CreateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1715,9 +1661,7 @@ export const ConnectivityEndpoint = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     privateIPAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectivityEndpoint",
-}) as any as S.Schema<ConnectivityEndpoint>;
+).annotate({ identifier: "ConnectivityEndpoint" }) as any as S.Schema<ConnectivityEndpoint>;
 
 /** The list of connectivity endpoints. */
 export type ClusterGetPropertiesConnectivityEndpointsList = Array<ConnectivityEndpoint>;
@@ -1737,9 +1681,7 @@ export const ExcludedServicesConfig = /*@__PURE__*/ S.suspend(() =>
     excludedServicesConfigId: S.optional(S.String),
     excludedServicesList: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExcludedServicesConfig",
-}) as any as S.Schema<ExcludedServicesConfig>;
+).annotate({ identifier: "ExcludedServicesConfig" }) as any as S.Schema<ExcludedServicesConfig>;
 
 /** The private link configuration. */
 export type PrivateLinkConfiguration = ApplicationPropertiesPrivateLinkConfigurationsItem;
@@ -1761,9 +1703,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The concrete private link service connection. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -1984,9 +1924,7 @@ export const ClusterGetProperties = /*@__PURE__*/ S.suspend(() =>
     privateLinkConfigurations: S.optional(ClusterGetPropertiesPrivateLinkConfigurationsList),
     privateEndpointConnections: S.optional(ClusterGetPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "ClusterGetProperties",
-}) as any as S.Schema<ClusterGetProperties>;
+).annotate({ identifier: "ClusterGetProperties" }) as any as S.Schema<ClusterGetProperties>;
 
 /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
 export type ClusterIdentityType =
@@ -2011,9 +1949,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ClusterIdentityUserAssignedIdentitiesMap = {
@@ -2042,9 +1978,7 @@ export const ClusterIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ClusterIdentityType),
     userAssignedIdentities: S.optional(ClusterIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ClusterIdentity",
-}) as any as S.Schema<ClusterIdentity>;
+).annotate({ identifier: "ClusterIdentity" }) as any as S.Schema<ClusterIdentity>;
 
 /** The type of identity that created the resource. */
 export type CreateClusterResponseSystemDataCreatedByType =
@@ -2125,9 +2059,7 @@ export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ClusterIdentity),
     systemData: S.optional(CreateClusterResponseSystemData),
   }),
-).annotate({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
+).annotate({ identifier: "CreateClusterResponse" }) as any as S.Schema<CreateClusterResponse>;
 
 export interface CreateExtensionRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2159,9 +2091,7 @@ export const CreateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateExtensionRequest",
-}) as any as S.Schema<CreateExtensionRequest>;
+).annotate({ identifier: "CreateExtensionRequest" }) as any as S.Schema<CreateExtensionRequest>;
 
 export interface CreateExtensionResponse {}
 export const CreateExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2192,9 +2122,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2222,9 +2150,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2255,9 +2181,7 @@ export const DeleteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteExtensionRequest",
-}) as any as S.Schema<DeleteExtensionRequest>;
+).annotate({ identifier: "DeleteExtensionRequest" }) as any as S.Schema<DeleteExtensionRequest>;
 
 export interface DeleteExtensionResponse {}
 export const DeleteExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2546,9 +2470,7 @@ export const RuntimeScriptActionInput = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(S.String),
     roles: RuntimeScriptActionInputRolesList,
   }),
-).annotate({
-  identifier: "RuntimeScriptActionInput",
-}) as any as S.Schema<RuntimeScriptActionInput>;
+).annotate({ identifier: "RuntimeScriptActionInput" }) as any as S.Schema<RuntimeScriptActionInput>;
 
 /** The list of run time script actions. */
 export type ExecuteClusterScriptActionsRequestScriptActionsList = Array<RuntimeScriptActionInput>;
@@ -2618,14 +2540,10 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** The tags for the application. */
-export type GetApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2701,9 +2619,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApplicationProperties),
     systemData: S.optional(GetApplicationResponseSystemData),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 
 export interface GetApplicationAzureAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2779,9 +2695,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2875,9 +2789,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ClusterIdentity),
     systemData: S.optional(GetClusterResponseSystemData),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetClusterAzureAsyncOperationStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2923,9 +2835,7 @@ export const AsyncOperationResult = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AsyncOperationResultStatus),
     error: S.optional(ApplicationPropertiesInputErrorsItem),
   }),
-).annotate({
-  identifier: "AsyncOperationResult",
-}) as any as S.Schema<AsyncOperationResult>;
+).annotate({ identifier: "AsyncOperationResult" }) as any as S.Schema<AsyncOperationResult>;
 
 export interface GetClusterGatewaySettingsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2969,9 +2879,7 @@ export const GatewaySettings = /*@__PURE__*/ S.suspend(() =>
       S.String.pipe(T.Body("restAuthCredential.password"), T.SensitiveValue({})),
     ),
   }),
-).annotate({
-  identifier: "GatewaySettings",
-}) as any as S.Schema<GatewaySettings>;
+).annotate({ identifier: "GatewaySettings" }) as any as S.Schema<GatewaySettings>;
 
 export interface GetConfigurationRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2997,9 +2905,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 /** The configuration object for the specified configuration for the specified cluster. */
 export type ClusterConfiguration = { [key: string]: string | undefined };
@@ -3011,9 +2917,7 @@ export const ClusterConfiguration = /*@__PURE__*/ S.Record(
 export type GetConfigurationResponse = ClusterConfiguration;
 export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   ClusterConfiguration.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
+).annotate({ identifier: "GetConfigurationResponse" }) as any as S.Schema<GetConfigurationResponse>;
 
 export interface GetExtensionRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3039,9 +2943,7 @@ export const GetExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetExtensionRequest",
-}) as any as S.Schema<GetExtensionRequest>;
+).annotate({ identifier: "GetExtensionRequest" }) as any as S.Schema<GetExtensionRequest>;
 
 /** The cluster monitoring status response. */
 export interface ClusterMonitoringResponse {
@@ -3152,9 +3054,7 @@ export const AzureMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     workspaceId: S.optional(S.String),
     selectedConfigurations: S.optional(AzureMonitorSelectedConfigurations),
   }),
-).annotate({
-  identifier: "AzureMonitorResponse",
-}) as any as S.Schema<AzureMonitorResponse>;
+).annotate({ identifier: "AzureMonitorResponse" }) as any as S.Schema<AzureMonitorResponse>;
 
 export interface GetExtensionMonitoringStatusRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3251,9 +3151,7 @@ export const GetLocationCapabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLocationCapabilitiesRequest>;
 
 /** The component version property. */
-export type VersionSpecComponentVersionsMap = {
-  [key: string]: string | undefined;
-};
+export type VersionSpecComponentVersionsMap = { [key: string]: string | undefined };
 export const VersionSpecComponentVersionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3294,14 +3192,10 @@ export const VersionsCapability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     available: S.optional(VersionsCapabilityAvailableList),
   }),
-).annotate({
-  identifier: "VersionsCapability",
-}) as any as S.Schema<VersionsCapability>;
+).annotate({ identifier: "VersionsCapability" }) as any as S.Schema<VersionsCapability>;
 
 /** The version capability. */
-export type CapabilitiesResultVersionsMap = {
-  [key: string]: VersionsCapability | undefined;
-};
+export type CapabilitiesResultVersionsMap = { [key: string]: VersionsCapability | undefined };
 export const CapabilitiesResultVersionsMap = /*@__PURE__*/ S.Record(
   S.String,
   VersionsCapability,
@@ -3322,14 +3216,10 @@ export const RegionsCapability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     available: S.optional(RegionsCapabilityAvailableList),
   }),
-).annotate({
-  identifier: "RegionsCapability",
-}) as any as S.Schema<RegionsCapability>;
+).annotate({ identifier: "RegionsCapability" }) as any as S.Schema<RegionsCapability>;
 
 /** The virtual machine size compatibility features. */
-export type CapabilitiesResultRegionsMap = {
-  [key: string]: RegionsCapability | undefined;
-};
+export type CapabilitiesResultRegionsMap = { [key: string]: RegionsCapability | undefined };
 export const CapabilitiesResultRegionsMap = /*@__PURE__*/ S.Record(
   S.String,
   RegionsCapability,
@@ -3356,9 +3246,7 @@ export const RegionalQuotaCapability = /*@__PURE__*/ S.suspend(() =>
     coresUsed: S.optional(S.Number),
     coresAvailable: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RegionalQuotaCapability",
-}) as any as S.Schema<RegionalQuotaCapability>;
+).annotate({ identifier: "RegionalQuotaCapability" }) as any as S.Schema<RegionalQuotaCapability>;
 
 /** The list of region quota capabilities. */
 export type QuotaCapabilityRegionalQuotasList = Array<RegionalQuotaCapability>;
@@ -3381,9 +3269,7 @@ export const QuotaCapability = /*@__PURE__*/ S.suspend(() =>
     maxCoresAllowed: S.optional(S.Number),
     regionalQuotas: S.optional(QuotaCapabilityRegionalQuotasList),
   }),
-).annotate({
-  identifier: "QuotaCapability",
-}) as any as S.Schema<QuotaCapability>;
+).annotate({ identifier: "QuotaCapability" }) as any as S.Schema<QuotaCapability>;
 
 /** The Get Capabilities operation response. */
 export interface CapabilitiesResult {
@@ -3403,9 +3289,7 @@ export const CapabilitiesResult = /*@__PURE__*/ S.suspend(() =>
     features: S.optional(CapabilitiesResultFeaturesList),
     quota: S.optional(QuotaCapability),
   }),
-).annotate({
-  identifier: "CapabilitiesResult",
-}) as any as S.Schema<CapabilitiesResult>;
+).annotate({ identifier: "CapabilitiesResult" }) as any as S.Schema<CapabilitiesResult>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3902,9 +3786,7 @@ export const ApplicationSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ApplicationSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSystemData",
-}) as any as S.Schema<ApplicationSystemData>;
+).annotate({ identifier: "ApplicationSystemData" }) as any as S.Schema<ApplicationSystemData>;
 
 /** The HDInsight cluster application */
 export interface Application {
@@ -3953,9 +3835,7 @@ export const ApplicationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationListResult",
-}) as any as S.Schema<ApplicationListResult>;
+).annotate({ identifier: "ApplicationListResult" }) as any as S.Schema<ApplicationListResult>;
 
 export interface ListClusterByResourceGroupRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4028,9 +3908,7 @@ export const ClusterSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ClusterSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterSystemData",
-}) as any as S.Schema<ClusterSystemData>;
+).annotate({ identifier: "ClusterSystemData" }) as any as S.Schema<ClusterSystemData>;
 
 /** The HDInsight cluster. */
 export interface Cluster {
@@ -4088,9 +3966,7 @@ export const ClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClusterListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterListResult",
-}) as any as S.Schema<ClusterListResult>;
+).annotate({ identifier: "ClusterListResult" }) as any as S.Schema<ClusterListResult>;
 
 export interface ListClustersRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4107,9 +3983,7 @@ export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
+).annotate({ identifier: "ListClustersRequest" }) as any as S.Schema<ListClustersRequest>;
 
 export interface ListConfigurationsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4154,9 +4028,7 @@ export const ClusterConfigurations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     configurations: S.optional(ClusterConfigurationsConfigurationsMap),
   }),
-).annotate({
-  identifier: "ClusterConfigurations",
-}) as any as S.Schema<ClusterConfigurations>;
+).annotate({ identifier: "ClusterConfigurations" }) as any as S.Schema<ClusterConfigurations>;
 
 export interface ListLocationBillingSpecsRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4364,9 +4236,7 @@ export const DiskBillingMeters = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.String),
     tier: S.optional(DiskBillingMetersTier),
   }),
-).annotate({
-  identifier: "DiskBillingMeters",
-}) as any as S.Schema<DiskBillingMeters>;
+).annotate({ identifier: "DiskBillingMeters" }) as any as S.Schema<DiskBillingMeters>;
 
 /** The managed disk billing information. */
 export type BillingResourcesDiskBillingMetersList = Array<DiskBillingMeters>;
@@ -4389,9 +4259,7 @@ export const BillingResources = /*@__PURE__*/ S.suspend(() =>
     billingMeters: S.optional(BillingResourcesBillingMetersList),
     diskBillingMeters: S.optional(BillingResourcesDiskBillingMetersList),
   }),
-).annotate({
-  identifier: "BillingResources",
-}) as any as S.Schema<BillingResources>;
+).annotate({ identifier: "BillingResources" }) as any as S.Schema<BillingResources>;
 
 /** The billing and managed disk billing resources for a region. */
 export type BillingResponseListResultBillingResourcesList = Array<BillingResources>;
@@ -4497,9 +4365,7 @@ export const UsagesListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(UsagesListResultValueList),
   }),
-).annotate({
-  identifier: "UsagesListResult",
-}) as any as S.Schema<UsagesListResult>;
+).annotate({ identifier: "UsagesListResult" }) as any as S.Schema<UsagesListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4511,9 +4377,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -4533,9 +4397,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The supported aggregation types of the metric specification. */
 export type MetricSpecificationsSupportedAggregationTypesList = Array<string>;
@@ -4632,9 +4494,7 @@ export const MetricSpecifications = /*@__PURE__*/ S.suspend(() =>
     delegateMetricNameOverride: S.optional(S.String),
     dimensions: S.optional(MetricSpecificationsDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecifications",
-}) as any as S.Schema<MetricSpecifications>;
+).annotate({ identifier: "MetricSpecifications" }) as any as S.Schema<MetricSpecifications>;
 
 /** The metric specifications. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecifications>;
@@ -4651,9 +4511,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** The details of operation. */
 export interface OperationProperties {
@@ -4664,9 +4522,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** The HDInsight REST API operation. */
 export interface Operation {
@@ -4703,9 +4559,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4944,9 +4798,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PrivateLinkResourceProperties),
     systemData: S.optional(PrivateLinkResourceSystemData),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -5068,9 +4920,7 @@ export const ScriptActionsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ScriptActionsListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScriptActionsList",
-}) as any as S.Schema<ScriptActionsList>;
+).annotate({ identifier: "ScriptActionsList" }) as any as S.Schema<ScriptActionsList>;
 
 export interface ListScriptExecutionHistoryByClusterRequest {
   /** The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -5319,9 +5169,7 @@ export const ValidationErrorInfo = /*@__PURE__*/ S.suspend(() =>
     errorResource: S.optional(S.String),
     messageArguments: S.optional(ValidationErrorInfoMessageArgumentsList),
   }),
-).annotate({
-  identifier: "ValidationErrorInfo",
-}) as any as S.Schema<ValidationErrorInfo>;
+).annotate({ identifier: "ValidationErrorInfo" }) as any as S.Schema<ValidationErrorInfo>;
 
 /** The validation errors. */
 export type ClusterCreateValidationResultValidationErrorsList = Array<ValidationErrorInfo>;
@@ -5362,9 +5210,7 @@ export const AaddsResourceDetails = /*@__PURE__*/ S.suspend(() =>
     subnetId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AaddsResourceDetails",
-}) as any as S.Schema<AaddsResourceDetails>;
+).annotate({ identifier: "AaddsResourceDetails" }) as any as S.Schema<AaddsResourceDetails>;
 
 /** The Azure active directory domain service resource details. */
 export type ClusterCreateValidationResultAaddsResourcesDetailsList = Array<AaddsResourceDetails>;
@@ -5577,9 +5423,7 @@ export const ResizeClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "ResizeClusterRequest",
-}) as any as S.Schema<ResizeClusterRequest>;
+).annotate({ identifier: "ResizeClusterRequest" }) as any as S.Schema<ResizeClusterRequest>;
 
 export interface ResizeClusterResponse {}
 export const ResizeClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5698,14 +5542,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5796,9 +5636,7 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ClusterIdentity),
     systemData: S.optional(UpdateClusterResponseSystemData),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 export type UpdateClusterAutoScaleConfigurationRequestRoleName = "workernode";
 export const UpdateClusterAutoScaleConfigurationRequestRoleName = S.String;

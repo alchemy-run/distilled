@@ -1,4 +1,3 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { createHash, generateKeyPairSync, verify } from "node:crypto";
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -11,6 +10,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import * as Auth from "../auth.ts";
 import * as Credentials from "../credentials.ts";
 import { chain, CredentialSourceError } from "./credential-source.ts";
@@ -692,7 +692,7 @@ describe("fromWebToken", () => {
     const creds = await run(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "jwt-token",
+        webIdentityToken: Redacted.make("jwt-token"),
         roleSessionName: "web",
         providerId: "graph.facebook.com",
         durationSeconds: 900,
@@ -714,13 +714,57 @@ describe("fromWebToken", () => {
       resolveLayer(
         Credentials.fromWebToken({
           roleArn: "arn:aws:iam::123456789012:role/Web",
-          webIdentityToken: "jwt-token",
+          webIdentityToken: Redacted.make("jwt-token"),
           region: "ap-south-1",
         }),
       ).pipe(Effect.provide(layer)),
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-web");
     expect(resolved.region).toBe("ap-south-1");
+  });
+
+  test("accepts the token as a Redacted or as an Effect run on every resolution", async () => {
+    let fetched = 0;
+    const tokens = [
+      Redacted.make("redacted-token"),
+      Effect.sync(() => Redacted.make(`effect-token-${++fetched}`)),
+    ];
+    for (const webIdentityToken of tokens) {
+      const { layer, calls } = recordingHttp(() =>
+        assumeRoleXml("AssumeRoleWithWebIdentity", "ASIA-web"),
+      );
+      const source = webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken,
+        region: "us-east-1",
+      }).pipe(Effect.provide(layer));
+      await run(source);
+      await run(source);
+      expect(calls.map((call) => call.body)).toEqual(
+        Redacted.isRedacted(webIdentityToken)
+          ? [
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+            ]
+          : [
+              expect.stringContaining("WebIdentityToken=effect-token-1"),
+              expect.stringContaining("WebIdentityToken=effect-token-2"),
+            ],
+      );
+    }
+  });
+
+  test("a token Effect that fails is a final failure", async () => {
+    const error = await runFail(
+      webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken: Effect.fail("vault unavailable"),
+        region: "us-east-1",
+      }),
+    );
+    expect(error.message).toBe("Could not resolve the web identity token.");
+    expect(error.cause).toBe("vault unavailable");
+    expect(error.tryNextLink).toBe(false);
   });
 
   test("an STS failure does not fall through to another source", async () => {
@@ -734,7 +778,7 @@ describe("fromWebToken", () => {
     const error = await runFail(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "bad",
+        webIdentityToken: Redacted.make("bad"),
         region: "us-east-1",
       }).pipe(Effect.provide(layer)),
     );
@@ -820,8 +864,8 @@ describe("fromCognitoIdentity", () => {
       cognitoIdentitySource({
         identityId,
         logins: {
-          "accounts.google.com": "static-token",
-          "graph.facebook.com": Effect.succeed("effect-token"),
+          "accounts.google.com": Redacted.make("static-token"),
+          "graph.facebook.com": Effect.succeed(Redacted.make("effect-token")),
         },
       }).pipe(Effect.provide(layer)),
     );
@@ -1202,5 +1246,26 @@ describe("Credentials layers", () => {
     if (error._tag === "AWS::CredentialProviderError") {
       expect(error.provider).toBe("chain");
     }
+  });
+});
+
+describe("fromCredentials", () => {
+  test("holds the Redacted secrets it is given", async () => {
+    const resolved = await run(
+      resolveLayer(
+        Credentials.fromCredentials(
+          {
+            accessKeyId: Redacted.make("AKIA-static"),
+            secretAccessKey: Redacted.make("secret-static"),
+            sessionToken: Redacted.make("session-static"),
+          },
+          "us-east-2",
+        ),
+      ),
+    );
+    expect(Redacted.value(resolved.accessKeyId)).toBe("AKIA-static");
+    expect(Redacted.value(resolved.secretAccessKey)).toBe("secret-static");
+    expect(resolved.sessionToken && Redacted.value(resolved.sessionToken)).toBe("session-static");
+    expect(resolved.region).toBe("us-east-2");
   });
 });

@@ -16,9 +16,7 @@ export type AccessBridgesCreateOrUpdateRequestAccessBridgeName =
 export const AccessBridgesCreateOrUpdateRequestAccessBridgeName = S.String;
 
 /** Resource tags. */
-export type AccessBridgesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccessBridgesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccessBridgesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -61,9 +59,7 @@ export const AccessBridgeSecurityRule = /*@__PURE__*/ S.suspend(() =>
     ipv6Addresses: S.optional(AccessBridgeSecurityRuleIpv6AddressesList),
     port: S.String,
   }),
-).annotate({
-  identifier: "AccessBridgeSecurityRule",
-}) as any as S.Schema<AccessBridgeSecurityRule>;
+).annotate({ identifier: "AccessBridgeSecurityRule" }) as any as S.Schema<AccessBridgeSecurityRule>;
 
 /** The list of security rules enforced by the access bridge. */
 export type AccessBridgePropertiesInputSecurityRulesList = Array<AccessBridgeSecurityRule>;
@@ -185,9 +181,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AccessBridgesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccessBridgesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccessBridgesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -221,9 +215,7 @@ export const AccessBridgeEndpoint = /*@__PURE__*/ S.suspend(() =>
     ipv6Address: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessBridgeEndpoint",
-}) as any as S.Schema<AccessBridgeEndpoint>;
+).annotate({ identifier: "AccessBridgeEndpoint" }) as any as S.Schema<AccessBridgeEndpoint>;
 
 /** The observed endpoints that clients should use to reach the access bridge. */
 export type AccessBridgePropertiesEndpointsList = Array<AccessBridgeEndpoint>;
@@ -277,9 +269,7 @@ export const AccessBridgeProperties = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(TransportProtocol),
     provisioningState: S.optional(AccessBridgeProvisioningState),
   }),
-).annotate({
-  identifier: "AccessBridgeProperties",
-}) as any as S.Schema<AccessBridgeProperties>;
+).annotate({ identifier: "AccessBridgeProperties" }) as any as S.Schema<AccessBridgeProperties>;
 
 export interface AccessBridgesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -318,9 +308,7 @@ export const AccessBridgesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccessBridgesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type AgentPoolsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AgentPoolsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -515,9 +503,7 @@ export const KubernetesLabel = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "KubernetesLabel",
-}) as any as S.Schema<KubernetesLabel>;
+).annotate({ identifier: "KubernetesLabel" }) as any as S.Schema<KubernetesLabel>;
 
 /** The labels applied to the nodes in this agent pool. */
 export type AgentPoolPropertiesInputLabelsList = Array<KubernetesLabel>;
@@ -550,9 +536,7 @@ export const AgentPoolUpgradeSettings = /*@__PURE__*/ S.suspend(() =>
     maxSurge: S.optional(S.String),
     maxUnavailable: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgentPoolUpgradeSettings",
-}) as any as S.Schema<AgentPoolUpgradeSettings>;
+).annotate({ identifier: "AgentPoolUpgradeSettings" }) as any as S.Schema<AgentPoolUpgradeSettings>;
 
 /** AgentPoolProperties represents the properties of the Kubernetes cluster agent pool. */
 export interface AgentPoolPropertiesInput {
@@ -590,9 +574,7 @@ export const AgentPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     upgradeSettings: S.optional(AgentPoolUpgradeSettings),
     vmSkuName: S.String,
   }),
-).annotate({
-  identifier: "AgentPoolPropertiesInput",
-}) as any as S.Schema<AgentPoolPropertiesInput>;
+).annotate({ identifier: "AgentPoolPropertiesInput" }) as any as S.Schema<AgentPoolPropertiesInput>;
 
 export interface AgentPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -635,9 +617,7 @@ export const AgentPoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AgentPoolsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AgentPoolsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AgentPoolsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -724,9 +704,7 @@ export const AgentPoolProperties = /*@__PURE__*/ S.suspend(() =>
     kubernetesVersion: S.optional(S.String),
     provisioningState: S.optional(AgentPoolProvisioningState),
   }),
-).annotate({
-  identifier: "AgentPoolProperties",
-}) as any as S.Schema<AgentPoolProperties>;
+).annotate({ identifier: "AgentPoolProperties" }) as any as S.Schema<AgentPoolProperties>;
 
 export interface AgentPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -970,9 +948,7 @@ export const KeySetUserStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(BareMetalMachineKeySetUserSetupStatus),
     statusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeySetUserStatus",
-}) as any as S.Schema<KeySetUserStatus>;
+).annotate({ identifier: "KeySetUserStatus" }) as any as S.Schema<KeySetUserStatus>;
 
 /** The status evaluation of each user. */
 export type BareMetalMachineKeySetPropertiesUserListStatusList = Array<KeySetUserStatus>;
@@ -1072,9 +1048,7 @@ export const BareMetalMachineKeySetsCreateOrUpdateResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<BareMetalMachineKeySetsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type BareMetalMachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BareMetalMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const BareMetalMachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1177,9 +1151,7 @@ export const BareMetalMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<BareMetalMachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type BareMetalMachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BareMetalMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const BareMetalMachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1275,9 +1247,7 @@ export const CertificateInfo = /*@__PURE__*/ S.suspend(() =>
     hash: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateInfo",
-}) as any as S.Schema<CertificateInfo>;
+).annotate({ identifier: "CertificateInfo" }) as any as S.Schema<CertificateInfo>;
 
 /** The cordon status of the bare metal machine. */
 export type BareMetalMachineCordonStatus = "Cordoned" | "Uncordoned";
@@ -1379,9 +1349,7 @@ export const HardwareInventory = /*@__PURE__*/ S.suspend(() =>
     interfaces: S.optional(HardwareInventoryInterfacesList),
     nics: S.optional(HardwareInventoryNicsList),
   }),
-).annotate({
-  identifier: "HardwareInventory",
-}) as any as S.Schema<HardwareInventory>;
+).annotate({ identifier: "HardwareInventory" }) as any as S.Schema<HardwareInventory>;
 
 /** The outcome of the hardware validation. */
 export type BareMetalMachineHardwareValidationResult = "Pass" | "Fail";
@@ -1399,9 +1367,7 @@ export const HardwareValidationStatus = /*@__PURE__*/ S.suspend(() =>
     lastValidationTime: S.optional(S.String),
     result: S.optional(BareMetalMachineHardwareValidationResult),
   }),
-).annotate({
-  identifier: "HardwareValidationStatus",
-}) as any as S.Schema<HardwareValidationStatus>;
+).annotate({ identifier: "HardwareValidationStatus" }) as any as S.Schema<HardwareValidationStatus>;
 
 /** Field Deprecated. These fields will be empty/omitted. The list of the resource IDs for the HybridAksClusters that have nodes hosted on this bare metal machine. */
 export type BareMetalMachinePropertiesHybridAksClustersAssociatedIdsList = Array<string>;
@@ -1510,9 +1476,7 @@ export const RuntimeProtectionStatus = /*@__PURE__*/ S.suspend(() =>
     scanScheduledTime: S.optional(S.String),
     scanStartedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuntimeProtectionStatus",
-}) as any as S.Schema<RuntimeProtectionStatus>;
+).annotate({ identifier: "RuntimeProtectionStatus" }) as any as S.Schema<RuntimeProtectionStatus>;
 
 /** SecretArchiveReference represents the reference to a secret in a key vault. */
 export interface SecretArchiveReference {
@@ -1532,9 +1496,7 @@ export const SecretArchiveReference = /*@__PURE__*/ S.suspend(() =>
     secretName: S.optional(S.String),
     secretVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretArchiveReference",
-}) as any as S.Schema<SecretArchiveReference>;
+).annotate({ identifier: "SecretArchiveReference" }) as any as S.Schema<SecretArchiveReference>;
 
 /** SecretRotationStatus represents the status of a secret rotation. */
 export interface SecretRotationStatus {
@@ -1557,9 +1519,7 @@ export const SecretRotationStatus = /*@__PURE__*/ S.suspend(() =>
     secretArchiveReference: S.optional(SecretArchiveReference),
     secretType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretRotationStatus",
-}) as any as S.Schema<SecretRotationStatus>;
+).annotate({ identifier: "SecretRotationStatus" }) as any as S.Schema<SecretRotationStatus>;
 
 /** The list of statuses that represent secret rotation activity. */
 export type BareMetalMachinePropertiesSecretRotationStatusList = Array<SecretRotationStatus>;
@@ -1889,9 +1849,7 @@ export const BareMetalMachinesRunReadCommandsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<BareMetalMachinesRunReadCommandsResponse>;
 
 /** Resource tags. */
-export type BmcKeySetsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BmcKeySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const BmcKeySetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1925,9 +1883,7 @@ export const BmcKeySetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     privilegeLevel: BmcKeySetPrivilegeLevel,
     userList: BmcKeySetPropertiesInputUserListList,
   }),
-).annotate({
-  identifier: "BmcKeySetPropertiesInput",
-}) as any as S.Schema<BmcKeySetPropertiesInput>;
+).annotate({ identifier: "BmcKeySetPropertiesInput" }) as any as S.Schema<BmcKeySetPropertiesInput>;
 
 export interface BmcKeySetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1970,9 +1926,7 @@ export const BmcKeySetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BmcKeySetsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type BmcKeySetsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BmcKeySetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const BmcKeySetsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2036,9 +1990,7 @@ export const BmcKeySetProperties = /*@__PURE__*/ S.suspend(() =>
     userListStatus: S.optional(BmcKeySetPropertiesUserListStatusList),
     provisioningState: S.optional(BmcKeySetProvisioningState),
   }),
-).annotate({
-  identifier: "BmcKeySetProperties",
-}) as any as S.Schema<BmcKeySetProperties>;
+).annotate({ identifier: "BmcKeySetProperties" }) as any as S.Schema<BmcKeySetProperties>;
 
 export interface BmcKeySetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2097,9 +2049,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     domainName: S.String,
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The list of endpoint dependencies. */
 export type EgressEndpointEndpointsList = Array<EndpointDependency>;
@@ -2408,9 +2358,7 @@ export const CloudServicesNetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<CloudServicesNetworksCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ClusterManagersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterManagersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ClusterManagersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2549,9 +2497,7 @@ export const ClusterManagersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ClusterManagersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ClusterManagersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterManagersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ClusterManagersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2575,9 +2521,7 @@ export const ClusterAvailableVersion = /*@__PURE__*/ S.suspend(() =>
     supportExpiryDate: S.optional(S.String),
     targetClusterVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterAvailableVersion",
-}) as any as S.Schema<ClusterAvailableVersion>;
+).annotate({ identifier: "ClusterAvailableVersion" }) as any as S.Schema<ClusterAvailableVersion>;
 
 /** The list of the cluster versions the manager supports. It is used as input in clusterVersion property of a cluster resource. */
 export type ClusterManagerPropertiesClusterVersionsList = Array<ClusterAvailableVersion>;
@@ -2657,9 +2601,7 @@ export const ClusterManagerProperties = /*@__PURE__*/ S.suspend(() =>
     relayConfiguration: S.optional(ClusterManagerRelayConfiguration),
     vmSize: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterManagerProperties",
-}) as any as S.Schema<ClusterManagerProperties>;
+).annotate({ identifier: "ClusterManagerProperties" }) as any as S.Schema<ClusterManagerProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -2673,9 +2615,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClusterManagersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -2800,9 +2740,7 @@ export const ClustersContinueUpdateVersionResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ClustersContinueUpdateVersionResponse>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2906,9 +2844,7 @@ export const RackDefinitionInput = /*@__PURE__*/ S.suspend(() =>
       RackDefinitionInputStorageApplianceConfigurationDataList,
     ),
   }),
-).annotate({
-  identifier: "RackDefinitionInput",
-}) as any as S.Schema<RackDefinitionInput>;
+).annotate({ identifier: "RackDefinitionInput" }) as any as S.Schema<RackDefinitionInput>;
 
 /** The type of managed identity that is being selected. */
 export type ManagedServiceIdentitySelectorType = "SystemAssignedIdentity" | "UserAssignedIdentity";
@@ -2926,9 +2862,7 @@ export const IdentitySelector = /*@__PURE__*/ S.suspend(() =>
     identityType: S.optional(ManagedServiceIdentitySelectorType),
     userAssignedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IdentitySelector",
-}) as any as S.Schema<IdentitySelector>;
+).annotate({ identifier: "IdentitySelector" }) as any as S.Schema<IdentitySelector>;
 
 /** AnalyticsOutputSettings represents the settings for the log analytics workspace used for output of logs from this cluster. */
 export interface AnalyticsOutputSettings {
@@ -2942,9 +2876,7 @@ export const AnalyticsOutputSettings = /*@__PURE__*/ S.suspend(() =>
     analyticsWorkspaceId: S.optional(S.String),
     associatedIdentity: S.optional(IdentitySelector),
   }),
-).annotate({
-  identifier: "AnalyticsOutputSettings",
-}) as any as S.Schema<AnalyticsOutputSettings>;
+).annotate({ identifier: "AnalyticsOutputSettings" }) as any as S.Schema<AnalyticsOutputSettings>;
 
 /** ServicePrincipalInformation represents the details of the service principal to be used by the cluster during Arc Appliance installation. */
 export interface ServicePrincipalInformation {
@@ -2997,9 +2929,7 @@ export const CommandOutputOverride = /*@__PURE__*/ S.suspend(() =>
     commandOutputType: S.optional(CommandOutputType),
     containerUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommandOutputOverride",
-}) as any as S.Schema<CommandOutputOverride>;
+).annotate({ identifier: "CommandOutputOverride" }) as any as S.Schema<CommandOutputOverride>;
 
 /** The list of optional overrides allowing for association of storage containers and identities to specific types of command output. If a type is not overridden, the default identity and storage container will be utilized. */
 export type CommandOutputSettingsOverridesList = Array<CommandOutputOverride>;
@@ -3022,9 +2952,7 @@ export const CommandOutputSettings = /*@__PURE__*/ S.suspend(() =>
     containerUrl: S.optional(S.String),
     overrides: S.optional(CommandOutputSettingsOverridesList),
   }),
-).annotate({
-  identifier: "CommandOutputSettings",
-}) as any as S.Schema<CommandOutputSettings>;
+).annotate({ identifier: "CommandOutputSettings" }) as any as S.Schema<CommandOutputSettings>;
 
 /** Selection of how the type evaluation is applied to the cluster calculation. */
 export type ValidationThresholdGrouping = "PerCluster" | "PerRack";
@@ -3049,9 +2977,7 @@ export const ValidationThreshold = /*@__PURE__*/ S.suspend(() =>
     type: ValidationThresholdType,
     value: S.Number,
   }),
-).annotate({
-  identifier: "ValidationThreshold",
-}) as any as S.Schema<ValidationThreshold>;
+).annotate({ identifier: "ValidationThreshold" }) as any as S.Schema<ValidationThreshold>;
 
 /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
 export type ClusterPropertiesInputComputeRackDefinitionsList = Array<RackDefinitionInput>;
@@ -3104,9 +3030,7 @@ export const ClusterSecretArchive = /*@__PURE__*/ S.suspend(() =>
     keyVaultId: S.String,
     useKeyVault: S.optional(ClusterSecretArchiveUseKeyVault),
   }),
-).annotate({
-  identifier: "ClusterSecretArchive",
-}) as any as S.Schema<ClusterSecretArchive>;
+).annotate({ identifier: "ClusterSecretArchive" }) as any as S.Schema<ClusterSecretArchive>;
 
 /** SecretArchiveSettings represents the settings for the secret archive used to hold credentials for the cluster. */
 export interface SecretArchiveSettings {
@@ -3120,9 +3044,7 @@ export const SecretArchiveSettings = /*@__PURE__*/ S.suspend(() =>
     associatedIdentity: S.optional(IdentitySelector),
     vaultUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretArchiveSettings",
-}) as any as S.Schema<SecretArchiveSettings>;
+).annotate({ identifier: "SecretArchiveSettings" }) as any as S.Schema<SecretArchiveSettings>;
 
 /** The mode of operation for runtime protection. */
 export type ClusterUpdateStrategyType = "Rack" | "PauseAfterRack";
@@ -3149,9 +3071,7 @@ export const ClusterUpdateStrategy = /*@__PURE__*/ S.suspend(() =>
     thresholdValue: S.Number,
     waitTimeMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClusterUpdateStrategy",
-}) as any as S.Schema<ClusterUpdateStrategy>;
+).annotate({ identifier: "ClusterUpdateStrategy" }) as any as S.Schema<ClusterUpdateStrategy>;
 
 /** The mode selection for container vulnerability scanning. */
 export type VulnerabilityScanningSettingsContainerScan = "Disabled" | "Enabled";
@@ -3227,9 +3147,7 @@ export const ClusterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     updateStrategy: S.optional(ClusterUpdateStrategy),
     vulnerabilityScanningSettings: S.optional(VulnerabilityScanningSettings),
   }),
-).annotate({
-  identifier: "ClusterPropertiesInput",
-}) as any as S.Schema<ClusterPropertiesInput>;
+).annotate({ identifier: "ClusterPropertiesInput" }) as any as S.Schema<ClusterPropertiesInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -3302,9 +3220,7 @@ export const ClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClustersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3475,9 +3391,7 @@ export const ClusterCapacity = /*@__PURE__*/ S.suspend(() =>
     totalHostStorageGB: S.optional(S.Number),
     totalMemoryGB: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClusterCapacity",
-}) as any as S.Schema<ClusterCapacity>;
+).annotate({ identifier: "ClusterCapacity" }) as any as S.Schema<ClusterCapacity>;
 
 /** The latest heartbeat status between the cluster manager and the cluster. */
 export type ClusterConnectionStatus = "Connected" | "Disconnected" | "Timeout" | "Undefined";
@@ -3627,9 +3541,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     workloadResourceIds: S.optional(ClusterPropertiesWorkloadResourceIdsList),
     provisioningState: S.optional(ClusterProvisioningState),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -3771,9 +3683,7 @@ export const ClustersInspectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ClustersInspectRequest",
-}) as any as S.Schema<ClustersInspectRequest>;
+).annotate({ identifier: "ClustersInspectRequest" }) as any as S.Schema<ClustersInspectRequest>;
 
 export interface ClustersInspectResponse {}
 export const ClustersInspectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3818,9 +3728,7 @@ export const ClustersScanRuntimeResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<ClustersScanRuntimeResponse>;
 
 /** Resource tags. */
-export type ConsolesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConsolesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ConsolesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3845,9 +3753,7 @@ export const ConsolePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.String),
     sshPublicKey: SshPublicKey,
   }),
-).annotate({
-  identifier: "ConsolePropertiesInput",
-}) as any as S.Schema<ConsolePropertiesInput>;
+).annotate({ identifier: "ConsolePropertiesInput" }) as any as S.Schema<ConsolePropertiesInput>;
 
 export interface ConsolesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3890,9 +3796,7 @@ export const ConsolesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConsolesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ConsolesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConsolesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ConsolesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3941,9 +3845,7 @@ export const ConsoleProperties = /*@__PURE__*/ S.suspend(() =>
     virtualMachineAccessId: S.optional(S.String),
     provisioningState: S.optional(ConsoleProvisioningState),
   }),
-).annotate({
-  identifier: "ConsoleProperties",
-}) as any as S.Schema<ConsoleProperties>;
+).annotate({ identifier: "ConsoleProperties" }) as any as S.Schema<ConsoleProperties>;
 
 export interface ConsolesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4078,9 +3980,7 @@ export const DeleteAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAgentPoolRequest",
-}) as any as S.Schema<DeleteAgentPoolRequest>;
+).annotate({ identifier: "DeleteAgentPoolRequest" }) as any as S.Schema<DeleteAgentPoolRequest>;
 
 export interface DeleteAgentPoolResponse {}
 export const DeleteAgentPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4176,9 +4076,7 @@ export const DeleteBmcKeySetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBmcKeySetRequest",
-}) as any as S.Schema<DeleteBmcKeySetRequest>;
+).annotate({ identifier: "DeleteBmcKeySetRequest" }) as any as S.Schema<DeleteBmcKeySetRequest>;
 
 export interface DeleteBmcKeySetResponse {}
 export const DeleteBmcKeySetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4238,9 +4136,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4301,9 +4197,7 @@ export const DeleteConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteConsoleRequest",
-}) as any as S.Schema<DeleteConsoleRequest>;
+).annotate({ identifier: "DeleteConsoleRequest" }) as any as S.Schema<DeleteConsoleRequest>;
 
 export interface DeleteConsoleResponse {}
 export const DeleteConsoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4337,9 +4231,7 @@ export const DeleteKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteKubernetesClusterResponse {}
 export const DeleteKubernetesClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteKubernetesClusterResponse",
-  },
+  { identifier: "DeleteKubernetesClusterResponse" },
 ) as any as S.Schema<DeleteKubernetesClusterResponse>;
 
 export interface DeleteKubernetesClusterFeatureRequest {
@@ -4404,9 +4296,7 @@ export const DeleteKubernetesVersionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteKubernetesVersionResponse {}
 export const DeleteKubernetesVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteKubernetesVersionResponse",
-  },
+  { identifier: "DeleteKubernetesVersionResponse" },
 ) as any as S.Schema<DeleteKubernetesVersionResponse>;
 
 export interface DeleteL2NetworkRequest {
@@ -4430,9 +4320,7 @@ export const DeleteL2NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteL2NetworkRequest",
-}) as any as S.Schema<DeleteL2NetworkRequest>;
+).annotate({ identifier: "DeleteL2NetworkRequest" }) as any as S.Schema<DeleteL2NetworkRequest>;
 
 export interface DeleteL2NetworkResponse {}
 export const DeleteL2NetworkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4460,9 +4348,7 @@ export const DeleteL3NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteL3NetworkRequest",
-}) as any as S.Schema<DeleteL3NetworkRequest>;
+).annotate({ identifier: "DeleteL3NetworkRequest" }) as any as S.Schema<DeleteL3NetworkRequest>;
 
 export interface DeleteL3NetworkResponse {}
 export const DeleteL3NetworkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4525,9 +4411,7 @@ export const DeleteRackRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRackRequest",
-}) as any as S.Schema<DeleteRackRequest>;
+).annotate({ identifier: "DeleteRackRequest" }) as any as S.Schema<DeleteRackRequest>;
 
 export interface DeleteRackResponse {}
 export const DeleteRackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4645,9 +4529,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4684,9 +4566,7 @@ export const DeployClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeployClusterRequest",
-}) as any as S.Schema<DeployClusterRequest>;
+).annotate({ identifier: "DeployClusterRequest" }) as any as S.Schema<DeployClusterRequest>;
 
 export interface DeployClusterResponse {}
 export const DeployClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4796,14 +4676,10 @@ export const GetAccessBridgeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccessBridgeRequest",
-}) as any as S.Schema<GetAccessBridgeRequest>;
+).annotate({ identifier: "GetAccessBridgeRequest" }) as any as S.Schema<GetAccessBridgeRequest>;
 
 /** Resource tags. */
-export type GetAccessBridgeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAccessBridgeResponseTagsMap = { [key: string]: string | undefined };
 export const GetAccessBridgeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4841,9 +4717,7 @@ export const GetAccessBridgeResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetAccessBridgeResponse",
-}) as any as S.Schema<GetAccessBridgeResponse>;
+).annotate({ identifier: "GetAccessBridgeResponse" }) as any as S.Schema<GetAccessBridgeResponse>;
 
 export interface GetAgentPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4869,9 +4743,7 @@ export const GetAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAgentPoolRequest",
-}) as any as S.Schema<GetAgentPoolRequest>;
+).annotate({ identifier: "GetAgentPoolRequest" }) as any as S.Schema<GetAgentPoolRequest>;
 
 /** Resource tags. */
 export type GetAgentPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -4912,9 +4784,7 @@ export const GetAgentPoolResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: S.optional(AzureResourceManagerCommonTypesExtendedLocation),
   }),
-).annotate({
-  identifier: "GetAgentPoolResponse",
-}) as any as S.Schema<GetAgentPoolResponse>;
+).annotate({ identifier: "GetAgentPoolResponse" }) as any as S.Schema<GetAgentPoolResponse>;
 
 export interface GetBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4942,9 +4812,7 @@ export const GetBareMetalMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetBareMetalMachineRequest>;
 
 /** Resource tags. */
-export type GetBareMetalMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBareMetalMachineResponseTagsMap = { [key: string]: string | undefined };
 export const GetBareMetalMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5015,9 +4883,7 @@ export const GetBareMetalMachineKeySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetBareMetalMachineKeySetRequest>;
 
 /** Resource tags. */
-export type GetBareMetalMachineKeySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBareMetalMachineKeySetResponseTagsMap = { [key: string]: string | undefined };
 export const GetBareMetalMachineKeySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5083,9 +4949,7 @@ export const GetBmcKeySetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetBmcKeySetRequest",
-}) as any as S.Schema<GetBmcKeySetRequest>;
+).annotate({ identifier: "GetBmcKeySetRequest" }) as any as S.Schema<GetBmcKeySetRequest>;
 
 /** Resource tags. */
 export type GetBmcKeySetResponseTagsMap = { [key: string]: string | undefined };
@@ -5126,9 +4990,7 @@ export const GetBmcKeySetResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetBmcKeySetResponse",
-}) as any as S.Schema<GetBmcKeySetResponse>;
+).annotate({ identifier: "GetBmcKeySetResponse" }) as any as S.Schema<GetBmcKeySetResponse>;
 
 export interface GetCloudServicesNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5156,9 +5018,7 @@ export const GetCloudServicesNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCloudServicesNetworkRequest>;
 
 /** Resource tags. */
-export type GetCloudServicesNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCloudServicesNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetCloudServicesNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5221,9 +5081,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -5300,9 +5158,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(GetClusterResponseIdentity),
     kind: S.optional(DeploymentType),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetClusterManagerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5325,14 +5181,10 @@ export const GetClusterManagerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetClusterManagerRequest",
-}) as any as S.Schema<GetClusterManagerRequest>;
+).annotate({ identifier: "GetClusterManagerRequest" }) as any as S.Schema<GetClusterManagerRequest>;
 
 /** Resource tags. */
-export type GetClusterManagerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetClusterManagerResponseTagsMap = { [key: string]: string | undefined };
 export const GetClusterManagerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5431,9 +5283,7 @@ export const GetConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetConsoleRequest",
-}) as any as S.Schema<GetConsoleRequest>;
+).annotate({ identifier: "GetConsoleRequest" }) as any as S.Schema<GetConsoleRequest>;
 
 /** Resource tags. */
 export type GetConsoleResponseTagsMap = { [key: string]: string | undefined };
@@ -5474,9 +5324,7 @@ export const GetConsoleResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetConsoleResponse",
-}) as any as S.Schema<GetConsoleResponse>;
+).annotate({ identifier: "GetConsoleResponse" }) as any as S.Schema<GetConsoleResponse>;
 
 export interface GetKubernetesClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5504,9 +5352,7 @@ export const GetKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetKubernetesClusterRequest>;
 
 /** Resource tags. */
-export type GetKubernetesClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetKubernetesClusterResponseTagsMap = { [key: string]: string | undefined };
 export const GetKubernetesClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5527,9 +5373,7 @@ export const AadConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     adminGroupObjectIds: AadConfigurationAdminGroupObjectIdsList,
   }),
-).annotate({
-  identifier: "AadConfiguration",
-}) as any as S.Schema<AadConfiguration>;
+).annotate({ identifier: "AadConfiguration" }) as any as S.Schema<AadConfiguration>;
 
 /** The list of availability zones of the Network Cloud cluster to be used for the provisioning of nodes in the control plane. If not specified, all availability zones will be used. */
 export type ControlPlaneNodeConfigurationAvailabilityZonesList = Array<string>;
@@ -5667,9 +5511,7 @@ export const BgpAdvertisement = /*@__PURE__*/ S.suspend(() =>
     ipAddressPools: BgpAdvertisementIpAddressPoolsList,
     peers: S.optional(BgpAdvertisementPeersList),
   }),
-).annotate({
-  identifier: "BgpAdvertisement",
-}) as any as S.Schema<BgpAdvertisement>;
+).annotate({ identifier: "BgpAdvertisement" }) as any as S.Schema<BgpAdvertisement>;
 
 /** The association of IP address pools to the communities and peers, allowing for announcement of IPs. */
 export type BgpServiceLoadBalancerConfigurationBgpAdvertisementsList = Array<BgpAdvertisement>;
@@ -5858,9 +5700,7 @@ export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
     podCidrs: S.optional(NetworkConfigurationPodCidrsList),
     serviceCidrs: S.optional(NetworkConfigurationServiceCidrsList),
   }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 
 /** The full list of network resource IDs that are attached to this cluster, including those attached only to specific agent pools. */
 export type KubernetesClusterPropertiesAttachedNetworkIdsList = Array<string>;
@@ -5884,9 +5724,7 @@ export const AvailableUpgrade = /*@__PURE__*/ S.suspend(() =>
     availabilityLifecycle: S.optional(AvailabilityLifecycle),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableUpgrade",
-}) as any as S.Schema<AvailableUpgrade>;
+).annotate({ identifier: "AvailableUpgrade" }) as any as S.Schema<AvailableUpgrade>;
 
 /** The list of versions that this Kubernetes cluster can be upgraded to. */
 export type KubernetesClusterPropertiesAvailableUpgradesList = Array<AvailableUpgrade>;
@@ -5981,9 +5819,7 @@ export const NetworkAttachment = /*@__PURE__*/ S.suspend(() =>
     macAddress: S.optional(S.String),
     networkAttachmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkAttachment",
-}) as any as S.Schema<NetworkAttachment>;
+).annotate({ identifier: "NetworkAttachment" }) as any as S.Schema<NetworkAttachment>;
 
 /** The NetworkAttachments made to this node. */
 export type KubernetesClusterNodeNetworkAttachmentsList = Array<NetworkAttachment>;
@@ -6065,9 +5901,7 @@ export const KubernetesClusterNode = /*@__PURE__*/ S.suspend(() =>
     taints: S.optional(KubernetesClusterNodeTaintsList),
     vmSkuName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesClusterNode",
-}) as any as S.Schema<KubernetesClusterNode>;
+).annotate({ identifier: "KubernetesClusterNode" }) as any as S.Schema<KubernetesClusterNode>;
 
 /** The details of the nodes in this cluster. */
 export type KubernetesClusterPropertiesNodesList = Array<KubernetesClusterNode>;
@@ -6213,9 +6047,7 @@ export const GetKubernetesClusterFeatureRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetKubernetesClusterFeatureRequest>;
 
 /** Resource tags. */
-export type GetKubernetesClusterFeatureResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetKubernetesClusterFeatureResponseTagsMap = { [key: string]: string | undefined };
 export const GetKubernetesClusterFeatureResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6233,9 +6065,7 @@ export const StringKeyValuePair = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "StringKeyValuePair",
-}) as any as S.Schema<StringKeyValuePair>;
+).annotate({ identifier: "StringKeyValuePair" }) as any as S.Schema<StringKeyValuePair>;
 
 /** The configured options for the feature. */
 export type KubernetesClusterFeaturePropertiesOptionsList = Array<StringKeyValuePair>;
@@ -6355,9 +6185,7 @@ export const GetKubernetesVersionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetKubernetesVersionRequest>;
 
 /** Resource tags. */
-export type GetKubernetesVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetKubernetesVersionResponseTagsMap = { [key: string]: string | undefined };
 export const GetKubernetesVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6375,9 +6203,7 @@ export const KubernetesVersionValue = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesVersionValue",
-}) as any as S.Schema<KubernetesVersionValue>;
+).annotate({ identifier: "KubernetesVersionValue" }) as any as S.Schema<KubernetesVersionValue>;
 
 /** The list of available Kubernetes versions. */
 export type KubernetesVersionPropertiesValuesList = Array<KubernetesVersionValue>;
@@ -6462,9 +6288,7 @@ export const GetL2NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetL2NetworkRequest",
-}) as any as S.Schema<GetL2NetworkRequest>;
+).annotate({ identifier: "GetL2NetworkRequest" }) as any as S.Schema<GetL2NetworkRequest>;
 
 /** Resource tags. */
 export type GetL2NetworkResponseTagsMap = { [key: string]: string | undefined };
@@ -6546,9 +6370,7 @@ export const L2NetworkProperties = /*@__PURE__*/ S.suspend(() =>
     virtualMachinesAssociatedIds: S.optional(L2NetworkPropertiesVirtualMachinesAssociatedIdsList),
     provisioningState: S.optional(L2NetworkProvisioningState),
   }),
-).annotate({
-  identifier: "L2NetworkProperties",
-}) as any as S.Schema<L2NetworkProperties>;
+).annotate({ identifier: "L2NetworkProperties" }) as any as S.Schema<L2NetworkProperties>;
 
 export interface GetL2NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6582,9 +6404,7 @@ export const GetL2NetworkResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetL2NetworkResponse",
-}) as any as S.Schema<GetL2NetworkResponse>;
+).annotate({ identifier: "GetL2NetworkResponse" }) as any as S.Schema<GetL2NetworkResponse>;
 
 export interface GetL3NetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6607,9 +6427,7 @@ export const GetL3NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetL3NetworkRequest",
-}) as any as S.Schema<GetL3NetworkRequest>;
+).annotate({ identifier: "GetL3NetworkRequest" }) as any as S.Schema<GetL3NetworkRequest>;
 
 /** Resource tags. */
 export type GetL3NetworkResponseTagsMap = { [key: string]: string | undefined };
@@ -6714,9 +6532,7 @@ export const L3NetworkProperties = /*@__PURE__*/ S.suspend(() =>
     virtualMachinesAssociatedIds: S.optional(L3NetworkPropertiesVirtualMachinesAssociatedIdsList),
     provisioningState: S.optional(L3NetworkProvisioningState),
   }),
-).annotate({
-  identifier: "L3NetworkProperties",
-}) as any as S.Schema<L3NetworkProperties>;
+).annotate({ identifier: "L3NetworkProperties" }) as any as S.Schema<L3NetworkProperties>;
 
 export interface GetL3NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6750,9 +6566,7 @@ export const GetL3NetworkResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetL3NetworkResponse",
-}) as any as S.Schema<GetL3NetworkResponse>;
+).annotate({ identifier: "GetL3NetworkResponse" }) as any as S.Schema<GetL3NetworkResponse>;
 
 export interface GetMetricsConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6783,9 +6597,7 @@ export const GetMetricsConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMetricsConfigurationRequest>;
 
 /** Resource tags. */
-export type GetMetricsConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMetricsConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const GetMetricsConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6987,9 +6799,7 @@ export const GetRackResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetRackResponse",
-}) as any as S.Schema<GetRackResponse>;
+).annotate({ identifier: "GetRackResponse" }) as any as S.Schema<GetRackResponse>;
 
 export interface GetRackSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7009,9 +6819,7 @@ export const GetRackSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRackSkusRequest",
-}) as any as S.Schema<GetRackSkusRequest>;
+).annotate({ identifier: "GetRackSkusRequest" }) as any as S.Schema<GetRackSkusRequest>;
 
 /** The type of bootstrap protocol used. */
 export type BootstrapProtocol = "PXE";
@@ -7079,9 +6887,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     portSpeed: S.optional(S.Number),
     vendor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 
 /** The list of network interfaces. */
 export type MachineSkuPropertiesNetworkInterfacesList = Array<NetworkInterface>;
@@ -7128,9 +6934,7 @@ export const MachineSkuProperties = /*@__PURE__*/ S.suspend(() =>
     totalThreads: S.optional(S.Number),
     vendor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MachineSkuProperties",
-}) as any as S.Schema<MachineSkuProperties>;
+).annotate({ identifier: "MachineSkuProperties" }) as any as S.Schema<MachineSkuProperties>;
 
 /** MachineSkuSlot represents a single SKU and rack slot associated with the machine. */
 export interface MachineSkuSlot {
@@ -7194,9 +6998,7 @@ export const StorageApplianceSkuSlot = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(StorageApplianceSkuProperties),
     rackSlot: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StorageApplianceSkuSlot",
-}) as any as S.Schema<StorageApplianceSkuSlot>;
+).annotate({ identifier: "StorageApplianceSkuSlot" }) as any as S.Schema<StorageApplianceSkuSlot>;
 
 /** The list of appliance SKUs and associated rack slot for the storage appliance(s) in this rack model. */
 export type RackSkuPropertiesStorageAppliancesList = Array<StorageApplianceSkuSlot>;
@@ -7243,9 +7045,7 @@ export const RackSkuProperties = /*@__PURE__*/ S.suspend(() =>
     storageAppliances: S.optional(RackSkuPropertiesStorageAppliancesList),
     supportedRackSkuIds: S.optional(RackSkuPropertiesSupportedRackSkuIdsList),
   }),
-).annotate({
-  identifier: "RackSkuProperties",
-}) as any as S.Schema<RackSkuProperties>;
+).annotate({ identifier: "RackSkuProperties" }) as any as S.Schema<RackSkuProperties>;
 
 export interface GetRackSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7267,9 +7067,7 @@ export const GetRackSkusResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: RackSkuProperties,
   }),
-).annotate({
-  identifier: "GetRackSkusResponse",
-}) as any as S.Schema<GetRackSkusResponse>;
+).annotate({ identifier: "GetRackSkusResponse" }) as any as S.Schema<GetRackSkusResponse>;
 
 export interface GetStorageApplianceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7297,9 +7095,7 @@ export const GetStorageApplianceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetStorageApplianceRequest>;
 
 /** Resource tags. */
-export type GetStorageApplianceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageApplianceResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageApplianceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7508,14 +7304,10 @@ export const GetTrunkedNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetTrunkedNetworkRequest",
-}) as any as S.Schema<GetTrunkedNetworkRequest>;
+).annotate({ identifier: "GetTrunkedNetworkRequest" }) as any as S.Schema<GetTrunkedNetworkRequest>;
 
 /** Resource tags. */
-export type GetTrunkedNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTrunkedNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetTrunkedNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7611,9 +7403,7 @@ export const TrunkedNetworkProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     provisioningState: S.optional(TrunkedNetworkProvisioningState),
   }),
-).annotate({
-  identifier: "TrunkedNetworkProperties",
-}) as any as S.Schema<TrunkedNetworkProperties>;
+).annotate({ identifier: "TrunkedNetworkProperties" }) as any as S.Schema<TrunkedNetworkProperties>;
 
 export interface GetTrunkedNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7672,14 +7462,10 @@ export const GetVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualMachineRequest",
-}) as any as S.Schema<GetVirtualMachineRequest>;
+).annotate({ identifier: "GetVirtualMachineRequest" }) as any as S.Schema<GetVirtualMachineRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7935,9 +7721,7 @@ export const VirtualMachineProperties = /*@__PURE__*/ S.suspend(() =>
     volumes: S.optional(VirtualMachinePropertiesVolumesList),
     provisioningState: S.optional(VirtualMachineProvisioningState),
   }),
-).annotate({
-  identifier: "VirtualMachineProperties",
-}) as any as S.Schema<VirtualMachineProperties>;
+).annotate({ identifier: "VirtualMachineProperties" }) as any as S.Schema<VirtualMachineProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetVirtualMachineResponseIdentityUserAssignedIdentitiesMap = {
@@ -8029,9 +7813,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 
 /** Resource tags. */
 export type GetVolumeResponseTagsMap = { [key: string]: string | undefined };
@@ -8092,9 +7874,7 @@ export const VolumeProperties = /*@__PURE__*/ S.suspend(() =>
     serialNumber: S.optional(S.String),
     provisioningState: S.optional(VolumeProvisioningState),
   }),
-).annotate({
-  identifier: "VolumeProperties",
-}) as any as S.Schema<VolumeProperties>;
+).annotate({ identifier: "VolumeProperties" }) as any as S.Schema<VolumeProperties>;
 
 export interface GetVolumeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8128,9 +7908,7 @@ export const GetVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "GetVolumeResponse",
-}) as any as S.Schema<GetVolumeResponse>;
+).annotate({ identifier: "GetVolumeResponse" }) as any as S.Schema<GetVolumeResponse>;
 
 /** Resource tags. */
 export type KubernetesClusterFeaturesCreateOrUpdateRequestTagsMap = {
@@ -8240,9 +8018,7 @@ export const KubernetesClusterFeaturesCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<KubernetesClusterFeaturesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type KubernetesClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KubernetesClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const KubernetesClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8326,9 +8102,7 @@ export const KubernetesClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<KubernetesClustersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type KubernetesClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KubernetesClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const KubernetesClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8371,9 +8145,7 @@ export const KubernetesClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<KubernetesClustersCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type KubernetesVersionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KubernetesVersionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const KubernetesVersionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8421,9 +8193,7 @@ export const KubernetesVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<KubernetesVersionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type KubernetesVersionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KubernetesVersionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const KubernetesVersionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8466,9 +8236,7 @@ export const KubernetesVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<KubernetesVersionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type L2NetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L2NetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const L2NetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8493,9 +8261,7 @@ export const L2NetworkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     interfaceName: S.optional(S.String),
     l2IsolationDomainId: S.String,
   }),
-).annotate({
-  identifier: "L2NetworkPropertiesInput",
-}) as any as S.Schema<L2NetworkPropertiesInput>;
+).annotate({ identifier: "L2NetworkPropertiesInput" }) as any as S.Schema<L2NetworkPropertiesInput>;
 
 export interface L2NetworksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8535,9 +8301,7 @@ export const L2NetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<L2NetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type L2NetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L2NetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const L2NetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8580,9 +8344,7 @@ export const L2NetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<L2NetworksCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type L3NetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L3NetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const L3NetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8630,9 +8392,7 @@ export const L3NetworkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     l3IsolationDomainId: S.String,
     vlan: S.Number,
   }),
-).annotate({
-  identifier: "L3NetworkPropertiesInput",
-}) as any as S.Schema<L3NetworkPropertiesInput>;
+).annotate({ identifier: "L3NetworkPropertiesInput" }) as any as S.Schema<L3NetworkPropertiesInput>;
 
 export interface L3NetworksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8672,9 +8432,7 @@ export const L3NetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<L3NetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type L3NetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L3NetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const L3NetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8804,9 +8562,7 @@ export const AccessBridgeList = /*@__PURE__*/ S.suspend(() =>
     value: AccessBridgeListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessBridgeList",
-}) as any as S.Schema<AccessBridgeList>;
+).annotate({ identifier: "AccessBridgeList" }) as any as S.Schema<AccessBridgeList>;
 
 export interface ListAccessBridgeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8994,9 +8750,7 @@ export const BareMetalMachine = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "BareMetalMachine",
-}) as any as S.Schema<BareMetalMachine>;
+).annotate({ identifier: "BareMetalMachine" }) as any as S.Schema<BareMetalMachine>;
 
 /** The BareMetalMachine items on this page */
 export type BareMetalMachineListValueList = Array<BareMetalMachine>;
@@ -9016,9 +8770,7 @@ export const BareMetalMachineList = /*@__PURE__*/ S.suspend(() =>
     value: BareMetalMachineListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BareMetalMachineList",
-}) as any as S.Schema<BareMetalMachineList>;
+).annotate({ identifier: "BareMetalMachineList" }) as any as S.Schema<BareMetalMachineList>;
 
 export interface ListBareMetalMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9077,9 +8829,7 @@ export const ListBareMetalMachineKeySetByClusterRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ListBareMetalMachineKeySetByClusterRequest>;
 
 /** Resource tags. */
-export type BareMetalMachineKeySetTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BareMetalMachineKeySetTagsMap = { [key: string]: string | undefined };
 export const BareMetalMachineKeySetTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9118,9 +8868,7 @@ export const BareMetalMachineKeySet = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "BareMetalMachineKeySet",
-}) as any as S.Schema<BareMetalMachineKeySet>;
+).annotate({ identifier: "BareMetalMachineKeySet" }) as any as S.Schema<BareMetalMachineKeySet>;
 
 /** The BareMetalMachineKeySet items on this page */
 export type BareMetalMachineKeySetListValueList = Array<BareMetalMachineKeySet>;
@@ -9305,9 +9053,7 @@ export const CloudServicesNetwork = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "CloudServicesNetwork",
-}) as any as S.Schema<CloudServicesNetwork>;
+).annotate({ identifier: "CloudServicesNetwork" }) as any as S.Schema<CloudServicesNetwork>;
 
 /** The CloudServicesNetwork items on this page */
 export type CloudServicesNetworkListValueList = Array<CloudServicesNetwork>;
@@ -9327,9 +9073,7 @@ export const CloudServicesNetworkList = /*@__PURE__*/ S.suspend(() =>
     value: CloudServicesNetworkListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudServicesNetworkList",
-}) as any as S.Schema<CloudServicesNetworkList>;
+).annotate({ identifier: "CloudServicesNetworkList" }) as any as S.Schema<CloudServicesNetworkList>;
 
 export interface ListCloudServicesNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9417,9 +9161,7 @@ export const ClusterIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(ClusterIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ClusterIdentity",
-}) as any as S.Schema<ClusterIdentity>;
+).annotate({ identifier: "ClusterIdentity" }) as any as S.Schema<ClusterIdentity>;
 
 /** Cluster represents the on-premises Network Cloud cluster. */
 export interface Cluster {
@@ -9568,9 +9310,7 @@ export const ClusterManagerIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(ClusterManagerIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ClusterManagerIdentity",
-}) as any as S.Schema<ClusterManagerIdentity>;
+).annotate({ identifier: "ClusterManagerIdentity" }) as any as S.Schema<ClusterManagerIdentity>;
 
 /** ClusterManager represents a control-plane to manage one or more on-premises clusters. */
 export interface ClusterManager {
@@ -9628,9 +9368,7 @@ export const ClusterManagerList = /*@__PURE__*/ S.suspend(() =>
     value: ClusterManagerListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterManagerList",
-}) as any as S.Schema<ClusterManagerList>;
+).annotate({ identifier: "ClusterManagerList" }) as any as S.Schema<ClusterManagerList>;
 
 export interface ListClusterManagerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9818,9 +9556,7 @@ export const KubernetesCluster = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "KubernetesCluster",
-}) as any as S.Schema<KubernetesCluster>;
+).annotate({ identifier: "KubernetesCluster" }) as any as S.Schema<KubernetesCluster>;
 
 /** The KubernetesCluster items on this page */
 export type KubernetesClusterListValueList = Array<KubernetesCluster>;
@@ -9840,9 +9576,7 @@ export const KubernetesClusterList = /*@__PURE__*/ S.suspend(() =>
     value: KubernetesClusterListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesClusterList",
-}) as any as S.Schema<KubernetesClusterList>;
+).annotate({ identifier: "KubernetesClusterList" }) as any as S.Schema<KubernetesClusterList>;
 
 export interface ListKubernetesClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9901,9 +9635,7 @@ export const ListKubernetesClusterFeatureByKubernetesClusterRequest = /*@__PURE_
 }) as any as S.Schema<ListKubernetesClusterFeatureByKubernetesClusterRequest>;
 
 /** Resource tags. */
-export type KubernetesClusterFeatureTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KubernetesClusterFeatureTagsMap = { [key: string]: string | undefined };
 export const KubernetesClusterFeatureTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9939,9 +9671,7 @@ export const KubernetesClusterFeature = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(KubernetesClusterFeatureProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesClusterFeature",
-}) as any as S.Schema<KubernetesClusterFeature>;
+).annotate({ identifier: "KubernetesClusterFeature" }) as any as S.Schema<KubernetesClusterFeature>;
 
 /** The KubernetesClusterFeature items on this page */
 export type KubernetesClusterFeatureListValueList = Array<KubernetesClusterFeature>;
@@ -10033,9 +9763,7 @@ export const KubernetesVersion = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "KubernetesVersion",
-}) as any as S.Schema<KubernetesVersion>;
+).annotate({ identifier: "KubernetesVersion" }) as any as S.Schema<KubernetesVersion>;
 
 /** The KubernetesVersion items on this page */
 export type KubernetesVersionListValueList = Array<KubernetesVersion>;
@@ -10055,9 +9783,7 @@ export const KubernetesVersionList = /*@__PURE__*/ S.suspend(() =>
     value: KubernetesVersionListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesVersionList",
-}) as any as S.Schema<KubernetesVersionList>;
+).annotate({ identifier: "KubernetesVersionList" }) as any as S.Schema<KubernetesVersionList>;
 
 export interface ListKubernetesVersionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10346,9 +10072,7 @@ export const ListMetricsConfigurationByClusterRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListMetricsConfigurationByClusterRequest>;
 
 /** Resource tags. */
-export type ClusterMetricsConfigurationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClusterMetricsConfigurationTagsMap = { [key: string]: string | undefined };
 export const ClusterMetricsConfigurationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10423,9 +10147,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -10445,9 +10167,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -10497,9 +10217,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListRackByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10744,9 +10462,7 @@ export const StorageAppliance = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "StorageAppliance",
-}) as any as S.Schema<StorageAppliance>;
+).annotate({ identifier: "StorageAppliance" }) as any as S.Schema<StorageAppliance>;
 
 /** The StorageAppliance items on this page */
 export type StorageApplianceListValueList = Array<StorageAppliance>;
@@ -10766,9 +10482,7 @@ export const StorageApplianceList = /*@__PURE__*/ S.suspend(() =>
     value: StorageApplianceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageApplianceList",
-}) as any as S.Schema<StorageApplianceList>;
+).annotate({ identifier: "StorageApplianceList" }) as any as S.Schema<StorageApplianceList>;
 
 export interface ListStorageApplianceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10883,9 +10597,7 @@ export const TrunkedNetworkList = /*@__PURE__*/ S.suspend(() =>
     value: TrunkedNetworkListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrunkedNetworkList",
-}) as any as S.Schema<TrunkedNetworkList>;
+).annotate({ identifier: "TrunkedNetworkList" }) as any as S.Schema<TrunkedNetworkList>;
 
 export interface ListTrunkedNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10973,9 +10685,7 @@ export const VirtualMachineIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(VirtualMachineIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "VirtualMachineIdentity",
-}) as any as S.Schema<VirtualMachineIdentity>;
+).annotate({ identifier: "VirtualMachineIdentity" }) as any as S.Schema<VirtualMachineIdentity>;
 
 /** VirtualMachine represents the on-premises Network Cloud virtual machine. */
 export interface VirtualMachine {
@@ -11033,9 +10743,7 @@ export const VirtualMachineList = /*@__PURE__*/ S.suspend(() =>
     value: VirtualMachineListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineList",
-}) as any as S.Schema<VirtualMachineList>;
+).annotate({ identifier: "VirtualMachineList" }) as any as S.Schema<VirtualMachineList>;
 
 export interface ListVirtualMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11294,9 +11002,7 @@ export const MetricsConfigurationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<MetricsConfigurationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type RacksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RacksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const RacksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11320,9 +11026,7 @@ export const RackPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     rackSerialNumber: S.String,
     rackSkuId: S.String,
   }),
-).annotate({
-  identifier: "RackPropertiesInput",
-}) as any as S.Schema<RackPropertiesInput>;
+).annotate({ identifier: "RackPropertiesInput" }) as any as S.Schema<RackPropertiesInput>;
 
 export interface RacksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11362,9 +11066,7 @@ export const RacksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RacksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type RacksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RacksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RacksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11462,9 +11164,7 @@ export const ReplaceBareMetalMachineRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ReplaceBareMetalMachineResponse {}
 export const ReplaceBareMetalMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ReplaceBareMetalMachineResponse",
-  },
+  { identifier: "ReplaceBareMetalMachineResponse" },
 ) as any as S.Schema<ReplaceBareMetalMachineResponse>;
 
 export interface RestartBareMetalMachineRequest {
@@ -11494,9 +11194,7 @@ export const RestartBareMetalMachineRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RestartBareMetalMachineResponse {}
 export const RestartBareMetalMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RestartBareMetalMachineResponse",
-  },
+  { identifier: "RestartBareMetalMachineResponse" },
 ) as any as S.Schema<RestartBareMetalMachineResponse>;
 
 export interface RestartKubernetesClusterNodeRequest {
@@ -11600,9 +11298,7 @@ export const RotateClusterCredentialRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RotateClusterCredentialResponse {}
 export const RotateClusterCredentialResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RotateClusterCredentialResponse",
-  },
+  { identifier: "RotateClusterCredentialResponse" },
 ) as any as S.Schema<RotateClusterCredentialResponse>;
 
 /** The list of string arguments that will be passed to the script in order as separate arguments. */
@@ -11803,9 +11499,7 @@ export const StartVirtualMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<StartVirtualMachineResponse>;
 
 /** Resource tags. */
-export type StorageAppliancesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageAppliancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const StorageAppliancesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11874,9 +11568,7 @@ export const StorageAppliancesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<StorageAppliancesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type StorageAppliancesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageAppliancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const StorageAppliancesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11986,9 +11678,7 @@ export const StorageAppliancesRunReadCommandsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<StorageAppliancesRunReadCommandsResponse>;
 
 /** Resource tags. */
-export type TrunkedNetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TrunkedNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const TrunkedNetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12070,9 +11760,7 @@ export const TrunkedNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<TrunkedNetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type TrunkedNetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TrunkedNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const TrunkedNetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12172,9 +11860,7 @@ export const AccessBridgePatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccessBridgePatchProperties>;
 
 /** Resource tags. */
-export type UpdateAccessBridgeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccessBridgeRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAccessBridgeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12212,9 +11898,7 @@ export const UpdateAccessBridgeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccessBridgeRequest>;
 
 /** Resource tags. */
-export type UpdateAccessBridgeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccessBridgeResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccessBridgeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12290,14 +11974,10 @@ export const AgentPoolPatchProperties = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     upgradeSettings: S.optional(AgentPoolUpgradeSettings),
   }),
-).annotate({
-  identifier: "AgentPoolPatchProperties",
-}) as any as S.Schema<AgentPoolPatchProperties>;
+).annotate({ identifier: "AgentPoolPatchProperties" }) as any as S.Schema<AgentPoolPatchProperties>;
 
 /** Resource tags. */
-export type UpdateAgentPoolRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAgentPoolRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAgentPoolRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12333,14 +12013,10 @@ export const UpdateAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAgentPoolRequest",
-}) as any as S.Schema<UpdateAgentPoolRequest>;
+).annotate({ identifier: "UpdateAgentPoolRequest" }) as any as S.Schema<UpdateAgentPoolRequest>;
 
 /** Resource tags. */
-export type UpdateAgentPoolResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAgentPoolResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAgentPoolResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12378,9 +12054,7 @@ export const UpdateAgentPoolResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: S.optional(AzureResourceManagerCommonTypesExtendedLocation),
   }),
-).annotate({
-  identifier: "UpdateAgentPoolResponse",
-}) as any as S.Schema<UpdateAgentPoolResponse>;
+).annotate({ identifier: "UpdateAgentPoolResponse" }) as any as S.Schema<UpdateAgentPoolResponse>;
 
 /** BareMetalMachinePatchProperties represents the properties of the bare metal machine that can be patched. */
 export interface BareMetalMachinePatchProperties {
@@ -12396,9 +12070,7 @@ export const BareMetalMachinePatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BareMetalMachinePatchProperties>;
 
 /** Resource tags. */
-export type UpdateBareMetalMachineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBareMetalMachineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBareMetalMachineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12436,9 +12108,7 @@ export const UpdateBareMetalMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBareMetalMachineRequest>;
 
 /** Resource tags. */
-export type UpdateBareMetalMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBareMetalMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBareMetalMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12512,9 +12182,7 @@ export const BareMetalMachineKeySetPatchProperties = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<BareMetalMachineKeySetPatchProperties>;
 
 /** Resource tags. */
-export type UpdateBareMetalMachineKeySetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBareMetalMachineKeySetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBareMetalMachineKeySetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12555,9 +12223,7 @@ export const UpdateBareMetalMachineKeySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBareMetalMachineKeySetRequest>;
 
 /** Resource tags. */
-export type UpdateBareMetalMachineKeySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBareMetalMachineKeySetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBareMetalMachineKeySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12617,14 +12283,10 @@ export const BmcKeySetPatchProperties = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.String),
     userList: S.optional(BmcKeySetPatchPropertiesUserListList),
   }),
-).annotate({
-  identifier: "BmcKeySetPatchProperties",
-}) as any as S.Schema<BmcKeySetPatchProperties>;
+).annotate({ identifier: "BmcKeySetPatchProperties" }) as any as S.Schema<BmcKeySetPatchProperties>;
 
 /** Resource tags. */
-export type UpdateBmcKeySetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBmcKeySetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBmcKeySetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12660,14 +12322,10 @@ export const UpdateBmcKeySetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateBmcKeySetRequest",
-}) as any as S.Schema<UpdateBmcKeySetRequest>;
+).annotate({ identifier: "UpdateBmcKeySetRequest" }) as any as S.Schema<UpdateBmcKeySetRequest>;
 
 /** Resource tags. */
-export type UpdateBmcKeySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBmcKeySetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBmcKeySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12705,9 +12363,7 @@ export const UpdateBmcKeySetResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateBmcKeySetResponse",
-}) as any as S.Schema<UpdateBmcKeySetResponse>;
+).annotate({ identifier: "UpdateBmcKeySetResponse" }) as any as S.Schema<UpdateBmcKeySetResponse>;
 
 /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
 export type CloudServicesNetworkPatchPropertiesAdditionalEgressEndpointsList =
@@ -12762,9 +12418,7 @@ export const CloudServicesNetworkPatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudServicesNetworkPatchProperties>;
 
 /** Resource tags. */
-export type UpdateCloudServicesNetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCloudServicesNetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCloudServicesNetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12802,9 +12456,7 @@ export const UpdateCloudServicesNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCloudServicesNetworkRequest>;
 
 /** Resource tags. */
-export type UpdateCloudServicesNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCloudServicesNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCloudServicesNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12984,9 +12636,7 @@ export const RackDefinitionPatchInput = /*@__PURE__*/ S.suspend(() =>
       RackDefinitionPatchInputStorageApplianceConfigurationDataList,
     ),
   }),
-).annotate({
-  identifier: "RackDefinitionPatchInput",
-}) as any as S.Schema<RackDefinitionPatchInput>;
+).annotate({ identifier: "RackDefinitionPatchInput" }) as any as S.Schema<RackDefinitionPatchInput>;
 
 /** ServicePrincipalInformationPatch represents the details of the service principal to be used by the cluster during Arc Appliance installation for patch operations. */
 export interface ServicePrincipalInformationPatch {
@@ -13025,9 +12675,7 @@ export const ValidationThresholdPatch = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ValidationThresholdType),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ValidationThresholdPatch",
-}) as any as S.Schema<ValidationThresholdPatch>;
+).annotate({ identifier: "ValidationThresholdPatch" }) as any as S.Schema<ValidationThresholdPatch>;
 
 /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
 export type ClusterPatchPropertiesInputComputeRackDefinitionsList = Array<RackDefinitionPatchInput>;
@@ -13196,14 +12844,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13277,9 +12921,7 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateClusterResponseIdentity),
     kind: S.optional(DeploymentType),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterManagerRequestIdentityUserAssignedIdentitiesMap = {
@@ -13308,9 +12950,7 @@ export const UpdateClusterManagerRequestIdentity = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateClusterManagerRequestIdentity>;
 
 /** Resource tags. */
-export type UpdateClusterManagerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterManagerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterManagerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13348,9 +12988,7 @@ export const UpdateClusterManagerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateClusterManagerRequest>;
 
 /** Resource tags. */
-export type UpdateClusterManagerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterManagerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterManagerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13522,9 +13160,7 @@ export const SshPublicKeyPatch = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyData: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SshPublicKeyPatch",
-}) as any as S.Schema<SshPublicKeyPatch>;
+).annotate({ identifier: "SshPublicKeyPatch" }) as any as S.Schema<SshPublicKeyPatch>;
 
 /** ConsolePatchProperties represents the properties of the virtual machine console that can be patched. */
 export interface ConsolePatchProperties {
@@ -13541,9 +13177,7 @@ export const ConsolePatchProperties = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.String),
     sshPublicKey: S.optional(SshPublicKeyPatch),
   }),
-).annotate({
-  identifier: "ConsolePatchProperties",
-}) as any as S.Schema<ConsolePatchProperties>;
+).annotate({ identifier: "ConsolePatchProperties" }) as any as S.Schema<ConsolePatchProperties>;
 
 /** Resource tags. */
 export type UpdateConsoleRequestTagsMap = { [key: string]: string | undefined };
@@ -13582,14 +13216,10 @@ export const UpdateConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateConsoleRequest",
-}) as any as S.Schema<UpdateConsoleRequest>;
+).annotate({ identifier: "UpdateConsoleRequest" }) as any as S.Schema<UpdateConsoleRequest>;
 
 /** Resource tags. */
-export type UpdateConsoleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConsoleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConsoleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13627,9 +13257,7 @@ export const UpdateConsoleResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateConsoleResponse",
-}) as any as S.Schema<UpdateConsoleResponse>;
+).annotate({ identifier: "UpdateConsoleResponse" }) as any as S.Schema<UpdateConsoleResponse>;
 
 /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
 export type AdministratorConfigurationPatchSshPublicKeysList = Array<SshPublicKey>;
@@ -13686,9 +13314,7 @@ export const KubernetesClusterPatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<KubernetesClusterPatchProperties>;
 
 /** Resource tags. */
-export type UpdateKubernetesClusterRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesClusterRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesClusterRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13726,9 +13352,7 @@ export const UpdateKubernetesClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateKubernetesClusterRequest>;
 
 /** Resource tags. */
-export type UpdateKubernetesClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13790,9 +13414,7 @@ export const KubernetesClusterFeaturePatchProperties = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<KubernetesClusterFeaturePatchProperties>;
 
 /** Resource tags. */
-export type UpdateKubernetesClusterFeatureRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesClusterFeatureRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesClusterFeatureRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13833,9 +13455,7 @@ export const UpdateKubernetesClusterFeatureRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateKubernetesClusterFeatureRequest>;
 
 /** Resource tags. */
-export type UpdateKubernetesClusterFeatureResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesClusterFeatureResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesClusterFeatureResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13875,9 +13495,7 @@ export const UpdateKubernetesClusterFeatureResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateKubernetesClusterFeatureResponse>;
 
 /** Resource tags. */
-export type UpdateKubernetesVersionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesVersionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesVersionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13912,9 +13530,7 @@ export const UpdateKubernetesVersionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateKubernetesVersionRequest>;
 
 /** Resource tags. */
-export type UpdateKubernetesVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateKubernetesVersionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateKubernetesVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13957,9 +13573,7 @@ export const UpdateKubernetesVersionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateKubernetesVersionResponse>;
 
 /** Resource tags. */
-export type UpdateL2NetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL2NetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateL2NetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13989,14 +13603,10 @@ export const UpdateL2NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateL2NetworkRequest",
-}) as any as S.Schema<UpdateL2NetworkRequest>;
+).annotate({ identifier: "UpdateL2NetworkRequest" }) as any as S.Schema<UpdateL2NetworkRequest>;
 
 /** Resource tags. */
-export type UpdateL2NetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL2NetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateL2NetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14034,14 +13644,10 @@ export const UpdateL2NetworkResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateL2NetworkResponse",
-}) as any as S.Schema<UpdateL2NetworkResponse>;
+).annotate({ identifier: "UpdateL2NetworkResponse" }) as any as S.Schema<UpdateL2NetworkResponse>;
 
 /** Resource tags. */
-export type UpdateL3NetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL3NetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateL3NetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14071,14 +13677,10 @@ export const UpdateL3NetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateL3NetworkRequest",
-}) as any as S.Schema<UpdateL3NetworkRequest>;
+).annotate({ identifier: "UpdateL3NetworkRequest" }) as any as S.Schema<UpdateL3NetworkRequest>;
 
 /** Resource tags. */
-export type UpdateL3NetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL3NetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateL3NetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14116,9 +13718,7 @@ export const UpdateL3NetworkResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateL3NetworkResponse",
-}) as any as S.Schema<UpdateL3NetworkResponse>;
+).annotate({ identifier: "UpdateL3NetworkResponse" }) as any as S.Schema<UpdateL3NetworkResponse>;
 
 /** The list of metric names that have been chosen to be enabled in addition to the core set of enabled metrics. */
 export type ClusterMetricsConfigurationPatchPropertiesEnabledMetricsList = Array<string>;
@@ -14143,9 +13743,7 @@ export const ClusterMetricsConfigurationPatchProperties = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ClusterMetricsConfigurationPatchProperties>;
 
 /** Resource tags. */
-export type UpdateMetricsConfigurationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMetricsConfigurationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMetricsConfigurationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14186,9 +13784,7 @@ export const UpdateMetricsConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMetricsConfigurationRequest>;
 
 /** Resource tags. */
-export type UpdateMetricsConfigurationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMetricsConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMetricsConfigurationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14242,9 +13838,7 @@ export const RacksPatchProperties = /*@__PURE__*/ S.suspend(() =>
     rackLocation: S.optional(S.String),
     rackSerialNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RacksPatchProperties",
-}) as any as S.Schema<RacksPatchProperties>;
+).annotate({ identifier: "RacksPatchProperties" }) as any as S.Schema<RacksPatchProperties>;
 
 /** Resource tags. */
 export type UpdateRackRequestTagsMap = { [key: string]: string | undefined };
@@ -14280,9 +13874,7 @@ export const UpdateRackRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRackRequest",
-}) as any as S.Schema<UpdateRackRequest>;
+).annotate({ identifier: "UpdateRackRequest" }) as any as S.Schema<UpdateRackRequest>;
 
 /** Resource tags. */
 export type UpdateRackResponseTagsMap = { [key: string]: string | undefined };
@@ -14323,9 +13915,7 @@ export const UpdateRackResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateRackResponse",
-}) as any as S.Schema<UpdateRackResponse>;
+).annotate({ identifier: "UpdateRackResponse" }) as any as S.Schema<UpdateRackResponse>;
 
 /** StorageAppliancePatchProperties represents the properties of the storage appliance that can be patched. */
 export interface StorageAppliancePatchProperties {
@@ -14341,9 +13931,7 @@ export const StorageAppliancePatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StorageAppliancePatchProperties>;
 
 /** Resource tags. */
-export type UpdateStorageApplianceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageApplianceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageApplianceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14381,9 +13969,7 @@ export const UpdateStorageApplianceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateStorageApplianceRequest>;
 
 /** Resource tags. */
-export type UpdateStorageApplianceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageApplianceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageApplianceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14426,9 +14012,7 @@ export const UpdateStorageApplianceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateStorageApplianceResponse>;
 
 /** Resource tags. */
-export type UpdateTrunkedNetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTrunkedNetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateTrunkedNetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14463,9 +14047,7 @@ export const UpdateTrunkedNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateTrunkedNetworkRequest>;
 
 /** Resource tags. */
-export type UpdateTrunkedNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTrunkedNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateTrunkedNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14566,9 +14148,7 @@ export const VirtualMachinePatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualMachinePatchProperties>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14609,9 +14189,7 @@ export const UpdateVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14719,9 +14297,7 @@ export const UpdateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateVolumeRequest",
-}) as any as S.Schema<UpdateVolumeRequest>;
+).annotate({ identifier: "UpdateVolumeRequest" }) as any as S.Schema<UpdateVolumeRequest>;
 
 /** Resource tags. */
 export type UpdateVolumeResponseTagsMap = { [key: string]: string | undefined };
@@ -14762,14 +14338,10 @@ export const UpdateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     extendedLocation: AzureResourceManagerCommonTypesExtendedLocation,
   }),
-).annotate({
-  identifier: "UpdateVolumeResponse",
-}) as any as S.Schema<UpdateVolumeResponse>;
+).annotate({ identifier: "UpdateVolumeResponse" }) as any as S.Schema<UpdateVolumeResponse>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14803,9 +14375,7 @@ export const NetworkAttachmentInput = /*@__PURE__*/ S.suspend(() =>
     ipv6Address: S.optional(S.String),
     networkAttachmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkAttachmentInput",
-}) as any as S.Schema<NetworkAttachmentInput>;
+).annotate({ identifier: "NetworkAttachmentInput" }) as any as S.Schema<NetworkAttachmentInput>;
 
 /** Field Deprecated, the value will be ignored if provided. The indicator of whether one of the specified CPU cores is isolated to run the emulator thread for this virtual machine. */
 export type VirtualMachinePropertiesInputIsolateEmulatorThread = "False" | "True";
@@ -14972,9 +14542,7 @@ export const VirtualMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15086,9 +14654,7 @@ export const VirtualMachinesPowerOffRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface VirtualMachinesPowerOffResponse {}
 export const VirtualMachinesPowerOffResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "VirtualMachinesPowerOffResponse",
-  },
+  { identifier: "VirtualMachinesPowerOffResponse" },
 ) as any as S.Schema<VirtualMachinesPowerOffResponse>;
 
 export interface VirtualMachinesReimageRequest {
@@ -15122,9 +14688,7 @@ export const VirtualMachinesReimageResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<VirtualMachinesReimageResponse>;
 
 /** Resource tags. */
-export type VolumesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VolumesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VolumesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15142,9 +14706,7 @@ export const VolumePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     sizeMiB: S.Number,
     storageApplianceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumePropertiesInput",
-}) as any as S.Schema<VolumePropertiesInput>;
+).annotate({ identifier: "VolumePropertiesInput" }) as any as S.Schema<VolumePropertiesInput>;
 
 export interface VolumesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -15184,9 +14746,7 @@ export const VolumesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VolumesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VolumesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VolumesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VolumesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

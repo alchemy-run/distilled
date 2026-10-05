@@ -22,11 +22,7 @@ import { applyApiGatewayCustomizations, isApiGateway } from "../customizations/a
 import { applyGlacierCustomizations, isGlacier } from "../customizations/glacier.ts";
 import { ParseError } from "../errors.ts";
 import { parseEventStreamToUnion } from "../eventstream/parser.ts";
-import {
-  serializeInputEventStream,
-  serializeInputEventStreamWithPayloads,
-  type InputEvent,
-} from "../eventstream/serializer.ts";
+import { serializeInputEventStreamWithSchema, type InputEvent } from "../eventstream/serializer.ts";
 import {
   getAwsApiService,
   getEventPayloadMap,
@@ -119,7 +115,10 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
         isNumber: isNumberAST(prop.type),
         isBoolean: isBooleanAST(prop.type),
       });
-    } else if (prefix) {
+    } else if (prefix !== undefined) {
+      // An empty prefix binds every response header (Smithy
+      // RestJsonHttpEmptyPrefixHeadersResponseClient), including ones also
+      // bound to httpHeader members.
       prefixHeaderProps.push({ name, prefix: prefix.toLowerCase() });
     } else if (hasHttpPayload(prop)) {
       const isEventStream = isOutputEventStream(prop.type);
@@ -202,18 +201,13 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
           isInputEventStream(payloadAst) && isEffectStream(payloadValue);
 
         if (isInputEventStreamPayload) {
-          // Input event stream - serialize each event to wire format
-          const eventPayloadMap = getEventPayloadMap(payloadAst);
-          if (eventPayloadMap && Object.keys(eventPayloadMap).length > 0) {
-            request.body = serializeInputEventStreamWithPayloads(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-              eventPayloadMap,
-            );
-          } else {
-            request.body = serializeInputEventStream(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-            );
-          }
+          // Input event stream - frame each event per its eventPayload /
+          // eventHeader member annotations (as the output side does).
+          request.body = serializeInputEventStreamWithSchema(
+            payloadValue as Stream.Stream<InputEvent, unknown>,
+            getEventSchema(payloadAst),
+            getEventPayloadMap(payloadAst),
+          );
           // Set content type for event streams (always override)
           request.headers["Content-Type"] = "application/vnd.amazon.eventstream";
         } else if (isStreamingType(payloadAst)) {
@@ -332,9 +326,10 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
       // Non-streaming response - read body as text
       const bodyText = yield* readStreamAsText(response.body);
 
-      // Handle httpPayload with raw body
-      if (outputPayloadProp?.isRaw && bodyText) {
-        result[outputPayloadProp.name] = bodyText;
+      // A string httpPayload is the body as-is, not a JSON document.
+      if (outputPayloadProp?.isRaw) {
+        if (bodyText) result[outputPayloadProp.name] = bodyText;
+        return result;
       }
 
       // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)

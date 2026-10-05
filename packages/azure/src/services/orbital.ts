@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type ContactProfilesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContactProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ContactProfilesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -169,9 +167,7 @@ export const ContactProfileLink = /*@__PURE__*/ S.suspend(() =>
     eirpdBW: S.optional(S.Number),
     channels: ContactProfileLinkChannelsList,
   }),
-).annotate({
-  identifier: "ContactProfileLink",
-}) as any as S.Schema<ContactProfileLink>;
+).annotate({ identifier: "ContactProfileLink" }) as any as S.Schema<ContactProfileLink>;
 
 /** Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
 export type ContactProfilesPropertiesInputLinksList = Array<ContactProfileLink>;
@@ -286,9 +282,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type ContactProfilesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContactProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ContactProfilesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -400,9 +394,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** Properties of the Contact Resource. */
 export interface ContactsPropertiesInput {
@@ -425,9 +417,7 @@ export const ContactsPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     groundStationName: S.String,
     contactProfile: ResourceReference,
   }),
-).annotate({
-  identifier: "ContactsPropertiesInput",
-}) as any as S.Schema<ContactsPropertiesInput>;
+).annotate({ identifier: "ContactsPropertiesInput" }) as any as S.Schema<ContactsPropertiesInput>;
 
 export interface CreateContactRequest {
   /** The ID of the target subscription. */
@@ -455,9 +445,7 @@ export const CreateContactRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateContactRequest",
-}) as any as S.Schema<CreateContactRequest>;
+).annotate({ identifier: "CreateContactRequest" }) as any as S.Schema<CreateContactRequest>;
 
 /** Status of a contact. */
 export type ContactsPropertiesStatus =
@@ -547,9 +535,7 @@ export const ContactsProperties = /*@__PURE__*/ S.suspend(() =>
     antennaConfiguration: S.optional(ContactsPropertiesAntennaConfiguration),
     contactProfile: ResourceReference,
   }),
-).annotate({
-  identifier: "ContactsProperties",
-}) as any as S.Schema<ContactsProperties>;
+).annotate({ identifier: "ContactsProperties" }) as any as S.Schema<ContactsProperties>;
 
 export interface CreateContactResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -570,9 +556,7 @@ export const CreateContactResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ContactsProperties,
   }),
-).annotate({
-  identifier: "CreateContactResponse",
-}) as any as S.Schema<CreateContactResponse>;
+).annotate({ identifier: "CreateContactResponse" }) as any as S.Schema<CreateContactResponse>;
 
 export interface DeleteContactRequest {
   /** The ID of the target subscription. */
@@ -598,9 +582,7 @@ export const DeleteContactRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteContactRequest",
-}) as any as S.Schema<DeleteContactRequest>;
+).annotate({ identifier: "DeleteContactRequest" }) as any as S.Schema<DeleteContactRequest>;
 
 export interface DeleteContactResponse {}
 export const DeleteContactResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -658,9 +640,7 @@ export const DeleteEdgeSiteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEdgeSiteRequest",
-}) as any as S.Schema<DeleteEdgeSiteRequest>;
+).annotate({ identifier: "DeleteEdgeSiteRequest" }) as any as S.Schema<DeleteEdgeSiteRequest>;
 
 export interface DeleteEdgeSiteResponse {}
 export const DeleteEdgeSiteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -748,9 +728,7 @@ export const DeleteSpacecraftRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSpacecraftRequest",
-}) as any as S.Schema<DeleteSpacecraftRequest>;
+).annotate({ identifier: "DeleteSpacecraftRequest" }) as any as S.Schema<DeleteSpacecraftRequest>;
 
 export interface DeleteSpacecraftResponse {}
 export const DeleteSpacecraftResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -758,9 +736,7 @@ export const DeleteSpacecraftResponse = /*@__PURE__*/ S.suspend(() => S.Struct({
 }) as any as S.Schema<DeleteSpacecraftResponse>;
 
 /** Resource tags. */
-export type EdgeSitesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EdgeSitesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EdgeSitesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -775,9 +751,7 @@ export const EdgeSitesProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     globalCommunicationsSite: ResourceReference,
   }),
-).annotate({
-  identifier: "EdgeSitesProperties",
-}) as any as S.Schema<EdgeSitesProperties>;
+).annotate({ identifier: "EdgeSitesProperties" }) as any as S.Schema<EdgeSitesProperties>;
 
 export interface EdgeSitesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -814,9 +788,7 @@ export const EdgeSitesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EdgeSitesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type EdgeSitesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EdgeSitesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EdgeSitesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -876,9 +848,7 @@ export const GetContactRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetContactRequest",
-}) as any as S.Schema<GetContactRequest>;
+).annotate({ identifier: "GetContactRequest" }) as any as S.Schema<GetContactRequest>;
 
 export interface GetContactResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -899,9 +869,7 @@ export const GetContactResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ContactsProperties,
   }),
-).annotate({
-  identifier: "GetContactResponse",
-}) as any as S.Schema<GetContactResponse>;
+).annotate({ identifier: "GetContactResponse" }) as any as S.Schema<GetContactResponse>;
 
 export interface GetContactProfileRequest {
   /** The ID of the target subscription. */
@@ -924,14 +892,10 @@ export const GetContactProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetContactProfileRequest",
-}) as any as S.Schema<GetContactProfileRequest>;
+).annotate({ identifier: "GetContactProfileRequest" }) as any as S.Schema<GetContactProfileRequest>;
 
 /** Resource tags. */
-export type GetContactProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetContactProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetContactProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -988,9 +952,7 @@ export const GetEdgeSiteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetEdgeSiteRequest",
-}) as any as S.Schema<GetEdgeSiteRequest>;
+).annotate({ identifier: "GetEdgeSiteRequest" }) as any as S.Schema<GetEdgeSiteRequest>;
 
 /** Resource tags. */
 export type GetEdgeSiteResponseTagsMap = { [key: string]: string | undefined };
@@ -1025,9 +987,7 @@ export const GetEdgeSiteResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: EdgeSitesProperties,
   }),
-).annotate({
-  identifier: "GetEdgeSiteResponse",
-}) as any as S.Schema<GetEdgeSiteResponse>;
+).annotate({ identifier: "GetEdgeSiteResponse" }) as any as S.Schema<GetEdgeSiteResponse>;
 
 export interface GetGroundStationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1050,14 +1010,10 @@ export const GetGroundStationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetGroundStationRequest",
-}) as any as S.Schema<GetGroundStationRequest>;
+).annotate({ identifier: "GetGroundStationRequest" }) as any as S.Schema<GetGroundStationRequest>;
 
 /** Resource tags. */
-export type GetGroundStationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetGroundStationResponseTagsMap = { [key: string]: string | undefined };
 export const GetGroundStationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1107,9 +1063,7 @@ export const GroundStationsProperties = /*@__PURE__*/ S.suspend(() =>
     releaseMode: S.optional(GroundStationsPropertiesReleaseMode),
     globalCommunicationsSite: ResourceReference,
   }),
-).annotate({
-  identifier: "GroundStationsProperties",
-}) as any as S.Schema<GroundStationsProperties>;
+).annotate({ identifier: "GroundStationsProperties" }) as any as S.Schema<GroundStationsProperties>;
 
 export interface GetGroundStationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1137,9 +1091,7 @@ export const GetGroundStationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(GroundStationsProperties),
   }),
-).annotate({
-  identifier: "GetGroundStationResponse",
-}) as any as S.Schema<GetGroundStationResponse>;
+).annotate({ identifier: "GetGroundStationResponse" }) as any as S.Schema<GetGroundStationResponse>;
 
 export interface GetL2ConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1162,14 +1114,10 @@ export const GetL2ConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetL2ConnectionRequest",
-}) as any as S.Schema<GetL2ConnectionRequest>;
+).annotate({ identifier: "GetL2ConnectionRequest" }) as any as S.Schema<GetL2ConnectionRequest>;
 
 /** Resource tags. */
-export type GetL2ConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetL2ConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetL2ConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1238,9 +1186,7 @@ export const L2ConnectionsProperties = /*@__PURE__*/ S.suspend(() =>
     groundStationPartnerRouter: L2ConnectionsPropertiesGroundStationPartnerRouter,
     vlanId: S.Number,
   }),
-).annotate({
-  identifier: "L2ConnectionsProperties",
-}) as any as S.Schema<L2ConnectionsProperties>;
+).annotate({ identifier: "L2ConnectionsProperties" }) as any as S.Schema<L2ConnectionsProperties>;
 
 export interface GetL2ConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1268,9 +1214,7 @@ export const GetL2ConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: L2ConnectionsProperties,
   }),
-).annotate({
-  identifier: "GetL2ConnectionResponse",
-}) as any as S.Schema<GetL2ConnectionResponse>;
+).annotate({ identifier: "GetL2ConnectionResponse" }) as any as S.Schema<GetL2ConnectionResponse>;
 
 export interface GetOperationsResultRequest {
   /** The ID of the target subscription. */
@@ -1356,9 +1300,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.Unknown),
     error: S.optional(OperationResultErrorProperties),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 export interface GetSpacecraftRequest {
   /** The ID of the target subscription. */
@@ -1381,14 +1323,10 @@ export const GetSpacecraftRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetSpacecraftRequest",
-}) as any as S.Schema<GetSpacecraftRequest>;
+).annotate({ identifier: "GetSpacecraftRequest" }) as any as S.Schema<GetSpacecraftRequest>;
 
 /** Resource tags. */
-export type GetSpacecraftResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSpacecraftResponseTagsMap = { [key: string]: string | undefined };
 export const GetSpacecraftResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1414,9 +1352,7 @@ export const AuthorizedGroundstation = /*@__PURE__*/ S.suspend(() =>
     groundStation: S.String,
     expirationDate: S.String,
   }),
-).annotate({
-  identifier: "AuthorizedGroundstation",
-}) as any as S.Schema<AuthorizedGroundstation>;
+).annotate({ identifier: "AuthorizedGroundstation" }) as any as S.Schema<AuthorizedGroundstation>;
 
 /** Authorized Ground Stations */
 export type SpacecraftLinkAuthorizationsList = Array<AuthorizedGroundstation>;
@@ -1480,9 +1416,7 @@ export const SpacecraftsProperties = /*@__PURE__*/ S.suspend(() =>
     tleLine2: S.String,
     links: SpacecraftsPropertiesLinksList,
   }),
-).annotate({
-  identifier: "SpacecraftsProperties",
-}) as any as S.Schema<SpacecraftsProperties>;
+).annotate({ identifier: "SpacecraftsProperties" }) as any as S.Schema<SpacecraftsProperties>;
 
 export interface GetSpacecraftResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1510,14 +1444,10 @@ export const GetSpacecraftResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: SpacecraftsProperties,
   }),
-).annotate({
-  identifier: "GetSpacecraftResponse",
-}) as any as S.Schema<GetSpacecraftResponse>;
+).annotate({ identifier: "GetSpacecraftResponse" }) as any as S.Schema<GetSpacecraftResponse>;
 
 /** Resource tags. */
-export type GroundStationsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GroundStationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const GroundStationsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1595,9 +1525,7 @@ export const GroundStationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GroundStationsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type GroundStationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GroundStationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const GroundStationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1634,9 +1562,7 @@ export const GroundStationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<GroundStationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type L2ConnectionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L2ConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const L2ConnectionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1714,9 +1640,7 @@ export const L2ConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<L2ConnectionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type L2ConnectionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type L2ConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const L2ConnectionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1832,9 +1756,7 @@ export const AvailableGroundStation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: AvailableGroundStationProperties,
   }),
-).annotate({
-  identifier: "AvailableGroundStation",
-}) as any as S.Schema<AvailableGroundStation>;
+).annotate({ identifier: "AvailableGroundStation" }) as any as S.Schema<AvailableGroundStation>;
 
 /** A list of ground station resources. */
 export type AvailableGroundStationListResultValueList = Array<AvailableGroundStation>;
@@ -1934,9 +1856,7 @@ export const ContactProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ContactProfileListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContactProfileListResult",
-}) as any as S.Schema<ContactProfileListResult>;
+).annotate({ identifier: "ContactProfileListResult" }) as any as S.Schema<ContactProfileListResult>;
 
 export interface ListContactProfilesRequest {
   /** The ID of the target subscription. */
@@ -1987,9 +1907,7 @@ export const ListContactsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListContactsRequest",
-}) as any as S.Schema<ListContactsRequest>;
+).annotate({ identifier: "ListContactsRequest" }) as any as S.Schema<ListContactsRequest>;
 
 /** Customer creates a contact resource for a spacecraft resource. */
 export interface Contact {
@@ -2031,9 +1949,7 @@ export const ContactListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ContactListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContactListResult",
-}) as any as S.Schema<ContactListResult>;
+).annotate({ identifier: "ContactListResult" }) as any as S.Schema<ContactListResult>;
 
 export interface ListEdgeSiteBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2111,9 +2027,7 @@ export const EdgeSiteListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(EdgeSiteListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EdgeSiteListResult",
-}) as any as S.Schema<EdgeSiteListResult>;
+).annotate({ identifier: "EdgeSiteListResult" }) as any as S.Schema<EdgeSiteListResult>;
 
 export interface ListEdgeSiteL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2170,9 +2084,7 @@ export const ResourceIdListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ResourceIdListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceIdListResult",
-}) as any as S.Schema<ResourceIdListResult>;
+).annotate({ identifier: "ResourceIdListResult" }) as any as S.Schema<ResourceIdListResult>;
 
 export interface ListEdgeSitesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2195,9 +2107,7 @@ export const ListEdgeSitesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListEdgeSitesRequest",
-}) as any as S.Schema<ListEdgeSitesRequest>;
+).annotate({ identifier: "ListEdgeSitesRequest" }) as any as S.Schema<ListEdgeSitesRequest>;
 
 export interface ListGlobalCommunicationsSiteBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2305,9 +2215,7 @@ export const GlobalCommunicationsSite = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GlobalCommunicationsSitesProperties),
   }),
-).annotate({
-  identifier: "GlobalCommunicationsSite",
-}) as any as S.Schema<GlobalCommunicationsSite>;
+).annotate({ identifier: "GlobalCommunicationsSite" }) as any as S.Schema<GlobalCommunicationsSite>;
 
 /** A list of global communications sites. */
 export type GlobalCommunicationsSiteListResultValueList = Array<GlobalCommunicationsSite>;
@@ -2407,9 +2315,7 @@ export const GroundStationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(GroundStationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroundStationListResult",
-}) as any as S.Schema<GroundStationListResult>;
+).annotate({ identifier: "GroundStationListResult" }) as any as S.Schema<GroundStationListResult>;
 
 export interface ListGroundStationL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2537,9 +2443,7 @@ export const L2ConnectionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(L2ConnectionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "L2ConnectionListResult",
-}) as any as S.Schema<L2ConnectionListResult>;
+).annotate({ identifier: "L2ConnectionListResult" }) as any as S.Schema<L2ConnectionListResult>;
 
 export interface ListL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2562,9 +2466,7 @@ export const ListL2ConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListL2ConnectionsRequest",
-}) as any as S.Schema<ListL2ConnectionsRequest>;
+).annotate({ identifier: "ListL2ConnectionsRequest" }) as any as S.Schema<ListL2ConnectionsRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2576,9 +2478,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2598,9 +2498,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2650,9 +2548,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListSpacecraftAvailableContactsRequest {
   /** The ID of the target subscription. */
@@ -2743,9 +2639,7 @@ export const AvailableContacts = /*@__PURE__*/ S.suspend(() =>
     groundStationName: S.optional(S.String),
     properties: S.optional(ContactInstanceProperties),
   }),
-).annotate({
-  identifier: "AvailableContacts",
-}) as any as S.Schema<AvailableContacts>;
+).annotate({ identifier: "AvailableContacts" }) as any as S.Schema<AvailableContacts>;
 
 /** A list of available contacts. */
 export type AvailableContactsListResultValueList = Array<AvailableContacts>;
@@ -2845,9 +2739,7 @@ export const SpacecraftListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SpacecraftListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SpacecraftListResult",
-}) as any as S.Schema<SpacecraftListResult>;
+).annotate({ identifier: "SpacecraftListResult" }) as any as S.Schema<SpacecraftListResult>;
 
 export interface ListSpacecraftsRequest {
   /** The ID of the target subscription. */
@@ -2870,14 +2762,10 @@ export const ListSpacecraftsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListSpacecraftsRequest",
-}) as any as S.Schema<ListSpacecraftsRequest>;
+).annotate({ identifier: "ListSpacecraftsRequest" }) as any as S.Schema<ListSpacecraftsRequest>;
 
 /** Resource tags. */
-export type SpacecraftsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SpacecraftsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SpacecraftsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2916,9 +2804,7 @@ export const SpacecraftLinkInput = /*@__PURE__*/ S.suspend(() =>
     direction: SpacecraftLinkInputDirection,
     polarization: SpacecraftLinkInputPolarization,
   }),
-).annotate({
-  identifier: "SpacecraftLinkInput",
-}) as any as S.Schema<SpacecraftLinkInput>;
+).annotate({ identifier: "SpacecraftLinkInput" }) as any as S.Schema<SpacecraftLinkInput>;
 
 /** Immutable list of Spacecraft links. */
 export type SpacecraftsPropertiesInputLinksList = Array<SpacecraftLinkInput>;
@@ -2989,9 +2875,7 @@ export const SpacecraftsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SpacecraftsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SpacecraftsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SpacecraftsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SpacecraftsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3028,9 +2912,7 @@ export const SpacecraftsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SpacecraftsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type UpdateContactProfileTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateContactProfileTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateContactProfileTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3065,9 +2947,7 @@ export const UpdateContactProfileTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateContactProfileTagsRequest>;
 
 /** Resource tags. */
-export type UpdateContactProfileTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateContactProfileTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateContactProfileTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3104,9 +2984,7 @@ export const UpdateContactProfileTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateContactProfileTagsResponse>;
 
 /** Resource tags. */
-export type UpdateEdgeSiteTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEdgeSiteTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEdgeSiteTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3141,9 +3019,7 @@ export const UpdateEdgeSiteTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEdgeSiteTagsRequest>;
 
 /** Resource tags. */
-export type UpdateEdgeSiteTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEdgeSiteTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEdgeSiteTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3180,9 +3056,7 @@ export const UpdateEdgeSiteTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEdgeSiteTagsResponse>;
 
 /** Resource tags. */
-export type UpdateGroundStationTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGroundStationTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateGroundStationTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3217,9 +3091,7 @@ export const UpdateGroundStationTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateGroundStationTagsRequest>;
 
 /** Resource tags. */
-export type UpdateGroundStationTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGroundStationTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateGroundStationTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3256,9 +3128,7 @@ export const UpdateGroundStationTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateGroundStationTagsResponse>;
 
 /** Resource tags. */
-export type UpdateL2ConnectionTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL2ConnectionTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateL2ConnectionTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3293,9 +3163,7 @@ export const UpdateL2ConnectionTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateL2ConnectionTagsRequest>;
 
 /** Resource tags. */
-export type UpdateL2ConnectionTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateL2ConnectionTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateL2ConnectionTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3332,9 +3200,7 @@ export const UpdateL2ConnectionTagsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateL2ConnectionTagsResponse>;
 
 /** Resource tags. */
-export type UpdateSpacecraftTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSpacecraftTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSpacecraftTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3369,9 +3235,7 @@ export const UpdateSpacecraftTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSpacecraftTagsRequest>;
 
 /** Resource tags. */
-export type UpdateSpacecraftTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSpacecraftTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSpacecraftTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

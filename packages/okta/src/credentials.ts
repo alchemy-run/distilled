@@ -35,14 +35,14 @@ const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
 /** Layer from an SSWS API token + org base URL. */
 export const fromApiToken = (config: {
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
   readonly authScheme?: AuthScheme;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiToken: Redacted.make(config.apiToken),
+      apiToken: config.apiToken,
       apiBaseUrl: stripTrailingSlash(config.apiBaseUrl),
       authScheme: config.authScheme ?? "SSWS",
     }),
@@ -50,7 +50,7 @@ export const fromApiToken = (config: {
 
 /** Layer from an OAuth 2.0 access token + org base URL. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }): Layer.Layer<Credentials> =>
   fromApiToken({

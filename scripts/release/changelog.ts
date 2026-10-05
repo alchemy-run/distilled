@@ -18,6 +18,7 @@
  * log itself, streaming, and hands the result to the same parser — no
  * reimplementation of the changelog format, and no fork.
  */
+import { spawn } from "node:child_process";
 import type { ChangelogOptions, Commit } from "changelogithub";
 import { generateMarkdown, parseCommits, resolveAuthors, resolveConfig } from "changelogithub";
 
@@ -38,22 +39,27 @@ export const getGitDiff = async (
   from: string | undefined,
   to = "HEAD",
 ): Promise<RawGitCommit[]> => {
-  const proc = Bun.spawn(
+  const proc = spawn(
+    "git",
     [
-      "git",
       "--no-pager",
       "log",
       `${from ? `${from}...` : ""}${to}`,
       "--pretty=----%n%s|%h|%an|%ae%n%b",
       "--name-status",
     ],
-    { stdout: "pipe", stderr: "pipe" },
+    { stdio: ["ignore", "pipe", "pipe"] },
   );
-  const [raw, err, exitCode] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
-    proc.exited,
-  ]);
+  const out: Buffer[] = [];
+  const errOut: Buffer[] = [];
+  proc.stdout.on("data", (chunk: Buffer) => out.push(chunk));
+  proc.stderr.on("data", (chunk: Buffer) => errOut.push(chunk));
+  const exitCode = await new Promise<number>((resolve, reject) => {
+    proc.on("error", reject);
+    proc.on("close", (code) => resolve(code ?? 1));
+  });
+  const raw = Buffer.concat(out).toString("utf8");
+  const err = Buffer.concat(errOut).toString("utf8");
   if (exitCode !== 0) {
     throw new Error(`git log ${from ?? ""}...${to} failed: ${err.trim()}`);
   }

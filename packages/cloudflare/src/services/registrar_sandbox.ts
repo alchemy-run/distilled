@@ -39,7 +39,7 @@ export const CheckRequest = /*@__PURE__*/ S.suspend(() =>
 export interface CheckResponseDomainsItemPricing {
   /** ISO-4217 currency code for the prices (e.g., "USD", "EUR", "GBP"). */
   currency: string;
-  /** The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years. */
+  /** The first-year cost to register this domain. */
   registrationCost: string;
   /** Per-year renewal cost for this domain. Applied to each year beyond the first year of a multi-year registration, and to each annual auto-renewal thereafter. May differ from `registration_cost`, especially for premium domains where initial registration often costs more than renewals. */
   renewalCost: string;
@@ -70,7 +70,7 @@ export interface CheckResponseDomainsItem {
   name: string;
   /** Indicates programmatic registration eligibility according to a real-time registry check. */
   registrable: boolean;
-  /** Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision. */
+  /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
   pricing?: CheckResponseDomainsItemPricing | null;
   /** Appears only when `registrable` is `false` and explains the result. */
   reason?: CheckResponseDomainsItemReason | null;
@@ -85,9 +85,7 @@ export const CheckResponseDomainsItem = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.NullOr(CheckResponseDomainsItemReason)),
     tier: S.optional(S.NullOr(CheckResponseDomainsItemTier)),
   }),
-).annotate({
-  identifier: "CheckResponseDomainsItem",
-}) as any as S.Schema<CheckResponseDomainsItem>;
+).annotate({ identifier: "CheckResponseDomainsItem" }) as any as S.Schema<CheckResponseDomainsItem>;
 
 export type CheckResponseDomainsList = Array<CheckResponseDomainsItem>;
 export const CheckResponseDomainsList = /*@__PURE__*/ S.Array(
@@ -105,17 +103,13 @@ export const CheckResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CheckResponse" }) as any as S.Schema<CheckResponse>;
 
-export type CreateRegistrationRequestAcknowledgementsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateRegistrationRequestAcknowledgementsMap = { [key: string]: unknown | undefined };
 export const CreateRegistrationRequestAcknowledgementsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CreateRegistrationRequestAcknowledgementsMap>;
 
-export type CreateRegistrationRequestContactExtensionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateRegistrationRequestContactExtensionsMap = { [key: string]: unknown | undefined };
 export const CreateRegistrationRequestContactExtensionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -324,9 +318,7 @@ export type CreateRegistrationResponseState =
   | "failed";
 export const CreateRegistrationResponseState = S.String;
 
-export type CreateRegistrationResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateRegistrationResponseContextMap = { [key: string]: unknown | undefined };
 export const CreateRegistrationResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -400,9 +392,7 @@ export const EditRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "EditRegistrationRequest",
-}) as any as S.Schema<EditRegistrationRequest>;
+).annotate({ identifier: "EditRegistrationRequest" }) as any as S.Schema<EditRegistrationRequest>;
 
 export type EditRegistrationResponseLinks = CreateRegistrationResponseLinks;
 export const EditRegistrationResponseLinks = CreateRegistrationResponseLinks;
@@ -416,9 +406,7 @@ export type EditRegistrationResponseState =
   | "failed";
 export const EditRegistrationResponseState = S.String;
 
-export type EditRegistrationResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type EditRegistrationResponseContextMap = { [key: string]: unknown | undefined };
 export const EditRegistrationResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -451,9 +439,7 @@ export const EditRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(S.NullOr(EditRegistrationResponseContextMap)),
     error: S.optional(S.NullOr(CreateRegistrationResponseError)),
   }),
-).annotate({
-  identifier: "EditRegistrationResponse",
-}) as any as S.Schema<EditRegistrationResponse>;
+).annotate({ identifier: "EditRegistrationResponse" }) as any as S.Schema<EditRegistrationResponse>;
 
 export interface GetExtensionRequest {
   /** Identifier. */
@@ -471,9 +457,7 @@ export const GetExtensionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetExtensionRequest",
-}) as any as S.Schema<GetExtensionRequest>;
+).annotate({ identifier: "GetExtensionRequest" }) as any as S.Schema<GetExtensionRequest>;
 
 export interface GetExtensionResponseMetadata {
   /** The full name of the extension. For example, "co.uk", or "uk". */
@@ -496,15 +480,16 @@ export interface GetExtensionResponse {
   metadata: GetExtensionResponseMetadata;
   /** JSON Schema describing the expected input structure for registration operations on this extension. */
   registrationSchema: unknown;
+  /** JSON Schema describing the expected input structure for transfer operations on this extension. */
+  transferSchema: unknown;
 }
 export const GetExtensionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: GetExtensionResponseMetadata,
     registrationSchema: S.Unknown.pipe(T.Body("registration_schema")),
+    transferSchema: S.Unknown.pipe(T.Body("transfer_schema")),
   }),
-).annotate({
-  identifier: "GetExtensionResponse",
-}) as any as S.Schema<GetExtensionResponse>;
+).annotate({ identifier: "GetExtensionResponse" }) as any as S.Schema<GetExtensionResponse>;
 
 export interface GetRegistrationRequest {
   /** Identifier. */
@@ -523,9 +508,7 @@ export const GetRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRegistrationRequest",
-}) as any as S.Schema<GetRegistrationRequest>;
+).annotate({ identifier: "GetRegistrationRequest" }) as any as S.Schema<GetRegistrationRequest>;
 
 export type GetRegistrationResponsePrivacyMode = "off" | "redaction";
 export const GetRegistrationResponsePrivacyMode = S.String;
@@ -533,6 +516,7 @@ export const GetRegistrationResponsePrivacyMode = S.String;
 export type GetRegistrationResponseStatus =
   | "active"
   | "registration_pending"
+  | "transfer_pending"
   | "expired"
   | "suspended"
   | "redemption_period"
@@ -547,7 +531,7 @@ export interface GetRegistrationResponse {
   createdAt: string;
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null. */
+  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` and `transfer_pending` may return null. */
   expiresAt: string;
   /** Whether the domain is locked for transfer. */
   locked: boolean;
@@ -566,9 +550,7 @@ export const GetRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
     privacyMode: GetRegistrationResponsePrivacyMode.pipe(T.Body("privacy_mode")),
     status: GetRegistrationResponseStatus,
   }),
-).annotate({
-  identifier: "GetRegistrationResponse",
-}) as any as S.Schema<GetRegistrationResponse>;
+).annotate({ identifier: "GetRegistrationResponse" }) as any as S.Schema<GetRegistrationResponse>;
 
 export interface GetRegistrationStatusRequest {
   /** Identifier. */
@@ -603,9 +585,7 @@ export type GetRegistrationStatusResponseState =
   | "failed";
 export const GetRegistrationStatusResponseState = S.String;
 
-export type GetRegistrationStatusResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetRegistrationStatusResponseContextMap = { [key: string]: unknown | undefined };
 export const GetRegistrationStatusResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -677,9 +657,7 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
+).annotate({ identifier: "ListExtensionsRequest" }) as any as S.Schema<ListExtensionsRequest>;
 
 export type ListExtensionsResultItemMetadata = GetExtensionResponseMetadata;
 export const ListExtensionsResultItemMetadata = GetExtensionResponseMetadata;
@@ -689,15 +667,16 @@ export interface ListExtensionsResultItem {
   metadata: GetExtensionResponseMetadata;
   /** JSON Schema describing the expected input structure for registration operations on this extension. */
   registrationSchema: unknown;
+  /** JSON Schema describing the expected input structure for transfer operations on this extension. */
+  transferSchema: unknown;
 }
 export const ListExtensionsResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: GetExtensionResponseMetadata,
     registrationSchema: S.Unknown.pipe(T.Body("registration_schema")),
+    transferSchema: S.Unknown.pipe(T.Body("transfer_schema")),
   }),
-).annotate({
-  identifier: "ListExtensionsResultItem",
-}) as any as S.Schema<ListExtensionsResultItem>;
+).annotate({ identifier: "ListExtensionsResultItem" }) as any as S.Schema<ListExtensionsResultItem>;
 
 export type ListExtensionsResultList = Array<ListExtensionsResultItem>;
 export const ListExtensionsResultList = /*@__PURE__*/ S.Array(
@@ -707,9 +686,7 @@ export const ListExtensionsResultList = /*@__PURE__*/ S.Array(
 export type ListExtensionsResponse = ListExtensionsResultList;
 export const ListExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
   ListExtensionsResultList.pipe(T.EnvelopePayloadRoot()),
-).annotate({
-  identifier: "ListExtensionsResponse",
-}) as any as S.Schema<ListExtensionsResponse>;
+).annotate({ identifier: "ListExtensionsResponse" }) as any as S.Schema<ListExtensionsResponse>;
 
 export type ListRegistrationsRequestDirection = "asc" | "desc";
 export const ListRegistrationsRequestDirection = S.String;
@@ -743,9 +720,7 @@ export const ListRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListRegistrationsRequest",
-}) as any as S.Schema<ListRegistrationsRequest>;
+).annotate({ identifier: "ListRegistrationsRequest" }) as any as S.Schema<ListRegistrationsRequest>;
 
 export type ListRegistrationsResultItemPrivacyMode = "off" | "redaction";
 export const ListRegistrationsResultItemPrivacyMode = S.String;
@@ -753,6 +728,7 @@ export const ListRegistrationsResultItemPrivacyMode = S.String;
 export type ListRegistrationsResultItemStatus =
   | "active"
   | "registration_pending"
+  | "transfer_pending"
   | "expired"
   | "suspended"
   | "redemption_period"
@@ -766,7 +742,7 @@ export interface ListRegistrationsResultItem {
   createdAt: string;
   /** Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests. */
   domainName: string;
-  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null. */
+  /** When the domain registration expires. Ready registrations include this value; only `registration_pending` and `transfer_pending` may return null. */
   expiresAt: string;
   /** Whether the domain is locked for transfer. */
   locked: boolean;
@@ -850,7 +826,7 @@ export interface SearchResponseDomainsItem {
   name: string;
   /** Indicates domain availability according to potentially stale, non-authoritative search data. */
   registrable: boolean;
-  /** Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision. */
+  /** Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision. */
   pricing?: CheckResponseDomainsItemPricing | null;
   /** Appears only when `registrable` is `false` and explains the advisory search result. Use POST /domain-check for authoritative status. */
   reason?: SearchResponseDomainsItemReason | null;
@@ -902,9 +878,7 @@ export const UpdateStatusGetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateStatusGetRequest",
-}) as any as S.Schema<UpdateStatusGetRequest>;
+).annotate({ identifier: "UpdateStatusGetRequest" }) as any as S.Schema<UpdateStatusGetRequest>;
 
 export type UpdateStatusGetResponseLinks = CreateRegistrationResponseLinks;
 export const UpdateStatusGetResponseLinks = CreateRegistrationResponseLinks;
@@ -918,9 +892,7 @@ export type UpdateStatusGetResponseState =
   | "failed";
 export const UpdateStatusGetResponseState = S.String;
 
-export type UpdateStatusGetResponseContextMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateStatusGetResponseContextMap = { [key: string]: unknown | undefined };
 export const UpdateStatusGetResponseContextMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -953,9 +925,7 @@ export const UpdateStatusGetResponse = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(S.NullOr(UpdateStatusGetResponseContextMap)),
     error: S.optional(S.NullOr(CreateRegistrationResponseError)),
   }),
-).annotate({
-  identifier: "UpdateStatusGetResponse",
-}) as any as S.Schema<UpdateStatusGetResponse>;
+).annotate({ identifier: "UpdateStatusGetResponse" }) as any as S.Schema<UpdateStatusGetResponse>;
 
 export type CheckError = CloudflareOpError;
 /** Performs real-time, authoritative availability checks directly against domain registries. Use this endpoint to verify a domain is available before attempting registration via `POST /registrations`. **Important:** Unlike the Search endpoint, these results are authoritative and reflect current registry status. Always check availability immediately before registration as domain status can change rapidly. **Note:** This endpoint uses POST to accept a list of domains in the request body. It is a read-only operation — it does not create, modify, or reserve any domains. */
@@ -1003,7 +973,7 @@ export const editRegistration: API.OperationMethod<
 }));
 
 export type GetExtensionError = CloudflareOpError;
-/** Returns metadata and JSON Schema documents describing the expected input structure for registration operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
+/** Returns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
 export const getExtension: API.OperationMethod<
   GetExtensionRequest,
   GetExtensionResponse,
@@ -1048,7 +1018,7 @@ export const getRegistrationStatus: API.OperationMethod<
 }));
 
 export type ListExtensionsError = CloudflareOpError;
-/** Returns metadata and JSON Schema documents describing the expected input structure for registration operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
+/** Returns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed. */
 export const listExtensions: API.OperationMethod<
   ListExtensionsRequest,
   ListExtensionsResponse,

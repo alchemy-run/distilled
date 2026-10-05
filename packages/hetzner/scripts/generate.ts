@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
@@ -116,7 +116,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Hetzner Cloud Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the
   // OpenAPI document in scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

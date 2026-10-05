@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Sentry's public REST OpenAPI spec into ../specs/.
  *
@@ -8,13 +8,14 @@
  * repository is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "getsentry/sentry-api-schema";
@@ -65,7 +66,7 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

@@ -393,9 +393,7 @@ export const GetProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductRequest",
-}) as any as S.Schema<GetProductRequest>;
+).annotate({ identifier: "GetProductRequest" }) as any as S.Schema<GetProductRequest>;
 
 /** Links to product icons. */
 export interface IconUris {
@@ -449,9 +447,7 @@ export const ProductProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductProperties",
-}) as any as S.Schema<ProductProperties>;
+).annotate({ identifier: "ProductProperties" }) as any as S.Schema<ProductProperties>;
 
 /** Compatibility issue */
 export type CompatibilityIssue =
@@ -553,9 +549,7 @@ export const ProductNestedProperties = /*@__PURE__*/ S.suspend(() =>
     productProperties: S.optional(ProductProperties),
     compatibility: S.optional(Compatibility),
   }),
-).annotate({
-  identifier: "ProductNestedProperties",
-}) as any as S.Schema<ProductNestedProperties>;
+).annotate({ identifier: "ProductNestedProperties" }) as any as S.Schema<ProductNestedProperties>;
 
 export interface GetProductResponse {
   /** ID of the resource. */
@@ -577,9 +571,7 @@ export const GetProductResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProductNestedProperties),
   }),
-).annotate({
-  identifier: "GetProductResponse",
-}) as any as S.Schema<GetProductResponse>;
+).annotate({ identifier: "GetProductResponse" }) as any as S.Schema<GetProductResponse>;
 
 export interface GetProductProductRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -605,9 +597,7 @@ export const GetProductProductRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetProductProductRequest",
-}) as any as S.Schema<GetProductProductRequest>;
+).annotate({ identifier: "GetProductProductRequest" }) as any as S.Schema<GetProductProductRequest>;
 
 export interface GetProductProductResponse {
   /** ID of the resource. */
@@ -725,18 +715,14 @@ export const GetRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetRegistrationRequest",
-}) as any as S.Schema<GetRegistrationRequest>;
+).annotate({ identifier: "GetRegistrationRequest" }) as any as S.Schema<GetRegistrationRequest>;
 
 /** Location of the resource. */
 export type GetRegistrationResponseLocation = "global";
 export const GetRegistrationResponseLocation = S.String;
 
 /** Custom tags for the resource. */
-export type GetRegistrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRegistrationResponseTagsMap = { [key: string]: string | undefined };
 export const GetRegistrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -757,9 +743,7 @@ export const RegistrationProperties = /*@__PURE__*/ S.suspend(() =>
     cloudId: S.optional(S.String),
     billingModel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistrationProperties",
-}) as any as S.Schema<RegistrationProperties>;
+).annotate({ identifier: "RegistrationProperties" }) as any as S.Schema<RegistrationProperties>;
 
 export interface GetRegistrationResponse {
   /** ID of the resource. */
@@ -787,9 +771,7 @@ export const GetRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(RegistrationProperties),
   }),
-).annotate({
-  identifier: "GetRegistrationResponse",
-}) as any as S.Schema<GetRegistrationResponse>;
+).annotate({ identifier: "GetRegistrationResponse" }) as any as S.Schema<GetRegistrationResponse>;
 
 export interface GetRegistrationActivationKeyRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -825,9 +807,7 @@ export const ActivationKeyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     activationKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActivationKeyResult",
-}) as any as S.Schema<ActivationKeyResult>;
+).annotate({ identifier: "ActivationKeyResult" }) as any as S.Schema<ActivationKeyResult>;
 
 export interface ListCloudManifestFileRequest {}
 export const ListCloudManifestFileRequest = /*@__PURE__*/ S.suspend(() =>
@@ -913,9 +893,7 @@ export const CustomerSubscription = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(CustomerSubscriptionProperties),
   }),
-).annotate({
-  identifier: "CustomerSubscription",
-}) as any as S.Schema<CustomerSubscription>;
+).annotate({ identifier: "CustomerSubscription" }) as any as S.Schema<CustomerSubscription>;
 
 /** List of customer subscriptions. */
 export type CustomerSubscriptionListValueList = Array<CustomerSubscription>;
@@ -935,9 +913,7 @@ export const CustomerSubscriptionList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(CustomerSubscriptionListValueList),
   }),
-).annotate({
-  identifier: "CustomerSubscriptionList",
-}) as any as S.Schema<CustomerSubscriptionList>;
+).annotate({ identifier: "CustomerSubscriptionList" }) as any as S.Schema<CustomerSubscriptionList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -949,9 +925,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Contains the localized display information for this particular operation or action. */
 export interface Display {
@@ -1143,9 +1117,7 @@ export const ExtendedProduct = /*@__PURE__*/ S.suspend(() =>
     productKind: S.optional(S.String),
     properties: S.optional(ExtendedProductProperties),
   }),
-).annotate({
-  identifier: "ExtendedProduct",
-}) as any as S.Schema<ExtendedProduct>;
+).annotate({ identifier: "ExtendedProduct" }) as any as S.Schema<ExtendedProduct>;
 
 export interface ListProductProductsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1196,9 +1168,7 @@ export const ListProductsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListProductsRequest",
-}) as any as S.Schema<ListProductsRequest>;
+).annotate({ identifier: "ListProductsRequest" }) as any as S.Schema<ListProductsRequest>;
 
 export interface ListRegistrationBySubscriptionRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1277,9 +1247,7 @@ export const RegistrationList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(RegistrationListValueList),
   }),
-).annotate({
-  identifier: "RegistrationList",
-}) as any as S.Schema<RegistrationList>;
+).annotate({ identifier: "RegistrationList" }) as any as S.Schema<RegistrationList>;
 
 export interface ListRegistrationsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1299,9 +1267,7 @@ export const ListRegistrationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListRegistrationsRequest",
-}) as any as S.Schema<ListRegistrationsRequest>;
+).annotate({ identifier: "ListRegistrationsRequest" }) as any as S.Schema<ListRegistrationsRequest>;
 
 /** Properties of the Azure Stack registration resource */
 export interface RegistrationParameterProperties {
@@ -1356,9 +1322,7 @@ export type RegistrationsCreateOrUpdateResponseLocation = "global";
 export const RegistrationsCreateOrUpdateResponseLocation = S.String;
 
 /** Custom tags for the resource. */
-export type RegistrationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RegistrationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const RegistrationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1434,9 +1398,7 @@ export type UpdateRegistrationResponseLocation = "global";
 export const UpdateRegistrationResponseLocation = S.String;
 
 /** Custom tags for the resource. */
-export type UpdateRegistrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRegistrationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRegistrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1496,9 +1458,7 @@ export const UploadProductLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-06-01",
     }),
   ),
-).annotate({
-  identifier: "UploadProductLogRequest",
-}) as any as S.Schema<UploadProductLogRequest>;
+).annotate({ identifier: "UploadProductLogRequest" }) as any as S.Schema<UploadProductLogRequest>;
 
 /** Product action log. */
 export interface ProductLog {

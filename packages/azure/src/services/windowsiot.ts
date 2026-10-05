@@ -74,14 +74,10 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 /** Resource tags. */
-export type DeleteServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteServiceResponseTagsMap = { [key: string]: string | undefined };
 export const DeleteServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -108,9 +104,7 @@ export const DeviceServiceProperties = /*@__PURE__*/ S.suspend(() =>
     billingDomainName: S.optional(S.String),
     adminDomainName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeviceServiceProperties",
-}) as any as S.Schema<DeviceServiceProperties>;
+).annotate({ identifier: "DeviceServiceProperties" }) as any as S.Schema<DeviceServiceProperties>;
 
 export interface DeleteServiceResponse {
   /** Fully qualified resource Id for the resource */
@@ -138,9 +132,7 @@ export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(DeviceServiceProperties),
   }),
-).annotate({
-  identifier: "DeleteServiceResponse",
-}) as any as S.Schema<DeleteServiceResponse>;
+).annotate({ identifier: "DeleteServiceResponse" }) as any as S.Schema<DeleteServiceResponse>;
 
 export interface GetServiceRequest {
   /** The subscription identifier. */
@@ -163,9 +155,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -200,9 +190,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(DeviceServiceProperties),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -214,9 +202,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationDisplayInfo {
@@ -236,9 +222,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationEntity {
@@ -258,9 +242,7 @@ export const OperationEntity = /*@__PURE__*/ S.suspend(() =>
     isDataAction: S.optional(S.Boolean),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationEntity",
-}) as any as S.Schema<OperationEntity>;
+).annotate({ identifier: "OperationEntity" }) as any as S.Schema<OperationEntity>;
 
 /** List of Windows IoT Device Service operations supported by the Microsoft.WindowsIoT resource provider. */
 export type OperationListResultValueList = Array<OperationEntity>;
@@ -280,9 +262,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListServiceByResourceGroupRequest {
   /** The subscription identifier. */
@@ -379,14 +359,10 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -452,9 +428,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -530,14 +504,10 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** Resource tags. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -569,9 +539,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(DeviceServiceProperties),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export type CheckServiceDeviceServiceNameAvailabilityError = AzureOpError;
 /** Check if a Windows IoT Device Service name is available. */

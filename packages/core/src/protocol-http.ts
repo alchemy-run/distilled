@@ -365,6 +365,15 @@ export interface BuildRequestOptions {
  * bug, surfaced as a defect by the calling protocol's Effect context.
  */
 /**
+ * Encode a greedy `{name+}` label: the value may span several path
+ * segments (e.g. an Azure scope `/subscriptions/{id}/resourceGroups/{rg}`),
+ * so each segment is encoded on its own and the `/` separators are kept.
+ * Leading slashes are dropped because the URI template already supplies one.
+ */
+export const encodeGreedyLabel = (value: string): string =>
+  value.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/");
+
+/**
  * Flatten a nested object into Stripe-style bracket notation pairs for
  * form-urlencoded bodies: nested objects become `a[b][c]`, arrays index as
  * `a[0]`; null/undefined dropped, booleans as "true"/"false".
@@ -442,7 +451,9 @@ export const buildRequest = ({
               return preserve.includes(character) ? character : escape;
             })
           : encoded;
-      uri = uri.replace(`{${token}}`, () => label);
+      uri = uri.includes(`{${token}+}`)
+        ? uri.replace(`{${token}+}`, () => encodeGreedyLabel(String(value)))
+        : uri.replace(`{${token}}`, () => label);
     } else if (hasPropAnn(prop, headerSymbol)) {
       const hName = nameOf(prop, headerSymbol).toLowerCase();
       const hVal = String(value);

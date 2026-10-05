@@ -119,16 +119,10 @@ export const GetRegionRequest = /*@__PURE__*/ S.suspend(() =>
     regionId: S.String.pipe(T.Label("region_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/dls/regions/{region_id}",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/dls/regions/{region_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRegionRequest",
-}) as any as S.Schema<GetRegionRequest>;
+).annotate({ identifier: "GetRegionRequest" }) as any as S.Schema<GetRegionRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRegionResponse {
@@ -150,9 +144,7 @@ export const GetRegionResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.Number,
     versionCreatedOn: S.String.pipe(T.Body("version_created_on")),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRegionResponse",
-}) as any as S.Schema<GetRegionResponse>;
+).annotate({ identifier: "GetRegionResponse" }) as any as S.Schema<GetRegionResponse>;
 
 export interface GetRegionalServicePrefixBindingRequest {
   /** Identifier of a Cloudflare account. */
@@ -285,17 +277,9 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     type: S.optional(RegionsListRequestType.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/dls/regions",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/dls/regions", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 
 export interface RegionsListResultItem {
   id: string;
@@ -316,9 +300,7 @@ export const RegionsListResultItem = /*@__PURE__*/ S.suspend(() =>
     version: S.Number,
     versionCreatedOn: S.String.pipe(T.Body("version_created_on")),
   }),
-).annotate({
-  identifier: "RegionsListResultItem",
-}) as any as S.Schema<RegionsListResultItem>;
+).annotate({ identifier: "RegionsListResultItem" }) as any as S.Schema<RegionsListResultItem>;
 
 export type RegionsListResultList = Array<RegionsListResultItem>;
 export const RegionsListResultList = /*@__PURE__*/ S.Array(
@@ -336,9 +318,7 @@ export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
     result: RegionsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 
 export interface PatchRegionalServicePrefixBindingRequest {
   /** Identifier of a Cloudflare account. */

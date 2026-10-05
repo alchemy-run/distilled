@@ -566,6 +566,11 @@ export const PoliciesCreateRequestFiltersTargetZoneNameList = /*@__PURE__*/ S.Ar
   S.String,
 ) as any as S.Schema<PoliciesCreateRequestFiltersTargetZoneNameList>;
 
+export type PoliciesCreateRequestFiltersTokenIdList = Array<string>;
+export const PoliciesCreateRequestFiltersTokenIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PoliciesCreateRequestFiltersTokenIdList>;
+
 export type PoliciesCreateRequestFiltersTrafficExclusionsItem = "security_events";
 export const PoliciesCreateRequestFiltersTrafficExclusionsItem = S.String;
 
@@ -676,6 +681,8 @@ export interface PoliciesCreateRequestFilters {
   targetIp?: PoliciesCreateRequestFiltersTargetIpList;
   /** Used for configuring advanced_ddos_attack_l7_alert */
   targetZoneName?: PoliciesCreateRequestFiltersTargetZoneNameList;
+  /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
+  tokenId?: PoliciesCreateRequestFiltersTokenIdList;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesCreateRequestFiltersTrafficExclusionsList;
   /** Used for configuring tunnel_health_event */
@@ -762,6 +769,7 @@ export const PoliciesCreateRequestFilters = /*@__PURE__*/ S.suspend(() =>
     targetZoneName: S.optional(
       PoliciesCreateRequestFiltersTargetZoneNameList.pipe(T.Body("target_zone_name")),
     ),
+    tokenId: S.optional(PoliciesCreateRequestFiltersTokenIdList.pipe(T.Body("token_id"))),
     trafficExclusions: S.optional(
       PoliciesCreateRequestFiltersTrafficExclusionsList.pipe(T.Body("traffic_exclusions")),
     ),
@@ -804,17 +812,9 @@ export const CreatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     filters: S.optional(PoliciesCreateRequestFilters),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/alerting/v3/policies",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/alerting/v3/policies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePolicyRequest",
-}) as any as S.Schema<CreatePolicyRequest>;
+).annotate({ identifier: "CreatePolicyRequest" }) as any as S.Schema<CreatePolicyRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePolicyResponse {
@@ -825,9 +825,7 @@ export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePolicyResponse",
-}) as any as S.Schema<CreatePolicyResponse>;
+).annotate({ identifier: "CreatePolicyResponse" }) as any as S.Schema<CreatePolicyResponse>;
 
 export interface SilencesCreateRequestBodyItem {
   /** When the silence ends. */
@@ -862,24 +860,14 @@ export const CreateSilenceRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     body: SilencesCreateRequestBodyList.pipe(T.HttpBody()),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/alerting/v3/silences",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/alerting/v3/silences", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSilenceRequest",
-}) as any as S.Schema<CreateSilenceRequest>;
+).annotate({ identifier: "CreateSilenceRequest" }) as any as S.Schema<CreateSilenceRequest>;
 
 export interface CreateSilenceResponse {}
 export const CreateSilenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateSilenceResponse",
-}) as any as S.Schema<CreateSilenceResponse>;
+).annotate({ identifier: "CreateSilenceResponse" }) as any as S.Schema<CreateSilenceResponse>;
 
 export interface DeleteDestinationPagerdutyRequest {
   /** The account id */
@@ -957,16 +945,12 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePolicyResponse",
-}) as any as S.Schema<DeletePolicyResponse>;
+).annotate({ identifier: "DeletePolicyResponse" }) as any as S.Schema<DeletePolicyResponse>;
 
 export interface DeleteSilenceRequest {
   /** The account id */
@@ -987,16 +971,12 @@ export const DeleteSilenceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSilenceRequest",
-}) as any as S.Schema<DeleteSilenceRequest>;
+).annotate({ identifier: "DeleteSilenceRequest" }) as any as S.Schema<DeleteSilenceRequest>;
 
 export interface DeleteSilenceResponse {}
 export const DeleteSilenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteSilenceResponse",
-}) as any as S.Schema<DeleteSilenceResponse>;
+).annotate({ identifier: "DeleteSilenceResponse" }) as any as S.Schema<DeleteSilenceResponse>;
 
 export interface GetDestinationEligibleRequest {
   /** The account id */
@@ -1201,9 +1181,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 export type PoliciesGetResponseAlertType =
   | "abuse_report_alert"
@@ -1470,6 +1448,11 @@ export const PoliciesGetResponseFiltersTargetZoneNameList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<PoliciesGetResponseFiltersTargetZoneNameList>;
 
+export type PoliciesGetResponseFiltersTokenIdList = Array<string>;
+export const PoliciesGetResponseFiltersTokenIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PoliciesGetResponseFiltersTokenIdList>;
+
 export type PoliciesGetResponseFiltersTrafficExclusionsItem = "security_events";
 export const PoliciesGetResponseFiltersTrafficExclusionsItem = S.String;
 
@@ -1579,6 +1562,8 @@ export interface PoliciesGetResponseFilters {
   targetIp?: PoliciesGetResponseFiltersTargetIpList | null;
   /** Used for configuring advanced_ddos_attack_l7_alert */
   targetZoneName?: PoliciesGetResponseFiltersTargetZoneNameList | null;
+  /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
+  tokenId?: PoliciesGetResponseFiltersTokenIdList | null;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesGetResponseFiltersTrafficExclusionsList | null;
   /** Used for configuring tunnel_health_event */
@@ -1681,6 +1666,7 @@ export const PoliciesGetResponseFilters = /*@__PURE__*/ S.suspend(() =>
     targetZoneName: S.optional(
       S.NullOr(PoliciesGetResponseFiltersTargetZoneNameList).pipe(T.Body("target_zone_name")),
     ),
+    tokenId: S.optional(S.NullOr(PoliciesGetResponseFiltersTokenIdList).pipe(T.Body("token_id"))),
     trafficExclusions: S.optional(
       S.NullOr(PoliciesGetResponseFiltersTrafficExclusionsList).pipe(T.Body("traffic_exclusions")),
     ),
@@ -1791,9 +1777,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     modified: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export interface GetSilenceRequest {
   /** The account id */
@@ -1814,9 +1798,7 @@ export const GetSilenceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSilenceRequest",
-}) as any as S.Schema<GetSilenceRequest>;
+).annotate({ identifier: "GetSilenceRequest" }) as any as S.Schema<GetSilenceRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSilenceResponse {
@@ -1842,9 +1824,7 @@ export const GetSilenceResponse = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.NullOr(S.String).pipe(T.Body("start_time"))),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetSilenceResponse",
-}) as any as S.Schema<GetSilenceResponse>;
+).annotate({ identifier: "GetSilenceResponse" }) as any as S.Schema<GetSilenceResponse>;
 
 export interface LinkDestinationPagerdutyRequest {
   /** The account id */
@@ -2054,17 +2034,9 @@ export const ListHistoriesRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     since: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/alerting/v3/history",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/alerting/v3/history", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoriesRequest",
-}) as any as S.Schema<ListHistoriesRequest>;
+).annotate({ identifier: "ListHistoriesRequest" }) as any as S.Schema<ListHistoriesRequest>;
 
 export type HistoryListResultItemMechanismType = "email" | "pagerduty" | "webhook";
 export const HistoryListResultItemMechanismType = S.String;
@@ -2103,9 +2075,7 @@ export const HistoryListResultItem = /*@__PURE__*/ S.suspend(() =>
     policyId: S.optional(S.NullOr(S.String).pipe(T.Body("policy_id"))),
     sent: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HistoryListResultItem",
-}) as any as S.Schema<HistoryListResultItem>;
+).annotate({ identifier: "HistoryListResultItem" }) as any as S.Schema<HistoryListResultItem>;
 
 export type HistoryListResultList = Array<HistoryListResultItem>;
 export const HistoryListResultList = /*@__PURE__*/ S.Array(
@@ -2123,9 +2093,7 @@ export const ListHistoriesResponse = /*@__PURE__*/ S.suspend(() =>
     result: HistoryListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListHistoriesResponse",
-}) as any as S.Schema<ListHistoriesResponse>;
+).annotate({ identifier: "ListHistoriesResponse" }) as any as S.Schema<ListHistoriesResponse>;
 
 export interface ListPoliciesRequest {
   /** The account id */
@@ -2135,17 +2103,9 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/alerting/v3/policies",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/alerting/v3/policies", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 export type PoliciesListResultItemAlertType =
   | "abuse_report_alert"
@@ -2412,6 +2372,11 @@ export const PoliciesListResultItemFiltersTargetZoneNameList = /*@__PURE__*/ S.A
   S.String,
 ) as any as S.Schema<PoliciesListResultItemFiltersTargetZoneNameList>;
 
+export type PoliciesListResultItemFiltersTokenIdList = Array<string>;
+export const PoliciesListResultItemFiltersTokenIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PoliciesListResultItemFiltersTokenIdList>;
+
 export type PoliciesListResultItemFiltersTrafficExclusionsItem = "security_events";
 export const PoliciesListResultItemFiltersTrafficExclusionsItem = S.String;
 
@@ -2521,6 +2486,8 @@ export interface PoliciesListResultItemFilters {
   targetIp?: PoliciesListResultItemFiltersTargetIpList | null;
   /** Used for configuring advanced_ddos_attack_l7_alert */
   targetZoneName?: PoliciesListResultItemFiltersTargetZoneNameList | null;
+  /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
+  tokenId?: PoliciesListResultItemFiltersTokenIdList | null;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesListResultItemFiltersTrafficExclusionsList | null;
   /** Used for configuring tunnel_health_event */
@@ -2637,6 +2604,9 @@ export const PoliciesListResultItemFilters = /*@__PURE__*/ S.suspend(() =>
     targetZoneName: S.optional(
       S.NullOr(PoliciesListResultItemFiltersTargetZoneNameList).pipe(T.Body("target_zone_name")),
     ),
+    tokenId: S.optional(
+      S.NullOr(PoliciesListResultItemFiltersTokenIdList).pipe(T.Body("token_id")),
+    ),
     trafficExclusions: S.optional(
       S.NullOr(PoliciesListResultItemFiltersTrafficExclusionsList).pipe(
         T.Body("traffic_exclusions"),
@@ -2735,9 +2705,7 @@ export const PoliciesListResultItem = /*@__PURE__*/ S.suspend(() =>
     modified: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PoliciesListResultItem",
-}) as any as S.Schema<PoliciesListResultItem>;
+).annotate({ identifier: "PoliciesListResultItem" }) as any as S.Schema<PoliciesListResultItem>;
 
 export type PoliciesListResultList = Array<PoliciesListResultItem>;
 export const PoliciesListResultList = /*@__PURE__*/ S.Array(
@@ -2755,9 +2723,7 @@ export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
     result: PoliciesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoliciesResponse",
-}) as any as S.Schema<ListPoliciesResponse>;
+).annotate({ identifier: "ListPoliciesResponse" }) as any as S.Schema<ListPoliciesResponse>;
 
 export interface ListSilencesRequest {
   /** The account id */
@@ -2767,17 +2733,9 @@ export const ListSilencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/alerting/v3/silences",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/alerting/v3/silences", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSilencesRequest",
-}) as any as S.Schema<ListSilencesRequest>;
+).annotate({ identifier: "ListSilencesRequest" }) as any as S.Schema<ListSilencesRequest>;
 
 export interface SilencesListResultItem {
   /** Silence ID */
@@ -2802,9 +2760,7 @@ export const SilencesListResultItem = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.NullOr(S.String).pipe(T.Body("start_time"))),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
   }),
-).annotate({
-  identifier: "SilencesListResultItem",
-}) as any as S.Schema<SilencesListResultItem>;
+).annotate({ identifier: "SilencesListResultItem" }) as any as S.Schema<SilencesListResultItem>;
 
 export type SilencesListResultList = Array<SilencesListResultItem>;
 export const SilencesListResultList = /*@__PURE__*/ S.Array(
@@ -2822,9 +2778,7 @@ export const ListSilencesResponse = /*@__PURE__*/ S.suspend(() =>
     result: SilencesListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSilencesResponse",
-}) as any as S.Schema<ListSilencesResponse>;
+).annotate({ identifier: "ListSilencesResponse" }) as any as S.Schema<ListSilencesResponse>;
 
 export interface UpdateDestinationWebhookRequest {
   /** The account id */
@@ -3137,6 +3091,11 @@ export const PoliciesUpdateRequestFiltersTargetZoneNameList = /*@__PURE__*/ S.Ar
   S.String,
 ) as any as S.Schema<PoliciesUpdateRequestFiltersTargetZoneNameList>;
 
+export type PoliciesUpdateRequestFiltersTokenIdList = Array<string>;
+export const PoliciesUpdateRequestFiltersTokenIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PoliciesUpdateRequestFiltersTokenIdList>;
+
 export type PoliciesUpdateRequestFiltersTrafficExclusionsItem = "security_events";
 export const PoliciesUpdateRequestFiltersTrafficExclusionsItem = S.String;
 
@@ -3247,6 +3206,8 @@ export interface PoliciesUpdateRequestFilters {
   targetIp?: PoliciesUpdateRequestFiltersTargetIpList;
   /** Used for configuring advanced_ddos_attack_l7_alert */
   targetZoneName?: PoliciesUpdateRequestFiltersTargetZoneNameList;
+  /** Access service token IDs to include for expiring_service_token_alert. Omit this property to include all current and future service tokens. */
+  tokenId?: PoliciesUpdateRequestFiltersTokenIdList;
   /** Used for configuring traffic_anomalies_alert */
   trafficExclusions?: PoliciesUpdateRequestFiltersTrafficExclusionsList;
   /** Used for configuring tunnel_health_event */
@@ -3333,6 +3294,7 @@ export const PoliciesUpdateRequestFilters = /*@__PURE__*/ S.suspend(() =>
     targetZoneName: S.optional(
       PoliciesUpdateRequestFiltersTargetZoneNameList.pipe(T.Body("target_zone_name")),
     ),
+    tokenId: S.optional(PoliciesUpdateRequestFiltersTokenIdList.pipe(T.Body("token_id"))),
     trafficExclusions: S.optional(
       PoliciesUpdateRequestFiltersTrafficExclusionsList.pipe(T.Body("traffic_exclusions")),
     ),
@@ -3432,9 +3394,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePolicyRequest",
-}) as any as S.Schema<UpdatePolicyRequest>;
+).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdatePolicyResponse {
@@ -3445,9 +3405,7 @@ export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePolicyResponse",
-}) as any as S.Schema<UpdatePolicyResponse>;
+).annotate({ identifier: "UpdatePolicyResponse" }) as any as S.Schema<UpdatePolicyResponse>;
 
 export interface SilencesUpdateRequestBodyItem {
   /** Silence ID */
@@ -3482,17 +3440,9 @@ export const UpdateSilenceRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     body: SilencesUpdateRequestBodyList.pipe(T.HttpBody()),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/accounts/{account_id}/alerting/v3/silences",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/accounts/{account_id}/alerting/v3/silences", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSilenceRequest",
-}) as any as S.Schema<UpdateSilenceRequest>;
+).annotate({ identifier: "UpdateSilenceRequest" }) as any as S.Schema<UpdateSilenceRequest>;
 
 export type SilencesUpdateResultItem = SilencesListResultItem;
 export const SilencesUpdateResultItem = SilencesListResultItem;
@@ -3513,9 +3463,7 @@ export const UpdateSilenceResponse = /*@__PURE__*/ S.suspend(() =>
     result: SilencesUpdateResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateSilenceResponse",
-}) as any as S.Schema<UpdateSilenceResponse>;
+).annotate({ identifier: "UpdateSilenceResponse" }) as any as S.Schema<UpdateSilenceResponse>;
 
 export type CreateDestinationPagerdutyError = InvalidRoute | CloudflareOpError;
 /** Creates a new token for integrating with PagerDuty. */

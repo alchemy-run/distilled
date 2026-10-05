@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import { describe, expect, test } from "vitest";
 import {
   GqlTransport,
   connectionField,

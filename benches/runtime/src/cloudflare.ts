@@ -48,6 +48,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import type * as Schema from "effect/Schema";
 import { type Case, buildLayer, decoder, encoder, mockHttpLayer, runPromise } from "./harness.ts";
 
@@ -274,9 +275,11 @@ const createZoneInput: Zones.CreateZoneRequest = {
 
 //#region Context
 
-const credentials = Credentials.fromApiToken({ apiToken: "cf-test-token" });
+const credentials = Credentials.fromApiToken({
+  apiToken: Redacted.make("cf-test-token"),
+});
 const resolvedCreds = Credentials.apiTokenCredentials({
-  apiToken: "cf-test-token",
+  apiToken: Redacted.make("cf-test-token"),
 });
 const baseHeaders = Credentials.formatHeaders(resolvedCreds);
 

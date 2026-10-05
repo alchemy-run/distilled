@@ -118,17 +118,9 @@ export const CreateV1Request = /*@__PURE__*/ S.suspend(() =>
     requireSignedURLs: S.optional(S.Boolean),
     url: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/images/v1",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/images/v1", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1Request",
-}) as any as S.Schema<CreateV1Request>;
+).annotate({ identifier: "CreateV1Request" }) as any as S.Schema<CreateV1Request>;
 
 export type V1CreateResponseVariantsList = Array<string>;
 export const V1CreateResponseVariantsList = /*@__PURE__*/ S.Array(
@@ -162,9 +154,7 @@ export const CreateV1Response = /*@__PURE__*/ S.suspend(() =>
     uploaded: S.optional(S.NullOr(S.String)),
     variants: S.optional(S.NullOr(V1CreateResponseVariantsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1Response",
-}) as any as S.Schema<CreateV1Response>;
+).annotate({ identifier: "CreateV1Response" }) as any as S.Schema<CreateV1Response>;
 
 export type V1VariantsCreateRequestOptionsFit = "scale-down" | "contain" | "cover" | "crop" | "pad";
 export const V1VariantsCreateRequestOptionsFit = S.String;
@@ -209,17 +199,9 @@ export const CreateV1VariantRequest = /*@__PURE__*/ S.suspend(() =>
     options: V1VariantsCreateRequestOptions,
     neverRequireSignedURLs: S.optional(S.Boolean),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/images/v1/variants",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/images/v1/variants", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1VariantRequest",
-}) as any as S.Schema<CreateV1VariantRequest>;
+).annotate({ identifier: "CreateV1VariantRequest" }) as any as S.Schema<CreateV1VariantRequest>;
 
 export type V1VariantsCreateResponseVariantOptionsFit =
   | "scale-down"
@@ -278,9 +260,7 @@ export const CreateV1VariantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variant: S.optional(S.NullOr(V1VariantsCreateResponseVariant)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateV1VariantResponse",
-}) as any as S.Schema<CreateV1VariantResponse>;
+).annotate({ identifier: "CreateV1VariantResponse" }) as any as S.Schema<CreateV1VariantResponse>;
 
 export interface CreateV2DirectUploadRequest {
   /** Account identifier tag. */
@@ -306,11 +286,7 @@ export const CreateV2DirectUploadRequest = /*@__PURE__*/ S.suspend(() =>
     requireSignedURLs: S.optional(S.Boolean),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/images/v2/direct_upload",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/images/v2/direct_upload", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
@@ -345,23 +321,15 @@ export const DeleteV1Request = /*@__PURE__*/ S.suspend(() =>
     imageId: S.String.pipe(T.Label("image_id")),
   })
     .pipe(
-      T.Http({
-        method: "DELETE",
-        uri: "/accounts/{account_id}/images/v1/{image_id}",
-        code: 200,
-      }),
+      T.Http({ method: "DELETE", uri: "/accounts/{account_id}/images/v1/{image_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1Request",
-}) as any as S.Schema<DeleteV1Request>;
+).annotate({ identifier: "DeleteV1Request" }) as any as S.Schema<DeleteV1Request>;
 
 export type DeleteV1Response = unknown;
 export const DeleteV1Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1Response",
-}) as any as S.Schema<DeleteV1Response>;
+).annotate({ identifier: "DeleteV1Response" }) as any as S.Schema<DeleteV1Response>;
 
 export interface DeleteV1KeyRequest {
   /** Account identifier tag. */
@@ -381,9 +349,7 @@ export const DeleteV1KeyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1KeyRequest",
-}) as any as S.Schema<DeleteV1KeyRequest>;
+).annotate({ identifier: "DeleteV1KeyRequest" }) as any as S.Schema<DeleteV1KeyRequest>;
 
 export interface V1KeysDeleteResponseKeysItem {
   /** Key name. */
@@ -413,9 +379,7 @@ export const DeleteV1KeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: S.optional(S.NullOr(V1KeysDeleteResponseKeysList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1KeyResponse",
-}) as any as S.Schema<DeleteV1KeyResponse>;
+).annotate({ identifier: "DeleteV1KeyResponse" }) as any as S.Schema<DeleteV1KeyResponse>;
 
 export interface DeleteV1VariantRequest {
   /** Account identifier tag. */
@@ -435,16 +399,12 @@ export const DeleteV1VariantRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1VariantRequest",
-}) as any as S.Schema<DeleteV1VariantRequest>;
+).annotate({ identifier: "DeleteV1VariantRequest" }) as any as S.Schema<DeleteV1VariantRequest>;
 
 export type DeleteV1VariantResponse = unknown;
 export const DeleteV1VariantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteV1VariantResponse",
-}) as any as S.Schema<DeleteV1VariantResponse>;
+).annotate({ identifier: "DeleteV1VariantResponse" }) as any as S.Schema<DeleteV1VariantResponse>;
 
 export interface GetV1Request {
   /** Account identifier tag. */
@@ -457,13 +417,7 @@ export const GetV1Request = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     imageId: S.String.pipe(T.Label("image_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1/{image_id}",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1/{image_id}", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetV1Request" }) as any as S.Schema<GetV1Request>;
 
@@ -513,23 +467,15 @@ export const GetV1BlobRequest = /*@__PURE__*/ S.suspend(() =>
     imageId: S.String.pipe(T.Label("image_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1/{image_id}/blob",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1/{image_id}/blob", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1BlobRequest",
-}) as any as S.Schema<GetV1BlobRequest>;
+).annotate({ identifier: "GetV1BlobRequest" }) as any as S.Schema<GetV1BlobRequest>;
 
 export interface GetV1BlobResponse {}
 export const GetV1BlobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1BlobResponse",
-}) as any as S.Schema<GetV1BlobResponse>;
+).annotate({ identifier: "GetV1BlobResponse" }) as any as S.Schema<GetV1BlobResponse>;
 
 export interface GetV1StatRequest {
   /** Account identifier tag. */
@@ -539,17 +485,9 @@ export const GetV1StatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1/stats",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1/stats", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1StatRequest",
-}) as any as S.Schema<GetV1StatRequest>;
+).annotate({ identifier: "GetV1StatRequest" }) as any as S.Schema<GetV1StatRequest>;
 
 export interface V1StatsGetResponseCount {
   /** Cloudflare Images allowed usage. */
@@ -562,9 +500,7 @@ export const V1StatsGetResponseCount = /*@__PURE__*/ S.suspend(() =>
     allowed: S.optional(S.NullOr(S.Number)),
     current: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "V1StatsGetResponseCount",
-}) as any as S.Schema<V1StatsGetResponseCount>;
+).annotate({ identifier: "V1StatsGetResponseCount" }) as any as S.Schema<V1StatsGetResponseCount>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetV1StatResponse {
@@ -574,9 +510,7 @@ export const GetV1StatResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.optional(S.NullOr(V1StatsGetResponseCount)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1StatResponse",
-}) as any as S.Schema<GetV1StatResponse>;
+).annotate({ identifier: "GetV1StatResponse" }) as any as S.Schema<GetV1StatResponse>;
 
 export interface GetV1VariantRequest {
   /** Account identifier tag. */
@@ -596,9 +530,7 @@ export const GetV1VariantRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1VariantRequest",
-}) as any as S.Schema<GetV1VariantRequest>;
+).annotate({ identifier: "GetV1VariantRequest" }) as any as S.Schema<GetV1VariantRequest>;
 
 export type V1VariantsGetResponseVariantOptionsFit =
   | "scale-down"
@@ -657,9 +589,7 @@ export const GetV1VariantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variant: S.optional(S.NullOr(V1VariantsGetResponseVariant)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetV1VariantResponse",
-}) as any as S.Schema<GetV1VariantResponse>;
+).annotate({ identifier: "GetV1VariantResponse" }) as any as S.Schema<GetV1VariantResponse>;
 
 export interface ListV1KeysRequest {
   /** Account identifier tag. */
@@ -669,17 +599,9 @@ export const ListV1KeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1/keys",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1/keys", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1KeysRequest",
-}) as any as S.Schema<ListV1KeysRequest>;
+).annotate({ identifier: "ListV1KeysRequest" }) as any as S.Schema<ListV1KeysRequest>;
 
 export type V1KeysListResponseKeysItem = V1KeysDeleteResponseKeysItem;
 export const V1KeysListResponseKeysItem = V1KeysDeleteResponseKeysItem;
@@ -697,9 +619,7 @@ export const ListV1KeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: S.optional(S.NullOr(V1KeysListResponseKeysList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1KeysResponse",
-}) as any as S.Schema<ListV1KeysResponse>;
+).annotate({ identifier: "ListV1KeysResponse" }) as any as S.Schema<ListV1KeysResponse>;
 
 export interface ListV1sRequest {
   /** Account identifier tag. */
@@ -718,13 +638,7 @@ export const ListV1sRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "ListV1sRequest" }) as any as S.Schema<ListV1sRequest>;
 
@@ -759,9 +673,7 @@ export const V1ListResponseImagesItem = /*@__PURE__*/ S.suspend(() =>
     uploaded: S.optional(S.NullOr(S.String)),
     variants: S.optional(S.NullOr(V1ListResponseImagesItemVariantsList)),
   }),
-).annotate({
-  identifier: "V1ListResponseImagesItem",
-}) as any as S.Schema<V1ListResponseImagesItem>;
+).annotate({ identifier: "V1ListResponseImagesItem" }) as any as S.Schema<V1ListResponseImagesItem>;
 
 export type V1ListResponseImagesList = Array<V1ListResponseImagesItem>;
 export const V1ListResponseImagesList = /*@__PURE__*/ S.Array(
@@ -776,9 +688,7 @@ export const ListV1sResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     images: S.optional(S.NullOr(V1ListResponseImagesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1sResponse",
-}) as any as S.Schema<ListV1sResponse>;
+).annotate({ identifier: "ListV1sResponse" }) as any as S.Schema<ListV1sResponse>;
 
 export interface ListV1VariantsRequest {
   /** Account identifier tag. */
@@ -788,17 +698,9 @@ export const ListV1VariantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v1/variants",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v1/variants", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1VariantsRequest",
-}) as any as S.Schema<ListV1VariantsRequest>;
+).annotate({ identifier: "ListV1VariantsRequest" }) as any as S.Schema<ListV1VariantsRequest>;
 
 export type V1VariantsListResponseVariantsHeroOptionsFit =
   | "scale-down"
@@ -868,9 +770,7 @@ export const ListV1VariantsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variants: S.optional(S.NullOr(V1VariantsListResponseVariants)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV1VariantsResponse",
-}) as any as S.Schema<ListV1VariantsResponse>;
+).annotate({ identifier: "ListV1VariantsResponse" }) as any as S.Schema<ListV1VariantsResponse>;
 
 export interface V2ListRequestMeta {
   /** Optional metadata filter(s). Multiple filters can be combined with AND logic. */
@@ -880,9 +780,7 @@ export const V2ListRequestMeta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ltFieldGtLtOperatorGt__: S.optional(S.String.pipe(T.Body("&lt;field&gt;[&lt;operator&gt;]"))),
   }),
-).annotate({
-  identifier: "V2ListRequestMeta",
-}) as any as S.Schema<V2ListRequestMeta>;
+).annotate({ identifier: "V2ListRequestMeta" }) as any as S.Schema<V2ListRequestMeta>;
 
 export type V2ListRequestSortOrder = "asc" | "desc";
 export const V2ListRequestSortOrder = S.String;
@@ -909,13 +807,7 @@ export const ListV2sRequest = /*@__PURE__*/ S.suspend(() =>
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
     sortOrder: S.optional(V2ListRequestSortOrder.pipe(T.Query("sort_order"))),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/images/v2",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/images/v2", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "ListV2sRequest" }) as any as S.Schema<ListV2sRequest>;
 
@@ -950,9 +842,7 @@ export const V2ListResponseImagesItem = /*@__PURE__*/ S.suspend(() =>
     uploaded: S.optional(S.NullOr(S.String)),
     variants: S.optional(S.NullOr(V2ListResponseImagesItemVariantsList)),
   }),
-).annotate({
-  identifier: "V2ListResponseImagesItem",
-}) as any as S.Schema<V2ListResponseImagesItem>;
+).annotate({ identifier: "V2ListResponseImagesItem" }) as any as S.Schema<V2ListResponseImagesItem>;
 
 export type V2ListResponseImagesList = Array<V2ListResponseImagesItem>;
 export const V2ListResponseImagesList = /*@__PURE__*/ S.Array(
@@ -970,9 +860,7 @@ export const ListV2sResponse = /*@__PURE__*/ S.suspend(() =>
     continuationToken: S.optional(S.NullOr(S.String).pipe(T.Body("continuation_token"))),
     images: S.optional(S.NullOr(V2ListResponseImagesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListV2sResponse",
-}) as any as S.Schema<ListV2sResponse>;
+).annotate({ identifier: "ListV2sResponse" }) as any as S.Schema<ListV2sResponse>;
 
 export interface PatchV1Request {
   /** Account identifier tag. */
@@ -995,11 +883,7 @@ export const PatchV1Request = /*@__PURE__*/ S.suspend(() =>
     requireSignedURLs: S.optional(S.Boolean),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/images/v1/{image_id}",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/accounts/{account_id}/images/v1/{image_id}", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "PatchV1Request" }) as any as S.Schema<PatchV1Request>;
@@ -1036,9 +920,7 @@ export const PatchV1Response = /*@__PURE__*/ S.suspend(() =>
     uploaded: S.optional(S.NullOr(S.String)),
     variants: S.optional(S.NullOr(V1EditResponseVariantsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchV1Response",
-}) as any as S.Schema<PatchV1Response>;
+).annotate({ identifier: "PatchV1Response" }) as any as S.Schema<PatchV1Response>;
 
 export type V1VariantsEditRequestOptionsFit = "scale-down" | "contain" | "cover" | "crop" | "pad";
 export const V1VariantsEditRequestOptionsFit = S.String;
@@ -1091,9 +973,7 @@ export const PatchV1VariantRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchV1VariantRequest",
-}) as any as S.Schema<PatchV1VariantRequest>;
+).annotate({ identifier: "PatchV1VariantRequest" }) as any as S.Schema<PatchV1VariantRequest>;
 
 export type V1VariantsEditResponseVariantOptionsFit =
   | "scale-down"
@@ -1152,9 +1032,7 @@ export const PatchV1VariantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     variant: S.optional(S.NullOr(V1VariantsEditResponseVariant)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchV1VariantResponse",
-}) as any as S.Schema<PatchV1VariantResponse>;
+).annotate({ identifier: "PatchV1VariantResponse" }) as any as S.Schema<PatchV1VariantResponse>;
 
 export interface PutV1KeyRequest {
   /** Account identifier tag. */
@@ -1174,9 +1052,7 @@ export const PutV1KeyRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutV1KeyRequest",
-}) as any as S.Schema<PutV1KeyRequest>;
+).annotate({ identifier: "PutV1KeyRequest" }) as any as S.Schema<PutV1KeyRequest>;
 
 export type V1KeysUpdateResponseKeysItem = V1KeysDeleteResponseKeysItem;
 export const V1KeysUpdateResponseKeysItem = V1KeysDeleteResponseKeysItem;
@@ -1194,9 +1070,7 @@ export const PutV1KeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keys: S.optional(S.NullOr(V1KeysUpdateResponseKeysList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutV1KeyResponse",
-}) as any as S.Schema<PutV1KeyResponse>;
+).annotate({ identifier: "PutV1KeyResponse" }) as any as S.Schema<PutV1KeyResponse>;
 
 export type CreateV1Error = ImagesAccessNotEnabled | CloudflareOpError;
 /** Upload an image to CF Images. Images up to 10 Megabytes can be uploaded using a single HTTP POST (multipart/form-data) request by sending an image file or passing a URL accessible to the API. */

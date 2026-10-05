@@ -211,16 +211,10 @@ export const BulkPatchPoolsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   })
     .pipe(
-      T.Http({
-        method: "PATCH",
-        uri: "/accounts/{account_id}/load_balancers/pools",
-        code: 200,
-      }),
+      T.Http({ method: "PATCH", uri: "/accounts/{account_id}/load_balancers/pools", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchPoolsRequest",
-}) as any as S.Schema<BulkPatchPoolsRequest>;
+).annotate({ identifier: "BulkPatchPoolsRequest" }) as any as S.Schema<BulkPatchPoolsRequest>;
 
 export type PoolsBulkEditResultItemCheckRegionsItem =
   | "WNAM"
@@ -477,9 +471,7 @@ export const PoolsBulkEditResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsBulkEditResultItemOriginsList)),
   }),
-).annotate({
-  identifier: "PoolsBulkEditResultItem",
-}) as any as S.Schema<PoolsBulkEditResultItem>;
+).annotate({ identifier: "PoolsBulkEditResultItem" }) as any as S.Schema<PoolsBulkEditResultItem>;
 
 export type PoolsBulkEditResultList = Array<PoolsBulkEditResultItem>;
 export const PoolsBulkEditResultList = /*@__PURE__*/ S.Array(
@@ -497,9 +489,7 @@ export const BulkPatchPoolsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PoolsBulkEditResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "BulkPatchPoolsResponse",
-}) as any as S.Schema<BulkPatchPoolsResponse>;
+).annotate({ identifier: "BulkPatchPoolsResponse" }) as any as S.Schema<BulkPatchPoolsResponse>;
 
 export type CreateRequestDefaultPoolsList = Array<string>;
 export const CreateRequestDefaultPoolsList = /*@__PURE__*/ S.Array(
@@ -570,9 +560,7 @@ export const CreateRequestPopPoolsMap = /*@__PURE__*/ S.Record(
   CreateRequestPopPoolsValueList,
 ) as any as S.Schema<CreateRequestPopPoolsMap>;
 
-export type CreateRequestRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type CreateRequestRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const CreateRequestRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -675,9 +663,7 @@ export const CreateRequestRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.s
   identifier: "CreateRequestRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<CreateRequestRulesItemOverridesLocationStrategy>;
 
-export type CreateRequestRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type CreateRequestRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const CreateRequestRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -920,9 +906,7 @@ export const CreateRequestRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     terminates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CreateRequestRulesItem",
-}) as any as S.Schema<CreateRequestRulesItem>;
+).annotate({ identifier: "CreateRequestRulesItem" }) as any as S.Schema<CreateRequestRulesItem>;
 
 export type CreateRequestRulesList = Array<CreateRequestRulesItem>;
 export const CreateRequestRulesList = /*@__PURE__*/ S.Array(
@@ -1058,13 +1042,7 @@ export const CreateLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
     steeringPolicy: S.optional(CreateRequestSteeringPolicy.pipe(T.Body("steering_policy"))),
     ttl: S.optional(S.Number),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/load_balancers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/load_balancers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateLoadBalancerRequest",
@@ -1293,9 +1271,7 @@ export const CreateResponsePopPoolsMap = /*@__PURE__*/ S.Record(
   CreateResponsePopPoolsValueList,
 ) as any as S.Schema<CreateResponsePopPoolsMap>;
 
-export type CreateResponseRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type CreateResponseRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const CreateResponseRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1384,9 +1360,7 @@ export const CreateResponseRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.
   identifier: "CreateResponseRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<CreateResponseRulesItemOverridesLocationStrategy>;
 
-export type CreateResponseRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type CreateResponseRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const CreateResponseRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1639,9 +1613,7 @@ export const CreateResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.NullOr(S.Number)),
     terminates: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "CreateResponseRulesItem",
-}) as any as S.Schema<CreateResponseRulesItem>;
+).annotate({ identifier: "CreateResponseRulesItem" }) as any as S.Schema<CreateResponseRulesItem>;
 
 export type CreateResponseRulesList = Array<CreateResponseRulesItem>;
 export const CreateResponseRulesList = /*@__PURE__*/ S.Array(
@@ -1881,16 +1853,10 @@ export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(MonitorsCreateRequestType),
   })
     .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/load_balancers/monitors",
-        code: 200,
-      }),
+      T.Http({ method: "POST", uri: "/accounts/{account_id}/load_balancers/monitors", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
+).annotate({ identifier: "CreateMonitorRequest" }) as any as S.Schema<CreateMonitorRequest>;
 
 export type MonitorsCreateResponseHeaderValueList = Array<string>;
 export const MonitorsCreateResponseHeaderValueList = /*@__PURE__*/ S.Array(
@@ -1974,9 +1940,7 @@ export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(MonitorsCreateResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateMonitorResponse",
-}) as any as S.Schema<CreateMonitorResponse>;
+).annotate({ identifier: "CreateMonitorResponse" }) as any as S.Schema<CreateMonitorResponse>;
 
 export interface MonitorGroupsCreateRequestMembersItem {
   /** Whether this monitor is enabled in the group */
@@ -2185,9 +2149,7 @@ export const CreateMonitorPreviewRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateMonitorPreviewRequest",
 }) as any as S.Schema<CreateMonitorPreviewRequest>;
 
-export type MonitorsPreviewsCreateResponsePoolsMap = {
-  [key: string]: string | undefined;
-};
+export type MonitorsPreviewsCreateResponsePoolsMap = { [key: string]: string | undefined };
 export const MonitorsPreviewsCreateResponsePoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2398,17 +2360,9 @@ export const CreatePoolRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     originSteering: S.optional(PoolsCreateRequestOriginSteering.pipe(T.Body("origin_steering"))),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/accounts/{account_id}/load_balancers/pools",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/load_balancers/pools", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePoolRequest",
-}) as any as S.Schema<CreatePoolRequest>;
+).annotate({ identifier: "CreatePoolRequest" }) as any as S.Schema<CreatePoolRequest>;
 
 export type PoolsCreateResponseCheckRegionsItem =
   | "WNAM"
@@ -2640,9 +2594,7 @@ export const CreatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsCreateResponseOriginsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePoolResponse",
-}) as any as S.Schema<CreatePoolResponse>;
+).annotate({ identifier: "CreatePoolResponse" }) as any as S.Schema<CreatePoolResponse>;
 
 export type PoolsHealthCreateRequestHeaderValueList = Array<string>;
 export const PoolsHealthCreateRequestHeaderValueList = /*@__PURE__*/ S.Array(
@@ -2732,13 +2684,9 @@ export const CreatePoolHealthRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePoolHealthRequest",
-}) as any as S.Schema<CreatePoolHealthRequest>;
+).annotate({ identifier: "CreatePoolHealthRequest" }) as any as S.Schema<CreatePoolHealthRequest>;
 
-export type PoolsHealthCreateResponsePoolsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolsHealthCreateResponsePoolsMap = { [key: string]: string | undefined };
 export const PoolsHealthCreateResponsePoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2755,9 +2703,7 @@ export const CreatePoolHealthResponse = /*@__PURE__*/ S.suspend(() =>
     pools: S.optional(S.NullOr(PoolsHealthCreateResponsePoolsMap)),
     previewId: S.optional(S.NullOr(S.String).pipe(T.Body("preview_id"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreatePoolHealthResponse",
-}) as any as S.Schema<CreatePoolHealthResponse>;
+).annotate({ identifier: "CreatePoolHealthResponse" }) as any as S.Schema<CreatePoolHealthResponse>;
 
 export interface DeleteLoadBalancerRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -2811,9 +2757,7 @@ export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
+).annotate({ identifier: "DeleteMonitorRequest" }) as any as S.Schema<DeleteMonitorRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMonitorResponse {
@@ -2823,9 +2767,7 @@ export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeleteMonitorResponse",
-}) as any as S.Schema<DeleteMonitorResponse>;
+).annotate({ identifier: "DeleteMonitorResponse" }) as any as S.Schema<DeleteMonitorResponse>;
 
 export interface DeleteMonitorGroupRequest {
   /** Identifier. */
@@ -2900,9 +2842,7 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePoolRequest",
-}) as any as S.Schema<DeletePoolRequest>;
+).annotate({ identifier: "DeletePoolRequest" }) as any as S.Schema<DeletePoolRequest>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePoolResponse {
@@ -2912,9 +2852,7 @@ export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "DeletePoolResponse",
-}) as any as S.Schema<DeletePoolResponse>;
+).annotate({ identifier: "DeletePoolResponse" }) as any as S.Schema<DeletePoolResponse>;
 
 export interface GetLoadBalancerRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -2934,9 +2872,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 export type GetResponseAdaptiveRouting = CreateResponseAdaptiveRouting;
 export const GetResponseAdaptiveRouting = CreateResponseAdaptiveRouting;
@@ -3038,9 +2974,7 @@ export const GetResponsePoolSetsItemMatch = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResponsePoolSetsItemMatch",
 }) as any as S.Schema<GetResponsePoolSetsItemMatch>;
 
-export type GetResponsePoolSetsItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type GetResponsePoolSetsItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const GetResponsePoolSetsItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3112,9 +3046,7 @@ export const GetResponsePoolSetsItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     overrides: S.optional(S.NullOr(GetResponsePoolSetsItemOverrides)),
   }),
-).annotate({
-  identifier: "GetResponsePoolSetsItem",
-}) as any as S.Schema<GetResponsePoolSetsItem>;
+).annotate({ identifier: "GetResponsePoolSetsItem" }) as any as S.Schema<GetResponsePoolSetsItem>;
 
 export type GetResponsePoolSetsList = Array<GetResponsePoolSetsItem>;
 export const GetResponsePoolSetsList = /*@__PURE__*/ S.Array(
@@ -3126,17 +3058,13 @@ export const GetResponsePopPoolsValueList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetResponsePopPoolsValueList>;
 
-export type GetResponsePopPoolsMap = {
-  [key: string]: GetResponsePopPoolsValueList | undefined;
-};
+export type GetResponsePopPoolsMap = { [key: string]: GetResponsePopPoolsValueList | undefined };
 export const GetResponsePopPoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   GetResponsePopPoolsValueList,
 ) as any as S.Schema<GetResponsePopPoolsMap>;
 
-export type GetResponseRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type GetResponseRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const GetResponseRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3223,9 +3151,7 @@ export const GetResponseRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.sus
   identifier: "GetResponseRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<GetResponseRulesItemOverridesLocationStrategy>;
 
-export type GetResponseRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type GetResponseRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const GetResponseRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3474,9 +3400,7 @@ export const GetResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.NullOr(S.Number)),
     terminates: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GetResponseRulesItem",
-}) as any as S.Schema<GetResponseRulesItem>;
+).annotate({ identifier: "GetResponseRulesItem" }) as any as S.Schema<GetResponseRulesItem>;
 
 export type GetResponseRulesList = Array<GetResponseRulesItem>;
 export const GetResponseRulesList = /*@__PURE__*/ S.Array(
@@ -3627,9 +3551,7 @@ export const GetLoadBalancerResponse = /*@__PURE__*/ S.suspend(() =>
     ttl: S.optional(S.NullOr(S.Number)),
     zoneName: S.optional(S.NullOr(S.String).pipe(T.Body("zone_name"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetLoadBalancerResponse",
-}) as any as S.Schema<GetLoadBalancerResponse>;
+).annotate({ identifier: "GetLoadBalancerResponse" }) as any as S.Schema<GetLoadBalancerResponse>;
 
 export interface GetMonitorRequest {
   /** Identifier. */
@@ -3649,9 +3571,7 @@ export const GetMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMonitorRequest",
-}) as any as S.Schema<GetMonitorRequest>;
+).annotate({ identifier: "GetMonitorRequest" }) as any as S.Schema<GetMonitorRequest>;
 
 export type MonitorsGetResponseHeaderValueList = Array<string>;
 export const MonitorsGetResponseHeaderValueList = /*@__PURE__*/ S.Array(
@@ -3729,9 +3649,7 @@ export const GetMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(MonitorsGetResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMonitorResponse",
-}) as any as S.Schema<GetMonitorResponse>;
+).annotate({ identifier: "GetMonitorResponse" }) as any as S.Schema<GetMonitorResponse>;
 
 export interface GetMonitorGroupRequest {
   /** Identifier. */
@@ -3751,9 +3669,7 @@ export const GetMonitorGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMonitorGroupRequest",
-}) as any as S.Schema<GetMonitorGroupRequest>;
+).annotate({ identifier: "GetMonitorGroupRequest" }) as any as S.Schema<GetMonitorGroupRequest>;
 
 export type MonitorGroupsGetResponseMembersItem = MonitorGroupsCreateResponseMembersItem;
 export const MonitorGroupsGetResponseMembersItem = MonitorGroupsCreateResponseMembersItem;
@@ -3784,9 +3700,7 @@ export const GetMonitorGroupResponse = /*@__PURE__*/ S.suspend(() =>
     createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
     modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetMonitorGroupResponse",
-}) as any as S.Schema<GetMonitorGroupResponse>;
+).annotate({ identifier: "GetMonitorGroupResponse" }) as any as S.Schema<GetMonitorGroupResponse>;
 
 export interface GetMonitorGroupReferenceRequest {
   /** Identifier. */
@@ -4164,9 +4078,7 @@ export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsGetResponseOriginsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPoolResponse",
-}) as any as S.Schema<GetPoolResponse>;
+).annotate({ identifier: "GetPoolResponse" }) as any as S.Schema<GetPoolResponse>;
 
 export interface GetPoolHealthRequest {
   /** Identifier. */
@@ -4186,9 +4098,7 @@ export const GetPoolHealthRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPoolHealthRequest",
-}) as any as S.Schema<GetPoolHealthRequest>;
+).annotate({ identifier: "GetPoolHealthRequest" }) as any as S.Schema<GetPoolHealthRequest>;
 
 export interface PoolsHealthGetResponsePopHealthOriginsItemIp {
   /** Failure reason. */
@@ -4254,9 +4164,7 @@ export const GetPoolHealthResponse = /*@__PURE__*/ S.suspend(() =>
     poolId: S.optional(S.NullOr(S.String).pipe(T.Body("pool_id"))),
     popHealth: S.optional(S.NullOr(PoolsHealthGetResponsePopHealth).pipe(T.Body("pop_health"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPoolHealthResponse",
-}) as any as S.Schema<GetPoolHealthResponse>;
+).annotate({ identifier: "GetPoolHealthResponse" }) as any as S.Schema<GetPoolHealthResponse>;
 
 export interface GetPoolReferenceRequest {
   /** Identifier. */
@@ -4276,9 +4184,7 @@ export const GetPoolReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPoolReferenceRequest",
-}) as any as S.Schema<GetPoolReferenceRequest>;
+).annotate({ identifier: "GetPoolReferenceRequest" }) as any as S.Schema<GetPoolReferenceRequest>;
 
 export type PoolsReferencesGetResultItemReferenceType = "*" | "referral" | "referrer";
 export const PoolsReferencesGetResultItemReferenceType = S.String;
@@ -4318,9 +4224,7 @@ export const GetPoolReferenceResponse = /*@__PURE__*/ S.suspend(() =>
     result: PoolsReferencesGetResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPoolReferenceResponse",
-}) as any as S.Schema<GetPoolReferenceResponse>;
+).annotate({ identifier: "GetPoolReferenceResponse" }) as any as S.Schema<GetPoolReferenceResponse>;
 
 export interface GetPreviewRequest {
   /** Identifier. */
@@ -4340,9 +4244,7 @@ export const GetPreviewRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPreviewRequest",
-}) as any as S.Schema<GetPreviewRequest>;
+).annotate({ identifier: "GetPreviewRequest" }) as any as S.Schema<GetPreviewRequest>;
 
 export interface PreviewsGetResultValueOriginsItemValue {
   failureReason?: string | null;
@@ -4383,13 +4285,9 @@ export const PreviewsGetResultValue = /*@__PURE__*/ S.suspend(() =>
     healthy: S.optional(S.NullOr(S.Boolean)),
     origins: S.optional(S.NullOr(PreviewsGetResultValueOriginsList)),
   }),
-).annotate({
-  identifier: "PreviewsGetResultValue",
-}) as any as S.Schema<PreviewsGetResultValue>;
+).annotate({ identifier: "PreviewsGetResultValue" }) as any as S.Schema<PreviewsGetResultValue>;
 
-export type PreviewsGetResultMap = {
-  [key: string]: PreviewsGetResultValue | undefined;
-};
+export type PreviewsGetResultMap = { [key: string]: PreviewsGetResultValue | undefined };
 export const PreviewsGetResultMap = /*@__PURE__*/ S.Record(
   S.String,
   PreviewsGetResultValue,
@@ -4398,9 +4296,7 @@ export const PreviewsGetResultMap = /*@__PURE__*/ S.Record(
 export type GetPreviewResponse = PreviewsGetResultMap;
 export const GetPreviewResponse = /*@__PURE__*/ S.suspend(() =>
   PreviewsGetResultMap.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetPreviewResponse",
-}) as any as S.Schema<GetPreviewResponse>;
+).annotate({ identifier: "GetPreviewResponse" }) as any as S.Schema<GetPreviewResponse>;
 
 export type RegionsGetRequestRegionId =
   | "WNAM"
@@ -4437,16 +4333,12 @@ export const GetRegionRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRegionRequest",
-}) as any as S.Schema<GetRegionRequest>;
+).annotate({ identifier: "GetRegionRequest" }) as any as S.Schema<GetRegionRequest>;
 
 export type GetRegionResponse = unknown;
 export const GetRegionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRegionResponse",
-}) as any as S.Schema<GetRegionResponse>;
+).annotate({ identifier: "GetRegionResponse" }) as any as S.Schema<GetRegionResponse>;
 
 export interface ListLoadBalancersRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -4456,17 +4348,9 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/load_balancers",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/load_balancers", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 export type ListResultItemAdaptiveRouting = CreateResponseAdaptiveRouting;
 export const ListResultItemAdaptiveRouting = CreateResponseAdaptiveRouting;
@@ -4664,9 +4548,7 @@ export const ListResultItemPopPoolsMap = /*@__PURE__*/ S.Record(
   ListResultItemPopPoolsValueList,
 ) as any as S.Schema<ListResultItemPopPoolsMap>;
 
-export type ListResultItemRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type ListResultItemRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const ListResultItemRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -4755,9 +4637,7 @@ export const ListResultItemRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.
   identifier: "ListResultItemRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<ListResultItemRulesItemOverridesLocationStrategy>;
 
-export type ListResultItemRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type ListResultItemRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const ListResultItemRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -5010,9 +4890,7 @@ export const ListResultItemRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.NullOr(S.Number)),
     terminates: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ListResultItemRulesItem",
-}) as any as S.Schema<ListResultItemRulesItem>;
+).annotate({ identifier: "ListResultItemRulesItem" }) as any as S.Schema<ListResultItemRulesItem>;
 
 export type ListResultItemRulesList = Array<ListResultItemRulesItem>;
 export const ListResultItemRulesList = /*@__PURE__*/ S.Array(
@@ -5206,9 +5084,7 @@ export const ListMonitorGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMonitorGroupsRequest",
-}) as any as S.Schema<ListMonitorGroupsRequest>;
+).annotate({ identifier: "ListMonitorGroupsRequest" }) as any as S.Schema<ListMonitorGroupsRequest>;
 
 export type MonitorGroupsListResultItemMembersItem = MonitorGroupsCreateResponseMembersItem;
 export const MonitorGroupsListResultItemMembersItem = MonitorGroupsCreateResponseMembersItem;
@@ -5271,16 +5147,10 @@ export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/load_balancers/monitors",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/load_balancers/monitors", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
+).annotate({ identifier: "ListMonitorsRequest" }) as any as S.Schema<ListMonitorsRequest>;
 
 export type MonitorsListResultItemHeaderValueList = Array<string>;
 export const MonitorsListResultItemHeaderValueList = /*@__PURE__*/ S.Array(
@@ -5363,9 +5233,7 @@ export const MonitorsListResultItem = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(MonitorsListResultItemType)),
   }),
-).annotate({
-  identifier: "MonitorsListResultItem",
-}) as any as S.Schema<MonitorsListResultItem>;
+).annotate({ identifier: "MonitorsListResultItem" }) as any as S.Schema<MonitorsListResultItem>;
 
 export type MonitorsListResultList = Array<MonitorsListResultItem>;
 export const MonitorsListResultList = /*@__PURE__*/ S.Array(
@@ -5383,9 +5251,7 @@ export const ListMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
     result: MonitorsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListMonitorsResponse",
-}) as any as S.Schema<ListMonitorsResponse>;
+).annotate({ identifier: "ListMonitorsResponse" }) as any as S.Schema<ListMonitorsResponse>;
 
 export interface ListPoolsRequest {
   /** Identifier. */
@@ -5398,17 +5264,9 @@ export const ListPoolsRequest = /*@__PURE__*/ S.suspend(() =>
     accountId: S.String.pipe(T.Label("account_id")),
     monitor: S.optional(S.String.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/load_balancers/pools",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/load_balancers/pools", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoolsRequest",
-}) as any as S.Schema<ListPoolsRequest>;
+).annotate({ identifier: "ListPoolsRequest" }) as any as S.Schema<ListPoolsRequest>;
 
 export type PoolsListResultItemCheckRegionsItem =
   | "WNAM"
@@ -5639,9 +5497,7 @@ export const PoolsListResultItem = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsListResultItemOriginsList)),
   }),
-).annotate({
-  identifier: "PoolsListResultItem",
-}) as any as S.Schema<PoolsListResultItem>;
+).annotate({ identifier: "PoolsListResultItem" }) as any as S.Schema<PoolsListResultItem>;
 
 export type PoolsListResultList = Array<PoolsListResultItem>;
 export const PoolsListResultList = /*@__PURE__*/ S.Array(
@@ -5659,9 +5515,7 @@ export const ListPoolsResponse = /*@__PURE__*/ S.suspend(() =>
     result: PoolsListResultList.pipe(T.EnvelopePayload()),
     resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListPoolsResponse",
-}) as any as S.Schema<ListPoolsResponse>;
+).annotate({ identifier: "ListPoolsResponse" }) as any as S.Schema<ListPoolsResponse>;
 
 export interface ListRegionsRequest {
   /** Identifier. */
@@ -5681,23 +5535,15 @@ export const ListRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     subdivisionCodeA2: S.optional(S.String.pipe(T.Query("subdivision_code_a2"))),
   })
     .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/load_balancers/regions",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/accounts/{account_id}/load_balancers/regions", code: 200 }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRegionsRequest",
-}) as any as S.Schema<ListRegionsRequest>;
+).annotate({ identifier: "ListRegionsRequest" }) as any as S.Schema<ListRegionsRequest>;
 
 export type ListRegionsResponse = unknown;
 export const ListRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListRegionsResponse",
-}) as any as S.Schema<ListRegionsResponse>;
+).annotate({ identifier: "ListRegionsResponse" }) as any as S.Schema<ListRegionsResponse>;
 
 export type SearchesListRequestReferences = "" | "*" | "referral" | "referrer";
 export const SearchesListRequestReferences = S.String;
@@ -5720,17 +5566,9 @@ export const ListSearchesRequest = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String.pipe(T.Query())),
     references: S.optional(SearchesListRequestReferences.pipe(T.Query())),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/accounts/{account_id}/load_balancers/search",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/load_balancers/search", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSearchesRequest",
-}) as any as S.Schema<ListSearchesRequest>;
+).annotate({ identifier: "ListSearchesRequest" }) as any as S.Schema<ListSearchesRequest>;
 
 export type SearchesListResponseResourcesItemReferenceType = "referral" | "referrer";
 export const SearchesListResponseResourcesItemReferenceType = S.String;
@@ -5784,9 +5622,7 @@ export const ListSearchesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resources: S.optional(S.NullOr(SearchesListResponseResourcesList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListSearchesResponse",
-}) as any as S.Schema<ListSearchesResponse>;
+).annotate({ identifier: "ListSearchesResponse" }) as any as S.Schema<ListSearchesResponse>;
 
 export type EditRequestAdaptiveRouting = CreateRequestAdaptiveRouting;
 export const EditRequestAdaptiveRouting = CreateRequestAdaptiveRouting;
@@ -5840,17 +5676,13 @@ export const EditRequestPopPoolsValueList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<EditRequestPopPoolsValueList>;
 
-export type EditRequestPopPoolsMap = {
-  [key: string]: EditRequestPopPoolsValueList | undefined;
-};
+export type EditRequestPopPoolsMap = { [key: string]: EditRequestPopPoolsValueList | undefined };
 export const EditRequestPopPoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   EditRequestPopPoolsValueList,
 ) as any as S.Schema<EditRequestPopPoolsMap>;
 
-export type EditRequestRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type EditRequestRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const EditRequestRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -5935,9 +5767,7 @@ export const EditRequestRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.sus
   identifier: "EditRequestRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<EditRequestRulesItemOverridesLocationStrategy>;
 
-export type EditRequestRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type EditRequestRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const EditRequestRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6178,9 +6008,7 @@ export const EditRequestRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     terminates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EditRequestRulesItem",
-}) as any as S.Schema<EditRequestRulesItem>;
+).annotate({ identifier: "EditRequestRulesItem" }) as any as S.Schema<EditRequestRulesItem>;
 
 export type EditRequestRulesList = Array<EditRequestRulesItem>;
 export const EditRequestRulesList = /*@__PURE__*/ S.Array(
@@ -6326,9 +6154,7 @@ export const PatchLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchLoadBalancerRequest",
-}) as any as S.Schema<PatchLoadBalancerRequest>;
+).annotate({ identifier: "PatchLoadBalancerRequest" }) as any as S.Schema<PatchLoadBalancerRequest>;
 
 export type EditResponseAdaptiveRouting = CreateResponseAdaptiveRouting;
 export const EditResponseAdaptiveRouting = CreateResponseAdaptiveRouting;
@@ -6430,9 +6256,7 @@ export const EditResponsePoolSetsItemMatch = /*@__PURE__*/ S.suspend(() =>
   identifier: "EditResponsePoolSetsItemMatch",
 }) as any as S.Schema<EditResponsePoolSetsItemMatch>;
 
-export type EditResponsePoolSetsItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type EditResponsePoolSetsItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const EditResponsePoolSetsItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6504,9 +6328,7 @@ export const EditResponsePoolSetsItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     overrides: S.optional(S.NullOr(EditResponsePoolSetsItemOverrides)),
   }),
-).annotate({
-  identifier: "EditResponsePoolSetsItem",
-}) as any as S.Schema<EditResponsePoolSetsItem>;
+).annotate({ identifier: "EditResponsePoolSetsItem" }) as any as S.Schema<EditResponsePoolSetsItem>;
 
 export type EditResponsePoolSetsList = Array<EditResponsePoolSetsItem>;
 export const EditResponsePoolSetsList = /*@__PURE__*/ S.Array(
@@ -6518,17 +6340,13 @@ export const EditResponsePopPoolsValueList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<EditResponsePopPoolsValueList>;
 
-export type EditResponsePopPoolsMap = {
-  [key: string]: EditResponsePopPoolsValueList | undefined;
-};
+export type EditResponsePopPoolsMap = { [key: string]: EditResponsePopPoolsValueList | undefined };
 export const EditResponsePopPoolsMap = /*@__PURE__*/ S.Record(
   S.String,
   EditResponsePopPoolsValueList,
 ) as any as S.Schema<EditResponsePopPoolsMap>;
 
-export type EditResponseRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type EditResponseRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const EditResponseRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6615,9 +6433,7 @@ export const EditResponseRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.su
   identifier: "EditResponseRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<EditResponseRulesItemOverridesLocationStrategy>;
 
-export type EditResponseRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type EditResponseRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const EditResponseRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -6866,9 +6682,7 @@ export const EditResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.NullOr(S.Number)),
     terminates: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "EditResponseRulesItem",
-}) as any as S.Schema<EditResponseRulesItem>;
+).annotate({ identifier: "EditResponseRulesItem" }) as any as S.Schema<EditResponseRulesItem>;
 
 export type EditResponseRulesList = Array<EditResponseRulesItem>;
 export const EditResponseRulesList = /*@__PURE__*/ S.Array(
@@ -7109,9 +6923,7 @@ export const PatchMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchMonitorRequest",
-}) as any as S.Schema<PatchMonitorRequest>;
+).annotate({ identifier: "PatchMonitorRequest" }) as any as S.Schema<PatchMonitorRequest>;
 
 export type MonitorsEditResponseHeaderValueList = Array<string>;
 export const MonitorsEditResponseHeaderValueList = /*@__PURE__*/ S.Array(
@@ -7189,9 +7001,7 @@ export const PatchMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(MonitorsEditResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchMonitorResponse",
-}) as any as S.Schema<PatchMonitorResponse>;
+).annotate({ identifier: "PatchMonitorResponse" }) as any as S.Schema<PatchMonitorResponse>;
 
 export type MonitorGroupsEditRequestMembersItem = MonitorGroupsCreateRequestMembersItem;
 export const MonitorGroupsEditRequestMembersItem = MonitorGroupsCreateRequestMembersItem;
@@ -7225,9 +7035,7 @@ export const PatchMonitorGroupRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchMonitorGroupRequest",
-}) as any as S.Schema<PatchMonitorGroupRequest>;
+).annotate({ identifier: "PatchMonitorGroupRequest" }) as any as S.Schema<PatchMonitorGroupRequest>;
 
 export type MonitorGroupsEditResponseMembersItem = MonitorGroupsCreateResponseMembersItem;
 export const MonitorGroupsEditResponseMembersItem = MonitorGroupsCreateResponseMembersItem;
@@ -7479,9 +7287,7 @@ export const PatchPoolRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPoolRequest",
-}) as any as S.Schema<PatchPoolRequest>;
+).annotate({ identifier: "PatchPoolRequest" }) as any as S.Schema<PatchPoolRequest>;
 
 export type PoolsEditResponseCheckRegionsItem =
   | "WNAM"
@@ -7711,9 +7517,7 @@ export const PatchPoolResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsEditResponseOriginsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PatchPoolResponse",
-}) as any as S.Schema<PatchPoolResponse>;
+).annotate({ identifier: "PatchPoolResponse" }) as any as S.Schema<PatchPoolResponse>;
 
 export type UpdateRequestDefaultPoolsList = Array<string>;
 export const UpdateRequestDefaultPoolsList = /*@__PURE__*/ S.Array(
@@ -7775,9 +7579,7 @@ export const UpdateRequestPopPoolsMap = /*@__PURE__*/ S.Record(
   UpdateRequestPopPoolsValueList,
 ) as any as S.Schema<UpdateRequestPopPoolsMap>;
 
-export type UpdateRequestRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type UpdateRequestRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const UpdateRequestRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -7862,9 +7664,7 @@ export const UpdateRequestRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.s
   identifier: "UpdateRequestRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<UpdateRequestRulesItemOverridesLocationStrategy>;
 
-export type UpdateRequestRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type UpdateRequestRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const UpdateRequestRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -8107,9 +7907,7 @@ export const UpdateRequestRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     terminates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateRequestRulesItem",
-}) as any as S.Schema<UpdateRequestRulesItem>;
+).annotate({ identifier: "UpdateRequestRulesItem" }) as any as S.Schema<UpdateRequestRulesItem>;
 
 export type UpdateRequestRulesList = Array<UpdateRequestRulesItem>;
 export const UpdateRequestRulesList = /*@__PURE__*/ S.Array(
@@ -8455,9 +8253,7 @@ export const UpdateResponsePopPoolsMap = /*@__PURE__*/ S.Record(
   UpdateResponsePopPoolsValueList,
 ) as any as S.Schema<UpdateResponsePopPoolsMap>;
 
-export type UpdateResponseRandomSteeringPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type UpdateResponseRandomSteeringPoolWeightsMap = { [key: string]: number | undefined };
 export const UpdateResponseRandomSteeringPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -8546,9 +8342,7 @@ export const UpdateResponseRulesItemOverridesLocationStrategy = /*@__PURE__*/ S.
   identifier: "UpdateResponseRulesItemOverridesLocationStrategy",
 }) as any as S.Schema<UpdateResponseRulesItemOverridesLocationStrategy>;
 
-export type UpdateResponseRulesItemOverridesPoolWeightsMap = {
-  [key: string]: number | undefined;
-};
+export type UpdateResponseRulesItemOverridesPoolWeightsMap = { [key: string]: number | undefined };
 export const UpdateResponseRulesItemOverridesPoolWeightsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -8801,9 +8595,7 @@ export const UpdateResponseRulesItem = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.NullOr(S.Number)),
     terminates: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "UpdateResponseRulesItem",
-}) as any as S.Schema<UpdateResponseRulesItem>;
+).annotate({ identifier: "UpdateResponseRulesItem" }) as any as S.Schema<UpdateResponseRulesItem>;
 
 export type UpdateResponseRulesList = Array<UpdateResponseRulesItem>;
 export const UpdateResponseRulesList = /*@__PURE__*/ S.Array(
@@ -9052,9 +8844,7 @@ export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
+).annotate({ identifier: "UpdateMonitorRequest" }) as any as S.Schema<UpdateMonitorRequest>;
 
 export type MonitorsUpdateResponseHeaderValueList = Array<string>;
 export const MonitorsUpdateResponseHeaderValueList = /*@__PURE__*/ S.Array(
@@ -9138,9 +8928,7 @@ export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.NullOr(S.Number)),
     type: S.optional(S.NullOr(MonitorsUpdateResponseType)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdateMonitorResponse",
-}) as any as S.Schema<UpdateMonitorResponse>;
+).annotate({ identifier: "UpdateMonitorResponse" }) as any as S.Schema<UpdateMonitorResponse>;
 
 export type MonitorGroupsUpdateRequestMembersItem = MonitorGroupsCreateRequestMembersItem;
 export const MonitorGroupsUpdateRequestMembersItem = MonitorGroupsCreateRequestMembersItem;
@@ -9429,9 +9217,7 @@ export const UpdatePoolRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePoolRequest",
-}) as any as S.Schema<UpdatePoolRequest>;
+).annotate({ identifier: "UpdatePoolRequest" }) as any as S.Schema<UpdatePoolRequest>;
 
 export type PoolsUpdateResponseCheckRegionsItem =
   | "WNAM"
@@ -9663,9 +9449,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     origins: S.optional(S.NullOr(PoolsUpdateResponseOriginsList)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "UpdatePoolResponse",
-}) as any as S.Schema<UpdatePoolResponse>;
+).annotate({ identifier: "UpdatePoolResponse" }) as any as S.Schema<UpdatePoolResponse>;
 
 export type BulkPatchPoolsError = CloudflareOpError;
 /** Apply changes to a number of existing pools, overwriting the supplied properties. Pools are ordered by ascending `name`. Returns the list of affected pools. Supports the standard pagination query parameters, either `limit`/`offset` or `per_page`/`page`. */

@@ -199,9 +199,7 @@ export const CheckinManifestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "CheckinManifestRequest",
-}) as any as S.Schema<CheckinManifestRequest>;
+).annotate({ identifier: "CheckinManifestRequest" }) as any as S.Schema<CheckinManifestRequest>;
 
 export interface CheckinManifestInfo {
   /** Whether the manifest is checked in. */
@@ -220,14 +218,10 @@ export const CheckinManifestInfo = /*@__PURE__*/ S.suspend(() =>
     pullRequest: S.optional(S.String),
     commitId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckinManifestInfo",
-}) as any as S.Schema<CheckinManifestInfo>;
+).annotate({ identifier: "CheckinManifestInfo" }) as any as S.Schema<CheckinManifestInfo>;
 
 /** Resource tags. */
-export type CreateProviderMonitorSettingsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateProviderMonitorSettingsRequestTagsMap = { [key: string]: string | undefined };
 export const CreateProviderMonitorSettingsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -279,9 +273,7 @@ export const CreateProviderMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CreateProviderMonitorSettingsRequest>;
 
 /** Resource tags. */
-export type CreateProviderMonitorSettingsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export const CreateProviderMonitorSettingsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -377,9 +369,7 @@ export const AdditionalAuthorization = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.optional(S.String),
     roleDefinitionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AdditionalAuthorization",
-}) as any as S.Schema<AdditionalAuthorization>;
+).annotate({ identifier: "AdditionalAuthorization" }) as any as S.Schema<AdditionalAuthorization>;
 
 export type ResourceProviderAuthorizationManagedByAuthorizationAdditionalAuthorizationsList =
   Array<AdditionalAuthorization>;
@@ -416,9 +406,7 @@ export const ThirdPartyExtension = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThirdPartyExtension",
-}) as any as S.Schema<ThirdPartyExtension>;
+).annotate({ identifier: "ThirdPartyExtension" }) as any as S.Schema<ThirdPartyExtension>;
 
 /** The allowed third party extensions. */
 export type ResourceProviderAuthorizationAllowedThirdPartyExtensionsList =
@@ -479,9 +467,7 @@ export const ResourceProviderService = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     status: S.optional(ServiceStatus),
   }),
-).annotate({
-  identifier: "ResourceProviderService",
-}) as any as S.Schema<ResourceProviderService>;
+).annotate({ identifier: "ResourceProviderService" }) as any as S.Schema<ResourceProviderService>;
 
 /** The services. */
 export type ProviderRegistrationPropertiesServicesList = Array<ResourceProviderService>;
@@ -553,9 +539,7 @@ export const RequestHeaderOptions = /*@__PURE__*/ S.suspend(() =>
     optInHeaders: S.optional(OptInHeaderType),
     optOutHeaders: S.optional(OptOutHeaderType),
   }),
-).annotate({
-  identifier: "RequestHeaderOptions",
-}) as any as S.Schema<RequestHeaderOptions>;
+).annotate({ identifier: "RequestHeaderOptions" }) as any as S.Schema<RequestHeaderOptions>;
 
 /** The schema owners. */
 export type ResourceProviderManagementSchemaOwnersList = Array<string>;
@@ -602,9 +586,7 @@ export const ResourceAccessRole = /*@__PURE__*/ S.suspend(() =>
     allowedGroupClaims: S.optional(ResourceAccessRoleAllowedGroupClaimsList),
     actions: S.optional(ResourceAccessRoleActionsList),
   }),
-).annotate({
-  identifier: "ResourceAccessRole",
-}) as any as S.Schema<ResourceAccessRole>;
+).annotate({ identifier: "ResourceAccessRole" }) as any as S.Schema<ResourceAccessRole>;
 
 /** The resource access roles. */
 export type ResourceProviderManagementResourceAccessRolesList = Array<ResourceAccessRole>;
@@ -839,9 +821,7 @@ export const ResourceProviderEndpoint = /*@__PURE__*/ S.suspend(() =>
     endpointType: S.optional(EndpointType),
     skuLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceProviderEndpoint",
-}) as any as S.Schema<ResourceProviderEndpoint>;
+).annotate({ identifier: "ResourceProviderEndpoint" }) as any as S.Schema<ResourceProviderEndpoint>;
 
 /** The global notification endpoints. */
 export type ProviderRegistrationPropertiesGlobalNotificationEndpointsList =
@@ -899,9 +879,7 @@ export const TokenAuthConfiguration = /*@__PURE__*/ S.suspend(() =>
     signedRequestScope: S.optional(SignedRequestScope),
     disableCertificateAuthenticationFallback: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TokenAuthConfiguration",
-}) as any as S.Schema<TokenAuthConfiguration>;
+).annotate({ identifier: "TokenAuthConfiguration" }) as any as S.Schema<TokenAuthConfiguration>;
 
 /** The actions. */
 export type FanoutLinkedNotificationRuleActionsList = Array<string>;
@@ -1000,9 +978,7 @@ export const ResourceHydrationAccount = /*@__PURE__*/ S.suspend(() =>
     accountName: S.optional(S.String),
     subscriptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceHydrationAccount",
-}) as any as S.Schema<ResourceHydrationAccount>;
+).annotate({ identifier: "ResourceHydrationAccount" }) as any as S.Schema<ResourceHydrationAccount>;
 
 /** resource hydration accounts */
 export type ProviderRegistrationPropertiesResourceHydrationAccountsList =
@@ -1029,9 +1005,7 @@ export const EndpointInformation = /*@__PURE__*/ S.suspend(() =>
     endpointType: S.optional(NotificationEndpointType),
     schemaVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointInformation",
-}) as any as S.Schema<EndpointInformation>;
+).annotate({ identifier: "EndpointInformation" }) as any as S.Schema<EndpointInformation>;
 
 /** The endpoint information. */
 export type FilterRuleEndpointInformationList = Array<EndpointInformation>;
@@ -1066,9 +1040,7 @@ export const SubscriberSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filterRules: S.optional(SubscriberSettingFilterRulesList),
   }),
-).annotate({
-  identifier: "SubscriberSetting",
-}) as any as S.Schema<SubscriberSetting>;
+).annotate({ identifier: "SubscriberSetting" }) as any as S.Schema<SubscriberSetting>;
 
 export type ResourceProviderManifestPropertiesNotificationSettingsSubscriberSettingsList =
   Array<SubscriberSetting>;
@@ -1167,9 +1139,7 @@ export const LightHouseAuthorization = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     roleDefinitionId: S.String,
   }),
-).annotate({
-  identifier: "LightHouseAuthorization",
-}) as any as S.Schema<LightHouseAuthorization>;
+).annotate({ identifier: "LightHouseAuthorization" }) as any as S.Schema<LightHouseAuthorization>;
 
 /** The authorizations. */
 export type ThirdPartyProviderAuthorizationAuthorizationsList = Array<LightHouseAuthorization>;
@@ -1215,9 +1185,7 @@ export const ProviderHubMetadata = /*@__PURE__*/ S.suspend(() =>
     regionalAsyncOperationResourceTypeName: S.optional(S.String),
     globalAsyncOperationResourceTypeName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProviderHubMetadata",
-}) as any as S.Schema<ProviderHubMetadata>;
+).annotate({ identifier: "ProviderHubMetadata" }) as any as S.Schema<ProviderHubMetadata>;
 
 /** The state. */
 export type SubscriptionTransitioningState =
@@ -1545,9 +1513,7 @@ export const ResourceTypeExtension = /*@__PURE__*/ S.suspend(() =>
     extensionCategories: S.optional(ResourceTypeExtensionExtensionCategoriesList),
     timeout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceTypeExtension",
-}) as any as S.Schema<ResourceTypeExtension>;
+).annotate({ identifier: "ResourceTypeExtension" }) as any as S.Schema<ResourceTypeExtension>;
 
 /** The extensions. */
 export type ResourceTypeEndpointExtensionsList = Array<ResourceTypeExtension>;
@@ -1623,9 +1589,7 @@ export const ResourceTypeEndpoint = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(ResourceTypeEndpointZonesList),
     dataBoundary: S.optional(DataBoundary),
   }),
-).annotate({
-  identifier: "ResourceTypeEndpoint",
-}) as any as S.Schema<ResourceTypeEndpoint>;
+).annotate({ identifier: "ResourceTypeEndpoint" }) as any as S.Schema<ResourceTypeEndpoint>;
 
 /** The extensions. */
 export type ResourceTypeRegistrationPropertiesEndpointsList = Array<ResourceTypeEndpoint>;
@@ -1662,9 +1626,7 @@ export const ExtensionOptions = /*@__PURE__*/ S.suspend(() =>
     request: S.optional(ExtensionOptionsRequestList),
     response: S.optional(ExtensionOptionsResponseList),
   }),
-).annotate({
-  identifier: "ExtensionOptions",
-}) as any as S.Schema<ExtensionOptions>;
+).annotate({ identifier: "ExtensionOptions" }) as any as S.Schema<ExtensionOptions>;
 
 export interface ResourceTypeExtensionOptions {
   /** Resource creation begin. */
@@ -1699,9 +1661,7 @@ export const SwaggerSpecification = /*@__PURE__*/ S.suspend(() =>
     apiVersions: S.optional(SwaggerSpecificationApiVersionsList),
     swaggerSpecFolderUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SwaggerSpecification",
-}) as any as S.Schema<SwaggerSpecification>;
+).annotate({ identifier: "SwaggerSpecification" }) as any as S.Schema<SwaggerSpecification>;
 
 /** The swagger specifications. */
 export type ResourceTypeRegistrationPropertiesSwaggerSpecificationsList =
@@ -1794,9 +1754,7 @@ export const LinkedAccessCheck = /*@__PURE__*/ S.suspend(() =>
     linkedType: S.optional(S.String),
     options: S.optional(LinkedAccessCheckOptions),
   }),
-).annotate({
-  identifier: "LinkedAccessCheck",
-}) as any as S.Schema<LinkedAccessCheck>;
+).annotate({ identifier: "LinkedAccessCheck" }) as any as S.Schema<LinkedAccessCheck>;
 
 /** The linked access checks. */
 export type ResourceTypeRegistrationPropertiesLinkedAccessChecksList = Array<LinkedAccessCheck>;
@@ -1885,9 +1843,7 @@ export const ThrottlingMetric = /*@__PURE__*/ S.suspend(() =>
     interval: S.optional(S.String),
     bucketSize: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThrottlingMetric",
-}) as any as S.Schema<ThrottlingMetric>;
+).annotate({ identifier: "ThrottlingMetric" }) as any as S.Schema<ThrottlingMetric>;
 
 /** The metrics. */
 export type ThrottlingRuleMetricsList = Array<ThrottlingMetric>;
@@ -2038,9 +1994,7 @@ export const SubscriptionStateRule = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(SubscriptionState),
     allowedActions: S.optional(SubscriptionStateRuleAllowedActionsList),
   }),
-).annotate({
-  identifier: "SubscriptionStateRule",
-}) as any as S.Schema<SubscriptionStateRule>;
+).annotate({ identifier: "SubscriptionStateRule" }) as any as S.Schema<SubscriptionStateRule>;
 
 /** The subscription state rules. */
 export type ResourceTypeRegistrationPropertiesSubscriptionStateRulesList =
@@ -2066,9 +2020,7 @@ export const ExtendedLocationOptions = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ExtendedLocationType),
     supportedPolicy: S.optional(ResourceTypeExtendedLocationPolicy),
   }),
-).annotate({
-  identifier: "ExtendedLocationOptions",
-}) as any as S.Schema<ExtendedLocationOptions>;
+).annotate({ identifier: "ExtendedLocationOptions" }) as any as S.Schema<ExtendedLocationOptions>;
 
 /** The extended locations. */
 export type ResourceTypeRegistrationPropertiesExtendedLocationsList =
@@ -2091,9 +2043,7 @@ export const ResourceMovePolicy = /*@__PURE__*/ S.suspend(() =>
     crossResourceGroupMoveEnabled: S.optional(S.Boolean),
     crossSubscriptionMoveEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ResourceMovePolicy",
-}) as any as S.Schema<ResourceMovePolicy>;
+).annotate({ identifier: "ResourceMovePolicy" }) as any as S.Schema<ResourceMovePolicy>;
 
 /** The resource deletion policy. */
 export type RPaaSResourceDeletionPolicy =
@@ -2267,9 +2217,7 @@ export const WriteLockConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(WriteLockConfigurationState),
   }),
-).annotate({
-  identifier: "WriteLockConfiguration",
-}) as any as S.Schema<WriteLockConfiguration>;
+).annotate({ identifier: "WriteLockConfiguration" }) as any as S.Schema<WriteLockConfiguration>;
 
 /** The policy. */
 export type Policy = "NotSpecified" | "SynchronizeBeginExtension";
@@ -2320,9 +2268,7 @@ export const OpenApiValidation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowNoncompliantCollectionResponse: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OpenApiValidation",
-}) as any as S.Schema<OpenApiValidation>;
+).annotate({ identifier: "OpenApiValidation" }) as any as S.Schema<OpenApiValidation>;
 
 export interface OpenApiConfiguration {
   /** The open api validation. */
@@ -2332,9 +2278,7 @@ export const OpenApiConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validation: S.optional(OpenApiValidation),
   }),
-).annotate({
-  identifier: "OpenApiConfiguration",
-}) as any as S.Schema<OpenApiConfiguration>;
+).annotate({ identifier: "OpenApiConfiguration" }) as any as S.Schema<OpenApiConfiguration>;
 
 export interface ResourceTypeOnBehalfOfToken {
   /** The action name. */
@@ -2367,9 +2311,7 @@ export const ResourceTypeRegistrationPropertiesDisallowedEndUserOperationsList =
   ) as any as S.Schema<ResourceTypeRegistrationPropertiesDisallowedEndUserOperationsList>;
 
 /** The metadata. */
-export type ResourceTypeRegistrationPropertiesMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourceTypeRegistrationPropertiesMetadataMap = { [key: string]: unknown | undefined };
 export const ResourceTypeRegistrationPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2392,9 +2334,7 @@ export const LocationQuotaRule = /*@__PURE__*/ S.suspend(() =>
     quotaId: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LocationQuotaRule",
-}) as any as S.Schema<LocationQuotaRule>;
+).annotate({ identifier: "LocationQuotaRule" }) as any as S.Schema<LocationQuotaRule>;
 
 /** The location rules. */
 export type QuotaRuleLocationRulesList = Array<LocationQuotaRule>;
@@ -2476,9 +2416,7 @@ export const LinkedNotificationRule = /*@__PURE__*/ S.suspend(() =>
     ),
     linkedNotificationTimeout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkedNotificationRule",
-}) as any as S.Schema<LinkedNotificationRule>;
+).annotate({ identifier: "LinkedNotificationRule" }) as any as S.Schema<LinkedNotificationRule>;
 
 /** The linked notification rules. */
 export type ResourceTypeRegistrationPropertiesLinkedNotificationRulesList =
@@ -2518,9 +2456,7 @@ export const TemplateDeploymentPolicy = /*@__PURE__*/ S.suspend(() =>
     preflightOptions: TemplateDeploymentPreflightOptions,
     preflightNotifications: S.optional(TemplateDeploymentPreflightNotifications),
   }),
-).annotate({
-  identifier: "TemplateDeploymentPolicy",
-}) as any as S.Schema<TemplateDeploymentPolicy>;
+).annotate({ identifier: "TemplateDeploymentPolicy" }) as any as S.Schema<TemplateDeploymentPolicy>;
 
 /** The policy execution type. */
 export type PolicyExecutionType =
@@ -2555,9 +2491,7 @@ export const AsyncTimeoutRule = /*@__PURE__*/ S.suspend(() =>
     actionName: S.optional(S.String),
     timeout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AsyncTimeoutRule",
-}) as any as S.Schema<AsyncTimeoutRule>;
+).annotate({ identifier: "AsyncTimeoutRule" }) as any as S.Schema<AsyncTimeoutRule>;
 
 /** Async timeout rules */
 export type ResourceTypeRegistrationPropertiesAsyncTimeoutRulesList = Array<AsyncTimeoutRule>;
@@ -2621,9 +2555,7 @@ export const LinkedOperationRule = /*@__PURE__*/ S.suspend(() =>
     linkedAction: LinkedAction,
     dependsOnTypes: S.optional(LinkedOperationRuleDependsOnTypesList),
   }),
-).annotate({
-  identifier: "LinkedOperationRule",
-}) as any as S.Schema<LinkedOperationRule>;
+).annotate({ identifier: "LinkedOperationRule" }) as any as S.Schema<LinkedOperationRule>;
 
 /** The linked operation rules. */
 export type ResourceTypeRegistrationPropertiesLinkedOperationRulesList = Array<LinkedOperationRule>;
@@ -2758,9 +2690,7 @@ export const AllowedResourceName = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     getActionVerb: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AllowedResourceName",
-}) as any as S.Schema<AllowedResourceName>;
+).annotate({ identifier: "AllowedResourceName" }) as any as S.Schema<AllowedResourceName>;
 
 /** The allowed resource names. */
 export type ResourceTypeRegistrationPropertiesAllowedResourceNamesList = Array<AllowedResourceName>;
@@ -2826,9 +2756,7 @@ export const ActionConfiguration = /*@__PURE__*/ S.suspend(() =>
     authorizationAction: S.optional(S.String),
     maxBatchSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ActionConfiguration",
-}) as any as S.Schema<ActionConfiguration>;
+).annotate({ identifier: "ActionConfiguration" }) as any as S.Schema<ActionConfiguration>;
 
 /** Action Configurations. */
 export type ResourceTypeRegistrationPropertiesResourceManagementOptionsBatchProvisioningSupportActionConfigurationsList =
@@ -2892,9 +2820,7 @@ export const DeleteDependency = /*@__PURE__*/ S.suspend(() =>
     linkedProperty: S.optional(S.String),
     linkedType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteDependency",
-}) as any as S.Schema<DeleteDependency>;
+).annotate({ identifier: "DeleteDependency" }) as any as S.Schema<DeleteDependency>;
 
 /** Delete dependencies. */
 export type ResourceTypeRegistrationPropertiesResourceManagementOptionsDeleteDependenciesList =
@@ -3294,9 +3220,7 @@ export const CheckinManifestParams = /*@__PURE__*/ S.suspend(() =>
     environment: S.String,
     baselineArmManifestLocation: S.String,
   }),
-).annotate({
-  identifier: "CheckinManifestParams",
-}) as any as S.Schema<CheckinManifestParams>;
+).annotate({ identifier: "CheckinManifestParams" }) as any as S.Schema<CheckinManifestParams>;
 
 /** The manifest checkin specification. */
 export interface ManifestCheckinSpecification {
@@ -3373,9 +3297,7 @@ export const TypedErrorInfoInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
   }),
-).annotate({
-  identifier: "TypedErrorInfoInput",
-}) as any as S.Schema<TypedErrorInfoInput>;
+).annotate({ identifier: "TypedErrorInfoInput" }) as any as S.Schema<TypedErrorInfoInput>;
 
 /** The additional error information. */
 export type ExtendedErrorInfoInputAdditionalInfoList = Array<TypedErrorInfoInput>;
@@ -3404,9 +3326,7 @@ export const ExtendedErrorInfoInput = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ExtendedErrorInfoInputDetailsList),
     additionalInfo: S.optional(ExtendedErrorInfoInputAdditionalInfoList),
   }),
-).annotate({
-  identifier: "ExtendedErrorInfoInput",
-}) as any as S.Schema<ExtendedErrorInfoInput>;
+).annotate({ identifier: "ExtendedErrorInfoInput" }) as any as S.Schema<ExtendedErrorInfoInput>;
 
 /** The failed or skipped regions. */
 export type CustomRolloutStatusInputFailedOrSkippedRegionsMap = {
@@ -3435,9 +3355,7 @@ export const AppliedManifestInfo = /*@__PURE__*/ S.suspend(() =>
     previousCommitId: S.optional(S.String),
     appliedCommitId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppliedManifestInfo",
-}) as any as S.Schema<AppliedManifestInfo>;
+).annotate({ identifier: "AppliedManifestInfo" }) as any as S.Schema<AppliedManifestInfo>;
 
 /** Information about the manifests applied to the completed regions. */
 export type CustomRolloutStatusInputCompletedRegionsInfoList = Array<AppliedManifestInfo>;
@@ -3462,9 +3380,7 @@ export const CustomRolloutStatusInput = /*@__PURE__*/ S.suspend(() =>
     manifestCheckinStatus: S.optional(CheckinManifestInfo),
     completedRegionsInfo: S.optional(CustomRolloutStatusInputCompletedRegionsInfoList),
   }),
-).annotate({
-  identifier: "CustomRolloutStatusInput",
-}) as any as S.Schema<CustomRolloutStatusInput>;
+).annotate({ identifier: "CustomRolloutStatusInput" }) as any as S.Schema<CustomRolloutStatusInput>;
 
 export interface CustomRolloutPropertiesInput {
   /** The specification. */
@@ -3542,9 +3458,7 @@ export const ProviderRegistration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProviderRegistrationProperties),
     kind: S.optional(ProviderRegistrationKind),
   }),
-).annotate({
-  identifier: "ProviderRegistration",
-}) as any as S.Schema<ProviderRegistration>;
+).annotate({ identifier: "ProviderRegistration" }) as any as S.Schema<ProviderRegistration>;
 
 /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
 export type ResourceTypeRegistrationKind = "Managed" | "Hybrid" | "Direct";
@@ -3573,9 +3487,7 @@ export const ResourceTypeRegistration = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ResourceTypeRegistrationProperties),
     kind: S.optional(ResourceTypeRegistrationKind),
   }),
-).annotate({
-  identifier: "ResourceTypeRegistration",
-}) as any as S.Schema<ResourceTypeRegistration>;
+).annotate({ identifier: "ResourceTypeRegistration" }) as any as S.Schema<ResourceTypeRegistration>;
 
 /** The resource type registrations. */
 export type CustomRolloutSpecificationResourceTypeRegistrationsList =
@@ -3673,9 +3585,7 @@ export const ExtendedErrorInfo = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ExtendedErrorInfoDetailsList),
     additionalInfo: S.optional(ExtendedErrorInfoAdditionalInfoList),
   }),
-).annotate({
-  identifier: "ExtendedErrorInfo",
-}) as any as S.Schema<ExtendedErrorInfo>;
+).annotate({ identifier: "ExtendedErrorInfo" }) as any as S.Schema<ExtendedErrorInfo>;
 
 /** The failed or skipped regions. */
 export type CustomRolloutStatusFailedOrSkippedRegionsMap = {
@@ -3709,9 +3619,7 @@ export const CustomRolloutStatus = /*@__PURE__*/ S.suspend(() =>
     manifestCheckinStatus: S.optional(CheckinManifestInfo),
     completedRegionsInfo: S.optional(CustomRolloutStatusCompletedRegionsInfoList),
   }),
-).annotate({
-  identifier: "CustomRolloutStatus",
-}) as any as S.Schema<CustomRolloutStatus>;
+).annotate({ identifier: "CustomRolloutStatus" }) as any as S.Schema<CustomRolloutStatus>;
 
 export interface CustomRolloutProperties {
   /** The provisioned state of the resource. */
@@ -3727,9 +3635,7 @@ export const CustomRolloutProperties = /*@__PURE__*/ S.suspend(() =>
     specification: CustomRolloutSpecification,
     status: S.optional(CustomRolloutStatus),
   }),
-).annotate({
-  identifier: "CustomRolloutProperties",
-}) as any as S.Schema<CustomRolloutProperties>;
+).annotate({ identifier: "CustomRolloutProperties" }) as any as S.Schema<CustomRolloutProperties>;
 
 export interface CustomRolloutsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4072,9 +3978,7 @@ export const DefaultRolloutStatus = /*@__PURE__*/ S.suspend(() =>
     subscriptionReregistrationResult: S.optional(SubscriptionReregistrationResult),
     manifestCheckinStatus: S.optional(CheckinManifestInfo),
   }),
-).annotate({
-  identifier: "DefaultRolloutStatus",
-}) as any as S.Schema<DefaultRolloutStatus>;
+).annotate({ identifier: "DefaultRolloutStatus" }) as any as S.Schema<DefaultRolloutStatus>;
 
 export interface DefaultRolloutProperties {
   /** The provisioned state of the resource. */
@@ -4090,9 +3994,7 @@ export const DefaultRolloutProperties = /*@__PURE__*/ S.suspend(() =>
     specification: S.optional(DefaultRolloutSpecification),
     status: S.optional(DefaultRolloutStatus),
   }),
-).annotate({
-  identifier: "DefaultRolloutProperties",
-}) as any as S.Schema<DefaultRolloutProperties>;
+).annotate({ identifier: "DefaultRolloutProperties" }) as any as S.Schema<DefaultRolloutProperties>;
 
 export interface DefaultRolloutsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4260,9 +4162,7 @@ export const DeleteOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOperationRequest",
-}) as any as S.Schema<DeleteOperationRequest>;
+).annotate({ identifier: "DeleteOperationRequest" }) as any as S.Schema<DeleteOperationRequest>;
 
 export interface DeleteOperationResponse {}
 export const DeleteOperationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4446,9 +4346,7 @@ export const DeleteSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSkusRequest",
-}) as any as S.Schema<DeleteSkusRequest>;
+).annotate({ identifier: "DeleteSkusRequest" }) as any as S.Schema<DeleteSkusRequest>;
 
 export interface DeleteSkusResponse {}
 export const DeleteSkusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4596,9 +4494,7 @@ export const GenerateManifestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "GenerateManifestRequest",
-}) as any as S.Schema<GenerateManifestRequest>;
+).annotate({ identifier: "GenerateManifestRequest" }) as any as S.Schema<GenerateManifestRequest>;
 
 /** The provider authorizations. */
 export type ResourceProviderManifestProviderAuthorizationsList =
@@ -4676,9 +4572,7 @@ export const IdentityManagement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(IdentityManagementTypes),
   }),
-).annotate({
-  identifier: "IdentityManagement",
-}) as any as S.Schema<IdentityManagement>;
+).annotate({ identifier: "IdentityManagement" }) as any as S.Schema<IdentityManagement>;
 
 /** The required features. */
 export type ResourceTypeRequiredFeaturesList = Array<string>;
@@ -4950,9 +4844,7 @@ export const ResourceProviderManifest = /*@__PURE__*/ S.suspend(() =>
     resourceProviderAuthorizationRules: S.optional(ResourceProviderAuthorizationRules),
     tokenAuthConfiguration: S.optional(TokenAuthConfiguration),
   }),
-).annotate({
-  identifier: "ResourceProviderManifest",
-}) as any as S.Schema<ResourceProviderManifest>;
+).annotate({ identifier: "ResourceProviderManifest" }) as any as S.Schema<ResourceProviderManifest>;
 
 export interface GenerateProviderRegistrationOperationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5029,9 +4921,7 @@ export const OperationsDefinition = /*@__PURE__*/ S.suspend(() =>
     actionType: S.optional(OperationActionType),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationsDefinition",
-}) as any as S.Schema<OperationsDefinition>;
+).annotate({ identifier: "OperationsDefinition" }) as any as S.Schema<OperationsDefinition>;
 
 export type GenerateProviderRegistrationOperationsResponseBodyList = Array<OperationsDefinition>;
 export const GenerateProviderRegistrationOperationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5115,9 +5005,7 @@ export const GetCustomRolloutRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetCustomRolloutRequest",
-}) as any as S.Schema<GetCustomRolloutRequest>;
+).annotate({ identifier: "GetCustomRolloutRequest" }) as any as S.Schema<GetCustomRolloutRequest>;
 
 export interface GetCustomRolloutResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5139,9 +5027,7 @@ export const GetCustomRolloutResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: CustomRolloutProperties,
   }),
-).annotate({
-  identifier: "GetCustomRolloutResponse",
-}) as any as S.Schema<GetCustomRolloutResponse>;
+).annotate({ identifier: "GetCustomRolloutResponse" }) as any as S.Schema<GetCustomRolloutResponse>;
 
 export interface GetDefaultRolloutRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5164,9 +5050,7 @@ export const GetDefaultRolloutRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetDefaultRolloutRequest",
-}) as any as S.Schema<GetDefaultRolloutRequest>;
+).annotate({ identifier: "GetDefaultRolloutRequest" }) as any as S.Schema<GetDefaultRolloutRequest>;
 
 export interface GetDefaultRolloutResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5213,9 +5097,7 @@ export const GetManifestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "GetManifestRequest",
-}) as any as S.Schema<GetManifestRequest>;
+).annotate({ identifier: "GetManifestRequest" }) as any as S.Schema<GetManifestRequest>;
 
 /** The manifest properties. */
 export interface ManifestInfoProperties {
@@ -5232,9 +5114,7 @@ export const ManifestInfoProperties = /*@__PURE__*/ S.suspend(() =>
     manifestUri: S.optional(S.String),
     commitId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManifestInfoProperties",
-}) as any as S.Schema<ManifestInfoProperties>;
+).annotate({ identifier: "ManifestInfoProperties" }) as any as S.Schema<ManifestInfoProperties>;
 
 export interface GetManifestResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5256,9 +5136,7 @@ export const GetManifestResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ManifestInfoProperties),
   }),
-).annotate({
-  identifier: "GetManifestResponse",
-}) as any as S.Schema<GetManifestResponse>;
+).annotate({ identifier: "GetManifestResponse" }) as any as S.Schema<GetManifestResponse>;
 
 export interface GetNotificationRegistrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5316,9 +5194,7 @@ export const NotificationEndpoint = /*@__PURE__*/ S.suspend(() =>
     notificationDestination: S.optional(S.String),
     locations: S.optional(NotificationEndpointLocationsList),
   }),
-).annotate({
-  identifier: "NotificationEndpoint",
-}) as any as S.Schema<NotificationEndpoint>;
+).annotate({ identifier: "NotificationEndpoint" }) as any as S.Schema<NotificationEndpoint>;
 
 /** The notification endpoints. */
 export type NotificationRegistrationPropertiesNotificationEndpointsList =
@@ -5400,9 +5276,7 @@ export const GetProviderMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProviderMonitorSettingsRequest>;
 
 /** Resource tags. */
-export type GetProviderMonitorSettingsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export const GetProviderMonitorSettingsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5652,9 +5526,7 @@ export const SkuLocationInfo = /*@__PURE__*/ S.suspend(() =>
     extendedLocations: S.optional(SkuLocationInfoExtendedLocationsList),
     type: S.optional(ExtendedLocationType),
   }),
-).annotate({
-  identifier: "SkuLocationInfo",
-}) as any as S.Schema<SkuLocationInfo>;
+).annotate({ identifier: "SkuLocationInfo" }) as any as S.Schema<SkuLocationInfo>;
 
 /** The location info. */
 export type SkuSettingLocationInfoList = Array<SkuLocationInfo>;
@@ -5785,9 +5657,7 @@ export const ResourceTypeSku = /*@__PURE__*/ S.suspend(() =>
     skuSettings: ResourceTypeSkuSkuSettingsList,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ResourceTypeSku",
-}) as any as S.Schema<ResourceTypeSku>;
+).annotate({ identifier: "ResourceTypeSku" }) as any as S.Schema<ResourceTypeSku>;
 
 export interface GetSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5808,9 +5678,7 @@ export const GetSkusResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ResourceTypeSku),
   }),
-).annotate({
-  identifier: "GetSkusResponse",
-}) as any as S.Schema<GetSkusResponse>;
+).annotate({ identifier: "GetSkusResponse" }) as any as S.Schema<GetSkusResponse>;
 
 export interface GetSkusNestedResourceTypeFirstRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6025,9 +5893,7 @@ export const AuthorizedApplication = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AuthorizedApplicationProperties),
   }),
-).annotate({
-  identifier: "AuthorizedApplication",
-}) as any as S.Schema<AuthorizedApplication>;
+).annotate({ identifier: "AuthorizedApplication" }) as any as S.Schema<AuthorizedApplication>;
 
 /** The AuthorizedApplication items on this page */
 export type AuthorizedApplicationArrayResponseWithContinuationValueList =
@@ -6229,9 +6095,7 @@ export const NotificationRegistration = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(NotificationRegistrationProperties),
   }),
-).annotate({
-  identifier: "NotificationRegistration",
-}) as any as S.Schema<NotificationRegistration>;
+).annotate({ identifier: "NotificationRegistration" }) as any as S.Schema<NotificationRegistration>;
 
 /** The NotificationRegistration items on this page */
 export type NotificationRegistrationArrayResponseWithContinuationValueList =
@@ -6422,9 +6286,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The value. */
 export type OperationsDefinitionArrayResponseWithContinuationValueList =
@@ -6471,9 +6333,7 @@ export const ListProviderMonitorSettingsByResourceGroupRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListProviderMonitorSettingsByResourceGroupRequest>;
 
 /** Resource tags. */
-export type ProviderMonitorSettingTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProviderMonitorSettingTagsMap = { [key: string]: string | undefined };
 export const ProviderMonitorSettingTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6505,9 +6365,7 @@ export const ProviderMonitorSetting = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ProviderMonitorSettingProperties),
   }),
-).annotate({
-  identifier: "ProviderMonitorSetting",
-}) as any as S.Schema<ProviderMonitorSetting>;
+).annotate({ identifier: "ProviderMonitorSetting" }) as any as S.Schema<ProviderMonitorSetting>;
 
 /** The ProviderMonitorSetting items on this page */
 export type ProviderMonitorSettingArrayResponseWithContinuationValueList =
@@ -7345,9 +7203,7 @@ export const StopCustomRolloutRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-01",
     }),
   ),
-).annotate({
-  identifier: "StopCustomRolloutRequest",
-}) as any as S.Schema<StopCustomRolloutRequest>;
+).annotate({ identifier: "StopCustomRolloutRequest" }) as any as S.Schema<StopCustomRolloutRequest>;
 
 export interface StopCustomRolloutResponse {}
 export const StopCustomRolloutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7410,9 +7266,7 @@ export const UpdateProviderMonitorSettingsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateProviderMonitorSettingsRequest>;
 
 /** Resource tags. */
-export type UpdateProviderMonitorSettingsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProviderMonitorSettingsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProviderMonitorSettingsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

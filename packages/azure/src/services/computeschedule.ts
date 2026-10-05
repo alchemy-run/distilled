@@ -18,9 +18,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -40,9 +38,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -92,9 +88,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** The list of operation ids to cancel operations on */
 export type ScheduledActionsVirtualMachinesCancelOperationsRequestOperationIdsList = Array<string>;
@@ -164,9 +158,7 @@ export const ResourceOperationError = /*@__PURE__*/ S.suspend(() =>
     errorCode: S.String,
     errorDetails: S.String,
   }),
-).annotate({
-  identifier: "ResourceOperationError",
-}) as any as S.Schema<ResourceOperationError>;
+).annotate({ identifier: "ResourceOperationError" }) as any as S.Schema<ResourceOperationError>;
 
 /** The retry policy for the user request */
 export interface RetryPolicy {
@@ -224,9 +216,7 @@ export const ResourceOperationDetails = /*@__PURE__*/ S.suspend(() =>
     completedAt: S.optional(S.String),
     retryPolicy: S.optional(RetryPolicy),
   }),
-).annotate({
-  identifier: "ResourceOperationDetails",
-}) as any as S.Schema<ResourceOperationDetails>;
+).annotate({ identifier: "ResourceOperationDetails" }) as any as S.Schema<ResourceOperationDetails>;
 
 /** High level response from an operation on a resource */
 export interface ResourceOperation {
@@ -246,9 +236,7 @@ export const ResourceOperation = /*@__PURE__*/ S.suspend(() =>
     errorDetails: S.optional(S.String),
     operation: S.optional(ResourceOperationDetails),
   }),
-).annotate({
-  identifier: "ResourceOperation",
-}) as any as S.Schema<ResourceOperation>;
+).annotate({ identifier: "ResourceOperation" }) as any as S.Schema<ResourceOperation>;
 
 /** An array of resource operations that were successfully cancelled */
 export type CancelOperationsResponseResultsList = Array<ResourceOperation>;
@@ -265,14 +253,10 @@ export const CancelOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: CancelOperationsResponseResultsList,
   }),
-).annotate({
-  identifier: "CancelOperationsResponse",
-}) as any as S.Schema<CancelOperationsResponse>;
+).annotate({ identifier: "CancelOperationsResponse" }) as any as S.Schema<CancelOperationsResponse>;
 
 /** Virtual machine profile object that contains VM properties that are common across all VMs in this batch (if you want to create 100 VMs in this request, and they all have same vmSize, then include vmSize in baseProfile) */
-export type ResourceProvisionPayloadBaseProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourceProvisionPayloadBaseProfileMap = { [key: string]: unknown | undefined };
 export const ResourceProvisionPayloadBaseProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -311,9 +295,7 @@ export const ResourceProvisionPayload = /*@__PURE__*/ S.suspend(() =>
     resourceCount: S.Number,
     resourcePrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceProvisionPayload",
-}) as any as S.Schema<ResourceProvisionPayload>;
+).annotate({ identifier: "ResourceProvisionPayload" }) as any as S.Schema<ResourceProvisionPayload>;
 
 /** The preferences customers can select to optimize their requests to ScheduledActions */
 export type OptimizationPreference = "Cost" | "Availability" | "CostAvailabilityBalanced";
@@ -331,9 +313,7 @@ export const ExecutionParameters = /*@__PURE__*/ S.suspend(() =>
     optimizationPreference: S.optional(OptimizationPreference),
     retryPolicy: S.optional(RetryPolicy),
   }),
-).annotate({
-  identifier: "ExecutionParameters",
-}) as any as S.Schema<ExecutionParameters>;
+).annotate({ identifier: "ExecutionParameters" }) as any as S.Schema<ExecutionParameters>;
 
 export interface ScheduledActionsVirtualMachinesExecuteCreateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -708,9 +688,7 @@ export const OperationErrorDetails = /*@__PURE__*/ S.suspend(() =>
     azureOperationName: S.optional(S.String),
     crpOperationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationErrorDetails",
-}) as any as S.Schema<OperationErrorDetails>;
+).annotate({ identifier: "OperationErrorDetails" }) as any as S.Schema<OperationErrorDetails>;
 
 /** A list of errors associated with the operationid */
 export type OperationErrorsResultOperationErrorsList = Array<OperationErrorDetails>;
@@ -745,9 +723,7 @@ export const OperationErrorsResult = /*@__PURE__*/ S.suspend(() =>
     requestErrorCode: S.optional(S.String),
     requestErrorDetails: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationErrorsResult",
-}) as any as S.Schema<OperationErrorsResult>;
+).annotate({ identifier: "OperationErrorsResult" }) as any as S.Schema<OperationErrorsResult>;
 
 /** An array of operationids and their corresponding errors if any */
 export type GetOperationErrorsResponseResultsList = Array<OperationErrorsResult>;

@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type CreateDeidServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDeidServiceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateDeidServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104,9 +102,7 @@ export const CreateDeidServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-20",
     }),
   ),
-).annotate({
-  identifier: "CreateDeidServiceRequest",
-}) as any as S.Schema<CreateDeidServiceRequest>;
+).annotate({ identifier: "CreateDeidServiceRequest" }) as any as S.Schema<CreateDeidServiceRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -143,9 +139,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateDeidServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDeidServiceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateDeidServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -177,9 +171,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -284,9 +276,7 @@ export const DeidServiceProperties = /*@__PURE__*/ S.suspend(() =>
     privateEndpointConnections: S.optional(DeidServicePropertiesPrivateEndpointConnectionsList),
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "DeidServiceProperties",
-}) as any as S.Schema<DeidServiceProperties>;
+).annotate({ identifier: "DeidServiceProperties" }) as any as S.Schema<DeidServiceProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -300,14 +290,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -490,9 +476,7 @@ export const DeleteDeidServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-20",
     }),
   ),
-).annotate({
-  identifier: "DeleteDeidServiceRequest",
-}) as any as S.Schema<DeleteDeidServiceRequest>;
+).annotate({ identifier: "DeleteDeidServiceRequest" }) as any as S.Schema<DeleteDeidServiceRequest>;
 
 export interface DeleteDeidServiceResponse {}
 export const DeleteDeidServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -555,14 +539,10 @@ export const GetDeidServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-20",
     }),
   ),
-).annotate({
-  identifier: "GetDeidServiceRequest",
-}) as any as S.Schema<GetDeidServiceRequest>;
+).annotate({ identifier: "GetDeidServiceRequest" }) as any as S.Schema<GetDeidServiceRequest>;
 
 /** Resource tags. */
-export type GetDeidServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeidServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeidServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -601,9 +581,7 @@ export const GetDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DeidServiceProperties),
     identity: S.optional(CreateDeidServiceResponseIdentity),
   }),
-).annotate({
-  identifier: "GetDeidServiceResponse",
-}) as any as S.Schema<GetDeidServiceResponse>;
+).annotate({ identifier: "GetDeidServiceResponse" }) as any as S.Schema<GetDeidServiceResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -768,9 +746,7 @@ export const DeidServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: DeidServiceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeidServiceListResult",
-}) as any as S.Schema<DeidServiceListResult>;
+).annotate({ identifier: "DeidServiceListResult" }) as any as S.Schema<DeidServiceListResult>;
 
 export interface ListDeidServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -801,9 +777,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-20",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -823,9 +797,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -875,9 +847,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionByDeidServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1057,9 +1027,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -1084,9 +1052,7 @@ export const PrivateLinkResourceListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateLinkResourceListResult>;
 
 /** Resource tags. */
-export type UpdateDeidServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeidServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDeidServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1165,14 +1131,10 @@ export const UpdateDeidServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-09-20",
     }),
   ),
-).annotate({
-  identifier: "UpdateDeidServiceRequest",
-}) as any as S.Schema<UpdateDeidServiceRequest>;
+).annotate({ identifier: "UpdateDeidServiceRequest" }) as any as S.Schema<UpdateDeidServiceRequest>;
 
 /** Resource tags. */
-export type UpdateDeidServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeidServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDeidServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

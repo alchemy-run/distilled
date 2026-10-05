@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Temporal's first-party WorkflowService HTTP OpenAPI spec and
  * snapshots vendor docs into ../specs/.
@@ -10,7 +10,7 @@
  * site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -18,7 +18,9 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import { dirname } from "path";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "temporalio/api";
@@ -87,13 +89,13 @@ async function main() {
   console.log(`Fetching OpenAPI spec from ${OPENAPI_SPEC_URL}...`);
   const yaml = await fetchText(OPENAPI_SPEC_URL);
   // gnostic emits a few long path keys as YAML explicit-key (`?` / `:`)
-  // pairs. Bun.YAML rejects those as "Multiline implicit key"; quoting
-  // them first is enough to parse.
+  // pairs. Some YAML parsers reject those as "Multiline implicit key";
+  // quoting them first keeps the parse independent of that.
   const yamlForParse = yaml.replace(
     /^(\s*)\? (.+)\n\1: /gm,
     (_match, indent: string, key: string) => `${indent}${JSON.stringify(key)}:\n${indent}  `,
   );
-  const spec = Bun.YAML.parse(yamlForParse) as Record<string, unknown>;
+  const spec = YAML.parse(yamlForParse) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page
   // or a gutted response is still valid YAML, but it is not an OpenAPI
@@ -105,7 +107,7 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   const docs: Array<{ path: string; source: string; bytes: number }> = [];
   for (const doc of DOC_FILES) {
@@ -120,7 +122,7 @@ async function main() {
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     mkdirSync(dirname(outputPath), { recursive: true });
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, body.endsWith("\n") ? body : `${body}\n`);
+    await writeFile(outputPath, body.endsWith("\n") ? body : `${body}\n`);
     docs.push({ path: doc.output, source: doc.url, bytes: body.length });
   }
 
@@ -141,7 +143,7 @@ async function main() {
     ],
     docs,
   };
-  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
+  await writeFile(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

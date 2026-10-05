@@ -30,9 +30,7 @@ export const ExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: ExtendedLocationType,
   }),
-).annotate({
-  identifier: "ExtendedLocation",
-}) as any as S.Schema<ExtendedLocation>;
+).annotate({ identifier: "ExtendedLocation" }) as any as S.Schema<ExtendedLocation>;
 
 export interface AkriConnectorCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -163,9 +161,7 @@ export const ResourceHealthStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     reasonCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceHealthStatus",
-}) as any as S.Schema<ResourceHealthStatus>;
+).annotate({ identifier: "ResourceHealthStatus" }) as any as S.Schema<ResourceHealthStatus>;
 
 /** AkriConnector status. */
 export interface AkriConnectorStatus {
@@ -176,9 +172,7 @@ export const AkriConnectorStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     healthState: S.optional(ResourceHealthStatus),
   }),
-).annotate({
-  identifier: "AkriConnectorStatus",
-}) as any as S.Schema<AkriConnectorStatus>;
+).annotate({ identifier: "AkriConnectorStatus" }) as any as S.Schema<AkriConnectorStatus>;
 
 /** The health state of the resource. */
 export type AkriConnectorPropertiesHealthState =
@@ -206,9 +200,7 @@ export const AkriConnectorProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AkriConnectorStatus),
     healthState: S.optional(AkriConnectorPropertiesHealthState),
   }),
-).annotate({
-  identifier: "AkriConnectorProperties",
-}) as any as S.Schema<AkriConnectorProperties>;
+).annotate({ identifier: "AkriConnectorProperties" }) as any as S.Schema<AkriConnectorProperties>;
 
 export interface AkriConnectorCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -261,10 +253,13 @@ export const AkriConnectorTemplateRuntimeConfigurationType = S.String;
 export interface AkriConnectorTemplateRuntimeConfiguration {
   /** Runtime configuration type for the Connector template. */
   runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType | (string & {});
+  /** The managed configuration settings. Only for `ManagedConfiguration` (polymorphic subtype `AkriConnectorTemplateManagedConfiguration`). */
+  managedConfigurationSettings?: unknown;
 }
 export const AkriConnectorTemplateRuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType,
+    managedConfigurationSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AkriConnectorTemplateRuntimeConfiguration",
@@ -331,10 +326,13 @@ export const AkriConnectorsMqttAuthenticationMethod = S.String;
 export interface AkriConnectorsMqttAuthentication {
   /** The authentication method for the MQTT connection. */
   method: AkriConnectorsMqttAuthenticationMethod | (string & {});
+  /** The service account token for the MQTT connection. Only for `ServiceAccountToken` (polymorphic subtype `AkriConnectorsServiceAccountAuthentication`). */
+  serviceAccountTokenSettings?: unknown;
 }
 export const AkriConnectorsMqttAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: AkriConnectorsMqttAuthenticationMethod,
+    serviceAccountTokenSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AkriConnectorsMqttAuthentication",
@@ -578,9 +576,7 @@ export const AkriServiceStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     healthState: S.optional(ResourceHealthStatus),
   }),
-).annotate({
-  identifier: "AkriServiceStatus",
-}) as any as S.Schema<AkriServiceStatus>;
+).annotate({ identifier: "AkriServiceStatus" }) as any as S.Schema<AkriServiceStatus>;
 
 /** AkriService properties. */
 export interface AkriServiceProperties {
@@ -594,9 +590,7 @@ export const AkriServiceProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     status: S.optional(AkriServiceStatus),
   }),
-).annotate({
-  identifier: "AkriServiceProperties",
-}) as any as S.Schema<AkriServiceProperties>;
+).annotate({ identifier: "AkriServiceProperties" }) as any as S.Schema<AkriServiceProperties>;
 
 export interface AkriServiceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -638,9 +632,7 @@ export const X509ManualCertificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secretRef: S.String,
   }),
-).annotate({
-  identifier: "X509ManualCertificate",
-}) as any as S.Schema<X509ManualCertificate>;
+).annotate({ identifier: "X509ManualCertificate" }) as any as S.Schema<X509ManualCertificate>;
 
 /** Custom Authentication properties */
 export interface BrokerAuthenticatorCustomAuth {
@@ -656,9 +648,7 @@ export const BrokerAuthenticatorCustomAuth = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BrokerAuthenticatorCustomAuth>;
 
 /** Additional HTTP headers to pass to the custom authentication server. */
-export type BrokerAuthenticatorMethodCustomHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type BrokerAuthenticatorMethodCustomHeadersMap = { [key: string]: string | undefined };
 export const BrokerAuthenticatorMethodCustomHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -937,9 +927,7 @@ export const BrokerResourceRule = /*@__PURE__*/ S.suspend(() =>
     clientIds: S.optional(BrokerResourceRuleClientIdsList),
     topics: S.optional(BrokerResourceRuleTopicsList),
   }),
-).annotate({
-  identifier: "BrokerResourceRule",
-}) as any as S.Schema<BrokerResourceRule>;
+).annotate({ identifier: "BrokerResourceRule" }) as any as S.Schema<BrokerResourceRule>;
 
 /** Give access to Broker methods and topics. */
 export type AuthorizationRuleBrokerResourcesList = Array<BrokerResourceRule>;
@@ -947,9 +935,7 @@ export const AuthorizationRuleBrokerResourcesList = /*@__PURE__*/ S.Array(
   BrokerResourceRule,
 ) as any as S.Schema<AuthorizationRuleBrokerResourcesList>;
 
-export type PrincipalDefinitionAttributesItemMap = {
-  [key: string]: string | undefined;
-};
+export type PrincipalDefinitionAttributesItemMap = { [key: string]: string | undefined };
 export const PrincipalDefinitionAttributesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -988,9 +974,7 @@ export const PrincipalDefinition = /*@__PURE__*/ S.suspend(() =>
     clientIds: S.optional(PrincipalDefinitionClientIdsList),
     usernames: S.optional(PrincipalDefinitionUsernamesList),
   }),
-).annotate({
-  identifier: "PrincipalDefinition",
-}) as any as S.Schema<PrincipalDefinition>;
+).annotate({ identifier: "PrincipalDefinition" }) as any as S.Schema<PrincipalDefinition>;
 
 /** StateStoreResourceKeyTypes properties */
 export type StateStoreResourceKeyTypes = "Pattern" | "String" | "Binary";
@@ -1021,9 +1005,7 @@ export const StateStoreResourceRule = /*@__PURE__*/ S.suspend(() =>
     keys: StateStoreResourceRuleKeysList,
     method: StateStoreResourceDefinitionMethods,
   }),
-).annotate({
-  identifier: "StateStoreResourceRule",
-}) as any as S.Schema<StateStoreResourceRule>;
+).annotate({ identifier: "StateStoreResourceRule" }) as any as S.Schema<StateStoreResourceRule>;
 
 /** Give access to state store resources. */
 export type AuthorizationRuleStateStoreResourcesList = Array<StateStoreResourceRule>;
@@ -1046,9 +1028,7 @@ export const AuthorizationRule = /*@__PURE__*/ S.suspend(() =>
     principals: PrincipalDefinition,
     stateStoreResources: S.optional(AuthorizationRuleStateStoreResourcesList),
   }),
-).annotate({
-  identifier: "AuthorizationRule",
-}) as any as S.Schema<AuthorizationRule>;
+).annotate({ identifier: "AuthorizationRule" }) as any as S.Schema<AuthorizationRule>;
 
 /** The authorization rules to follow. If no rule is set, but Authorization Resource is used that would mean DenyAll. */
 export type AuthorizationConfigRulesList = Array<AuthorizationRule>;
@@ -1068,9 +1048,7 @@ export const AuthorizationConfig = /*@__PURE__*/ S.suspend(() =>
     cache: S.optional(AuthorizationConfigCache),
     rules: S.optional(AuthorizationConfigRulesList),
   }),
-).annotate({
-  identifier: "AuthorizationConfig",
-}) as any as S.Schema<AuthorizationConfig>;
+).annotate({ identifier: "AuthorizationConfig" }) as any as S.Schema<AuthorizationConfig>;
 
 /** BrokerAuthorization Resource properties */
 export interface BrokerAuthorizationPropertiesInput {
@@ -1192,9 +1170,7 @@ export const SubscriberQueueLimit = /*@__PURE__*/ S.suspend(() =>
     length: S.optional(S.Number),
     strategy: S.optional(SubscriberQueueLimitStrategy),
   }),
-).annotate({
-  identifier: "SubscriberQueueLimit",
-}) as any as S.Schema<SubscriberQueueLimit>;
+).annotate({ identifier: "SubscriberQueueLimit" }) as any as S.Schema<SubscriberQueueLimit>;
 
 /** The settings of Client Config. */
 export interface ClientConfig {
@@ -1253,9 +1229,7 @@ export const CertManagerPrivateKey = /*@__PURE__*/ S.suspend(() =>
     algorithm: PrivateKeyAlgorithm,
     rotationPolicy: PrivateKeyRotationPolicy,
   }),
-).annotate({
-  identifier: "CertManagerPrivateKey",
-}) as any as S.Schema<CertManagerPrivateKey>;
+).annotate({ identifier: "CertManagerPrivateKey" }) as any as S.Schema<CertManagerPrivateKey>;
 
 /** Cert Manager Cert properties */
 export interface CertManagerCertOptions {
@@ -1272,9 +1246,7 @@ export const CertManagerCertOptions = /*@__PURE__*/ S.suspend(() =>
     renewBefore: S.String,
     privateKey: CertManagerPrivateKey,
   }),
-).annotate({
-  identifier: "CertManagerCertOptions",
-}) as any as S.Schema<CertManagerCertOptions>;
+).annotate({ identifier: "CertManagerCertOptions" }) as any as S.Schema<CertManagerCertOptions>;
 
 /** Broker Advanced Settings */
 export interface AdvancedSettings {
@@ -1291,9 +1263,7 @@ export const AdvancedSettings = /*@__PURE__*/ S.suspend(() =>
     encryptInternalTraffic: S.optional(AdvancedSettingsEncryptInternalTraffic),
     internalCerts: S.optional(CertManagerCertOptions),
   }),
-).annotate({
-  identifier: "AdvancedSettings",
-}) as any as S.Schema<AdvancedSettings>;
+).annotate({ identifier: "AdvancedSettings" }) as any as S.Schema<AdvancedSettings>;
 
 /** Desired properties of the backend instances of the broker */
 export interface BackendChain {
@@ -1436,9 +1406,7 @@ export const BrokerDiagnostics = /*@__PURE__*/ S.suspend(() =>
     selfCheck: S.optional(SelfCheck),
     traces: S.optional(Traces),
   }),
-).annotate({
-  identifier: "BrokerDiagnostics",
-}) as any as S.Schema<BrokerDiagnostics>;
+).annotate({ identifier: "BrokerDiagnostics" }) as any as S.Schema<BrokerDiagnostics>;
 
 /** AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
 export type VolumeClaimSpecAccessModesList = Array<string>;
@@ -1461,9 +1429,7 @@ export const LocalKubernetesReference = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "LocalKubernetesReference",
-}) as any as S.Schema<LocalKubernetesReference>;
+).annotate({ identifier: "LocalKubernetesReference" }) as any as S.Schema<LocalKubernetesReference>;
 
 /** Kubernetes reference */
 export interface KubernetesReference {
@@ -1483,23 +1449,17 @@ export const KubernetesReference = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     namespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KubernetesReference",
-}) as any as S.Schema<KubernetesReference>;
+).annotate({ identifier: "KubernetesReference" }) as any as S.Schema<KubernetesReference>;
 
 /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-export type VolumeClaimResourceRequirementsLimitsMap = {
-  [key: string]: string | undefined;
-};
+export type VolumeClaimResourceRequirementsLimitsMap = { [key: string]: string | undefined };
 export const VolumeClaimResourceRequirementsLimitsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<VolumeClaimResourceRequirementsLimitsMap>;
 
 /** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-export type VolumeClaimResourceRequirementsRequestsMap = {
-  [key: string]: string | undefined;
-};
+export type VolumeClaimResourceRequirementsRequestsMap = { [key: string]: string | undefined };
 export const VolumeClaimResourceRequirementsRequestsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1581,9 +1541,7 @@ export const VolumeClaimSpecSelectorMatchExpressionsList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<VolumeClaimSpecSelectorMatchExpressionsList>;
 
 /** MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
-export type VolumeClaimSpecSelectorMatchLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type VolumeClaimSpecSelectorMatchLabelsMap = { [key: string]: string | undefined };
 export const VolumeClaimSpecSelectorMatchLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1601,9 +1559,7 @@ export const VolumeClaimSpecSelector = /*@__PURE__*/ S.suspend(() =>
     matchExpressions: S.optional(VolumeClaimSpecSelectorMatchExpressionsList),
     matchLabels: S.optional(VolumeClaimSpecSelectorMatchLabelsMap),
   }),
-).annotate({
-  identifier: "VolumeClaimSpecSelector",
-}) as any as S.Schema<VolumeClaimSpecSelector>;
+).annotate({ identifier: "VolumeClaimSpecSelector" }) as any as S.Schema<VolumeClaimSpecSelector>;
 
 /** VolumeClaimSpec properties */
 export interface VolumeClaimSpec {
@@ -1635,9 +1591,7 @@ export const VolumeClaimSpec = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(VolumeClaimResourceRequirements),
     selector: S.optional(VolumeClaimSpecSelector),
   }),
-).annotate({
-  identifier: "VolumeClaimSpec",
-}) as any as S.Schema<VolumeClaimSpec>;
+).annotate({ identifier: "VolumeClaimSpec" }) as any as S.Schema<VolumeClaimSpec>;
 
 /** DiskBackedMessageBuffer properties */
 export interface DiskBackedMessageBuffer {
@@ -1654,9 +1608,7 @@ export const DiskBackedMessageBuffer = /*@__PURE__*/ S.suspend(() =>
     ephemeralVolumeClaimSpec: S.optional(VolumeClaimSpec),
     persistentVolumeClaimSpec: S.optional(VolumeClaimSpec),
   }),
-).annotate({
-  identifier: "DiskBackedMessageBuffer",
-}) as any as S.Schema<DiskBackedMessageBuffer>;
+).annotate({ identifier: "DiskBackedMessageBuffer" }) as any as S.Schema<DiskBackedMessageBuffer>;
 
 /** The toggle to enable/disable cpu resource limits. */
 export type GenerateResourceLimitsCpu = "Enabled" | "Disabled";
@@ -1671,9 +1623,7 @@ export const GenerateResourceLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cpu: S.optional(GenerateResourceLimitsCpu),
   }),
-).annotate({
-  identifier: "GenerateResourceLimits",
-}) as any as S.Schema<GenerateResourceLimits>;
+).annotate({ identifier: "GenerateResourceLimits" }) as any as S.Schema<GenerateResourceLimits>;
 
 /** Handling of high-priority messages during backpressure state. */
 export type HighPriorityMessagesBackpressureHandling = "Accept" | "Reject";
@@ -1691,10 +1641,13 @@ export const BrokerPersistencePolicyMode = S.String;
 export interface BrokerRetainMessagesPolicy {
   /** 'All' to persist all retain messages, 'None' to not persist any, 'Custom' to persist only the specified topics. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerRetainMessagesCustomPolicy`). */
+  retainSettings?: unknown;
 }
 export const BrokerRetainMessagesPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    retainSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BrokerRetainMessagesPolicy",
@@ -1704,23 +1657,27 @@ export const BrokerRetainMessagesPolicy = /*@__PURE__*/ S.suspend(() =>
 export interface BrokerStateStorePolicy {
   /** 'All' to persist all keys, 'None' to not persist any, 'Custom' to persist only the specified keys. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerStateStoreCustomPolicy`). */
+  stateStoreSettings?: unknown;
 }
 export const BrokerStateStorePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    stateStoreSettings: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "BrokerStateStorePolicy",
-}) as any as S.Schema<BrokerStateStorePolicy>;
+).annotate({ identifier: "BrokerStateStorePolicy" }) as any as S.Schema<BrokerStateStorePolicy>;
 
 /** Broker Subscriber Queue Policy properties. */
 export interface BrokerSubscriberQueuePolicy {
   /** 'All' to persist all subscriber queues, 'None' to not persist any, 'Custom' to persist only the specified queues. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR). Only for `Custom` (polymorphic subtype `BrokerSubscriberQueueCustomPolicy`). */
+  subscriberQueueSettings?: unknown;
 }
 export const BrokerSubscriberQueuePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    subscriberQueueSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BrokerSubscriberQueuePolicy",
@@ -1767,9 +1724,7 @@ export const BrokerPersistence = /*@__PURE__*/ S.suspend(() =>
     subscriberQueue: S.optional(BrokerSubscriberQueuePolicy),
     encryption: S.optional(BrokerPersistenceEncryption),
   }),
-).annotate({
-  identifier: "BrokerPersistence",
-}) as any as S.Schema<BrokerPersistence>;
+).annotate({ identifier: "BrokerPersistence" }) as any as S.Schema<BrokerPersistence>;
 
 /** Broker Resource properties */
 export interface BrokerPropertiesInput {
@@ -1803,9 +1758,7 @@ export const BrokerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     memoryProfile: S.optional(BrokerPropertiesInputMemoryProfile),
     persistence: S.optional(BrokerPersistence),
   }),
-).annotate({
-  identifier: "BrokerPropertiesInput",
-}) as any as S.Schema<BrokerPropertiesInput>;
+).annotate({ identifier: "BrokerPropertiesInput" }) as any as S.Schema<BrokerPropertiesInput>;
 
 export interface BrokerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1899,9 +1852,7 @@ export const BrokerProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(BrokerStatus),
     healthState: S.optional(BrokerPropertiesHealthState),
   }),
-).annotate({
-  identifier: "BrokerProperties",
-}) as any as S.Schema<BrokerProperties>;
+).annotate({ identifier: "BrokerProperties" }) as any as S.Schema<BrokerProperties>;
 
 export interface BrokerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1957,9 +1908,7 @@ export const CertManagerIssuerRef = /*@__PURE__*/ S.suspend(() =>
     kind: CertManagerIssuerKind,
     name: S.String,
   }),
-).annotate({
-  identifier: "CertManagerIssuerRef",
-}) as any as S.Schema<CertManagerIssuerRef>;
+).annotate({ identifier: "CertManagerIssuerRef" }) as any as S.Schema<CertManagerIssuerRef>;
 
 /** DNS SANs. */
 export type SanForCertDnsList = Array<string>;
@@ -2163,9 +2112,7 @@ export const BrokerListenerProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     healthState: S.optional(BrokerListenerPropertiesHealthState),
   }),
-).annotate({
-  identifier: "BrokerListenerProperties",
-}) as any as S.Schema<BrokerListenerProperties>;
+).annotate({ identifier: "BrokerListenerProperties" }) as any as S.Schema<BrokerListenerProperties>;
 
 export interface BrokerListenerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2397,10 +2344,16 @@ export const DataflowHeaderActionType = S.String;
 export interface DataflowDestinationHeaderAction {
   /** The type of header operation to perform. */
   actionType: DataflowHeaderActionType | (string & {});
+  /** The name of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
+  key?: string;
+  /** The value of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
+  value?: string;
 }
 export const DataflowDestinationHeaderAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionType: DataflowHeaderActionType,
+    key: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DataflowDestinationHeaderAction",
@@ -2453,9 +2406,7 @@ export const DataflowOperation = /*@__PURE__*/ S.suspend(() =>
     builtInTransformationSettings: S.optional(DataflowBuiltInTransformationSettings),
     destinationSettings: S.optional(DataflowDestinationOperationSettings),
   }),
-).annotate({
-  identifier: "DataflowOperation",
-}) as any as S.Schema<DataflowOperation>;
+).annotate({ identifier: "DataflowOperation" }) as any as S.Schema<DataflowOperation>;
 
 /** List of operations including source and destination references as well as transformation. */
 export type DataflowPropertiesInputOperationsList = Array<DataflowOperation>;
@@ -2478,9 +2429,7 @@ export const DataflowPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     requestDiskPersistence: S.optional(OperationalMode),
     operations: DataflowPropertiesInputOperationsList,
   }),
-).annotate({
-  identifier: "DataflowPropertiesInput",
-}) as any as S.Schema<DataflowPropertiesInput>;
+).annotate({ identifier: "DataflowPropertiesInput" }) as any as S.Schema<DataflowPropertiesInput>;
 
 export interface DataflowCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2568,9 +2517,7 @@ export const DataflowProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DataflowStatus),
     healthState: S.optional(DataflowPropertiesHealthState),
   }),
-).annotate({
-  identifier: "DataflowProperties",
-}) as any as S.Schema<DataflowProperties>;
+).annotate({ identifier: "DataflowProperties" }) as any as S.Schema<DataflowProperties>;
 
 export interface DataflowCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2693,9 +2640,7 @@ export const BatchingConfiguration = /*@__PURE__*/ S.suspend(() =>
     latencySeconds: S.optional(S.Number),
     maxMessages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BatchingConfiguration",
-}) as any as S.Schema<BatchingConfiguration>;
+).annotate({ identifier: "BatchingConfiguration" }) as any as S.Schema<BatchingConfiguration>;
 
 /** Azure Data Explorer endpoint properties */
 export interface DataflowEndpointDataExplorer {
@@ -2988,9 +2933,7 @@ export const DataflowEndpointKafka = /*@__PURE__*/ S.suspend(() =>
     tls: S.optional(TlsProperties),
     cloudEventAttributes: S.optional(CloudEventAttributeType),
   }),
-).annotate({
-  identifier: "DataflowEndpointKafka",
-}) as any as S.Schema<DataflowEndpointKafka>;
+).annotate({ identifier: "DataflowEndpointKafka" }) as any as S.Schema<DataflowEndpointKafka>;
 
 /** Local persistent volume endpoint properties */
 export interface DataflowEndpointLocalStorage {
@@ -3103,9 +3046,7 @@ export const DataflowEndpointMqtt = /*@__PURE__*/ S.suspend(() =>
     tls: S.optional(TlsProperties),
     cloudEventAttributes: S.optional(CloudEventAttributeType),
   }),
-).annotate({
-  identifier: "DataflowEndpointMqtt",
-}) as any as S.Schema<DataflowEndpointMqtt>;
+).annotate({ identifier: "DataflowEndpointMqtt" }) as any as S.Schema<DataflowEndpointMqtt>;
 
 /** Dataflow OpenTelemetry authentication method values. */
 export type DataflowOpenTelemetryAuthenticationMethod =
@@ -3118,10 +3059,19 @@ export const DataflowOpenTelemetryAuthenticationMethod = S.String;
 export interface DataflowOpenTelemetryAuthentication {
   /** The authentication method. */
   method: DataflowOpenTelemetryAuthenticationMethod | (string & {});
+  /** Settings for the anonymous connection Only for `Anonymous` (polymorphic subtype `DataflowOpenTelemetryAnonymousAuthentication`). */
+  anonymousSettings?: unknown;
+  /** Kubernetes service account token authentication. Only for `ServiceAccountToken` (polymorphic subtype `DataflowOpenTelemetryServiceAccountAuthentication`). */
+  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
+  /** X.509 certificate authentication settings. Only for `X509Certificate` (polymorphic subtype `DataflowOpenTelemetryX509CertificateAuthentication`). */
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
 }
 export const DataflowOpenTelemetryAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: DataflowOpenTelemetryAuthenticationMethod,
+    anonymousSettings: S.optional(S.Unknown),
+    serviceAccountTokenSettings: S.optional(DataflowEndpointAuthenticationServiceAccountToken),
+    x509CertificateSettings: S.optional(DataflowEndpointAuthenticationX509),
   }),
 ).annotate({
   identifier: "DataflowOpenTelemetryAuthentication",
@@ -3312,15 +3262,22 @@ export interface DataflowGraphNode {
   name: string;
   /** Type of the node. */
   nodeType: DataflowGraphNodeType | (string & {});
+  /** Destination configuration. Only for `Destination` (polymorphic subtype `DataflowGraphDestinationNode`). */
+  destinationSettings?: unknown;
+  /** Graph configuration. Only for `Graph` (polymorphic subtype `DataflowGraphGraphNode`). */
+  graphSettings?: unknown;
+  /** Source configuration. Only for `Source` (polymorphic subtype `DataflowGraphSourceNode`). */
+  sourceSettings?: unknown;
 }
 export const DataflowGraphNode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     nodeType: DataflowGraphNodeType,
+    destinationSettings: S.optional(S.Unknown),
+    graphSettings: S.optional(S.Unknown),
+    sourceSettings: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DataflowGraphNode",
-}) as any as S.Schema<DataflowGraphNode>;
+).annotate({ identifier: "DataflowGraphNode" }) as any as S.Schema<DataflowGraphNode>;
 
 /** List of nodes in the dataflow graph. */
 export type DataflowGraphPropertiesInputNodesList = Array<DataflowGraphNode>;
@@ -3487,9 +3444,7 @@ export const DataflowGraphStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     healthState: S.optional(ResourceHealthStatus),
   }),
-).annotate({
-  identifier: "DataflowGraphStatus",
-}) as any as S.Schema<DataflowGraphStatus>;
+).annotate({ identifier: "DataflowGraphStatus" }) as any as S.Schema<DataflowGraphStatus>;
 
 /** The health state of the resource. */
 export type DataflowGraphPropertiesHealthState =
@@ -3526,9 +3481,7 @@ export const DataflowGraphProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DataflowGraphStatus),
     healthState: S.optional(DataflowGraphPropertiesHealthState),
   }),
-).annotate({
-  identifier: "DataflowGraphProperties",
-}) as any as S.Schema<DataflowGraphProperties>;
+).annotate({ identifier: "DataflowGraphProperties" }) as any as S.Schema<DataflowGraphProperties>;
 
 export interface DataflowGraphCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3569,9 +3522,7 @@ export const ProfileDiagnostics = /*@__PURE__*/ S.suspend(() =>
     logs: S.optional(AkriConnectorsDiagnosticsLogs),
     metrics: S.optional(Metrics),
   }),
-).annotate({
-  identifier: "ProfileDiagnostics",
-}) as any as S.Schema<ProfileDiagnostics>;
+).annotate({ identifier: "ProfileDiagnostics" }) as any as S.Schema<ProfileDiagnostics>;
 
 /** DataflowProfile Resource properties */
 export interface DataflowProfilePropertiesInput {
@@ -3632,9 +3583,7 @@ export const DataflowProfileStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     healthState: S.optional(ResourceHealthStatus),
   }),
-).annotate({
-  identifier: "DataflowProfileStatus",
-}) as any as S.Schema<DataflowProfileStatus>;
+).annotate({ identifier: "DataflowProfileStatus" }) as any as S.Schema<DataflowProfileStatus>;
 
 /** The health state of the resource. */
 export type DataflowProfilePropertiesHealthState =
@@ -3791,9 +3740,7 @@ export const DeleteAkriServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAkriServiceRequest",
-}) as any as S.Schema<DeleteAkriServiceRequest>;
+).annotate({ identifier: "DeleteAkriServiceRequest" }) as any as S.Schema<DeleteAkriServiceRequest>;
 
 export interface DeleteAkriServiceResponse {}
 export const DeleteAkriServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3824,9 +3771,7 @@ export const DeleteBrokerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBrokerRequest",
-}) as any as S.Schema<DeleteBrokerRequest>;
+).annotate({ identifier: "DeleteBrokerRequest" }) as any as S.Schema<DeleteBrokerRequest>;
 
 export interface DeleteBrokerResponse {}
 export const DeleteBrokerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3972,9 +3917,7 @@ export const DeleteDataflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataflowRequest",
-}) as any as S.Schema<DeleteDataflowRequest>;
+).annotate({ identifier: "DeleteDataflowRequest" }) as any as S.Schema<DeleteDataflowRequest>;
 
 export interface DeleteDataflowResponse {}
 export const DeleteDataflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4104,9 +4047,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4173,9 +4114,7 @@ export const GetAkriConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAkriConnectorRequest",
-}) as any as S.Schema<GetAkriConnectorRequest>;
+).annotate({ identifier: "GetAkriConnectorRequest" }) as any as S.Schema<GetAkriConnectorRequest>;
 
 export interface GetAkriConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4200,9 +4139,7 @@ export const GetAkriConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AkriConnectorProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetAkriConnectorResponse",
-}) as any as S.Schema<GetAkriConnectorResponse>;
+).annotate({ identifier: "GetAkriConnectorResponse" }) as any as S.Schema<GetAkriConnectorResponse>;
 
 export interface GetAkriConnectorTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4283,9 +4220,7 @@ export const GetAkriServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAkriServiceRequest",
-}) as any as S.Schema<GetAkriServiceRequest>;
+).annotate({ identifier: "GetAkriServiceRequest" }) as any as S.Schema<GetAkriServiceRequest>;
 
 export interface GetAkriServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4310,9 +4245,7 @@ export const GetAkriServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AkriServiceProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetAkriServiceResponse",
-}) as any as S.Schema<GetAkriServiceResponse>;
+).annotate({ identifier: "GetAkriServiceResponse" }) as any as S.Schema<GetAkriServiceResponse>;
 
 export interface GetBrokerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4338,9 +4271,7 @@ export const GetBrokerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetBrokerRequest",
-}) as any as S.Schema<GetBrokerRequest>;
+).annotate({ identifier: "GetBrokerRequest" }) as any as S.Schema<GetBrokerRequest>;
 
 export interface GetBrokerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4365,9 +4296,7 @@ export const GetBrokerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BrokerProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetBrokerResponse",
-}) as any as S.Schema<GetBrokerResponse>;
+).annotate({ identifier: "GetBrokerResponse" }) as any as S.Schema<GetBrokerResponse>;
 
 export interface GetBrokerAuthenticationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4512,9 +4441,7 @@ export const GetBrokerListenerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetBrokerListenerRequest",
-}) as any as S.Schema<GetBrokerListenerRequest>;
+).annotate({ identifier: "GetBrokerListenerRequest" }) as any as S.Schema<GetBrokerListenerRequest>;
 
 export interface GetBrokerListenerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4570,9 +4497,7 @@ export const GetDataflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataflowRequest",
-}) as any as S.Schema<GetDataflowRequest>;
+).annotate({ identifier: "GetDataflowRequest" }) as any as S.Schema<GetDataflowRequest>;
 
 export interface GetDataflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4597,9 +4522,7 @@ export const GetDataflowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetDataflowResponse",
-}) as any as S.Schema<GetDataflowResponse>;
+).annotate({ identifier: "GetDataflowResponse" }) as any as S.Schema<GetDataflowResponse>;
 
 export interface GetDataflowEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4683,9 +4606,7 @@ export const GetDataflowGraphRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataflowGraphRequest",
-}) as any as S.Schema<GetDataflowGraphRequest>;
+).annotate({ identifier: "GetDataflowGraphRequest" }) as any as S.Schema<GetDataflowGraphRequest>;
 
 export interface GetDataflowGraphResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4710,9 +4631,7 @@ export const GetDataflowGraphResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowGraphProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetDataflowGraphResponse",
-}) as any as S.Schema<GetDataflowGraphResponse>;
+).annotate({ identifier: "GetDataflowGraphResponse" }) as any as S.Schema<GetDataflowGraphResponse>;
 
 export interface GetDataflowProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4790,9 +4709,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 /** Resource tags. */
 export type GetInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -4810,9 +4727,7 @@ export const SchemaRegistryRef = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
   }),
-).annotate({
-  identifier: "SchemaRegistryRef",
-}) as any as S.Schema<SchemaRegistryRef>;
+).annotate({ identifier: "SchemaRegistryRef" }) as any as S.Schema<SchemaRegistryRef>;
 
 /** The reference to the AIO Secret provider class. */
 export interface SecretProviderClassRef {
@@ -4823,9 +4738,7 @@ export const SecretProviderClassRef = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String,
   }),
-).annotate({
-  identifier: "SecretProviderClassRef",
-}) as any as S.Schema<SecretProviderClassRef>;
+).annotate({ identifier: "SecretProviderClassRef" }) as any as S.Schema<SecretProviderClassRef>;
 
 /** The enum defining mode of a feature. */
 export type InstanceFeatureMode = "Stable" | "Preview" | "Disabled";
@@ -4852,14 +4765,10 @@ export const InstanceFeature = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(InstanceFeatureMode),
     settings: S.optional(InstanceFeatureSettingsMap),
   }),
-).annotate({
-  identifier: "InstanceFeature",
-}) as any as S.Schema<InstanceFeature>;
+).annotate({ identifier: "InstanceFeature" }) as any as S.Schema<InstanceFeature>;
 
 /** The features of the AIO Instance. */
-export type InstancePropertiesFeaturesMap = {
-  [key: string]: InstanceFeature | undefined;
-};
+export type InstancePropertiesFeaturesMap = { [key: string]: InstanceFeature | undefined };
 export const InstancePropertiesFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   InstanceFeature,
@@ -4912,9 +4821,7 @@ export const InstanceProperties = /*@__PURE__*/ S.suspend(() =>
     adrNamespaceRef: S.optional(AzureDeviceRegistryNamespaceRef),
     healthState: S.optional(InstancePropertiesHealthState),
   }),
-).annotate({
-  identifier: "InstanceProperties",
-}) as any as S.Schema<InstanceProperties>;
+).annotate({ identifier: "InstanceProperties" }) as any as S.Schema<InstanceProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -4936,14 +4843,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -5001,9 +4904,7 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export interface GetRegistryEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5045,10 +4946,22 @@ export const RegistryEndpointAuthenticationMethod = S.String;
 export interface RegistryEndpointAuthentication {
   /** The authentication method. */
   method: RegistryEndpointAuthenticationMethod | (string & {});
+  /** Anonymous authentication properties Only for `Anonymous` (polymorphic subtype `RegistryEndpointAnonymousAuthentication`). */
+  anonymousSettings?: unknown;
+  /** Artifact Pull Secret authentication properties Only for `ArtifactPullSecret` (polymorphic subtype `RegistryEndpointArtifactPullSecretAuthentication`). */
+  artifactPullSecretSettings?: unknown;
+  /** System assigned managed identity properties Only for `SystemAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointSystemAssignedIdentityAuthentication`). */
+  systemAssignedManagedIdentitySettings?: unknown;
+  /** User assigned managed identity properties Only for `UserAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointUserAssignedIdentityAuthentication`). */
+  userAssignedManagedIdentitySettings?: unknown;
 }
 export const RegistryEndpointAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: RegistryEndpointAuthenticationMethod,
+    anonymousSettings: S.optional(S.Unknown),
+    artifactPullSecretSettings: S.optional(S.Unknown),
+    systemAssignedManagedIdentitySettings: S.optional(S.Unknown),
+    userAssignedManagedIdentitySettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "RegistryEndpointAuthentication",
@@ -5070,10 +4983,16 @@ export const RegistryEndpointTrustedSigningKeyType = S.String;
 export interface RegistryEndpointTrustedSigningKey {
   /** The trust type for the registry endpoint. */
   type: RegistryEndpointTrustedSigningKeyType | (string & {});
+  /** The name of the configmap. Only for `ConfigMap` (polymorphic subtype `RegistryEndpointTrustedSigningKeyConfigMap`). */
+  configMapRef?: string;
+  /** The name of the secret. Only for `Secret` (polymorphic subtype `RegistryEndpointTrustedSigningKeySecret`). */
+  secretRef?: string;
 }
 export const RegistryEndpointTrustedSigningKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: RegistryEndpointTrustedSigningKeyType,
+    configMapRef: S.optional(S.String),
+    secretRef: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RegistryEndpointTrustedSigningKey",
@@ -5138,18 +5057,14 @@ export const GetRegistryEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRegistryEndpointResponse>;
 
 /** Resource tags. */
-export type InstanceCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InstanceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const InstanceCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<InstanceCreateOrUpdateRequestTagsMap>;
 
 /** The features of the AIO Instance. */
-export type InstancePropertiesInputFeaturesMap = {
-  [key: string]: InstanceFeature | undefined;
-};
+export type InstancePropertiesInputFeaturesMap = { [key: string]: InstanceFeature | undefined };
 export const InstancePropertiesInputFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   InstanceFeature,
@@ -5176,9 +5091,7 @@ export const InstancePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     features: S.optional(InstancePropertiesInputFeaturesMap),
     adrNamespaceRef: S.optional(AzureDeviceRegistryNamespaceRef),
   }),
-).annotate({
-  identifier: "InstancePropertiesInput",
-}) as any as S.Schema<InstancePropertiesInput>;
+).annotate({ identifier: "InstancePropertiesInput" }) as any as S.Schema<InstancePropertiesInput>;
 
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = AkriConnectorPropertiesInput;
@@ -5248,9 +5161,7 @@ export const InstanceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<InstanceCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type InstanceCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InstanceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const InstanceCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5348,9 +5259,7 @@ export const AkriConnectorResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AkriConnectorProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "AkriConnectorResource",
-}) as any as S.Schema<AkriConnectorResource>;
+).annotate({ identifier: "AkriConnectorResource" }) as any as S.Schema<AkriConnectorResource>;
 
 /** The AkriConnectorResource items on this page */
 export type AkriConnectorResourceListResultValueList = Array<AkriConnectorResource>;
@@ -5498,9 +5407,7 @@ export const AkriServiceResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AkriServiceProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "AkriServiceResource",
-}) as any as S.Schema<AkriServiceResource>;
+).annotate({ identifier: "AkriServiceResource" }) as any as S.Schema<AkriServiceResource>;
 
 /** The AkriServiceResource items on this page */
 export type AkriServiceResourceListResultValueList = Array<AkriServiceResource>;
@@ -5749,9 +5656,7 @@ export const BrokerResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: BrokerResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BrokerResourceListResult",
-}) as any as S.Schema<BrokerResourceListResult>;
+).annotate({ identifier: "BrokerResourceListResult" }) as any as S.Schema<BrokerResourceListResult>;
 
 export interface ListBrokerListenerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5805,9 +5710,7 @@ export const BrokerListenerResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BrokerListenerProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "BrokerListenerResource",
-}) as any as S.Schema<BrokerListenerResource>;
+).annotate({ identifier: "BrokerListenerResource" }) as any as S.Schema<BrokerListenerResource>;
 
 /** The BrokerListenerResource items on this page */
 export type BrokerListenerResourceListResultValueList = Array<BrokerListenerResource>;
@@ -5883,9 +5786,7 @@ export const DataflowResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "DataflowResource",
-}) as any as S.Schema<DataflowResource>;
+).annotate({ identifier: "DataflowResource" }) as any as S.Schema<DataflowResource>;
 
 /** The DataflowResource items on this page */
 export type DataflowResourceListResultValueList = Array<DataflowResource>;
@@ -5958,9 +5859,7 @@ export const DataflowEndpointResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowEndpointProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "DataflowEndpointResource",
-}) as any as S.Schema<DataflowEndpointResource>;
+).annotate({ identifier: "DataflowEndpointResource" }) as any as S.Schema<DataflowEndpointResource>;
 
 /** The DataflowEndpointResource items on this page */
 export type DataflowEndpointResourceListResultValueList = Array<DataflowEndpointResource>;
@@ -6036,9 +5935,7 @@ export const DataflowGraphResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowGraphProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "DataflowGraphResource",
-}) as any as S.Schema<DataflowGraphResource>;
+).annotate({ identifier: "DataflowGraphResource" }) as any as S.Schema<DataflowGraphResource>;
 
 /** The DataflowGraphResource items on this page */
 export type DataflowGraphResourceListResultValueList = Array<DataflowGraphResource>;
@@ -6111,9 +6008,7 @@ export const DataflowProfileResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataflowProfileProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "DataflowProfileResource",
-}) as any as S.Schema<DataflowProfileResource>;
+).annotate({ identifier: "DataflowProfileResource" }) as any as S.Schema<DataflowProfileResource>;
 
 /** The DataflowProfileResource items on this page */
 export type DataflowProfileResourceListResultValueList = Array<DataflowProfileResource>;
@@ -6203,9 +6098,7 @@ export const InstanceResource = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "InstanceResource",
-}) as any as S.Schema<InstanceResource>;
+).annotate({ identifier: "InstanceResource" }) as any as S.Schema<InstanceResource>;
 
 /** The InstanceResource items on this page */
 export type InstanceResourceListResultValueList = Array<InstanceResource>;
@@ -6258,9 +6151,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -6280,9 +6171,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6332,9 +6221,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListRegistryEndpointByInstanceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6385,9 +6272,7 @@ export const RegistryEndpointResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RegistryEndpointProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "RegistryEndpointResource",
-}) as any as S.Schema<RegistryEndpointResource>;
+).annotate({ identifier: "RegistryEndpointResource" }) as any as S.Schema<RegistryEndpointResource>;
 
 /** The RegistryEndpointResource items on this page */
 export type RegistryEndpointResourceListResultValueList = Array<RegistryEndpointResource>;
@@ -6499,9 +6384,7 @@ export const RegistryEndpointCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<RegistryEndpointCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type UpdateInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6538,14 +6421,10 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6587,9 +6466,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: ExtendedLocation,
     identity: S.optional(GetInstanceResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateInstanceResponse",
-}) as any as S.Schema<UpdateInstanceResponse>;
+).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type AkriConnectorCreateOrUpdateError = AzureOpError;
 /** Create a AkriConnectorResource */

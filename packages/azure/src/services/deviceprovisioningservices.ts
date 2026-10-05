@@ -51,9 +51,7 @@ export const NameAvailabilityInfo = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(NameUnavailabilityReason),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailabilityInfo",
-}) as any as S.Schema<NameAvailabilityInfo>;
+).annotate({ identifier: "NameAvailabilityInfo" }) as any as S.Schema<NameAvailabilityInfo>;
 
 export type DeleteDpsCertificateRequestCertificatePurpose =
   | "clientAuthentication"
@@ -85,6 +83,8 @@ export interface DeleteDpsCertificateRequest {
   certificate_hasPrivateKey?: boolean;
   /** Random number generated to indicate Proof of Possession. */
   certificate_nonce?: string;
+  /** ETag of the certificate. A value of "*" applies to any version. */
+  ifMatch: string;
 }
 export const DeleteDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -102,6 +102,7 @@ export const DeleteDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     certificate_lastUpdated: S.optional(S.String.pipe(T.Query("certificate.lastUpdated"))),
     certificate_hasPrivateKey: S.optional(S.Boolean.pipe(T.Query("certificate.hasPrivateKey"))),
     certificate_nonce: S.optional(S.String.pipe(T.Query("certificate.nonce"))),
+    ifMatch: S.String.pipe(T.Header("If-Match")),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -220,9 +221,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The status of a private endpoint connection */
 export type PrivateLinkServiceConnectionStatus =
@@ -318,6 +317,8 @@ export interface DpsCertificateCreateOrUpdateRequest {
   certificateName: string;
   /** properties of a certificate */
   properties?: CertificatePropertiesInput;
+  /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
+  ifMatch?: string;
 }
 export const DpsCertificateCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -326,6 +327,7 @@ export const DpsCertificateCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     provisioningServiceName: S.String.pipe(T.Label()),
     certificateName: S.String.pipe(T.Label()),
     properties: S.optional(CertificatePropertiesInput),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -365,9 +367,7 @@ export const CertificateProperties = /*@__PURE__*/ S.suspend(() =>
     created: S.optional(S.String),
     updated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateProperties",
-}) as any as S.Schema<CertificateProperties>;
+).annotate({ identifier: "CertificateProperties" }) as any as S.Schema<CertificateProperties>;
 
 export interface DpsCertificateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -512,9 +512,7 @@ export const VerificationCodeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(VerificationCodeResponseProperties),
   }),
-).annotate({
-  identifier: "VerificationCodeResponse",
-}) as any as S.Schema<VerificationCodeResponse>;
+).annotate({ identifier: "VerificationCodeResponse" }) as any as S.Schema<VerificationCodeResponse>;
 
 export interface GetDpsCertificateRequest {
   /** The ID of the target subscription. */
@@ -540,9 +538,7 @@ export const GetDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-31",
     }),
   ),
-).annotate({
-  identifier: "GetDpsCertificateRequest",
-}) as any as S.Schema<GetDpsCertificateRequest>;
+).annotate({ identifier: "GetDpsCertificateRequest" }) as any as S.Schema<GetDpsCertificateRequest>;
 
 export interface GetDpsCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -592,14 +588,10 @@ export const GetIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-31",
     }),
   ),
-).annotate({
-  identifier: "GetIotDpsResourceRequest",
-}) as any as S.Schema<GetIotDpsResourceRequest>;
+).annotate({ identifier: "GetIotDpsResourceRequest" }) as any as S.Schema<GetIotDpsResourceRequest>;
 
 /** Resource tags. */
-export type GetIotDpsResourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIotDpsResourceResponseTagsMap = { [key: string]: string | undefined };
 export const GetIotDpsResourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -874,14 +866,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -1012,9 +1000,7 @@ export const AsyncOperationResult = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(ErrorMessage),
   }),
-).annotate({
-  identifier: "AsyncOperationResult",
-}) as any as S.Schema<AsyncOperationResult>;
+).annotate({ identifier: "AsyncOperationResult" }) as any as S.Schema<AsyncOperationResult>;
 
 export interface GetIotDpsResourcePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1152,9 +1138,7 @@ export const GetIotDpsResourcePrivateLinkResourcesResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetIotDpsResourcePrivateLinkResourcesResponse>;
 
 /** Resource tags. */
-export type IotDpsResourceCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IotDpsResourceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const IotDpsResourceCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1309,18 +1293,14 @@ export const IotDpsSkuInfoInput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(IotDpsSku),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "IotDpsSkuInfoInput",
-}) as any as S.Schema<IotDpsSkuInfoInput>;
+).annotate({ identifier: "IotDpsSkuInfoInput" }) as any as S.Schema<IotDpsSkuInfoInput>;
 
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = PrivateEndpointInput;
 export const UserAssignedIdentityInput = PrivateEndpointInput;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: PrivateEndpointInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: PrivateEndpointInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   PrivateEndpointInput,
@@ -1390,9 +1370,7 @@ export const IotDpsResourceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IotDpsResourceCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type IotDpsResourceCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IotDpsResourceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const IotDpsResourceCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1553,9 +1531,7 @@ export const CertificateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CertificateProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateResponse",
-}) as any as S.Schema<CertificateResponse>;
+).annotate({ identifier: "CertificateResponse" }) as any as S.Schema<CertificateResponse>;
 
 /** The array of Certificate objects. */
 export type CertificateListDescriptionValueList = Array<CertificateResponse>;
@@ -1599,9 +1575,7 @@ export const ListIotDpsResourceByResourceGroupRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListIotDpsResourceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type ProvisioningServiceDescriptionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProvisioningServiceDescriptionTagsMap = { [key: string]: string | undefined };
 export const ProvisioningServiceDescriptionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1859,9 +1833,7 @@ export const GroupIdInformation = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: GroupIdInformationProperties,
   }),
-).annotate({
-  identifier: "GroupIdInformation",
-}) as any as S.Schema<GroupIdInformation>;
+).annotate({ identifier: "GroupIdInformation" }) as any as S.Schema<GroupIdInformation>;
 
 /** The list of available private link resources for a provisioning service */
 export type PrivateLinkResourcesValueList = Array<GroupIdInformation>;
@@ -1878,9 +1850,7 @@ export const PrivateLinkResources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(PrivateLinkResourcesValueList),
   }),
-).annotate({
-  identifier: "PrivateLinkResources",
-}) as any as S.Schema<PrivateLinkResources>;
+).annotate({ identifier: "PrivateLinkResources" }) as any as S.Schema<PrivateLinkResources>;
 
 export interface ListIotDpsResourceValidSkusRequest {
   /** The ID of the target subscription. */
@@ -1916,9 +1886,7 @@ export const IotDpsSkuDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(IotDpsSku),
   }),
-).annotate({
-  identifier: "IotDpsSkuDefinition",
-}) as any as S.Schema<IotDpsSkuDefinition>;
+).annotate({ identifier: "IotDpsSkuDefinition" }) as any as S.Schema<IotDpsSkuDefinition>;
 
 /** The IotDpsSkuDefinition items on this page */
 export type IotDpsSkuDefinitionListResultValueList = Array<IotDpsSkuDefinition>;
@@ -1952,9 +1920,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-31",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information for the operation. */
 export interface OperationDisplay {
@@ -1971,9 +1937,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     operation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Represents an operation. */
 export interface Operation {
@@ -2006,14 +1970,10 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 /** Resource tags */
-export type UpdateIotDpsResourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIotDpsResourceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIotDpsResourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2048,9 +2008,7 @@ export const UpdateIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIotDpsResourceRequest>;
 
 /** Resource tags. */
-export type UpdateIotDpsResourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIotDpsResourceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIotDpsResourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
