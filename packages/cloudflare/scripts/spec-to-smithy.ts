@@ -2049,6 +2049,29 @@ const command = Command.make(
         `\n📄 Found ${files.length} method pages and ${resourcePages.length} resource pages.`,
       );
 
+      // A hand-authored `manual-specs/<resource>.json` owns its resource: the
+      // docs may start covering it with different names and shapes, and
+      // switching over is a breaking change someone has to verify against the
+      // live API. Deleting the manual spec is that switch.
+      const manualDir = path.join(root, "manual-specs");
+      const manualOwned = new Set(
+        (yield* fs.exists(manualDir))
+          ? (yield* fs.readDirectory(manualDir))
+              .filter((f) => f.endsWith(".json"))
+              .map((f) => f.slice(0, -".json".length))
+          : [],
+      );
+      const isManualOwned = (top: string) => manualOwned.has(sanitizeNsSegment(top));
+      const documented = new Set(files.map((f) => opIdentity(f.slice(specsDir.length + 1)).top));
+      for (const top of documented) {
+        if (isManualOwned(top)) {
+          yield* Console.warn(
+            `⚠️  ${top}: the docs now cover it, but manual-specs/${sanitizeNsSegment(top)}.json ` +
+              `owns it — delete the manual spec to switch to the documented model`,
+          );
+        }
+      }
+
       // The models a resource's index pages define, shared by all its method
       // pages: subresources define most of them, and a reference can point at
       // any of them.
@@ -2057,6 +2080,7 @@ const command = Command.make(
         const rel = file.slice(specsDir.length + 1);
         const top = opIdentity(rel).top;
         if (config.resource && top !== config.resource) continue;
+        if (isManualOwned(top)) continue;
         let into = models.get(top);
         if (!into) {
           into = new Map();
@@ -2076,6 +2100,7 @@ const command = Command.make(
         const rel = file.slice(specsDir.length + 1);
         const { top, opName } = opIdentity(rel);
         if (config.resource && top !== config.resource) continue;
+        if (isManualOwned(top)) continue;
         modelRegistry = models.get(top) ?? new Map();
 
         const md = yield* fs.readFileString(file);
