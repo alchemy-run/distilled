@@ -22,11 +22,7 @@ import { applyApiGatewayCustomizations, isApiGateway } from "../customizations/a
 import { applyGlacierCustomizations, isGlacier } from "../customizations/glacier.ts";
 import { ParseError } from "../errors.ts";
 import { parseEventStreamToUnion } from "../eventstream/parser.ts";
-import {
-  serializeInputEventStream,
-  serializeInputEventStreamWithPayloads,
-  type InputEvent,
-} from "../eventstream/serializer.ts";
+import { serializeInputEventStreamWithSchema, type InputEvent } from "../eventstream/serializer.ts";
 import {
   getAwsApiService,
   getEventPayloadMap,
@@ -202,18 +198,13 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
           isInputEventStream(payloadAst) && isEffectStream(payloadValue);
 
         if (isInputEventStreamPayload) {
-          // Input event stream - serialize each event to wire format
-          const eventPayloadMap = getEventPayloadMap(payloadAst);
-          if (eventPayloadMap && Object.keys(eventPayloadMap).length > 0) {
-            request.body = serializeInputEventStreamWithPayloads(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-              eventPayloadMap,
-            );
-          } else {
-            request.body = serializeInputEventStream(
-              payloadValue as Stream.Stream<InputEvent, unknown>,
-            );
-          }
+          // Input event stream - frame each event per its eventPayload /
+          // eventHeader member annotations (as the output side does).
+          request.body = serializeInputEventStreamWithSchema(
+            payloadValue as Stream.Stream<InputEvent, unknown>,
+            getEventSchema(payloadAst),
+            getEventPayloadMap(payloadAst),
+          );
           // Set content type for event streams (always override)
           request.headers["Content-Type"] = "application/vnd.amazon.eventstream";
         } else if (isStreamingType(payloadAst)) {

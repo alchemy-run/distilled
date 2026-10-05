@@ -12,14 +12,19 @@ import {
   decodeMessage,
   encodeMessage,
   getStringHeader,
+  HeaderType,
   stringHeader,
 } from "../eventstream/codec.ts";
+import * as BedrockRuntime from "../services/bedrock-runtime.ts";
 import * as DataExchange from "../services/dataexchange.ts";
 import * as DynamoDB from "../services/dynamodb.ts";
 import * as GeoMaps from "../services/geo-maps.ts";
 import * as Kinesis from "../services/kinesis.ts";
 import * as KMS from "../services/kms.ts";
 import * as Lambda from "../services/lambda.ts";
+import * as LexRuntimeV2 from "../services/lex-runtime-v2.ts";
+import * as SageMakerRuntimeHttp2 from "../services/sagemaker-runtime-http2.ts";
+import * as TranscribeStreaming from "../services/transcribe-streaming.ts";
 import * as T from "../traits.ts";
 import { awsJson1_0Protocol, awsJson1_1Protocol } from "./aws-json.ts";
 import { restJson1Protocol } from "./rest-json.ts";
@@ -91,6 +96,23 @@ const readFrames = async (body: Request["body"]) => {
     offset += length;
   }
   return frames;
+};
+
+/** Decode every event-stream frame in a request body, string headers flattened. */
+const readMessages = async (body: Request["body"]) => {
+  const data = new Uint8Array(await new globalThis.Response(body as ReadableStream).arrayBuffer());
+  const messages: { headers: Record<string, unknown>; payload: Uint8Array }[] = [];
+  for (let offset = 0; offset < data.length;) {
+    const [message, length] = await run(decodeMessage(data.subarray(offset)));
+    messages.push({
+      headers: Object.fromEntries(
+        Object.entries(message.headers).map(([name, header]) => [name, header.value]),
+      ),
+      payload: message.payload,
+    });
+    offset += length;
+  }
+  return messages;
 };
 
 const collectText = async (stream: unknown) => {
@@ -831,6 +853,167 @@ describe("restJson1 request serialization: input event streams", () => {
         payload: '{"ChannelCount":2}',
       },
     ]);
+  });
+
+  test("Transcribe StartStreamTranscription: AudioEvent is a raw octet-stream frame", async () => {
+    const handler = restJson1Protocol(op(TranscribeStreaming.StartStreamTranscriptionRequest));
+    const audio = Uint8Array.of(0x70, 0x00, 0xff, 0x80, 0x01);
+    const request = await run(
+      handler.serializeRequest({
+        MediaSampleRateHertz: 16000,
+        MediaEncoding: "pcm",
+        AudioStream: Stream.fromIterable([
+          { AudioEvent: { AudioChunk: audio } },
+          { _tag: "AudioEvent", AudioChunk: Uint8Array.of(1, 2) },
+          {
+            ConfigurationEvent: {
+              ChannelDefinitions: [{ ChannelId: 0, ParticipantRole: "AGENT" }],
+            },
+          },
+        ]),
+      }),
+    );
+    expect(request.headers["Content-Type"]).toBe("application/vnd.amazon.eventstream");
+    const messages = await readMessages(request.body);
+    expect(messages.map((m) => m.headers)).toEqual([
+      {
+        ":message-type": "event",
+        ":event-type": "AudioEvent",
+        ":content-type": "application/octet-stream",
+      },
+      {
+        ":message-type": "event",
+        ":event-type": "AudioEvent",
+        ":content-type": "application/octet-stream",
+      },
+      {
+        ":message-type": "event",
+        ":event-type": "ConfigurationEvent",
+        ":content-type": "application/json",
+      },
+    ]);
+    expect(messages[0].payload).toEqual(audio);
+    expect(messages[1].payload).toEqual(Uint8Array.of(1, 2));
+    expect(JSON.parse(new TextDecoder().decode(messages[2].payload))).toEqual({
+      ChannelDefinitions: [{ ChannelId: 0, ParticipantRole: "AGENT" }],
+    });
+  });
+
+  test("Lex StartConversation: an event without eventPayload stays JSON with base64 blobs", async () => {
+    const handler = restJson1Protocol(op(LexRuntimeV2.StartConversationRequest));
+    const request = await run(
+      handler.serializeRequest({
+        botId: "b",
+        botAliasId: "a",
+        localeId: "en_US",
+        sessionId: "s",
+        requestEventStream: Stream.fromIterable([
+          {
+            AudioInputEvent: {
+              audioChunk: bytes("pcm"),
+              contentType: "audio/lpcm",
+              clientTimestampMillis: 5,
+            },
+          },
+        ]),
+      }),
+    );
+    const [message] = await readMessages(request.body);
+    expect(message.headers).toEqual({
+      ":message-type": "event",
+      ":event-type": "AudioInputEvent",
+      ":content-type": "application/json",
+    });
+    expect(JSON.parse(new TextDecoder().decode(message.payload))).toEqual({
+      audioChunk: btoa("pcm"),
+      contentType: "audio/lpcm",
+      clientTimestampMillis: 5,
+    });
+  });
+
+  test("Bedrock InvokeModelWithBidirectionalStream: sensitive blob member is base64 JSON", async () => {
+    const handler = restJson1Protocol(op(BedrockRuntime.InvokeModelWithBidirectionalStreamRequest));
+    const request = await run(
+      handler.serializeRequest({
+        modelId: "m",
+        body: Stream.fromIterable([{ chunk: { bytes: Redacted.make(bytes('{"a":1}')) } }]),
+      }),
+    );
+    const [message] = await readMessages(request.body);
+    expect(message.headers[":content-type"]).toBe("application/json");
+    expect(JSON.parse(new TextDecoder().decode(message.payload))).toEqual({
+      bytes: btoa('{"a":1}'),
+    });
+  });
+
+  test("SageMaker bidirectional stream: eventHeader members become frame headers", async () => {
+    const handler = restJson1Protocol(
+      op(SageMakerRuntimeHttp2.InvokeEndpointWithBidirectionalStreamInput),
+    );
+    const request = await run(
+      handler.serializeRequest({
+        EndpointName: "e",
+        Body: Stream.fromIterable([
+          {
+            PayloadPart: {
+              Bytes: Redacted.make(bytes("hello")),
+              DataType: "UTF8",
+              CompletionState: "COMPLETE",
+            },
+          },
+        ]),
+      }),
+    );
+    const [message] = await readMessages(request.body);
+    expect(message.headers).toEqual({
+      ":message-type": "event",
+      ":event-type": "PayloadPart",
+      ":content-type": "application/octet-stream",
+      DataType: "UTF8",
+      CompletionState: "COMPLETE",
+    });
+    expect(new TextDecoder().decode(message.payload)).toBe("hello");
+  });
+
+  test("string and structure eventPayload members, and typed headers", async () => {
+    const stream = T.InputEventStream(
+      S.Union([
+        S.Struct({
+          Text: S.Struct({
+            Value: S.optional(S.String).pipe(T.EventPayload()),
+            Seq: S.optional(S.Number).pipe(T.EventHeader()),
+            Final: S.optional(S.Boolean).pipe(T.EventHeader()),
+          }),
+        }),
+        S.Struct({
+          Doc: S.Struct({
+            Body: S.optional(S.Struct({ Data: S.optional(T.Blob) })).pipe(T.EventPayload()),
+          }),
+        }),
+      ]),
+    );
+    const handler = restJson1Protocol(
+      op(S.Struct({ In: stream.pipe(T.HttpPayload()) }).pipe(T.Http({ method: "POST", uri: "/" }))),
+    );
+    const request = await run(
+      handler.serializeRequest({
+        In: Stream.fromIterable([
+          { Text: { Value: "héllo", Seq: 7, Final: true } },
+          { Doc: { Body: { Data: bytes("x") } } },
+        ]),
+      }),
+    );
+    const data = new Uint8Array(
+      await new globalThis.Response(request.body as ReadableStream).arrayBuffer(),
+    );
+    const [text, length] = await run(decodeMessage(data));
+    expect(text.headers.Seq).toEqual({ type: HeaderType.Int, value: 7 });
+    expect(text.headers.Final).toEqual({ type: HeaderType.BoolTrue, value: true });
+    expect(getStringHeader(text.headers, ":content-type")).toBe("text/plain");
+    expect(new TextDecoder().decode(text.payload)).toBe("héllo");
+    const [doc] = await run(decodeMessage(data.subarray(length)));
+    expect(getStringHeader(doc.headers, ":content-type")).toBe("application/json");
+    expect(JSON.parse(new TextDecoder().decode(doc.payload))).toEqual({ Data: btoa("x") });
   });
 });
 
