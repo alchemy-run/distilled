@@ -64,9 +64,7 @@ export const GetDailyPapersRequest = /*@__PURE__*/ S.suspend(() =>
     submitter: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(GetDailyPapersRequestSort.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/daily_papers", code: 200 })),
-).annotate({
-  identifier: "GetDailyPapersRequest",
-}) as any as S.Schema<GetDailyPapersRequest>;
+).annotate({ identifier: "GetDailyPapersRequest" }) as any as S.Schema<GetDailyPapersRequest>;
 
 /** User overview information */
 export interface GetDailyPapersResponseBodyItemPaperAuthorsItemUser {
@@ -239,9 +237,7 @@ export const GetDailyPapersResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetDailyPapersResponse = GetDailyPapersResponseBodyList;
 export const GetDailyPapersResponse = /*@__PURE__*/ S.suspend(() =>
   GetDailyPapersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDailyPapersResponse",
-}) as any as S.Schema<GetDailyPapersResponse>;
+).annotate({ identifier: "GetDailyPapersResponse" }) as any as S.Schema<GetDailyPapersResponse>;
 
 export type GetPaperRequestFieldCase0 = "submissionDeadline" | "comments";
 export const GetPaperRequestFieldCase0 = S.String;
@@ -266,9 +262,7 @@ export const GetPaperRequest = /*@__PURE__*/ S.suspend(() =>
     paperId: S.String.pipe(T.Label()),
     field: S.optional(GetPaperRequestField.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/papers/{paperId}", code: 200 })),
-).annotate({
-  identifier: "GetPaperRequest",
-}) as any as S.Schema<GetPaperRequest>;
+).annotate({ identifier: "GetPaperRequest" }) as any as S.Schema<GetPaperRequest>;
 
 /** User overview information */
 export type GetPaperResponseAuthorsItemUser = GetDailyPapersResponseBodyItemPaperAuthorsItemUser;
@@ -412,7 +406,7 @@ export interface GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem
   modelStatus: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemModelStatus;
   providerId: string;
   task: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  adapterType?: string;
   adapterWeightsPath?: string;
   features?: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
@@ -430,7 +424,7 @@ export const GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItem =
       modelStatus: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
       task: GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
       features: S.optional(GetPaperResponseLinkedModelsItemAvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
@@ -455,12 +449,13 @@ export type GetPaperResponseLinkedModelsItemGatedCase1 = "auto" | "manual";
 export const GetPaperResponseLinkedModelsItemGatedCase1 = S.String;
 
 export type GetPaperResponseLinkedModelsItemGated =
-  | unknown
+  | boolean
   | GetPaperResponseLinkedModelsItemGatedCase1;
 export const GetPaperResponseLinkedModelsItemGated =
   S.Unknown as any as S.Schema<GetPaperResponseLinkedModelsItemGated>;
 
 export interface GetPaperResponseLinkedModelsItemResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -483,6 +478,7 @@ export type GetPaperResponseLinkedModelsItemAuthorDataCase0Plan =
 export const GetPaperResponseLinkedModelsItemAuthorDataCase0Plan = S.String;
 
 export interface GetPaperResponseLinkedModelsItemAuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -491,7 +487,7 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetPaperResponseLinkedModelsItemAuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -505,7 +501,7 @@ export const GetPaperResponseLinkedModelsItemAuthorDataCase0 = /*@__PURE__*/ S.s
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetPaperResponseLinkedModelsItemAuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -532,7 +528,7 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgPlan;
@@ -547,7 +543,7 @@ export const GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg = /*@__PU
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrgPlan),
@@ -561,6 +557,7 @@ export const GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg = /*@__PU
 }) as any as S.Schema<GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg>;
 
 export interface GetPaperResponseLinkedModelsItemAuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -569,7 +566,7 @@ export interface GetPaperResponseLinkedModelsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg;
@@ -584,7 +581,7 @@ export const GetPaperResponseLinkedModelsItemAuthorDataCase1 = /*@__PURE__*/ S.s
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetPaperResponseLinkedModelsItemAuthorDataCase1PrimaryOrg),
@@ -614,13 +611,13 @@ export interface GetPaperResponseLinkedModelsItem {
   likes: number;
   pipeline_tag?: string;
   private: boolean;
-  repoType: unknown;
+  repoType: string;
   gated: GetPaperResponseLinkedModelsItemGated;
   resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup;
   numParameters?: number;
   authorData?: GetPaperResponseLinkedModelsItemAuthorData;
   widgetOutputUrls?: GetPaperResponseLinkedModelsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
+  isPreRelease?: boolean;
 }
 export const GetPaperResponseLinkedModelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -633,13 +630,13 @@ export const GetPaperResponseLinkedModelsItem = /*@__PURE__*/ S.suspend(() =>
     likes: S.Number,
     pipeline_tag: S.optional(S.String),
     private: S.Boolean,
-    repoType: S.Unknown,
+    repoType: S.String,
     gated: GetPaperResponseLinkedModelsItemGated,
     resourceGroup: S.optional(GetPaperResponseLinkedModelsItemResourceGroup),
     numParameters: S.optional(S.Number),
     authorData: S.optional(GetPaperResponseLinkedModelsItemAuthorData),
     widgetOutputUrls: S.optional(GetPaperResponseLinkedModelsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
+    isPreRelease: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GetPaperResponseLinkedModelsItem",
@@ -668,7 +665,11 @@ export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesItem =
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
 export const GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesItem = S.String;
 
 export type GetPaperResponseLinkedDatasetsItemDatasetsServerInfoLibrariesList =
@@ -740,7 +741,7 @@ export type GetPaperResponseLinkedDatasetsItemGatedCase1 = "auto" | "manual";
 export const GetPaperResponseLinkedDatasetsItemGatedCase1 = S.String;
 
 export type GetPaperResponseLinkedDatasetsItemGated =
-  | unknown
+  | boolean
   | GetPaperResponseLinkedDatasetsItemGatedCase1;
 export const GetPaperResponseLinkedDatasetsItemGated =
   S.Unknown as any as S.Schema<GetPaperResponseLinkedDatasetsItemGated>;
@@ -757,13 +758,14 @@ export interface GetPaperResponseLinkedDatasetsItem {
   likes: number;
   datasetsServerInfo?: GetPaperResponseLinkedDatasetsItemDatasetsServerInfo;
   private: boolean;
-  repoType: unknown;
+  repoType: string;
   downloads: number;
   gated: GetPaperResponseLinkedDatasetsItemGated;
   lastModified: string;
   resourceGroup?: GetPaperResponseLinkedModelsItemResourceGroup;
   isBenchmark?: boolean;
   isTraces?: boolean;
+  isEnvironment?: boolean;
 }
 export const GetPaperResponseLinkedDatasetsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -773,13 +775,14 @@ export const GetPaperResponseLinkedDatasetsItem = /*@__PURE__*/ S.suspend(() =>
     likes: S.Number,
     datasetsServerInfo: S.optional(GetPaperResponseLinkedDatasetsItemDatasetsServerInfo),
     private: S.Boolean,
-    repoType: S.Unknown,
+    repoType: S.String,
     downloads: S.Number,
     gated: GetPaperResponseLinkedDatasetsItemGated,
     lastModified: S.String,
     resourceGroup: S.optional(GetPaperResponseLinkedModelsItemResourceGroup),
     isBenchmark: S.optional(S.Boolean),
     isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "GetPaperResponseLinkedDatasetsItem",
@@ -814,129 +817,189 @@ export const GetPaperResponseLinkedSpacesList = /*@__PURE__*/ S.Array(
   GetPaperResponseLinkedSpacesItem,
 ) as any as S.Schema<GetPaperResponseLinkedSpacesList>;
 
-export type GetPaperResponseCommentsItemAuthorPlan = "team" | "enterprise" | "plus" | "academia";
-export const GetPaperResponseCommentsItemAuthorPlan = S.String;
+export interface GetPaperResponseCommentsItemAuthorCase0OauthAppImageData {
+  emoji: string;
+  colorFrom: string;
+  colorTo: string;
+}
+export const GetPaperResponseCommentsItemAuthorCase0OauthAppImageData = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      emoji: S.String,
+      colorFrom: S.String,
+      colorTo: S.String,
+    }),
+).annotate({
+  identifier: "GetPaperResponseCommentsItemAuthorCase0OauthAppImageData",
+}) as any as S.Schema<GetPaperResponseCommentsItemAuthorCase0OauthAppImageData>;
 
-export type GetPaperResponseCommentsItemAuthorPrimaryOrgPlan =
+export interface GetPaperResponseCommentsItemAuthorCase0OauthApp {
+  imageUrl?: string;
+  imageData?: GetPaperResponseCommentsItemAuthorCase0OauthAppImageData;
+  url?: string;
+  name: string;
+}
+export const GetPaperResponseCommentsItemAuthorCase0OauthApp = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUrl: S.optional(S.String),
+    imageData: S.optional(GetPaperResponseCommentsItemAuthorCase0OauthAppImageData),
+    url: S.optional(S.String),
+    name: S.String,
+  }),
+).annotate({
+  identifier: "GetPaperResponseCommentsItemAuthorCase0OauthApp",
+}) as any as S.Schema<GetPaperResponseCommentsItemAuthorCase0OauthApp>;
+
+export type GetPaperResponseCommentsItemAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetPaperResponseCommentsItemAuthorPrimaryOrgPlan = S.String;
+export const GetPaperResponseCommentsItemAuthorCase0Plan = S.String;
 
-export type GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole =
+export interface GetPaperResponseCommentsItemAuthorCase0 {
+  isOwner?: boolean;
+  isOrgMember?: boolean;
+  isBlockedByMe?: boolean;
+  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetPaperResponseCommentsItemAuthorCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetPaperResponseCommentsItemAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isOwner: S.optional(S.Boolean),
+    isOrgMember: S.optional(S.Boolean),
+    isBlockedByMe: S.optional(S.Boolean),
+    oauthApp: S.optional(GetPaperResponseCommentsItemAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(GetPaperResponseCommentsItemAuthorCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetPaperResponseCommentsItemAuthorCase0",
+}) as any as S.Schema<GetPaperResponseCommentsItemAuthorCase0>;
+
+export type GetPaperResponseCommentsItemAuthorCase1OauthAppImageData =
+  GetPaperResponseCommentsItemAuthorCase0OauthAppImageData;
+export const GetPaperResponseCommentsItemAuthorCase1OauthAppImageData =
+  GetPaperResponseCommentsItemAuthorCase0OauthAppImageData;
+
+export type GetPaperResponseCommentsItemAuthorCase1OauthApp =
+  GetPaperResponseCommentsItemAuthorCase0OauthApp;
+export const GetPaperResponseCommentsItemAuthorCase1OauthApp =
+  GetPaperResponseCommentsItemAuthorCase0OauthApp;
+
+export type GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan = S.String;
+
+export type GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole = S.String;
+export const GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface GetPaperResponseCommentsItemAuthorPrimaryOrg {
+export interface GetPaperResponseCommentsItemAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetPaperResponseCommentsItemAuthorPrimaryOrgPlan;
+  plan?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole;
+  userRole?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetPaperResponseCommentsItemAuthorPrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+export const GetPaperResponseCommentsItemAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
-    plan: S.optional(GetPaperResponseCommentsItemAuthorPrimaryOrgPlan),
+    plan: S.optional(GetPaperResponseCommentsItemAuthorCase1PrimaryOrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(GetPaperResponseCommentsItemAuthorPrimaryOrgUserRole),
+    userRole: S.optional(GetPaperResponseCommentsItemAuthorCase1PrimaryOrgUserRole),
     numUsers: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "GetPaperResponseCommentsItemAuthorPrimaryOrg",
-}) as any as S.Schema<GetPaperResponseCommentsItemAuthorPrimaryOrg>;
+  identifier: "GetPaperResponseCommentsItemAuthorCase1PrimaryOrg",
+}) as any as S.Schema<GetPaperResponseCommentsItemAuthorCase1PrimaryOrg>;
 
-export interface GetPaperResponseCommentsItemAuthorOauthAppImageData {
-  emoji: string;
-  colorFrom: string;
-  colorTo: string;
-}
-export const GetPaperResponseCommentsItemAuthorOauthAppImageData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    emoji: S.String,
-    colorFrom: S.String,
-    colorTo: S.String,
-  }),
-).annotate({
-  identifier: "GetPaperResponseCommentsItemAuthorOauthAppImageData",
-}) as any as S.Schema<GetPaperResponseCommentsItemAuthorOauthAppImageData>;
-
-export interface GetPaperResponseCommentsItemAuthorOauthApp {
-  imageUrl?: string;
-  imageData?: GetPaperResponseCommentsItemAuthorOauthAppImageData;
-  url?: string;
-  name: string;
-}
-export const GetPaperResponseCommentsItemAuthorOauthApp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageUrl: S.optional(S.String),
-    imageData: S.optional(GetPaperResponseCommentsItemAuthorOauthAppImageData),
-    url: S.optional(S.String),
-    name: S.String,
-  }),
-).annotate({
-  identifier: "GetPaperResponseCommentsItemAuthorOauthApp",
-}) as any as S.Schema<GetPaperResponseCommentsItemAuthorOauthApp>;
-
-export interface GetPaperResponseCommentsItemAuthor {
-  _id?: string;
-  avatarUrl?: string;
-  fullname?: string;
-  name?: string;
-  isHf?: boolean;
-  isHfAdmin?: boolean;
-  isMod?: boolean;
-  followerCount?: number;
-  type?: unknown;
-  plan?: GetPaperResponseCommentsItemAuthorPlan;
-  isUserFollowing?: boolean;
-  isPro?: boolean;
-  primaryOrg?: GetPaperResponseCommentsItemAuthorPrimaryOrg;
+export interface GetPaperResponseCommentsItemAuthorCase1 {
   isOwner?: boolean;
   isOrgMember?: boolean;
   isBlockedByMe?: boolean;
-  oauthApp?: GetPaperResponseCommentsItemAuthorOauthApp;
+  oauthApp?: GetPaperResponseCommentsItemAuthorCase0OauthApp;
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetPaperResponseCommentsItemAuthorCase1PrimaryOrg;
 }
-export const GetPaperResponseCommentsItemAuthor = /*@__PURE__*/ S.suspend(() =>
+export const GetPaperResponseCommentsItemAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    _id: S.optional(S.String),
-    avatarUrl: S.optional(S.String),
-    fullname: S.optional(S.String),
-    name: S.optional(S.String),
-    isHf: S.optional(S.Boolean),
-    isHfAdmin: S.optional(S.Boolean),
-    isMod: S.optional(S.Boolean),
-    followerCount: S.optional(S.Number),
-    type: S.optional(S.Unknown),
-    plan: S.optional(GetPaperResponseCommentsItemAuthorPlan),
-    isUserFollowing: S.optional(S.Boolean),
-    isPro: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetPaperResponseCommentsItemAuthorPrimaryOrg),
     isOwner: S.optional(S.Boolean),
     isOrgMember: S.optional(S.Boolean),
     isBlockedByMe: S.optional(S.Boolean),
-    oauthApp: S.optional(GetPaperResponseCommentsItemAuthorOauthApp),
+    oauthApp: S.optional(GetPaperResponseCommentsItemAuthorCase0OauthApp),
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(GetPaperResponseCommentsItemAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "GetPaperResponseCommentsItemAuthor",
-}) as any as S.Schema<GetPaperResponseCommentsItemAuthor>;
+  identifier: "GetPaperResponseCommentsItemAuthorCase1",
+}) as any as S.Schema<GetPaperResponseCommentsItemAuthorCase1>;
+
+export type GetPaperResponseCommentsItemAuthor =
+  | GetPaperResponseCommentsItemAuthorCase0
+  | GetPaperResponseCommentsItemAuthorCase1;
+export const GetPaperResponseCommentsItemAuthor =
+  S.Unknown as any as S.Schema<GetPaperResponseCommentsItemAuthor>;
 
 export type GetPaperResponseCommentsItemDataHiddenReason =
   | "Spam"
@@ -955,6 +1018,7 @@ export type GetPaperResponseCommentsItemDataLatestAuthorCase0Plan =
 export const GetPaperResponseCommentsItemDataLatestAuthorCase0Plan = S.String;
 
 export interface GetPaperResponseCommentsItemDataLatestAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -963,7 +1027,7 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetPaperResponseCommentsItemDataLatestAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -977,7 +1041,7 @@ export const GetPaperResponseCommentsItemDataLatestAuthorCase0 = /*@__PURE__*/ S
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetPaperResponseCommentsItemDataLatestAuthorCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -1004,7 +1068,7 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgPlan;
@@ -1019,7 +1083,7 @@ export const GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg = /*@__
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrgPlan),
@@ -1033,6 +1097,7 @@ export const GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg = /*@__
 }) as any as S.Schema<GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg>;
 
 export interface GetPaperResponseCommentsItemDataLatestAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1041,7 +1106,7 @@ export interface GetPaperResponseCommentsItemDataLatestAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg;
@@ -1056,7 +1121,7 @@ export const GetPaperResponseCommentsItemDataLatestAuthorCase1 = /*@__PURE__*/ S
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetPaperResponseCommentsItemDataLatestAuthorCase1PrimaryOrg),
@@ -1191,7 +1256,7 @@ export interface GetPaperResponseCommentsItem {
   id: string;
   createdAt: string;
   author?: GetPaperResponseCommentsItemAuthor;
-  type: unknown;
+  type: string;
   data: GetPaperResponseCommentsItemData;
 }
 export const GetPaperResponseCommentsItem = /*@__PURE__*/ S.suspend(() =>
@@ -1199,7 +1264,7 @@ export const GetPaperResponseCommentsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
     author: S.optional(GetPaperResponseCommentsItemAuthor),
-    type: S.Unknown,
+    type: S.String,
     data: GetPaperResponseCommentsItemData,
   }),
 ).annotate({
@@ -1270,28 +1335,22 @@ export const GetPaperResponse = /*@__PURE__*/ S.suspend(() =>
     numTotalSpaces: S.Number,
     comments: S.optional(GetPaperResponseCommentsList),
   }),
-).annotate({
-  identifier: "GetPaperResponse",
-}) as any as S.Schema<GetPaperResponse>;
+).annotate({ identifier: "GetPaperResponse" }) as any as S.Schema<GetPaperResponse>;
 
-export interface ListPaperRequest {
+export interface IndexPaperRequest {
   /** The arXiv ID of the paper to index (e.g. 2301.00001) */
   arxivId: string;
 }
-export const ListPaperRequest = /*@__PURE__*/ S.suspend(() =>
+export const IndexPaperRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     arxivId: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api/papers/index", code: 200 })),
-).annotate({
-  identifier: "ListPaperRequest",
-}) as any as S.Schema<ListPaperRequest>;
+).annotate({ identifier: "IndexPaperRequest" }) as any as S.Schema<IndexPaperRequest>;
 
-export type ListPaperResponse = unknown;
-export const ListPaperResponse = /*@__PURE__*/ S.suspend(() =>
+export type IndexPaperResponse = unknown;
+export const IndexPaperResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPaperResponse",
-}) as any as S.Schema<ListPaperResponse>;
+).annotate({ identifier: "IndexPaperResponse" }) as any as S.Schema<IndexPaperResponse>;
 
 export interface ListPapersRequest {
   cursor?: string;
@@ -1302,9 +1361,7 @@ export const ListPapersRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/papers", code: 200 })),
-).annotate({
-  identifier: "ListPapersRequest",
-}) as any as S.Schema<ListPapersRequest>;
+).annotate({ identifier: "ListPapersRequest" }) as any as S.Schema<ListPapersRequest>;
 
 /** User overview information */
 export type ListPapersResponseBodyItemAuthorsItemUser =
@@ -1378,9 +1435,7 @@ export const ListPapersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPapersResponse = ListPapersResponseBodyList;
 export const ListPapersResponse = /*@__PURE__*/ S.suspend(() =>
   ListPapersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPapersResponse",
-}) as any as S.Schema<ListPapersResponse>;
+).annotate({ identifier: "ListPapersResponse" }) as any as S.Schema<ListPapersResponse>;
 
 export interface SearchPapersRequest {
   q?: string;
@@ -1391,9 +1446,7 @@ export const SearchPapersRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/papers/search", code: 200 })),
-).annotate({
-  identifier: "SearchPapersRequest",
-}) as any as S.Schema<SearchPapersRequest>;
+).annotate({ identifier: "SearchPapersRequest" }) as any as S.Schema<SearchPapersRequest>;
 
 export interface SearchPapersResponse {}
 export const SearchPapersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1413,16 +1466,12 @@ export const UpdatePaperLinksRequest = /*@__PURE__*/ S.suspend(() =>
     githubRepo: S.optional(S.NullOr(S.String)),
     organizationId: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/api/papers/{paperId}/links", code: 200 })),
-).annotate({
-  identifier: "UpdatePaperLinksRequest",
-}) as any as S.Schema<UpdatePaperLinksRequest>;
+).annotate({ identifier: "UpdatePaperLinksRequest" }) as any as S.Schema<UpdatePaperLinksRequest>;
 
 export type UpdatePaperLinksResponse = unknown;
 export const UpdatePaperLinksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdatePaperLinksResponse",
-}) as any as S.Schema<UpdatePaperLinksResponse>;
+).annotate({ identifier: "UpdatePaperLinksResponse" }) as any as S.Schema<UpdatePaperLinksResponse>;
 
 export type ClaimPaperAuthorshipError = HuggingFaceOpError;
 /** Claim paper authorship */
@@ -1469,16 +1518,16 @@ export const getPaper: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListPaperError = HuggingFaceOpError;
+export type IndexPaperError = HuggingFaceOpError;
 /** Index a paper Index a paper from arXiv by its ID. If the paper is already indexed, only its authors can re-index it. */
-export const listPaper: API.OperationMethod<
-  ListPaperRequest,
-  ListPaperResponse,
-  ListPaperError,
+export const indexPaper: API.OperationMethod<
+  IndexPaperRequest,
+  IndexPaperResponse,
+  IndexPaperError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListPaperRequest,
-  output: ListPaperResponse,
+  input: IndexPaperRequest,
+  output: IndexPaperResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

@@ -49,46 +49,6 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
-export interface AddResourceGroupRequest {
-  namespace: string;
-  repo: string;
-  /** The resource group to add the repository to, if null, the repository will be removed from the resource group */
-  resourceGroupId: string | null;
-}
-export const AddResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    resourceGroupId: S.NullOr(S.String),
-  }).pipe(
-    T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/resource-group", code: 200 }),
-  ),
-).annotate({ identifier: "AddResourceGroupRequest" }) as any as S.Schema<AddResourceGroupRequest>;
-
-export type AddResourceGroupResponseType =
-  | "dataset"
-  | "model"
-  | "space"
-  | "bucket"
-  | "kernel"
-  | "container";
-export const AddResourceGroupResponseType = S.String;
-
-export interface AddResourceGroupResponse {
-  name: string;
-  type: AddResourceGroupResponseType;
-  private: boolean;
-  addedBy: string;
-}
-export const AddResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: AddResourceGroupResponseType,
-    private: S.Boolean,
-    addedBy: S.String,
-  }),
-).annotate({ identifier: "AddResourceGroupResponse" }) as any as S.Schema<AddResourceGroupResponse>;
-
 export interface BatchFileOperationsRequest {
   namespace: string;
   repo: string;
@@ -97,7 +57,7 @@ export const BatchFileOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/batch", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/api/containers/{namespace}/{repo}/batch", code: 200 })),
 ).annotate({
   identifier: "BatchFileOperationsRequest",
 }) as any as S.Schema<BatchFileOperationsRequest>;
@@ -202,7 +162,7 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     cdn: S.optional(CreateBucketRequestCdnList),
     region: S.optional(CreateBucketRequestRegion),
     description: S.optional(S.String),
-  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+  }).pipe(T.Http({ method: "POST", uri: "/api/containers/{namespace}/{repo}", code: 200 })),
 ).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 
 export interface CreateBucketResponse {
@@ -227,135 +187,13 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(T.Http({ method: "DELETE", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/containers/{namespace}/{repo}", code: 200 })),
 ).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 
 export interface DeleteBucketResponse {}
 export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBucketResponse",
 }) as any as S.Schema<DeleteBucketResponse>;
-
-export type DuplicateXetFilesRequestTargetType = "model" | "space" | "dataset" | "kernel";
-export const DuplicateXetFilesRequestTargetType = S.String;
-
-export interface DuplicateXetFilesRequestTarget {
-  type: DuplicateXetFilesRequestTargetType | (string & {});
-  name: string;
-}
-export const DuplicateXetFilesRequestTarget = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: DuplicateXetFilesRequestTargetType,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "DuplicateXetFilesRequestTarget",
-}) as any as S.Schema<DuplicateXetFilesRequestTarget>;
-
-export interface DuplicateXetFilesRequestFilesItem {
-  xetHash: string;
-  sha256: string;
-  filename?: string;
-}
-export const DuplicateXetFilesRequestFilesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    xetHash: S.String,
-    sha256: S.String,
-    filename: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DuplicateXetFilesRequestFilesItem",
-}) as any as S.Schema<DuplicateXetFilesRequestFilesItem>;
-
-export type DuplicateXetFilesRequestFilesList = Array<DuplicateXetFilesRequestFilesItem>;
-export const DuplicateXetFilesRequestFilesList = /*@__PURE__*/ S.Array(
-  DuplicateXetFilesRequestFilesItem,
-) as any as S.Schema<DuplicateXetFilesRequestFilesList>;
-
-export interface DuplicateXetFilesRequest {
-  namespace: string;
-  repo: string;
-  target: DuplicateXetFilesRequestTarget;
-  files: DuplicateXetFilesRequestFilesList;
-}
-export const DuplicateXetFilesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    target: DuplicateXetFilesRequestTarget,
-    files: DuplicateXetFilesRequestFilesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/buckets/{namespace}/{repo}/lfs-files/duplicate",
-      code: 200,
-    }),
-  ),
-).annotate({ identifier: "DuplicateXetFilesRequest" }) as any as S.Schema<DuplicateXetFilesRequest>;
-
-export interface DuplicateXetFilesResponseFailedItem {
-  /** Xet content hash of the file that failed */
-  xetHash: string;
-  /** sha256 of the file that failed */
-  sha256: string;
-  /** Error message */
-  error: string;
-}
-export const DuplicateXetFilesResponseFailedItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    xetHash: S.String,
-    sha256: S.String,
-    error: S.String,
-  }),
-).annotate({
-  identifier: "DuplicateXetFilesResponseFailedItem",
-}) as any as S.Schema<DuplicateXetFilesResponseFailedItem>;
-
-/** Per-file failures */
-export type DuplicateXetFilesResponseFailedList = Array<DuplicateXetFilesResponseFailedItem>;
-export const DuplicateXetFilesResponseFailedList = /*@__PURE__*/ S.Array(
-  DuplicateXetFilesResponseFailedItem,
-) as any as S.Schema<DuplicateXetFilesResponseFailedList>;
-
-export interface DuplicateXetFilesResponse {
-  /** True if all requested files were duplicated (or already present) */
-  success: boolean;
-  /** Total number of unique files processed */
-  processed: number;
-  /** Number of files duplicated or already present in the target */
-  succeeded: number;
-  /** Per-file failures */
-  failed: DuplicateXetFilesResponseFailedList;
-}
-export const DuplicateXetFilesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    success: S.Boolean,
-    processed: S.Number,
-    succeeded: S.Number,
-    failed: DuplicateXetFilesResponseFailedList,
-  }),
-).annotate({
-  identifier: "DuplicateXetFilesResponse",
-}) as any as S.Schema<DuplicateXetFilesResponse>;
-
-export interface FollowChangesRequest {
-  namespace: string;
-  repo: string;
-  cursor?: string;
-  since?: string;
-}
-export const FollowChangesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-    cursor: S.optional(S.String.pipe(T.Query())),
-    since: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/events", code: 200 })),
-).annotate({ identifier: "FollowChangesRequest" }) as any as S.Schema<FollowChangesRequest>;
-
-export interface FollowChangesResponse {}
-export const FollowChangesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "FollowChangesResponse",
-}) as any as S.Schema<FollowChangesResponse>;
 
 export interface GetBucketDetailsRequest {
   namespace: string;
@@ -365,7 +203,7 @@ export const GetBucketDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/api/containers/{namespace}/{repo}", code: 200 })),
 ).annotate({ identifier: "GetBucketDetailsRequest" }) as any as S.Schema<GetBucketDetailsRequest>;
 
 export type GetBucketDetailsResponseRepoType = "bucket" | "container";
@@ -485,7 +323,9 @@ export const GetFileMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     noContentDisposition: S.optional(S.String.pipe(T.Query())),
     download: S.optional(S.String.pipe(T.Query())),
     accept: S.optional(S.String.pipe(T.Header("Accept"))),
-  }).pipe(T.Http({ method: "GET", uri: "/buckets/{namespace}/{repo}/resolve/{path}", code: 200 })),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/containers/{namespace}/{repo}/resolve/{path}", code: 200 }),
+  ),
 ).annotate({ identifier: "GetFileMetadataRequest" }) as any as S.Schema<GetFileMetadataRequest>;
 
 export interface GetFileMetadataResponse {
@@ -512,33 +352,6 @@ export const GetFileMetadataResponse = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.String),
   }),
 ).annotate({ identifier: "GetFileMetadataResponse" }) as any as S.Schema<GetFileMetadataResponse>;
-
-export interface GetResourceGroupRequest {
-  namespace: string;
-  repo: string;
-}
-export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespace: S.String.pipe(T.Label()),
-    repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/resource-group", code: 200 }),
-  ),
-).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
-
-export interface GetResourceGroupResponse {
-  /** A hex string of 24 characters representing an ObjectId. */
-  id: string;
-  name: string;
-  numUsers?: number;
-}
-export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    numUsers: S.optional(S.Number),
-  }),
-).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 /** Sort order. `path` (default) sorts lexicographically; `uploadedAt` sorts by most recent upload first. In recursive mode `uploadedAt` is only supported at the bucket root (no path prefix). In non-recursive mode, only supported at root or exact folder prefixes. */
 export type ListFilesRequestSort = "path" | "uploadedAt";
@@ -568,7 +381,9 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     recursive: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(ListFilesRequestSort.pipe(T.Query())),
     direction: S.optional(ListFilesRequestDirection.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/tree/{path}", code: 200 })),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/api/containers/{namespace}/{repo}/tree/{path}", code: 200 }),
+  ),
 ).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 export type ListFilesResponseBodyItemType = "file" | "directory";
@@ -619,7 +434,7 @@ export const ListNamespaceBucketsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}", code: 200 })),
+  }).pipe(T.Http({ method: "GET", uri: "/api/containers/{namespace}", code: 200 })),
 ).annotate({
   identifier: "ListNamespaceBucketsRequest",
 }) as any as S.Schema<ListNamespaceBucketsRequest>;
@@ -738,7 +553,9 @@ export const ListPathsInfoRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     paths: ListPathsInfoRequestPaths,
-  }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/paths-info", code: 200 })),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/containers/{namespace}/{repo}/paths-info", code: 200 }),
+  ),
 ).annotate({ identifier: "ListPathsInfoRequest" }) as any as S.Schema<ListPathsInfoRequest>;
 
 export type ListPathsInfoResponseBodyItemType = "file" | "directory";
@@ -781,6 +598,45 @@ export const ListPathsInfoResponse = /*@__PURE__*/ S.suspend(() =>
   ListPathsInfoResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({ identifier: "ListPathsInfoResponse" }) as any as S.Schema<ListPathsInfoResponse>;
 
+export type RegistryTokenRequestScopeCase1List = Array<string>;
+export const RegistryTokenRequestScopeCase1List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RegistryTokenRequestScopeCase1List>;
+
+/** Docker Distribution scope(s), e.g. `repository:org/img:push,pull`. May be repeated. */
+export type RegistryTokenRequestScope = string | RegistryTokenRequestScopeCase1List;
+export const RegistryTokenRequestScope = S.Unknown as any as S.Schema<RegistryTokenRequestScope>;
+
+export interface RegistryTokenRequest {
+  service: string;
+  scope?: RegistryTokenRequestScope;
+}
+export const RegistryTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    service: S.String.pipe(T.Query()),
+    scope: S.optional(RegistryTokenRequestScope.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/registry/token", code: 200 })),
+).annotate({ identifier: "RegistryTokenRequest" }) as any as S.Schema<RegistryTokenRequest>;
+
+export interface RegistryTokenResponse {
+  /** EdDSA JWT signed by the moon JWT key, carrying `access[]`. */
+  token: string;
+  /** Identical to `token` — Docker Distribution v2 accepts either field. */
+  access_token: string | Redacted.Redacted<string>;
+  /** JWT lifetime in seconds. */
+  expires_in: number;
+  /** ISO-8601 timestamp at which the JWT was minted. */
+  issued_at: string;
+}
+export const RegistryTokenResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    token: S.String,
+    access_token: S.String.pipe(T.SensitiveValue({})),
+    expires_in: S.Number,
+    issued_at: S.String,
+  }),
+).annotate({ identifier: "RegistryTokenResponse" }) as any as S.Schema<RegistryTokenResponse>;
+
 export type UpdateBucketSettingsRequestCdnRegionsItemProvider = "gcp" | "aws";
 export const UpdateBucketSettingsRequestCdnRegionsItemProvider = S.String;
 
@@ -818,7 +674,7 @@ export const UpdateBucketSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     private: S.optional(S.Unknown),
     cdnRegions: S.optional(UpdateBucketSettingsRequestCdnRegionsList),
-  }).pipe(T.Http({ method: "PUT", uri: "/api/buckets/{namespace}/{repo}/settings", code: 200 })),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/containers/{namespace}/{repo}/settings", code: 200 })),
 ).annotate({
   identifier: "UpdateBucketSettingsRequest",
 }) as any as S.Schema<UpdateBucketSettingsRequest>;
@@ -870,7 +726,7 @@ export const XetReadTokenRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/xet-read-token", code: 200 }),
+    T.Http({ method: "GET", uri: "/api/containers/{namespace}/{repo}/xet-read-token", code: 200 }),
   ),
 ).annotate({ identifier: "XetReadTokenRequest" }) as any as S.Schema<XetReadTokenRequest>;
 
@@ -896,7 +752,7 @@ export const XetWriteTokenRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}/xet-write-token", code: 200 }),
+    T.Http({ method: "GET", uri: "/api/containers/{namespace}/{repo}/xet-write-token", code: 200 }),
   ),
 ).annotate({ identifier: "XetWriteTokenRequest" }) as any as S.Schema<XetWriteTokenRequest>;
 
@@ -912,21 +768,6 @@ export const XetWriteTokenResponse = /*@__PURE__*/ S.suspend(() =>
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
 ).annotate({ identifier: "XetWriteTokenResponse" }) as any as S.Schema<XetWriteTokenResponse>;
-
-export type AddResourceGroupError = HuggingFaceOpError;
-/** Add resource group Add the repository to a resource group */
-export const addResourceGroup: API.OperationMethod<
-  AddResourceGroupRequest,
-  AddResourceGroupResponse,
-  AddResourceGroupError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: AddResourceGroupRequest,
-  output: AddResourceGroupResponse,
-  errors: [],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
 
 export type BatchFileOperationsError = UnprocessableEntity | HuggingFaceOpError;
 /** Batch file operations Accepts NDJSON (newline-delimited JSON) where each line is an addFile, copyFile, or deleteFile instruction. All add/copy operations must come before all delete operations. JSON-lines payload: ```json '{"type":"addFile","path":"...","xetHash":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"copyFile","path":"...","xetHash":"...","sourceRepoType":"...","sourceRepoId":"...","mtime":...,"mtimeNanos":...,"contentType":"..."}' + '{"type":"deleteFile","path":"..."}' ``` */
@@ -973,36 +814,6 @@ export const deleteBucket: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DuplicateXetFilesError = HuggingFaceOpError;
-/** Duplicate xet files Duplicate xet-stored files from this repo (source) into another repo (target) by xet hash, without re-uploading file bytes. The caller must then commit the files with their sha256/size as usual. */
-export const duplicateXetFiles: API.OperationMethod<
-  DuplicateXetFilesRequest,
-  DuplicateXetFilesResponse,
-  DuplicateXetFilesError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DuplicateXetFilesRequest,
-  output: DuplicateXetFilesResponse,
-  errors: [],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
-
-export type FollowChangesError = HuggingFaceOpError;
-/** Follow changes Server-sent events (`Accept: text/event-stream`) of the bucket's file changes, so clients can stop polling `/tree`. Events: - `ready`: `{"cursor"}` — replay (if any) is done, live changes follow. `cursor` may be absent if the feed has seen no change yet. - `changes`: `{"cursor", "changes": [{"path", "op": "add" | "update" | "delete", "size"?, "xetHash"?, "uploadedAt"?, "mtime"?, "mtimeNanos"?}]}` — a batch of changes coalesced over ~200ms. An `update` only carries the fields that changed (an identical re-upload has just `uploadedAt`); `mtime`/`mtimeNanos` are `null` when a re-upload cleared them. `xetHash` is omitted without content read access. - `reset`: `{"reason": "cursor_too_old"}` — the requested `cursor`/`since` is older than what the server buffers (about 15 minutes); the stream ends and the client must re-list. A `since` at or after the bucket's `updatedAt` never resets, however old. - `reconnect`: `{"cursor"}` — sent after 20 minutes or when the server shuts down (deploys), then the stream ends; reconnect with that cursor. Treat any other end of the stream the same way: reconnect with the last cursor you received. A `: ping` comment is sent every 30s. Resume with `?cursor=` (exclusive) or `?since=` (inclusive); without either, only live changes are sent. */
-export const followChanges: API.OperationMethod<
-  FollowChangesRequest,
-  FollowChangesResponse,
-  FollowChangesError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: FollowChangesRequest,
-  output: FollowChangesResponse,
-  errors: [],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetBucketDetailsError = HuggingFaceOpError;
 /** Get bucket details */
 export const getBucketDetails: API.OperationMethod<
@@ -1029,21 +840,6 @@ export const getFileMetadata: API.OperationMethod<
   input: GetFileMetadataRequest,
   output: GetFileMetadataResponse,
   errors: [BadRequest, NotFound],
-  protocol: HuggingFaceProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetResourceGroupError = HuggingFaceOpError;
-/** Get resource group */
-export const getResourceGroup: API.OperationMethod<
-  GetResourceGroupRequest,
-  GetResourceGroupResponse,
-  GetResourceGroupError,
-  HuggingFaceOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetResourceGroupRequest,
-  output: GetResourceGroupResponse,
-  errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
 }));
@@ -1088,6 +884,21 @@ export const listPathsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPathsInfoRequest,
   output: ListPathsInfoResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RegistryTokenError = HuggingFaceOpError;
+/** Registry token Mints a short-lived EdDSA JWT for the HuggingFace container registry, verifiable via the JWK at `/api/keys/jwt`. */
+export const registryToken: API.OperationMethod<
+  RegistryTokenRequest,
+  RegistryTokenResponse,
+  RegistryTokenError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RegistryTokenRequest,
+  output: RegistryTokenResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

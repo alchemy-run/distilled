@@ -1,0 +1,1660 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.huggingface.inference_providers#ReorderInferenceProvidersRequestBodyValue": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "position": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#ReorderInferenceProvidersRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.huggingface.inference_providers#ReorderInferenceProvidersRequestBodyValue"
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#ReorderInferenceProvidersRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.huggingface.inference_providers#ReorderInferenceProvidersRequestBodyMap",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#ReorderInferenceProviders": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#ReorderInferenceProvidersRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/settings/inference-providers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reorder inference providers"
+      }
+    },
+    "com.huggingface.inference_providers#SetProviderKeyRequestProvider": {
+      "type": "enum",
+      "members": {
+        "BASETEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baseten"
+          }
+        },
+        "COHERE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere"
+          }
+        },
+        "CEREBRAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cerebras"
+          }
+        },
+        "DEEPINFRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepinfra"
+          }
+        },
+        "FAL_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fal-ai"
+          }
+        },
+        "FEATHERLESS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "featherless-ai"
+          }
+        },
+        "FIREWORKS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fireworks-ai"
+          }
+        },
+        "GROQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "groq"
+          }
+        },
+        "NOVITA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "novita"
+          }
+        },
+        "NSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nscale"
+          }
+        },
+        "OVHCLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ovhcloud"
+          }
+        },
+        "PUBLICAI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publicai"
+          }
+        },
+        "REPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replicate"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "TOGETHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "together"
+          }
+        },
+        "WAVESPEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wavespeed"
+          }
+        },
+        "ZAI_ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zai-org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#SetProviderKeyRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.huggingface.inference_providers#SetProviderKeyRequestProvider",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#SetProviderKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#SetProviderKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/settings/inference-providers/api-key",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set provider key"
+      }
+    },
+    "com.huggingface.inference_providers#DefaultBillingEntityRequest": {
+      "type": "structure",
+      "members": {
+        "orgId": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#DefaultBillingEntity": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#DefaultBillingEntityRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/settings/inference-providers/default-billing-entity",
+          "code": 200
+        },
+        "smithy.api#documentation": "Default billing entity"
+      }
+    },
+    "com.huggingface.inference_providers#SetSpendingLimitRequest": {
+      "type": "structure",
+      "members": {
+        "spendingLimitCents": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#SetSpendingLimit": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#SetSpendingLimitRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/settings/inference-providers/usage-limits",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set spending limit"
+      }
+    },
+    "com.huggingface.inference_providers#ListProviderMappingsRequestProvider": {
+      "type": "enum",
+      "members": {
+        "BASETEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baseten"
+          }
+        },
+        "COHERE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere"
+          }
+        },
+        "CEREBRAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cerebras"
+          }
+        },
+        "DEEPINFRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepinfra"
+          }
+        },
+        "FAL_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fal-ai"
+          }
+        },
+        "FEATHERLESS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "featherless-ai"
+          }
+        },
+        "FIREWORKS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fireworks-ai"
+          }
+        },
+        "GROQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "groq"
+          }
+        },
+        "HF_INFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hf-inference"
+          }
+        },
+        "NOVITA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "novita"
+          }
+        },
+        "NSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nscale"
+          }
+        },
+        "OVHCLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ovhcloud"
+          }
+        },
+        "PUBLICAI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publicai"
+          }
+        },
+        "REPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replicate"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "TOGETHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "together"
+          }
+        },
+        "WAVESPEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wavespeed"
+          }
+        },
+        "ZAI_ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zai-org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#ListProviderMappingsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "STAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "staging"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#ListProviderMappingsRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.huggingface.inference_providers#ListProviderMappingsRequestProvider",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.huggingface.inference_providers#ListProviderMappingsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#ListProviderMappings": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#ListProviderMappingsRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/partners/{provider}/models",
+          "code": 200
+        },
+        "smithy.api#documentation": "List provider mappings\n\nList the model mappings of an inference provider."
+      }
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestProvider": {
+      "type": "enum",
+      "members": {
+        "BASETEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baseten"
+          }
+        },
+        "COHERE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere"
+          }
+        },
+        "CEREBRAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cerebras"
+          }
+        },
+        "DEEPINFRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepinfra"
+          }
+        },
+        "FAL_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fal-ai"
+          }
+        },
+        "FEATHERLESS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "featherless-ai"
+          }
+        },
+        "FIREWORKS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fireworks-ai"
+          }
+        },
+        "GROQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "groq"
+          }
+        },
+        "HF_INFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hf-inference"
+          }
+        },
+        "NOVITA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "novita"
+          }
+        },
+        "NSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nscale"
+          }
+        },
+        "OVHCLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ovhcloud"
+          }
+        },
+        "PUBLICAI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publicai"
+          }
+        },
+        "REPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replicate"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "TOGETHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "together"
+          }
+        },
+        "WAVESPEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wavespeed"
+          }
+        },
+        "ZAI_ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zai-org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "STAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "staging"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0Task": {
+      "type": "enum",
+      "members": {
+        "CONVERSATIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversational"
+          }
+        },
+        "TEXT_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-classification"
+          }
+        },
+        "TOKEN_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "token-classification"
+          }
+        },
+        "TABLE_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table-question-answering"
+          }
+        },
+        "QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "question-answering"
+          }
+        },
+        "ZERO_SHOT_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-classification"
+          }
+        },
+        "TRANSLATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "translation"
+          }
+        },
+        "SUMMARIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summarization"
+          }
+        },
+        "FEATURE_EXTRACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature-extraction"
+          }
+        },
+        "TEXT_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-generation"
+          }
+        },
+        "FILL_MASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fill-mask"
+          }
+        },
+        "SENTENCE_SIMILARITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sentence-similarity"
+          }
+        },
+        "TEXT_TO_SPEECH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-speech"
+          }
+        },
+        "TEXT_TO_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-audio"
+          }
+        },
+        "AUTOMATIC_SPEECH_RECOGNITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic-speech-recognition"
+          }
+        },
+        "AUDIO_TO_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-to-audio"
+          }
+        },
+        "AUDIO_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-classification"
+          }
+        },
+        "AUDIO_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-text-to-text"
+          }
+        },
+        "VOICE_ACTIVITY_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voice-activity-detection"
+          }
+        },
+        "DEPTH_ESTIMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "depth-estimation"
+          }
+        },
+        "IMAGE_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-classification"
+          }
+        },
+        "OBJECT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object-detection"
+          }
+        },
+        "IMAGE_SEGMENTATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-segmentation"
+          }
+        },
+        "TEXT_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-image"
+          }
+        },
+        "IMAGE_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-text"
+          }
+        },
+        "IMAGE_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-image"
+          }
+        },
+        "IMAGE_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-video"
+          }
+        },
+        "UNCONDITIONAL_IMAGE_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unconditional-image-generation"
+          }
+        },
+        "VIDEO_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-classification"
+          }
+        },
+        "REINFORCEMENT_LEARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reinforcement-learning"
+          }
+        },
+        "ROBOTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "robotics"
+          }
+        },
+        "TABULAR_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-classification"
+          }
+        },
+        "TABULAR_REGRESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-regression"
+          }
+        },
+        "TABULAR_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-to-text"
+          }
+        },
+        "TABLE_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table-to-text"
+          }
+        },
+        "MULTIPLE_CHOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple-choice"
+          }
+        },
+        "TEXT_RANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-ranking"
+          }
+        },
+        "TEXT_RETRIEVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-retrieval"
+          }
+        },
+        "TIME_SERIES_FORECASTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "time-series-forecasting"
+          }
+        },
+        "TEXT_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-video"
+          }
+        },
+        "IMAGE_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-text"
+          }
+        },
+        "IMAGE_TEXT_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-image"
+          }
+        },
+        "IMAGE_TEXT_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-video"
+          }
+        },
+        "VISUAL_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visual-question-answering"
+          }
+        },
+        "DOCUMENT_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document-question-answering"
+          }
+        },
+        "ZERO_SHOT_IMAGE_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-image-classification"
+          }
+        },
+        "GRAPH_ML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "graph-ml"
+          }
+        },
+        "MASK_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mask-generation"
+          }
+        },
+        "ZERO_SHOT_OBJECT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-object-detection"
+          }
+        },
+        "TEXT_TO_3D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-3d"
+          }
+        },
+        "IMAGE_TO_3D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-3d"
+          }
+        },
+        "IMAGE_FEATURE_EXTRACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-feature-extraction"
+          }
+        },
+        "VIDEO_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-text-to-text"
+          }
+        },
+        "KEYPOINT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "keypoint-detection"
+          }
+        },
+        "VISUAL_DOCUMENT_RETRIEVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visual-document-retrieval"
+          }
+        },
+        "ANY_TO_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any-to-any"
+          }
+        },
+        "VIDEO_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-to-video"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "hfModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "providerModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0Status"
+        },
+        "task": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0Task",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1Status": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "STAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "staging"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1Task": {
+      "type": "enum",
+      "members": {
+        "CONVERSATIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "conversational"
+          }
+        },
+        "TEXT_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-classification"
+          }
+        },
+        "TOKEN_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "token-classification"
+          }
+        },
+        "TABLE_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table-question-answering"
+          }
+        },
+        "QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "question-answering"
+          }
+        },
+        "ZERO_SHOT_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-classification"
+          }
+        },
+        "TRANSLATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "translation"
+          }
+        },
+        "SUMMARIZATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summarization"
+          }
+        },
+        "FEATURE_EXTRACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "feature-extraction"
+          }
+        },
+        "TEXT_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-generation"
+          }
+        },
+        "FILL_MASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fill-mask"
+          }
+        },
+        "SENTENCE_SIMILARITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sentence-similarity"
+          }
+        },
+        "TEXT_TO_SPEECH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-speech"
+          }
+        },
+        "TEXT_TO_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-audio"
+          }
+        },
+        "AUTOMATIC_SPEECH_RECOGNITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "automatic-speech-recognition"
+          }
+        },
+        "AUDIO_TO_AUDIO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-to-audio"
+          }
+        },
+        "AUDIO_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-classification"
+          }
+        },
+        "AUDIO_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "audio-text-to-text"
+          }
+        },
+        "VOICE_ACTIVITY_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "voice-activity-detection"
+          }
+        },
+        "DEPTH_ESTIMATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "depth-estimation"
+          }
+        },
+        "IMAGE_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-classification"
+          }
+        },
+        "OBJECT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object-detection"
+          }
+        },
+        "IMAGE_SEGMENTATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-segmentation"
+          }
+        },
+        "TEXT_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-image"
+          }
+        },
+        "IMAGE_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-text"
+          }
+        },
+        "IMAGE_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-image"
+          }
+        },
+        "IMAGE_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-video"
+          }
+        },
+        "UNCONDITIONAL_IMAGE_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unconditional-image-generation"
+          }
+        },
+        "VIDEO_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-classification"
+          }
+        },
+        "REINFORCEMENT_LEARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reinforcement-learning"
+          }
+        },
+        "ROBOTICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "robotics"
+          }
+        },
+        "TABULAR_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-classification"
+          }
+        },
+        "TABULAR_REGRESSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-regression"
+          }
+        },
+        "TABULAR_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tabular-to-text"
+          }
+        },
+        "TABLE_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "table-to-text"
+          }
+        },
+        "MULTIPLE_CHOICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "multiple-choice"
+          }
+        },
+        "TEXT_RANKING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-ranking"
+          }
+        },
+        "TEXT_RETRIEVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-retrieval"
+          }
+        },
+        "TIME_SERIES_FORECASTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "time-series-forecasting"
+          }
+        },
+        "TEXT_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-video"
+          }
+        },
+        "IMAGE_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-text"
+          }
+        },
+        "IMAGE_TEXT_TO_IMAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-image"
+          }
+        },
+        "IMAGE_TEXT_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-text-to-video"
+          }
+        },
+        "VISUAL_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visual-question-answering"
+          }
+        },
+        "DOCUMENT_QUESTION_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "document-question-answering"
+          }
+        },
+        "ZERO_SHOT_IMAGE_CLASSIFICATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-image-classification"
+          }
+        },
+        "GRAPH_ML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "graph-ml"
+          }
+        },
+        "MASK_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mask-generation"
+          }
+        },
+        "ZERO_SHOT_OBJECT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zero-shot-object-detection"
+          }
+        },
+        "TEXT_TO_3D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text-to-3d"
+          }
+        },
+        "IMAGE_TO_3D": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-to-3d"
+          }
+        },
+        "IMAGE_FEATURE_EXTRACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "image-feature-extraction"
+          }
+        },
+        "VIDEO_TEXT_TO_TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-text-to-text"
+          }
+        },
+        "KEYPOINT_DETECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "keypoint-detection"
+          }
+        },
+        "VISUAL_DOCUMENT_RETRIEVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "visual-document-retrieval"
+          }
+        },
+        "ANY_TO_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "any-to-any"
+          }
+        },
+        "VIDEO_TO_VIDEO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "video-to-video"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1TagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "providerModel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1Status"
+        },
+        "task": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1Task",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1TagsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "adapterType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequestBody": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase0"
+        },
+        "Case1": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBodyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#CreateProviderMappingRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestProvider",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.huggingface.inference_providers#CreateProviderMappingRequestBody",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#CreateProviderMapping": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#CreateProviderMappingRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/partners/{provider}/models",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create provider mapping\n\nRegister a model mapping for your inference provider. Requires a write token of the provider organization."
+      }
+    },
+    "com.huggingface.inference_providers#UpdateMappingStatusRequestProvider": {
+      "type": "enum",
+      "members": {
+        "BASETEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "baseten"
+          }
+        },
+        "COHERE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere"
+          }
+        },
+        "CEREBRAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cerebras"
+          }
+        },
+        "DEEPINFRA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deepinfra"
+          }
+        },
+        "FAL_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fal-ai"
+          }
+        },
+        "FEATHERLESS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "featherless-ai"
+          }
+        },
+        "FIREWORKS_AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fireworks-ai"
+          }
+        },
+        "GROQ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "groq"
+          }
+        },
+        "HF_INFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hf-inference"
+          }
+        },
+        "NOVITA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "novita"
+          }
+        },
+        "NSCALE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nscale"
+          }
+        },
+        "OVHCLOUD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ovhcloud"
+          }
+        },
+        "PUBLICAI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publicai"
+          }
+        },
+        "REPLICATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replicate"
+          }
+        },
+        "SCALEWAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scaleway"
+          }
+        },
+        "TOGETHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "together"
+          }
+        },
+        "WAVESPEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "wavespeed"
+          }
+        },
+        "ZAI_ORG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "zai-org"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#UpdateMappingStatusRequestStatus": {
+      "type": "enum",
+      "members": {
+        "LIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "live"
+          }
+        },
+        "STAGING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "staging"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.huggingface.inference_providers#UpdateMappingStatusRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.huggingface.inference_providers#UpdateMappingStatusRequestProvider",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "mappingId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.huggingface.inference_providers#UpdateMappingStatusRequestStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.huggingface.inference_providers#UpdateMappingStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.huggingface.inference_providers#UpdateMappingStatusRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/partners/{provider}/models/{mappingId}/status",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update mapping status\n\nUpdate the status of one of your inference provider's model mappings."
+      }
+    },
+    "com.huggingface.inference_providers#InferenceProviders": {
+      "type": "service",
+      "version": "0.0.1",
+      "operations": [
+        {
+          "target": "com.huggingface.inference_providers#ReorderInferenceProviders"
+        },
+        {
+          "target": "com.huggingface.inference_providers#SetProviderKey"
+        },
+        {
+          "target": "com.huggingface.inference_providers#DefaultBillingEntity"
+        },
+        {
+          "target": "com.huggingface.inference_providers#SetSpendingLimit"
+        },
+        {
+          "target": "com.huggingface.inference_providers#ListProviderMappings"
+        },
+        {
+          "target": "com.huggingface.inference_providers#CreateProviderMapping"
+        },
+        {
+          "target": "com.huggingface.inference_providers#UpdateMappingStatus"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Hub API Endpoints",
+        "smithy.api#documentation": "We have open endpoints that you can use to retrieve information from the Hub as well as perform certain actions such as creating model, dataset or Space repos. We offer a wrapper Python client, [`huggingface_hub`](https://github.com/huggingface/huggingface_hub), and a JS client, [`huggingface.js`](https://github.com/huggingface/huggingface.js), that allow easy access to these endpoints. We also provide [webhooks](https://huggingface.co/docs/hub/webhooks) to receive real-time incremental info about repos. Enjoy!\n\nThe base URL for those endpoints below is `https://huggingface.co`. For example, to construct the `/api/models` call below, one can call the URL [https://huggingface.co/api/models](https://huggingface.co/api/models).\n\nIf you're an Agent, you might prefer the [markdown version OpenAPI spec](https://huggingface.co/.well-known/openapi.md)."
+      }
+    }
+  }
+}

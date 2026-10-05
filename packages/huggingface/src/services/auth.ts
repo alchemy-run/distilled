@@ -14,9 +14,7 @@ export type { HuggingFaceOpError, HuggingFaceOpContext };
 export interface GetUserInfoRequest {}
 export const GetUserInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/whoami-v2", code: 200 })),
-).annotate({
-  identifier: "GetUserInfoRequest",
-}) as any as S.Schema<GetUserInfoRequest>;
+).annotate({ identifier: "GetUserInfoRequest" }) as any as S.Schema<GetUserInfoRequest>;
 
 export type GetUserInfoResponseBodyAuthAccessTokenRole = "read" | "write" | "god" | "fineGrained";
 export const GetUserInfoResponseBodyAuthAccessTokenRole = S.String;
@@ -27,6 +25,7 @@ export type GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityTyp
   | "space"
   | "bucket"
   | "kernel"
+  | "container"
   | "collection"
   | "org"
   | "user"
@@ -35,6 +34,7 @@ export type GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityTyp
 export const GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityType = S.String;
 
 export interface GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntity {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   name?: string;
   type: GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityType;
@@ -190,6 +190,7 @@ export type GetUserInfoResponseBodyOrgsItemResourceGroupsItemRole =
 export const GetUserInfoResponseBodyOrgsItemResourceGroupsItemRole = S.String;
 
 export interface GetUserInfoResponseBodyOrgsItemResourceGroupsItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   role: GetUserInfoResponseBodyOrgsItemResourceGroupsItemRole;
@@ -211,12 +212,13 @@ export const GetUserInfoResponseBodyOrgsItemResourceGroupsList = /*@__PURE__*/ S
 ) as any as S.Schema<GetUserInfoResponseBodyOrgsItemResourceGroupsList>;
 
 export interface GetUserInfoResponseBodyOrgsItem {
-  type: unknown;
+  type: string;
   id: string;
   name: string;
   fullname: string;
   email?: string | null;
   canPay?: boolean;
+  spendLimitReached?: boolean;
   billingMode?: GetUserInfoResponseBodyOrgsItemBillingMode;
   avatarUrl: string;
   periodEnd?: number | null;
@@ -228,12 +230,13 @@ export interface GetUserInfoResponseBodyOrgsItem {
 }
 export const GetUserInfoResponseBodyOrgsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.Unknown,
+    type: S.String,
     id: S.String,
     name: S.String,
     fullname: S.String,
     email: S.optional(S.NullOr(S.String)),
     canPay: S.optional(S.Boolean),
+    spendLimitReached: S.optional(S.Boolean),
     billingMode: S.optional(GetUserInfoResponseBodyOrgsItemBillingMode),
     avatarUrl: S.String,
     periodEnd: S.optional(S.NullOr(S.Number)),
@@ -253,7 +256,7 @@ export const GetUserInfoResponseBodyOrgsList = /*@__PURE__*/ S.Array(
 
 export interface GetUserInfoResponseBody {
   auth: GetUserInfoResponseBodyAuth;
-  type: unknown;
+  type: string;
   id: string;
   name: string;
   fullname: string;
@@ -269,7 +272,7 @@ export interface GetUserInfoResponseBody {
 export const GetUserInfoResponseBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auth: GetUserInfoResponseBodyAuth,
-    type: S.Unknown,
+    type: S.String,
     id: S.String,
     name: S.String,
     fullname: S.String,
@@ -282,16 +285,12 @@ export const GetUserInfoResponseBody = /*@__PURE__*/ S.suspend(() =>
     isPro: S.Boolean,
     orgs: GetUserInfoResponseBodyOrgsList,
   }),
-).annotate({
-  identifier: "GetUserInfoResponseBody",
-}) as any as S.Schema<GetUserInfoResponseBody>;
+).annotate({ identifier: "GetUserInfoResponseBody" }) as any as S.Schema<GetUserInfoResponseBody>;
 
 export type GetUserInfoResponse = GetUserInfoResponseBody;
 export const GetUserInfoResponse = /*@__PURE__*/ S.suspend(() =>
   GetUserInfoResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetUserInfoResponse",
-}) as any as S.Schema<GetUserInfoResponse>;
+).annotate({ identifier: "GetUserInfoResponse" }) as any as S.Schema<GetUserInfoResponse>;
 
 export type GetUserInfoError = HuggingFaceOpError;
 /** Get user info Get information about the user and auth method used */

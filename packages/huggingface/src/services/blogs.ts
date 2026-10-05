@@ -19,18 +19,13 @@ export const GetBlogResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/blog/{namespace}/{slug}/resource-group",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/blog/{namespace}/{slug}/resource-group", code: 200 })),
 ).annotate({
   identifier: "GetBlogResourceGroupRequest",
 }) as any as S.Schema<GetBlogResourceGroupRequest>;
 
 export interface GetBlogResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -45,6 +40,27 @@ export const GetBlogResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBlogResourceGroupResponse",
 }) as any as S.Schema<GetBlogResourceGroupResponse>;
 
+export type ListBlogsRequestCommunitySort = "trending" | "recent";
+export const ListBlogsRequestCommunitySort = S.String;
+
+export interface ListBlogsRequest {
+  p?: number;
+  community_sort?: ListBlogsRequestCommunitySort | (string & {});
+  tag?: string;
+}
+export const ListBlogsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    p: S.optional(S.Number.pipe(T.Query())),
+    community_sort: S.optional(ListBlogsRequestCommunitySort.pipe(T.Query())),
+    tag: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/blog/zh", code: 200 })),
+).annotate({ identifier: "ListBlogsRequest" }) as any as S.Schema<ListBlogsRequest>;
+
+export interface ListBlogsResponse {}
+export const ListBlogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ListBlogsResponse",
+}) as any as S.Schema<ListBlogsResponse>;
+
 export interface SetBlogResourceGroupRequest {
   namespace: string;
   slug: string;
@@ -57,11 +73,7 @@ export const SetBlogResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     resourceGroupId: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/blog/{namespace}/{slug}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/blog/{namespace}/{slug}/resource-group", code: 200 }),
   ),
 ).annotate({
   identifier: "SetBlogResourceGroupRequest",
@@ -69,6 +81,7 @@ export const SetBlogResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface SetBlogResourceGroupResponse {
   resourceGroupId: string | null;
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   slug: string;
   title: string;
@@ -89,7 +102,7 @@ export const SetBlogResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SetBlogResourceGroupResponse>;
 
 export type GetBlogResourceGroupError = HuggingFaceOpError;
-/** Get blog resource group */
+/** Blog resource group */
 export const getBlogResourceGroup: API.OperationMethod<
   GetBlogResourceGroupRequest,
   GetBlogResourceGroupResponse,
@@ -103,8 +116,23 @@ export const getBlogResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListBlogsError = HuggingFaceOpError;
+/** List blogs */
+export const listBlogs: API.OperationMethod<
+  ListBlogsRequest,
+  ListBlogsResponse,
+  ListBlogsError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBlogsRequest,
+  output: ListBlogsResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SetBlogResourceGroupError = HuggingFaceOpError;
-/** Set blog resource group Assign, move, or unassign an organization-owned blog to a resource group. Pass null to unassign. User-owned blogs are not eligible. */
+/** Blog resource group Assign, move, or unassign an organization-owned blog to a resource group. Pass null to unassign. User-owned blogs are not eligible. */
 export const setBlogResourceGroup: API.OperationMethod<
   SetBlogResourceGroupRequest,
   SetBlogResourceGroupResponse,

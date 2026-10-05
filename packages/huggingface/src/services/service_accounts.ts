@@ -20,13 +20,7 @@ export const CreateServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{name}/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/organizations/{name}/service-accounts", code: 200 })),
 ).annotate({
   identifier: "CreateServiceAccountRequest",
 }) as any as S.Schema<CreateServiceAccountRequest>;
@@ -52,6 +46,7 @@ export const CreateServiceAccountResponse = /*@__PURE__*/ S.suspend(() =>
 
 export type CreateServiceAccountTokenRequestPermissionsItem =
   | "repo.content.read"
+  | "repo.contribute.write"
   | "repo.write"
   | "inference.serverless.write"
   | "inference.endpoints.infer.write"
@@ -265,15 +260,14 @@ export const GetServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetServiceAccountRequest",
-}) as any as S.Schema<GetServiceAccountRequest>;
+).annotate({ identifier: "GetServiceAccountRequest" }) as any as S.Schema<GetServiceAccountRequest>;
 
 export type GetServiceAccountResponseAccessTokensItemRole = "read" | "write" | "fineGrained";
 export const GetServiceAccountResponseAccessTokensItemRole = S.String;
 
 export type GetServiceAccountResponseAccessTokensItemPermissionsItem =
   | "repo.content.read"
+  | "repo.contribute.write"
   | "repo.write"
   | "inference.serverless.write"
   | "inference.endpoints.infer.write"
@@ -317,6 +311,7 @@ export const GetServiceAccountResponseAccessTokensItemEndpointPatternsList = /*@
 ) as any as S.Schema<GetServiceAccountResponseAccessTokensItemEndpointPatternsList>;
 
 export interface GetServiceAccountResponseAccessTokensItem {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   displayName: string;
   createdAt: string;
@@ -356,6 +351,7 @@ export const GetServiceAccountResponseAccessTokensList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetServiceAccountResponseAccessTokensList>;
 
 export interface GetServiceAccountResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   user: string;
   name: string;
@@ -384,13 +380,7 @@ export interface ListServiceAccountsRequest {
 export const ListServiceAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/service-accounts", code: 200 })),
 ).annotate({
   identifier: "ListServiceAccountsRequest",
 }) as any as S.Schema<ListServiceAccountsRequest>;
@@ -482,6 +472,7 @@ export const RotateServiceAccountTokenResponse = /*@__PURE__*/ S.suspend(() =>
 
 export type UpdateServiceAccountTokenRequestPermissionsItem =
   | "repo.content.read"
+  | "repo.contribute.write"
   | "repo.write"
   | "inference.serverless.write"
   | "inference.endpoints.infer.write"

@@ -34,17 +34,17 @@ export const AddResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     resourceGroupId: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/resource-group", code: 200 }),
   ),
-).annotate({
-  identifier: "AddResourceGroupRequest",
-}) as any as S.Schema<AddResourceGroupRequest>;
+).annotate({ identifier: "AddResourceGroupRequest" }) as any as S.Schema<AddResourceGroupRequest>;
 
-export type AddResourceGroupResponseType = "dataset" | "model" | "space" | "bucket" | "kernel";
+export type AddResourceGroupResponseType =
+  | "dataset"
+  | "model"
+  | "space"
+  | "bucket"
+  | "kernel"
+  | "container";
 export const AddResourceGroupResponseType = S.String;
 
 export interface AddResourceGroupResponse {
@@ -60,9 +60,7 @@ export const AddResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     private: S.Boolean,
     addedBy: S.String,
   }),
-).annotate({
-  identifier: "AddResourceGroupResponse",
-}) as any as S.Schema<AddResourceGroupResponse>;
+).annotate({ identifier: "AddResourceGroupResponse" }) as any as S.Schema<AddResourceGroupResponse>;
 
 export interface CheckUploadMethodRequestFilesItem {
   path: string;
@@ -103,15 +101,9 @@ export const CheckUploadMethodRequest = /*@__PURE__*/ S.suspend(() =>
     gitAttributes: S.optional(S.String),
     gitIgnore: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/preupload/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/preupload/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "CheckUploadMethodRequest",
-}) as any as S.Schema<CheckUploadMethodRequest>;
+).annotate({ identifier: "CheckUploadMethodRequest" }) as any as S.Schema<CheckUploadMethodRequest>;
 
 export type CheckUploadMethodResponseFilesItemUploadMode = "lfs" | "regular";
 export const CheckUploadMethodResponseFilesItemUploadMode = S.String;
@@ -160,8 +152,8 @@ export interface CommitRequest {
   namespace: string;
   repo: string;
   rev: string;
-  create_pr?: unknown;
-  hot_reload?: unknown;
+  create_pr?: string;
+  hot_reload?: string;
   contentType?: CommitRequestContentType | (string & {});
 }
 export const CommitRequest = /*@__PURE__*/ S.suspend(() =>
@@ -169,15 +161,11 @@ export const CommitRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
-    create_pr: S.optional(S.Unknown.pipe(T.Query())),
-    hot_reload: S.optional(S.Unknown.pipe(T.Query())),
+    create_pr: S.optional(S.String.pipe(T.Query())),
+    hot_reload: S.optional(S.String.pipe(T.Query())),
     contentType: S.optional(CommitRequestContentType.pipe(T.Header("Content-Type"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/commit/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/commit/{rev}", code: 200 }),
   ),
 ).annotate({ identifier: "CommitRequest" }) as any as S.Schema<CommitRequest>;
 
@@ -223,15 +211,9 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     emptyBranch: S.optional(S.Boolean),
     overwrite: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/branch/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/branch/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
+).annotate({ identifier: "CreateBranchRequest" }) as any as S.Schema<CreateBranchRequest>;
 
 export interface CreateBranchResponse {}
 export const CreateBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -252,16 +234,8 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
     rev: S.String.pipe(T.Label()),
     tag: S.String,
     message: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/tag/{rev}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/tag/{rev}", code: 200 })),
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 export interface CreateTagResponse {}
 export const CreateTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -279,15 +253,9 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/branch/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/branch/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 
 export interface DeleteBranchResponse {}
 export const DeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -298,24 +266,18 @@ export interface DeleteLargeFileRequest {
   namespace: string;
   repo: string;
   sha: string;
-  rewriteHistory?: unknown;
+  rewriteHistory?: string;
 }
 export const DeleteLargeFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
-    rewriteHistory: S.optional(S.Unknown.pipe(T.Query())),
+    rewriteHistory: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/lfs-files/{sha}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/lfs-files/{sha}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteLargeFileRequest",
-}) as any as S.Schema<DeleteLargeFileRequest>;
+).annotate({ identifier: "DeleteLargeFileRequest" }) as any as S.Schema<DeleteLargeFileRequest>;
 
 export interface DeleteLargeFileResponse {}
 export const DeleteLargeFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -351,15 +313,9 @@ export const DeleteLargeFilesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     deletions: DeleteLargeFilesRequestDeletions,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/lfs-files/batch",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/lfs-files/batch", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteLargeFilesRequest",
-}) as any as S.Schema<DeleteLargeFilesRequest>;
+).annotate({ identifier: "DeleteLargeFilesRequest" }) as any as S.Schema<DeleteLargeFilesRequest>;
 
 export interface DeleteLargeFilesResponse {}
 export const DeleteLargeFilesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -376,16 +332,8 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     key: S.String,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/secrets", code: 200 })),
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -400,13 +348,7 @@ export const DeleteSpaceVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/volumes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/volumes", code: 200 })),
 ).annotate({
   identifier: "DeleteSpaceVolumesRequest",
 }) as any as S.Schema<DeleteSpaceVolumesRequest>;
@@ -426,16 +368,8 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/tag/{rev}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/tag/{rev}", code: 200 })),
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {}
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -452,23 +386,15 @@ export const DeleteVariableRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     key: S.String,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/spaces/{namespace}/{repo}/variables",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVariableRequest",
-}) as any as S.Schema<DeleteVariableRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/spaces/{namespace}/{repo}/variables", code: 200 })),
+).annotate({ identifier: "DeleteVariableRequest" }) as any as S.Schema<DeleteVariableRequest>;
 
 export interface DeleteVariableResponse {}
 export const DeleteVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVariableResponse",
 }) as any as S.Schema<DeleteVariableResponse>;
 
-export type DuplicateXetFilesRequestTargetType = "dataset" | "model" | "space" | "kernel";
+export type DuplicateXetFilesRequestTargetType = "model" | "space" | "dataset" | "kernel";
 export const DuplicateXetFilesRequestTargetType = S.String;
 
 export interface DuplicateXetFilesRequestTarget {
@@ -523,9 +449,7 @@ export const DuplicateXetFilesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DuplicateXetFilesRequest",
-}) as any as S.Schema<DuplicateXetFilesRequest>;
+).annotate({ identifier: "DuplicateXetFilesRequest" }) as any as S.Schema<DuplicateXetFilesRequest>;
 
 export interface DuplicateXetFilesResponseFailedItem {
   /** Xet content hash of the file that failed */
@@ -572,38 +496,44 @@ export const DuplicateXetFilesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DuplicateXetFilesResponse",
 }) as any as S.Schema<DuplicateXetFilesResponse>;
 
+export interface FeaturedSpacesRequest {
+  date?: string;
+}
+export const FeaturedSpacesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    date: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/featured", code: 200 })),
+).annotate({ identifier: "FeaturedSpacesRequest" }) as any as S.Schema<FeaturedSpacesRequest>;
+
+export interface FeaturedSpacesResponse {}
+export const FeaturedSpacesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "FeaturedSpacesResponse",
+}) as any as S.Schema<FeaturedSpacesResponse>;
+
 export interface GenerateJwtRequest {
   namespace: string;
   repo: string;
-  write?: unknown;
+  write?: string;
   expiration?: string;
   expires_in?: number;
-  encrypted?: unknown;
-  inference_api?: unknown;
-  include_pro_status?: unknown;
-  billing_details?: unknown;
+  encrypted?: string;
+  inference_api?: string;
+  include_pro_status?: string;
+  billing_details?: string;
 }
 export const GenerateJwtRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-    write: S.optional(S.Unknown.pipe(T.Query())),
+    write: S.optional(S.String.pipe(T.Query())),
     expiration: S.optional(S.String.pipe(T.Query())),
     expires_in: S.optional(S.Number.pipe(T.Query())),
-    encrypted: S.optional(S.Unknown.pipe(T.Query())),
-    inference_api: S.optional(S.Unknown.pipe(T.Query())),
-    include_pro_status: S.optional(S.Unknown.pipe(T.Query())),
-    billing_details: S.optional(S.Unknown.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/jwt",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GenerateJwtRequest",
-}) as any as S.Schema<GenerateJwtRequest>;
+    encrypted: S.optional(S.String.pipe(T.Query())),
+    inference_api: S.optional(S.String.pipe(T.Query())),
+    include_pro_status: S.optional(S.String.pipe(T.Query())),
+    billing_details: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/jwt", code: 200 })),
+).annotate({ identifier: "GenerateJwtRequest" }) as any as S.Schema<GenerateJwtRequest>;
 
 /** Encrypted JWT token and key ID (only if encrypted=true was requested) */
 export interface GenerateJwtResponseEncryptedToken {
@@ -638,39 +568,29 @@ export const GenerateJwtResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     encryptedToken: S.optional(GenerateJwtResponseEncryptedToken),
   }),
-).annotate({
-  identifier: "GenerateJwtResponse",
-}) as any as S.Schema<GenerateJwtResponse>;
+).annotate({ identifier: "GenerateJwtResponse" }) as any as S.Schema<GenerateJwtResponse>;
 
 export interface GetCompareRevRequest {
   namespace: string;
   repo: string;
   compare: string;
-  raw?: unknown;
+  raw?: string;
 }
 export const GetCompareRevRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     compare: S.String.pipe(T.Label()),
-    raw: S.optional(S.Unknown.pipe(T.Query())),
+    raw: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/compare/{compare}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/compare/{compare}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCompareRevRequest",
-}) as any as S.Schema<GetCompareRevRequest>;
+).annotate({ identifier: "GetCompareRevRequest" }) as any as S.Schema<GetCompareRevRequest>;
 
 export type GetCompareRevResponse = string;
 export const GetCompareRevResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCompareRevResponse",
-}) as any as S.Schema<GetCompareRevResponse>;
+).annotate({ identifier: "GetCompareRevResponse" }) as any as S.Schema<GetCompareRevResponse>;
 
 export interface GetFolderSizeRequest {
   namespace: string;
@@ -691,9 +611,7 @@ export const GetFolderSizeRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFolderSizeRequest",
-}) as any as S.Schema<GetFolderSizeRequest>;
+).annotate({ identifier: "GetFolderSizeRequest" }) as any as S.Schema<GetFolderSizeRequest>;
 
 export interface GetFolderSizeResponse {
   /** The normalized path of the subtree, starting with a slash */
@@ -706,9 +624,7 @@ export const GetFolderSizeResponse = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     size: S.Number,
   }),
-).annotate({
-  identifier: "GetFolderSizeResponse",
-}) as any as S.Schema<GetFolderSizeResponse>;
+).annotate({ identifier: "GetFolderSizeResponse" }) as any as S.Schema<GetFolderSizeResponse>;
 
 export interface GetNotebookUrlRequest {
   namespace: string;
@@ -729,9 +645,7 @@ export const GetNotebookUrlRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetNotebookUrlRequest",
-}) as any as S.Schema<GetNotebookUrlRequest>;
+).annotate({ identifier: "GetNotebookUrlRequest" }) as any as S.Schema<GetNotebookUrlRequest>;
 
 export interface GetNotebookUrlResponseBodyCase0 {
   error: string;
@@ -745,11 +659,11 @@ export const GetNotebookUrlResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNotebookUrlResponseBodyCase0>;
 
 export interface GetNotebookUrlResponseBodyCase1 {
-  notInCache: unknown;
+  notInCache: boolean;
 }
 export const GetNotebookUrlResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notInCache: S.Unknown,
+    notInCache: S.Boolean,
   }),
 ).annotate({
   identifier: "GetNotebookUrlResponseBodyCase1",
@@ -775,9 +689,7 @@ export const GetNotebookUrlResponseBody = S.Unknown as any as S.Schema<GetNotebo
 export type GetNotebookUrlResponse = GetNotebookUrlResponseBody;
 export const GetNotebookUrlResponse = /*@__PURE__*/ S.suspend(() =>
   GetNotebookUrlResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetNotebookUrlResponse",
-}) as any as S.Schema<GetNotebookUrlResponse>;
+).annotate({ identifier: "GetNotebookUrlResponse" }) as any as S.Schema<GetNotebookUrlResponse>;
 
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -788,17 +700,12 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/resource-group", code: 200 }),
   ),
-).annotate({
-  identifier: "GetResourceGroupRequest",
-}) as any as S.Schema<GetResourceGroupRequest>;
+).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
 
 export interface GetResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -809,9 +716,7 @@ export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     numUsers: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetResourceGroupResponse",
-}) as any as S.Schema<GetResourceGroupResponse>;
+).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 export interface GetSecurityStatusRequest {
   namespace: string;
@@ -821,16 +726,8 @@ export const GetSecurityStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/scan",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSecurityStatusRequest",
-}) as any as S.Schema<GetSecurityStatusRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/scan", code: 200 })),
+).annotate({ identifier: "GetSecurityStatusRequest" }) as any as S.Schema<GetSecurityStatusRequest>;
 
 export type GetSecurityStatusResponseFilesWithIssuesItemLevel =
   | "unscanned"
@@ -877,9 +774,7 @@ export const GetSecurityStatusResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetZeroGPUQuotaRequest {}
 export const GetZeroGPUQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/spaces/zero-gpu/quota", code: 200 })),
-).annotate({
-  identifier: "GetZeroGPUQuotaRequest",
-}) as any as S.Schema<GetZeroGPUQuotaRequest>;
+).annotate({ identifier: "GetZeroGPUQuotaRequest" }) as any as S.Schema<GetZeroGPUQuotaRequest>;
 
 /** Execution (runs) accounting, or omitted for visitors without a runs limit */
 export interface GetZeroGPUQuotaResponseRuns {
@@ -923,9 +818,7 @@ export const GetZeroGPUQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     overquotaUsed: S.optional(S.Number),
     runs: S.optional(GetZeroGPUQuotaResponseRuns),
   }),
-).annotate({
-  identifier: "GetZeroGPUQuotaResponse",
-}) as any as S.Schema<GetZeroGPUQuotaResponse>;
+).annotate({ identifier: "GetZeroGPUQuotaResponse" }) as any as S.Schema<GetZeroGPUQuotaResponse>;
 
 export type ListCommitsRequestExpandItem = "formatted";
 export const ListCommitsRequestExpandItem = S.String;
@@ -952,15 +845,9 @@ export const ListCommitsRequest = /*@__PURE__*/ S.suspend(() =>
     expand: S.optional(ListCommitsRequestExpandList.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/commits/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/commits/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "ListCommitsRequest",
-}) as any as S.Schema<ListCommitsRequest>;
+).annotate({ identifier: "ListCommitsRequest" }) as any as S.Schema<ListCommitsRequest>;
 
 export interface ListCommitsResponseBodyItemAuthorsItem {
   user: string;
@@ -1024,17 +911,15 @@ export const ListCommitsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommitsResponse = ListCommitsResponseBodyList;
 export const ListCommitsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommitsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommitsResponse",
-}) as any as S.Schema<ListCommitsResponse>;
+).annotate({ identifier: "ListCommitsResponse" }) as any as S.Schema<ListCommitsResponse>;
 
 export interface ListFolderContentRequest {
   namespace: string;
   repo: string;
   rev: string;
   path: string;
-  expand?: unknown;
-  recursive?: unknown;
+  expand?: string;
+  recursive?: string;
   limit?: number;
   cursor?: string;
 }
@@ -1044,20 +929,14 @@ export const ListFolderContentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
     path: S.String.pipe(T.Label()),
-    expand: S.optional(S.Unknown.pipe(T.Query())),
-    recursive: S.optional(S.Unknown.pipe(T.Query())),
+    expand: S.optional(S.String.pipe(T.Query())),
+    recursive: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/tree/{rev}/{path}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/tree/{rev}/{path}", code: 200 }),
   ),
-).annotate({
-  identifier: "ListFolderContentRequest",
-}) as any as S.Schema<ListFolderContentRequest>;
+).annotate({ identifier: "ListFolderContentRequest" }) as any as S.Schema<ListFolderContentRequest>;
 
 export type ListFolderContentResponseBodyItemType = "file" | "directory" | "unknown";
 export const ListFolderContentResponseBodyItemType = S.String;
@@ -1497,7 +1376,7 @@ export interface ListLargeFilesRequest {
   direction?: ListLargeFilesRequestDirection | (string & {});
   limit?: number;
   sort?: ListLargeFilesRequestSort | (string & {});
-  xet?: unknown;
+  xet?: string;
 }
 export const ListLargeFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1507,17 +1386,9 @@ export const ListLargeFilesRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListLargeFilesRequestDirection.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     sort: S.optional(ListLargeFilesRequestSort.pipe(T.Query())),
-    xet: S.optional(S.Unknown.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/lfs-files",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListLargeFilesRequest",
-}) as any as S.Schema<ListLargeFilesRequest>;
+    xet: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/lfs-files", code: 200 })),
+).annotate({ identifier: "ListLargeFilesRequest" }) as any as S.Schema<ListLargeFilesRequest>;
 
 export type ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan =
   | "team"
@@ -1538,7 +1409,7 @@ export interface ListLargeFilesResponseBodyItemPusherPrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan;
@@ -1552,7 +1423,7 @@ export const ListLargeFilesResponseBodyItemPusherPrimaryOrg = /*@__PURE__*/ S.su
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan),
@@ -1566,6 +1437,7 @@ export const ListLargeFilesResponseBodyItemPusherPrimaryOrg = /*@__PURE__*/ S.su
 }) as any as S.Schema<ListLargeFilesResponseBodyItemPusherPrimaryOrg>;
 
 export interface ListLargeFilesResponseBodyItemPusher {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1574,7 +1446,7 @@ export interface ListLargeFilesResponseBodyItemPusher {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: ListLargeFilesResponseBodyItemPusherPrimaryOrg;
@@ -1589,7 +1461,7 @@ export const ListLargeFilesResponseBodyItemPusher = /*@__PURE__*/ S.suspend(() =
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(ListLargeFilesResponseBodyItemPusherPrimaryOrg),
@@ -1632,9 +1504,33 @@ export const ListLargeFilesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLargeFilesResponse = ListLargeFilesResponseBodyList;
 export const ListLargeFilesResponse = /*@__PURE__*/ S.suspend(() =>
   ListLargeFilesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLargeFilesResponse",
-}) as any as S.Schema<ListLargeFilesResponse>;
+).annotate({ identifier: "ListLargeFilesResponse" }) as any as S.Schema<ListLargeFilesResponse>;
+
+export type ListLikersRequestExpandItem = "likedAt";
+export const ListLikersRequestExpandItem = S.String;
+
+export type ListLikersRequestExpandList = Array<ListLikersRequestExpandItem | (string & {})>;
+export const ListLikersRequestExpandList = /*@__PURE__*/ S.Array(
+  ListLikersRequestExpandItem,
+) as any as S.Schema<ListLikersRequestExpandList>;
+
+export interface ListLikersRequest {
+  namespace: string;
+  repo: string;
+  expand?: ListLikersRequestExpandList;
+}
+export const ListLikersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    expand: S.optional(ListLikersRequestExpandList.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/likers", code: 200 })),
+).annotate({ identifier: "ListLikersRequest" }) as any as S.Schema<ListLikersRequest>;
+
+export interface ListLikersResponse {}
+export const ListLikersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ListLikersResponse",
+}) as any as S.Schema<ListLikersResponse>;
 
 export type ListPathsInfoRequestPathsCase0List = Array<string>;
 export const ListPathsInfoRequestPathsCase0List = /*@__PURE__*/ S.Array(
@@ -1645,7 +1541,7 @@ export type ListPathsInfoRequestPaths = ListPathsInfoRequestPathsCase0List | str
 export const ListPathsInfoRequestPaths = S.Unknown as any as S.Schema<ListPathsInfoRequestPaths>;
 
 /** Expand the response with the last commit and security file status */
-export type ListPathsInfoRequestExpand = unknown | boolean;
+export type ListPathsInfoRequestExpand = string | boolean;
 export const ListPathsInfoRequestExpand = S.Unknown as any as S.Schema<ListPathsInfoRequestExpand>;
 
 export interface ListPathsInfoRequest {
@@ -1654,7 +1550,7 @@ export interface ListPathsInfoRequest {
   rev: string;
   paths: ListPathsInfoRequestPaths;
   /** Expand the response with the last commit and security file status */
-  expand: ListPathsInfoRequestExpand;
+  expand?: ListPathsInfoRequestExpand;
 }
 export const ListPathsInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1662,17 +1558,11 @@ export const ListPathsInfoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     rev: S.String.pipe(T.Label()),
     paths: ListPathsInfoRequestPaths,
-    expand: ListPathsInfoRequestExpand,
+    expand: S.optional(ListPathsInfoRequestExpand),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/paths-info/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/paths-info/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "ListPathsInfoRequest",
-}) as any as S.Schema<ListPathsInfoRequest>;
+).annotate({ identifier: "ListPathsInfoRequest" }) as any as S.Schema<ListPathsInfoRequest>;
 
 export type ListPathsInfoResponseBodyItemType = "file" | "directory" | "unknown";
 export const ListPathsInfoResponseBodyItemType = S.String;
@@ -2075,30 +1965,20 @@ export const ListPathsInfoResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
 export const ListPathsInfoResponse = /*@__PURE__*/ S.suspend(() =>
   ListPathsInfoResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPathsInfoResponse",
-}) as any as S.Schema<ListPathsInfoResponse>;
+).annotate({ identifier: "ListPathsInfoResponse" }) as any as S.Schema<ListPathsInfoResponse>;
 
 export interface ListReferencesRequest {
   namespace: string;
   repo: string;
-  include_prs?: unknown;
+  include_prs?: string;
 }
 export const ListReferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-    include_prs: S.optional(S.Unknown.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/refs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListReferencesRequest",
-}) as any as S.Schema<ListReferencesRequest>;
+    include_prs: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/refs", code: 200 })),
+).annotate({ identifier: "ListReferencesRequest" }) as any as S.Schema<ListReferencesRequest>;
 
 export interface ListReferencesResponseTagsItem {
   name: string;
@@ -2157,9 +2037,7 @@ export const ListReferencesResponse = /*@__PURE__*/ S.suspend(() =>
     converts: ListReferencesResponseConvertsList,
     pullRequests: S.optional(ListReferencesResponsePullRequestsList),
   }),
-).annotate({
-  identifier: "ListReferencesResponse",
-}) as any as S.Schema<ListReferencesResponse>;
+).annotate({ identifier: "ListReferencesResponse" }) as any as S.Schema<ListReferencesResponse>;
 
 export interface ListSecretsRequest {
   namespace: string;
@@ -2169,16 +2047,8 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSecretsRequest",
-}) as any as S.Schema<ListSecretsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/secrets", code: 200 })),
+).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
 
 export interface ListSecretsResponseBodyValue {
   key: string;
@@ -2206,16 +2076,12 @@ export const ListSecretsResponseBodyMap = /*@__PURE__*/ S.Record(
 export type ListSecretsResponse = ListSecretsResponseBodyMap;
 export const ListSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSecretsResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSecretsResponse",
-}) as any as S.Schema<ListSecretsResponse>;
+).annotate({ identifier: "ListSecretsResponse" }) as any as S.Schema<ListSecretsResponse>;
 
 export interface ListSpaceHardwareRequest {}
 export const ListSpaceHardwareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/spaces/hardware", code: 200 })),
-).annotate({
-  identifier: "ListSpaceHardwareRequest",
-}) as any as S.Schema<ListSpaceHardwareRequest>;
+).annotate({ identifier: "ListSpaceHardwareRequest" }) as any as S.Schema<ListSpaceHardwareRequest>;
 
 export type ListSpaceHardwareResponseBodyItemAcceleratorType = "gpu" | "neuron";
 export const ListSpaceHardwareResponseBodyItemAcceleratorType = S.String;
@@ -2334,16 +2200,8 @@ export const ListVariablesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/variables",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListVariablesRequest",
-}) as any as S.Schema<ListVariablesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/variables", code: 200 })),
+).annotate({ identifier: "ListVariablesRequest" }) as any as S.Schema<ListVariablesRequest>;
 
 export interface ListVariablesResponseBodyValue {
   key: string;
@@ -2373,9 +2231,7 @@ export const ListVariablesResponseBodyMap = /*@__PURE__*/ S.Record(
 export type ListVariablesResponse = ListVariablesResponseBodyMap;
 export const ListVariablesResponse = /*@__PURE__*/ S.suspend(() =>
   ListVariablesResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVariablesResponse",
-}) as any as S.Schema<ListVariablesResponse>;
+).annotate({ identifier: "ListVariablesResponse" }) as any as S.Schema<ListVariablesResponse>;
 
 export interface ResolveFileRequest {
   namespace: string;
@@ -2383,7 +2239,7 @@ export interface ResolveFileRequest {
   rev: string;
   path: string;
   range?: string;
-  accept?: unknown;
+  accept?: string;
 }
 export const ResolveFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2392,17 +2248,11 @@ export const ResolveFileRequest = /*@__PURE__*/ S.suspend(() =>
     rev: S.String.pipe(T.Label()),
     path: S.String.pipe(T.Label()),
     range: S.optional(S.String.pipe(T.Header("Range"))),
-    accept: S.optional(S.Unknown.pipe(T.Header("Accept"))),
+    accept: S.optional(S.String.pipe(T.Header("Accept"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/spaces/{namespace}/{repo}/resolve/{rev}/{path}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/spaces/{namespace}/{repo}/resolve/{rev}/{path}", code: 200 }),
   ),
-).annotate({
-  identifier: "ResolveFileRequest",
-}) as any as S.Schema<ResolveFileRequest>;
+).annotate({ identifier: "ResolveFileRequest" }) as any as S.Schema<ResolveFileRequest>;
 
 export interface ResolveFileResponse {
   /** The XET hash of the file */
@@ -2424,9 +2274,7 @@ export const ResolveFileResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.String,
     size: S.Number,
   }),
-).annotate({
-  identifier: "ResolveFileResponse",
-}) as any as S.Schema<ResolveFileResponse>;
+).annotate({ identifier: "ResolveFileResponse" }) as any as S.Schema<ResolveFileResponse>;
 
 export interface ResolveFileCachedRequest {
   namespace: string;
@@ -2434,7 +2282,7 @@ export interface ResolveFileCachedRequest {
   rev: string;
   path: string;
   range?: string;
-  accept?: unknown;
+  accept?: string;
 }
 export const ResolveFileCachedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2443,7 +2291,7 @@ export const ResolveFileCachedRequest = /*@__PURE__*/ S.suspend(() =>
     rev: S.String.pipe(T.Label()),
     path: S.String.pipe(T.Label()),
     range: S.optional(S.String.pipe(T.Header("Range"))),
-    accept: S.optional(S.Unknown.pipe(T.Header("Accept"))),
+    accept: S.optional(S.String.pipe(T.Header("Accept"))),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2451,9 +2299,7 @@ export const ResolveFileCachedRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResolveFileCachedRequest",
-}) as any as S.Schema<ResolveFileCachedRequest>;
+).annotate({ identifier: "ResolveFileCachedRequest" }) as any as S.Schema<ResolveFileCachedRequest>;
 
 export interface ResolveFileCachedResponse {
   /** The XET hash of the file */
@@ -2478,6 +2324,125 @@ export const ResolveFileCachedResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ResolveFileCachedResponse",
 }) as any as S.Schema<ResolveFileCachedResponse>;
+
+export type SearchSemanticRequestCategory =
+  | "image-generation"
+  | "video-generation"
+  | "text-generation"
+  | "language-translation"
+  | "speech-synthesis"
+  | "voice-cloning"
+  | "face-recognition"
+  | "object-detection"
+  | "pose-estimation"
+  | "text-analysis"
+  | "sentiment-analysis"
+  | "question-answering"
+  | "code-generation"
+  | "data-visualization"
+  | "3d-modeling"
+  | "image-editing"
+  | "background-removal"
+  | "image-upscaling"
+  | "ocr"
+  | "document-analysis"
+  | "visual-qa"
+  | "image-captioning"
+  | "chatbots"
+  | "text-summarization"
+  | "music-generation"
+  | "medical-imaging"
+  | "financial-analysis"
+  | "game-ai"
+  | "model-benchmarking"
+  | "fine-tuning-tools"
+  | "dataset-creation"
+  | "anomaly-detection"
+  | "recommendation-systems"
+  | "character-animation"
+  | "style-transfer"
+  | "agent-environment"
+  | "image"
+  | "other";
+export const SearchSemanticRequestCategory = S.String;
+
+export type SearchSemanticRequestSdkItem = "gradio" | "docker" | "static" | "streamlit";
+export const SearchSemanticRequestSdkItem = S.String;
+
+export type SearchSemanticRequestSdkList = Array<SearchSemanticRequestSdkItem | (string & {})>;
+export const SearchSemanticRequestSdkList = /*@__PURE__*/ S.Array(
+  SearchSemanticRequestSdkItem,
+) as any as S.Schema<SearchSemanticRequestSdkList>;
+
+export type SearchSemanticRequestFilterList = Array<string>;
+export const SearchSemanticRequestFilterList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SearchSemanticRequestFilterList>;
+
+export interface SearchSemanticRequest {
+  q?: string;
+  category?: SearchSemanticRequestCategory | (string & {});
+  includeNonRunning?: boolean;
+  sdk?: SearchSemanticRequestSdkList;
+  filter?: SearchSemanticRequestFilterList;
+  agents?: boolean;
+}
+export const SearchSemanticRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    q: S.optional(S.String.pipe(T.Query())),
+    category: S.optional(SearchSemanticRequestCategory.pipe(T.Query())),
+    includeNonRunning: S.optional(S.Boolean.pipe(T.Query())),
+    sdk: S.optional(SearchSemanticRequestSdkList.pipe(T.Query())),
+    filter: S.optional(SearchSemanticRequestFilterList.pipe(T.Query())),
+    agents: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/semantic-search", code: 200 })),
+).annotate({ identifier: "SearchSemanticRequest" }) as any as S.Schema<SearchSemanticRequest>;
+
+export interface SearchSemanticResponse {}
+export const SearchSemanticResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SearchSemanticResponse",
+}) as any as S.Schema<SearchSemanticResponse>;
+
+export interface SetCustomDomainRequest {
+  namespace: string;
+  repo: string;
+  domain: string;
+}
+export const SetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    domain: S.String,
+  }).pipe(
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/custom-domain", code: 200 }),
+  ),
+).annotate({ identifier: "SetCustomDomainRequest" }) as any as S.Schema<SetCustomDomainRequest>;
+
+export interface SetCustomDomainResponse {}
+export const SetCustomDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SetCustomDomainResponse",
+}) as any as S.Schema<SetCustomDomainResponse>;
+
+export type SetSleepTimeRequestSeconds = number | number;
+export const SetSleepTimeRequestSeconds = S.Unknown as any as S.Schema<SetSleepTimeRequestSeconds>;
+
+export interface SetSleepTimeRequest {
+  namespace: string;
+  repo: string;
+  seconds: SetSleepTimeRequestSeconds;
+}
+export const SetSleepTimeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    seconds: SetSleepTimeRequestSeconds,
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/sleeptime", code: 200 })),
+).annotate({ identifier: "SetSleepTimeRequest" }) as any as S.Schema<SetSleepTimeRequest>;
+
+export interface SetSleepTimeResponse {}
+export const SetSleepTimeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "SetSleepTimeResponse",
+}) as any as S.Schema<SetSleepTimeResponse>;
 
 export type SetSpaceVolumesRequestVolumesItemType = "bucket" | "model" | "dataset" | "space";
 export const SetSpaceVolumesRequestVolumesItemType = S.String;
@@ -2523,16 +2488,8 @@ export const SetSpaceVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     volumes: SetSpaceVolumesRequestVolumesList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/spaces/{namespace}/{repo}/volumes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SetSpaceVolumesRequest",
-}) as any as S.Schema<SetSpaceVolumesRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/spaces/{namespace}/{repo}/volumes", code: 200 })),
+).annotate({ identifier: "SetSpaceVolumesRequest" }) as any as S.Schema<SetSpaceVolumesRequest>;
 
 export interface SetSpaceVolumesResponse {}
 export const SetSpaceVolumesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2552,15 +2509,9 @@ export const SquashRefRequest = /*@__PURE__*/ S.suspend(() =>
     rev: S.String.pipe(T.Label()),
     message: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/super-squash/{rev}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/super-squash/{rev}", code: 200 }),
   ),
-).annotate({
-  identifier: "SquashRefRequest",
-}) as any as S.Schema<SquashRefRequest>;
+).annotate({ identifier: "SquashRefRequest" }) as any as S.Schema<SquashRefRequest>;
 
 export interface SquashRefResponse {
   /** The new commit ID after the squash */
@@ -2570,9 +2521,7 @@ export const SquashRefResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     commitId: S.String,
   }),
-).annotate({
-  identifier: "SquashRefResponse",
-}) as any as S.Schema<SquashRefResponse>;
+).annotate({ identifier: "SquashRefResponse" }) as any as S.Schema<SquashRefResponse>;
 
 export interface StreamEventsRequest {
   namespace: string;
@@ -2584,16 +2533,8 @@ export const StreamEventsRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     session_uuid: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/events",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamEventsRequest",
-}) as any as S.Schema<StreamEventsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/events", code: 200 })),
+).annotate({ identifier: "StreamEventsRequest" }) as any as S.Schema<StreamEventsRequest>;
 
 export interface StreamEventsResponse {}
 export const StreamEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2616,15 +2557,9 @@ export const StreamLogsRequest = /*@__PURE__*/ S.suspend(() =>
     logType: StreamLogsRequestLogType.pipe(T.Label()),
     tail: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/logs/{logType}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/logs/{logType}", code: 200 }),
   ),
-).annotate({
-  identifier: "StreamLogsRequest",
-}) as any as S.Schema<StreamLogsRequest>;
+).annotate({ identifier: "StreamLogsRequest" }) as any as S.Schema<StreamLogsRequest>;
 
 export interface StreamLogsResponse {}
 export const StreamLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2639,21 +2574,89 @@ export const StreamMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/spaces/{namespace}/{repo}/metrics",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StreamMetricsRequest",
-}) as any as S.Schema<StreamMetricsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/spaces/{namespace}/{repo}/metrics", code: 200 })),
+).annotate({ identifier: "StreamMetricsRequest" }) as any as S.Schema<StreamMetricsRequest>;
 
 export interface StreamMetricsResponse {}
 export const StreamMetricsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StreamMetricsResponse",
 }) as any as S.Schema<StreamMetricsResponse>;
+
+export interface ToggleDevModeRequest {
+  namespace: string;
+  repo: string;
+  enabled: boolean;
+}
+export const ToggleDevModeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    enabled: S.Boolean,
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/dev-mode", code: 200 })),
+).annotate({ identifier: "ToggleDevModeRequest" }) as any as S.Schema<ToggleDevModeRequest>;
+
+export interface ToggleDevModeResponse {}
+export const ToggleDevModeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ToggleDevModeResponse",
+}) as any as S.Schema<ToggleDevModeResponse>;
+
+export type UpdateHardwareFlavorRequestFlavor =
+  | "cpu-basic"
+  | "cpu-upgrade"
+  | "cpu-performance"
+  | "cpu-xl"
+  | "sprx8"
+  | "zero-a10g"
+  | "t4-small"
+  | "t4-medium"
+  | "l4x1"
+  | "l4x4"
+  | "l40sx1"
+  | "l40sx4"
+  | "l40sx8"
+  | "a10g-small"
+  | "a10g-large"
+  | "a10g-largex2"
+  | "a10g-largex4"
+  | "a100-large"
+  | "a100x4"
+  | "a100x8"
+  | "h200"
+  | "h200x2"
+  | "h200x4"
+  | "h200x8"
+  | "rtx-pro-6000"
+  | "rtx-pro-6000x2"
+  | "rtx-pro-6000x4"
+  | "rtx-pro-6000x8"
+  | "inf2x6";
+export const UpdateHardwareFlavorRequestFlavor = S.String;
+
+export type UpdateHardwareFlavorRequestSleepTimeSeconds = number | number;
+export const UpdateHardwareFlavorRequestSleepTimeSeconds =
+  S.Unknown as any as S.Schema<UpdateHardwareFlavorRequestSleepTimeSeconds>;
+
+export interface UpdateHardwareFlavorRequest {
+  namespace: string;
+  repo: string;
+  flavor: UpdateHardwareFlavorRequestFlavor | (string & {});
+  sleepTimeSeconds?: UpdateHardwareFlavorRequestSleepTimeSeconds;
+}
+export const UpdateHardwareFlavorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    flavor: UpdateHardwareFlavorRequestFlavor,
+    sleepTimeSeconds: S.optional(UpdateHardwareFlavorRequestSleepTimeSeconds),
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/hardware", code: 200 })),
+).annotate({
+  identifier: "UpdateHardwareFlavorRequest",
+}) as any as S.Schema<UpdateHardwareFlavorRequest>;
+
+export interface UpdateHardwareFlavorResponse {}
+export const UpdateHardwareFlavorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateHardwareFlavorResponse",
+}) as any as S.Schema<UpdateHardwareFlavorResponse>;
 
 /** Repository visibility. `protected` is only supported for Spaces. */
 export type UpdateRepoSettingsRequestVisibility = "private" | "public" | "protected";
@@ -2668,7 +2671,7 @@ export const UpdateRepoSettingsRequestDiscussionsSorting = S.String;
 export type UpdateRepoSettingsRequestGatedCase1 = "auto" | "manual";
 export const UpdateRepoSettingsRequestGatedCase1 = S.String;
 
-export type UpdateRepoSettingsRequestGated = unknown | UpdateRepoSettingsRequestGatedCase1;
+export type UpdateRepoSettingsRequestGated = boolean | UpdateRepoSettingsRequestGatedCase1;
 export const UpdateRepoSettingsRequestGated =
   S.Unknown as any as S.Schema<UpdateRepoSettingsRequestGated>;
 
@@ -2701,13 +2704,7 @@ export const UpdateRepoSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     orgMembersGated: S.optional(S.Boolean),
     gatedNotificationsEmail: S.optional(S.String),
     gatedNotificationsMode: S.optional(UpdateRepoSettingsRequestGatedNotificationsMode),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/spaces/{namespace}/{repo}/settings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/spaces/{namespace}/{repo}/settings", code: 200 })),
 ).annotate({
   identifier: "UpdateRepoSettingsRequest",
 }) as any as S.Schema<UpdateRepoSettingsRequest>;
@@ -2725,7 +2722,7 @@ export const UpdateRepoSettingsResponseDiscussionsSorting = S.String;
 export type UpdateRepoSettingsResponseGatedCase1 = "auto" | "manual";
 export const UpdateRepoSettingsResponseGatedCase1 = S.String;
 
-export type UpdateRepoSettingsResponseGated = unknown | UpdateRepoSettingsResponseGatedCase1;
+export type UpdateRepoSettingsResponseGated = boolean | UpdateRepoSettingsResponseGatedCase1;
 export const UpdateRepoSettingsResponseGated =
   S.Unknown as any as S.Schema<UpdateRepoSettingsResponseGated>;
 
@@ -2773,16 +2770,8 @@ export const UpsertSecretRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     description: S.optional(S.String),
     value: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpsertSecretRequest",
-}) as any as S.Schema<UpsertSecretRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/secrets", code: 200 })),
+).annotate({ identifier: "UpsertSecretRequest" }) as any as S.Schema<UpsertSecretRequest>;
 
 export interface UpsertSecretResponse {}
 export const UpsertSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2803,16 +2792,8 @@ export const UpsertVariableRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     description: S.optional(S.String),
     value: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/spaces/{namespace}/{repo}/variables",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpsertVariableRequest",
-}) as any as S.Schema<UpsertVariableRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/spaces/{namespace}/{repo}/variables", code: 200 })),
+).annotate({ identifier: "UpsertVariableRequest" }) as any as S.Schema<UpsertVariableRequest>;
 
 export interface UpsertVariableResponse {}
 export const UpsertVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2836,9 +2817,7 @@ export const XetReadTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "XetReadTokenRequest",
-}) as any as S.Schema<XetReadTokenRequest>;
+).annotate({ identifier: "XetReadTokenRequest" }) as any as S.Schema<XetReadTokenRequest>;
 
 export interface XetReadTokenResponse {
   casUrl: string;
@@ -2851,9 +2830,7 @@ export const XetReadTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "XetReadTokenResponse",
-}) as any as S.Schema<XetReadTokenResponse>;
+).annotate({ identifier: "XetReadTokenResponse" }) as any as S.Schema<XetReadTokenResponse>;
 
 export interface XetWriteTokenRequest {
   namespace: string;
@@ -2872,9 +2849,7 @@ export const XetWriteTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "XetWriteTokenRequest",
-}) as any as S.Schema<XetWriteTokenRequest>;
+).annotate({ identifier: "XetWriteTokenRequest" }) as any as S.Schema<XetWriteTokenRequest>;
 
 export interface XetWriteTokenResponse {
   casUrl: string;
@@ -2887,9 +2862,7 @@ export const XetWriteTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     accessToken: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "XetWriteTokenResponse",
-}) as any as S.Schema<XetWriteTokenResponse>;
+).annotate({ identifier: "XetWriteTokenResponse" }) as any as S.Schema<XetWriteTokenResponse>;
 
 export type AddResourceGroupError = HuggingFaceOpError;
 /** Add resource group Add the repository to a resource group */
@@ -3086,6 +3059,21 @@ export const duplicateXetFiles: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type FeaturedSpacesError = HuggingFaceOpError;
+/** Featured spaces */
+export const featuredSpaces: API.OperationMethod<
+  FeaturedSpacesRequest,
+  FeaturedSpacesResponse,
+  FeaturedSpacesError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FeaturedSpacesRequest,
+  output: FeaturedSpacesResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GenerateJwtError = HuggingFaceOpError;
 /** Generate JWT Generate a JWT token for accessing a repository. Supports optional write access for spaces in dev mode, custom expiration, and encryption. */
 export const generateJwt: API.OperationMethod<
@@ -3102,7 +3090,7 @@ export const generateJwt: API.OperationMethod<
 }));
 
 export type GetCompareRevError = HuggingFaceOpError;
-/** Get a compare rev */
+/** Get compare rev */
 export const getCompareRev: API.OperationMethod<
   GetCompareRevRequest,
   GetCompareRevResponse,
@@ -3236,6 +3224,21 @@ export const listLargeFiles: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListLikersError = HuggingFaceOpError;
+/** List likers */
+export const listLikers: API.OperationMethod<
+  ListLikersRequest,
+  ListLikersResponse,
+  ListLikersError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListLikersRequest,
+  output: ListLikersResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListPathsInfoError = HuggingFaceOpError;
 /** List paths info */
 export const listPathsInfo: API.OperationMethod<
@@ -3356,6 +3359,51 @@ export const resolveFileCached: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SearchSemanticError = HuggingFaceOpError;
+/** Semantic search */
+export const searchSemantic: API.OperationMethod<
+  SearchSemanticRequest,
+  SearchSemanticResponse,
+  SearchSemanticError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchSemanticRequest,
+  output: SearchSemanticResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetCustomDomainError = HuggingFaceOpError;
+/** Set custom domain */
+export const setCustomDomain: API.OperationMethod<
+  SetCustomDomainRequest,
+  SetCustomDomainResponse,
+  SetCustomDomainError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetCustomDomainRequest,
+  output: SetCustomDomainResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetSleepTimeError = HuggingFaceOpError;
+/** Set sleep time */
+export const setSleepTime: API.OperationMethod<
+  SetSleepTimeRequest,
+  SetSleepTimeResponse,
+  SetSleepTimeError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetSleepTimeRequest,
+  output: SetSleepTimeResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SetSpaceVolumesError = HuggingFaceOpError;
 /** Set Space volumes */
 export const setSpaceVolumes: API.OperationMethod<
@@ -3426,6 +3474,36 @@ export const streamMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StreamMetricsRequest,
   output: StreamMetricsResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ToggleDevModeError = HuggingFaceOpError;
+/** Toggle dev mode */
+export const toggleDevMode: API.OperationMethod<
+  ToggleDevModeRequest,
+  ToggleDevModeResponse,
+  ToggleDevModeError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ToggleDevModeRequest,
+  output: ToggleDevModeResponse,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateHardwareFlavorError = HuggingFaceOpError;
+/** Update hardware flavor */
+export const updateHardwareFlavor: API.OperationMethod<
+  UpdateHardwareFlavorRequest,
+  UpdateHardwareFlavorResponse,
+  UpdateHardwareFlavorError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateHardwareFlavorRequest,
+  output: UpdateHardwareFlavorResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,

@@ -105,6 +105,24 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "POST /api/papers/{paperId}/comment/{commentId}/reply": "replyToPaperComment",
   "POST /api/posts/{username}/{postSlug}/comment": "createPostComment",
   "POST /api/posts/{username}/{postSlug}/comment/{commentId}/reply": "replyToPostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/edit": "updateBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/edit": "updateCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/edit":
+    "updateDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/edit": "updatePaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/edit": "updatePostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/hide": "hideBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/hide": "hideCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/hide":
+    "hideDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/hide": "hidePaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/hide": "hidePostComment",
+  "POST /api/blog/{slug}/comment/{commentId}/reaction": "reactToBlogComment",
+  "POST /api/blog/{namespace}/{slug}/comment/{commentId}/reaction": "reactToCommunityBlogComment",
+  "POST /api/{repoType}/{namespace}/{repo}/discussions/{num}/comment/{commentId}/reaction":
+    "reactToDiscussionComment",
+  "POST /api/papers/{paperId}/comment/{commentId}/reaction": "reactToPaperComment",
+  "POST /api/posts/{username}/{postSlug}/comment/{commentId}/reaction": "reactToPostComment",
   "DELETE /api/{repoType}/{namespace}/{repo}/discussions/{num}": "deleteDiscussion",
   "DELETE /api/posts/{username}/{postSlug}": "deletePost",
 
@@ -137,6 +155,26 @@ const OPERATION_NAMES: Readonly<Record<string, string>> = {
   "PATCH /api/collections/{namespace}/{slug}/items/{slug}": "updateItemBySlug",
   "GET /api/collections/{namespace}/{slug}/resource-group": "getCollectionResourceGroupBySlug",
   "POST /api/collections/{namespace}/{slug}/resource-group": "setCollectionResourceGroupBySlug",
+
+  // -- summaries upstream reworded without a verb ("Network security
+  //    settings"); keep the published operation names -------------------------
+  "GET /api/organizations/{name}/billing/usage-by-inference-session": "getSessionInferenceUsage",
+  "GET /api/settings/billing/usage-by-inference-session": "getSessionInferenceUsage",
+  "GET /api/organizations/{name}/billing/usage-by-resource-group": "getResourceGroupUsage",
+  "GET /api/organizations/{name}/settings/network-security": "getNetworkSecuritySettings",
+  "GET /api/organizations/{name}/settings/tokens": "listMemberAccessTokens",
+  "GET /api/organizations/{name}/scim-provisioning/v2/Users/{userId}": "getScimProvisioningUser",
+  "GET /api/organizations/{name}/scim/v2/ResourceTypes": "getScimResourceTypes",
+  "POST /api/datasets/{namespace}/{repo}/user-access-request/batch": "batchHandleAccessRequests",
+  "POST /api/models/{namespace}/{repo}/user-access-request/batch": "batchHandleAccessRequests",
+  "PUT /api/jobs/{namespace}/{jobId}/expose": "updateJobExposedPorts",
+  "PUT /api/scheduled-jobs/{namespace}/{jobId}/labels": "updateScheduledJobLabels",
+
+  // -- blogs / collections: GET and POST share the summary "<X> resource group"
+  "GET /api/blog/{namespace}/{slug}/resource-group": "getBlogResourceGroup",
+  "POST /api/blog/{namespace}/{slug}/resource-group": "setBlogResourceGroup",
+  "GET /api/collections/{namespace}/{slug}-{id}/resource-group": "getCollectionResourceGroup",
+  "POST /api/collections/{namespace}/{slug}-{id}/resource-group": "setCollectionResourceGroup",
 };
 
 /**

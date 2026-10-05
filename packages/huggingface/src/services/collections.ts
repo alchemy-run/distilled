@@ -39,9 +39,7 @@ export const AddItemRequestItem = /*@__PURE__*/ S.suspend(() =>
     type: AddItemRequestItemType,
     id: S.String,
   }),
-).annotate({
-  identifier: "AddItemRequestItem",
-}) as any as S.Schema<AddItemRequestItem>;
+).annotate({ identifier: "AddItemRequestItem" }) as any as S.Schema<AddItemRequestItem>;
 
 export interface AddItemRequest {
   namespace: string;
@@ -58,20 +56,16 @@ export const AddItemRequest = /*@__PURE__*/ S.suspend(() =>
     item: AddItemRequestItem,
     note: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/collections/{namespace}/{slug}-{id}/items",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/collections/{namespace}/{slug}-{id}/items", code: 200 }),
   ),
 ).annotate({ identifier: "AddItemRequest" }) as any as S.Schema<AddItemRequest>;
 
 export interface AddItemResponseGatingCase1Case1 {
-  mode: unknown;
+  mode: string;
 }
 export const AddItemResponseGatingCase1Case1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
   }),
 ).annotate({
   identifier: "AddItemResponseGatingCase1Case1",
@@ -94,12 +88,12 @@ export const AddItemResponseGatingCase1Case2Notifications = /*@__PURE__*/ S.susp
 }) as any as S.Schema<AddItemResponseGatingCase1Case2Notifications>;
 
 export interface AddItemResponseGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: AddItemResponseGatingCase1Case2Notifications;
 }
 export const AddItemResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: AddItemResponseGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -107,18 +101,19 @@ export const AddItemResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddItemResponseGatingCase1Case2>;
 
 export type AddItemResponseGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | AddItemResponseGatingCase1Case2;
 export const AddItemResponseGatingCase1 = S.Unknown as any as S.Schema<AddItemResponseGatingCase1>;
 
-export type AddItemResponseGating = unknown | AddItemResponseGatingCase1;
+export type AddItemResponseGating = boolean | AddItemResponseGatingCase1;
 export const AddItemResponseGating = S.Unknown as any as S.Schema<AddItemResponseGating>;
 
 export type AddItemResponseOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
 export const AddItemResponseOwnerCase0Plan = S.String;
 
 export interface AddItemResponseOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -127,7 +122,7 @@ export interface AddItemResponseOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: AddItemResponseOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -141,7 +136,7 @@ export const AddItemResponseOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(AddItemResponseOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -164,7 +159,7 @@ export interface AddItemResponseOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: AddItemResponseOwnerCase1PrimaryOrgPlan;
@@ -178,7 +173,7 @@ export const AddItemResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(AddItemResponseOwnerCase1PrimaryOrgPlan),
@@ -192,6 +187,7 @@ export const AddItemResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddItemResponseOwnerCase1PrimaryOrg>;
 
 export interface AddItemResponseOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -200,7 +196,7 @@ export interface AddItemResponseOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: AddItemResponseOwnerCase1PrimaryOrg;
@@ -215,7 +211,7 @@ export const AddItemResponseOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(AddItemResponseOwnerCase1PrimaryOrg),
@@ -231,6 +227,7 @@ export type AddItemResponseTheme = "orange" | "blue" | "green" | "purple" | "pin
 export const AddItemResponseTheme = S.String;
 
 export interface AddItemResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -245,31 +242,31 @@ export const AddItemResponseResourceGroup = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddItemResponseResourceGroup",
 }) as any as S.Schema<AddItemResponseResourceGroup>;
 
-export interface AddItemResponseItemsItemNote {
+export interface AddItemResponseItemsItemCase0Note {
   html: string;
   text: string;
 }
-export const AddItemResponseItemsItemNote = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase0Note = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     html: S.String,
     text: S.String,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemNote",
-}) as any as S.Schema<AddItemResponseItemsItemNote>;
+  identifier: "AddItemResponseItemsItemCase0Note",
+}) as any as S.Schema<AddItemResponseItemsItemCase0Note>;
 
-export type AddItemResponseItemsItemGalleryList = Array<string>;
-export const AddItemResponseItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type AddItemResponseItemsItemCase0GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemResponseItemsItemGalleryList>;
+) as any as S.Schema<AddItemResponseItemsItemCase0GalleryList>;
 
-export type AddItemResponseItemsItemDatasetsServerInfoViewer =
+export type AddItemResponseItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const AddItemResponseItemsItemDatasetsServerInfoViewer = S.String;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type AddItemResponseItemsItemDatasetsServerInfoLibrariesItem =
+export type AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -281,16 +278,20 @@ export type AddItemResponseItemsItemDatasetsServerInfoLibrariesItem =
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const AddItemResponseItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type AddItemResponseItemsItemDatasetsServerInfoLibrariesList =
-  Array<AddItemResponseItemsItemDatasetsServerInfoLibrariesItem>;
-export const AddItemResponseItemsItemDatasetsServerInfoLibrariesList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemDatasetsServerInfoLibrariesItem,
-) as any as S.Schema<AddItemResponseItemsItemDatasetsServerInfoLibrariesList>;
+export type AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesItem,
+) as any as S.Schema<AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type AddItemResponseItemsItemDatasetsServerInfoFormatsItem =
+export type AddItemResponseItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -301,15 +302,15 @@ export type AddItemResponseItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const AddItemResponseItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type AddItemResponseItemsItemDatasetsServerInfoFormatsList =
-  Array<AddItemResponseItemsItemDatasetsServerInfoFormatsItem>;
-export const AddItemResponseItemsItemDatasetsServerInfoFormatsList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemDatasetsServerInfoFormatsItem,
-) as any as S.Schema<AddItemResponseItemsItemDatasetsServerInfoFormatsList>;
+export type AddItemResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<AddItemResponseItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoFormatsList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase0DatasetsServerInfoFormatsItem,
+) as any as S.Schema<AddItemResponseItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type AddItemResponseItemsItemDatasetsServerInfoModalitiesItem =
+export type AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -319,44 +320,99 @@ export type AddItemResponseItemsItemDatasetsServerInfoModalitiesItem =
   | "text"
   | "timeseries"
   | "video";
-export const AddItemResponseItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type AddItemResponseItemsItemDatasetsServerInfoModalitiesList =
-  Array<AddItemResponseItemsItemDatasetsServerInfoModalitiesItem>;
-export const AddItemResponseItemsItemDatasetsServerInfoModalitiesList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemDatasetsServerInfoModalitiesItem,
-) as any as S.Schema<AddItemResponseItemsItemDatasetsServerInfoModalitiesList>;
+export type AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesItem,
+) as any as S.Schema<AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface AddItemResponseItemsItemDatasetsServerInfo {
-  viewer: AddItemResponseItemsItemDatasetsServerInfoViewer;
+export interface AddItemResponseItemsItemCase0DatasetsServerInfo {
+  viewer: AddItemResponseItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: AddItemResponseItemsItemDatasetsServerInfoLibrariesList;
-  formats: AddItemResponseItemsItemDatasetsServerInfoFormatsList;
-  modalities: AddItemResponseItemsItemDatasetsServerInfoModalitiesList;
+  libraries: AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: AddItemResponseItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const AddItemResponseItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: AddItemResponseItemsItemDatasetsServerInfoViewer,
+    viewer: AddItemResponseItemsItemCase0DatasetsServerInfoViewer,
     numRows: S.NullOr(S.Number),
-    libraries: AddItemResponseItemsItemDatasetsServerInfoLibrariesList,
-    formats: AddItemResponseItemsItemDatasetsServerInfoFormatsList,
-    modalities: AddItemResponseItemsItemDatasetsServerInfoModalitiesList,
+    libraries: AddItemResponseItemsItemCase0DatasetsServerInfoLibrariesList,
+    formats: AddItemResponseItemsItemCase0DatasetsServerInfoFormatsList,
+    modalities: AddItemResponseItemsItemCase0DatasetsServerInfoModalitiesList,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemDatasetsServerInfo",
-}) as any as S.Schema<AddItemResponseItemsItemDatasetsServerInfo>;
+  identifier: "AddItemResponseItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<AddItemResponseItemsItemCase0DatasetsServerInfo>;
 
-export type AddItemResponseItemsItemGatedCase1 = "auto" | "manual";
-export const AddItemResponseItemsItemGatedCase1 = S.String;
+export type AddItemResponseItemsItemCase0GatedCase1 = "auto" | "manual";
+export const AddItemResponseItemsItemCase0GatedCase1 = S.String;
 
-export type AddItemResponseItemsItemGated = unknown | AddItemResponseItemsItemGatedCase1;
-export const AddItemResponseItemsItemGated =
-  S.Unknown as any as S.Schema<AddItemResponseItemsItemGated>;
+export type AddItemResponseItemsItemCase0Gated = boolean | AddItemResponseItemsItemCase0GatedCase1;
+export const AddItemResponseItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase0Gated>;
 
-export type AddItemResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const AddItemResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
+export type AddItemResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 
-export type AddItemResponseItemsItemAvailableInferenceProvidersItemProvider =
+export interface AddItemResponseItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: AddItemResponseItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: AddItemResponseItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const AddItemResponseItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(AddItemResponseItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: AddItemResponseItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase0",
+}) as any as S.Schema<AddItemResponseItemsItemCase0>;
+
+export type AddItemResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const AddItemResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemResponseItemsItemCase1GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase1GalleryList>;
+
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -376,21 +432,21 @@ export type AddItemResponseItemsItemAvailableInferenceProvidersItemProvider =
   | "together"
   | "wavespeed"
   | "zai-org";
-export const AddItemResponseItemsItemAvailableInferenceProvidersItemProvider = S.String;
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider = S.String;
 
-export type AddItemResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const AddItemResponseItemsItemAvailableInferenceProvidersItemProviderStatus = S.String;
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus = S.String;
 
-export type AddItemResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const AddItemResponseItemsItemAvailableInferenceProvidersItemModelStatus = S.String;
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus = S.String;
 
-export type AddItemResponseItemsItemAvailableInferenceProvidersItemTask =
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -449,29 +505,29 @@ export type AddItemResponseItemsItemAvailableInferenceProvidersItemTask =
   | "video-to-video"
   | "other"
   | "conversational";
-export const AddItemResponseItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask = S.String;
 
-export interface AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures {
+export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures {
   toolCalling?: boolean;
 }
-export const AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures =
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       toolCalling: S.optional(S.Boolean),
     }),
   ).annotate({
-    identifier: "AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures",
-  }) as any as S.Schema<AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures>;
+    identifier: "AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures",
+  }) as any as S.Schema<AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures>;
 
-export interface AddItemResponseItemsItemAvailableInferenceProvidersItem {
-  provider: AddItemResponseItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: AddItemResponseItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: AddItemResponseItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface AddItemResponseItemsItemCase1AvailableInferenceProvidersItem {
+  provider: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: AddItemResponseItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -479,41 +535,53 @@ export interface AddItemResponseItemsItemAvailableInferenceProvidersItem {
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const AddItemResponseItemsItemAvailableInferenceProvidersItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: AddItemResponseItemsItemAvailableInferenceProvidersItemProvider,
-    providerStatus: AddItemResponseItemsItemAvailableInferenceProvidersItemProviderStatus,
-    modelStatus: AddItemResponseItemsItemAvailableInferenceProvidersItemModelStatus,
-    providerId: S.String,
-    task: AddItemResponseItemsItemAvailableInferenceProvidersItemTask,
-    adapterType: S.optional(S.Unknown),
-    adapterWeightsPath: S.optional(S.String),
-    features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
-    isCheapestPricingOutput: S.Boolean,
-    isFastestThroughput: S.Boolean,
-    isModelAuthor: S.Boolean,
-    tokensPerSecond: S.optional(S.Number),
-    pricingOutput: S.optional(S.Number),
-    freeUntil: S.optional(S.String),
-  }),
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      provider: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProvider,
+      providerStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus,
+      providerId: S.String,
+      task: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
+      adapterWeightsPath: S.optional(S.String),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
+      isCheapestPricingOutput: S.Boolean,
+      isFastestThroughput: S.Boolean,
+      isModelAuthor: S.Boolean,
+      tokensPerSecond: S.optional(S.Number),
+      pricingOutput: S.optional(S.Number),
+      freeUntil: S.optional(S.String),
+    }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemAvailableInferenceProvidersItem",
-}) as any as S.Schema<AddItemResponseItemsItemAvailableInferenceProvidersItem>;
+  identifier: "AddItemResponseItemsItemCase1AvailableInferenceProvidersItem",
+}) as any as S.Schema<AddItemResponseItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type AddItemResponseItemsItemAvailableInferenceProvidersList =
-  Array<AddItemResponseItemsItemAvailableInferenceProvidersItem>;
-export const AddItemResponseItemsItemAvailableInferenceProvidersList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemAvailableInferenceProvidersItem,
-) as any as S.Schema<AddItemResponseItemsItemAvailableInferenceProvidersList>;
+export type AddItemResponseItemsItemCase1AvailableInferenceProvidersList =
+  Array<AddItemResponseItemsItemCase1AvailableInferenceProvidersItem>;
+export const AddItemResponseItemsItemCase1AvailableInferenceProvidersList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItem,
+) as any as S.Schema<AddItemResponseItemsItemCase1AvailableInferenceProvidersList>;
 
-export type AddItemResponseItemsItemAuthorDataCase0Plan =
+export type AddItemResponseItemsItemCase1GatedCase1 = "auto" | "manual";
+export const AddItemResponseItemsItemCase1GatedCase1 = S.String;
+
+export type AddItemResponseItemsItemCase1Gated = boolean | AddItemResponseItemsItemCase1GatedCase1;
+export const AddItemResponseItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase1Gated>;
+
+export type AddItemResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type AddItemResponseItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemResponseItemsItemAuthorDataCase0Plan = S.String;
+export const AddItemResponseItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface AddItemResponseItemsItemAuthorDataCase0 {
+export interface AddItemResponseItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -522,11 +590,11 @@ export interface AddItemResponseItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemResponseItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: AddItemResponseItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -536,61 +604,62 @@ export const AddItemResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend((
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemResponseItemsItemAuthorDataCase0Plan),
+    type: S.String,
+    plan: S.optional(AddItemResponseItemsItemCase1AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemAuthorDataCase0",
-}) as any as S.Schema<AddItemResponseItemsItemAuthorDataCase0>;
+  identifier: "AddItemResponseItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<AddItemResponseItemsItemCase1AuthorDataCase0>;
 
-export type AddItemResponseItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemResponseItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type AddItemResponseItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemResponseItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemResponseItemsItemAuthorDataCase1PrimaryOrg {
+export interface AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemResponseItemsItemAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
-    plan: S.optional(AddItemResponseItemsItemAuthorDataCase1PrimaryOrgPlan),
+    plan: S.optional(AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(AddItemResponseItemsItemAuthorDataCase1PrimaryOrgUserRole),
+    userRole: S.optional(AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole),
     numUsers: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemAuthorDataCase1PrimaryOrg",
-}) as any as S.Schema<AddItemResponseItemsItemAuthorDataCase1PrimaryOrg>;
+  identifier: "AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface AddItemResponseItemsItemAuthorDataCase1 {
+export interface AddItemResponseItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -599,12 +668,12 @@ export interface AddItemResponseItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const AddItemResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -614,30 +683,89 @@ export const AddItemResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend((
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemResponseItemsItemAuthorDataCase1PrimaryOrg),
+    primaryOrg: S.optional(AddItemResponseItemsItemCase1AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemAuthorDataCase1",
-}) as any as S.Schema<AddItemResponseItemsItemAuthorDataCase1>;
+  identifier: "AddItemResponseItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<AddItemResponseItemsItemCase1AuthorDataCase1>;
 
-export type AddItemResponseItemsItemAuthorData =
-  | AddItemResponseItemsItemAuthorDataCase0
-  | AddItemResponseItemsItemAuthorDataCase1;
-export const AddItemResponseItemsItemAuthorData =
-  S.Unknown as any as S.Schema<AddItemResponseItemsItemAuthorData>;
+export type AddItemResponseItemsItemCase1AuthorData =
+  | AddItemResponseItemsItemCase1AuthorDataCase0
+  | AddItemResponseItemsItemCase1AuthorDataCase1;
+export const AddItemResponseItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase1AuthorData>;
 
-export type AddItemResponseItemsItemWidgetOutputUrlsList = Array<string>;
-export const AddItemResponseItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type AddItemResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const AddItemResponseItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemResponseItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<AddItemResponseItemsItemCase1WidgetOutputUrlsList>;
 
-export type AddItemResponseItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const AddItemResponseItemsItemSdk = S.String;
+export interface AddItemResponseItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: AddItemResponseItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: AddItemResponseItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: AddItemResponseItemsItemCase1AuthorData;
+  widgetOutputUrls?: AddItemResponseItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const AddItemResponseItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders: AddItemResponseItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: AddItemResponseItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(AddItemResponseItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(AddItemResponseItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase1",
+}) as any as S.Schema<AddItemResponseItemsItemCase1>;
 
-export type AddItemResponseItemsItemRuntimeStage =
+export type AddItemResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const AddItemResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemResponseItemsItemCase2GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase2GalleryList>;
+
+export type AddItemResponseItemsItemCase2Sdk = "gradio" | "docker" | "static" | "streamlit";
+export const AddItemResponseItemsItemCase2Sdk = S.String;
+
+export type AddItemResponseItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -651,9 +779,9 @@ export type AddItemResponseItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const AddItemResponseItemsItemRuntimeStage = S.String;
+export const AddItemResponseItemsItemCase2RuntimeStage = S.String;
 
-export type AddItemResponseItemsItemRuntimeHardwareCurrent =
+export type AddItemResponseItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -683,9 +811,9 @@ export type AddItemResponseItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const AddItemResponseItemsItemRuntimeHardwareCurrent = S.String;
+export const AddItemResponseItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type AddItemResponseItemsItemRuntimeHardwareRequested =
+export type AddItemResponseItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -715,127 +843,130 @@ export type AddItemResponseItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const AddItemResponseItemsItemRuntimeHardwareRequested = S.String;
+export const AddItemResponseItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface AddItemResponseItemsItemRuntimeHardware {
-  current: AddItemResponseItemsItemRuntimeHardwareCurrent | null;
-  requested: AddItemResponseItemsItemRuntimeHardwareRequested | null;
+export interface AddItemResponseItemsItemCase2RuntimeHardware {
+  current: AddItemResponseItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: AddItemResponseItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const AddItemResponseItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    current: S.NullOr(AddItemResponseItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(AddItemResponseItemsItemRuntimeHardwareRequested),
+    current: S.NullOr(AddItemResponseItemsItemCase2RuntimeHardwareCurrent),
+    requested: S.NullOr(AddItemResponseItemsItemCase2RuntimeHardwareRequested),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemRuntimeHardware",
-}) as any as S.Schema<AddItemResponseItemsItemRuntimeHardware>;
+  identifier: "AddItemResponseItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeHardware>;
 
-export type AddItemResponseItemsItemRuntimeReplicasRequested = number | unknown;
-export const AddItemResponseItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<AddItemResponseItemsItemRuntimeReplicasRequested>;
+export type AddItemResponseItemsItemCase2RuntimeReplicasRequested = number | string;
+export const AddItemResponseItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase2RuntimeReplicasRequested>;
 
-export interface AddItemResponseItemsItemRuntimeReplicas {
+export interface AddItemResponseItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: AddItemResponseItemsItemRuntimeReplicasRequested;
+  requested: AddItemResponseItemsItemCase2RuntimeReplicasRequested;
 }
-export const AddItemResponseItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     current: S.optional(S.NullOr(S.Number)),
-    requested: AddItemResponseItemsItemRuntimeReplicasRequested,
+    requested: AddItemResponseItemsItemCase2RuntimeReplicasRequested,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemRuntimeReplicas",
-}) as any as S.Schema<AddItemResponseItemsItemRuntimeReplicas>;
+  identifier: "AddItemResponseItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeReplicas>;
 
-export type AddItemResponseItemsItemRuntimeDomainsItemStage =
+export type AddItemResponseItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const AddItemResponseItemsItemRuntimeDomainsItemStage = S.String;
+export const AddItemResponseItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface AddItemResponseItemsItemRuntimeDomainsItem {
+export interface AddItemResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: AddItemResponseItemsItemRuntimeDomainsItemStage;
+  stage: AddItemResponseItemsItemCase2RuntimeDomainsItemStage;
 }
-export const AddItemResponseItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
     isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: AddItemResponseItemsItemRuntimeDomainsItemStage,
+    stage: AddItemResponseItemsItemCase2RuntimeDomainsItemStage,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<AddItemResponseItemsItemRuntimeDomainsItem>;
+  identifier: "AddItemResponseItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeDomainsItem>;
 
-export type AddItemResponseItemsItemRuntimeDomainsList =
-  Array<AddItemResponseItemsItemRuntimeDomainsItem>;
-export const AddItemResponseItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemRuntimeDomainsItem,
-) as any as S.Schema<AddItemResponseItemsItemRuntimeDomainsList>;
+export type AddItemResponseItemsItemCase2RuntimeDomainsList =
+  Array<AddItemResponseItemsItemCase2RuntimeDomainsItem>;
+export const AddItemResponseItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeDomainsList>;
 
-export type AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList = Array<unknown>;
-export const AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
+  Array<unknown>;
+export const AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-) as any as S.Schema<AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesList>;
+export type AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  /*@__PURE__*/ S.Array(
+    AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface AddItemResponseItemsItemRuntimeHotReloading {
+export interface AddItemResponseItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const AddItemResponseItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2RuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.String,
-    replicaStatuses: AddItemResponseItemsItemRuntimeHotReloadingReplicaStatusesList,
+    replicaStatuses: AddItemResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemRuntimeHotReloading",
-}) as any as S.Schema<AddItemResponseItemsItemRuntimeHotReloading>;
+  identifier: "AddItemResponseItemsItemCase2RuntimeHotReloading",
+}) as any as S.Schema<AddItemResponseItemsItemCase2RuntimeHotReloading>;
 
-export interface AddItemResponseItemsItemRuntime {
-  stage: AddItemResponseItemsItemRuntimeStage;
-  hardware: AddItemResponseItemsItemRuntimeHardware;
+export interface AddItemResponseItemsItemCase2Runtime {
+  stage: AddItemResponseItemsItemCase2RuntimeStage;
+  hardware: AddItemResponseItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: AddItemResponseItemsItemRuntimeReplicas;
+  replicas: AddItemResponseItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: AddItemResponseItemsItemRuntimeDomainsList;
+  domains?: AddItemResponseItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: AddItemResponseItemsItemRuntimeHotReloading;
+  hotReloading?: AddItemResponseItemsItemCase2RuntimeHotReloading;
 }
-export const AddItemResponseItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: AddItemResponseItemsItemRuntimeStage,
-    hardware: AddItemResponseItemsItemRuntimeHardware,
+    stage: AddItemResponseItemsItemCase2RuntimeStage,
+    hardware: AddItemResponseItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: AddItemResponseItemsItemRuntimeReplicas,
+    replicas: AddItemResponseItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(AddItemResponseItemsItemRuntimeDomainsList),
+    domains: S.optional(AddItemResponseItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(AddItemResponseItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(AddItemResponseItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemRuntime",
-}) as any as S.Schema<AddItemResponseItemsItemRuntime>;
+  identifier: "AddItemResponseItemsItemCase2Runtime",
+}) as any as S.Schema<AddItemResponseItemsItemCase2Runtime>;
 
-export type AddItemResponseItemsItemOriginRepoAuthorCase0Plan =
+export type AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemResponseItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface AddItemResponseItemsItemOriginRepoAuthorCase0 {
+export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -844,11 +975,11 @@ export interface AddItemResponseItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemResponseItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -858,61 +989,63 @@ export const AddItemResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemResponseItemsItemOriginRepoAuthorCase0Plan),
+    type: S.String,
+    plan: S.optional(AddItemResponseItemsItemCase2OriginRepoAuthorCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<AddItemResponseItemsItemOriginRepoAuthorCase0>;
+  identifier: "AddItemResponseItemsItemCase2OriginRepoAuthorCase0",
+}) as any as S.Schema<AddItemResponseItemsItemCase2OriginRepoAuthorCase0>;
 
-export type AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan = S.String;
 
-export type AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg",
-}) as any as S.Schema<AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+  identifier: "AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+}) as any as S.Schema<AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface AddItemResponseItemsItemOriginRepoAuthorCase1 {
+export interface AddItemResponseItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -921,12 +1054,12 @@ export interface AddItemResponseItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const AddItemResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2OriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -936,46 +1069,51 @@ export const AddItemResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemResponseItemsItemOriginRepoAuthorCase1PrimaryOrg),
+    primaryOrg: S.optional(AddItemResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<AddItemResponseItemsItemOriginRepoAuthorCase1>;
+  identifier: "AddItemResponseItemsItemCase2OriginRepoAuthorCase1",
+}) as any as S.Schema<AddItemResponseItemsItemCase2OriginRepoAuthorCase1>;
 
-export type AddItemResponseItemsItemOriginRepoAuthor =
-  | AddItemResponseItemsItemOriginRepoAuthorCase0
-  | AddItemResponseItemsItemOriginRepoAuthorCase1;
-export const AddItemResponseItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<AddItemResponseItemsItemOriginRepoAuthor>;
+export type AddItemResponseItemsItemCase2OriginRepoAuthor =
+  | AddItemResponseItemsItemCase2OriginRepoAuthorCase0
+  | AddItemResponseItemsItemCase2OriginRepoAuthorCase1;
+export const AddItemResponseItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase2OriginRepoAuthor>;
 
-export interface AddItemResponseItemsItemOriginRepo {
-  author: AddItemResponseItemsItemOriginRepoAuthor;
+export interface AddItemResponseItemsItemCase2OriginRepo {
+  author: AddItemResponseItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const AddItemResponseItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    author: AddItemResponseItemsItemOriginRepoAuthor,
+    author: AddItemResponseItemsItemCase2OriginRepoAuthor,
     name: S.String,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOriginRepo",
-}) as any as S.Schema<AddItemResponseItemsItemOriginRepo>;
+  identifier: "AddItemResponseItemsItemCase2OriginRepo",
+}) as any as S.Schema<AddItemResponseItemsItemCase2OriginRepo>;
 
-export type AddItemResponseItemsItemTagsList = Array<string>;
-export const AddItemResponseItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type AddItemResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type AddItemResponseItemsItemCase2TagsList = Array<string>;
+export const AddItemResponseItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemResponseItemsItemTagsList>;
+) as any as S.Schema<AddItemResponseItemsItemCase2TagsList>;
 
-export type AddItemResponseItemsItemVisibility = "public" | "private" | "protected";
-export const AddItemResponseItemsItemVisibility = S.String;
+export type AddItemResponseItemsItemCase2AuthorDataCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const AddItemResponseItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export type AddItemResponseItemsItemOwnerCase0Plan = "team" | "enterprise" | "plus" | "academia";
-export const AddItemResponseItemsItemOwnerCase0Plan = S.String;
-
-export interface AddItemResponseItemsItemOwnerCase0 {
+export interface AddItemResponseItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -984,11 +1122,11 @@ export interface AddItemResponseItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemResponseItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: AddItemResponseItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -998,61 +1136,62 @@ export const AddItemResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemResponseItemsItemOwnerCase0Plan),
+    type: S.String,
+    plan: S.optional(AddItemResponseItemsItemCase2AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOwnerCase0",
-}) as any as S.Schema<AddItemResponseItemsItemOwnerCase0>;
+  identifier: "AddItemResponseItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<AddItemResponseItemsItemCase2AuthorDataCase0>;
 
-export type AddItemResponseItemsItemOwnerCase1PrimaryOrgPlan =
+export type AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemResponseItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type AddItemResponseItemsItemOwnerCase1PrimaryOrgUserRole =
+export type AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemResponseItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemResponseItemsItemOwnerCase1PrimaryOrg {
+export interface AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemResponseItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemResponseItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemResponseItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
-    plan: S.optional(AddItemResponseItemsItemOwnerCase1PrimaryOrgPlan),
+    plan: S.optional(AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
     details: S.optional(S.String),
     hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(AddItemResponseItemsItemOwnerCase1PrimaryOrgUserRole),
+    userRole: S.optional(AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole),
     numUsers: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<AddItemResponseItemsItemOwnerCase1PrimaryOrg>;
+  identifier: "AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface AddItemResponseItemsItemOwnerCase1 {
+export interface AddItemResponseItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1061,12 +1200,12 @@ export interface AddItemResponseItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemResponseItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const AddItemResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -1076,187 +1215,433 @@ export const AddItemResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemResponseItemsItemOwnerCase1PrimaryOrg),
+    primaryOrg: S.optional(AddItemResponseItemsItemCase2AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItemOwnerCase1",
-}) as any as S.Schema<AddItemResponseItemsItemOwnerCase1>;
+  identifier: "AddItemResponseItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<AddItemResponseItemsItemCase2AuthorDataCase1>;
 
-export type AddItemResponseItemsItemOwner =
-  | AddItemResponseItemsItemOwnerCase0
-  | AddItemResponseItemsItemOwnerCase1;
-export const AddItemResponseItemsItemOwner =
-  S.Unknown as any as S.Schema<AddItemResponseItemsItemOwner>;
+export type AddItemResponseItemsItemCase2AuthorData =
+  | AddItemResponseItemsItemCase2AuthorDataCase0
+  | AddItemResponseItemsItemCase2AuthorDataCase1;
+export const AddItemResponseItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase2AuthorData>;
 
-export type AddItemResponseItemsItemTheme =
+export type AddItemResponseItemsItemCase2Visibility = "public" | "private" | "protected";
+export const AddItemResponseItemsItemCase2Visibility = S.String;
+
+export interface AddItemResponseItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: AddItemResponseItemsItemCase2Sdk;
+  runtime: AddItemResponseItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: AddItemResponseItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: AddItemResponseItemsItemCase2TagsList;
+  authorData?: AddItemResponseItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: AddItemResponseItemsItemCase2Visibility;
+  type: string;
+}
+export const AddItemResponseItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(AddItemResponseItemsItemCase2Sdk),
+    runtime: AddItemResponseItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(AddItemResponseItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: AddItemResponseItemsItemCase2TagsList,
+    authorData: S.optional(AddItemResponseItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: AddItemResponseItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase2",
+}) as any as S.Schema<AddItemResponseItemsItemCase2>;
+
+export type AddItemResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const AddItemResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemResponseItemsItemCase3GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase3GalleryList>;
+
+export interface AddItemResponseItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const AddItemResponseItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase3",
+}) as any as S.Schema<AddItemResponseItemsItemCase3>;
+
+export type AddItemResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const AddItemResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemResponseItemsItemCase4GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase4GalleryList>;
+
+export type AddItemResponseItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const AddItemResponseItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface AddItemResponseItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: AddItemResponseItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const AddItemResponseItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(AddItemResponseItemsItemCase4OwnerCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase4OwnerCase0",
+}) as any as S.Schema<AddItemResponseItemsItemCase4OwnerCase0>;
+
+export type AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    type: S.String,
+    isHf: S.Boolean,
+    isFollowing: S.optional(S.Boolean),
+    plan: S.optional(AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgPlan),
+    details: S.optional(S.String),
+    hasPrivateMembersList: S.optional(S.Boolean),
+    userRole: S.optional(AddItemResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+    numUsers: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg",
+}) as any as S.Schema<AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface AddItemResponseItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const AddItemResponseItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(AddItemResponseItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase4OwnerCase1",
+}) as any as S.Schema<AddItemResponseItemsItemCase4OwnerCase1>;
+
+export type AddItemResponseItemsItemCase4Owner =
+  | AddItemResponseItemsItemCase4OwnerCase0
+  | AddItemResponseItemsItemCase4OwnerCase1;
+export const AddItemResponseItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<AddItemResponseItemsItemCase4Owner>;
+
+export type AddItemResponseItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const AddItemResponseItemsItemTheme = S.String;
+export const AddItemResponseItemsItemCase4Theme = S.String;
 
-export type AddItemResponseItemsItemAdminTagsList = Array<string>;
-export const AddItemResponseItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AddItemResponseItemsItemAdminTagsList>;
-
-export type AddItemResponseItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const AddItemResponseItemsItemCdnRegionsItemProvider = S.String;
-
-export type AddItemResponseItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const AddItemResponseItemsItemCdnRegionsItemRegion = S.String;
-
-export interface AddItemResponseItemsItemCdnRegionsItem {
-  provider: AddItemResponseItemsItemCdnRegionsItemProvider;
-  region: AddItemResponseItemsItemCdnRegionsItemRegion;
-}
-export const AddItemResponseItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: AddItemResponseItemsItemCdnRegionsItemProvider,
-    region: AddItemResponseItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "AddItemResponseItemsItemCdnRegionsItem",
-}) as any as S.Schema<AddItemResponseItemsItemCdnRegionsItem>;
-
-export type AddItemResponseItemsItemCdnRegionsList = Array<AddItemResponseItemsItemCdnRegionsItem>;
-export const AddItemResponseItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  AddItemResponseItemsItemCdnRegionsItem,
-) as any as S.Schema<AddItemResponseItemsItemCdnRegionsList>;
-
-export interface AddItemResponseItemsItem {
+export interface AddItemResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: AddItemResponseItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: AddItemResponseItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: AddItemResponseItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: AddItemResponseItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: AddItemResponseItemsItemAuthorData;
-  widgetOutputUrls?: AddItemResponseItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: AddItemResponseItemsItemSdk;
-  runtime?: AddItemResponseItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: AddItemResponseItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: AddItemResponseItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: AddItemResponseItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: AddItemResponseItemsItemOwner;
-  theme?: AddItemResponseItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: AddItemResponseItemsItemAdminTagsList;
-  cdnRegions?: AddItemResponseItemsItemCdnRegionsList;
+  owner: AddItemResponseItemsItemCase4Owner;
+  title: string;
+  theme: AddItemResponseItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const AddItemResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const AddItemResponseItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(AddItemResponseItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(AddItemResponseItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(AddItemResponseItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      AddItemResponseItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(AddItemResponseItemsItemAuthorData),
-    widgetOutputUrls: S.optional(AddItemResponseItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(AddItemResponseItemsItemSdk),
-    runtime: S.optional(AddItemResponseItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(AddItemResponseItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(AddItemResponseItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(AddItemResponseItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(AddItemResponseItemsItemOwner),
-    theme: S.optional(AddItemResponseItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(AddItemResponseItemsItemAdminTagsList),
-    cdnRegions: S.optional(AddItemResponseItemsItemCdnRegionsList),
+    owner: AddItemResponseItemsItemCase4Owner,
+    title: S.String,
+    theme: AddItemResponseItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "AddItemResponseItemsItem",
-}) as any as S.Schema<AddItemResponseItemsItem>;
+  identifier: "AddItemResponseItemsItemCase4",
+}) as any as S.Schema<AddItemResponseItemsItemCase4>;
+
+export type AddItemResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const AddItemResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemResponseItemsItemCase5GalleryList = Array<string>;
+export const AddItemResponseItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase5GalleryList>;
+
+export type AddItemResponseItemsItemCase5RepoType = "bucket" | "container";
+export const AddItemResponseItemsItemCase5RepoType = S.String;
+
+export type AddItemResponseItemsItemCase5AdminTagsList = Array<string>;
+export const AddItemResponseItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemResponseItemsItemCase5AdminTagsList>;
+
+export interface AddItemResponseItemsItemCase5Disabled {
+  reason: string;
+  hideReadme?: boolean;
+}
+export const AddItemResponseItemsItemCase5Disabled = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reason: S.String,
+    hideReadme: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase5Disabled",
+}) as any as S.Schema<AddItemResponseItemsItemCase5Disabled>;
+
+export type AddItemResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const AddItemResponseItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type AddItemResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const AddItemResponseItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface AddItemResponseItemsItemCase5CdnRegionsItem {
+  provider: AddItemResponseItemsItemCase5CdnRegionsItemProvider;
+  region: AddItemResponseItemsItemCase5CdnRegionsItemRegion;
+}
+export const AddItemResponseItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: AddItemResponseItemsItemCase5CdnRegionsItemProvider,
+    region: AddItemResponseItemsItemCase5CdnRegionsItemRegion,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<AddItemResponseItemsItemCase5CdnRegionsItem>;
+
+export type AddItemResponseItemsItemCase5CdnRegionsList =
+  Array<AddItemResponseItemsItemCase5CdnRegionsItem>;
+export const AddItemResponseItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  AddItemResponseItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<AddItemResponseItemsItemCase5CdnRegionsList>;
+
+export type AddItemResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface AddItemResponseItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemResponseItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: AddItemResponseItemsItemCase5RepoType;
+  adminTags?: AddItemResponseItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: AddItemResponseItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const AddItemResponseItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemResponseItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: AddItemResponseItemsItemCase5RepoType,
+    adminTags: S.optional(AddItemResponseItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: AddItemResponseItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemResponseItemsItemCase5",
+}) as any as S.Schema<AddItemResponseItemsItemCase5>;
+
+export type AddItemResponseItemsItem =
+  | AddItemResponseItemsItemCase0
+  | AddItemResponseItemsItemCase1
+  | AddItemResponseItemsItemCase2
+  | AddItemResponseItemsItemCase3
+  | AddItemResponseItemsItemCase4
+  | AddItemResponseItemsItemCase5;
+export const AddItemResponseItemsItem = S.Unknown as any as S.Schema<AddItemResponseItemsItem>;
 
 export type AddItemResponseItemsList = Array<AddItemResponseItemsItem>;
 export const AddItemResponseItemsList = /*@__PURE__*/ S.Array(
@@ -1296,9 +1681,7 @@ export const AddItemResponse = /*@__PURE__*/ S.suspend(() =>
     resourceGroup: S.optional(AddItemResponseResourceGroup),
     items: AddItemResponseItemsList,
   }),
-).annotate({
-  identifier: "AddItemResponse",
-}) as any as S.Schema<AddItemResponse>;
+).annotate({ identifier: "AddItemResponse" }) as any as S.Schema<AddItemResponse>;
 
 export type AddItemBySlugRequestItemType =
   | "paper"
@@ -1318,9 +1701,7 @@ export const AddItemBySlugRequestItem = /*@__PURE__*/ S.suspend(() =>
     type: AddItemBySlugRequestItemType,
     id: S.String,
   }),
-).annotate({
-  identifier: "AddItemBySlugRequestItem",
-}) as any as S.Schema<AddItemBySlugRequestItem>;
+).annotate({ identifier: "AddItemBySlugRequestItem" }) as any as S.Schema<AddItemBySlugRequestItem>;
 
 export interface AddItemBySlugRequest {
   namespace: string;
@@ -1334,16 +1715,8 @@ export const AddItemBySlugRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     item: AddItemBySlugRequestItem,
     note: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/collections/{namespace}/{slug}/items",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddItemBySlugRequest",
-}) as any as S.Schema<AddItemBySlugRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/collections/{namespace}/{slug}/items", code: 200 })),
+).annotate({ identifier: "AddItemBySlugRequest" }) as any as S.Schema<AddItemBySlugRequest>;
 
 export type AddItemBySlugResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export const AddItemBySlugResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
@@ -1365,12 +1738,12 @@ export const AddItemBySlugResponseGatingCase1Case2Notifications = /*@__PURE__*/ 
 }) as any as S.Schema<AddItemBySlugResponseGatingCase1Case2Notifications>;
 
 export interface AddItemBySlugResponseGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: AddItemBySlugResponseGatingCase1Case2Notifications;
 }
 export const AddItemBySlugResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: AddItemBySlugResponseGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -1378,13 +1751,13 @@ export const AddItemBySlugResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<AddItemBySlugResponseGatingCase1Case2>;
 
 export type AddItemBySlugResponseGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | AddItemBySlugResponseGatingCase1Case2;
 export const AddItemBySlugResponseGatingCase1 =
   S.Unknown as any as S.Schema<AddItemBySlugResponseGatingCase1>;
 
-export type AddItemBySlugResponseGating = unknown | AddItemBySlugResponseGatingCase1;
+export type AddItemBySlugResponseGating = boolean | AddItemBySlugResponseGatingCase1;
 export const AddItemBySlugResponseGating =
   S.Unknown as any as S.Schema<AddItemBySlugResponseGating>;
 
@@ -1392,6 +1765,7 @@ export type AddItemBySlugResponseOwnerCase0Plan = "team" | "enterprise" | "plus"
 export const AddItemBySlugResponseOwnerCase0Plan = S.String;
 
 export interface AddItemBySlugResponseOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1400,7 +1774,7 @@ export interface AddItemBySlugResponseOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: AddItemBySlugResponseOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -1414,7 +1788,7 @@ export const AddItemBySlugResponseOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(AddItemBySlugResponseOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -1441,7 +1815,7 @@ export interface AddItemBySlugResponseOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: AddItemBySlugResponseOwnerCase1PrimaryOrgPlan;
@@ -1455,7 +1829,7 @@ export const AddItemBySlugResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(AddItemBySlugResponseOwnerCase1PrimaryOrgPlan),
@@ -1469,6 +1843,7 @@ export const AddItemBySlugResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<AddItemBySlugResponseOwnerCase1PrimaryOrg>;
 
 export interface AddItemBySlugResponseOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1477,7 +1852,7 @@ export interface AddItemBySlugResponseOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: AddItemBySlugResponseOwnerCase1PrimaryOrg;
@@ -1492,7 +1867,7 @@ export const AddItemBySlugResponseOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(AddItemBySlugResponseOwnerCase1PrimaryOrg),
@@ -1512,21 +1887,21 @@ export const AddItemBySlugResponseTheme = S.String;
 export type AddItemBySlugResponseResourceGroup = AddItemResponseResourceGroup;
 export const AddItemBySlugResponseResourceGroup = AddItemResponseResourceGroup;
 
-export type AddItemBySlugResponseItemsItemNote = AddItemResponseItemsItemNote;
-export const AddItemBySlugResponseItemsItemNote = AddItemResponseItemsItemNote;
+export type AddItemBySlugResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
 
-export type AddItemBySlugResponseItemsItemGalleryList = Array<string>;
-export const AddItemBySlugResponseItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type AddItemBySlugResponseItemsItemCase0GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemBySlugResponseItemsItemGalleryList>;
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase0GalleryList>;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoViewer =
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoViewer = S.String;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesItem =
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -1538,16 +1913,21 @@ export type AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesItem =
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesList =
-  Array<AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesItem>;
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesList>;
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  /*@__PURE__*/ S.Array(
+    AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsItem =
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -1558,15 +1938,16 @@ export type AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsList =
-  Array<AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsItem>;
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsList>;
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  /*@__PURE__*/ S.Array(
+    AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesItem =
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -1576,46 +1957,102 @@ export type AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesItem =
   | "text"
   | "timeseries"
   | "video";
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesList =
-  Array<AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesItem>;
-export const AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesList>;
+export type AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  /*@__PURE__*/ S.Array(
+    AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface AddItemBySlugResponseItemsItemDatasetsServerInfo {
-  viewer: AddItemBySlugResponseItemsItemDatasetsServerInfoViewer;
+export interface AddItemBySlugResponseItemsItemCase0DatasetsServerInfo {
+  viewer: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesList;
-  formats: AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsList;
-  modalities: AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesList;
+  libraries: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const AddItemBySlugResponseItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: AddItemBySlugResponseItemsItemDatasetsServerInfoViewer,
+    viewer: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoViewer,
     numRows: S.NullOr(S.Number),
-    libraries: AddItemBySlugResponseItemsItemDatasetsServerInfoLibrariesList,
-    formats: AddItemBySlugResponseItemsItemDatasetsServerInfoFormatsList,
-    modalities: AddItemBySlugResponseItemsItemDatasetsServerInfoModalitiesList,
+    libraries: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList,
+    formats: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList,
+    modalities: AddItemBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemDatasetsServerInfo",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemDatasetsServerInfo>;
+  identifier: "AddItemBySlugResponseItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase0DatasetsServerInfo>;
 
-export type AddItemBySlugResponseItemsItemGatedCase1 = "auto" | "manual";
-export const AddItemBySlugResponseItemsItemGatedCase1 = S.String;
+export type AddItemBySlugResponseItemsItemCase0GatedCase1 = "auto" | "manual";
+export const AddItemBySlugResponseItemsItemCase0GatedCase1 = S.String;
 
-export type AddItemBySlugResponseItemsItemGated =
-  | unknown
-  | AddItemBySlugResponseItemsItemGatedCase1;
-export const AddItemBySlugResponseItemsItemGated =
-  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemGated>;
+export type AddItemBySlugResponseItemsItemCase0Gated =
+  | boolean
+  | AddItemBySlugResponseItemsItemCase0GatedCase1;
+export const AddItemBySlugResponseItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase0Gated>;
 
-export type AddItemBySlugResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const AddItemBySlugResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
+export type AddItemBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProvider =
+export interface AddItemBySlugResponseItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: AddItemBySlugResponseItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: AddItemBySlugResponseItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const AddItemBySlugResponseItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(AddItemBySlugResponseItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: AddItemBySlugResponseItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase0",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase0>;
+
+export type AddItemBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemBySlugResponseItemsItemCase1GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase1GalleryList>;
+
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -1635,21 +2072,23 @@ export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProvide
   | "together"
   | "wavespeed"
   | "zai-org";
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProvider = S.String;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider = S.String;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus = S.String;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
+  S.String;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus = S.String;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
+  S.String;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemTask =
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -1708,22 +2147,22 @@ export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemTask =
   | "video-to-video"
   | "other"
   | "conversational";
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask = S.String;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem {
-  provider: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem {
+  provider: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -1731,17 +2170,18 @@ export interface AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem {
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem =
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProvider,
-      providerStatus: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus,
-      modelStatus: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus,
+      provider: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider,
+      providerStatus:
+        AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: AddItemBySlugResponseItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -1750,23 +2190,37 @@ export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem =
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem>;
+    identifier: "AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type AddItemBySlugResponseItemsItemAvailableInferenceProvidersList =
-  Array<AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem>;
-export const AddItemBySlugResponseItemsItemAvailableInferenceProvidersList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemAvailableInferenceProvidersItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemAvailableInferenceProvidersList>;
+export type AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
+  Array<AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
+export const AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
+  /*@__PURE__*/ S.Array(
+    AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList>;
 
-export type AddItemBySlugResponseItemsItemAuthorDataCase0Plan =
+export type AddItemBySlugResponseItemsItemCase1GatedCase1 = "auto" | "manual";
+export const AddItemBySlugResponseItemsItemCase1GatedCase1 = S.String;
+
+export type AddItemBySlugResponseItemsItemCase1Gated =
+  | boolean
+  | AddItemBySlugResponseItemsItemCase1GatedCase1;
+export const AddItemBySlugResponseItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase1Gated>;
+
+export type AddItemBySlugResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemBySlugResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemAuthorDataCase0Plan = S.String;
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface AddItemBySlugResponseItemsItemAuthorDataCase0 {
+export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1775,11 +2229,11 @@ export interface AddItemBySlugResponseItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemBySlugResponseItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemBySlugResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -1789,61 +2243,63 @@ export const AddItemBySlugResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemBySlugResponseItemsItemAuthorDataCase0Plan),
+    type: S.String,
+    plan: S.optional(AddItemBySlugResponseItemsItemCase1AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemAuthorDataCase0",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemAuthorDataCase0>;
+  identifier: "AddItemBySlugResponseItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase1AuthorDataCase0>;
 
-export type AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg {
+export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg>;
+  identifier: "AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface AddItemBySlugResponseItemsItemAuthorDataCase1 {
+export interface AddItemBySlugResponseItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -1852,12 +2308,12 @@ export interface AddItemBySlugResponseItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const AddItemBySlugResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -1867,30 +2323,89 @@ export const AddItemBySlugResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemBySlugResponseItemsItemAuthorDataCase1PrimaryOrg),
+    primaryOrg: S.optional(AddItemBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemAuthorDataCase1",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemAuthorDataCase1>;
+  identifier: "AddItemBySlugResponseItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase1AuthorDataCase1>;
 
-export type AddItemBySlugResponseItemsItemAuthorData =
-  | AddItemBySlugResponseItemsItemAuthorDataCase0
-  | AddItemBySlugResponseItemsItemAuthorDataCase1;
-export const AddItemBySlugResponseItemsItemAuthorData =
-  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemAuthorData>;
+export type AddItemBySlugResponseItemsItemCase1AuthorData =
+  | AddItemBySlugResponseItemsItemCase1AuthorDataCase0
+  | AddItemBySlugResponseItemsItemCase1AuthorDataCase1;
+export const AddItemBySlugResponseItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase1AuthorData>;
 
-export type AddItemBySlugResponseItemsItemWidgetOutputUrlsList = Array<string>;
-export const AddItemBySlugResponseItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemBySlugResponseItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList>;
 
-export type AddItemBySlugResponseItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const AddItemBySlugResponseItemsItemSdk = S.String;
+export interface AddItemBySlugResponseItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: AddItemBySlugResponseItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: AddItemBySlugResponseItemsItemCase1AuthorData;
+  widgetOutputUrls?: AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const AddItemBySlugResponseItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders: AddItemBySlugResponseItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: AddItemBySlugResponseItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(AddItemBySlugResponseItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(AddItemBySlugResponseItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase1",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase1>;
 
-export type AddItemBySlugResponseItemsItemRuntimeStage =
+export type AddItemBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemBySlugResponseItemsItemCase2GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase2GalleryList>;
+
+export type AddItemBySlugResponseItemsItemCase2Sdk = "gradio" | "docker" | "static" | "streamlit";
+export const AddItemBySlugResponseItemsItemCase2Sdk = S.String;
+
+export type AddItemBySlugResponseItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -1904,9 +2419,9 @@ export type AddItemBySlugResponseItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const AddItemBySlugResponseItemsItemRuntimeStage = S.String;
+export const AddItemBySlugResponseItemsItemCase2RuntimeStage = S.String;
 
-export type AddItemBySlugResponseItemsItemRuntimeHardwareCurrent =
+export type AddItemBySlugResponseItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -1936,9 +2451,9 @@ export type AddItemBySlugResponseItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const AddItemBySlugResponseItemsItemRuntimeHardwareCurrent = S.String;
+export const AddItemBySlugResponseItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type AddItemBySlugResponseItemsItemRuntimeHardwareRequested =
+export type AddItemBySlugResponseItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -1968,129 +2483,130 @@ export type AddItemBySlugResponseItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const AddItemBySlugResponseItemsItemRuntimeHardwareRequested = S.String;
+export const AddItemBySlugResponseItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface AddItemBySlugResponseItemsItemRuntimeHardware {
-  current: AddItemBySlugResponseItemsItemRuntimeHardwareCurrent | null;
-  requested: AddItemBySlugResponseItemsItemRuntimeHardwareRequested | null;
+export interface AddItemBySlugResponseItemsItemCase2RuntimeHardware {
+  current: AddItemBySlugResponseItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: AddItemBySlugResponseItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const AddItemBySlugResponseItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    current: S.NullOr(AddItemBySlugResponseItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(AddItemBySlugResponseItemsItemRuntimeHardwareRequested),
+    current: S.NullOr(AddItemBySlugResponseItemsItemCase2RuntimeHardwareCurrent),
+    requested: S.NullOr(AddItemBySlugResponseItemsItemCase2RuntimeHardwareRequested),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemRuntimeHardware",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeHardware>;
+  identifier: "AddItemBySlugResponseItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeHardware>;
 
-export type AddItemBySlugResponseItemsItemRuntimeReplicasRequested = number | unknown;
-export const AddItemBySlugResponseItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeReplicasRequested>;
+export type AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested = number | string;
+export const AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested>;
 
-export interface AddItemBySlugResponseItemsItemRuntimeReplicas {
+export interface AddItemBySlugResponseItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: AddItemBySlugResponseItemsItemRuntimeReplicasRequested;
+  requested: AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested;
 }
-export const AddItemBySlugResponseItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     current: S.optional(S.NullOr(S.Number)),
-    requested: AddItemBySlugResponseItemsItemRuntimeReplicasRequested,
+    requested: AddItemBySlugResponseItemsItemCase2RuntimeReplicasRequested,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemRuntimeReplicas",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeReplicas>;
+  identifier: "AddItemBySlugResponseItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeReplicas>;
 
-export type AddItemBySlugResponseItemsItemRuntimeDomainsItemStage =
+export type AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const AddItemBySlugResponseItemsItemRuntimeDomainsItemStage = S.String;
+export const AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface AddItemBySlugResponseItemsItemRuntimeDomainsItem {
+export interface AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: AddItemBySlugResponseItemsItemRuntimeDomainsItemStage;
+  stage: AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage;
 }
-export const AddItemBySlugResponseItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
     isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: AddItemBySlugResponseItemsItemRuntimeDomainsItemStage,
+    stage: AddItemBySlugResponseItemsItemCase2RuntimeDomainsItemStage,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeDomainsItem>;
+  identifier: "AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem>;
 
-export type AddItemBySlugResponseItemsItemRuntimeDomainsList =
-  Array<AddItemBySlugResponseItemsItemRuntimeDomainsItem>;
-export const AddItemBySlugResponseItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemRuntimeDomainsItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeDomainsList>;
+export type AddItemBySlugResponseItemsItemCase2RuntimeDomainsList =
+  Array<AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem>;
+export const AddItemBySlugResponseItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  AddItemBySlugResponseItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeDomainsList>;
 
-export type AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface AddItemBySlugResponseItemsItemRuntimeHotReloading {
+export interface AddItemBySlugResponseItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const AddItemBySlugResponseItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2RuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.String,
-    replicaStatuses: AddItemBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList,
+    replicaStatuses: AddItemBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemRuntimeHotReloading",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemRuntimeHotReloading>;
+  identifier: "AddItemBySlugResponseItemsItemCase2RuntimeHotReloading",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2RuntimeHotReloading>;
 
-export interface AddItemBySlugResponseItemsItemRuntime {
-  stage: AddItemBySlugResponseItemsItemRuntimeStage;
-  hardware: AddItemBySlugResponseItemsItemRuntimeHardware;
+export interface AddItemBySlugResponseItemsItemCase2Runtime {
+  stage: AddItemBySlugResponseItemsItemCase2RuntimeStage;
+  hardware: AddItemBySlugResponseItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: AddItemBySlugResponseItemsItemRuntimeReplicas;
+  replicas: AddItemBySlugResponseItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: AddItemBySlugResponseItemsItemRuntimeDomainsList;
+  domains?: AddItemBySlugResponseItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: AddItemBySlugResponseItemsItemRuntimeHotReloading;
+  hotReloading?: AddItemBySlugResponseItemsItemCase2RuntimeHotReloading;
 }
-export const AddItemBySlugResponseItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: AddItemBySlugResponseItemsItemRuntimeStage,
-    hardware: AddItemBySlugResponseItemsItemRuntimeHardware,
+    stage: AddItemBySlugResponseItemsItemCase2RuntimeStage,
+    hardware: AddItemBySlugResponseItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: AddItemBySlugResponseItemsItemRuntimeReplicas,
+    replicas: AddItemBySlugResponseItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(AddItemBySlugResponseItemsItemRuntimeDomainsList),
+    domains: S.optional(AddItemBySlugResponseItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(AddItemBySlugResponseItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(AddItemBySlugResponseItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemRuntime",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemRuntime>;
+  identifier: "AddItemBySlugResponseItemsItemCase2Runtime",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2Runtime>;
 
-export type AddItemBySlugResponseItemsItemOriginRepoAuthorCase0Plan =
+export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface AddItemBySlugResponseItemsItemOriginRepoAuthorCase0 {
+export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2099,76 +2615,80 @@ export interface AddItemBySlugResponseItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemBySlugResponseItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemBySlugResponseItemsItemOriginRepoAuthorCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOriginRepoAuthorCase0>;
+  identifier: "AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0>;
 
-export type AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan = S.String;
 
-export type AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
+      plan: S.optional(AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface AddItemBySlugResponseItemsItemOriginRepoAuthorCase1 {
+export interface AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2177,65 +2697,67 @@ export interface AddItemBySlugResponseItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const AddItemBySlugResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg),
-  }),
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg),
+    }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOriginRepoAuthorCase1>;
+  identifier: "AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1>;
 
-export type AddItemBySlugResponseItemsItemOriginRepoAuthor =
-  | AddItemBySlugResponseItemsItemOriginRepoAuthorCase0
-  | AddItemBySlugResponseItemsItemOriginRepoAuthorCase1;
-export const AddItemBySlugResponseItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemOriginRepoAuthor>;
+export type AddItemBySlugResponseItemsItemCase2OriginRepoAuthor =
+  | AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase0
+  | AddItemBySlugResponseItemsItemCase2OriginRepoAuthorCase1;
+export const AddItemBySlugResponseItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase2OriginRepoAuthor>;
 
-export interface AddItemBySlugResponseItemsItemOriginRepo {
-  author: AddItemBySlugResponseItemsItemOriginRepoAuthor;
+export interface AddItemBySlugResponseItemsItemCase2OriginRepo {
+  author: AddItemBySlugResponseItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const AddItemBySlugResponseItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    author: AddItemBySlugResponseItemsItemOriginRepoAuthor,
+    author: AddItemBySlugResponseItemsItemCase2OriginRepoAuthor,
     name: S.String,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOriginRepo",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOriginRepo>;
+  identifier: "AddItemBySlugResponseItemsItemCase2OriginRepo",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2OriginRepo>;
 
-export type AddItemBySlugResponseItemsItemTagsList = Array<string>;
-export const AddItemBySlugResponseItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type AddItemBySlugResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemBySlugResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type AddItemBySlugResponseItemsItemCase2TagsList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<AddItemBySlugResponseItemsItemTagsList>;
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase2TagsList>;
 
-export type AddItemBySlugResponseItemsItemVisibility = "public" | "private" | "protected";
-export const AddItemBySlugResponseItemsItemVisibility = S.String;
-
-export type AddItemBySlugResponseItemsItemOwnerCase0Plan =
+export type AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemOwnerCase0Plan = S.String;
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export interface AddItemBySlugResponseItemsItemOwnerCase0 {
+export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2244,11 +2766,11 @@ export interface AddItemBySlugResponseItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: AddItemBySlugResponseItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const AddItemBySlugResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -2258,61 +2780,63 @@ export const AddItemBySlugResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(AddItemBySlugResponseItemsItemOwnerCase0Plan),
+    type: S.String,
+    plan: S.optional(AddItemBySlugResponseItemsItemCase2AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOwnerCase0",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOwnerCase0>;
+  identifier: "AddItemBySlugResponseItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2AuthorDataCase0>;
 
-export type AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan =
+export type AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole =
+export type AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg {
+export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg>;
+  identifier: "AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface AddItemBySlugResponseItemsItemOwnerCase1 {
+export interface AddItemBySlugResponseItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2321,12 +2845,12 @@ export interface AddItemBySlugResponseItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const AddItemBySlugResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -2336,188 +2860,424 @@ export const AddItemBySlugResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(AddItemBySlugResponseItemsItemOwnerCase1PrimaryOrg),
+    primaryOrg: S.optional(AddItemBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItemOwnerCase1",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemOwnerCase1>;
+  identifier: "AddItemBySlugResponseItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2AuthorDataCase1>;
 
-export type AddItemBySlugResponseItemsItemOwner =
-  | AddItemBySlugResponseItemsItemOwnerCase0
-  | AddItemBySlugResponseItemsItemOwnerCase1;
-export const AddItemBySlugResponseItemsItemOwner =
-  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemOwner>;
+export type AddItemBySlugResponseItemsItemCase2AuthorData =
+  | AddItemBySlugResponseItemsItemCase2AuthorDataCase0
+  | AddItemBySlugResponseItemsItemCase2AuthorDataCase1;
+export const AddItemBySlugResponseItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase2AuthorData>;
 
-export type AddItemBySlugResponseItemsItemTheme =
+export type AddItemBySlugResponseItemsItemCase2Visibility = "public" | "private" | "protected";
+export const AddItemBySlugResponseItemsItemCase2Visibility = S.String;
+
+export interface AddItemBySlugResponseItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: AddItemBySlugResponseItemsItemCase2Sdk;
+  runtime: AddItemBySlugResponseItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: AddItemBySlugResponseItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: AddItemBySlugResponseItemsItemCase2TagsList;
+  authorData?: AddItemBySlugResponseItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: AddItemBySlugResponseItemsItemCase2Visibility;
+  type: string;
+}
+export const AddItemBySlugResponseItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(AddItemBySlugResponseItemsItemCase2Sdk),
+    runtime: AddItemBySlugResponseItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(AddItemBySlugResponseItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: AddItemBySlugResponseItemsItemCase2TagsList,
+    authorData: S.optional(AddItemBySlugResponseItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: AddItemBySlugResponseItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase2",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase2>;
+
+export type AddItemBySlugResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemBySlugResponseItemsItemCase3GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase3GalleryList>;
+
+export interface AddItemBySlugResponseItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const AddItemBySlugResponseItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase3",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase3>;
+
+export type AddItemBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemBySlugResponseItemsItemCase4GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase4GalleryList>;
+
+export type AddItemBySlugResponseItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const AddItemBySlugResponseItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface AddItemBySlugResponseItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const AddItemBySlugResponseItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(AddItemBySlugResponseItemsItemCase4OwnerCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase4OwnerCase0",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase4OwnerCase0>;
+
+export type AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    type: S.String,
+    isHf: S.Boolean,
+    isFollowing: S.optional(S.Boolean),
+    plan: S.optional(AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan),
+    details: S.optional(S.String),
+    hasPrivateMembersList: S.optional(S.Boolean),
+    userRole: S.optional(AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+    numUsers: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface AddItemBySlugResponseItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const AddItemBySlugResponseItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(AddItemBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase4OwnerCase1",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase4OwnerCase1>;
+
+export type AddItemBySlugResponseItemsItemCase4Owner =
+  | AddItemBySlugResponseItemsItemCase4OwnerCase0
+  | AddItemBySlugResponseItemsItemCase4OwnerCase1;
+export const AddItemBySlugResponseItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItemCase4Owner>;
+
+export type AddItemBySlugResponseItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const AddItemBySlugResponseItemsItemTheme = S.String;
+export const AddItemBySlugResponseItemsItemCase4Theme = S.String;
 
-export type AddItemBySlugResponseItemsItemAdminTagsList = Array<string>;
-export const AddItemBySlugResponseItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AddItemBySlugResponseItemsItemAdminTagsList>;
-
-export type AddItemBySlugResponseItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const AddItemBySlugResponseItemsItemCdnRegionsItemProvider = S.String;
-
-export type AddItemBySlugResponseItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const AddItemBySlugResponseItemsItemCdnRegionsItemRegion = S.String;
-
-export interface AddItemBySlugResponseItemsItemCdnRegionsItem {
-  provider: AddItemBySlugResponseItemsItemCdnRegionsItemProvider;
-  region: AddItemBySlugResponseItemsItemCdnRegionsItemRegion;
-}
-export const AddItemBySlugResponseItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: AddItemBySlugResponseItemsItemCdnRegionsItemProvider,
-    region: AddItemBySlugResponseItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "AddItemBySlugResponseItemsItemCdnRegionsItem",
-}) as any as S.Schema<AddItemBySlugResponseItemsItemCdnRegionsItem>;
-
-export type AddItemBySlugResponseItemsItemCdnRegionsList =
-  Array<AddItemBySlugResponseItemsItemCdnRegionsItem>;
-export const AddItemBySlugResponseItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  AddItemBySlugResponseItemsItemCdnRegionsItem,
-) as any as S.Schema<AddItemBySlugResponseItemsItemCdnRegionsList>;
-
-export interface AddItemBySlugResponseItemsItem {
+export interface AddItemBySlugResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: AddItemBySlugResponseItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: AddItemBySlugResponseItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: AddItemBySlugResponseItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: AddItemBySlugResponseItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: AddItemBySlugResponseItemsItemAuthorData;
-  widgetOutputUrls?: AddItemBySlugResponseItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: AddItemBySlugResponseItemsItemSdk;
-  runtime?: AddItemBySlugResponseItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: AddItemBySlugResponseItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: AddItemBySlugResponseItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: AddItemBySlugResponseItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: AddItemBySlugResponseItemsItemOwner;
-  theme?: AddItemBySlugResponseItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: AddItemBySlugResponseItemsItemAdminTagsList;
-  cdnRegions?: AddItemBySlugResponseItemsItemCdnRegionsList;
+  owner: AddItemBySlugResponseItemsItemCase4Owner;
+  title: string;
+  theme: AddItemBySlugResponseItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const AddItemBySlugResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const AddItemBySlugResponseItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(AddItemBySlugResponseItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(AddItemBySlugResponseItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(AddItemBySlugResponseItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      AddItemBySlugResponseItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(AddItemBySlugResponseItemsItemAuthorData),
-    widgetOutputUrls: S.optional(AddItemBySlugResponseItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(AddItemBySlugResponseItemsItemSdk),
-    runtime: S.optional(AddItemBySlugResponseItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(AddItemBySlugResponseItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(AddItemBySlugResponseItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(AddItemBySlugResponseItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(AddItemBySlugResponseItemsItemOwner),
-    theme: S.optional(AddItemBySlugResponseItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(AddItemBySlugResponseItemsItemAdminTagsList),
-    cdnRegions: S.optional(AddItemBySlugResponseItemsItemCdnRegionsList),
+    owner: AddItemBySlugResponseItemsItemCase4Owner,
+    title: S.String,
+    theme: AddItemBySlugResponseItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "AddItemBySlugResponseItemsItem",
-}) as any as S.Schema<AddItemBySlugResponseItemsItem>;
+  identifier: "AddItemBySlugResponseItemsItemCase4",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase4>;
+
+export type AddItemBySlugResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const AddItemBySlugResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type AddItemBySlugResponseItemsItemCase5GalleryList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase5GalleryList>;
+
+export type AddItemBySlugResponseItemsItemCase5RepoType = "bucket" | "container";
+export const AddItemBySlugResponseItemsItemCase5RepoType = S.String;
+
+export type AddItemBySlugResponseItemsItemCase5AdminTagsList = Array<string>;
+export const AddItemBySlugResponseItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase5AdminTagsList>;
+
+export type AddItemBySlugResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+export const AddItemBySlugResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+
+export type AddItemBySlugResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const AddItemBySlugResponseItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type AddItemBySlugResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const AddItemBySlugResponseItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface AddItemBySlugResponseItemsItemCase5CdnRegionsItem {
+  provider: AddItemBySlugResponseItemsItemCase5CdnRegionsItemProvider;
+  region: AddItemBySlugResponseItemsItemCase5CdnRegionsItemRegion;
+}
+export const AddItemBySlugResponseItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: AddItemBySlugResponseItemsItemCase5CdnRegionsItemProvider,
+    region: AddItemBySlugResponseItemsItemCase5CdnRegionsItemRegion,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase5CdnRegionsItem>;
+
+export type AddItemBySlugResponseItemsItemCase5CdnRegionsList =
+  Array<AddItemBySlugResponseItemsItemCase5CdnRegionsItem>;
+export const AddItemBySlugResponseItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  AddItemBySlugResponseItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<AddItemBySlugResponseItemsItemCase5CdnRegionsList>;
+
+export type AddItemBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const AddItemBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface AddItemBySlugResponseItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: AddItemBySlugResponseItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: AddItemBySlugResponseItemsItemCase5RepoType;
+  adminTags?: AddItemBySlugResponseItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: AddItemBySlugResponseItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const AddItemBySlugResponseItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(AddItemBySlugResponseItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: AddItemBySlugResponseItemsItemCase5RepoType,
+    adminTags: S.optional(AddItemBySlugResponseItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: AddItemBySlugResponseItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "AddItemBySlugResponseItemsItemCase5",
+}) as any as S.Schema<AddItemBySlugResponseItemsItemCase5>;
+
+export type AddItemBySlugResponseItemsItem =
+  | AddItemBySlugResponseItemsItemCase0
+  | AddItemBySlugResponseItemsItemCase1
+  | AddItemBySlugResponseItemsItemCase2
+  | AddItemBySlugResponseItemsItemCase3
+  | AddItemBySlugResponseItemsItemCase4
+  | AddItemBySlugResponseItemsItemCase5;
+export const AddItemBySlugResponseItemsItem =
+  S.Unknown as any as S.Schema<AddItemBySlugResponseItemsItem>;
 
 export type AddItemBySlugResponseItemsList = Array<AddItemBySlugResponseItemsItem>;
 export const AddItemBySlugResponseItemsList = /*@__PURE__*/ S.Array(
@@ -2557,9 +3317,7 @@ export const AddItemBySlugResponse = /*@__PURE__*/ S.suspend(() =>
     resourceGroup: S.optional(AddItemResponseResourceGroup),
     items: AddItemBySlugResponseItemsList,
   }),
-).annotate({
-  identifier: "AddItemBySlugResponse",
-}) as any as S.Schema<AddItemBySlugResponse>;
+).annotate({ identifier: "AddItemBySlugResponse" }) as any as S.Schema<AddItemBySlugResponse>;
 
 export type BatchUpdateItemsRequestBodyItemAction = "update";
 export const BatchUpdateItemsRequestBodyItemAction = S.String;
@@ -2623,9 +3381,7 @@ export const BatchUpdateItemsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "BatchUpdateItemsRequest",
-}) as any as S.Schema<BatchUpdateItemsRequest>;
+).annotate({ identifier: "BatchUpdateItemsRequest" }) as any as S.Schema<BatchUpdateItemsRequest>;
 
 export interface BatchUpdateItemsResponse {}
 export const BatchUpdateItemsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2686,11 +3442,7 @@ export const BatchUpdateItemsBySlugRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     body: S.optional(BatchUpdateItemsBySlugRequestBodyList.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/collections/{namespace}/{slug}/items/batch",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/collections/{namespace}/{slug}/items/batch", code: 200 }),
   ),
 ).annotate({
   identifier: "BatchUpdateItemsBySlugRequest",
@@ -2742,9 +3494,7 @@ export const CreateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     private: S.optional(S.Boolean),
     resourceGroupId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/collections", code: 200 })),
-).annotate({
-  identifier: "CreateCollectionRequest",
-}) as any as S.Schema<CreateCollectionRequest>;
+).annotate({ identifier: "CreateCollectionRequest" }) as any as S.Schema<CreateCollectionRequest>;
 
 export type CreateCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export const CreateCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
@@ -2766,12 +3516,12 @@ export const CreateCollectionResponseGatingCase1Case2Notifications = /*@__PURE__
 }) as any as S.Schema<CreateCollectionResponseGatingCase1Case2Notifications>;
 
 export interface CreateCollectionResponseGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: CreateCollectionResponseGatingCase1Case2Notifications;
 }
 export const CreateCollectionResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: CreateCollectionResponseGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -2779,13 +3529,13 @@ export const CreateCollectionResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CreateCollectionResponseGatingCase1Case2>;
 
 export type CreateCollectionResponseGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | CreateCollectionResponseGatingCase1Case2;
 export const CreateCollectionResponseGatingCase1 =
   S.Unknown as any as S.Schema<CreateCollectionResponseGatingCase1>;
 
-export type CreateCollectionResponseGating = unknown | CreateCollectionResponseGatingCase1;
+export type CreateCollectionResponseGating = boolean | CreateCollectionResponseGatingCase1;
 export const CreateCollectionResponseGating =
   S.Unknown as any as S.Schema<CreateCollectionResponseGating>;
 
@@ -2793,6 +3543,7 @@ export type CreateCollectionResponseOwnerCase0Plan = "team" | "enterprise" | "pl
 export const CreateCollectionResponseOwnerCase0Plan = S.String;
 
 export interface CreateCollectionResponseOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2801,7 +3552,7 @@ export interface CreateCollectionResponseOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: CreateCollectionResponseOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -2815,7 +3566,7 @@ export const CreateCollectionResponseOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(CreateCollectionResponseOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -2842,7 +3593,7 @@ export interface CreateCollectionResponseOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: CreateCollectionResponseOwnerCase1PrimaryOrgPlan;
@@ -2856,7 +3607,7 @@ export const CreateCollectionResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.susp
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(CreateCollectionResponseOwnerCase1PrimaryOrgPlan),
@@ -2870,6 +3621,7 @@ export const CreateCollectionResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.susp
 }) as any as S.Schema<CreateCollectionResponseOwnerCase1PrimaryOrg>;
 
 export interface CreateCollectionResponseOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -2878,7 +3630,7 @@ export interface CreateCollectionResponseOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: CreateCollectionResponseOwnerCase1PrimaryOrg;
@@ -2893,7 +3645,7 @@ export const CreateCollectionResponseOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(CreateCollectionResponseOwnerCase1PrimaryOrg),
@@ -2920,21 +3672,21 @@ export const CreateCollectionResponseTheme = S.String;
 export type CreateCollectionResponseResourceGroup = AddItemResponseResourceGroup;
 export const CreateCollectionResponseResourceGroup = AddItemResponseResourceGroup;
 
-export type CreateCollectionResponseItemsItemNote = AddItemResponseItemsItemNote;
-export const CreateCollectionResponseItemsItemNote = AddItemResponseItemsItemNote;
+export type CreateCollectionResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
 
-export type CreateCollectionResponseItemsItemGalleryList = Array<string>;
-export const CreateCollectionResponseItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type CreateCollectionResponseItemsItemCase0GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateCollectionResponseItemsItemGalleryList>;
+) as any as S.Schema<CreateCollectionResponseItemsItemCase0GalleryList>;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoViewer =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const CreateCollectionResponseItemsItemDatasetsServerInfoViewer = S.String;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesItem =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -2946,17 +3698,21 @@ export type CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesItem =
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesList =
-  Array<CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesItem>;
-export const CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesList =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   /*@__PURE__*/ S.Array(
-    CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesItem,
-  ) as any as S.Schema<CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesList>;
+    CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoFormatsItem =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -2967,15 +3723,16 @@ export type CreateCollectionResponseItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const CreateCollectionResponseItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoFormatsList =
-  Array<CreateCollectionResponseItemsItemDatasetsServerInfoFormatsItem>;
-export const CreateCollectionResponseItemsItemDatasetsServerInfoFormatsList = /*@__PURE__*/ S.Array(
-  CreateCollectionResponseItemsItemDatasetsServerInfoFormatsItem,
-) as any as S.Schema<CreateCollectionResponseItemsItemDatasetsServerInfoFormatsList>;
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  /*@__PURE__*/ S.Array(
+    CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesItem =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -2985,47 +3742,103 @@ export type CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesItem =
   | "text"
   | "timeseries"
   | "video";
-export const CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesList =
-  Array<CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesItem>;
-export const CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesList =
+export type CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList =
   /*@__PURE__*/ S.Array(
-    CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesItem,
-  ) as any as S.Schema<CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesList>;
+    CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface CreateCollectionResponseItemsItemDatasetsServerInfo {
-  viewer: CreateCollectionResponseItemsItemDatasetsServerInfoViewer;
+export interface CreateCollectionResponseItemsItemCase0DatasetsServerInfo {
+  viewer: CreateCollectionResponseItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesList;
-  formats: CreateCollectionResponseItemsItemDatasetsServerInfoFormatsList;
-  modalities: CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesList;
+  libraries: CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const CreateCollectionResponseItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      viewer: CreateCollectionResponseItemsItemCase0DatasetsServerInfoViewer,
+      numRows: S.NullOr(S.Number),
+      libraries: CreateCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList,
+      formats: CreateCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList,
+      modalities: CreateCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList,
+    }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase0DatasetsServerInfo>;
+
+export type CreateCollectionResponseItemsItemCase0GatedCase1 = "auto" | "manual";
+export const CreateCollectionResponseItemsItemCase0GatedCase1 = S.String;
+
+export type CreateCollectionResponseItemsItemCase0Gated =
+  | boolean
+  | CreateCollectionResponseItemsItemCase0GatedCase1;
+export const CreateCollectionResponseItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase0Gated>;
+
+export type CreateCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const CreateCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+
+export interface CreateCollectionResponseItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: CreateCollectionResponseItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: CreateCollectionResponseItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const CreateCollectionResponseItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: CreateCollectionResponseItemsItemDatasetsServerInfoViewer,
-    numRows: S.NullOr(S.Number),
-    libraries: CreateCollectionResponseItemsItemDatasetsServerInfoLibrariesList,
-    formats: CreateCollectionResponseItemsItemDatasetsServerInfoFormatsList,
-    modalities: CreateCollectionResponseItemsItemDatasetsServerInfoModalitiesList,
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(CreateCollectionResponseItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: CreateCollectionResponseItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemDatasetsServerInfo",
-}) as any as S.Schema<CreateCollectionResponseItemsItemDatasetsServerInfo>;
+  identifier: "CreateCollectionResponseItemsItemCase0",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase0>;
 
-export type CreateCollectionResponseItemsItemGatedCase1 = "auto" | "manual";
-export const CreateCollectionResponseItemsItemGatedCase1 = S.String;
+export type CreateCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 
-export type CreateCollectionResponseItemsItemGated =
-  | unknown
-  | CreateCollectionResponseItemsItemGatedCase1;
-export const CreateCollectionResponseItemsItemGated =
-  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemGated>;
+export type CreateCollectionResponseItemsItemCase1GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase1GalleryList>;
 
-export type CreateCollectionResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const CreateCollectionResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProvider =
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -3045,22 +3858,24 @@ export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProv
   | "together"
   | "wavespeed"
   | "zai-org";
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProvider = S.String;
-
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
-  | "live"
-  | "staging"
-  | "error";
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   S.String;
 
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus = S.String;
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
+  S.String;
 
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemTask =
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
+  | "live"
+  | "staging"
+  | "error";
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
+  S.String;
+
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -3119,22 +3934,22 @@ export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemTask
   | "video-to-video"
   | "other"
   | "conversational";
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask = S.String;
 
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface CreateCollectionResponseItemsItemAvailableInferenceProvidersItem {
-  provider: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem {
+  provider: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -3142,18 +3957,18 @@ export interface CreateCollectionResponseItemsItemAvailableInferenceProvidersIte
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItem =
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProvider,
+      provider: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider,
       providerStatus:
-        CreateCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus,
-      modelStatus: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus,
+        CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: CreateCollectionResponseItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -3162,24 +3977,37 @@ export const CreateCollectionResponseItemsItemAvailableInferenceProvidersItem =
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "CreateCollectionResponseItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<CreateCollectionResponseItemsItemAvailableInferenceProvidersItem>;
+    identifier: "CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type CreateCollectionResponseItemsItemAvailableInferenceProvidersList =
-  Array<CreateCollectionResponseItemsItemAvailableInferenceProvidersItem>;
-export const CreateCollectionResponseItemsItemAvailableInferenceProvidersList =
+export type CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
+  Array<CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
+export const CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
   /*@__PURE__*/ S.Array(
-    CreateCollectionResponseItemsItemAvailableInferenceProvidersItem,
-  ) as any as S.Schema<CreateCollectionResponseItemsItemAvailableInferenceProvidersList>;
+    CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList>;
 
-export type CreateCollectionResponseItemsItemAuthorDataCase0Plan =
+export type CreateCollectionResponseItemsItemCase1GatedCase1 = "auto" | "manual";
+export const CreateCollectionResponseItemsItemCase1GatedCase1 = S.String;
+
+export type CreateCollectionResponseItemsItemCase1Gated =
+  | boolean
+  | CreateCollectionResponseItemsItemCase1GatedCase1;
+export const CreateCollectionResponseItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase1Gated>;
+
+export type CreateCollectionResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const CreateCollectionResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemAuthorDataCase0Plan = S.String;
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface CreateCollectionResponseItemsItemAuthorDataCase0 {
+export interface CreateCollectionResponseItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3188,11 +4016,11 @@ export interface CreateCollectionResponseItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: CreateCollectionResponseItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const CreateCollectionResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -3202,62 +4030,63 @@ export const CreateCollectionResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(CreateCollectionResponseItemsItemAuthorDataCase0Plan),
+    type: S.String,
+    plan: S.optional(CreateCollectionResponseItemsItemCase1AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemAuthorDataCase0",
-}) as any as S.Schema<CreateCollectionResponseItemsItemAuthorDataCase0>;
+  identifier: "CreateCollectionResponseItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase1AuthorDataCase0>;
 
-export type CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg {
+export interface CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan),
+      plan: S.optional(CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole),
+      userRole: S.optional(CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg",
-}) as any as S.Schema<CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg>;
+  ).annotate({
+    identifier: "CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface CreateCollectionResponseItemsItemAuthorDataCase1 {
+export interface CreateCollectionResponseItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3266,12 +4095,12 @@ export interface CreateCollectionResponseItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const CreateCollectionResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -3281,30 +4110,94 @@ export const CreateCollectionResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateCollectionResponseItemsItemAuthorDataCase1PrimaryOrg),
+    primaryOrg: S.optional(CreateCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemAuthorDataCase1",
-}) as any as S.Schema<CreateCollectionResponseItemsItemAuthorDataCase1>;
+  identifier: "CreateCollectionResponseItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase1AuthorDataCase1>;
 
-export type CreateCollectionResponseItemsItemAuthorData =
-  | CreateCollectionResponseItemsItemAuthorDataCase0
-  | CreateCollectionResponseItemsItemAuthorDataCase1;
-export const CreateCollectionResponseItemsItemAuthorData =
-  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemAuthorData>;
+export type CreateCollectionResponseItemsItemCase1AuthorData =
+  | CreateCollectionResponseItemsItemCase1AuthorDataCase0
+  | CreateCollectionResponseItemsItemCase1AuthorDataCase1;
+export const CreateCollectionResponseItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase1AuthorData>;
 
-export type CreateCollectionResponseItemsItemWidgetOutputUrlsList = Array<string>;
-export const CreateCollectionResponseItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateCollectionResponseItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList>;
 
-export type CreateCollectionResponseItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const CreateCollectionResponseItemsItemSdk = S.String;
+export interface CreateCollectionResponseItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: CreateCollectionResponseItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: CreateCollectionResponseItemsItemCase1AuthorData;
+  widgetOutputUrls?: CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const CreateCollectionResponseItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders:
+      CreateCollectionResponseItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: CreateCollectionResponseItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(CreateCollectionResponseItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(CreateCollectionResponseItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase1",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase1>;
 
-export type CreateCollectionResponseItemsItemRuntimeStage =
+export type CreateCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+
+export type CreateCollectionResponseItemsItemCase2GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase2GalleryList>;
+
+export type CreateCollectionResponseItemsItemCase2Sdk =
+  | "gradio"
+  | "docker"
+  | "static"
+  | "streamlit";
+export const CreateCollectionResponseItemsItemCase2Sdk = S.String;
+
+export type CreateCollectionResponseItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -3318,9 +4211,9 @@ export type CreateCollectionResponseItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const CreateCollectionResponseItemsItemRuntimeStage = S.String;
+export const CreateCollectionResponseItemsItemCase2RuntimeStage = S.String;
 
-export type CreateCollectionResponseItemsItemRuntimeHardwareCurrent =
+export type CreateCollectionResponseItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -3350,9 +4243,9 @@ export type CreateCollectionResponseItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const CreateCollectionResponseItemsItemRuntimeHardwareCurrent = S.String;
+export const CreateCollectionResponseItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type CreateCollectionResponseItemsItemRuntimeHardwareRequested =
+export type CreateCollectionResponseItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -3382,129 +4275,132 @@ export type CreateCollectionResponseItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const CreateCollectionResponseItemsItemRuntimeHardwareRequested = S.String;
+export const CreateCollectionResponseItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface CreateCollectionResponseItemsItemRuntimeHardware {
-  current: CreateCollectionResponseItemsItemRuntimeHardwareCurrent | null;
-  requested: CreateCollectionResponseItemsItemRuntimeHardwareRequested | null;
+export interface CreateCollectionResponseItemsItemCase2RuntimeHardware {
+  current: CreateCollectionResponseItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: CreateCollectionResponseItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const CreateCollectionResponseItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    current: S.NullOr(CreateCollectionResponseItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(CreateCollectionResponseItemsItemRuntimeHardwareRequested),
+    current: S.NullOr(CreateCollectionResponseItemsItemCase2RuntimeHardwareCurrent),
+    requested: S.NullOr(CreateCollectionResponseItemsItemCase2RuntimeHardwareRequested),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemRuntimeHardware",
-}) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeHardware>;
+  identifier: "CreateCollectionResponseItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeHardware>;
 
-export type CreateCollectionResponseItemsItemRuntimeReplicasRequested = number | unknown;
-export const CreateCollectionResponseItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemRuntimeReplicasRequested>;
+export type CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested = number | string;
+export const CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested>;
 
-export interface CreateCollectionResponseItemsItemRuntimeReplicas {
+export interface CreateCollectionResponseItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: CreateCollectionResponseItemsItemRuntimeReplicasRequested;
+  requested: CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested;
 }
-export const CreateCollectionResponseItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     current: S.optional(S.NullOr(S.Number)),
-    requested: CreateCollectionResponseItemsItemRuntimeReplicasRequested,
+    requested: CreateCollectionResponseItemsItemCase2RuntimeReplicasRequested,
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemRuntimeReplicas",
-}) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeReplicas>;
+  identifier: "CreateCollectionResponseItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeReplicas>;
 
-export type CreateCollectionResponseItemsItemRuntimeDomainsItemStage =
+export type CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const CreateCollectionResponseItemsItemRuntimeDomainsItemStage = S.String;
+export const CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface CreateCollectionResponseItemsItemRuntimeDomainsItem {
+export interface CreateCollectionResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: CreateCollectionResponseItemsItemRuntimeDomainsItemStage;
+  stage: CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage;
 }
-export const CreateCollectionResponseItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: CreateCollectionResponseItemsItemRuntimeDomainsItemStage,
-  }),
+export const CreateCollectionResponseItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domain: S.String,
+      isCustom: S.optional(S.NullOr(S.Boolean)),
+      stage: CreateCollectionResponseItemsItemCase2RuntimeDomainsItemStage,
+    }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeDomainsItem>;
+  identifier: "CreateCollectionResponseItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeDomainsItem>;
 
-export type CreateCollectionResponseItemsItemRuntimeDomainsList =
-  Array<CreateCollectionResponseItemsItemRuntimeDomainsItem>;
-export const CreateCollectionResponseItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  CreateCollectionResponseItemsItemRuntimeDomainsItem,
-) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeDomainsList>;
+export type CreateCollectionResponseItemsItemCase2RuntimeDomainsList =
+  Array<CreateCollectionResponseItemsItemCase2RuntimeDomainsItem>;
+export const CreateCollectionResponseItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  CreateCollectionResponseItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeDomainsList>;
 
-export type CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface CreateCollectionResponseItemsItemRuntimeHotReloading {
+export interface CreateCollectionResponseItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const CreateCollectionResponseItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.String,
-    replicaStatuses: CreateCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList,
-  }),
+export const CreateCollectionResponseItemsItemCase2RuntimeHotReloading = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: S.String,
+      replicaStatuses: CreateCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
+    }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemRuntimeHotReloading",
-}) as any as S.Schema<CreateCollectionResponseItemsItemRuntimeHotReloading>;
+  identifier: "CreateCollectionResponseItemsItemCase2RuntimeHotReloading",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2RuntimeHotReloading>;
 
-export interface CreateCollectionResponseItemsItemRuntime {
-  stage: CreateCollectionResponseItemsItemRuntimeStage;
-  hardware: CreateCollectionResponseItemsItemRuntimeHardware;
+export interface CreateCollectionResponseItemsItemCase2Runtime {
+  stage: CreateCollectionResponseItemsItemCase2RuntimeStage;
+  hardware: CreateCollectionResponseItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: CreateCollectionResponseItemsItemRuntimeReplicas;
+  replicas: CreateCollectionResponseItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: CreateCollectionResponseItemsItemRuntimeDomainsList;
+  domains?: CreateCollectionResponseItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: CreateCollectionResponseItemsItemRuntimeHotReloading;
+  hotReloading?: CreateCollectionResponseItemsItemCase2RuntimeHotReloading;
 }
-export const CreateCollectionResponseItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: CreateCollectionResponseItemsItemRuntimeStage,
-    hardware: CreateCollectionResponseItemsItemRuntimeHardware,
+    stage: CreateCollectionResponseItemsItemCase2RuntimeStage,
+    hardware: CreateCollectionResponseItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: CreateCollectionResponseItemsItemRuntimeReplicas,
+    replicas: CreateCollectionResponseItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(CreateCollectionResponseItemsItemRuntimeDomainsList),
+    domains: S.optional(CreateCollectionResponseItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(CreateCollectionResponseItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(CreateCollectionResponseItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemRuntime",
-}) as any as S.Schema<CreateCollectionResponseItemsItemRuntime>;
+  identifier: "CreateCollectionResponseItemsItemCase2Runtime",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2Runtime>;
 
-export type CreateCollectionResponseItemsItemOriginRepoAuthorCase0Plan =
+export type CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface CreateCollectionResponseItemsItemOriginRepoAuthorCase0 {
+export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3513,78 +4409,81 @@ export interface CreateCollectionResponseItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: CreateCollectionResponseItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(CreateCollectionResponseItemsItemOriginRepoAuthorCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOriginRepoAuthorCase0>;
+  identifier: "CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0>;
 
-export type CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan = S.String;
 
-export type CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
+      plan: S.optional(CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole,
+        CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface CreateCollectionResponseItemsItemOriginRepoAuthorCase1 {
+export interface CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3593,65 +4492,67 @@ export interface CreateCollectionResponseItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const CreateCollectionResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg),
-  }),
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg),
+    }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOriginRepoAuthorCase1>;
+  identifier: "CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1>;
 
-export type CreateCollectionResponseItemsItemOriginRepoAuthor =
-  | CreateCollectionResponseItemsItemOriginRepoAuthorCase0
-  | CreateCollectionResponseItemsItemOriginRepoAuthorCase1;
-export const CreateCollectionResponseItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemOriginRepoAuthor>;
+export type CreateCollectionResponseItemsItemCase2OriginRepoAuthor =
+  | CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase0
+  | CreateCollectionResponseItemsItemCase2OriginRepoAuthorCase1;
+export const CreateCollectionResponseItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase2OriginRepoAuthor>;
 
-export interface CreateCollectionResponseItemsItemOriginRepo {
-  author: CreateCollectionResponseItemsItemOriginRepoAuthor;
+export interface CreateCollectionResponseItemsItemCase2OriginRepo {
+  author: CreateCollectionResponseItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const CreateCollectionResponseItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    author: CreateCollectionResponseItemsItemOriginRepoAuthor,
+    author: CreateCollectionResponseItemsItemCase2OriginRepoAuthor,
     name: S.String,
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemOriginRepo",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOriginRepo>;
+  identifier: "CreateCollectionResponseItemsItemCase2OriginRepo",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2OriginRepo>;
 
-export type CreateCollectionResponseItemsItemTagsList = Array<string>;
-export const CreateCollectionResponseItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type CreateCollectionResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const CreateCollectionResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type CreateCollectionResponseItemsItemCase2TagsList = Array<string>;
+export const CreateCollectionResponseItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<CreateCollectionResponseItemsItemTagsList>;
+) as any as S.Schema<CreateCollectionResponseItemsItemCase2TagsList>;
 
-export type CreateCollectionResponseItemsItemVisibility = "public" | "private" | "protected";
-export const CreateCollectionResponseItemsItemVisibility = S.String;
-
-export type CreateCollectionResponseItemsItemOwnerCase0Plan =
+export type CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemOwnerCase0Plan = S.String;
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export interface CreateCollectionResponseItemsItemOwnerCase0 {
+export interface CreateCollectionResponseItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3660,11 +4561,11 @@ export interface CreateCollectionResponseItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: CreateCollectionResponseItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const CreateCollectionResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -3674,61 +4575,63 @@ export const CreateCollectionResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspe
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(CreateCollectionResponseItemsItemOwnerCase0Plan),
+    type: S.String,
+    plan: S.optional(CreateCollectionResponseItemsItemCase2AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemOwnerCase0",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOwnerCase0>;
+  identifier: "CreateCollectionResponseItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2AuthorDataCase0>;
 
-export type CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan =
+export type CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole =
+export type CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg {
+export interface CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(CreateCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg>;
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface CreateCollectionResponseItemsItemOwnerCase1 {
+export interface CreateCollectionResponseItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -3737,12 +4640,12 @@ export interface CreateCollectionResponseItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const CreateCollectionResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -3752,188 +4655,425 @@ export const CreateCollectionResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspe
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(CreateCollectionResponseItemsItemOwnerCase1PrimaryOrg),
+    primaryOrg: S.optional(CreateCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItemOwnerCase1",
-}) as any as S.Schema<CreateCollectionResponseItemsItemOwnerCase1>;
+  identifier: "CreateCollectionResponseItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2AuthorDataCase1>;
 
-export type CreateCollectionResponseItemsItemOwner =
-  | CreateCollectionResponseItemsItemOwnerCase0
-  | CreateCollectionResponseItemsItemOwnerCase1;
-export const CreateCollectionResponseItemsItemOwner =
-  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemOwner>;
+export type CreateCollectionResponseItemsItemCase2AuthorData =
+  | CreateCollectionResponseItemsItemCase2AuthorDataCase0
+  | CreateCollectionResponseItemsItemCase2AuthorDataCase1;
+export const CreateCollectionResponseItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase2AuthorData>;
 
-export type CreateCollectionResponseItemsItemTheme =
+export type CreateCollectionResponseItemsItemCase2Visibility = "public" | "private" | "protected";
+export const CreateCollectionResponseItemsItemCase2Visibility = S.String;
+
+export interface CreateCollectionResponseItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: CreateCollectionResponseItemsItemCase2Sdk;
+  runtime: CreateCollectionResponseItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: CreateCollectionResponseItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: CreateCollectionResponseItemsItemCase2TagsList;
+  authorData?: CreateCollectionResponseItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: CreateCollectionResponseItemsItemCase2Visibility;
+  type: string;
+}
+export const CreateCollectionResponseItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(CreateCollectionResponseItemsItemCase2Sdk),
+    runtime: CreateCollectionResponseItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(CreateCollectionResponseItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: CreateCollectionResponseItemsItemCase2TagsList,
+    authorData: S.optional(CreateCollectionResponseItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: CreateCollectionResponseItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase2",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase2>;
+
+export type CreateCollectionResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type CreateCollectionResponseItemsItemCase3GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase3GalleryList>;
+
+export interface CreateCollectionResponseItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const CreateCollectionResponseItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase3",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase3>;
+
+export type CreateCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type CreateCollectionResponseItemsItemCase4GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase4GalleryList>;
+
+export type CreateCollectionResponseItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const CreateCollectionResponseItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface CreateCollectionResponseItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: CreateCollectionResponseItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const CreateCollectionResponseItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(CreateCollectionResponseItemsItemCase4OwnerCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase4OwnerCase0",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase4OwnerCase0>;
+
+export type CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface CreateCollectionResponseItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const CreateCollectionResponseItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(CreateCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase4OwnerCase1",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase4OwnerCase1>;
+
+export type CreateCollectionResponseItemsItemCase4Owner =
+  | CreateCollectionResponseItemsItemCase4OwnerCase0
+  | CreateCollectionResponseItemsItemCase4OwnerCase1;
+export const CreateCollectionResponseItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItemCase4Owner>;
+
+export type CreateCollectionResponseItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const CreateCollectionResponseItemsItemTheme = S.String;
+export const CreateCollectionResponseItemsItemCase4Theme = S.String;
 
-export type CreateCollectionResponseItemsItemAdminTagsList = Array<string>;
-export const CreateCollectionResponseItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<CreateCollectionResponseItemsItemAdminTagsList>;
-
-export type CreateCollectionResponseItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const CreateCollectionResponseItemsItemCdnRegionsItemProvider = S.String;
-
-export type CreateCollectionResponseItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const CreateCollectionResponseItemsItemCdnRegionsItemRegion = S.String;
-
-export interface CreateCollectionResponseItemsItemCdnRegionsItem {
-  provider: CreateCollectionResponseItemsItemCdnRegionsItemProvider;
-  region: CreateCollectionResponseItemsItemCdnRegionsItemRegion;
-}
-export const CreateCollectionResponseItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: CreateCollectionResponseItemsItemCdnRegionsItemProvider,
-    region: CreateCollectionResponseItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "CreateCollectionResponseItemsItemCdnRegionsItem",
-}) as any as S.Schema<CreateCollectionResponseItemsItemCdnRegionsItem>;
-
-export type CreateCollectionResponseItemsItemCdnRegionsList =
-  Array<CreateCollectionResponseItemsItemCdnRegionsItem>;
-export const CreateCollectionResponseItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  CreateCollectionResponseItemsItemCdnRegionsItem,
-) as any as S.Schema<CreateCollectionResponseItemsItemCdnRegionsList>;
-
-export interface CreateCollectionResponseItemsItem {
+export interface CreateCollectionResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: CreateCollectionResponseItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: CreateCollectionResponseItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: CreateCollectionResponseItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: CreateCollectionResponseItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: CreateCollectionResponseItemsItemAuthorData;
-  widgetOutputUrls?: CreateCollectionResponseItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: CreateCollectionResponseItemsItemSdk;
-  runtime?: CreateCollectionResponseItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: CreateCollectionResponseItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: CreateCollectionResponseItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: CreateCollectionResponseItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: CreateCollectionResponseItemsItemOwner;
-  theme?: CreateCollectionResponseItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: CreateCollectionResponseItemsItemAdminTagsList;
-  cdnRegions?: CreateCollectionResponseItemsItemCdnRegionsList;
+  owner: CreateCollectionResponseItemsItemCase4Owner;
+  title: string;
+  theme: CreateCollectionResponseItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const CreateCollectionResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const CreateCollectionResponseItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(CreateCollectionResponseItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(CreateCollectionResponseItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(CreateCollectionResponseItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      CreateCollectionResponseItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(CreateCollectionResponseItemsItemAuthorData),
-    widgetOutputUrls: S.optional(CreateCollectionResponseItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(CreateCollectionResponseItemsItemSdk),
-    runtime: S.optional(CreateCollectionResponseItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(CreateCollectionResponseItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(CreateCollectionResponseItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(CreateCollectionResponseItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(CreateCollectionResponseItemsItemOwner),
-    theme: S.optional(CreateCollectionResponseItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(CreateCollectionResponseItemsItemAdminTagsList),
-    cdnRegions: S.optional(CreateCollectionResponseItemsItemCdnRegionsList),
+    owner: CreateCollectionResponseItemsItemCase4Owner,
+    title: S.String,
+    theme: CreateCollectionResponseItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "CreateCollectionResponseItemsItem",
-}) as any as S.Schema<CreateCollectionResponseItemsItem>;
+  identifier: "CreateCollectionResponseItemsItemCase4",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase4>;
+
+export type CreateCollectionResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const CreateCollectionResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type CreateCollectionResponseItemsItemCase5GalleryList = Array<string>;
+export const CreateCollectionResponseItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase5GalleryList>;
+
+export type CreateCollectionResponseItemsItemCase5RepoType = "bucket" | "container";
+export const CreateCollectionResponseItemsItemCase5RepoType = S.String;
+
+export type CreateCollectionResponseItemsItemCase5AdminTagsList = Array<string>;
+export const CreateCollectionResponseItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase5AdminTagsList>;
+
+export type CreateCollectionResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+export const CreateCollectionResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+
+export type CreateCollectionResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const CreateCollectionResponseItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type CreateCollectionResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const CreateCollectionResponseItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface CreateCollectionResponseItemsItemCase5CdnRegionsItem {
+  provider: CreateCollectionResponseItemsItemCase5CdnRegionsItemProvider;
+  region: CreateCollectionResponseItemsItemCase5CdnRegionsItemRegion;
+}
+export const CreateCollectionResponseItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: CreateCollectionResponseItemsItemCase5CdnRegionsItemProvider,
+    region: CreateCollectionResponseItemsItemCase5CdnRegionsItemRegion,
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase5CdnRegionsItem>;
+
+export type CreateCollectionResponseItemsItemCase5CdnRegionsList =
+  Array<CreateCollectionResponseItemsItemCase5CdnRegionsItem>;
+export const CreateCollectionResponseItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  CreateCollectionResponseItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<CreateCollectionResponseItemsItemCase5CdnRegionsList>;
+
+export type CreateCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const CreateCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface CreateCollectionResponseItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: CreateCollectionResponseItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: CreateCollectionResponseItemsItemCase5RepoType;
+  adminTags?: CreateCollectionResponseItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: CreateCollectionResponseItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const CreateCollectionResponseItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(CreateCollectionResponseItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: CreateCollectionResponseItemsItemCase5RepoType,
+    adminTags: S.optional(CreateCollectionResponseItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: CreateCollectionResponseItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "CreateCollectionResponseItemsItemCase5",
+}) as any as S.Schema<CreateCollectionResponseItemsItemCase5>;
+
+export type CreateCollectionResponseItemsItem =
+  | CreateCollectionResponseItemsItemCase0
+  | CreateCollectionResponseItemsItemCase1
+  | CreateCollectionResponseItemsItemCase2
+  | CreateCollectionResponseItemsItemCase3
+  | CreateCollectionResponseItemsItemCase4
+  | CreateCollectionResponseItemsItemCase5;
+export const CreateCollectionResponseItemsItem =
+  S.Unknown as any as S.Schema<CreateCollectionResponseItemsItem>;
 
 export type CreateCollectionResponseItemsList = Array<CreateCollectionResponseItemsItem>;
 export const CreateCollectionResponseItemsList = /*@__PURE__*/ S.Array(
@@ -3973,9 +5113,7 @@ export const CreateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
     resourceGroup: S.optional(AddItemResponseResourceGroup),
     items: CreateCollectionResponseItemsList,
   }),
-).annotate({
-  identifier: "CreateCollectionResponse",
-}) as any as S.Schema<CreateCollectionResponse>;
+).annotate({ identifier: "CreateCollectionResponse" }) as any as S.Schema<CreateCollectionResponse>;
 
 export interface DeleteCollectionRequest {
   namespace: string;
@@ -3987,16 +5125,8 @@ export const DeleteCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/collections/{namespace}/{slug}-{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCollectionRequest",
-}) as any as S.Schema<DeleteCollectionRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/collections/{namespace}/{slug}-{id}", code: 200 })),
+).annotate({ identifier: "DeleteCollectionRequest" }) as any as S.Schema<DeleteCollectionRequest>;
 
 export interface DeleteCollectionResponse {}
 export const DeleteCollectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4011,13 +5141,7 @@ export const DeleteCollectionBySlugRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/collections/{namespace}/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/collections/{namespace}/{slug}", code: 200 })),
 ).annotate({
   identifier: "DeleteCollectionBySlugRequest",
 }) as any as S.Schema<DeleteCollectionBySlugRequest>;
@@ -4046,9 +5170,7 @@ export const DeleteItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteItemRequest",
-}) as any as S.Schema<DeleteItemRequest>;
+).annotate({ identifier: "DeleteItemRequest" }) as any as S.Schema<DeleteItemRequest>;
 
 export interface DeleteItemResponse {}
 export const DeleteItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4070,9 +5192,7 @@ export const DeleteItemBySlugRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteItemBySlugRequest",
-}) as any as S.Schema<DeleteItemBySlugRequest>;
+).annotate({ identifier: "DeleteItemBySlugRequest" }) as any as S.Schema<DeleteItemBySlugRequest>;
 
 export interface DeleteItemBySlugResponse {}
 export const DeleteItemBySlugResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4089,16 +5209,8 @@ export const GetCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/collections/{namespace}/{slug}-{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCollectionRequest",
-}) as any as S.Schema<GetCollectionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/collections/{namespace}/{slug}-{id}", code: 200 })),
+).annotate({ identifier: "GetCollectionRequest" }) as any as S.Schema<GetCollectionRequest>;
 
 export type GetCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export const GetCollectionResponseGatingCase1Case1 = AddItemResponseGatingCase1Case1;
@@ -4120,12 +5232,12 @@ export const GetCollectionResponseGatingCase1Case2Notifications = /*@__PURE__*/ 
 }) as any as S.Schema<GetCollectionResponseGatingCase1Case2Notifications>;
 
 export interface GetCollectionResponseGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: GetCollectionResponseGatingCase1Case2Notifications;
 }
 export const GetCollectionResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: GetCollectionResponseGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -4133,13 +5245,13 @@ export const GetCollectionResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetCollectionResponseGatingCase1Case2>;
 
 export type GetCollectionResponseGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | GetCollectionResponseGatingCase1Case2;
 export const GetCollectionResponseGatingCase1 =
   S.Unknown as any as S.Schema<GetCollectionResponseGatingCase1>;
 
-export type GetCollectionResponseGating = unknown | GetCollectionResponseGatingCase1;
+export type GetCollectionResponseGating = boolean | GetCollectionResponseGatingCase1;
 export const GetCollectionResponseGating =
   S.Unknown as any as S.Schema<GetCollectionResponseGating>;
 
@@ -4147,6 +5259,7 @@ export type GetCollectionResponseOwnerCase0Plan = "team" | "enterprise" | "plus"
 export const GetCollectionResponseOwnerCase0Plan = S.String;
 
 export interface GetCollectionResponseOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4155,7 +5268,7 @@ export interface GetCollectionResponseOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetCollectionResponseOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -4169,7 +5282,7 @@ export const GetCollectionResponseOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetCollectionResponseOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -4196,7 +5309,7 @@ export interface GetCollectionResponseOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetCollectionResponseOwnerCase1PrimaryOrgPlan;
@@ -4210,7 +5323,7 @@ export const GetCollectionResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(GetCollectionResponseOwnerCase1PrimaryOrgPlan),
@@ -4224,6 +5337,7 @@ export const GetCollectionResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetCollectionResponseOwnerCase1PrimaryOrg>;
 
 export interface GetCollectionResponseOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4232,7 +5346,7 @@ export interface GetCollectionResponseOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetCollectionResponseOwnerCase1PrimaryOrg;
@@ -4247,7 +5361,7 @@ export const GetCollectionResponseOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetCollectionResponseOwnerCase1PrimaryOrg),
@@ -4267,21 +5381,21 @@ export const GetCollectionResponseTheme = S.String;
 export type GetCollectionResponseResourceGroup = AddItemResponseResourceGroup;
 export const GetCollectionResponseResourceGroup = AddItemResponseResourceGroup;
 
-export type GetCollectionResponseItemsItemNote = AddItemResponseItemsItemNote;
-export const GetCollectionResponseItemsItemNote = AddItemResponseItemsItemNote;
+export type GetCollectionResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionResponseItemsItemGalleryList = Array<string>;
-export const GetCollectionResponseItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type GetCollectionResponseItemsItemCase0GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionResponseItemsItemGalleryList>;
+) as any as S.Schema<GetCollectionResponseItemsItemCase0GalleryList>;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoViewer =
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const GetCollectionResponseItemsItemDatasetsServerInfoViewer = S.String;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoLibrariesItem =
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -4293,16 +5407,21 @@ export type GetCollectionResponseItemsItemDatasetsServerInfoLibrariesItem =
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const GetCollectionResponseItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoLibrariesList =
-  Array<GetCollectionResponseItemsItemDatasetsServerInfoLibrariesItem>;
-export const GetCollectionResponseItemsItemDatasetsServerInfoLibrariesList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemDatasetsServerInfoLibrariesItem,
-) as any as S.Schema<GetCollectionResponseItemsItemDatasetsServerInfoLibrariesList>;
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoFormatsItem =
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -4313,15 +5432,16 @@ export type GetCollectionResponseItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const GetCollectionResponseItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoFormatsList =
-  Array<GetCollectionResponseItemsItemDatasetsServerInfoFormatsItem>;
-export const GetCollectionResponseItemsItemDatasetsServerInfoFormatsList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemDatasetsServerInfoFormatsItem,
-) as any as S.Schema<GetCollectionResponseItemsItemDatasetsServerInfoFormatsList>;
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoModalitiesItem =
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -4331,46 +5451,102 @@ export type GetCollectionResponseItemsItemDatasetsServerInfoModalitiesItem =
   | "text"
   | "timeseries"
   | "video";
-export const GetCollectionResponseItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type GetCollectionResponseItemsItemDatasetsServerInfoModalitiesList =
-  Array<GetCollectionResponseItemsItemDatasetsServerInfoModalitiesItem>;
-export const GetCollectionResponseItemsItemDatasetsServerInfoModalitiesList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemDatasetsServerInfoModalitiesItem,
-) as any as S.Schema<GetCollectionResponseItemsItemDatasetsServerInfoModalitiesList>;
+export type GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface GetCollectionResponseItemsItemDatasetsServerInfo {
-  viewer: GetCollectionResponseItemsItemDatasetsServerInfoViewer;
+export interface GetCollectionResponseItemsItemCase0DatasetsServerInfo {
+  viewer: GetCollectionResponseItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: GetCollectionResponseItemsItemDatasetsServerInfoLibrariesList;
-  formats: GetCollectionResponseItemsItemDatasetsServerInfoFormatsList;
-  modalities: GetCollectionResponseItemsItemDatasetsServerInfoModalitiesList;
+  libraries: GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const GetCollectionResponseItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: GetCollectionResponseItemsItemDatasetsServerInfoViewer,
+    viewer: GetCollectionResponseItemsItemCase0DatasetsServerInfoViewer,
     numRows: S.NullOr(S.Number),
-    libraries: GetCollectionResponseItemsItemDatasetsServerInfoLibrariesList,
-    formats: GetCollectionResponseItemsItemDatasetsServerInfoFormatsList,
-    modalities: GetCollectionResponseItemsItemDatasetsServerInfoModalitiesList,
+    libraries: GetCollectionResponseItemsItemCase0DatasetsServerInfoLibrariesList,
+    formats: GetCollectionResponseItemsItemCase0DatasetsServerInfoFormatsList,
+    modalities: GetCollectionResponseItemsItemCase0DatasetsServerInfoModalitiesList,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemDatasetsServerInfo",
-}) as any as S.Schema<GetCollectionResponseItemsItemDatasetsServerInfo>;
+  identifier: "GetCollectionResponseItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase0DatasetsServerInfo>;
 
-export type GetCollectionResponseItemsItemGatedCase1 = "auto" | "manual";
-export const GetCollectionResponseItemsItemGatedCase1 = S.String;
+export type GetCollectionResponseItemsItemCase0GatedCase1 = "auto" | "manual";
+export const GetCollectionResponseItemsItemCase0GatedCase1 = S.String;
 
-export type GetCollectionResponseItemsItemGated =
-  | unknown
-  | GetCollectionResponseItemsItemGatedCase1;
-export const GetCollectionResponseItemsItemGated =
-  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemGated>;
+export type GetCollectionResponseItemsItemCase0Gated =
+  | boolean
+  | GetCollectionResponseItemsItemCase0GatedCase1;
+export const GetCollectionResponseItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase0Gated>;
 
-export type GetCollectionResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const GetCollectionResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
+export type GetCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemProvider =
+export interface GetCollectionResponseItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: GetCollectionResponseItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: GetCollectionResponseItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const GetCollectionResponseItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(GetCollectionResponseItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: GetCollectionResponseItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase0",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase0>;
+
+export type GetCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionResponseItemsItemCase1GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase1GalleryList>;
+
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -4390,21 +5566,23 @@ export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemProvide
   | "together"
   | "wavespeed"
   | "zai-org";
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItemProvider = S.String;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider = S.String;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus = S.String;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
+  S.String;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus = S.String;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
+  S.String;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemTask =
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -4463,22 +5641,22 @@ export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemTask =
   | "video-to-video"
   | "other"
   | "conversational";
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask = S.String;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface GetCollectionResponseItemsItemAvailableInferenceProvidersItem {
-  provider: GetCollectionResponseItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: GetCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem {
+  provider: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: GetCollectionResponseItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -4486,17 +5664,18 @@ export interface GetCollectionResponseItemsItemAvailableInferenceProvidersItem {
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersItem =
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: GetCollectionResponseItemsItemAvailableInferenceProvidersItemProvider,
-      providerStatus: GetCollectionResponseItemsItemAvailableInferenceProvidersItemProviderStatus,
-      modelStatus: GetCollectionResponseItemsItemAvailableInferenceProvidersItemModelStatus,
+      provider: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProvider,
+      providerStatus:
+        GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: GetCollectionResponseItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -4505,23 +5684,37 @@ export const GetCollectionResponseItemsItemAvailableInferenceProvidersItem =
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GetCollectionResponseItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<GetCollectionResponseItemsItemAvailableInferenceProvidersItem>;
+    identifier: "GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type GetCollectionResponseItemsItemAvailableInferenceProvidersList =
-  Array<GetCollectionResponseItemsItemAvailableInferenceProvidersItem>;
-export const GetCollectionResponseItemsItemAvailableInferenceProvidersList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemAvailableInferenceProvidersItem,
-) as any as S.Schema<GetCollectionResponseItemsItemAvailableInferenceProvidersList>;
+export type GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
+  Array<GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem>;
+export const GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionResponseItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList>;
 
-export type GetCollectionResponseItemsItemAuthorDataCase0Plan =
+export type GetCollectionResponseItemsItemCase1GatedCase1 = "auto" | "manual";
+export const GetCollectionResponseItemsItemCase1GatedCase1 = S.String;
+
+export type GetCollectionResponseItemsItemCase1Gated =
+  | boolean
+  | GetCollectionResponseItemsItemCase1GatedCase1;
+export const GetCollectionResponseItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase1Gated>;
+
+export type GetCollectionResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type GetCollectionResponseItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemAuthorDataCase0Plan = S.String;
+export const GetCollectionResponseItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface GetCollectionResponseItemsItemAuthorDataCase0 {
+export interface GetCollectionResponseItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4530,11 +5723,11 @@ export interface GetCollectionResponseItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionResponseItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -4544,61 +5737,63 @@ export const GetCollectionResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionResponseItemsItemAuthorDataCase0Plan),
+    type: S.String,
+    plan: S.optional(GetCollectionResponseItemsItemCase1AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemAuthorDataCase0",
-}) as any as S.Schema<GetCollectionResponseItemsItemAuthorDataCase0>;
+  identifier: "GetCollectionResponseItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase1AuthorDataCase0>;
 
-export type GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg {
+export interface GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg",
-}) as any as S.Schema<GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg>;
+  identifier: "GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionResponseItemsItemAuthorDataCase1 {
+export interface GetCollectionResponseItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4607,12 +5802,12 @@ export interface GetCollectionResponseItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -4622,30 +5817,89 @@ export const GetCollectionResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionResponseItemsItemAuthorDataCase1PrimaryOrg),
+    primaryOrg: S.optional(GetCollectionResponseItemsItemCase1AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemAuthorDataCase1",
-}) as any as S.Schema<GetCollectionResponseItemsItemAuthorDataCase1>;
+  identifier: "GetCollectionResponseItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase1AuthorDataCase1>;
 
-export type GetCollectionResponseItemsItemAuthorData =
-  | GetCollectionResponseItemsItemAuthorDataCase0
-  | GetCollectionResponseItemsItemAuthorDataCase1;
-export const GetCollectionResponseItemsItemAuthorData =
-  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemAuthorData>;
+export type GetCollectionResponseItemsItemCase1AuthorData =
+  | GetCollectionResponseItemsItemCase1AuthorDataCase0
+  | GetCollectionResponseItemsItemCase1AuthorDataCase1;
+export const GetCollectionResponseItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase1AuthorData>;
 
-export type GetCollectionResponseItemsItemWidgetOutputUrlsList = Array<string>;
-export const GetCollectionResponseItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type GetCollectionResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const GetCollectionResponseItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionResponseItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<GetCollectionResponseItemsItemCase1WidgetOutputUrlsList>;
 
-export type GetCollectionResponseItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const GetCollectionResponseItemsItemSdk = S.String;
+export interface GetCollectionResponseItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: GetCollectionResponseItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: GetCollectionResponseItemsItemCase1AuthorData;
+  widgetOutputUrls?: GetCollectionResponseItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const GetCollectionResponseItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders: GetCollectionResponseItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: GetCollectionResponseItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(GetCollectionResponseItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(GetCollectionResponseItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase1",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase1>;
 
-export type GetCollectionResponseItemsItemRuntimeStage =
+export type GetCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionResponseItemsItemCase2GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase2GalleryList>;
+
+export type GetCollectionResponseItemsItemCase2Sdk = "gradio" | "docker" | "static" | "streamlit";
+export const GetCollectionResponseItemsItemCase2Sdk = S.String;
+
+export type GetCollectionResponseItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -4659,9 +5913,9 @@ export type GetCollectionResponseItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const GetCollectionResponseItemsItemRuntimeStage = S.String;
+export const GetCollectionResponseItemsItemCase2RuntimeStage = S.String;
 
-export type GetCollectionResponseItemsItemRuntimeHardwareCurrent =
+export type GetCollectionResponseItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -4691,9 +5945,9 @@ export type GetCollectionResponseItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionResponseItemsItemRuntimeHardwareCurrent = S.String;
+export const GetCollectionResponseItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type GetCollectionResponseItemsItemRuntimeHardwareRequested =
+export type GetCollectionResponseItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -4723,129 +5977,130 @@ export type GetCollectionResponseItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionResponseItemsItemRuntimeHardwareRequested = S.String;
+export const GetCollectionResponseItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface GetCollectionResponseItemsItemRuntimeHardware {
-  current: GetCollectionResponseItemsItemRuntimeHardwareCurrent | null;
-  requested: GetCollectionResponseItemsItemRuntimeHardwareRequested | null;
+export interface GetCollectionResponseItemsItemCase2RuntimeHardware {
+  current: GetCollectionResponseItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: GetCollectionResponseItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const GetCollectionResponseItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    current: S.NullOr(GetCollectionResponseItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(GetCollectionResponseItemsItemRuntimeHardwareRequested),
+    current: S.NullOr(GetCollectionResponseItemsItemCase2RuntimeHardwareCurrent),
+    requested: S.NullOr(GetCollectionResponseItemsItemCase2RuntimeHardwareRequested),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemRuntimeHardware",
-}) as any as S.Schema<GetCollectionResponseItemsItemRuntimeHardware>;
+  identifier: "GetCollectionResponseItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeHardware>;
 
-export type GetCollectionResponseItemsItemRuntimeReplicasRequested = number | unknown;
-export const GetCollectionResponseItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemRuntimeReplicasRequested>;
+export type GetCollectionResponseItemsItemCase2RuntimeReplicasRequested = number | string;
+export const GetCollectionResponseItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeReplicasRequested>;
 
-export interface GetCollectionResponseItemsItemRuntimeReplicas {
+export interface GetCollectionResponseItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: GetCollectionResponseItemsItemRuntimeReplicasRequested;
+  requested: GetCollectionResponseItemsItemCase2RuntimeReplicasRequested;
 }
-export const GetCollectionResponseItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     current: S.optional(S.NullOr(S.Number)),
-    requested: GetCollectionResponseItemsItemRuntimeReplicasRequested,
+    requested: GetCollectionResponseItemsItemCase2RuntimeReplicasRequested,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemRuntimeReplicas",
-}) as any as S.Schema<GetCollectionResponseItemsItemRuntimeReplicas>;
+  identifier: "GetCollectionResponseItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeReplicas>;
 
-export type GetCollectionResponseItemsItemRuntimeDomainsItemStage =
+export type GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const GetCollectionResponseItemsItemRuntimeDomainsItemStage = S.String;
+export const GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface GetCollectionResponseItemsItemRuntimeDomainsItem {
+export interface GetCollectionResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: GetCollectionResponseItemsItemRuntimeDomainsItemStage;
+  stage: GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage;
 }
-export const GetCollectionResponseItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
     isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: GetCollectionResponseItemsItemRuntimeDomainsItemStage,
+    stage: GetCollectionResponseItemsItemCase2RuntimeDomainsItemStage,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<GetCollectionResponseItemsItemRuntimeDomainsItem>;
+  identifier: "GetCollectionResponseItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeDomainsItem>;
 
-export type GetCollectionResponseItemsItemRuntimeDomainsList =
-  Array<GetCollectionResponseItemsItemRuntimeDomainsItem>;
-export const GetCollectionResponseItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemRuntimeDomainsItem,
-) as any as S.Schema<GetCollectionResponseItemsItemRuntimeDomainsList>;
+export type GetCollectionResponseItemsItemCase2RuntimeDomainsList =
+  Array<GetCollectionResponseItemsItemCase2RuntimeDomainsItem>;
+export const GetCollectionResponseItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  GetCollectionResponseItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeDomainsList>;
 
-export type GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface GetCollectionResponseItemsItemRuntimeHotReloading {
+export interface GetCollectionResponseItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const GetCollectionResponseItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2RuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.String,
-    replicaStatuses: GetCollectionResponseItemsItemRuntimeHotReloadingReplicaStatusesList,
+    replicaStatuses: GetCollectionResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemRuntimeHotReloading",
-}) as any as S.Schema<GetCollectionResponseItemsItemRuntimeHotReloading>;
+  identifier: "GetCollectionResponseItemsItemCase2RuntimeHotReloading",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2RuntimeHotReloading>;
 
-export interface GetCollectionResponseItemsItemRuntime {
-  stage: GetCollectionResponseItemsItemRuntimeStage;
-  hardware: GetCollectionResponseItemsItemRuntimeHardware;
+export interface GetCollectionResponseItemsItemCase2Runtime {
+  stage: GetCollectionResponseItemsItemCase2RuntimeStage;
+  hardware: GetCollectionResponseItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: GetCollectionResponseItemsItemRuntimeReplicas;
+  replicas: GetCollectionResponseItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: GetCollectionResponseItemsItemRuntimeDomainsList;
+  domains?: GetCollectionResponseItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: GetCollectionResponseItemsItemRuntimeHotReloading;
+  hotReloading?: GetCollectionResponseItemsItemCase2RuntimeHotReloading;
 }
-export const GetCollectionResponseItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: GetCollectionResponseItemsItemRuntimeStage,
-    hardware: GetCollectionResponseItemsItemRuntimeHardware,
+    stage: GetCollectionResponseItemsItemCase2RuntimeStage,
+    hardware: GetCollectionResponseItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: GetCollectionResponseItemsItemRuntimeReplicas,
+    replicas: GetCollectionResponseItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(GetCollectionResponseItemsItemRuntimeDomainsList),
+    domains: S.optional(GetCollectionResponseItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(GetCollectionResponseItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(GetCollectionResponseItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemRuntime",
-}) as any as S.Schema<GetCollectionResponseItemsItemRuntime>;
+  identifier: "GetCollectionResponseItemsItemCase2Runtime",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2Runtime>;
 
-export type GetCollectionResponseItemsItemOriginRepoAuthorCase0Plan =
+export type GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface GetCollectionResponseItemsItemOriginRepoAuthorCase0 {
+export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4854,76 +6109,80 @@ export interface GetCollectionResponseItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionResponseItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionResponseItemsItemOriginRepoAuthorCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<GetCollectionResponseItemsItemOriginRepoAuthorCase0>;
+  identifier: "GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0>;
 
-export type GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan = S.String;
 
-export type GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
 
-export interface GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
+      plan: S.optional(GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface GetCollectionResponseItemsItemOriginRepoAuthorCase1 {
+export interface GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4932,65 +6191,67 @@ export interface GetCollectionResponseItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const GetCollectionResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionResponseItemsItemOriginRepoAuthorCase1PrimaryOrg),
-  }),
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg),
+    }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<GetCollectionResponseItemsItemOriginRepoAuthorCase1>;
+  identifier: "GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1>;
 
-export type GetCollectionResponseItemsItemOriginRepoAuthor =
-  | GetCollectionResponseItemsItemOriginRepoAuthorCase0
-  | GetCollectionResponseItemsItemOriginRepoAuthorCase1;
-export const GetCollectionResponseItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemOriginRepoAuthor>;
+export type GetCollectionResponseItemsItemCase2OriginRepoAuthor =
+  | GetCollectionResponseItemsItemCase2OriginRepoAuthorCase0
+  | GetCollectionResponseItemsItemCase2OriginRepoAuthorCase1;
+export const GetCollectionResponseItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase2OriginRepoAuthor>;
 
-export interface GetCollectionResponseItemsItemOriginRepo {
-  author: GetCollectionResponseItemsItemOriginRepoAuthor;
+export interface GetCollectionResponseItemsItemCase2OriginRepo {
+  author: GetCollectionResponseItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const GetCollectionResponseItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    author: GetCollectionResponseItemsItemOriginRepoAuthor,
+    author: GetCollectionResponseItemsItemCase2OriginRepoAuthor,
     name: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOriginRepo",
-}) as any as S.Schema<GetCollectionResponseItemsItemOriginRepo>;
+  identifier: "GetCollectionResponseItemsItemCase2OriginRepo",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2OriginRepo>;
 
-export type GetCollectionResponseItemsItemTagsList = Array<string>;
-export const GetCollectionResponseItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type GetCollectionResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type GetCollectionResponseItemsItemCase2TagsList = Array<string>;
+export const GetCollectionResponseItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionResponseItemsItemTagsList>;
+) as any as S.Schema<GetCollectionResponseItemsItemCase2TagsList>;
 
-export type GetCollectionResponseItemsItemVisibility = "public" | "private" | "protected";
-export const GetCollectionResponseItemsItemVisibility = S.String;
-
-export type GetCollectionResponseItemsItemOwnerCase0Plan =
+export type GetCollectionResponseItemsItemCase2AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemOwnerCase0Plan = S.String;
+export const GetCollectionResponseItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export interface GetCollectionResponseItemsItemOwnerCase0 {
+export interface GetCollectionResponseItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -4999,11 +6260,11 @@ export interface GetCollectionResponseItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionResponseItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -5013,61 +6274,63 @@ export const GetCollectionResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionResponseItemsItemOwnerCase0Plan),
+    type: S.String,
+    plan: S.optional(GetCollectionResponseItemsItemCase2AuthorDataCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOwnerCase0",
-}) as any as S.Schema<GetCollectionResponseItemsItemOwnerCase0>;
+  identifier: "GetCollectionResponseItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2AuthorDataCase0>;
 
-export type GetCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan =
+export type GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type GetCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole =
+export type GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface GetCollectionResponseItemsItemOwnerCase1PrimaryOrg {
+export interface GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionResponseItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    type: S.Unknown,
-    isHf: S.Boolean,
-    isFollowing: S.optional(S.Boolean),
-    plan: S.optional(GetCollectionResponseItemsItemOwnerCase1PrimaryOrgPlan),
-    details: S.optional(S.String),
-    hasPrivateMembersList: S.optional(S.Boolean),
-    userRole: S.optional(GetCollectionResponseItemsItemOwnerCase1PrimaryOrgUserRole),
-    numUsers: S.optional(S.Number),
-  }),
+export const GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<GetCollectionResponseItemsItemOwnerCase1PrimaryOrg>;
+  identifier: "GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionResponseItemsItemOwnerCase1 {
+export interface GetCollectionResponseItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5076,12 +6339,12 @@ export interface GetCollectionResponseItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionResponseItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -5091,188 +6354,424 @@ export const GetCollectionResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionResponseItemsItemOwnerCase1PrimaryOrg),
+    primaryOrg: S.optional(GetCollectionResponseItemsItemCase2AuthorDataCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItemOwnerCase1",
-}) as any as S.Schema<GetCollectionResponseItemsItemOwnerCase1>;
+  identifier: "GetCollectionResponseItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2AuthorDataCase1>;
 
-export type GetCollectionResponseItemsItemOwner =
-  | GetCollectionResponseItemsItemOwnerCase0
-  | GetCollectionResponseItemsItemOwnerCase1;
-export const GetCollectionResponseItemsItemOwner =
-  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemOwner>;
+export type GetCollectionResponseItemsItemCase2AuthorData =
+  | GetCollectionResponseItemsItemCase2AuthorDataCase0
+  | GetCollectionResponseItemsItemCase2AuthorDataCase1;
+export const GetCollectionResponseItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase2AuthorData>;
 
-export type GetCollectionResponseItemsItemTheme =
+export type GetCollectionResponseItemsItemCase2Visibility = "public" | "private" | "protected";
+export const GetCollectionResponseItemsItemCase2Visibility = S.String;
+
+export interface GetCollectionResponseItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: GetCollectionResponseItemsItemCase2Sdk;
+  runtime: GetCollectionResponseItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: GetCollectionResponseItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: GetCollectionResponseItemsItemCase2TagsList;
+  authorData?: GetCollectionResponseItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: GetCollectionResponseItemsItemCase2Visibility;
+  type: string;
+}
+export const GetCollectionResponseItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(GetCollectionResponseItemsItemCase2Sdk),
+    runtime: GetCollectionResponseItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(GetCollectionResponseItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: GetCollectionResponseItemsItemCase2TagsList,
+    authorData: S.optional(GetCollectionResponseItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: GetCollectionResponseItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase2",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase2>;
+
+export type GetCollectionResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionResponseItemsItemCase3GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase3GalleryList>;
+
+export interface GetCollectionResponseItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const GetCollectionResponseItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase3",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase3>;
+
+export type GetCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionResponseItemsItemCase4GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase4GalleryList>;
+
+export type GetCollectionResponseItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionResponseItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface GetCollectionResponseItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetCollectionResponseItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetCollectionResponseItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    plan: S.optional(GetCollectionResponseItemsItemCase4OwnerCase0Plan),
+    isUserFollowing: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase4OwnerCase0",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase4OwnerCase0>;
+
+export type GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    type: S.String,
+    isHf: S.Boolean,
+    isFollowing: S.optional(S.Boolean),
+    plan: S.optional(GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgPlan),
+    details: S.optional(S.String),
+    hasPrivateMembersList: S.optional(S.Boolean),
+    userRole: S.optional(GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+    numUsers: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface GetCollectionResponseItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const GetCollectionResponseItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(GetCollectionResponseItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase4OwnerCase1",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase4OwnerCase1>;
+
+export type GetCollectionResponseItemsItemCase4Owner =
+  | GetCollectionResponseItemsItemCase4OwnerCase0
+  | GetCollectionResponseItemsItemCase4OwnerCase1;
+export const GetCollectionResponseItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItemCase4Owner>;
+
+export type GetCollectionResponseItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const GetCollectionResponseItemsItemTheme = S.String;
+export const GetCollectionResponseItemsItemCase4Theme = S.String;
 
-export type GetCollectionResponseItemsItemAdminTagsList = Array<string>;
-export const GetCollectionResponseItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetCollectionResponseItemsItemAdminTagsList>;
-
-export type GetCollectionResponseItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const GetCollectionResponseItemsItemCdnRegionsItemProvider = S.String;
-
-export type GetCollectionResponseItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const GetCollectionResponseItemsItemCdnRegionsItemRegion = S.String;
-
-export interface GetCollectionResponseItemsItemCdnRegionsItem {
-  provider: GetCollectionResponseItemsItemCdnRegionsItemProvider;
-  region: GetCollectionResponseItemsItemCdnRegionsItemRegion;
-}
-export const GetCollectionResponseItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: GetCollectionResponseItemsItemCdnRegionsItemProvider,
-    region: GetCollectionResponseItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "GetCollectionResponseItemsItemCdnRegionsItem",
-}) as any as S.Schema<GetCollectionResponseItemsItemCdnRegionsItem>;
-
-export type GetCollectionResponseItemsItemCdnRegionsList =
-  Array<GetCollectionResponseItemsItemCdnRegionsItem>;
-export const GetCollectionResponseItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  GetCollectionResponseItemsItemCdnRegionsItem,
-) as any as S.Schema<GetCollectionResponseItemsItemCdnRegionsList>;
-
-export interface GetCollectionResponseItemsItem {
+export interface GetCollectionResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: GetCollectionResponseItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: GetCollectionResponseItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: GetCollectionResponseItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: GetCollectionResponseItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: GetCollectionResponseItemsItemAuthorData;
-  widgetOutputUrls?: GetCollectionResponseItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: GetCollectionResponseItemsItemSdk;
-  runtime?: GetCollectionResponseItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: GetCollectionResponseItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: GetCollectionResponseItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: GetCollectionResponseItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: GetCollectionResponseItemsItemOwner;
-  theme?: GetCollectionResponseItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: GetCollectionResponseItemsItemAdminTagsList;
-  cdnRegions?: GetCollectionResponseItemsItemCdnRegionsList;
+  owner: GetCollectionResponseItemsItemCase4Owner;
+  title: string;
+  theme: GetCollectionResponseItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const GetCollectionResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionResponseItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(GetCollectionResponseItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(GetCollectionResponseItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(GetCollectionResponseItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      GetCollectionResponseItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(GetCollectionResponseItemsItemAuthorData),
-    widgetOutputUrls: S.optional(GetCollectionResponseItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(GetCollectionResponseItemsItemSdk),
-    runtime: S.optional(GetCollectionResponseItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(GetCollectionResponseItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(GetCollectionResponseItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(GetCollectionResponseItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(GetCollectionResponseItemsItemOwner),
-    theme: S.optional(GetCollectionResponseItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(GetCollectionResponseItemsItemAdminTagsList),
-    cdnRegions: S.optional(GetCollectionResponseItemsItemCdnRegionsList),
+    owner: GetCollectionResponseItemsItemCase4Owner,
+    title: S.String,
+    theme: GetCollectionResponseItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionResponseItemsItem",
-}) as any as S.Schema<GetCollectionResponseItemsItem>;
+  identifier: "GetCollectionResponseItemsItemCase4",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase4>;
+
+export type GetCollectionResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionResponseItemsItemCase5GalleryList = Array<string>;
+export const GetCollectionResponseItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase5GalleryList>;
+
+export type GetCollectionResponseItemsItemCase5RepoType = "bucket" | "container";
+export const GetCollectionResponseItemsItemCase5RepoType = S.String;
+
+export type GetCollectionResponseItemsItemCase5AdminTagsList = Array<string>;
+export const GetCollectionResponseItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionResponseItemsItemCase5AdminTagsList>;
+
+export type GetCollectionResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+export const GetCollectionResponseItemsItemCase5Disabled = AddItemResponseItemsItemCase5Disabled;
+
+export type GetCollectionResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const GetCollectionResponseItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type GetCollectionResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const GetCollectionResponseItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface GetCollectionResponseItemsItemCase5CdnRegionsItem {
+  provider: GetCollectionResponseItemsItemCase5CdnRegionsItemProvider;
+  region: GetCollectionResponseItemsItemCase5CdnRegionsItemRegion;
+}
+export const GetCollectionResponseItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: GetCollectionResponseItemsItemCase5CdnRegionsItemProvider,
+    region: GetCollectionResponseItemsItemCase5CdnRegionsItemRegion,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase5CdnRegionsItem>;
+
+export type GetCollectionResponseItemsItemCase5CdnRegionsList =
+  Array<GetCollectionResponseItemsItemCase5CdnRegionsItem>;
+export const GetCollectionResponseItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  GetCollectionResponseItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<GetCollectionResponseItemsItemCase5CdnRegionsList>;
+
+export type GetCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface GetCollectionResponseItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionResponseItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: GetCollectionResponseItemsItemCase5RepoType;
+  adminTags?: GetCollectionResponseItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: GetCollectionResponseItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const GetCollectionResponseItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionResponseItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: GetCollectionResponseItemsItemCase5RepoType,
+    adminTags: S.optional(GetCollectionResponseItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: GetCollectionResponseItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionResponseItemsItemCase5",
+}) as any as S.Schema<GetCollectionResponseItemsItemCase5>;
+
+export type GetCollectionResponseItemsItem =
+  | GetCollectionResponseItemsItemCase0
+  | GetCollectionResponseItemsItemCase1
+  | GetCollectionResponseItemsItemCase2
+  | GetCollectionResponseItemsItemCase3
+  | GetCollectionResponseItemsItemCase4
+  | GetCollectionResponseItemsItemCase5;
+export const GetCollectionResponseItemsItem =
+  S.Unknown as any as S.Schema<GetCollectionResponseItemsItem>;
 
 export type GetCollectionResponseItemsList = Array<GetCollectionResponseItemsItem>;
 export const GetCollectionResponseItemsList = /*@__PURE__*/ S.Array(
@@ -5312,9 +6811,7 @@ export const GetCollectionResponse = /*@__PURE__*/ S.suspend(() =>
     resourceGroup: S.optional(AddItemResponseResourceGroup),
     items: GetCollectionResponseItemsList,
   }),
-).annotate({
-  identifier: "GetCollectionResponse",
-}) as any as S.Schema<GetCollectionResponse>;
+).annotate({ identifier: "GetCollectionResponse" }) as any as S.Schema<GetCollectionResponse>;
 
 export interface GetCollectionBySlugRequest {
   namespace: string;
@@ -5324,13 +6821,7 @@ export const GetCollectionBySlugRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/collections/{namespace}/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/collections/{namespace}/{slug}", code: 200 })),
 ).annotate({
   identifier: "GetCollectionBySlugRequest",
 }) as any as S.Schema<GetCollectionBySlugRequest>;
@@ -5356,12 +6847,12 @@ export const GetCollectionBySlugResponseGatingCase1Case2Notifications = /*@__PUR
 }) as any as S.Schema<GetCollectionBySlugResponseGatingCase1Case2Notifications>;
 
 export interface GetCollectionBySlugResponseGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: GetCollectionBySlugResponseGatingCase1Case2Notifications;
 }
 export const GetCollectionBySlugResponseGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: GetCollectionBySlugResponseGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -5369,13 +6860,13 @@ export const GetCollectionBySlugResponseGatingCase1Case2 = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<GetCollectionBySlugResponseGatingCase1Case2>;
 
 export type GetCollectionBySlugResponseGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | GetCollectionBySlugResponseGatingCase1Case2;
 export const GetCollectionBySlugResponseGatingCase1 =
   S.Unknown as any as S.Schema<GetCollectionBySlugResponseGatingCase1>;
 
-export type GetCollectionBySlugResponseGating = unknown | GetCollectionBySlugResponseGatingCase1;
+export type GetCollectionBySlugResponseGating = boolean | GetCollectionBySlugResponseGatingCase1;
 export const GetCollectionBySlugResponseGating =
   S.Unknown as any as S.Schema<GetCollectionBySlugResponseGating>;
 
@@ -5383,6 +6874,7 @@ export type GetCollectionBySlugResponseOwnerCase0Plan = "team" | "enterprise" | 
 export const GetCollectionBySlugResponseOwnerCase0Plan = S.String;
 
 export interface GetCollectionBySlugResponseOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5391,7 +6883,7 @@ export interface GetCollectionBySlugResponseOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetCollectionBySlugResponseOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -5405,7 +6897,7 @@ export const GetCollectionBySlugResponseOwnerCase0 = /*@__PURE__*/ S.suspend(() 
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetCollectionBySlugResponseOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -5432,7 +6924,7 @@ export interface GetCollectionBySlugResponseOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetCollectionBySlugResponseOwnerCase1PrimaryOrgPlan;
@@ -5446,7 +6938,7 @@ export const GetCollectionBySlugResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.s
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(GetCollectionBySlugResponseOwnerCase1PrimaryOrgPlan),
@@ -5460,6 +6952,7 @@ export const GetCollectionBySlugResponseOwnerCase1PrimaryOrg = /*@__PURE__*/ S.s
 }) as any as S.Schema<GetCollectionBySlugResponseOwnerCase1PrimaryOrg>;
 
 export interface GetCollectionBySlugResponseOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5468,7 +6961,7 @@ export interface GetCollectionBySlugResponseOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetCollectionBySlugResponseOwnerCase1PrimaryOrg;
@@ -5483,7 +6976,7 @@ export const GetCollectionBySlugResponseOwnerCase1 = /*@__PURE__*/ S.suspend(() 
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetCollectionBySlugResponseOwnerCase1PrimaryOrg),
@@ -5510,21 +7003,21 @@ export const GetCollectionBySlugResponseTheme = S.String;
 export type GetCollectionBySlugResponseResourceGroup = AddItemResponseResourceGroup;
 export const GetCollectionBySlugResponseResourceGroup = AddItemResponseResourceGroup;
 
-export type GetCollectionBySlugResponseItemsItemNote = AddItemResponseItemsItemNote;
-export const GetCollectionBySlugResponseItemsItemNote = AddItemResponseItemsItemNote;
+export type GetCollectionBySlugResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionBySlugResponseItemsItemGalleryList = Array<string>;
-export const GetCollectionBySlugResponseItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type GetCollectionBySlugResponseItemsItemCase0GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemGalleryList>;
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0GalleryList>;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoViewer =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoViewer = S.String;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesItem =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -5536,17 +7029,21 @@ export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesItem 
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesList =
-  Array<GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesItem>;
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesList =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesItem,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesList>;
+    GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsItem =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -5557,16 +7054,16 @@ export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsList =
-  Array<GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsItem>;
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsList =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList =
   /*@__PURE__*/ S.Array(
-    GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsItem,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsList>;
+    GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesItem =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -5576,47 +7073,103 @@ export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesItem
   | "text"
   | "timeseries"
   | "video";
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesList =
-  Array<GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesItem>;
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesList =
+export type GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesItem,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesList>;
+    GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface GetCollectionBySlugResponseItemsItemDatasetsServerInfo {
-  viewer: GetCollectionBySlugResponseItemsItemDatasetsServerInfoViewer;
+export interface GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo {
+  viewer: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesList;
-  formats: GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsList;
-  modalities: GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesList;
+  libraries: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const GetCollectionBySlugResponseItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      viewer: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoViewer,
+      numRows: S.NullOr(S.Number),
+      libraries: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoLibrariesList,
+      formats: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoFormatsList,
+      modalities: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfoModalitiesList,
+    }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo>;
+
+export type GetCollectionBySlugResponseItemsItemCase0GatedCase1 = "auto" | "manual";
+export const GetCollectionBySlugResponseItemsItemCase0GatedCase1 = S.String;
+
+export type GetCollectionBySlugResponseItemsItemCase0Gated =
+  | boolean
+  | GetCollectionBySlugResponseItemsItemCase0GatedCase1;
+export const GetCollectionBySlugResponseItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0Gated>;
+
+export type GetCollectionBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionBySlugResponseItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+
+export interface GetCollectionBySlugResponseItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: GetCollectionBySlugResponseItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: GetCollectionBySlugResponseItemsItemDatasetsServerInfoViewer,
-    numRows: S.NullOr(S.Number),
-    libraries: GetCollectionBySlugResponseItemsItemDatasetsServerInfoLibrariesList,
-    formats: GetCollectionBySlugResponseItemsItemDatasetsServerInfoFormatsList,
-    modalities: GetCollectionBySlugResponseItemsItemDatasetsServerInfoModalitiesList,
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(GetCollectionBySlugResponseItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: GetCollectionBySlugResponseItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemDatasetsServerInfo",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemDatasetsServerInfo>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase0",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase0>;
 
-export type GetCollectionBySlugResponseItemsItemGatedCase1 = "auto" | "manual";
-export const GetCollectionBySlugResponseItemsItemGatedCase1 = S.String;
+export type GetCollectionBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionBySlugResponseItemsItemGated =
-  | unknown
-  | GetCollectionBySlugResponseItemsItemGatedCase1;
-export const GetCollectionBySlugResponseItemsItemGated =
-  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemGated>;
+export type GetCollectionBySlugResponseItemsItemCase1GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1GalleryList>;
 
-export type GetCollectionBySlugResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const GetCollectionBySlugResponseItemsItemResourceGroup = AddItemResponseResourceGroup;
-
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProvider =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -5636,23 +7189,24 @@ export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemP
   | "together"
   | "wavespeed"
   | "zai-org";
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProvider = S.String;
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider =
+  S.String;
 
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus =
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   S.String;
 
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus =
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   S.String;
 
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemTask =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -5711,22 +7265,23 @@ export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemT
   | "video-to-video"
   | "other"
   | "conversational";
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask =
+  S.String;
 
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem {
-  provider: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem {
+  provider: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -5734,18 +7289,19 @@ export interface GetCollectionBySlugResponseItemsItemAvailableInferenceProviders
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem =
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProvider,
+      provider: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProvider,
       providerStatus:
-        GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemProviderStatus,
-      modelStatus: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemModelStatus,
+        GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus:
+        GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -5754,24 +7310,37 @@ export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem>;
+    identifier: "GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersList =
-  Array<GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem>;
-export const GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersList =
+export type GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
+  Array<GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem>;
+export const GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList =
   /*@__PURE__*/ S.Array(
-    GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersItem,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersList>;
+    GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList>;
 
-export type GetCollectionBySlugResponseItemsItemAuthorDataCase0Plan =
+export type GetCollectionBySlugResponseItemsItemCase1GatedCase1 = "auto" | "manual";
+export const GetCollectionBySlugResponseItemsItemCase1GatedCase1 = S.String;
+
+export type GetCollectionBySlugResponseItemsItemCase1Gated =
+  | boolean
+  | GetCollectionBySlugResponseItemsItemCase1GatedCase1;
+export const GetCollectionBySlugResponseItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1Gated>;
+
+export type GetCollectionBySlugResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionBySlugResponseItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase0Plan = S.String;
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemAuthorDataCase0 {
+export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5780,76 +7349,80 @@ export interface GetCollectionBySlugResponseItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionBySlugResponseItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionBySlugResponseItemsItemAuthorDataCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemAuthorDataCase0",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemAuthorDataCase0>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0>;
 
-export type GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg {
+export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg =
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgPlan),
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg>;
+    identifier: "GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionBySlugResponseItemsItemAuthorDataCase1 {
+export interface GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -5858,45 +7431,110 @@ export interface GetCollectionBySlugResponseItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionBySlugResponseItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1>;
+
+export type GetCollectionBySlugResponseItemsItemCase1AuthorData =
+  | GetCollectionBySlugResponseItemsItemCase1AuthorDataCase0
+  | GetCollectionBySlugResponseItemsItemCase1AuthorDataCase1;
+export const GetCollectionBySlugResponseItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1AuthorData>;
+
+export type GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList>;
+
+export interface GetCollectionBySlugResponseItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: GetCollectionBySlugResponseItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: GetCollectionBySlugResponseItemsItemCase1AuthorData;
+  widgetOutputUrls?: GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemAuthorDataCase1PrimaryOrg),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders:
+      GetCollectionBySlugResponseItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: GetCollectionBySlugResponseItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(GetCollectionBySlugResponseItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(GetCollectionBySlugResponseItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemAuthorDataCase1",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemAuthorDataCase1>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase1",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase1>;
 
-export type GetCollectionBySlugResponseItemsItemAuthorData =
-  | GetCollectionBySlugResponseItemsItemAuthorDataCase0
-  | GetCollectionBySlugResponseItemsItemAuthorDataCase1;
-export const GetCollectionBySlugResponseItemsItemAuthorData =
-  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemAuthorData>;
+export type GetCollectionBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionBySlugResponseItemsItemWidgetOutputUrlsList = Array<string>;
-export const GetCollectionBySlugResponseItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type GetCollectionBySlugResponseItemsItemCase2GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2GalleryList>;
 
-export type GetCollectionBySlugResponseItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const GetCollectionBySlugResponseItemsItemSdk = S.String;
+export type GetCollectionBySlugResponseItemsItemCase2Sdk =
+  | "gradio"
+  | "docker"
+  | "static"
+  | "streamlit";
+export const GetCollectionBySlugResponseItemsItemCase2Sdk = S.String;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeStage =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -5910,9 +7548,9 @@ export type GetCollectionBySlugResponseItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const GetCollectionBySlugResponseItemsItemRuntimeStage = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeStage = S.String;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeHardwareCurrent =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -5942,9 +7580,9 @@ export type GetCollectionBySlugResponseItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionBySlugResponseItemsItemRuntimeHardwareCurrent = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeHardwareRequested =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -5974,129 +7612,135 @@ export type GetCollectionBySlugResponseItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionBySlugResponseItemsItemRuntimeHardwareRequested = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemRuntimeHardware {
-  current: GetCollectionBySlugResponseItemsItemRuntimeHardwareCurrent | null;
-  requested: GetCollectionBySlugResponseItemsItemRuntimeHardwareRequested | null;
+export interface GetCollectionBySlugResponseItemsItemCase2RuntimeHardware {
+  current: GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const GetCollectionBySlugResponseItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current: S.NullOr(GetCollectionBySlugResponseItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(GetCollectionBySlugResponseItemsItemRuntimeHardwareRequested),
-  }),
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      current: S.NullOr(GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareCurrent),
+      requested: S.NullOr(GetCollectionBySlugResponseItemsItemCase2RuntimeHardwareRequested),
+    }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemRuntimeHardware",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeHardware>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeHardware>;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeReplicasRequested = number | unknown;
-export const GetCollectionBySlugResponseItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeReplicasRequested>;
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested = number | string;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested>;
 
-export interface GetCollectionBySlugResponseItemsItemRuntimeReplicas {
+export interface GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: GetCollectionBySlugResponseItemsItemRuntimeReplicasRequested;
+  requested: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested;
 }
-export const GetCollectionBySlugResponseItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current: S.optional(S.NullOr(S.Number)),
-    requested: GetCollectionBySlugResponseItemsItemRuntimeReplicasRequested,
-  }),
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      current: S.optional(S.NullOr(S.Number)),
+      requested: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicasRequested,
+    }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemRuntimeReplicas",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeReplicas>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas>;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeDomainsItemStage =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const GetCollectionBySlugResponseItemsItemRuntimeDomainsItemStage = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemRuntimeDomainsItem {
+export interface GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: GetCollectionBySlugResponseItemsItemRuntimeDomainsItemStage;
+  stage: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage;
 }
-export const GetCollectionBySlugResponseItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: GetCollectionBySlugResponseItemsItemRuntimeDomainsItemStage,
-  }),
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domain: S.String,
+      isCustom: S.optional(S.NullOr(S.Boolean)),
+      stage: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItemStage,
+    }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeDomainsItem>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem>;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeDomainsList =
-  Array<GetCollectionBySlugResponseItemsItemRuntimeDomainsItem>;
-export const GetCollectionBySlugResponseItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  GetCollectionBySlugResponseItemsItemRuntimeDomainsItem,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeDomainsList>;
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList =
+  Array<GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem>;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList>;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface GetCollectionBySlugResponseItemsItemRuntimeHotReloading {
+export interface GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const GetCollectionBySlugResponseItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.String,
-    replicaStatuses: GetCollectionBySlugResponseItemsItemRuntimeHotReloadingReplicaStatusesList,
-  }),
+export const GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: S.String,
+      replicaStatuses:
+        GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
+    }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemRuntimeHotReloading",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntimeHotReloading>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading>;
 
-export interface GetCollectionBySlugResponseItemsItemRuntime {
-  stage: GetCollectionBySlugResponseItemsItemRuntimeStage;
-  hardware: GetCollectionBySlugResponseItemsItemRuntimeHardware;
+export interface GetCollectionBySlugResponseItemsItemCase2Runtime {
+  stage: GetCollectionBySlugResponseItemsItemCase2RuntimeStage;
+  hardware: GetCollectionBySlugResponseItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: GetCollectionBySlugResponseItemsItemRuntimeReplicas;
+  replicas: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: GetCollectionBySlugResponseItemsItemRuntimeDomainsList;
+  domains?: GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: GetCollectionBySlugResponseItemsItemRuntimeHotReloading;
+  hotReloading?: GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading;
 }
-export const GetCollectionBySlugResponseItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionBySlugResponseItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: GetCollectionBySlugResponseItemsItemRuntimeStage,
-    hardware: GetCollectionBySlugResponseItemsItemRuntimeHardware,
+    stage: GetCollectionBySlugResponseItemsItemCase2RuntimeStage,
+    hardware: GetCollectionBySlugResponseItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: GetCollectionBySlugResponseItemsItemRuntimeReplicas,
+    replicas: GetCollectionBySlugResponseItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(GetCollectionBySlugResponseItemsItemRuntimeDomainsList),
+    domains: S.optional(GetCollectionBySlugResponseItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(GetCollectionBySlugResponseItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(GetCollectionBySlugResponseItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemRuntime",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemRuntime>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2Runtime",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2Runtime>;
 
-export type GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0Plan =
+export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0 {
+export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6105,12 +7749,12 @@ export interface GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -6120,64 +7764,69 @@ export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0Plan),
+      type: S.String,
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
-).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0>;
+  ).annotate({
+    identifier: "GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0>;
 
-export type GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
+      plan: S.optional(
+        GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole,
+        GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1 {
+export interface GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6186,12 +7835,82 @@ export interface GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1>;
+
+export type GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor =
+  | GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase0
+  | GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthorCase1;
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor>;
+
+export interface GetCollectionBySlugResponseItemsItemCase2OriginRepo {
+  author: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor;
+  name: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: GetCollectionBySlugResponseItemsItemCase2OriginRepoAuthor,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase2OriginRepo",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2OriginRepo>;
+
+export type GetCollectionBySlugResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionBySlugResponseItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type GetCollectionBySlugResponseItemsItemCase2TagsList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2TagsList>;
+
+export type GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan = S.String;
+
+export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       _id: S.String,
@@ -6202,128 +7921,65 @@ export const GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1 = /*@__PU
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      isPro: S.Boolean,
+      type: S.String,
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
-      primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1PrimaryOrg),
     }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0>;
 
-export type GetCollectionBySlugResponseItemsItemOriginRepoAuthor =
-  | GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase0
-  | GetCollectionBySlugResponseItemsItemOriginRepoAuthorCase1;
-export const GetCollectionBySlugResponseItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemOriginRepoAuthor>;
-
-export interface GetCollectionBySlugResponseItemsItemOriginRepo {
-  author: GetCollectionBySlugResponseItemsItemOriginRepoAuthor;
-  name: string;
-}
-export const GetCollectionBySlugResponseItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: GetCollectionBySlugResponseItemsItemOriginRepoAuthor,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOriginRepo",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOriginRepo>;
-
-export type GetCollectionBySlugResponseItemsItemTagsList = Array<string>;
-export const GetCollectionBySlugResponseItemsItemTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemTagsList>;
-
-export type GetCollectionBySlugResponseItemsItemVisibility = "public" | "private" | "protected";
-export const GetCollectionBySlugResponseItemsItemVisibility = S.String;
-
-export type GetCollectionBySlugResponseItemsItemOwnerCase0Plan =
+export type GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionBySlugResponseItemsItemOwnerCase0Plan = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemOwnerCase0 {
-  _id: string;
-  avatarUrl: string;
-  fullname: string;
-  name: string;
-  isHf: boolean;
-  isHfAdmin: boolean;
-  isMod: boolean;
-  followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionBySlugResponseItemsItemOwnerCase0Plan;
-  isUserFollowing?: boolean;
-}
-export const GetCollectionBySlugResponseItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionBySlugResponseItemsItemOwnerCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOwnerCase0",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOwnerCase0>;
-
-export type GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan =
-  | "team"
-  | "enterprise"
-  | "plus"
-  | "academia";
-export const GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan = S.String;
-
-export type GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole =
+export type GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg {
+export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgPlan),
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg>;
+  ).annotate({
+    identifier: "GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionBySlugResponseItemsItemOwnerCase1 {
+export interface GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6332,12 +7988,185 @@ export interface GetCollectionBySlugResponseItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionBySlugResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1>;
+
+export type GetCollectionBySlugResponseItemsItemCase2AuthorData =
+  | GetCollectionBySlugResponseItemsItemCase2AuthorDataCase0
+  | GetCollectionBySlugResponseItemsItemCase2AuthorDataCase1;
+export const GetCollectionBySlugResponseItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2AuthorData>;
+
+export type GetCollectionBySlugResponseItemsItemCase2Visibility =
+  | "public"
+  | "private"
+  | "protected";
+export const GetCollectionBySlugResponseItemsItemCase2Visibility = S.String;
+
+export interface GetCollectionBySlugResponseItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: GetCollectionBySlugResponseItemsItemCase2Sdk;
+  runtime: GetCollectionBySlugResponseItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: GetCollectionBySlugResponseItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: GetCollectionBySlugResponseItemsItemCase2TagsList;
+  authorData?: GetCollectionBySlugResponseItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: GetCollectionBySlugResponseItemsItemCase2Visibility;
+  type: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(GetCollectionBySlugResponseItemsItemCase2Sdk),
+    runtime: GetCollectionBySlugResponseItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(GetCollectionBySlugResponseItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: GetCollectionBySlugResponseItemsItemCase2TagsList,
+    authorData: S.optional(GetCollectionBySlugResponseItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: GetCollectionBySlugResponseItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase2",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase2>;
+
+export type GetCollectionBySlugResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionBySlugResponseItemsItemCase3GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase3GalleryList>;
+
+export interface GetCollectionBySlugResponseItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase3",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase3>;
+
+export type GetCollectionBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionBySlugResponseItemsItemCase4GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4GalleryList>;
+
+export type GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -6347,188 +8176,258 @@ export const GetCollectionBySlugResponseItemsItemOwnerCase1 = /*@__PURE__*/ S.su
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
+    type: S.String,
+    plan: S.optional(GetCollectionBySlugResponseItemsItemCase4OwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemOwnerCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemOwnerCase1",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemOwnerCase1>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase4OwnerCase0",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4OwnerCase0>;
 
-export type GetCollectionBySlugResponseItemsItemOwner =
-  | GetCollectionBySlugResponseItemsItemOwnerCase0
-  | GetCollectionBySlugResponseItemsItemOwnerCase1;
-export const GetCollectionBySlugResponseItemsItemOwner =
-  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemOwner>;
+export type GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
 
-export type GetCollectionBySlugResponseItemsItemTheme =
+export type GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface GetCollectionBySlugResponseItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const GetCollectionBySlugResponseItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(GetCollectionBySlugResponseItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase4OwnerCase1",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4OwnerCase1>;
+
+export type GetCollectionBySlugResponseItemsItemCase4Owner =
+  | GetCollectionBySlugResponseItemsItemCase4OwnerCase0
+  | GetCollectionBySlugResponseItemsItemCase4OwnerCase1;
+export const GetCollectionBySlugResponseItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4Owner>;
+
+export type GetCollectionBySlugResponseItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const GetCollectionBySlugResponseItemsItemTheme = S.String;
+export const GetCollectionBySlugResponseItemsItemCase4Theme = S.String;
 
-export type GetCollectionBySlugResponseItemsItemAdminTagsList = Array<string>;
-export const GetCollectionBySlugResponseItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemAdminTagsList>;
-
-export type GetCollectionBySlugResponseItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const GetCollectionBySlugResponseItemsItemCdnRegionsItemProvider = S.String;
-
-export type GetCollectionBySlugResponseItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const GetCollectionBySlugResponseItemsItemCdnRegionsItemRegion = S.String;
-
-export interface GetCollectionBySlugResponseItemsItemCdnRegionsItem {
-  provider: GetCollectionBySlugResponseItemsItemCdnRegionsItemProvider;
-  region: GetCollectionBySlugResponseItemsItemCdnRegionsItemRegion;
-}
-export const GetCollectionBySlugResponseItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: GetCollectionBySlugResponseItemsItemCdnRegionsItemProvider,
-    region: GetCollectionBySlugResponseItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItemCdnRegionsItem",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCdnRegionsItem>;
-
-export type GetCollectionBySlugResponseItemsItemCdnRegionsList =
-  Array<GetCollectionBySlugResponseItemsItemCdnRegionsItem>;
-export const GetCollectionBySlugResponseItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  GetCollectionBySlugResponseItemsItemCdnRegionsItem,
-) as any as S.Schema<GetCollectionBySlugResponseItemsItemCdnRegionsList>;
-
-export interface GetCollectionBySlugResponseItemsItem {
+export interface GetCollectionBySlugResponseItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: GetCollectionBySlugResponseItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: GetCollectionBySlugResponseItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: GetCollectionBySlugResponseItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: GetCollectionBySlugResponseItemsItemAuthorData;
-  widgetOutputUrls?: GetCollectionBySlugResponseItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: GetCollectionBySlugResponseItemsItemSdk;
-  runtime?: GetCollectionBySlugResponseItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: GetCollectionBySlugResponseItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: GetCollectionBySlugResponseItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: GetCollectionBySlugResponseItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: GetCollectionBySlugResponseItemsItemOwner;
-  theme?: GetCollectionBySlugResponseItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: GetCollectionBySlugResponseItemsItemAdminTagsList;
-  cdnRegions?: GetCollectionBySlugResponseItemsItemCdnRegionsList;
+  owner: GetCollectionBySlugResponseItemsItemCase4Owner;
+  title: string;
+  theme: GetCollectionBySlugResponseItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const GetCollectionBySlugResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionBySlugResponseItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(GetCollectionBySlugResponseItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(GetCollectionBySlugResponseItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(GetCollectionBySlugResponseItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      GetCollectionBySlugResponseItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(GetCollectionBySlugResponseItemsItemAuthorData),
-    widgetOutputUrls: S.optional(GetCollectionBySlugResponseItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(GetCollectionBySlugResponseItemsItemSdk),
-    runtime: S.optional(GetCollectionBySlugResponseItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(GetCollectionBySlugResponseItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(GetCollectionBySlugResponseItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(GetCollectionBySlugResponseItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(GetCollectionBySlugResponseItemsItemOwner),
-    theme: S.optional(GetCollectionBySlugResponseItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(GetCollectionBySlugResponseItemsItemAdminTagsList),
-    cdnRegions: S.optional(GetCollectionBySlugResponseItemsItemCdnRegionsList),
+    owner: GetCollectionBySlugResponseItemsItemCase4Owner,
+    title: S.String,
+    theme: GetCollectionBySlugResponseItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionBySlugResponseItemsItem",
-}) as any as S.Schema<GetCollectionBySlugResponseItemsItem>;
+  identifier: "GetCollectionBySlugResponseItemsItemCase4",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase4>;
+
+export type GetCollectionBySlugResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const GetCollectionBySlugResponseItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionBySlugResponseItemsItemCase5GalleryList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase5GalleryList>;
+
+export type GetCollectionBySlugResponseItemsItemCase5RepoType = "bucket" | "container";
+export const GetCollectionBySlugResponseItemsItemCase5RepoType = S.String;
+
+export type GetCollectionBySlugResponseItemsItemCase5AdminTagsList = Array<string>;
+export const GetCollectionBySlugResponseItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase5AdminTagsList>;
+
+export type GetCollectionBySlugResponseItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+export const GetCollectionBySlugResponseItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+
+export type GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem {
+  provider: GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemProvider;
+  region: GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemRegion;
+}
+export const GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemProvider,
+    region: GetCollectionBySlugResponseItemsItemCase5CdnRegionsItemRegion,
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem>;
+
+export type GetCollectionBySlugResponseItemsItemCase5CdnRegionsList =
+  Array<GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem>;
+export const GetCollectionBySlugResponseItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  GetCollectionBySlugResponseItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase5CdnRegionsList>;
+
+export type GetCollectionBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const GetCollectionBySlugResponseItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface GetCollectionBySlugResponseItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionBySlugResponseItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: GetCollectionBySlugResponseItemsItemCase5RepoType;
+  adminTags?: GetCollectionBySlugResponseItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: GetCollectionBySlugResponseItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const GetCollectionBySlugResponseItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionBySlugResponseItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: GetCollectionBySlugResponseItemsItemCase5RepoType,
+    adminTags: S.optional(GetCollectionBySlugResponseItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: GetCollectionBySlugResponseItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionBySlugResponseItemsItemCase5",
+}) as any as S.Schema<GetCollectionBySlugResponseItemsItemCase5>;
+
+export type GetCollectionBySlugResponseItemsItem =
+  | GetCollectionBySlugResponseItemsItemCase0
+  | GetCollectionBySlugResponseItemsItemCase1
+  | GetCollectionBySlugResponseItemsItemCase2
+  | GetCollectionBySlugResponseItemsItemCase3
+  | GetCollectionBySlugResponseItemsItemCase4
+  | GetCollectionBySlugResponseItemsItemCase5;
+export const GetCollectionBySlugResponseItemsItem =
+  S.Unknown as any as S.Schema<GetCollectionBySlugResponseItemsItem>;
 
 export type GetCollectionBySlugResponseItemsList = Array<GetCollectionBySlugResponseItemsItem>;
 export const GetCollectionBySlugResponseItemsList = /*@__PURE__*/ S.Array(
@@ -6594,6 +8493,7 @@ export const GetCollectionResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCollectionResourceGroupRequest>;
 
 export interface GetCollectionResourceGroupResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -6617,17 +8517,14 @@ export const GetCollectionResourceGroupBySlugRequest = /*@__PURE__*/ S.suspend((
     namespace: S.String.pipe(T.Label()),
     slug: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/collections/{namespace}/{slug}/resource-group",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/collections/{namespace}/{slug}/resource-group", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCollectionResourceGroupBySlugRequest",
 }) as any as S.Schema<GetCollectionResourceGroupBySlugRequest>;
 
 export interface GetCollectionResourceGroupBySlugResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
   numUsers?: number;
@@ -6655,9 +8552,7 @@ export const GetCollectionsRequestOwnerCase0List = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetCollectionsRequestOwnerCase0List>;
 
-export type GetCollectionsRequestOwnerCase2Map = {
-  [key: string]: string | undefined;
-};
+export type GetCollectionsRequestOwnerCase2Map = { [key: string]: string | undefined };
 export const GetCollectionsRequestOwnerCase2Map = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6678,7 +8573,7 @@ export interface GetCollectionsRequest {
   q?: string;
   sort?: GetCollectionsRequestSort | (string & {});
   cursor?: string;
-  expand?: unknown;
+  expand?: string;
   limit?: number;
 }
 export const GetCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6688,12 +8583,10 @@ export const GetCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     sort: S.optional(GetCollectionsRequestSort.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-    expand: S.optional(S.Unknown.pipe(T.Query())),
+    expand: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/collections", code: 200 })),
-).annotate({
-  identifier: "GetCollectionsRequest",
-}) as any as S.Schema<GetCollectionsRequest>;
+).annotate({ identifier: "GetCollectionsRequest" }) as any as S.Schema<GetCollectionsRequest>;
 
 export type GetCollectionsResponseBodyCase0ItemGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export const GetCollectionsResponseBodyCase0ItemGatingCase1Case1 = AddItemResponseGatingCase1Case1;
@@ -6718,12 +8611,12 @@ export const GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications =
   }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications>;
 
 export interface GetCollectionsResponseBodyCase0ItemGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications;
 }
 export const GetCollectionsResponseBodyCase0ItemGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: GetCollectionsResponseBodyCase0ItemGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -6731,14 +8624,14 @@ export const GetCollectionsResponseBodyCase0ItemGatingCase1Case2 = /*@__PURE__*/
 }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemGatingCase1Case2>;
 
 export type GetCollectionsResponseBodyCase0ItemGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | GetCollectionsResponseBodyCase0ItemGatingCase1Case2;
 export const GetCollectionsResponseBodyCase0ItemGatingCase1 =
   S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemGatingCase1>;
 
 export type GetCollectionsResponseBodyCase0ItemGating =
-  | unknown
+  | boolean
   | GetCollectionsResponseBodyCase0ItemGatingCase1;
 export const GetCollectionsResponseBodyCase0ItemGating =
   S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemGating>;
@@ -6751,6 +8644,7 @@ export type GetCollectionsResponseBodyCase0ItemOwnerCase0Plan =
 export const GetCollectionsResponseBodyCase0ItemOwnerCase0Plan = S.String;
 
 export interface GetCollectionsResponseBodyCase0ItemOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6759,7 +8653,7 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: GetCollectionsResponseBodyCase0ItemOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -6773,7 +8667,7 @@ export const GetCollectionsResponseBodyCase0ItemOwnerCase0 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(GetCollectionsResponseBodyCase0ItemOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -6800,7 +8694,7 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgPlan;
@@ -6814,7 +8708,7 @@ export const GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg = /*@__PURE
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrgPlan),
@@ -6828,6 +8722,7 @@ export const GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg = /*@__PURE
 }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg>;
 
 export interface GetCollectionsResponseBodyCase0ItemOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -6836,7 +8731,7 @@ export interface GetCollectionsResponseBodyCase0ItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg;
@@ -6851,7 +8746,7 @@ export const GetCollectionsResponseBodyCase0ItemOwnerCase1 = /*@__PURE__*/ S.sus
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(GetCollectionsResponseBodyCase0ItemOwnerCase1PrimaryOrg),
@@ -6878,21 +8773,23 @@ export const GetCollectionsResponseBodyCase0ItemTheme = S.String;
 export type GetCollectionsResponseBodyCase0ItemResourceGroup = AddItemResponseResourceGroup;
 export const GetCollectionsResponseBodyCase0ItemResourceGroup = AddItemResponseResourceGroup;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemNote = AddItemResponseItemsItemNote;
-export const GetCollectionsResponseBodyCase0ItemItemsItemNote = AddItemResponseItemsItemNote;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0Note =
+  AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemGalleryList = Array<string>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemGalleryList>;
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoViewer =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoViewer = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesItem =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -6904,17 +8801,22 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrar
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesItem =
+  S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesItem,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesList>;
+    GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsItem =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -6925,16 +8827,17 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormat
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsItem =
+  S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsList =
   /*@__PURE__*/ S.Array(
-    GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsItem,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsList>;
+    GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesItem =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -6944,51 +8847,110 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModali
   | "text"
   | "timeseries"
   | "video";
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesItem =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesItem =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesItem,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesList>;
+    GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo {
-  viewer: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoViewer;
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo {
+  viewer: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesList;
-  formats: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsList;
-  modalities: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesList;
+  libraries: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      viewer: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoViewer,
+      viewer: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoViewer,
       numRows: S.NullOr(S.Number),
-      libraries: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoLibrariesList,
-      formats: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoFormatsList,
-      modalities: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfoModalitiesList,
+      libraries: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoLibrariesList,
+      formats: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoFormatsList,
+      modalities: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfoModalitiesList,
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemGatedCase1 = "auto" | "manual";
-export const GetCollectionsResponseBodyCase0ItemItemsItemGatedCase1 = S.String;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0GatedCase1 = "auto" | "manual";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0GatedCase1 = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemGated =
-  | unknown
-  | GetCollectionsResponseBodyCase0ItemItemsItemGatedCase1;
-export const GetCollectionsResponseBodyCase0ItemItemsItemGated =
-  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemGated>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated =
+  | boolean
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase0GatedCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemResourceGroup =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase0ResourceGroup =
   AddItemResponseResourceGroup;
-export const GetCollectionsResponseBodyCase0ItemItemsItemResourceGroup =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0ResourceGroup =
   AddItemResponseResourceGroup;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProvider =
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(
+      GetCollectionsResponseBodyCase0ItemItemsItemCase0DatasetsServerInfo,
+    ),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: GetCollectionsResponseBodyCase0ItemItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase0",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase0>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -7008,24 +8970,24 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvid
   | "together"
   | "wavespeed"
   | "zai-org";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProvider =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProviderStatus =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemModelStatus =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemModelStatus =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemTask =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -7084,23 +9046,23 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvid
   | "video-to-video"
   | "other"
   | "conversational";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemTask =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem {
-  provider: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem {
+  provider: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -7108,19 +9070,20 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceP
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProvider,
+      provider:
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProvider,
       providerStatus:
-        GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemProviderStatus,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
       modelStatus:
-        GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemModelStatus,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -7129,24 +9092,39 @@ export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvi
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList =
   /*@__PURE__*/ S.Array(
-    GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersItem,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersList>;
+    GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0Plan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1GatedCase1 = "auto" | "manual";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1GatedCase1 = S.String;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated =
+  | boolean
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1GatedCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1ResourceGroup =
+  AddItemResponseResourceGroup;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0Plan = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7155,12 +9133,12 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -7170,65 +9148,69 @@ export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0 = /*@__
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0Plan),
+      type: S.String,
+      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0>;
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgPlan),
+      plan: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrgUserRole,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7237,13 +9219,13 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -7253,35 +9235,101 @@ export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1 = /*@__
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
-      primaryOrg: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1PrimaryOrg),
+      primaryOrg: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1PrimaryOrg,
+      ),
     }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1>;
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAuthorData =
-  | GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase0
-  | GetCollectionsResponseBodyCase0ItemItemsItemAuthorDataCase1;
-export const GetCollectionsResponseBodyCase0ItemItemsItemAuthorData =
-  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAuthorData>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorDataCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemWidgetOutputUrlsList = Array<string>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemWidgetOutputUrlsList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemWidgetOutputUrlsList>;
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemSdk =
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData;
+  widgetOutputUrls?: GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders:
+      GetCollectionsResponseBodyCase0ItemItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: GetCollectionsResponseBodyCase0ItemItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(
+      GetCollectionsResponseBodyCase0ItemItemsItemCase1WidgetOutputUrlsList,
+    ),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase1",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase1>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk =
   | "gradio"
   | "docker"
   | "static"
   | "streamlit";
-export const GetCollectionsResponseBodyCase0ItemItemsItemSdk = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeStage =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -7295,9 +9343,9 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeStage = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeStage = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareCurrent =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -7327,9 +9375,9 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareCurrent = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareRequested =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -7359,134 +9407,143 @@ export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareRequested
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareRequested = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware {
-  current: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareCurrent | null;
-  requested: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareRequested | null;
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware {
+  current: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      current: S.NullOr(GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareCurrent),
-      requested: S.NullOr(GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardwareRequested),
+      current: S.NullOr(GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareCurrent),
+      requested: S.NullOr(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardwareRequested,
+      ),
     }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware>;
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicasRequested = number | unknown;
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicasRequested>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested =
+  | number
+  | string;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicasRequested;
+  requested: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(
-  () =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       current: S.optional(S.NullOr(S.Number)),
-      requested: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicasRequested,
+      requested: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicasRequested,
     }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas>;
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItemStage =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItemStage = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItemStage;
+  stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       domain: S.String,
       isCustom: S.optional(S.NullOr(S.Boolean)),
-      stage: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItemStage,
+      stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItemStage,
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsItem,
-) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsList>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       status: S.String,
       replicaStatuses:
-        GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloadingReplicaStatusesList,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemRuntime {
-  stage: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeStage;
-  hardware: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware;
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime {
+  stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeStage;
+  hardware: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas;
+  replicas: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsList;
+  domains?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading;
+  hotReloading?: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stage: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeStage,
-    hardware: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHardware,
-    errorMessage: S.optional(S.String),
-    gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: GetCollectionsResponseBodyCase0ItemItemsItemRuntimeReplicas,
-    devMode: S.optional(S.Boolean),
-    domains: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemRuntimeDomainsList),
-    sha: S.optional(S.String),
-    hotReloading: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemRuntimeHotReloading),
-  }),
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stage: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeStage,
+      hardware: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHardware,
+      errorMessage: S.optional(S.String),
+      gcTimeout: S.optional(S.NullOr(S.Number)),
+      replicas: GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeReplicas,
+      devMode: S.optional(S.Boolean),
+      domains: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeDomainsList),
+      sha: S.optional(S.String),
+      hotReloading: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2RuntimeHotReloading,
+      ),
+    }),
 ).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemRuntime",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemRuntime>;
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0Plan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7495,11 +9552,11 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCas
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0 =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -7510,68 +9567,69 @@ export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0Plan),
+      type: S.String,
+      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
-        GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgPlan,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan,
       ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7580,12 +9638,12 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCas
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1 =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -7596,55 +9654,56 @@ export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
-        GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1PrimaryOrg,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1PrimaryOrg,
       ),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthor =
-  | GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase0
-  | GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthorCase1;
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthor>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthorCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo {
-  author: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthor;
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo {
+  author: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepoAuthor,
-    name: S.String,
-  }),
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      author: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepoAuthor,
+      name: S.String,
+    }),
 ).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo>;
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemTagsList = Array<string>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2ResourceGroup =
+  AddItemResponseResourceGroup;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemTagsList>;
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemVisibility =
-  | "public"
-  | "private"
-  | "protected";
-export const GetCollectionsResponseBodyCase0ItemItemsItemVisibility = S.String;
-
-export type GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0Plan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0Plan = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7653,78 +9712,84 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgPlan =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
+  S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgUserRole =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg =
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgPlan),
+      plan: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrgUserRole,
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg",
-  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg>;
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1 {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -7733,204 +9798,463 @@ export interface GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorDataCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility =
+  | "public"
+  | "private"
+  | "protected";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility = S.String;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk;
+  runtime: GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList;
+  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility;
+  type: string;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1PrimaryOrg),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2Sdk),
+    runtime: GetCollectionsResponseBodyCase0ItemItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: GetCollectionsResponseBodyCase0ItemItemsItemCase2TagsList,
+    authorData: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: GetCollectionsResponseBodyCase0ItemItemsItemCase2Visibility,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1>;
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase2",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase2>;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemOwner =
-  | GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase0
-  | GetCollectionsResponseBodyCase0ItemItemsItemOwnerCase1;
-export const GetCollectionsResponseBodyCase0ItemItemsItemOwner =
-  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemOwner>;
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase3Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase3Note =
+  AddItemResponseItemsItemCase0Note;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemTheme =
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList>;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase3",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase3>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase4OwnerCase1;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const GetCollectionsResponseBodyCase0ItemItemsItemTheme = S.String;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme = S.String;
 
-export type GetCollectionsResponseBodyCase0ItemItemsItemAdminTagsList = Array<string>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemAdminTagsList>;
-
-export type GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemProvider = S.String;
-
-export type GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemRegion = S.String;
-
-export interface GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem {
-  provider: GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemProvider;
-  region: GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemRegion;
-}
-export const GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      provider: GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemProvider,
-      region: GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItemRegion,
-    }),
-).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem>;
-
-export type GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsList =
-  Array<GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem>;
-export const GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsItem,
-) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsList>;
-
-export interface GetCollectionsResponseBodyCase0ItemItemsItem {
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: GetCollectionsResponseBodyCase0ItemItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: GetCollectionsResponseBodyCase0ItemItemsItemAuthorData;
-  widgetOutputUrls?: GetCollectionsResponseBodyCase0ItemItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: GetCollectionsResponseBodyCase0ItemItemsItemSdk;
-  runtime?: GetCollectionsResponseBodyCase0ItemItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: GetCollectionsResponseBodyCase0ItemItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: GetCollectionsResponseBodyCase0ItemItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: GetCollectionsResponseBodyCase0ItemItemsItemOwner;
-  theme?: GetCollectionsResponseBodyCase0ItemItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: GetCollectionsResponseBodyCase0ItemItemsItemAdminTagsList;
-  cdnRegions?: GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsList;
+  owner: GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner;
+  title: string;
+  theme: GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const GetCollectionsResponseBodyCase0ItemItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      GetCollectionsResponseBodyCase0ItemItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemAuthorData),
-    widgetOutputUrls: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemSdk),
-    runtime: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemOwner),
-    theme: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemAdminTagsList),
-    cdnRegions: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCdnRegionsList),
+    owner: GetCollectionsResponseBodyCase0ItemItemsItemCase4Owner,
+    title: S.String,
+    theme: GetCollectionsResponseBodyCase0ItemItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "GetCollectionsResponseBodyCase0ItemItemsItem",
-}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItem>;
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase4",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase4>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5Note =
+  AddItemResponseItemsItemCase0Note;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5RepoType = "bucket" | "container";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5RepoType = S.String;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList = Array<string>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem {
+  provider: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemProvider;
+  region: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemRegion;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      provider: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemProvider,
+      region: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItemRegion,
+    }),
+  ).annotate({
+    identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem",
+  }) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList =
+  Array<GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem>;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList =
+  /*@__PURE__*/ S.Array(
+    GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsItem,
+  ) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItemCase5ResourceGroup =
+  AddItemResponseResourceGroup;
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export interface GetCollectionsResponseBodyCase0ItemItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: GetCollectionsResponseBodyCase0ItemItemsItemCase5RepoType;
+  adminTags?: GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const GetCollectionsResponseBodyCase0ItemItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: GetCollectionsResponseBodyCase0ItemItemsItemCase5RepoType,
+    adminTags: S.optional(GetCollectionsResponseBodyCase0ItemItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: GetCollectionsResponseBodyCase0ItemItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "GetCollectionsResponseBodyCase0ItemItemsItemCase5",
+}) as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItemCase5>;
+
+export type GetCollectionsResponseBodyCase0ItemItemsItem =
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase0
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase1
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase2
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase3
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase4
+  | GetCollectionsResponseBodyCase0ItemItemsItemCase5;
+export const GetCollectionsResponseBodyCase0ItemItemsItem =
+  S.Unknown as any as S.Schema<GetCollectionsResponseBodyCase0ItemItemsItem>;
 
 export type GetCollectionsResponseBodyCase0ItemItemsList =
   Array<GetCollectionsResponseBodyCase0ItemItemsItem>;
@@ -8011,9 +10335,7 @@ export const GetCollectionsResponseBody = S.Unknown as any as S.Schema<GetCollec
 export type GetCollectionsResponse = GetCollectionsResponseBody;
 export const GetCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
   GetCollectionsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCollectionsResponse",
-}) as any as S.Schema<GetCollectionsResponse>;
+).annotate({ identifier: "GetCollectionsResponse" }) as any as S.Schema<GetCollectionsResponse>;
 
 export interface SetCollectionResourceGroupRequest {
   namespace: string;
@@ -8128,12 +10450,12 @@ export const UpdateCollectionRequestGatingCase2Notifications = /*@__PURE__*/ S.s
 }) as any as S.Schema<UpdateCollectionRequestGatingCase2Notifications>;
 
 export interface UpdateCollectionRequestGatingCase2 {
-  mode: unknown;
+  mode: string;
   notifications: UpdateCollectionRequestGatingCase2Notifications;
 }
 export const UpdateCollectionRequestGatingCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: UpdateCollectionRequestGatingCase2Notifications,
   }),
 ).annotate({
@@ -8141,7 +10463,7 @@ export const UpdateCollectionRequestGatingCase2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCollectionRequestGatingCase2>;
 
 export type UpdateCollectionRequestGating =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | UpdateCollectionRequestGatingCase2;
 export const UpdateCollectionRequestGating =
@@ -8169,16 +10491,8 @@ export const UpdateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     description: S.optional(S.String),
     gating: S.optional(UpdateCollectionRequestGating),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/collections/{namespace}/{slug}-{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCollectionRequest",
-}) as any as S.Schema<UpdateCollectionRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/collections/{namespace}/{slug}-{id}", code: 200 })),
+).annotate({ identifier: "UpdateCollectionRequest" }) as any as S.Schema<UpdateCollectionRequest>;
 
 export type UpdateCollectionResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
 export const UpdateCollectionResponseDataGatingCase1Case1 = AddItemResponseGatingCase1Case1;
@@ -8201,12 +10515,12 @@ export const UpdateCollectionResponseDataGatingCase1Case2Notifications = /*@__PU
 }) as any as S.Schema<UpdateCollectionResponseDataGatingCase1Case2Notifications>;
 
 export interface UpdateCollectionResponseDataGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: UpdateCollectionResponseDataGatingCase1Case2Notifications;
 }
 export const UpdateCollectionResponseDataGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: UpdateCollectionResponseDataGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -8214,13 +10528,13 @@ export const UpdateCollectionResponseDataGatingCase1Case2 = /*@__PURE__*/ S.susp
 }) as any as S.Schema<UpdateCollectionResponseDataGatingCase1Case2>;
 
 export type UpdateCollectionResponseDataGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | UpdateCollectionResponseDataGatingCase1Case2;
 export const UpdateCollectionResponseDataGatingCase1 =
   S.Unknown as any as S.Schema<UpdateCollectionResponseDataGatingCase1>;
 
-export type UpdateCollectionResponseDataGating = unknown | UpdateCollectionResponseDataGatingCase1;
+export type UpdateCollectionResponseDataGating = boolean | UpdateCollectionResponseDataGatingCase1;
 export const UpdateCollectionResponseDataGating =
   S.Unknown as any as S.Schema<UpdateCollectionResponseDataGating>;
 
@@ -8232,6 +10546,7 @@ export type UpdateCollectionResponseDataOwnerCase0Plan =
 export const UpdateCollectionResponseDataOwnerCase0Plan = S.String;
 
 export interface UpdateCollectionResponseDataOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -8240,7 +10555,7 @@ export interface UpdateCollectionResponseDataOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: UpdateCollectionResponseDataOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -8254,7 +10569,7 @@ export const UpdateCollectionResponseDataOwnerCase0 = /*@__PURE__*/ S.suspend(()
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(UpdateCollectionResponseDataOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -8281,7 +10596,7 @@ export interface UpdateCollectionResponseDataOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: UpdateCollectionResponseDataOwnerCase1PrimaryOrgPlan;
@@ -8295,7 +10610,7 @@ export const UpdateCollectionResponseDataOwnerCase1PrimaryOrg = /*@__PURE__*/ S.
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(UpdateCollectionResponseDataOwnerCase1PrimaryOrgPlan),
@@ -8309,6 +10624,7 @@ export const UpdateCollectionResponseDataOwnerCase1PrimaryOrg = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateCollectionResponseDataOwnerCase1PrimaryOrg>;
 
 export interface UpdateCollectionResponseDataOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -8317,7 +10633,7 @@ export interface UpdateCollectionResponseDataOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: UpdateCollectionResponseDataOwnerCase1PrimaryOrg;
@@ -8332,7 +10648,7 @@ export const UpdateCollectionResponseDataOwnerCase1 = /*@__PURE__*/ S.suspend(()
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(UpdateCollectionResponseDataOwnerCase1PrimaryOrg),
@@ -8359,21 +10675,21 @@ export const UpdateCollectionResponseDataTheme = S.String;
 export type UpdateCollectionResponseDataResourceGroup = AddItemResponseResourceGroup;
 export const UpdateCollectionResponseDataResourceGroup = AddItemResponseResourceGroup;
 
-export type UpdateCollectionResponseDataItemsItemNote = AddItemResponseItemsItemNote;
-export const UpdateCollectionResponseDataItemsItemNote = AddItemResponseItemsItemNote;
+export type UpdateCollectionResponseDataItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase0Note = AddItemResponseItemsItemCase0Note;
 
-export type UpdateCollectionResponseDataItemsItemGalleryList = Array<string>;
-export const UpdateCollectionResponseDataItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type UpdateCollectionResponseDataItemsItemCase0GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemGalleryList>;
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0GalleryList>;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoViewer =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoViewer = S.String;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesItem =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -8385,17 +10701,21 @@ export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesItem
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem = S.String;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesList =
-  Array<UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesItem>;
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesList =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesItem,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesList>;
+    UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsItem =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -8406,16 +10726,16 @@ export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsItem =
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsItem = S.String;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsList =
-  Array<UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsItem>;
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsList =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsItem,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsList>;
+    UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesItem =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -8425,47 +10745,103 @@ export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesIte
   | "text"
   | "timeseries"
   | "video";
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem = S.String;
 
-export type UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesList =
-  Array<UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesItem>;
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesList =
+export type UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesItem,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesList>;
+    UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface UpdateCollectionResponseDataItemsItemDatasetsServerInfo {
-  viewer: UpdateCollectionResponseDataItemsItemDatasetsServerInfoViewer;
+export interface UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo {
+  viewer: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesList;
-  formats: UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsList;
-  modalities: UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesList;
+  libraries: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const UpdateCollectionResponseDataItemsItemDatasetsServerInfo = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      viewer: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoViewer,
+      numRows: S.NullOr(S.Number),
+      libraries: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoLibrariesList,
+      formats: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoFormatsList,
+      modalities: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfoModalitiesList,
+    }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo>;
+
+export type UpdateCollectionResponseDataItemsItemCase0GatedCase1 = "auto" | "manual";
+export const UpdateCollectionResponseDataItemsItemCase0GatedCase1 = S.String;
+
+export type UpdateCollectionResponseDataItemsItemCase0Gated =
+  | boolean
+  | UpdateCollectionResponseDataItemsItemCase0GatedCase1;
+export const UpdateCollectionResponseDataItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0Gated>;
+
+export type UpdateCollectionResponseDataItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+export const UpdateCollectionResponseDataItemsItemCase0ResourceGroup = AddItemResponseResourceGroup;
+
+export interface UpdateCollectionResponseDataItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: UpdateCollectionResponseDataItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewer: UpdateCollectionResponseDataItemsItemDatasetsServerInfoViewer,
-    numRows: S.NullOr(S.Number),
-    libraries: UpdateCollectionResponseDataItemsItemDatasetsServerInfoLibrariesList,
-    formats: UpdateCollectionResponseDataItemsItemDatasetsServerInfoFormatsList,
-    modalities: UpdateCollectionResponseDataItemsItemDatasetsServerInfoModalitiesList,
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(UpdateCollectionResponseDataItemsItemCase0DatasetsServerInfo),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: UpdateCollectionResponseDataItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
   }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemDatasetsServerInfo",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemDatasetsServerInfo>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase0",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase0>;
 
-export type UpdateCollectionResponseDataItemsItemGatedCase1 = "auto" | "manual";
-export const UpdateCollectionResponseDataItemsItemGatedCase1 = S.String;
+export type UpdateCollectionResponseDataItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase1Note = AddItemResponseItemsItemCase0Note;
 
-export type UpdateCollectionResponseDataItemsItemGated =
-  | unknown
-  | UpdateCollectionResponseDataItemsItemGatedCase1;
-export const UpdateCollectionResponseDataItemsItemGated =
-  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemGated>;
+export type UpdateCollectionResponseDataItemsItemCase1GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1GalleryList>;
 
-export type UpdateCollectionResponseDataItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const UpdateCollectionResponseDataItemsItemResourceGroup = AddItemResponseResourceGroup;
-
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProvider =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -8485,24 +10861,24 @@ export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem
   | "together"
   | "wavespeed"
   | "zai-org";
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProvider =
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   S.String;
 
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus =
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   S.String;
 
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemModelStatus =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemModelStatus =
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   S.String;
 
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemTask =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -8561,22 +10937,23 @@ export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem
   | "video-to-video"
   | "other"
   | "conversational";
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemTask = S.String;
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask =
+  S.String;
 
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem {
-  provider: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem {
+  provider: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -8584,18 +10961,19 @@ export interface UpdateCollectionResponseDataItemsItemAvailableInferenceProvider
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem =
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProvider,
+      provider: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider,
       providerStatus:
-        UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus,
-      modelStatus: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemModelStatus,
+        UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
+      modelStatus:
+        UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -8604,24 +10982,37 @@ export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersIte
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem>;
+    identifier: "UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersList =
-  Array<UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem>;
-export const UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersList =
+export type UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList =
+  Array<UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
+export const UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersItem,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersList>;
+    UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList>;
 
-export type UpdateCollectionResponseDataItemsItemAuthorDataCase0Plan =
+export type UpdateCollectionResponseDataItemsItemCase1GatedCase1 = "auto" | "manual";
+export const UpdateCollectionResponseDataItemsItemCase1GatedCase1 = S.String;
+
+export type UpdateCollectionResponseDataItemsItemCase1Gated =
+  | boolean
+  | UpdateCollectionResponseDataItemsItemCase1GatedCase1;
+export const UpdateCollectionResponseDataItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1Gated>;
+
+export type UpdateCollectionResponseDataItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+export const UpdateCollectionResponseDataItemsItemCase1ResourceGroup = AddItemResponseResourceGroup;
+
+export type UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase0Plan = S.String;
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemAuthorDataCase0 {
+export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -8630,76 +11021,80 @@ export interface UpdateCollectionResponseDataItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionResponseDataItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(UpdateCollectionResponseDataItemsItemAuthorDataCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemAuthorDataCase0",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemAuthorDataCase0>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0>;
 
-export type UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export type UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole = S.String;
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg {
+export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg =
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan),
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg",
-  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg>;
+    identifier: "UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface UpdateCollectionResponseDataItemsItemAuthorDataCase1 {
+export interface UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -8708,45 +11103,110 @@ export interface UpdateCollectionResponseDataItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const UpdateCollectionResponseDataItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1>;
+
+export type UpdateCollectionResponseDataItemsItemCase1AuthorData =
+  | UpdateCollectionResponseDataItemsItemCase1AuthorDataCase0
+  | UpdateCollectionResponseDataItemsItemCase1AuthorDataCase1;
+export const UpdateCollectionResponseDataItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1AuthorData>;
+
+export type UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList>;
+
+export interface UpdateCollectionResponseDataItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: UpdateCollectionResponseDataItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: UpdateCollectionResponseDataItemsItemCase1AuthorData;
+  widgetOutputUrls?: UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemAuthorDataCase1PrimaryOrg),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders:
+      UpdateCollectionResponseDataItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: UpdateCollectionResponseDataItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(UpdateCollectionResponseDataItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(UpdateCollectionResponseDataItemsItemCase1WidgetOutputUrlsList),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
   }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemAuthorDataCase1",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemAuthorDataCase1>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase1",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase1>;
 
-export type UpdateCollectionResponseDataItemsItemAuthorData =
-  | UpdateCollectionResponseDataItemsItemAuthorDataCase0
-  | UpdateCollectionResponseDataItemsItemAuthorDataCase1;
-export const UpdateCollectionResponseDataItemsItemAuthorData =
-  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemAuthorData>;
+export type UpdateCollectionResponseDataItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase2Note = AddItemResponseItemsItemCase0Note;
 
-export type UpdateCollectionResponseDataItemsItemWidgetOutputUrlsList = Array<string>;
-export const UpdateCollectionResponseDataItemsItemWidgetOutputUrlsList = /*@__PURE__*/ S.Array(
+export type UpdateCollectionResponseDataItemsItemCase2GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemWidgetOutputUrlsList>;
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2GalleryList>;
 
-export type UpdateCollectionResponseDataItemsItemSdk = "gradio" | "docker" | "static" | "streamlit";
-export const UpdateCollectionResponseDataItemsItemSdk = S.String;
+export type UpdateCollectionResponseDataItemsItemCase2Sdk =
+  | "gradio"
+  | "docker"
+  | "static"
+  | "streamlit";
+export const UpdateCollectionResponseDataItemsItemCase2Sdk = S.String;
 
-export type UpdateCollectionResponseDataItemsItemRuntimeStage =
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -8760,9 +11220,9 @@ export type UpdateCollectionResponseDataItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const UpdateCollectionResponseDataItemsItemRuntimeStage = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeStage = S.String;
 
-export type UpdateCollectionResponseDataItemsItemRuntimeHardwareCurrent =
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -8792,9 +11252,9 @@ export type UpdateCollectionResponseDataItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const UpdateCollectionResponseDataItemsItemRuntimeHardwareCurrent = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type UpdateCollectionResponseDataItemsItemRuntimeHardwareRequested =
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -8824,130 +11284,135 @@ export type UpdateCollectionResponseDataItemsItemRuntimeHardwareRequested =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const UpdateCollectionResponseDataItemsItemRuntimeHardwareRequested = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemRuntimeHardware {
-  current: UpdateCollectionResponseDataItemsItemRuntimeHardwareCurrent | null;
-  requested: UpdateCollectionResponseDataItemsItemRuntimeHardwareRequested | null;
+export interface UpdateCollectionResponseDataItemsItemCase2RuntimeHardware {
+  current: UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const UpdateCollectionResponseDataItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current: S.NullOr(UpdateCollectionResponseDataItemsItemRuntimeHardwareCurrent),
-    requested: S.NullOr(UpdateCollectionResponseDataItemsItemRuntimeHardwareRequested),
-  }),
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHardware = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      current: S.NullOr(UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareCurrent),
+      requested: S.NullOr(UpdateCollectionResponseDataItemsItemCase2RuntimeHardwareRequested),
+    }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemRuntimeHardware",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeHardware>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase2RuntimeHardware",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeHardware>;
 
-export type UpdateCollectionResponseDataItemsItemRuntimeReplicasRequested = number | unknown;
-export const UpdateCollectionResponseDataItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeReplicasRequested>;
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested = number | string;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested>;
 
-export interface UpdateCollectionResponseDataItemsItemRuntimeReplicas {
+export interface UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: UpdateCollectionResponseDataItemsItemRuntimeReplicasRequested;
+  requested: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested;
 }
-export const UpdateCollectionResponseDataItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    current: S.optional(S.NullOr(S.Number)),
-    requested: UpdateCollectionResponseDataItemsItemRuntimeReplicasRequested,
-  }),
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      current: S.optional(S.NullOr(S.Number)),
+      requested: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicasRequested,
+    }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemRuntimeReplicas",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeReplicas>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas>;
 
-export type UpdateCollectionResponseDataItemsItemRuntimeDomainsItemStage =
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const UpdateCollectionResponseDataItemsItemRuntimeDomainsItemStage = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemRuntimeDomainsItem {
+export interface UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: UpdateCollectionResponseDataItemsItemRuntimeDomainsItemStage;
+  stage: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage;
 }
-export const UpdateCollectionResponseDataItemsItemRuntimeDomainsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domain: S.String,
-    isCustom: S.optional(S.NullOr(S.Boolean)),
-    stage: UpdateCollectionResponseDataItemsItemRuntimeDomainsItemStage,
-  }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemRuntimeDomainsItem",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeDomainsItem>;
-
-export type UpdateCollectionResponseDataItemsItemRuntimeDomainsList =
-  Array<UpdateCollectionResponseDataItemsItemRuntimeDomainsItem>;
-export const UpdateCollectionResponseDataItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  UpdateCollectionResponseDataItemsItemRuntimeDomainsItem,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeDomainsList>;
-
-export type UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList =
-  Array<unknown>;
-export const UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList =
-  /*@__PURE__*/ S.Array(
-    S.Unknown,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-
-export type UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList =
-  /*@__PURE__*/ S.Array(
-    UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList>;
-
-export interface UpdateCollectionResponseDataItemsItemRuntimeHotReloading {
-  status: string;
-  replicaStatuses: UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList;
-}
-export const UpdateCollectionResponseDataItemsItemRuntimeHotReloading = /*@__PURE__*/ S.suspend(
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      status: S.String,
-      replicaStatuses: UpdateCollectionResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList,
+      domain: S.String,
+      isCustom: S.optional(S.NullOr(S.Boolean)),
+      stage: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItemStage,
     }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemRuntimeHotReloading",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntimeHotReloading>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem>;
 
-export interface UpdateCollectionResponseDataItemsItemRuntime {
-  stage: UpdateCollectionResponseDataItemsItemRuntimeStage;
-  hardware: UpdateCollectionResponseDataItemsItemRuntimeHardware;
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList =
+  Array<UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem>;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList = /*@__PURE__*/ S.Array(
+  UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsItem,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList>;
+
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
+  Array<unknown>;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+
+export type UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  /*@__PURE__*/ S.Array(
+    UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
+
+export interface UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading {
+  status: string;
+  replicaStatuses: UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
+}
+export const UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      status: S.String,
+      replicaStatuses:
+        UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading>;
+
+export interface UpdateCollectionResponseDataItemsItemCase2Runtime {
+  stage: UpdateCollectionResponseDataItemsItemCase2RuntimeStage;
+  hardware: UpdateCollectionResponseDataItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: UpdateCollectionResponseDataItemsItemRuntimeReplicas;
+  replicas: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: UpdateCollectionResponseDataItemsItemRuntimeDomainsList;
+  domains?: UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: UpdateCollectionResponseDataItemsItemRuntimeHotReloading;
+  hotReloading?: UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading;
 }
-export const UpdateCollectionResponseDataItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionResponseDataItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: UpdateCollectionResponseDataItemsItemRuntimeStage,
-    hardware: UpdateCollectionResponseDataItemsItemRuntimeHardware,
+    stage: UpdateCollectionResponseDataItemsItemCase2RuntimeStage,
+    hardware: UpdateCollectionResponseDataItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: UpdateCollectionResponseDataItemsItemRuntimeReplicas,
+    replicas: UpdateCollectionResponseDataItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(UpdateCollectionResponseDataItemsItemRuntimeDomainsList),
+    domains: S.optional(UpdateCollectionResponseDataItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(UpdateCollectionResponseDataItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(UpdateCollectionResponseDataItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemRuntime",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemRuntime>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase2Runtime",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2Runtime>;
 
-export type UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0Plan =
+export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0 {
+export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -8956,12 +11421,12 @@ export interface UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0 = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -8971,65 +11436,69 @@ export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0Plan),
+      type: S.String,
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0>;
+  ).annotate({
+    identifier: "UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0>;
 
-export type UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
+  S.String;
 
-export type UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   S.String;
 
-export interface UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan),
+      plan: S.optional(
+        UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole,
+        UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1 {
+export interface UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -9038,12 +11507,82 @@ export interface UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1 = /*@__PURE__*/ S.suspend(
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1>;
+
+export type UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor =
+  | UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase0
+  | UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthorCase1;
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor>;
+
+export interface UpdateCollectionResponseDataItemsItemCase2OriginRepo {
+  author: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor;
+  name: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: UpdateCollectionResponseDataItemsItemCase2OriginRepoAuthor,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase2OriginRepo",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2OriginRepo>;
+
+export type UpdateCollectionResponseDataItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+export const UpdateCollectionResponseDataItemsItemCase2ResourceGroup = AddItemResponseResourceGroup;
+
+export type UpdateCollectionResponseDataItemsItemCase2TagsList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2TagsList>;
+
+export type UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan = S.String;
+
+export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       _id: S.String,
@@ -9054,128 +11593,65 @@ export const UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      isPro: S.Boolean,
+      type: S.String,
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
-      primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg),
     }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0>;
 
-export type UpdateCollectionResponseDataItemsItemOriginRepoAuthor =
-  | UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase0
-  | UpdateCollectionResponseDataItemsItemOriginRepoAuthorCase1;
-export const UpdateCollectionResponseDataItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemOriginRepoAuthor>;
-
-export interface UpdateCollectionResponseDataItemsItemOriginRepo {
-  author: UpdateCollectionResponseDataItemsItemOriginRepoAuthor;
-  name: string;
-}
-export const UpdateCollectionResponseDataItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: UpdateCollectionResponseDataItemsItemOriginRepoAuthor,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOriginRepo",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOriginRepo>;
-
-export type UpdateCollectionResponseDataItemsItemTagsList = Array<string>;
-export const UpdateCollectionResponseDataItemsItemTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemTagsList>;
-
-export type UpdateCollectionResponseDataItemsItemVisibility = "public" | "private" | "protected";
-export const UpdateCollectionResponseDataItemsItemVisibility = S.String;
-
-export type UpdateCollectionResponseDataItemsItemOwnerCase0Plan =
+export type UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionResponseDataItemsItemOwnerCase0Plan = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemOwnerCase0 {
-  _id: string;
-  avatarUrl: string;
-  fullname: string;
-  name: string;
-  isHf: boolean;
-  isHfAdmin: boolean;
-  isMod: boolean;
-  followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionResponseDataItemsItemOwnerCase0Plan;
-  isUserFollowing?: boolean;
-}
-export const UpdateCollectionResponseDataItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(UpdateCollectionResponseDataItemsItemOwnerCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOwnerCase0",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOwnerCase0>;
-
-export type UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgPlan =
-  | "team"
-  | "enterprise"
-  | "plus"
-  | "academia";
-export const UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgPlan = S.String;
-
-export type UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgUserRole =
+export type UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole = S.String;
 
-export interface UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg {
+export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgPlan),
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg>;
+  ).annotate({
+    identifier: "UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface UpdateCollectionResponseDataItemsItemOwnerCase1 {
+export interface UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -9184,12 +11660,185 @@ export interface UpdateCollectionResponseDataItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const UpdateCollectionResponseDataItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1>;
+
+export type UpdateCollectionResponseDataItemsItemCase2AuthorData =
+  | UpdateCollectionResponseDataItemsItemCase2AuthorDataCase0
+  | UpdateCollectionResponseDataItemsItemCase2AuthorDataCase1;
+export const UpdateCollectionResponseDataItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2AuthorData>;
+
+export type UpdateCollectionResponseDataItemsItemCase2Visibility =
+  | "public"
+  | "private"
+  | "protected";
+export const UpdateCollectionResponseDataItemsItemCase2Visibility = S.String;
+
+export interface UpdateCollectionResponseDataItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: UpdateCollectionResponseDataItemsItemCase2Sdk;
+  runtime: UpdateCollectionResponseDataItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: UpdateCollectionResponseDataItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: UpdateCollectionResponseDataItemsItemCase2TagsList;
+  authorData?: UpdateCollectionResponseDataItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: UpdateCollectionResponseDataItemsItemCase2Visibility;
+  type: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(UpdateCollectionResponseDataItemsItemCase2Sdk),
+    runtime: UpdateCollectionResponseDataItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(UpdateCollectionResponseDataItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: UpdateCollectionResponseDataItemsItemCase2TagsList,
+    authorData: S.optional(UpdateCollectionResponseDataItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: UpdateCollectionResponseDataItemsItemCase2Visibility,
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase2",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase2>;
+
+export type UpdateCollectionResponseDataItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase3Note = AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionResponseDataItemsItemCase3GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase3GalleryList>;
+
+export interface UpdateCollectionResponseDataItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase3",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase3>;
+
+export type UpdateCollectionResponseDataItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase4Note = AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionResponseDataItemsItemCase4GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4GalleryList>;
+
+export type UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
     avatarUrl: S.String,
@@ -9199,188 +11848,259 @@ export const UpdateCollectionResponseDataItemsItemOwnerCase1 = /*@__PURE__*/ S.s
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
+    type: S.String,
+    plan: S.optional(UpdateCollectionResponseDataItemsItemCase4OwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemOwnerCase1PrimaryOrg),
   }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemOwnerCase1",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemOwnerCase1>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase4OwnerCase0",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4OwnerCase0>;
 
-export type UpdateCollectionResponseDataItemsItemOwner =
-  | UpdateCollectionResponseDataItemsItemOwnerCase0
-  | UpdateCollectionResponseDataItemsItemOwnerCase1;
-export const UpdateCollectionResponseDataItemsItemOwner =
-  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemOwner>;
+export type UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
 
-export type UpdateCollectionResponseDataItemsItemTheme =
+export type UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole = S.String;
+
+export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface UpdateCollectionResponseDataItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const UpdateCollectionResponseDataItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    avatarUrl: S.String,
+    fullname: S.String,
+    name: S.String,
+    isHf: S.Boolean,
+    isHfAdmin: S.Boolean,
+    isMod: S.Boolean,
+    followerCount: S.optional(S.Number),
+    type: S.String,
+    isPro: S.Boolean,
+    isUserFollowing: S.optional(S.Boolean),
+    primaryOrg: S.optional(UpdateCollectionResponseDataItemsItemCase4OwnerCase1PrimaryOrg),
+  }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase4OwnerCase1",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4OwnerCase1>;
+
+export type UpdateCollectionResponseDataItemsItemCase4Owner =
+  | UpdateCollectionResponseDataItemsItemCase4OwnerCase0
+  | UpdateCollectionResponseDataItemsItemCase4OwnerCase1;
+export const UpdateCollectionResponseDataItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4Owner>;
+
+export type UpdateCollectionResponseDataItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const UpdateCollectionResponseDataItemsItemTheme = S.String;
+export const UpdateCollectionResponseDataItemsItemCase4Theme = S.String;
 
-export type UpdateCollectionResponseDataItemsItemAdminTagsList = Array<string>;
-export const UpdateCollectionResponseDataItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemAdminTagsList>;
-
-export type UpdateCollectionResponseDataItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const UpdateCollectionResponseDataItemsItemCdnRegionsItemProvider = S.String;
-
-export type UpdateCollectionResponseDataItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const UpdateCollectionResponseDataItemsItemCdnRegionsItemRegion = S.String;
-
-export interface UpdateCollectionResponseDataItemsItemCdnRegionsItem {
-  provider: UpdateCollectionResponseDataItemsItemCdnRegionsItemProvider;
-  region: UpdateCollectionResponseDataItemsItemCdnRegionsItemRegion;
-}
-export const UpdateCollectionResponseDataItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: UpdateCollectionResponseDataItemsItemCdnRegionsItemProvider,
-    region: UpdateCollectionResponseDataItemsItemCdnRegionsItemRegion,
-  }),
-).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItemCdnRegionsItem",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCdnRegionsItem>;
-
-export type UpdateCollectionResponseDataItemsItemCdnRegionsList =
-  Array<UpdateCollectionResponseDataItemsItemCdnRegionsItem>;
-export const UpdateCollectionResponseDataItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  UpdateCollectionResponseDataItemsItemCdnRegionsItem,
-) as any as S.Schema<UpdateCollectionResponseDataItemsItemCdnRegionsList>;
-
-export interface UpdateCollectionResponseDataItemsItem {
+export interface UpdateCollectionResponseDataItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: UpdateCollectionResponseDataItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: UpdateCollectionResponseDataItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: UpdateCollectionResponseDataItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: UpdateCollectionResponseDataItemsItemAuthorData;
-  widgetOutputUrls?: UpdateCollectionResponseDataItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: UpdateCollectionResponseDataItemsItemSdk;
-  runtime?: UpdateCollectionResponseDataItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: UpdateCollectionResponseDataItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: UpdateCollectionResponseDataItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: UpdateCollectionResponseDataItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: UpdateCollectionResponseDataItemsItemOwner;
-  theme?: UpdateCollectionResponseDataItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: UpdateCollectionResponseDataItemsItemAdminTagsList;
-  cdnRegions?: UpdateCollectionResponseDataItemsItemCdnRegionsList;
+  owner: UpdateCollectionResponseDataItemsItemCase4Owner;
+  title: string;
+  theme: UpdateCollectionResponseDataItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const UpdateCollectionResponseDataItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionResponseDataItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(UpdateCollectionResponseDataItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(UpdateCollectionResponseDataItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(UpdateCollectionResponseDataItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      UpdateCollectionResponseDataItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(UpdateCollectionResponseDataItemsItemAuthorData),
-    widgetOutputUrls: S.optional(UpdateCollectionResponseDataItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(UpdateCollectionResponseDataItemsItemSdk),
-    runtime: S.optional(UpdateCollectionResponseDataItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(UpdateCollectionResponseDataItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(UpdateCollectionResponseDataItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(UpdateCollectionResponseDataItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(UpdateCollectionResponseDataItemsItemOwner),
-    theme: S.optional(UpdateCollectionResponseDataItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(UpdateCollectionResponseDataItemsItemAdminTagsList),
-    cdnRegions: S.optional(UpdateCollectionResponseDataItemsItemCdnRegionsList),
+    owner: UpdateCollectionResponseDataItemsItemCase4Owner,
+    title: S.String,
+    theme: UpdateCollectionResponseDataItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "UpdateCollectionResponseDataItemsItem",
-}) as any as S.Schema<UpdateCollectionResponseDataItemsItem>;
+  identifier: "UpdateCollectionResponseDataItemsItemCase4",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase4>;
+
+export type UpdateCollectionResponseDataItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionResponseDataItemsItemCase5Note = AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionResponseDataItemsItemCase5GalleryList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase5GalleryList>;
+
+export type UpdateCollectionResponseDataItemsItemCase5RepoType = "bucket" | "container";
+export const UpdateCollectionResponseDataItemsItemCase5RepoType = S.String;
+
+export type UpdateCollectionResponseDataItemsItemCase5AdminTagsList = Array<string>;
+export const UpdateCollectionResponseDataItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase5AdminTagsList>;
+
+export type UpdateCollectionResponseDataItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+export const UpdateCollectionResponseDataItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+
+export type UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem {
+  provider: UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemProvider;
+  region: UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemRegion;
+}
+export const UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      provider: UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemProvider,
+      region: UpdateCollectionResponseDataItemsItemCase5CdnRegionsItemRegion,
+    }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem>;
+
+export type UpdateCollectionResponseDataItemsItemCase5CdnRegionsList =
+  Array<UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem>;
+export const UpdateCollectionResponseDataItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  UpdateCollectionResponseDataItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase5CdnRegionsList>;
+
+export type UpdateCollectionResponseDataItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+export const UpdateCollectionResponseDataItemsItemCase5ResourceGroup = AddItemResponseResourceGroup;
+
+export interface UpdateCollectionResponseDataItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionResponseDataItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: UpdateCollectionResponseDataItemsItemCase5RepoType;
+  adminTags?: UpdateCollectionResponseDataItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: UpdateCollectionResponseDataItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const UpdateCollectionResponseDataItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionResponseDataItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: UpdateCollectionResponseDataItemsItemCase5RepoType,
+    adminTags: S.optional(UpdateCollectionResponseDataItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: UpdateCollectionResponseDataItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionResponseDataItemsItemCase5",
+}) as any as S.Schema<UpdateCollectionResponseDataItemsItemCase5>;
+
+export type UpdateCollectionResponseDataItemsItem =
+  | UpdateCollectionResponseDataItemsItemCase0
+  | UpdateCollectionResponseDataItemsItemCase1
+  | UpdateCollectionResponseDataItemsItemCase2
+  | UpdateCollectionResponseDataItemsItemCase3
+  | UpdateCollectionResponseDataItemsItemCase4
+  | UpdateCollectionResponseDataItemsItemCase5;
+export const UpdateCollectionResponseDataItemsItem =
+  S.Unknown as any as S.Schema<UpdateCollectionResponseDataItemsItem>;
 
 export type UpdateCollectionResponseDataItemsList = Array<UpdateCollectionResponseDataItemsItem>;
 export const UpdateCollectionResponseDataItemsList = /*@__PURE__*/ S.Array(
@@ -9431,9 +12151,7 @@ export const UpdateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: UpdateCollectionResponseData,
   }),
-).annotate({
-  identifier: "UpdateCollectionResponse",
-}) as any as S.Schema<UpdateCollectionResponse>;
+).annotate({ identifier: "UpdateCollectionResponse" }) as any as S.Schema<UpdateCollectionResponse>;
 
 export type UpdateCollectionBySlugRequestTheme =
   | "orange"
@@ -9464,12 +12182,12 @@ export const UpdateCollectionBySlugRequestGatingCase2Notifications = /*@__PURE__
 }) as any as S.Schema<UpdateCollectionBySlugRequestGatingCase2Notifications>;
 
 export interface UpdateCollectionBySlugRequestGatingCase2 {
-  mode: unknown;
+  mode: string;
   notifications: UpdateCollectionBySlugRequestGatingCase2Notifications;
 }
 export const UpdateCollectionBySlugRequestGatingCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: UpdateCollectionBySlugRequestGatingCase2Notifications,
   }),
 ).annotate({
@@ -9477,7 +12195,7 @@ export const UpdateCollectionBySlugRequestGatingCase2 = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateCollectionBySlugRequestGatingCase2>;
 
 export type UpdateCollectionBySlugRequestGating =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | UpdateCollectionBySlugRequestGatingCase2;
 export const UpdateCollectionBySlugRequestGating =
@@ -9503,13 +12221,7 @@ export const UpdateCollectionBySlugRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     description: S.optional(S.String),
     gating: S.optional(UpdateCollectionBySlugRequestGating),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/collections/{namespace}/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/collections/{namespace}/{slug}", code: 200 })),
 ).annotate({
   identifier: "UpdateCollectionBySlugRequest",
 }) as any as S.Schema<UpdateCollectionBySlugRequest>;
@@ -9537,12 +12249,12 @@ export const UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications =
   }) as any as S.Schema<UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications>;
 
 export interface UpdateCollectionBySlugResponseDataGatingCase1Case2 {
-  mode: unknown;
+  mode: string;
   notifications: UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications;
 }
 export const UpdateCollectionBySlugResponseDataGatingCase1Case2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: S.Unknown,
+    mode: S.String,
     notifications: UpdateCollectionBySlugResponseDataGatingCase1Case2Notifications,
   }),
 ).annotate({
@@ -9550,14 +12262,14 @@ export const UpdateCollectionBySlugResponseDataGatingCase1Case2 = /*@__PURE__*/ 
 }) as any as S.Schema<UpdateCollectionBySlugResponseDataGatingCase1Case2>;
 
 export type UpdateCollectionBySlugResponseDataGatingCase1 =
-  | unknown
+  | boolean
   | AddItemResponseGatingCase1Case1
   | UpdateCollectionBySlugResponseDataGatingCase1Case2;
 export const UpdateCollectionBySlugResponseDataGatingCase1 =
   S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataGatingCase1>;
 
 export type UpdateCollectionBySlugResponseDataGating =
-  | unknown
+  | boolean
   | UpdateCollectionBySlugResponseDataGatingCase1;
 export const UpdateCollectionBySlugResponseDataGating =
   S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataGating>;
@@ -9570,6 +12282,7 @@ export type UpdateCollectionBySlugResponseDataOwnerCase0Plan =
 export const UpdateCollectionBySlugResponseDataOwnerCase0Plan = S.String;
 
 export interface UpdateCollectionBySlugResponseDataOwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -9578,7 +12291,7 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   plan?: UpdateCollectionBySlugResponseDataOwnerCase0Plan;
   isUserFollowing?: boolean;
 }
@@ -9592,7 +12305,7 @@ export const UpdateCollectionBySlugResponseDataOwnerCase0 = /*@__PURE__*/ S.susp
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     plan: S.optional(UpdateCollectionBySlugResponseDataOwnerCase0Plan),
     isUserFollowing: S.optional(S.Boolean),
   }),
@@ -9619,7 +12332,7 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
   plan?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgPlan;
@@ -9633,7 +12346,7 @@ export const UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg = /*@__PURE_
     avatarUrl: S.String,
     fullname: S.String,
     name: S.String,
-    type: S.Unknown,
+    type: S.String,
     isHf: S.Boolean,
     isFollowing: S.optional(S.Boolean),
     plan: S.optional(UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrgPlan),
@@ -9647,6 +12360,7 @@ export const UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg = /*@__PURE_
 }) as any as S.Schema<UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg>;
 
 export interface UpdateCollectionBySlugResponseDataOwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -9655,7 +12369,7 @@ export interface UpdateCollectionBySlugResponseDataOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
   primaryOrg?: UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg;
@@ -9670,7 +12384,7 @@ export const UpdateCollectionBySlugResponseDataOwnerCase1 = /*@__PURE__*/ S.susp
     isHfAdmin: S.Boolean,
     isMod: S.Boolean,
     followerCount: S.optional(S.Number),
-    type: S.Unknown,
+    type: S.String,
     isPro: S.Boolean,
     isUserFollowing: S.optional(S.Boolean),
     primaryOrg: S.optional(UpdateCollectionBySlugResponseDataOwnerCase1PrimaryOrg),
@@ -9697,21 +12411,23 @@ export const UpdateCollectionBySlugResponseDataTheme = S.String;
 export type UpdateCollectionBySlugResponseDataResourceGroup = AddItemResponseResourceGroup;
 export const UpdateCollectionBySlugResponseDataResourceGroup = AddItemResponseResourceGroup;
 
-export type UpdateCollectionBySlugResponseDataItemsItemNote = AddItemResponseItemsItemNote;
-export const UpdateCollectionBySlugResponseDataItemsItemNote = AddItemResponseItemsItemNote;
+export type UpdateCollectionBySlugResponseDataItemsItemCase0Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0Note =
+  AddItemResponseItemsItemCase0Note;
 
-export type UpdateCollectionBySlugResponseDataItemsItemGalleryList = Array<string>;
-export const UpdateCollectionBySlugResponseDataItemsItemGalleryList = /*@__PURE__*/ S.Array(
+export type UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemGalleryList>;
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoViewer =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoViewer =
   | "preview"
   | "viewer-partial"
   | "viewer";
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoViewer = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoViewer = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesItem =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem =
   | "mlcroissant"
   | "webdataset"
   | "datasets"
@@ -9723,17 +12439,22 @@ export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrari
   | "argilla"
   | "polars"
   | "duckdb"
-  | "datadesigner";
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesItem = S.String;
+  | "datadesigner"
+  | "harbor"
+  | "verifiers"
+  | "openenv"
+  | "nemo-gym";
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem =
+  S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesItem,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesList>;
+    UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesItem,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsItem =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsItem =
   | "json"
   | "csv"
   | "parquet"
@@ -9744,16 +12465,17 @@ export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormats
   | "arrow"
   | "optimized-parquet"
   | "agent-traces";
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsItem = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsItem =
+  S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsItem,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsList>;
+    UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsItem,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesItem =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem =
   | "3d"
   | "audio"
   | "document"
@@ -9763,49 +12485,110 @@ export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalit
   | "text"
   | "timeseries"
   | "video";
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesItem = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem =
+  S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesItem,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesList>;
+    UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesItem,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesList>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo {
-  viewer: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoViewer;
+export interface UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo {
+  viewer: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoViewer;
   numRows: number | null;
-  libraries: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesList;
-  formats: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsList;
-  modalities: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesList;
+  libraries: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList;
+  formats: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsList;
+  modalities: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesList;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo =
+export const UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      viewer: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoViewer,
+      viewer: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoViewer,
       numRows: S.NullOr(S.Number),
-      libraries: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoLibrariesList,
-      formats: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoFormatsList,
-      modalities: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfoModalitiesList,
+      libraries: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoLibrariesList,
+      formats: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoFormatsList,
+      modalities: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfoModalitiesList,
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemGatedCase1 = "auto" | "manual";
-export const UpdateCollectionBySlugResponseDataItemsItemGatedCase1 = S.String;
+export type UpdateCollectionBySlugResponseDataItemsItemCase0GatedCase1 = "auto" | "manual";
+export const UpdateCollectionBySlugResponseDataItemsItemCase0GatedCase1 = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemGated =
-  | unknown
-  | UpdateCollectionBySlugResponseDataItemsItemGatedCase1;
-export const UpdateCollectionBySlugResponseDataItemsItemGated =
-  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemGated>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase0Gated =
+  | boolean
+  | UpdateCollectionBySlugResponseDataItemsItemCase0GatedCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0Gated =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0Gated>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemResourceGroup = AddItemResponseResourceGroup;
-export const UpdateCollectionBySlugResponseDataItemsItemResourceGroup =
+export type UpdateCollectionBySlugResponseDataItemsItemCase0ResourceGroup =
+  AddItemResponseResourceGroup;
+export const UpdateCollectionBySlugResponseDataItemsItemCase0ResourceGroup =
   AddItemResponseResourceGroup;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProvider =
+export interface UpdateCollectionBySlugResponseDataItemsItemCase0 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  isLikedByUser: boolean;
+  likes: number;
+  datasetsServerInfo?: UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo;
+  private: boolean;
+  repoType: string;
+  downloads: number;
+  gated: UpdateCollectionBySlugResponseDataItemsItemCase0Gated;
+  lastModified: string;
+  resourceGroup?: AddItemResponseResourceGroup;
+  isBenchmark?: boolean;
+  isTraces?: boolean;
+  isEnvironment?: boolean;
+  type: string;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase0GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    likes: S.Number,
+    datasetsServerInfo: S.optional(
+      UpdateCollectionBySlugResponseDataItemsItemCase0DatasetsServerInfo,
+    ),
+    private: S.Boolean,
+    repoType: S.String,
+    downloads: S.Number,
+    gated: UpdateCollectionBySlugResponseDataItemsItemCase0Gated,
+    lastModified: S.String,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    isBenchmark: S.optional(S.Boolean),
+    isTraces: S.optional(S.Boolean),
+    isEnvironment: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase0",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase0>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   | "baseten"
   | "cerebras"
   | "cohere"
@@ -9825,24 +12608,24 @@ export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvide
   | "together"
   | "wavespeed"
   | "zai-org";
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProvider =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider =
   S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   | "live"
   | "staging"
   | "error";
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus =
   S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemModelStatus =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   | "live"
   | "staging"
   | "error";
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemModelStatus =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus =
   S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemTask =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask =
   | "text-classification"
   | "token-classification"
   | "table-question-answering"
@@ -9901,23 +12684,23 @@ export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvide
   | "video-to-video"
   | "other"
   | "conversational";
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemTask =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask =
   S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemFeatures =
-  AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemFeatures =
+  AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem {
-  provider: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProvider;
-  providerStatus: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus;
-  modelStatus: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemModelStatus;
+export interface UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem {
+  provider: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider;
+  providerStatus: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus;
+  modelStatus: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus;
   providerId: string;
-  task: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemTask;
-  adapterType?: unknown;
+  task: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask;
+  adapterType?: string;
   adapterWeightsPath?: string;
-  features?: AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures;
+  features?: AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures;
   isCheapestPricingOutput: boolean;
   isFastestThroughput: boolean;
   isModelAuthor: boolean;
@@ -9925,19 +12708,20 @@ export interface UpdateCollectionBySlugResponseDataItemsItemAvailableInferencePr
   pricingOutput?: number;
   freeUntil?: string;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      provider: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProvider,
+      provider:
+        UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProvider,
       providerStatus:
-        UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemProviderStatus,
+        UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemProviderStatus,
       modelStatus:
-        UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemModelStatus,
+        UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemModelStatus,
       providerId: S.String,
-      task: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItemTask,
-      adapterType: S.optional(S.Unknown),
+      task: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItemTask,
+      adapterType: S.optional(S.String),
       adapterWeightsPath: S.optional(S.String),
-      features: S.optional(AddItemResponseItemsItemAvailableInferenceProvidersItemFeatures),
+      features: S.optional(AddItemResponseItemsItemCase1AvailableInferenceProvidersItemFeatures),
       isCheapestPricingOutput: S.Boolean,
       isFastestThroughput: S.Boolean,
       isModelAuthor: S.Boolean,
@@ -9946,24 +12730,39 @@ export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvid
       freeUntil: S.optional(S.String),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersItem,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersList>;
+    UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersItem,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0Plan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1GatedCase1 = "auto" | "manual";
+export const UpdateCollectionBySlugResponseDataItemsItemCase1GatedCase1 = S.String;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1Gated =
+  | boolean
+  | UpdateCollectionBySlugResponseDataItemsItemCase1GatedCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1Gated =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1Gated>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1ResourceGroup =
+  AddItemResponseResourceGroup;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0Plan = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan = S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -9972,12 +12771,12 @@ export interface UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0Plan;
+  type: string;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0 = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -9987,65 +12786,69 @@ export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0Plan),
+      type: S.String,
+      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0>;
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan =
+  S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole =
   S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg =
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgPlan),
+      plan: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrgUserRole,
+        UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -10054,13 +12857,13 @@ export interface UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1 = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1 =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
       avatarUrl: S.String,
@@ -10070,35 +12873,101 @@ export const UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1 = /*@__P
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
-      primaryOrg: S.optional(UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1PrimaryOrg),
+      primaryOrg: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1PrimaryOrg,
+      ),
     }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1>;
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAuthorData =
-  | UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase0
-  | UpdateCollectionBySlugResponseDataItemsItemAuthorDataCase1;
-export const UpdateCollectionBySlugResponseDataItemsItemAuthorData =
-  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAuthorData>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData =
+  | UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase1AuthorDataCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemWidgetOutputUrlsList = Array<string>;
-export const UpdateCollectionBySlugResponseDataItemsItemWidgetOutputUrlsList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList =
   /*@__PURE__*/ S.Array(
     S.String,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemWidgetOutputUrlsList>;
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemSdk =
+export interface UpdateCollectionBySlugResponseDataItemsItemCase1 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList;
+  position: number;
+  author: string;
+  downloads: number;
+  id: string;
+  availableInferenceProviders: UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pipeline_tag?: string;
+  private: boolean;
+  repoType: string;
+  gated: UpdateCollectionBySlugResponseDataItemsItemCase1Gated;
+  resourceGroup?: AddItemResponseResourceGroup;
+  numParameters?: number;
+  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData;
+  widgetOutputUrls?: UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList;
+  isPreRelease?: boolean;
+  type: string;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase1GalleryList),
+    position: S.Number,
+    author: S.String,
+    downloads: S.Number,
+    id: S.String,
+    availableInferenceProviders:
+      UpdateCollectionBySlugResponseDataItemsItemCase1AvailableInferenceProvidersList,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pipeline_tag: S.optional(S.String),
+    private: S.Boolean,
+    repoType: S.String,
+    gated: UpdateCollectionBySlugResponseDataItemsItemCase1Gated,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    numParameters: S.optional(S.Number),
+    authorData: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase1AuthorData),
+    widgetOutputUrls: S.optional(
+      UpdateCollectionBySlugResponseDataItemsItemCase1WidgetOutputUrlsList,
+    ),
+    isPreRelease: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase1",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase1>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2Sdk =
   | "gradio"
   | "docker"
   | "static"
   | "streamlit";
-export const UpdateCollectionBySlugResponseDataItemsItemSdk = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2Sdk = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeStage =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeStage =
   | "NO_APP_FILE"
   | "CONFIG_ERROR"
   | "BUILDING"
@@ -10112,9 +12981,9 @@ export type UpdateCollectionBySlugResponseDataItemsItemRuntimeStage =
   | "STOPPED"
   | "PAUSED"
   | "SLEEPING";
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeStage = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeStage = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareCurrent =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareCurrent =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -10144,9 +13013,9 @@ export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareCurrent =
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareCurrent = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareCurrent = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareRequested =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareRequested =
   | "cpu-basic"
   | "cpu-upgrade"
   | "cpu-performance"
@@ -10176,134 +13045,138 @@ export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareRequested 
   | "rtx-pro-6000x4"
   | "rtx-pro-6000x8"
   | "inf2x6";
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareRequested = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareRequested = S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware {
-  current: UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareCurrent | null;
-  requested: UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareRequested | null;
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware {
+  current: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareCurrent | null;
+  requested: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareRequested | null;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      current: S.NullOr(UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareCurrent),
-      requested: S.NullOr(UpdateCollectionBySlugResponseDataItemsItemRuntimeHardwareRequested),
+      current: S.NullOr(UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareCurrent),
+      requested: S.NullOr(UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardwareRequested),
     }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware>;
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicasRequested = number | unknown;
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicasRequested =
-  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicasRequested>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested =
+  | number
+  | string;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas {
   current?: number | null;
-  requested: UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicasRequested;
+  requested: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas = /*@__PURE__*/ S.suspend(
-  () =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas =
+  /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       current: S.optional(S.NullOr(S.Number)),
-      requested: UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicasRequested,
+      requested: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicasRequested,
     }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas>;
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItemStage =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage =
   | "READY"
   | "PENDING"
   | "PENDING_CHALLENGE"
   | "EXPIRED_CHALLENGE"
   | "MISCONFIGURED";
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItemStage = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage = S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem {
   domain: string;
   isCustom?: boolean | null;
-  stage: UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItemStage;
+  stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       domain: S.String,
       isCustom: S.optional(S.NullOr(S.Boolean)),
-      stage: UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItemStage,
+      stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItemStage,
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsList = /*@__PURE__*/ S.Array(
-  UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsItem,
-) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsList>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList =
+  /*@__PURE__*/ S.Array(
+    UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsItem,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   Array<unknown>;
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList =
   /*@__PURE__*/ S.Array(
     S.Unknown,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList>;
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList =
   /*@__PURE__*/ S.Array(
-    UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesItemList,
-  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList>;
+    UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesItemList,
+  ) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading {
   status: string;
-  replicaStatuses: UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList;
+  replicaStatuses: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       status: S.String,
       replicaStatuses:
-        UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloadingReplicaStatusesList,
+        UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloadingReplicaStatusesList,
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemRuntime {
-  stage: UpdateCollectionBySlugResponseDataItemsItemRuntimeStage;
-  hardware: UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware;
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2Runtime {
+  stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeStage;
+  hardware: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware;
   errorMessage?: string;
   gcTimeout?: number | null;
-  replicas: UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas;
+  replicas: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas;
   devMode?: boolean;
-  domains?: UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsList;
+  domains?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList;
   sha?: string;
-  hotReloading?: UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading;
+  hotReloading?: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemRuntime = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase2Runtime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    stage: UpdateCollectionBySlugResponseDataItemsItemRuntimeStage,
-    hardware: UpdateCollectionBySlugResponseDataItemsItemRuntimeHardware,
+    stage: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeStage,
+    hardware: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHardware,
     errorMessage: S.optional(S.String),
     gcTimeout: S.optional(S.NullOr(S.Number)),
-    replicas: UpdateCollectionBySlugResponseDataItemsItemRuntimeReplicas,
+    replicas: UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeReplicas,
     devMode: S.optional(S.Boolean),
-    domains: S.optional(UpdateCollectionBySlugResponseDataItemsItemRuntimeDomainsList),
+    domains: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeDomainsList),
     sha: S.optional(S.String),
-    hotReloading: S.optional(UpdateCollectionBySlugResponseDataItemsItemRuntimeHotReloading),
+    hotReloading: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2RuntimeHotReloading),
   }),
 ).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemRuntime",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemRuntime>;
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2Runtime",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2Runtime>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0Plan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0Plan = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan = S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -10312,11 +13185,11 @@ export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0Plan;
+  type: string;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan;
   isUserFollowing?: boolean;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0 =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -10327,68 +13200,69 @@ export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
-      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0Plan),
+      type: S.String,
+      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0Plan),
       isUserFollowing: S.optional(S.Boolean),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan =
   S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole =
   S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
       plan: S.optional(
-        UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgPlan,
+        UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgPlan,
       ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
       userRole: S.optional(
-        UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrgUserRole,
+        UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrgUserRole,
       ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -10397,12 +13271,12 @@ export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1 =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       _id: S.String,
@@ -10413,55 +13287,56 @@ export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1 =
       isHfAdmin: S.Boolean,
       isMod: S.Boolean,
       followerCount: S.optional(S.Number),
-      type: S.Unknown,
+      type: S.String,
       isPro: S.Boolean,
       isUserFollowing: S.optional(S.Boolean),
       primaryOrg: S.optional(
-        UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1PrimaryOrg,
+        UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1PrimaryOrg,
       ),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthor =
-  | UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase0
-  | UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthorCase1;
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthor =
-  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthor>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor =
+  | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthorCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOriginRepo {
-  author: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthor;
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo {
+  author: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor;
   name: string;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOriginRepo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    author: UpdateCollectionBySlugResponseDataItemsItemOriginRepoAuthor,
-    name: S.String,
-  }),
+export const UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      author: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepoAuthor,
+      name: S.String,
+    }),
 ).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemOriginRepo",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOriginRepo>;
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemTagsList = Array<string>;
-export const UpdateCollectionBySlugResponseDataItemsItemTagsList = /*@__PURE__*/ S.Array(
+export type UpdateCollectionBySlugResponseDataItemsItemCase2ResourceGroup =
+  AddItemResponseResourceGroup;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2TagsList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2TagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemTagsList>;
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2TagsList>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemVisibility =
-  | "public"
-  | "private"
-  | "protected";
-export const UpdateCollectionBySlugResponseDataItemsItemVisibility = S.String;
-
-export type UpdateCollectionBySlugResponseDataItemsItemOwnerCase0Plan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase0Plan = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan = S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOwnerCase0 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -10470,76 +13345,84 @@ export interface UpdateCollectionBySlugResponseDataItemsItemOwnerCase0 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemOwnerCase0Plan;
+  type: string;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan;
   isUserFollowing?: boolean;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemOwnerCase0Plan),
-    isUserFollowing: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemOwnerCase0",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOwnerCase0>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgPlan =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
   | "team"
   | "enterprise"
   | "plus"
   | "academia";
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgPlan = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan =
+  S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgUserRole =
+export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
   | "admin"
   | "write"
   | "contributor"
   | "read"
   | "no_access";
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgUserRole = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole =
+  S.String;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg {
   avatarUrl: string;
   fullname: string;
   name: string;
-  type: unknown;
+  type: string;
   isHf: boolean;
   isFollowing?: boolean;
-  plan?: UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgPlan;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan;
   details?: string;
   hasPrivateMembersList?: boolean;
-  userRole?: UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgUserRole;
+  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole;
   numUsers?: number;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg =
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       avatarUrl: S.String,
       fullname: S.String,
       name: S.String,
-      type: S.Unknown,
+      type: S.String,
       isHf: S.Boolean,
       isFollowing: S.optional(S.Boolean),
-      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgPlan),
+      plan: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgPlan,
+      ),
       details: S.optional(S.String),
       hasPrivateMembersList: S.optional(S.Boolean),
-      userRole: S.optional(UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrgUserRole),
+      userRole: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrgUserRole,
+      ),
       numUsers: S.optional(S.Number),
     }),
   ).annotate({
-    identifier: "UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg",
-  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg>;
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg>;
 
-export interface UpdateCollectionBySlugResponseDataItemsItemOwnerCase1 {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   avatarUrl: string;
   fullname: string;
@@ -10548,204 +13431,462 @@ export interface UpdateCollectionBySlugResponseDataItemsItemOwnerCase1 {
   isHfAdmin: boolean;
   isMod: boolean;
   followerCount?: number;
-  type: unknown;
+  type: string;
   isPro: boolean;
   isUserFollowing?: boolean;
-  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg;
+  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg;
 }
-export const UpdateCollectionBySlugResponseDataItemsItemOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1PrimaryOrg,
+      ),
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData =
+  | UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase2AuthorDataCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase2Visibility =
+  | "public"
+  | "private"
+  | "protected";
+export const UpdateCollectionBySlugResponseDataItemsItemCase2Visibility = S.String;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase2 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList;
+  position: number;
+  author: string;
+  colorFrom: string;
+  colorTo: string;
+  createdAt: string;
+  emoji: string;
+  id: string;
+  isLikedByUser: boolean;
+  lastModified: string;
+  likes: number;
+  pinned: boolean;
+  private: boolean;
+  repoType: string;
+  title: string;
+  sdk?: UpdateCollectionBySlugResponseDataItemsItemCase2Sdk;
+  runtime: UpdateCollectionBySlugResponseDataItemsItemCase2Runtime;
+  disabled: boolean;
+  originRepo?: UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo;
+  ai_short_description?: string;
+  ai_category?: string;
+  trendingScore?: number;
+  resourceGroup?: AddItemResponseResourceGroup;
+  tags: UpdateCollectionBySlugResponseDataItemsItemCase2TagsList;
+  authorData?: UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData;
+  shortDescription?: string;
+  semanticRelevancyScore?: number;
+  featured: boolean;
+  visibility: UpdateCollectionBySlugResponseDataItemsItemCase2Visibility;
+  type: string;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    avatarUrl: S.String,
-    fullname: S.String,
-    name: S.String,
-    isHf: S.Boolean,
-    isHfAdmin: S.Boolean,
-    isMod: S.Boolean,
-    followerCount: S.optional(S.Number),
-    type: S.Unknown,
-    isPro: S.Boolean,
-    isUserFollowing: S.optional(S.Boolean),
-    primaryOrg: S.optional(UpdateCollectionBySlugResponseDataItemsItemOwnerCase1PrimaryOrg),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2GalleryList),
+    position: S.Number,
+    author: S.String,
+    colorFrom: S.String,
+    colorTo: S.String,
+    createdAt: S.String,
+    emoji: S.String,
+    id: S.String,
+    isLikedByUser: S.Boolean,
+    lastModified: S.String,
+    likes: S.Number,
+    pinned: S.Boolean,
+    private: S.Boolean,
+    repoType: S.String,
+    title: S.String,
+    sdk: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2Sdk),
+    runtime: UpdateCollectionBySlugResponseDataItemsItemCase2Runtime,
+    disabled: S.Boolean,
+    originRepo: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2OriginRepo),
+    ai_short_description: S.optional(S.String),
+    ai_category: S.optional(S.String),
+    trendingScore: S.optional(S.Number),
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    tags: UpdateCollectionBySlugResponseDataItemsItemCase2TagsList,
+    authorData: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase2AuthorData),
+    shortDescription: S.optional(S.String),
+    semanticRelevancyScore: S.optional(S.Number),
+    featured: S.Boolean,
+    visibility: UpdateCollectionBySlugResponseDataItemsItemCase2Visibility,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemOwnerCase1",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOwnerCase1>;
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase2",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase2>;
 
-export type UpdateCollectionBySlugResponseDataItemsItemOwner =
-  | UpdateCollectionBySlugResponseDataItemsItemOwnerCase0
-  | UpdateCollectionBySlugResponseDataItemsItemOwnerCase1;
-export const UpdateCollectionBySlugResponseDataItemsItemOwner =
-  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemOwner>;
+export type UpdateCollectionBySlugResponseDataItemsItemCase3Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase3Note =
+  AddItemResponseItemsItemCase0Note;
 
-export type UpdateCollectionBySlugResponseDataItemsItemTheme =
+export type UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList>;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase3 {
+  _id: string;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList;
+  position: number;
+  id: string;
+  title: string;
+  upvotes: number;
+  publishedAt: string;
+  thumbnailUrl?: string;
+  isUpvotedByUser?: boolean;
+  type: string;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase3 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.String,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase3GalleryList),
+    position: S.Number,
+    id: S.String,
+    title: S.String,
+    upvotes: S.Number,
+    publishedAt: S.String,
+    thumbnailUrl: S.optional(S.String),
+    isUpvotedByUser: S.optional(S.Boolean),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase3",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase3>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase4Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan = S.String;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan;
+  isUserFollowing?: boolean;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0Plan),
+      isUserFollowing: S.optional(S.Boolean),
+    }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan =
+  | "team"
+  | "enterprise"
+  | "plus"
+  | "academia";
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan = S.String;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole =
+  S.String;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg {
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  type: string;
+  isHf: boolean;
+  isFollowing?: boolean;
+  plan?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan;
+  details?: string;
+  hasPrivateMembersList?: boolean;
+  userRole?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole;
+  numUsers?: number;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      type: S.String,
+      isHf: S.Boolean,
+      isFollowing: S.optional(S.Boolean),
+      plan: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgPlan),
+      details: S.optional(S.String),
+      hasPrivateMembersList: S.optional(S.Boolean),
+      userRole: S.optional(
+        UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrgUserRole,
+      ),
+      numUsers: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg>;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1 {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  avatarUrl: string;
+  fullname: string;
+  name: string;
+  isHf: boolean;
+  isHfAdmin: boolean;
+  isMod: boolean;
+  followerCount?: number;
+  type: string;
+  isPro: boolean;
+  isUserFollowing?: boolean;
+  primaryOrg?: UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1 = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      _id: S.String,
+      avatarUrl: S.String,
+      fullname: S.String,
+      name: S.String,
+      isHf: S.Boolean,
+      isHfAdmin: S.Boolean,
+      isMod: S.Boolean,
+      followerCount: S.optional(S.Number),
+      type: S.String,
+      isPro: S.Boolean,
+      isUserFollowing: S.optional(S.Boolean),
+      primaryOrg: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1PrimaryOrg),
+    }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4Owner =
+  | UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase4OwnerCase1;
+export const UpdateCollectionBySlugResponseDataItemsItemCase4Owner =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4Owner>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase4Theme =
   | "orange"
   | "blue"
   | "green"
   | "purple"
   | "pink"
   | "indigo";
-export const UpdateCollectionBySlugResponseDataItemsItemTheme = S.String;
+export const UpdateCollectionBySlugResponseDataItemsItemCase4Theme = S.String;
 
-export type UpdateCollectionBySlugResponseDataItemsItemAdminTagsList = Array<string>;
-export const UpdateCollectionBySlugResponseDataItemsItemAdminTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemAdminTagsList>;
-
-export type UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemProvider = "gcp" | "aws";
-export const UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemProvider = S.String;
-
-export type UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemRegion = "us" | "eu";
-export const UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemRegion = S.String;
-
-export interface UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem {
-  provider: UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemProvider;
-  region: UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemRegion;
-}
-export const UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      provider: UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemProvider,
-      region: UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItemRegion,
-    }),
-).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem>;
-
-export type UpdateCollectionBySlugResponseDataItemsItemCdnRegionsList =
-  Array<UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem>;
-export const UpdateCollectionBySlugResponseDataItemsItemCdnRegionsList = /*@__PURE__*/ S.Array(
-  UpdateCollectionBySlugResponseDataItemsItemCdnRegionsItem,
-) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCdnRegionsList>;
-
-export interface UpdateCollectionBySlugResponseDataItemsItem {
+export interface UpdateCollectionBySlugResponseDataItemsItemCase4 {
   _id: string;
-  note?: AddItemResponseItemsItemNote;
-  gallery?: UpdateCollectionBySlugResponseDataItemsItemGalleryList;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList;
   position: number;
-  author?: string;
-  id?: string;
-  isLikedByUser?: boolean;
-  likes?: number;
-  datasetsServerInfo?: UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo;
-  private?: boolean;
-  repoType?: unknown;
-  downloads?: number;
-  gated?: UpdateCollectionBySlugResponseDataItemsItemGated;
-  lastModified?: string;
-  resourceGroup?: AddItemResponseResourceGroup;
-  isBenchmark?: boolean;
-  isTraces?: boolean;
-  type?: unknown;
-  availableInferenceProviders?: UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersList;
-  pipeline_tag?: string;
-  numParameters?: number;
-  authorData?: UpdateCollectionBySlugResponseDataItemsItemAuthorData;
-  widgetOutputUrls?: UpdateCollectionBySlugResponseDataItemsItemWidgetOutputUrlsList;
-  isPreRelease?: unknown;
-  colorFrom?: string;
-  colorTo?: string;
-  createdAt?: string;
-  emoji?: string;
-  pinned?: boolean;
-  title?: string;
-  sdk?: UpdateCollectionBySlugResponseDataItemsItemSdk;
-  runtime?: UpdateCollectionBySlugResponseDataItemsItemRuntime;
-  disabled?: boolean;
-  originRepo?: UpdateCollectionBySlugResponseDataItemsItemOriginRepo;
-  ai_short_description?: string;
-  ai_category?: string;
-  trendingScore?: number;
-  tags?: UpdateCollectionBySlugResponseDataItemsItemTagsList;
-  shortDescription?: string;
-  semanticRelevancyScore?: number;
-  featured?: boolean;
-  visibility?: UpdateCollectionBySlugResponseDataItemsItemVisibility;
-  upvotes?: number;
-  publishedAt?: string;
-  thumbnailUrl?: string;
-  isUpvotedByUser?: boolean;
-  slug?: string;
-  lastUpdated?: string;
+  slug: string;
+  lastUpdated: string;
   description?: string;
-  owner?: UpdateCollectionBySlugResponseDataItemsItemOwner;
-  theme?: UpdateCollectionBySlugResponseDataItemsItemTheme;
-  shareUrl?: string;
-  numberItems?: number;
-  updatedAt?: string;
-  /** The amount of storage used by the bucket in bytes */
-  size?: number;
-  /** The total number of files in the bucket */
-  totalFiles?: number;
-  adminTags?: UpdateCollectionBySlugResponseDataItemsItemAdminTagsList;
-  cdnRegions?: UpdateCollectionBySlugResponseDataItemsItemCdnRegionsList;
+  owner: UpdateCollectionBySlugResponseDataItemsItemCase4Owner;
+  title: string;
+  theme: UpdateCollectionBySlugResponseDataItemsItemCase4Theme;
+  upvotes: number;
+  isUpvotedByUser: boolean;
+  shareUrl: string;
+  id: string;
+  numberItems: number;
+  type: string;
 }
-export const UpdateCollectionBySlugResponseDataItemsItem = /*@__PURE__*/ S.suspend(() =>
+export const UpdateCollectionBySlugResponseDataItemsItemCase4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _id: S.String,
-    note: S.optional(AddItemResponseItemsItemNote),
-    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemGalleryList),
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase4GalleryList),
     position: S.Number,
-    author: S.optional(S.String),
-    id: S.optional(S.String),
-    isLikedByUser: S.optional(S.Boolean),
-    likes: S.optional(S.Number),
-    datasetsServerInfo: S.optional(UpdateCollectionBySlugResponseDataItemsItemDatasetsServerInfo),
-    private: S.optional(S.Boolean),
-    repoType: S.optional(S.Unknown),
-    downloads: S.optional(S.Number),
-    gated: S.optional(UpdateCollectionBySlugResponseDataItemsItemGated),
-    lastModified: S.optional(S.String),
-    resourceGroup: S.optional(AddItemResponseResourceGroup),
-    isBenchmark: S.optional(S.Boolean),
-    isTraces: S.optional(S.Boolean),
-    type: S.optional(S.Unknown),
-    availableInferenceProviders: S.optional(
-      UpdateCollectionBySlugResponseDataItemsItemAvailableInferenceProvidersList,
-    ),
-    pipeline_tag: S.optional(S.String),
-    numParameters: S.optional(S.Number),
-    authorData: S.optional(UpdateCollectionBySlugResponseDataItemsItemAuthorData),
-    widgetOutputUrls: S.optional(UpdateCollectionBySlugResponseDataItemsItemWidgetOutputUrlsList),
-    isPreRelease: S.optional(S.Unknown),
-    colorFrom: S.optional(S.String),
-    colorTo: S.optional(S.String),
-    createdAt: S.optional(S.String),
-    emoji: S.optional(S.String),
-    pinned: S.optional(S.Boolean),
-    title: S.optional(S.String),
-    sdk: S.optional(UpdateCollectionBySlugResponseDataItemsItemSdk),
-    runtime: S.optional(UpdateCollectionBySlugResponseDataItemsItemRuntime),
-    disabled: S.optional(S.Boolean),
-    originRepo: S.optional(UpdateCollectionBySlugResponseDataItemsItemOriginRepo),
-    ai_short_description: S.optional(S.String),
-    ai_category: S.optional(S.String),
-    trendingScore: S.optional(S.Number),
-    tags: S.optional(UpdateCollectionBySlugResponseDataItemsItemTagsList),
-    shortDescription: S.optional(S.String),
-    semanticRelevancyScore: S.optional(S.Number),
-    featured: S.optional(S.Boolean),
-    visibility: S.optional(UpdateCollectionBySlugResponseDataItemsItemVisibility),
-    upvotes: S.optional(S.Number),
-    publishedAt: S.optional(S.String),
-    thumbnailUrl: S.optional(S.String),
-    isUpvotedByUser: S.optional(S.Boolean),
-    slug: S.optional(S.String),
-    lastUpdated: S.optional(S.String),
+    slug: S.String,
+    lastUpdated: S.String,
     description: S.optional(S.String),
-    owner: S.optional(UpdateCollectionBySlugResponseDataItemsItemOwner),
-    theme: S.optional(UpdateCollectionBySlugResponseDataItemsItemTheme),
-    shareUrl: S.optional(S.String),
-    numberItems: S.optional(S.Number),
-    updatedAt: S.optional(S.String),
-    size: S.optional(S.Number),
-    totalFiles: S.optional(S.Number),
-    adminTags: S.optional(UpdateCollectionBySlugResponseDataItemsItemAdminTagsList),
-    cdnRegions: S.optional(UpdateCollectionBySlugResponseDataItemsItemCdnRegionsList),
+    owner: UpdateCollectionBySlugResponseDataItemsItemCase4Owner,
+    title: S.String,
+    theme: UpdateCollectionBySlugResponseDataItemsItemCase4Theme,
+    upvotes: S.Number,
+    isUpvotedByUser: S.Boolean,
+    shareUrl: S.String,
+    id: S.String,
+    numberItems: S.Number,
+    type: S.String,
   }),
 ).annotate({
-  identifier: "UpdateCollectionBySlugResponseDataItemsItem",
-}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItem>;
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase4",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase4>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5Note =
+  AddItemResponseItemsItemCase0Note;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5Note =
+  AddItemResponseItemsItemCase0Note;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5RepoType = "bucket" | "container";
+export const UpdateCollectionBySlugResponseDataItemsItemCase5RepoType = S.String;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList = Array<string>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5Disabled =
+  AddItemResponseItemsItemCase5Disabled;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemProvider = "gcp" | "aws";
+export const UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemProvider = S.String;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemRegion = "us" | "eu";
+export const UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemRegion = S.String;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem {
+  provider: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemProvider;
+  region: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemRegion;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      provider: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemProvider,
+      region: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItemRegion,
+    }),
+  ).annotate({
+    identifier: "UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem",
+  }) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList =
+  Array<UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem>;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList = /*@__PURE__*/ S.Array(
+  UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsItem,
+) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList>;
+
+export type UpdateCollectionBySlugResponseDataItemsItemCase5ResourceGroup =
+  AddItemResponseResourceGroup;
+export const UpdateCollectionBySlugResponseDataItemsItemCase5ResourceGroup =
+  AddItemResponseResourceGroup;
+
+export interface UpdateCollectionBySlugResponseDataItemsItemCase5 {
+  _id: unknown;
+  note?: AddItemResponseItemsItemCase0Note;
+  gallery?: UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList;
+  position: number;
+  author: string;
+  id: string;
+  private?: boolean | null;
+  /** Free-text description of the bucket / container image */
+  description?: string | null;
+  createdAt: string;
+  /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
+  updatedAt: string;
+  /** The amount of storage used by the bucket in bytes */
+  size: number;
+  /** The total number of files in the bucket */
+  totalFiles: number;
+  repoType: UpdateCollectionBySlugResponseDataItemsItemCase5RepoType;
+  adminTags?: UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList;
+  disabled?: AddItemResponseItemsItemCase5Disabled;
+  cdnRegions: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList;
+  resourceGroup?: AddItemResponseResourceGroup;
+  type: string;
+}
+export const UpdateCollectionBySlugResponseDataItemsItemCase5 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    _id: S.Unknown,
+    note: S.optional(AddItemResponseItemsItemCase0Note),
+    gallery: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase5GalleryList),
+    position: S.Number,
+    author: S.String,
+    id: S.String,
+    private: S.optional(S.NullOr(S.Boolean)),
+    description: S.optional(S.NullOr(S.String)),
+    createdAt: S.String,
+    updatedAt: S.String,
+    size: S.Number,
+    totalFiles: S.Number,
+    repoType: UpdateCollectionBySlugResponseDataItemsItemCase5RepoType,
+    adminTags: S.optional(UpdateCollectionBySlugResponseDataItemsItemCase5AdminTagsList),
+    disabled: S.optional(AddItemResponseItemsItemCase5Disabled),
+    cdnRegions: UpdateCollectionBySlugResponseDataItemsItemCase5CdnRegionsList,
+    resourceGroup: S.optional(AddItemResponseResourceGroup),
+    type: S.String,
+  }),
+).annotate({
+  identifier: "UpdateCollectionBySlugResponseDataItemsItemCase5",
+}) as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItemCase5>;
+
+export type UpdateCollectionBySlugResponseDataItemsItem =
+  | UpdateCollectionBySlugResponseDataItemsItemCase0
+  | UpdateCollectionBySlugResponseDataItemsItemCase1
+  | UpdateCollectionBySlugResponseDataItemsItemCase2
+  | UpdateCollectionBySlugResponseDataItemsItemCase3
+  | UpdateCollectionBySlugResponseDataItemsItemCase4
+  | UpdateCollectionBySlugResponseDataItemsItemCase5;
+export const UpdateCollectionBySlugResponseDataItemsItem =
+  S.Unknown as any as S.Schema<UpdateCollectionBySlugResponseDataItemsItem>;
 
 export type UpdateCollectionBySlugResponseDataItemsList =
   Array<UpdateCollectionBySlugResponseDataItemsItem>;
@@ -10831,9 +13972,7 @@ export const UpdateItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateItemRequest",
-}) as any as S.Schema<UpdateItemRequest>;
+).annotate({ identifier: "UpdateItemRequest" }) as any as S.Schema<UpdateItemRequest>;
 
 export interface UpdateItemResponse {}
 export const UpdateItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10860,15 +13999,9 @@ export const UpdateItemBySlugRequest = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.String),
     position: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/collections/{namespace}/{slug}/items/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/collections/{namespace}/{slug}/items/{slug}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateItemBySlugRequest",
-}) as any as S.Schema<UpdateItemBySlugRequest>;
+).annotate({ identifier: "UpdateItemBySlugRequest" }) as any as S.Schema<UpdateItemBySlugRequest>;
 
 export interface UpdateItemBySlugResponse {}
 export const UpdateItemBySlugResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11041,7 +14174,7 @@ export const getCollectionBySlug: API.OperationMethod<
 }));
 
 export type GetCollectionResourceGroupError = HuggingFaceOpError;
-/** Get collection resource group */
+/** Collection resource group */
 export const getCollectionResourceGroup: API.OperationMethod<
   GetCollectionResourceGroupRequest,
   GetCollectionResourceGroupResponse,
@@ -11056,7 +14189,7 @@ export const getCollectionResourceGroup: API.OperationMethod<
 }));
 
 export type GetCollectionResourceGroupBySlugError = HuggingFaceOpError;
-/** Get collection resource group */
+/** Collection resource group */
 export const getCollectionResourceGroupBySlug: API.OperationMethod<
   GetCollectionResourceGroupBySlugRequest,
   GetCollectionResourceGroupBySlugResponse,
@@ -11086,7 +14219,7 @@ export const getCollections: API.OperationMethod<
 }));
 
 export type SetCollectionResourceGroupError = HuggingFaceOpError;
-/** Set collection resource group Assign, move, or unassign an organization-owned collection to a resource group. Pass null to unassign. User-owned collections are not eligible. */
+/** Collection resource group Assign, move, or unassign an organization-owned collection to a resource group. Pass null to unassign. User-owned collections are not eligible. */
 export const setCollectionResourceGroup: API.OperationMethod<
   SetCollectionResourceGroupRequest,
   SetCollectionResourceGroupResponse,
@@ -11101,7 +14234,7 @@ export const setCollectionResourceGroup: API.OperationMethod<
 }));
 
 export type SetCollectionResourceGroupBySlugError = HuggingFaceOpError;
-/** Set collection resource group Assign, move, or unassign an organization-owned collection to a resource group. Pass null to unassign. User-owned collections are not eligible. */
+/** Collection resource group Assign, move, or unassign an organization-owned collection to a resource group. Pass null to unassign. User-owned collections are not eligible. */
 export const setCollectionResourceGroupBySlug: API.OperationMethod<
   SetCollectionResourceGroupBySlugRequest,
   SetCollectionResourceGroupBySlugResponse,

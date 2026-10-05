@@ -60,16 +60,8 @@ export const CreateScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
     displayName: S.String,
     externalId: S.optional(S.String),
     members: CreateScimGroupRequestMembersList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{name}/scim/v2/Groups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateScimGroupRequest",
-}) as any as S.Schema<CreateScimGroupRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/organizations/{name}/scim/v2/Groups", code: 200 })),
+).annotate({ identifier: "CreateScimGroupRequest" }) as any as S.Schema<CreateScimGroupRequest>;
 
 export type CreateScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
 export const CreateScimGroupResponseSchemasItem = S.String;
@@ -120,9 +112,7 @@ export const CreateScimGroupResponse = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.NullOr(S.String)),
     meta: CreateScimGroupResponseMeta,
   }),
-).annotate({
-  identifier: "CreateScimGroupResponse",
-}) as any as S.Schema<CreateScimGroupResponse>;
+).annotate({ identifier: "CreateScimGroupResponse" }) as any as S.Schema<CreateScimGroupResponse>;
 
 export type CreateScimInvitationRequestSchemasList = Array<string>;
 export const CreateScimInvitationRequestSchemasList = /*@__PURE__*/ S.Array(
@@ -379,16 +369,8 @@ export const CreateScimUserRequest = /*@__PURE__*/ S.suspend(() =>
     emails: CreateScimUserRequestEmailsList,
     active: S.optional(S.Boolean),
     externalId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/organizations/{name}/scim/v2/Users",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateScimUserRequest",
-}) as any as S.Schema<CreateScimUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/organizations/{name}/scim/v2/Users", code: 200 })),
+).annotate({ identifier: "CreateScimUserRequest" }) as any as S.Schema<CreateScimUserRequest>;
 
 export type CreateScimUserResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";
 export const CreateScimUserResponseSchemasItem = S.String;
@@ -465,9 +447,7 @@ export const CreateScimUserResponse = /*@__PURE__*/ S.suspend(() =>
     active: S.Boolean,
     meta: CreateScimUserResponseMeta,
   }),
-).annotate({
-  identifier: "CreateScimUserResponse",
-}) as any as S.Schema<CreateScimUserResponse>;
+).annotate({ identifier: "CreateScimUserResponse" }) as any as S.Schema<CreateScimUserResponse>;
 
 export interface DeleteScimGroupRequest {
   name: string;
@@ -484,16 +464,12 @@ export const DeleteScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteScimGroupRequest",
-}) as any as S.Schema<DeleteScimGroupRequest>;
+).annotate({ identifier: "DeleteScimGroupRequest" }) as any as S.Schema<DeleteScimGroupRequest>;
 
 export type DeleteScimGroupResponse = unknown;
 export const DeleteScimGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteScimGroupResponse",
-}) as any as S.Schema<DeleteScimGroupResponse>;
+).annotate({ identifier: "DeleteScimGroupResponse" }) as any as S.Schema<DeleteScimGroupResponse>;
 
 export interface DeleteScimProvisioningGroupRequest {
   name: string;
@@ -562,16 +538,12 @@ export const DeleteScimUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteScimUserRequest",
-}) as any as S.Schema<DeleteScimUserRequest>;
+).annotate({ identifier: "DeleteScimUserRequest" }) as any as S.Schema<DeleteScimUserRequest>;
 
 export type DeleteScimUserResponse = unknown;
 export const DeleteScimUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteScimUserResponse",
-}) as any as S.Schema<DeleteScimUserResponse>;
+).annotate({ identifier: "DeleteScimUserResponse" }) as any as S.Schema<DeleteScimUserResponse>;
 
 export interface GetScimConfigurationRequest {
   name: string;
@@ -713,23 +685,17 @@ export const GetScimConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetScimGroupRequest {
   name: string;
   groupId: string;
-  excludedAttributes?: unknown;
+  excludedAttributes?: string;
 }
 export const GetScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     groupId: S.String.pipe(T.Label()),
-    excludedAttributes: S.optional(S.Unknown.pipe(T.Query())),
+    excludedAttributes: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/Groups/{groupId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/Groups/{groupId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetScimGroupRequest",
-}) as any as S.Schema<GetScimGroupRequest>;
+).annotate({ identifier: "GetScimGroupRequest" }) as any as S.Schema<GetScimGroupRequest>;
 
 export type GetScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
 export const GetScimGroupResponseSchemasItem = S.String;
@@ -759,9 +725,7 @@ export const GetScimGroupResponseMeta = /*@__PURE__*/ S.suspend(() =>
     resourceType: GetScimGroupResponseMetaResourceType,
     location: S.String,
   }),
-).annotate({
-  identifier: "GetScimGroupResponseMeta",
-}) as any as S.Schema<GetScimGroupResponseMeta>;
+).annotate({ identifier: "GetScimGroupResponseMeta" }) as any as S.Schema<GetScimGroupResponseMeta>;
 
 export interface GetScimGroupResponse {
   schemas: GetScimGroupResponseSchemasList;
@@ -780,20 +744,18 @@ export const GetScimGroupResponse = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.NullOr(S.String)),
     meta: GetScimGroupResponseMeta,
   }),
-).annotate({
-  identifier: "GetScimGroupResponse",
-}) as any as S.Schema<GetScimGroupResponse>;
+).annotate({ identifier: "GetScimGroupResponse" }) as any as S.Schema<GetScimGroupResponse>;
 
 export interface GetScimProvisioningGroupRequest {
   name: string;
   groupId: string;
-  excludedAttributes?: unknown;
+  excludedAttributes?: string;
 }
 export const GetScimProvisioningGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     groupId: S.String.pipe(T.Label()),
-    excludedAttributes: S.optional(S.Unknown.pipe(T.Query())),
+    excludedAttributes: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -968,11 +930,7 @@ export const GetScimResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/ResourceTypes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/ResourceTypes", code: 200 }),
   ),
 ).annotate({
   identifier: "GetScimResourceTypesRequest",
@@ -1021,11 +979,11 @@ export const GetScimResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetScimResourceTypesResponse",
 }) as any as S.Schema<GetScimResourceTypesResponse>;
 
-export interface GetScimSchemaByIdRequest {
+export interface GetScimSchemaRequest {
   name: string;
   schemaId: string;
 }
-export const GetScimSchemaByIdRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetScimSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     schemaId: S.String.pipe(T.Label()),
@@ -1036,43 +994,39 @@ export const GetScimSchemaByIdRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetScimSchemaByIdRequest",
-}) as any as S.Schema<GetScimSchemaByIdRequest>;
+).annotate({ identifier: "GetScimSchemaRequest" }) as any as S.Schema<GetScimSchemaRequest>;
 
-export type GetScimSchemaByIdResponseSchemasList = Array<string>;
-export const GetScimSchemaByIdResponseSchemasList = /*@__PURE__*/ S.Array(
+export type GetScimSchemaResponseSchemasList = Array<string>;
+export const GetScimSchemaResponseSchemasList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetScimSchemaByIdResponseSchemasList>;
+) as any as S.Schema<GetScimSchemaResponseSchemasList>;
 
-export type GetScimSchemaByIdResponseAttributesList = Array<unknown>;
-export const GetScimSchemaByIdResponseAttributesList = /*@__PURE__*/ S.Array(
+export type GetScimSchemaResponseAttributesList = Array<unknown>;
+export const GetScimSchemaResponseAttributesList = /*@__PURE__*/ S.Array(
   S.Unknown,
-) as any as S.Schema<GetScimSchemaByIdResponseAttributesList>;
+) as any as S.Schema<GetScimSchemaResponseAttributesList>;
 
-export type GetScimSchemaByIdResponseMeta = GetScimConfigurationResponseMeta;
-export const GetScimSchemaByIdResponseMeta = GetScimConfigurationResponseMeta;
+export type GetScimSchemaResponseMeta = GetScimConfigurationResponseMeta;
+export const GetScimSchemaResponseMeta = GetScimConfigurationResponseMeta;
 
-export interface GetScimSchemaByIdResponse {
-  schemas: GetScimSchemaByIdResponseSchemasList;
+export interface GetScimSchemaResponse {
+  schemas: GetScimSchemaResponseSchemasList;
   id: string;
   name: string;
   description: string;
-  attributes: GetScimSchemaByIdResponseAttributesList;
+  attributes: GetScimSchemaResponseAttributesList;
   meta: GetScimConfigurationResponseMeta;
 }
-export const GetScimSchemaByIdResponse = /*@__PURE__*/ S.suspend(() =>
+export const GetScimSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schemas: GetScimSchemaByIdResponseSchemasList,
+    schemas: GetScimSchemaResponseSchemasList,
     id: S.String,
     name: S.String,
     description: S.String,
-    attributes: GetScimSchemaByIdResponseAttributesList,
+    attributes: GetScimSchemaResponseAttributesList,
     meta: GetScimConfigurationResponseMeta,
   }),
-).annotate({
-  identifier: "GetScimSchemaByIdResponse",
-}) as any as S.Schema<GetScimSchemaByIdResponse>;
+).annotate({ identifier: "GetScimSchemaResponse" }) as any as S.Schema<GetScimSchemaResponse>;
 
 export interface GetScimSchemasRequest {
   name: string;
@@ -1080,16 +1034,8 @@ export interface GetScimSchemasRequest {
 export const GetScimSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/Schemas",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetScimSchemasRequest",
-}) as any as S.Schema<GetScimSchemasRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/Schemas", code: 200 })),
+).annotate({ identifier: "GetScimSchemasRequest" }) as any as S.Schema<GetScimSchemasRequest>;
 
 export type GetScimSchemasResponseBodyItemSchemasList = Array<string>;
 export const GetScimSchemasResponseBodyItemSchemasList = /*@__PURE__*/ S.Array(
@@ -1133,9 +1079,7 @@ export const GetScimSchemasResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetScimSchemasResponse = GetScimSchemasResponseBodyList;
 export const GetScimSchemasResponse = /*@__PURE__*/ S.suspend(() =>
   GetScimSchemasResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetScimSchemasResponse",
-}) as any as S.Schema<GetScimSchemasResponse>;
+).annotate({ identifier: "GetScimSchemasResponse" }) as any as S.Schema<GetScimSchemasResponse>;
 
 export interface GetScimUserRequest {
   name: string;
@@ -1146,15 +1090,9 @@ export const GetScimUserRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/Users/{userId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/Users/{userId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetScimUserRequest",
-}) as any as S.Schema<GetScimUserRequest>;
+).annotate({ identifier: "GetScimUserRequest" }) as any as S.Schema<GetScimUserRequest>;
 
 export type GetScimUserResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";
 export const GetScimUserResponseSchemasItem = S.String;
@@ -1204,9 +1142,7 @@ export const GetScimUserResponseMeta = /*@__PURE__*/ S.suspend(() =>
     resourceType: GetScimUserResponseMetaResourceType,
     location: S.String,
   }),
-).annotate({
-  identifier: "GetScimUserResponseMeta",
-}) as any as S.Schema<GetScimUserResponseMeta>;
+).annotate({ identifier: "GetScimUserResponseMeta" }) as any as S.Schema<GetScimUserResponseMeta>;
 
 export interface GetScimUserResponse {
   schemas: GetScimUserResponseSchemasList;
@@ -1231,16 +1167,14 @@ export const GetScimUserResponse = /*@__PURE__*/ S.suspend(() =>
     active: S.Boolean,
     meta: GetScimUserResponseMeta,
   }),
-).annotate({
-  identifier: "GetScimUserResponse",
-}) as any as S.Schema<GetScimUserResponse>;
+).annotate({ identifier: "GetScimUserResponse" }) as any as S.Schema<GetScimUserResponse>;
 
 export interface ListScimGroupsRequest {
   name: string;
   startIndex?: number;
   count?: number;
   filter?: string;
-  excludedAttributes?: unknown;
+  excludedAttributes?: string;
 }
 export const ListScimGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1248,17 +1182,9 @@ export const ListScimGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     startIndex: S.optional(S.Number.pipe(T.Query())),
     count: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    excludedAttributes: S.optional(S.Unknown.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/Groups",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListScimGroupsRequest",
-}) as any as S.Schema<ListScimGroupsRequest>;
+    excludedAttributes: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/Groups", code: 200 })),
+).annotate({ identifier: "ListScimGroupsRequest" }) as any as S.Schema<ListScimGroupsRequest>;
 
 export type ListScimGroupsResponseSchemasItem =
   "urn:ietf:params:scim:api:messages:2.0:ListResponse";
@@ -1345,9 +1271,7 @@ export const ListScimGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     startIndex: S.Number,
     Resources: ListScimGroupsResponseResourcesList,
   }),
-).annotate({
-  identifier: "ListScimGroupsResponse",
-}) as any as S.Schema<ListScimGroupsResponse>;
+).annotate({ identifier: "ListScimGroupsResponse" }) as any as S.Schema<ListScimGroupsResponse>;
 
 export interface ListScimManagedUsersRequest {
   name: string;
@@ -1494,7 +1418,7 @@ export interface ListScimProvisioningGroupsRequest {
   startIndex?: number;
   count?: number;
   filter?: string;
-  excludedAttributes?: unknown;
+  excludedAttributes?: string;
 }
 export const ListScimProvisioningGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1502,7 +1426,7 @@ export const ListScimProvisioningGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     startIndex: S.optional(S.Number.pipe(T.Query())),
     count: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    excludedAttributes: S.optional(S.Unknown.pipe(T.Query())),
+    excludedAttributes: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1619,16 +1543,8 @@ export const ListScimUsersRequest = /*@__PURE__*/ S.suspend(() =>
     startIndex: S.optional(S.Number.pipe(T.Query())),
     count: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/organizations/{name}/scim/v2/Users",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListScimUsersRequest",
-}) as any as S.Schema<ListScimUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/organizations/{name}/scim/v2/Users", code: 200 })),
+).annotate({ identifier: "ListScimUsersRequest" }) as any as S.Schema<ListScimUsersRequest>;
 
 export type ListScimUsersResponseSchemasItem = "urn:ietf:params:scim:api:messages:2.0:ListResponse";
 export const ListScimUsersResponseSchemasItem = S.String;
@@ -1740,13 +1656,11 @@ export const ListScimUsersResponse = /*@__PURE__*/ S.suspend(() =>
     startIndex: S.Number,
     Resources: ListScimUsersResponseResourcesList,
   }),
-).annotate({
-  identifier: "ListScimUsersResponse",
-}) as any as S.Schema<ListScimUsersResponse>;
+).annotate({ identifier: "ListScimUsersResponse" }) as any as S.Schema<ListScimUsersResponse>;
 
-export type ReplaceScimGroupRequestSchemasList = Array<unknown>;
+export type ReplaceScimGroupRequestSchemasList = Array<string>;
 export const ReplaceScimGroupRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<ReplaceScimGroupRequestSchemasList>;
 
 export type ReplaceScimGroupRequestMembersItem = CreateScimGroupRequestMembersItem;
@@ -1774,15 +1688,9 @@ export const ReplaceScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.String),
     members: ReplaceScimGroupRequestMembersList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/organizations/{name}/scim/v2/Groups/{groupId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/organizations/{name}/scim/v2/Groups/{groupId}", code: 200 }),
   ),
-).annotate({
-  identifier: "ReplaceScimGroupRequest",
-}) as any as S.Schema<ReplaceScimGroupRequest>;
+).annotate({ identifier: "ReplaceScimGroupRequest" }) as any as S.Schema<ReplaceScimGroupRequest>;
 
 export type ReplaceScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
 export const ReplaceScimGroupResponseSchemasItem = S.String;
@@ -1833,13 +1741,11 @@ export const ReplaceScimGroupResponse = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.NullOr(S.String)),
     meta: ReplaceScimGroupResponseMeta,
   }),
-).annotate({
-  identifier: "ReplaceScimGroupResponse",
-}) as any as S.Schema<ReplaceScimGroupResponse>;
+).annotate({ identifier: "ReplaceScimGroupResponse" }) as any as S.Schema<ReplaceScimGroupResponse>;
 
-export type ReplaceScimProvisioningGroupRequestSchemasList = Array<unknown>;
+export type ReplaceScimProvisioningGroupRequestSchemasList = Array<string>;
 export const ReplaceScimProvisioningGroupRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<ReplaceScimProvisioningGroupRequestSchemasList>;
 
 export type ReplaceScimProvisioningGroupRequestMembersItem = CreateScimGroupRequestMembersItem;
@@ -2079,15 +1985,9 @@ export const ReplaceScimUserRequest = /*@__PURE__*/ S.suspend(() =>
     active: S.optional(S.Boolean),
     externalId: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/organizations/{name}/scim/v2/Users/{userId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/organizations/{name}/scim/v2/Users/{userId}", code: 200 }),
   ),
-).annotate({
-  identifier: "ReplaceScimUserRequest",
-}) as any as S.Schema<ReplaceScimUserRequest>;
+).annotate({ identifier: "ReplaceScimUserRequest" }) as any as S.Schema<ReplaceScimUserRequest>;
 
 export type ReplaceScimUserResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";
 export const ReplaceScimUserResponseSchemasItem = S.String;
@@ -2164,13 +2064,11 @@ export const ReplaceScimUserResponse = /*@__PURE__*/ S.suspend(() =>
     active: S.Boolean,
     meta: ReplaceScimUserResponseMeta,
   }),
-).annotate({
-  identifier: "ReplaceScimUserResponse",
-}) as any as S.Schema<ReplaceScimUserResponse>;
+).annotate({ identifier: "ReplaceScimUserResponse" }) as any as S.Schema<ReplaceScimUserResponse>;
 
-export type UpdateScimGroupRequestSchemasList = Array<unknown>;
+export type UpdateScimGroupRequestSchemasList = Array<string>;
 export const UpdateScimGroupRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<UpdateScimGroupRequestSchemasList>;
 
 export type UpdateScimGroupRequestOperationsItemCase0ValueItem = CreateScimGroupRequestMembersItem;
@@ -2242,9 +2140,7 @@ export const UpdateScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateScimGroupRequest",
-}) as any as S.Schema<UpdateScimGroupRequest>;
+).annotate({ identifier: "UpdateScimGroupRequest" }) as any as S.Schema<UpdateScimGroupRequest>;
 
 export type UpdateScimGroupResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:Group";
 export const UpdateScimGroupResponseSchemasItem = S.String;
@@ -2295,13 +2191,11 @@ export const UpdateScimGroupResponse = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.NullOr(S.String)),
     meta: UpdateScimGroupResponseMeta,
   }),
-).annotate({
-  identifier: "UpdateScimGroupResponse",
-}) as any as S.Schema<UpdateScimGroupResponse>;
+).annotate({ identifier: "UpdateScimGroupResponse" }) as any as S.Schema<UpdateScimGroupResponse>;
 
-export type UpdateScimProvisioningGroupRequestSchemasList = Array<unknown>;
+export type UpdateScimProvisioningGroupRequestSchemasList = Array<string>;
 export const UpdateScimProvisioningGroupRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<UpdateScimProvisioningGroupRequestSchemasList>;
 
 export type UpdateScimProvisioningGroupRequestOperationsItemCase0ValueItem =
@@ -2426,9 +2320,9 @@ export const UpdateScimProvisioningGroupResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateScimProvisioningGroupResponse",
 }) as any as S.Schema<UpdateScimProvisioningGroupResponse>;
 
-export type UpdateScimProvisioningUserRequestSchemasList = Array<unknown>;
+export type UpdateScimProvisioningUserRequestSchemasList = Array<string>;
 export const UpdateScimProvisioningUserRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<UpdateScimProvisioningUserRequestSchemasList>;
 
 /** `remove` operation is not supported for non-managed organizations */
@@ -2571,9 +2465,9 @@ export const UpdateScimProvisioningUserResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateScimProvisioningUserResponse",
 }) as any as S.Schema<UpdateScimProvisioningUserResponse>;
 
-export type UpdateScimUserRequestSchemasList = Array<unknown>;
+export type UpdateScimUserRequestSchemasList = Array<string>;
 export const UpdateScimUserRequestSchemasList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<UpdateScimUserRequestSchemasList>;
 
 export type UpdateScimUserRequestOperationsItemPath =
@@ -2618,15 +2512,9 @@ export const UpdateScimUserRequest = /*@__PURE__*/ S.suspend(() =>
     schemas: UpdateScimUserRequestSchemasList,
     Operations: UpdateScimUserRequestOperationsList,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/organizations/{name}/scim/v2/Users/{userId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/organizations/{name}/scim/v2/Users/{userId}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateScimUserRequest",
-}) as any as S.Schema<UpdateScimUserRequest>;
+).annotate({ identifier: "UpdateScimUserRequest" }) as any as S.Schema<UpdateScimUserRequest>;
 
 export type UpdateScimUserResponseSchemasItem = "urn:ietf:params:scim:schemas:core:2.0:User";
 export const UpdateScimUserResponseSchemasItem = S.String;
@@ -2703,12 +2591,10 @@ export const UpdateScimUserResponse = /*@__PURE__*/ S.suspend(() =>
     active: S.Boolean,
     meta: UpdateScimUserResponseMeta,
   }),
-).annotate({
-  identifier: "UpdateScimUserResponse",
-}) as any as S.Schema<UpdateScimUserResponse>;
+).annotate({ identifier: "UpdateScimUserResponse" }) as any as S.Schema<UpdateScimUserResponse>;
 
 export type CreateScimGroupError = Conflict | HuggingFaceOpError;
-/** Create a SCIM group Creates a new group in the organization. The group name must be unique within the organization. */
+/** Create SCIM group Creates a new group in the organization. The group name must be unique within the organization. */
 export const createScimGroup: API.OperationMethod<
   CreateScimGroupRequest,
   CreateScimGroupResponse,
@@ -2738,7 +2624,7 @@ export const createScimInvitation: API.OperationMethod<
 }));
 
 export type CreateScimProvisioningGroupError = Conflict | HuggingFaceOpError;
-/** Create a SCIM group Creates a new group in the organization. The group name must be unique within the organization. */
+/** Create SCIM group Creates a new group in the organization. The group name must be unique within the organization. */
 export const createScimProvisioningGroup: API.OperationMethod<
   CreateScimProvisioningGroupRequest,
   CreateScimProvisioningGroupResponse,
@@ -2753,7 +2639,7 @@ export const createScimProvisioningGroup: API.OperationMethod<
 }));
 
 export type CreateScimUserError = Conflict | HuggingFaceOpError;
-/** Create a SCIM user Creates a new user in the organization. If the user already exists, only `active` field will be updated to provision the user. */
+/** Create SCIM user Creates a new user in the organization. If the user already exists, only `active` field will be updated to provision the user. */
 export const createScimUser: API.OperationMethod<
   CreateScimUserRequest,
   CreateScimUserResponse,
@@ -2768,7 +2654,7 @@ export const createScimUser: API.OperationMethod<
 }));
 
 export type DeleteScimGroupError = HuggingFaceOpError;
-/** Delete a SCIM group */
+/** Delete SCIM group */
 export const deleteScimGroup: API.OperationMethod<
   DeleteScimGroupRequest,
   DeleteScimGroupResponse,
@@ -2783,7 +2669,7 @@ export const deleteScimGroup: API.OperationMethod<
 }));
 
 export type DeleteScimProvisioningGroupError = HuggingFaceOpError;
-/** Delete a SCIM group */
+/** Delete SCIM group */
 export const deleteScimProvisioningGroup: API.OperationMethod<
   DeleteScimProvisioningGroupRequest,
   DeleteScimProvisioningGroupResponse,
@@ -2813,7 +2699,7 @@ export const deleteScimProvisioningUser: API.OperationMethod<
 }));
 
 export type DeleteScimUserError = HuggingFaceOpError;
-/** Delete a SCIM user */
+/** Delete SCIM user */
 export const deleteScimUser: API.OperationMethod<
   DeleteScimUserRequest,
   DeleteScimUserResponse,
@@ -2843,7 +2729,7 @@ export const getScimConfiguration: API.OperationMethod<
 }));
 
 export type GetScimGroupError = HuggingFaceOpError;
-/** Get a SCIM group Retrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned. */
+/** Get SCIM group Retrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned. */
 export const getScimGroup: API.OperationMethod<
   GetScimGroupRequest,
   GetScimGroupResponse,
@@ -2858,7 +2744,7 @@ export const getScimGroup: API.OperationMethod<
 }));
 
 export type GetScimProvisioningGroupError = HuggingFaceOpError;
-/** Get a SCIM group Retrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned. */
+/** Get SCIM group Retrieves a group by its ID. If you provide the `excludedAttributes` parameter, the `members` attribute is not returned. */
 export const getScimProvisioningGroup: API.OperationMethod<
   GetScimProvisioningGroupRequest,
   GetScimProvisioningGroupResponse,
@@ -2873,7 +2759,7 @@ export const getScimProvisioningGroup: API.OperationMethod<
 }));
 
 export type GetScimProvisioningUserError = HuggingFaceOpError;
-/** Get a SCIM provisioning user Retrieves a SCIM user by their ID for non-managed organizations. */
+/** SCIM provisioning user Retrieves a SCIM user by their ID for non-managed organizations. */
 export const getScimProvisioningUser: API.OperationMethod<
   GetScimProvisioningUserRequest,
   GetScimProvisioningUserResponse,
@@ -2888,7 +2774,7 @@ export const getScimProvisioningUser: API.OperationMethod<
 }));
 
 export type GetScimResourceTypesError = HuggingFaceOpError;
-/** Get SCIM Resource Types Returns the list of SCIM 2.0 resource types supported by this server (User and Group). */
+/** SCIM resource types Returns the list of SCIM 2.0 resource types supported by this server (User and Group). */
 export const getScimResourceTypes: API.OperationMethod<
   GetScimResourceTypesRequest,
   GetScimResourceTypesResponse,
@@ -2902,16 +2788,16 @@ export const getScimResourceTypes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetScimSchemaByIdError = HuggingFaceOpError;
-/** Get SCIM Schema by ID Returns a single SCIM 2.0 schema definition by its schema URI. */
-export const getScimSchemaById: API.OperationMethod<
-  GetScimSchemaByIdRequest,
-  GetScimSchemaByIdResponse,
-  GetScimSchemaByIdError,
+export type GetScimSchemaError = HuggingFaceOpError;
+/** Get SCIM schema Returns a single SCIM 2.0 schema definition by its schema URI. */
+export const getScimSchema: API.OperationMethod<
+  GetScimSchemaRequest,
+  GetScimSchemaResponse,
+  GetScimSchemaError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetScimSchemaByIdRequest,
-  output: GetScimSchemaByIdResponse,
+  input: GetScimSchemaRequest,
+  output: GetScimSchemaResponse,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -2933,7 +2819,7 @@ export const getScimSchemas: API.OperationMethod<
 }));
 
 export type GetScimUserError = HuggingFaceOpError;
-/** Get a SCIM user Retrieves a SCIM user by their ID. */
+/** Get SCIM user Retrieves a SCIM user by their ID. */
 export const getScimUser: API.OperationMethod<
   GetScimUserRequest,
   GetScimUserResponse,
@@ -3008,7 +2894,7 @@ export const listScimUsers: API.OperationMethod<
 }));
 
 export type ReplaceScimGroupError = HuggingFaceOpError;
-/** Update a SCIM group Updates a group by its ID. The group name must be unique within the organization. */
+/** Update SCIM group Updates a group by its ID. The group name must be unique within the organization. */
 export const replaceScimGroup: API.OperationMethod<
   ReplaceScimGroupRequest,
   ReplaceScimGroupResponse,
@@ -3023,7 +2909,7 @@ export const replaceScimGroup: API.OperationMethod<
 }));
 
 export type ReplaceScimProvisioningGroupError = HuggingFaceOpError;
-/** Update a SCIM group Updates a group by its ID. The group name must be unique within the organization. */
+/** Update SCIM group Updates a group by its ID. The group name must be unique within the organization. */
 export const replaceScimProvisioningGroup: API.OperationMethod<
   ReplaceScimProvisioningGroupRequest,
   ReplaceScimProvisioningGroupResponse,
@@ -3038,7 +2924,7 @@ export const replaceScimProvisioningGroup: API.OperationMethod<
 }));
 
 export type ReplaceScimProvisioningUserError = Conflict | HuggingFaceOpError;
-/** Update a SCIM user Updates a provisioned user's invitation for non-managed organizations. User profile fields are not editable via SCIM for non-managed organizations. */
+/** Update SCIM user Updates a provisioned user's invitation for non-managed organizations. User profile fields are not editable via SCIM for non-managed organizations. */
 export const replaceScimProvisioningUser: API.OperationMethod<
   ReplaceScimProvisioningUserRequest,
   ReplaceScimProvisioningUserResponse,
@@ -3053,7 +2939,7 @@ export const replaceScimProvisioningUser: API.OperationMethod<
 }));
 
 export type ReplaceScimUserError = Conflict | HuggingFaceOpError;
-/** Update a SCIM user Updates a provisioned user, you'll need to provide all their information fresh - just like setting them up for the first time. Any details you don't include will be automatically removed, so make sure to include everything they need to keep their account running smoothly. Setting `active` to `false` will deprovision the user from the organization. */
+/** Update SCIM user Updates a provisioned user, you'll need to provide all their information fresh - just like setting them up for the first time. Any details you don't include will be automatically removed, so make sure to include everything they need to keep their account running smoothly. Setting `active` to `false` will deprovision the user from the organization. */
 export const replaceScimUser: API.OperationMethod<
   ReplaceScimUserRequest,
   ReplaceScimUserResponse,
