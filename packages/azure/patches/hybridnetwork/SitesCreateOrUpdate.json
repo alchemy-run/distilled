@@ -1,0 +1,25 @@
+{
+  "description": "NFVIs is polymorphic on nfviType (AzureCore, AzureArcKubernetes, AzureOperatorNexus); the converted model keeps only the base members, so S.Struct strips the subtype payload. Add `location` (AzureCore) and `customLocationReference` (Arc/Nexus).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NFVIs/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Location of the Azure core NFVI (`AzureCore` only)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#NFVIs/members/customLocationReference",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Reference `{ id }` to the custom location (`AzureArcKubernetes` / `AzureOperatorNexus`)."
+        }
+      }
+    }
+  ]
+}

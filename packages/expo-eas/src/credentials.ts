@@ -22,10 +22,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("EasCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "EasCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   accessToken: EffectConfig.String("EXPO_TOKEN"),

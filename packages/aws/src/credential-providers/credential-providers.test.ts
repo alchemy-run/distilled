@@ -1,22 +1,16 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { createHash, generateKeyPairSync, verify } from "node:crypto";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
-import * as HttpClient from "effect/http/HttpClient";
-import * as HttpClientResponse from "effect/http/HttpClientResponse";
-import { createHash, generateKeyPairSync, verify } from "node:crypto";
-import {
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
-import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import * as Auth from "../auth.ts";
 import * as Credentials from "../credentials.ts";
 import { chain, CredentialSourceError } from "./credential-source.ts";
@@ -67,28 +61,18 @@ const inOneHour = () => new Date(Date.now() + 60 * 60 * 1000);
 // `Region.fromEnvironment` reads.
 const run = <A, E>(effect: Effect.Effect<A, E>) =>
   Effect.runPromise(
-    Effect.provideService(
-      effect,
-      ConfigProvider.ConfigProvider,
-      ConfigProvider.fromEnv(),
-    ),
+    Effect.provideService(effect, ConfigProvider.ConfigProvider, ConfigProvider.fromEnv()),
   );
 /** Run an effect that is expected to fail and return its typed error. */
 const runFail = <A, E>(effect: Effect.Effect<A, E>) => run(Effect.flip(effect));
 
 /** The resolved credentials a `Credentials` layer produces. */
 const resolveLayer = (layer: Layer.Layer<Credentials.Credentials>) =>
-  Effect.flatMap(Credentials.Credentials, (creds) => creds).pipe(
-    Effect.provide(layer),
-  );
+  Effect.flatMap(Credentials.Credentials, (creds) => creds).pipe(Effect.provide(layer));
 
 /** A fake HTTP client keyed on `${method} ${url}`. */
 const fakeHttp = (
-  handler: (
-    method: string,
-    url: URL,
-    headers: Record<string, string>,
-  ) => Response | undefined,
+  handler: (method: string, url: URL, headers: Record<string, string>) => Response | undefined,
 ) =>
   Layer.succeed(HttpClient.HttpClient)(
     HttpClient.make((request, url) =>
@@ -126,9 +110,7 @@ const recordingHttp = (handler: (call: RecordedCall) => Response) => {
           url,
           headers: request.headers,
           body:
-            request.body._tag === "Uint8Array"
-              ? new TextDecoder().decode(request.body.body)
-              : "",
+            request.body._tag === "Uint8Array" ? new TextDecoder().decode(request.body.body) : "",
         };
         calls.push(call);
         return HttpClientResponse.fromWeb(request, handler(call));
@@ -181,8 +163,7 @@ const cognitoError = (type: string) =>
   });
 
 /** The `x-amz-target` operation name of an aws-json request. */
-const target = (call: RecordedCall) =>
-  (call.headers["x-amz-target"] ?? "").split(".")[1];
+const target = (call: RecordedCall) => (call.headers["x-amz-target"] ?? "").split(".")[1];
 
 /** An identity-id cache that lives only for one test. */
 const testCache = () => {
@@ -191,8 +172,7 @@ const testCache = () => {
     store,
     cache: {
       get: (key: string) => Effect.sync(() => store.get(key)),
-      set: (key: string, value: string) =>
-        Effect.sync(() => void store.set(key, value)),
+      set: (key: string, value: string) => Effect.sync(() => void store.set(key, value)),
       remove: (key: string) => Effect.sync(() => void store.delete(key)),
     },
   };
@@ -225,8 +205,7 @@ afterEach(() => {
   rmSync(home, { recursive: true, force: true });
 });
 
-const writeConfig = (config: string) =>
-  writeFileSync(join(home, ".aws", "config"), config);
+const writeConfig = (config: string) => writeFileSync(join(home, ".aws", "config"), config);
 const writeCredentials = (credentials: string) =>
   writeFileSync(join(home, ".aws", "credentials"), credentials);
 
@@ -352,9 +331,7 @@ duration_seconds = 900
       HttpClient.make((request, url) =>
         Effect.gen(function* () {
           const body =
-            request.body._tag === "Uint8Array"
-              ? new TextDecoder().decode(request.body.body)
-              : "";
+            request.body._tag === "Uint8Array" ? new TextDecoder().decode(request.body.body) : "";
           calls.push({ url, headers: request.headers, body });
           return HttpClientResponse.fromWeb(
             request,
@@ -379,9 +356,7 @@ duration_seconds = 900
         }),
       ),
     );
-    const creds = await run(
-      iniSource({ profile: "admin" }).pipe(Effect.provide(http)),
-    );
+    const creds = await run(iniSource({ profile: "admin" }).pipe(Effect.provide(http)));
     expect(creds.accessKeyId).toBe("ASIA-admin");
     expect(creds.secretAccessKey).toBe("secret-admin");
     expect(creds.sessionToken).toBe("session-admin");
@@ -394,9 +369,7 @@ duration_seconds = 900
     expect(call.headers.authorization).toContain("AKIA-base/");
     expect(call.headers.authorization).toContain("/us-west-2/sts/");
     expect(call.body).toContain("Action=AssumeRole");
-    expect(call.body).toContain(
-      "RoleArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Arole%2FAdmin",
-    );
+    expect(call.body).toContain("RoleArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Arole%2FAdmin");
     expect(call.body).toContain("ExternalId=ext");
     expect(call.body).toContain("DurationSeconds=900");
   });
@@ -472,12 +445,10 @@ credential_process = echo nope
     expect((await runFail(processSource({ profile: "v2" }))).message).toContain(
       "did not return Version 1",
     );
-    expect(
-      (await runFail(processSource({ profile: "junk" }))).message,
-    ).toContain("invalid JSON");
-    expect(
-      (await runFail(processSource({ profile: "missing" }))).message,
-    ).toContain("could not be found");
+    expect((await runFail(processSource({ profile: "junk" }))).message).toContain("invalid JSON");
+    expect((await runFail(processSource({ profile: "missing" }))).message).toContain(
+      "could not be found",
+    );
   });
 });
 
@@ -498,9 +469,7 @@ describe("fromTokenFile", () => {
       HttpClient.make((request, url) =>
         Effect.sync(() => {
           const body =
-            request.body._tag === "Uint8Array"
-              ? new TextDecoder().decode(request.body.body)
-              : "";
+            request.body._tag === "Uint8Array" ? new TextDecoder().decode(request.body.body) : "";
           calls.push({ url, headers: request.headers, body });
           return HttpClientResponse.fromWeb(
             request,
@@ -545,9 +514,7 @@ describe("fromHttp / fromContainerMetadata", () => {
       return imdsCreds("AKIA-ecs");
     });
     const viaHttp = await run(httpSource().pipe(Effect.provide(http)));
-    const viaContainer = await run(
-      containerMetadataSource().pipe(Effect.provide(http)),
-    );
+    const viaContainer = await run(containerMetadataSource().pipe(Effect.provide(http)));
     expect(viaHttp.accessKeyId).toBe("AKIA-ecs");
     expect(viaHttp.sessionToken).toBe("token-AKIA-ecs");
     expect(viaContainer.accessKeyId).toBe("AKIA-ecs");
@@ -566,8 +533,7 @@ describe("fromHttp / fromContainerMetadata", () => {
   test("token file is read from disk", async () => {
     const tokenFile = join(home, "auth-token");
     writeFileSync(tokenFile, "from-file");
-    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI =
-      "http://localhost:8080/creds";
+    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI = "http://localhost:8080/creds";
     process.env.AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE = tokenFile;
     const seen: string[] = [];
     const http = fakeHttp((_, url, headers) => {
@@ -583,18 +549,12 @@ describe("fromHttp / fromContainerMetadata", () => {
     const http = fakeHttp(() =>
       Response.json({ Code: "AccessDenied", Message: "nope" }, { status: 403 }),
     );
-    const error = await runFail(
-      httpSource({ maxRetries: 0 }).pipe(Effect.provide(http)),
-    );
-    expect(error.message).toBe(
-      "Server responded with status: 403 AccessDenied nope",
-    );
+    const error = await runFail(httpSource({ maxRetries: 0 }).pipe(Effect.provide(http)));
+    expect(error.message).toBe("Server responded with status: 403 AccessDenied nope");
   });
 
   test("nothing configured", async () => {
-    expect((await runFail(httpSource())).message).toContain(
-      "No HTTP credential provider host",
-    );
+    expect((await runFail(httpSource())).message).toContain("No HTTP credential provider host");
     const container = await runFail(containerMetadataSource());
     expect(container.tryNextLink).toBe(false);
   });
@@ -615,9 +575,7 @@ describe("fromInstanceMetadata", () => {
       if (url.pathname === "/latest/meta-data/iam/security-credentials/") {
         return new Response("my-role\n");
       }
-      if (
-        url.pathname === "/latest/meta-data/iam/security-credentials/my-role"
-      ) {
+      if (url.pathname === "/latest/meta-data/iam/security-credentials/my-role") {
         return imdsCreds("AKIA-imds");
       }
     });
@@ -638,9 +596,7 @@ describe("fromInstanceMetadata", () => {
   test("falls back to IMDSv1 when the token endpoint is 404", async () => {
     const calls: string[] = [];
     const creds = await run(
-      instanceMetadataSource().pipe(
-        Effect.provide(imds({ tokenStatus: 404, recordTo: calls })),
-      ),
+      instanceMetadataSource().pipe(Effect.provide(imds({ tokenStatus: 404, recordTo: calls }))),
     );
     expect(creds.accessKeyId).toBe("AKIA-imds");
     expect(calls[1]).toBe("GET /latest/meta-data/iam/security-credentials/ -");
@@ -661,8 +617,7 @@ describe("fromInstanceMetadata", () => {
     const http = fakeHttp((method, url) => {
       calls.push(`${method} ${url.host}${url.pathname}`);
       if (url.pathname === "/latest/api/token") return new Response("t");
-      if (url.pathname.endsWith("/security-credentials/"))
-        return new Response("r");
+      if (url.pathname.endsWith("/security-credentials/")) return new Response("r");
       return imdsCreds("AKIA-custom");
     });
     await run(instanceMetadataSource().pipe(Effect.provide(http)));
@@ -691,19 +646,16 @@ aws_secret_access_key = secret-file
 aws_access_key_id = AKIA-file
 aws_secret_access_key = secret-file
 `);
-    expect((await run(nodeProviderChainSource())).accessKeyId).toBe(
-      "AKIA-file",
-    );
+    expect((await run(nodeProviderChainSource())).accessKeyId).toBe("AKIA-file");
   });
 
   test("falls through to the container endpoint", async () => {
     writeCredentials("");
     process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI = "/creds";
     const http = fakeHttp(() => imdsCreds("AKIA-ecs"));
-    expect(
-      (await run(nodeProviderChainSource().pipe(Effect.provide(http))))
-        .accessKeyId,
-    ).toBe("AKIA-ecs");
+    expect((await run(nodeProviderChainSource().pipe(Effect.provide(http)))).accessKeyId).toBe(
+      "AKIA-ecs",
+    );
   });
 
   test("with IMDS disabled and nothing else, fails with the final message", async () => {
@@ -740,7 +692,7 @@ describe("fromWebToken", () => {
     const creds = await run(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "jwt-token",
+        webIdentityToken: Redacted.make("jwt-token"),
         roleSessionName: "web",
         providerId: "graph.facebook.com",
         durationSeconds: 900,
@@ -757,20 +709,62 @@ describe("fromWebToken", () => {
   });
 
   test("the Credentials layer carries the region the role was assumed in", async () => {
-    const { layer } = recordingHttp(() =>
-      assumeRoleXml("AssumeRoleWithWebIdentity", "ASIA-web"),
-    );
+    const { layer } = recordingHttp(() => assumeRoleXml("AssumeRoleWithWebIdentity", "ASIA-web"));
     const resolved = await run(
       resolveLayer(
         Credentials.fromWebToken({
           roleArn: "arn:aws:iam::123456789012:role/Web",
-          webIdentityToken: "jwt-token",
+          webIdentityToken: Redacted.make("jwt-token"),
           region: "ap-south-1",
         }),
       ).pipe(Effect.provide(layer)),
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-web");
     expect(resolved.region).toBe("ap-south-1");
+  });
+
+  test("accepts the token as a Redacted or as an Effect run on every resolution", async () => {
+    let fetched = 0;
+    const tokens = [
+      Redacted.make("redacted-token"),
+      Effect.sync(() => Redacted.make(`effect-token-${++fetched}`)),
+    ];
+    for (const webIdentityToken of tokens) {
+      const { layer, calls } = recordingHttp(() =>
+        assumeRoleXml("AssumeRoleWithWebIdentity", "ASIA-web"),
+      );
+      const source = webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken,
+        region: "us-east-1",
+      }).pipe(Effect.provide(layer));
+      await run(source);
+      await run(source);
+      expect(calls.map((call) => call.body)).toEqual(
+        Redacted.isRedacted(webIdentityToken)
+          ? [
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+            ]
+          : [
+              expect.stringContaining("WebIdentityToken=effect-token-1"),
+              expect.stringContaining("WebIdentityToken=effect-token-2"),
+            ],
+      );
+    }
+  });
+
+  test("a token Effect that fails is a final failure", async () => {
+    const error = await runFail(
+      webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken: Effect.fail("vault unavailable"),
+        region: "us-east-1",
+      }),
+    );
+    expect(error.message).toBe("Could not resolve the web identity token.");
+    expect(error.cause).toBe("vault unavailable");
+    expect(error.tryNextLink).toBe(false);
   });
 
   test("an STS failure does not fall through to another source", async () => {
@@ -784,7 +778,7 @@ describe("fromWebToken", () => {
     const error = await runFail(
       webTokenSource({
         roleArn: "arn:aws:iam::123456789012:role/Web",
-        webIdentityToken: "bad",
+        webIdentityToken: Redacted.make("bad"),
         region: "us-east-1",
       }).pipe(Effect.provide(layer)),
     );
@@ -799,9 +793,7 @@ describe("fromTemporaryCredentials", () => {
     process.env.AWS_ACCESS_KEY_ID = "AKIA-env";
     process.env.AWS_SECRET_ACCESS_KEY = "secret-env";
     process.env.AWS_REGION = "us-west-2";
-    const { layer, calls } = recordingHttp(() =>
-      assumeRoleXml("AssumeRole", "ASIA-temp"),
-    );
+    const { layer, calls } = recordingHttp(() => assumeRoleXml("AssumeRole", "ASIA-temp"));
     const creds = await run(
       temporaryCredentialsSource({
         params: { RoleArn: role },
@@ -823,9 +815,7 @@ describe("fromTemporaryCredentials", () => {
 aws_access_key_id = AKIA-file
 aws_secret_access_key = secret-file
 `);
-    const { layer, calls } = recordingHttp(() =>
-      assumeRoleXml("AssumeRole", "ASIA-temp"),
-    );
+    const { layer, calls } = recordingHttp(() => assumeRoleXml("AssumeRole", "ASIA-temp"));
     const creds = await run(
       temporaryCredentialsSource({
         params: { RoleArn: role, RoleSessionName: "s" },
@@ -839,9 +829,7 @@ aws_secret_access_key = secret-file
     process.env.AWS_ACCESS_KEY_ID = "AKIA-env";
     process.env.AWS_SECRET_ACCESS_KEY = "secret-env";
     process.env.AWS_REGION = "us-east-1";
-    const { layer, calls } = recordingHttp(() =>
-      assumeRoleXml("AssumeRole", "ASIA-mfa"),
-    );
+    const { layer, calls } = recordingHttp(() => assumeRoleXml("AssumeRole", "ASIA-mfa"));
     const params = {
       RoleArn: role,
       SerialNumber: "arn:aws:iam::123456789012:mfa/me",
@@ -871,15 +859,13 @@ describe("fromCognitoIdentity", () => {
   const identityId = "us-east-1:00000000-0000-0000-0000-000000000000";
 
   test("calls GetCredentialsForIdentity in the identity's own region", async () => {
-    const { layer, calls } = recordingHttp(() =>
-      cognitoCredentials("ASIA-cog"),
-    );
+    const { layer, calls } = recordingHttp(() => cognitoCredentials("ASIA-cog"));
     const creds = await run(
       cognitoIdentitySource({
         identityId,
         logins: {
-          "accounts.google.com": "static-token",
-          "graph.facebook.com": Effect.succeed("effect-token"),
+          "accounts.google.com": Redacted.make("static-token"),
+          "graph.facebook.com": Effect.succeed(Redacted.make("effect-token")),
         },
       }).pipe(Effect.provide(layer)),
     );
@@ -887,9 +873,7 @@ describe("fromCognitoIdentity", () => {
     expect(creds.secretAccessKey).toBe("secret-ASIA-cog");
     expect(creds.sessionToken).toBe("session-ASIA-cog");
     expect(creds.expiration).toBeInstanceOf(Date);
-    expect(calls[0].url.hostname).toBe(
-      "cognito-identity.us-east-1.amazonaws.com",
-    );
+    expect(calls[0].url.hostname).toBe("cognito-identity.us-east-1.amazonaws.com");
     expect(target(calls[0])).toBe("GetCredentialsForIdentity");
     const body = JSON.parse(calls[0].body);
     expect(body.IdentityId).toBe(identityId);
@@ -908,9 +892,7 @@ describe("fromCognitoIdentity", () => {
         }),
     );
     const error = await runFail(
-      cognitoIdentitySource({ identityId, region: "us-east-2" }).pipe(
-        Effect.provide(layer),
-      ),
+      cognitoIdentitySource({ identityId, region: "us-east-2" }).pipe(Effect.provide(layer)),
     );
     expect(error.message).toContain("no credentials");
     expect(error.tryNextLink).toBe(false);
@@ -919,9 +901,7 @@ describe("fromCognitoIdentity", () => {
   test("the Credentials layer carries the identity's region", async () => {
     const { layer } = recordingHttp(() => cognitoCredentials("ASIA-cog"));
     const resolved = await run(
-      resolveLayer(Credentials.fromCognitoIdentity({ identityId })).pipe(
-        Effect.provide(layer),
-      ),
+      resolveLayer(Credentials.fromCognitoIdentity({ identityId })).pipe(Effect.provide(layer)),
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-cog");
     expect(resolved.region).toBe("us-east-1");
@@ -949,9 +929,7 @@ describe("fromCognitoIdentityPool", () => {
     const first = await run(provider.pipe(Effect.provide(layer)));
     expect(first.accessKeyId).toBe("ASIA-pool");
     expect(calls.map(target)).toEqual(["GetId", "GetCredentialsForIdentity"]);
-    expect(calls[0].url.hostname).toBe(
-      "cognito-identity.eu-west-1.amazonaws.com",
-    );
+    expect(calls[0].url.hostname).toBe("cognito-identity.eu-west-1.amazonaws.com");
     expect(JSON.parse(calls[0].body)).toEqual({
       IdentityPoolId: identityPoolId,
       AccountId: "123456789012",
@@ -982,9 +960,7 @@ describe("fromCognitoIdentityPool", () => {
         : cognitoCredentials("ASIA-fresh");
     });
     const creds = await run(
-      cognitoIdentityPoolSource({ identityPoolId, cache }).pipe(
-        Effect.provide(layer),
-      ),
+      cognitoIdentityPoolSource({ identityPoolId, cache }).pipe(Effect.provide(layer)),
     );
     expect(creds.accessKeyId).toBe("ASIA-fresh");
     expect(calls.map(target)).toEqual([
@@ -1006,9 +982,9 @@ describe("fromCognitoIdentityPool", () => {
         : cognitoCredentials("ASIA-pool"),
     );
     const resolved = await run(
-      resolveLayer(
-        Credentials.fromCognitoIdentityPool({ identityPoolId, cache }),
-      ).pipe(Effect.provide(layer)),
+      resolveLayer(Credentials.fromCognitoIdentityPool({ identityPoolId, cache })).pipe(
+        Effect.provide(layer),
+      ),
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-pool");
     expect(resolved.region).toBe("eu-west-1");
@@ -1018,11 +994,7 @@ describe("fromCognitoIdentityPool", () => {
 describe("fromLoginCredentials", () => {
   const loginSession = "my-session";
   const sessionFile = () =>
-    join(
-      home,
-      "login-cache",
-      `${createHash("sha256").update(loginSession).digest("hex")}.json`,
-    );
+    join(home, "login-cache", `${createHash("sha256").update(loginSession).digest("hex")}.json`);
 
   let keyPair: { privateKey: string; publicKey: string };
 
@@ -1090,26 +1062,20 @@ login_session = ${loginSession}
   test("refreshes through the signin endpoint with a DPoP proof", async () => {
     const path = writeToken(new Date(Date.now() + 60 * 1000));
     const { layer, calls } = recordingHttp(() => oauthToken("ASIA-refreshed"));
-    const creds = await run(
-      loginCredentialsSource().pipe(Effect.provide(layer)),
-    );
+    const creds = await run(loginCredentialsSource().pipe(Effect.provide(layer)));
     expect(creds.accessKeyId).toBe("ASIA-refreshed");
     expect(creds.accountId).toBe("123456789012");
 
     expect(calls).toHaveLength(1);
     expect(calls[0].method).toBe("POST");
-    expect(calls[0].url.href).toBe(
-      "https://eu-west-1.signin.aws.amazon.com/v1/token",
-    );
+    expect(calls[0].url.href).toBe("https://eu-west-1.signin.aws.amazon.com/v1/token");
     expect(JSON.parse(calls[0].body)).toEqual({
       clientId: "client-id",
       grantType: "refresh_token",
       refreshToken: "refresh-token",
     });
 
-    const [header, payload, signature] = (calls[0].headers.dpop ?? "").split(
-      ".",
-    );
+    const [header, payload, signature] = (calls[0].headers.dpop ?? "").split(".");
     expect(JSON.parse(Buffer.from(header, "base64url").toString())).toEqual({
       alg: "ES256",
       typ: "dpop+jwt",
@@ -1140,19 +1106,13 @@ login_session = ${loginSession}
     const saved = JSON.parse(readFileSync(path, "utf8"));
     expect(saved.accessToken.accessKeyId).toBe("ASIA-refreshed");
     expect(saved.refreshToken).toBe("refresh-token-2");
-    expect(new Date(saved.accessToken.expiresAt).getTime()).toBeGreaterThan(
-      Date.now(),
-    );
+    expect(new Date(saved.accessToken.expiresAt).getTime()).toBeGreaterThan(Date.now());
   });
 
   test("keeps a still-valid token when the refresh call fails", async () => {
     writeToken(new Date(Date.now() + 60 * 1000));
-    const { layer } = recordingHttp(
-      () => new Response("boom", { status: 500 }),
-    );
-    const creds = await run(
-      loginCredentialsSource().pipe(Effect.provide(layer)),
-    );
+    const { layer } = recordingHttp(() => new Response("boom", { status: 500 }));
+    const creds = await run(loginCredentialsSource().pipe(Effect.provide(layer)));
     expect(creds.accessKeyId).toBe("ASIA-cached");
   });
 
@@ -1160,20 +1120,15 @@ login_session = ${loginSession}
     writeToken(new Date(Date.now() - 60 * 1000));
     const { layer } = recordingHttp(
       () =>
-        new Response(
-          JSON.stringify({ error: "TOKEN_EXPIRED", message: "expired" }),
-          {
-            status: 403,
-            headers: {
-              "content-type": "application/json",
-              "x-amzn-errortype": "AccessDeniedException",
-            },
+        new Response(JSON.stringify({ error: "TOKEN_EXPIRED", message: "expired" }), {
+          status: 403,
+          headers: {
+            "content-type": "application/json",
+            "x-amzn-errortype": "AccessDeniedException",
           },
-        ),
+        }),
     );
-    const error = await runFail(
-      loginCredentialsSource().pipe(Effect.provide(layer)),
-    );
+    const error = await runFail(loginCredentialsSource().pipe(Effect.provide(layer)));
     expect(error.message).toContain("Your session has expired");
     expect(error.tryNextLink).toBe(false);
   });
@@ -1196,9 +1151,7 @@ region = eu-west-1
 
   test("the Credentials layer carries the profile's region", async () => {
     writeToken(inOneHour());
-    const resolved = await run(
-      resolveLayer(Credentials.fromLoginCredentials()),
-    );
+    const resolved = await run(resolveLayer(Credentials.fromLoginCredentials()));
     expect(Redacted.value(resolved.accessKeyId)).toBe("ASIA-cached");
     expect(resolved.region).toBe("eu-west-1");
   });
@@ -1260,9 +1213,7 @@ describe("Credentials layers", () => {
       return imdsCreds("AKIA-imds");
     });
     const resolved = await run(
-      resolveLayer(Credentials.fromInstanceMetadata()).pipe(
-        Effect.provide(http),
-      ),
+      resolveLayer(Credentials.fromInstanceMetadata()).pipe(Effect.provide(http)),
     );
     expect(Redacted.value(resolved.accessKeyId)).toBe("AKIA-imds");
     expect(resolved.region).toBe("us-east-1");
@@ -1295,5 +1246,26 @@ describe("Credentials layers", () => {
     if (error._tag === "AWS::CredentialProviderError") {
       expect(error.provider).toBe("chain");
     }
+  });
+});
+
+describe("fromCredentials", () => {
+  test("holds the Redacted secrets it is given", async () => {
+    const resolved = await run(
+      resolveLayer(
+        Credentials.fromCredentials(
+          {
+            accessKeyId: Redacted.make("AKIA-static"),
+            secretAccessKey: Redacted.make("secret-static"),
+            sessionToken: Redacted.make("session-static"),
+          },
+          "us-east-2",
+        ),
+      ),
+    );
+    expect(Redacted.value(resolved.accessKeyId)).toBe("AKIA-static");
+    expect(Redacted.value(resolved.secretAccessKey)).toBe("secret-static");
+    expect(resolved.sessionToken && Redacted.value(resolved.sessionToken)).toBe("session-static");
+    expect(resolved.region).toBe("us-east-2");
   });
 });

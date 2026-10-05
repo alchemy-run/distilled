@@ -29,10 +29,7 @@ export const base64url = (bytes: Uint8Array | ArrayBuffer): string => {
   const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
   let binary = "";
   for (const byte of view) binary += String.fromCharCode(byte);
-  return btoa(binary)
-    .replaceAll("+", "-")
-    .replaceAll("/", "_")
-    .replace(/=+$/, "");
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
 };
 
 export const base64urlDecode = (text: string): Uint8Array => {
@@ -43,20 +40,16 @@ export const base64urlDecode = (text: string): Uint8Array => {
   return out;
 };
 
-const base64urlJson = (value: unknown): string =>
-  base64url(encoder.encode(JSON.stringify(value)));
+const base64urlJson = (value: unknown): string => base64url(encoder.encode(JSON.stringify(value)));
 
 const sha256 = (data: Uint8Array | string): Effect.Effect<Uint8Array> =>
   Effect.promise(async () => {
     const bytes = typeof data === "string" ? encoder.encode(data) : data;
-    return new Uint8Array(
-      await crypto.subtle.digest("SHA-256", bytes as Uint8Array<ArrayBuffer>),
-    );
+    return new Uint8Array(await crypto.subtle.digest("SHA-256", bytes as Uint8Array<ArrayBuffer>));
   });
 
 /** Detect the JWS algorithm for a JWK. */
-export const algorithmOf = (jwk: Jwk): Algorithm =>
-  jwk.kty === "RSA" ? "RS256" : "ES256";
+export const algorithmOf = (jwk: Jwk): Algorithm => (jwk.kty === "RSA" ? "RS256" : "ES256");
 
 const importAlgorithm = (alg: Algorithm) =>
   alg === "RS256"
@@ -64,9 +57,7 @@ const importAlgorithm = (alg: Algorithm) =>
     : { name: "ECDSA", namedCurve: "P-256" };
 
 const signAlgorithm = (alg: Algorithm) =>
-  alg === "RS256"
-    ? { name: "RSASSA-PKCS1-v1_5" }
-    : { name: "ECDSA", hash: "SHA-256" };
+  alg === "RS256" ? { name: "RSASSA-PKCS1-v1_5" } : { name: "ECDSA", hash: "SHA-256" };
 
 /** Generate a fresh account key as a private JWK (JSON text, Redacted). */
 export const generateAccountKey = (
@@ -90,12 +81,9 @@ export const generateAccountKey = (
   });
 
 /** Parse a private JWK from its JSON text. */
-export const parseJwk = (
-  key: Redacted.Redacted<string> | string,
-): Effect.Effect<Jwk, JoseError> =>
+export const parseJwk = (key: Redacted.Redacted<string> | string): Effect.Effect<Jwk, JoseError> =>
   Effect.try({
-    try: () =>
-      JSON.parse(Redacted.isRedacted(key) ? Redacted.value(key) : key) as Jwk,
+    try: () => JSON.parse(Redacted.isRedacted(key) ? Redacted.value(key) : key) as Jwk,
     catch: (cause) =>
       new JoseError({
         message: "The account key is not a JSON Web Key.",
@@ -114,21 +102,12 @@ export const thumbprint = (jwk: Jwk): Effect.Effect<string> =>
   sha256(JSON.stringify(publicJwk(jwk))).pipe(Effect.map(base64url));
 
 /** `<token>.<thumbprint>` — what a challenge proves the client holds. */
-export const keyAuthorization = (
-  token: string,
-  jwk: Jwk,
-): Effect.Effect<string> =>
+export const keyAuthorization = (token: string, jwk: Jwk): Effect.Effect<string> =>
   thumbprint(jwk).pipe(Effect.map((print) => `${token}.${print}`));
 
 /** The TXT record value for a DNS-01 challenge: base64url(SHA-256(keyAuthorization)). */
-export const dnsChallengeValue = (
-  token: string,
-  jwk: Jwk,
-): Effect.Effect<string> =>
-  keyAuthorization(token, jwk).pipe(
-    Effect.flatMap(sha256),
-    Effect.map(base64url),
-  );
+export const dnsChallengeValue = (token: string, jwk: Jwk): Effect.Effect<string> =>
+  keyAuthorization(token, jwk).pipe(Effect.flatMap(sha256), Effect.map(base64url));
 
 export interface FlattenedJws {
   readonly protected: string;
@@ -147,9 +126,7 @@ export interface SignOptions {
 }
 
 /** Sign an ACME request body (RFC 8555 §6.2) with the account key. */
-export const signRequest = (
-  options: SignOptions,
-): Effect.Effect<FlattenedJws, JoseError> =>
+export const signRequest = (options: SignOptions): Effect.Effect<FlattenedJws, JoseError> =>
   Effect.tryPromise({
     try: async () => {
       const alg = algorithmOf(options.jwk);
@@ -157,13 +134,10 @@ export const signRequest = (
         alg,
         nonce: options.nonce,
         url: options.url,
-        ...(options.kid !== undefined
-          ? { kid: options.kid }
-          : { jwk: publicJwk(options.jwk) }),
+        ...(options.kid !== undefined ? { kid: options.kid } : { jwk: publicJwk(options.jwk) }),
       };
       const protectedB64 = base64urlJson(header);
-      const payloadB64 =
-        options.payload === undefined ? "" : base64urlJson(options.payload);
+      const payloadB64 = options.payload === undefined ? "" : base64urlJson(options.payload);
       const key = await crypto.subtle.importKey(
         "jwk",
         options.jwk as JsonWebKey,
@@ -182,8 +156,7 @@ export const signRequest = (
         signature: base64url(signature),
       };
     },
-    catch: (cause) =>
-      new JoseError({ message: "Signing the ACME request failed.", cause }),
+    catch: (cause) => new JoseError({ message: "Signing the ACME request failed.", cause }),
   });
 
 /**

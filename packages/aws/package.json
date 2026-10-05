@@ -1,19 +1,19 @@
 {
   "name": "@distilled.cloud/aws",
   "version": "1.0.0-rc.13",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/aws"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -355,21 +355,16 @@
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsc && oxlint src && oxfmt --check src",
-    "convert": "bun run scripts/convert.ts",
-    "generate": "bun run scripts/generate.ts",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-aws",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*",
-    "@smithy/types": "catalog:"
+    "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "dedent": "catalog:",
-    "pathe": "catalog:"
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"

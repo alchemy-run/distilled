@@ -1,0 +1,235 @@
+{
+  "description": "ARM has not rolled out api-version 2025-01-02 for Microsoft.DatabaseWatcher/watchers and its child types (400: 'No registered resource provider found for location eastus and API version 2025-01-02 for type watchers. The supported api-versions are 2023-09-01-preview, 2024-07-19-preview, 2024-10-01-preview'). Pin every watcher operation to 2024-10-01-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#AlertRuleResourcesCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#AlertRuleResourcesCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#CreateSharedPrivateLinkResource/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#CreateSharedPrivateLinkResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteAlertRuleResource/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteAlertRuleResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteSharedPrivateLinkResource/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteSharedPrivateLinkResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteTarget/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteTarget/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#DeleteWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetAlertRuleResource/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetAlertRuleResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetHealthValidation/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetHealthValidation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetSharedPrivateLinkResource/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetSharedPrivateLinkResource/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetTarget/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetTarget/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#GetWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListAlertRuleResourceByParent/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListAlertRuleResourceByParent/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListHealthValidationByParent/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListHealthValidationByParent/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListSharedPrivateLinkResourceByWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListSharedPrivateLinkResourceByWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListTargetByWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListTargetByWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListWatcherByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListWatcherByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListWatcherBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#ListWatcherBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StartHealthValidationValidation/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StartHealthValidationValidation/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StartWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StartWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StopWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#StopWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#TargetsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#TargetsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#UpdateWatcher/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#UpdateWatcher/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#WatchersCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2024-10-01-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.databasewatcher#WatchersCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2024-10-01-preview"
+    }
+  ]
+}

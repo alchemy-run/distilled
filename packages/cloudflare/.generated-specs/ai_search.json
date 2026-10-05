@@ -361,7 +361,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -373,6 +373,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -570,7 +579,7 @@
           "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#InstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -4778,7 +4787,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4790,6 +4799,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -4987,7 +5005,7 @@
           "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#InstancesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -6986,7 +7004,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -6998,6 +7016,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -7201,7 +7228,7 @@
           "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -8331,7 +8358,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -8343,6 +8370,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -8546,7 +8582,7 @@
           "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -9415,7 +9451,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -9427,6 +9463,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsQueryRewrite": {
@@ -9624,7 +9669,7 @@
           "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesChatCompletionsRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -13832,7 +13877,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -13844,6 +13889,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsQueryRewrite": {
@@ -14041,7 +14095,7 @@
           "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCache"
         },
         "custom_metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesSearchRequestAiSearchOptionsCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Metadata added to AI Gateway logs for requests triggered by this operation. Accepts up to 2 string, number, or boolean entries. Keys 'ai-search', 'task', 'origin', and keys beginning with 'cf.' are reserved."
           }
@@ -15942,7 +15996,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -15954,6 +16008,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseNextAction": {
@@ -16014,7 +16077,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16026,6 +16089,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseNextAction": {
@@ -16144,7 +16216,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16156,6 +16228,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemNextAction": {
@@ -16262,7 +16343,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsListResultItemMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -16368,7 +16449,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16380,6 +16461,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseNextAction": {
@@ -16464,7 +16554,7 @@
         }
       }
     },
-    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadata": {
+    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataValue": {
       "type": "union",
       "members": {
         "String": {
@@ -16476,6 +16566,15 @@
         "Boolean": {
           "target": "smithy.api#Boolean"
         }
+      }
+    },
+    "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataValue"
       }
     },
     "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseNextAction": {
@@ -17327,7 +17426,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/chat/completions",
           "code": 200
         },
-        "smithy.api#documentation": "Performs a chat completion request against an AI Search instance, using indexed content as context for generating responses."
+        "smithy.api#documentation": "Performs a chat completion request against an AI Search instance, using indexed content as context for generating responses. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead."
       }
     },
     "com.cloudflare.ai_search#ChatCompletionsInstanceRequest": {
@@ -17682,7 +17781,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new AI Search instance with the given configuration."
+        "smithy.api#documentation": "Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead."
       },
       "errors": [
         {
@@ -17764,13 +17863,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesCreateRequestIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -17822,7 +17921,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#InstancesCreateRequestType"
+          "target": "com.cloudflare.ai_search#InstancesCreateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -17899,13 +18001,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesCreateResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -17975,7 +18077,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#InstancesCreateResponseType"
+          "target": "com.cloudflare.ai_search#InstancesCreateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -17997,7 +18102,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/jobs",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new indexing job for an AI Search instance."
+        "smithy.api#documentation": "Creates a new indexing job for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead."
       },
       "errors": [
         {
@@ -18181,7 +18286,7 @@
           "uri": "/accounts/{account_id}/ai-search/namespaces/{name}/instances",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new AI Search instance with the given configuration."
+        "smithy.api#documentation": "Create a new AI Search instance with the given configuration. If type is omitted or null, a non-blank HTTP(S) source infers web-crawler and an existing R2 bucket source infers r2. A missing or blank source without a type creates a managed upload-only instance. Search for Agents instances require the default namespace."
       },
       "errors": [
         {
@@ -18279,13 +18384,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesCreateRequestIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -18337,7 +18442,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesCreateRequestType"
+          "target": "com.cloudflare.ai_search#NamespacesInstancesCreateRequestType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -18414,13 +18522,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesCreateResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -18490,7 +18598,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesCreateResponseType"
+          "target": "com.cloudflare.ai_search#NamespacesInstancesCreateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -18697,7 +18808,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsCreateOrUpdateResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -18872,7 +18983,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Permanently delete an AI Search instance and all its indexed data.",
+        "smithy.api#documentation": "Permanently delete an AI Search instance and all its indexed data. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -18982,13 +19093,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesDeleteResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -19058,7 +19169,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#InstancesDeleteResponseType"
+          "target": "com.cloudflare.ai_search#InstancesDeleteResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -19263,13 +19377,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesDeleteResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -19339,7 +19453,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesDeleteResponseType"
+          "target": "com.cloudflare.ai_search#NamespacesInstancesDeleteResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -19361,7 +19478,7 @@
           "uri": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}/items/{item_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a file from a managed AI Search instance and triggers a reindex.",
+        "smithy.api#documentation": "Deletes a file from a managed AI Search instance and removes its indexed data.",
         "smithy.api#idempotent": {}
       }
     },
@@ -19561,7 +19678,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/jobs/{job_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific AI Search indexing job.",
+        "smithy.api#documentation": "Retrieves details for a specific AI Search indexing job. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19743,7 +19860,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsGetResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -19888,7 +20005,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/jobs",
           "code": 200
         },
-        "smithy.api#documentation": "Lists indexing jobs for an AI Search instance.",
+        "smithy.api#documentation": "Lists indexing jobs for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -19963,7 +20080,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances",
           "code": 200
         },
-        "smithy.api#documentation": "List all AI Search instances in the account.",
+        "smithy.api#documentation": "List all AI Search instances in the account. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -19990,6 +20107,13 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter by exact Search for Agents hostname (case-insensitive).",
+            "smithy.api#httpQuery": "hostname"
           }
         },
         "namespace": {
@@ -20318,6 +20442,13 @@
             "smithy.api#required": {}
           }
         },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter by exact Search for Agents hostname (case-insensitive).",
+            "smithy.api#httpQuery": "hostname"
+          }
+        },
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
@@ -20554,7 +20685,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/jobs/{job_id}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Lists log entries for an AI Search indexing job.",
+        "smithy.api#documentation": "Lists log entries for an AI Search indexing job. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -20900,7 +21031,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the configuration and status of an AI Search instance.",
+        "smithy.api#documentation": "Retrieve the configuration and status of an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -21010,13 +21141,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesReadResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -21086,7 +21217,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#InstancesReadResponseType"
+          "target": "com.cloudflare.ai_search#InstancesReadResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -21309,13 +21443,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesReadResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -21385,7 +21519,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesReadResponseType"
+          "target": "com.cloudflare.ai_search#NamespacesInstancesReadResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -21515,7 +21652,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/search",
           "code": 200
         },
-        "smithy.api#documentation": "Executes a semantic search query against an AI Search instance to find relevant indexed content."
+        "smithy.api#documentation": "Executes a semantic search query against an AI Search instance to find relevant indexed content. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead."
       }
     },
     "com.cloudflare.ai_search#SearchInstanceRequest": {
@@ -21764,7 +21901,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}/stats",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve usage and indexing statistics for an AI Search instance.",
+        "smithy.api#documentation": "Retrieve usage and indexing statistics for an AI Search instance. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -22058,7 +22195,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsSyncResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}
@@ -22112,7 +22249,7 @@
           "uri": "/accounts/{account_id}/ai-search/instances/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update the configuration of an AI Search instance.",
+        "smithy.api#documentation": "Update an AI Search instance. Submitting Search for Agents metadata requires the default namespace; omitting or removing it is allowed elsewhere. Submit Search for Agents metadata and restrictive or unknown public endpoint changes or custom domains in separate PUT requests, even when resubmitting unchanged metadata. Deprecated: use /accounts/{account_id}/ai-search/namespaces/{name}/instances (and descendant paths) instead.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -22192,7 +22329,7 @@
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesUpdateRequestIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -22336,13 +22473,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#InstancesUpdateResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -22412,7 +22549,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#InstancesUpdateResponseType"
+          "target": "com.cloudflare.ai_search#InstancesUpdateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -22525,7 +22665,7 @@
           "uri": "/accounts/{account_id}/ai-search/namespaces/{name}/instances/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update the configuration of an AI Search instance.",
+        "smithy.api#documentation": "Update an AI Search instance. Submitting Search for Agents metadata requires the default namespace; omitting or removing it is allowed elsewhere. Submit Search for Agents metadata and restrictive or unknown public endpoint changes or custom domains in separate PUT requests, even when resubmitting unchanged metadata.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -22618,7 +22758,7 @@
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesUpdateRequestIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -22762,13 +22902,13 @@
         "hybrid_search_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Deprecated — use index_method instead."
+            "smithy.api#documentation": "Deprecated — use index_method instead. Defaults to true for new instances; set false to create a vector-only instance."
           }
         },
         "index_method": {
           "target": "com.cloudflare.ai_search#NamespacesInstancesUpdateResponseIndexMethod",
           "traits": {
-            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector-only."
+            "smithy.api#documentation": "Controls which storage backends are used during indexing. Defaults to vector and keyword indexing for new instances."
           }
         },
         "indexing_options": {
@@ -22838,7 +22978,10 @@
           "target": "smithy.api#String"
         },
         "type": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesUpdateResponseType"
+          "target": "com.cloudflare.ai_search#NamespacesInstancesUpdateResponseType",
+          "traits": {
+            "smithy.api#documentation": "Source type. When omitted or null with a non-blank source, HTTP(S) URLs infer web-crawler and existing R2 bucket names infer r2. A missing or blank source without a type uses managed upload-only storage."
+          }
         }
       },
       "traits": {
@@ -23077,7 +23220,7 @@
           }
         },
         "metadata": {
-          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadata",
+          "target": "com.cloudflare.ai_search#NamespacesInstancesItemsUploadResponseMetadataMap",
           "traits": {
             "smithy.api#documentation": "Built-in, configured filterable, and retained source metadata for the item.",
             "smithy.api#required": {}

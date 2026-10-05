@@ -164,13 +164,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -181,13 +181,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -198,7 +207,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -209,19 +227,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -232,7 +250,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -246,7 +264,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -254,28 +272,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -286,7 +304,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -300,7 +318,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -308,17 +326,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -332,7 +350,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -353,27 +371,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -385,7 +403,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -404,13 +422,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -421,13 +439,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerSettings": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -438,7 +465,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerType": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -449,7 +485,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerWorker": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -466,19 +502,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -489,7 +525,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -503,7 +539,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -511,28 +547,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -543,7 +579,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -557,7 +593,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -565,17 +601,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseToolsWorker": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -589,7 +625,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -610,34 +646,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -649,7 +685,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -668,15 +704,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseTools": {
+    "com.cloudflare.zaraz#ConfigGetResponseToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsWorker"
+          "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseToolsValue"
       }
     },
     "com.cloudflare.zaraz#ConfigGetResponseTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -1620,7 +1665,7 @@
         "target": "com.cloudflare.zaraz#ConfigGetResponseTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesStringType": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -1631,7 +1676,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesString": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -1641,7 +1686,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesStringType",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1654,7 +1699,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesSecretType": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -1665,7 +1710,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesSecret": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -1675,7 +1720,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesSecretType",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1688,7 +1733,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesWorkerType": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -1699,7 +1744,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesWorkerValue": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -1716,7 +1761,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariablesWorker": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -1726,31 +1771,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigGetResponseVariables": {
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesString"
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesSecret"
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesWorker"
+          "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigGetResponseVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigGetResponseVariablesValue"
       }
     },
     "com.cloudflare.zaraz#ConfigGetResponseAnalytics": {
@@ -2085,13 +2139,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2102,13 +2156,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2119,7 +2182,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -2130,19 +2202,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -2153,7 +2225,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -2167,7 +2239,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -2175,28 +2247,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -2207,7 +2279,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -2221,7 +2293,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -2229,17 +2301,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -2253,7 +2325,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -2274,27 +2346,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -2306,7 +2378,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -2325,13 +2397,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2342,13 +2414,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerSettings": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -2359,7 +2440,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerType": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -2370,7 +2460,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -2387,19 +2477,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -2410,7 +2500,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -2424,7 +2514,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -2432,28 +2522,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -2464,7 +2554,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -2478,7 +2568,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -2486,17 +2576,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -2510,7 +2600,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -2531,34 +2621,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -2570,7 +2660,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -2589,15 +2679,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestTools": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsWorker"
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestToolsValue"
       }
     },
     "com.cloudflare.zaraz#ConfigUpdateRequestTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -3541,7 +3640,7 @@
         "target": "com.cloudflare.zaraz#ConfigUpdateRequestTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesStringType": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -3552,7 +3651,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesString": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -3562,7 +3661,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesStringType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3575,7 +3674,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesSecretType": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -3586,7 +3685,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesSecret": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -3596,7 +3695,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesSecretType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3609,7 +3708,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorkerType": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -3620,7 +3719,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorkerValue": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -3637,7 +3736,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -3647,31 +3746,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateRequestVariables": {
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesString"
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesSecret"
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesWorker"
+          "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateRequestVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateRequestVariablesValue"
       }
     },
     "com.cloudflare.zaraz#ConfigUpdateRequestAnalytics": {
@@ -4006,13 +4114,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4023,13 +4131,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4040,7 +4157,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -4051,19 +4177,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -4074,7 +4200,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -4088,7 +4214,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -4096,28 +4222,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -4128,7 +4254,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -4142,7 +4268,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -4150,17 +4276,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -4174,7 +4300,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -4195,27 +4321,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -4227,7 +4353,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -4246,13 +4372,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4263,13 +4389,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerSettings": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -4280,7 +4415,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerType": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -4291,7 +4435,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -4308,19 +4452,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -4331,7 +4475,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -4345,7 +4489,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -4353,28 +4497,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -4385,7 +4529,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -4399,7 +4543,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -4407,17 +4551,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -4431,7 +4575,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -4452,34 +4596,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -4491,7 +4635,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -4510,15 +4654,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseTools": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsWorker"
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseToolsValue"
       }
     },
     "com.cloudflare.zaraz#ConfigUpdateResponseTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -5462,7 +5615,7 @@
         "target": "com.cloudflare.zaraz#ConfigUpdateResponseTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesStringType": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -5473,7 +5626,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesString": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -5483,7 +5636,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesStringType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5496,7 +5649,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesSecretType": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -5507,7 +5660,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesSecret": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -5517,7 +5670,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesSecretType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5530,7 +5683,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorkerType": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -5541,7 +5694,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorkerValue": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -5558,7 +5711,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorker": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -5568,31 +5721,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#ConfigUpdateResponseVariables": {
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesString"
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesSecret"
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesWorker"
+          "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#ConfigUpdateResponseVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#ConfigUpdateResponseVariablesValue"
       }
     },
     "com.cloudflare.zaraz#ConfigUpdateResponseAnalytics": {
@@ -5927,13 +6089,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -5944,13 +6106,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -5961,7 +6132,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -5972,19 +6152,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -5995,7 +6175,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -6009,7 +6189,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -6017,28 +6197,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -6049,7 +6229,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -6063,7 +6243,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -6071,17 +6251,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -6095,7 +6275,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -6116,27 +6296,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -6148,7 +6328,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -6167,13 +6347,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -6184,13 +6364,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerSettings": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -6201,7 +6390,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerType": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -6212,7 +6410,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerWorker": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -6229,19 +6427,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -6252,7 +6450,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -6266,7 +6464,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -6274,28 +6472,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -6306,7 +6504,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -6320,7 +6518,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -6328,17 +6526,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseToolsWorker": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -6352,7 +6550,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -6373,34 +6571,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerType",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -6412,7 +6610,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -6431,15 +6629,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseTools": {
+    "com.cloudflare.zaraz#DefaultGetResponseToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsWorker"
+          "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseToolsValue"
       }
     },
     "com.cloudflare.zaraz#DefaultGetResponseTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -7383,7 +7590,7 @@
         "target": "com.cloudflare.zaraz#DefaultGetResponseTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesStringType": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -7394,7 +7601,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesString": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -7404,7 +7611,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesStringType",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7417,7 +7624,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesSecretType": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -7428,7 +7635,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesSecret": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -7438,7 +7645,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesSecretType",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7451,7 +7658,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesWorkerType": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -7462,7 +7669,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesWorkerValue": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -7479,7 +7686,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariablesWorker": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -7489,31 +7696,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#DefaultGetResponseVariables": {
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesString"
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesSecret"
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesWorker"
+          "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#DefaultGetResponseVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#DefaultGetResponseVariablesValue"
       }
     },
     "com.cloudflare.zaraz#DefaultGetResponseAnalytics": {
@@ -7946,13 +8162,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -7963,13 +8179,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -7980,7 +8205,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -7991,19 +8225,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -8014,7 +8248,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -8028,7 +8262,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -8036,28 +8270,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -8068,7 +8302,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -8082,7 +8316,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -8090,17 +8324,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -8114,7 +8348,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -8135,27 +8369,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -8167,7 +8401,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -8186,13 +8420,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -8203,13 +8437,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerSettings": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -8220,7 +8463,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerType": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -8231,7 +8483,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerWorker": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -8248,19 +8500,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -8271,7 +8523,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -8285,7 +8537,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -8293,28 +8545,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -8325,7 +8577,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -8339,7 +8591,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -8347,17 +8599,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorker": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -8371,7 +8623,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -8392,34 +8644,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerType",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -8431,7 +8683,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -8450,15 +8702,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseTools": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsWorker"
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseToolsValue"
       }
     },
     "com.cloudflare.zaraz#HistoryUpdateResponseTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -9402,7 +9663,7 @@
         "target": "com.cloudflare.zaraz#HistoryUpdateResponseTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesStringType": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -9413,7 +9674,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesString": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -9423,7 +9684,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesStringType",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9436,7 +9697,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesSecretType": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -9447,7 +9708,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesSecret": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -9457,7 +9718,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesSecretType",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9470,7 +9731,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorkerType": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -9481,7 +9742,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorkerValue": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -9498,7 +9759,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorker": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -9508,31 +9769,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryUpdateResponseVariables": {
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesString"
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesSecret"
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesWorker"
+          "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#HistoryUpdateResponseVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryUpdateResponseVariablesValue"
       }
     },
     "com.cloudflare.zaraz#HistoryUpdateResponseAnalytics": {
@@ -9873,13 +10143,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentDefaultFields": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -9890,13 +10160,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentPermissionsList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentSettings": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -9907,7 +10186,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentType": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentType": {
       "type": "enum",
       "members": {
         "COMPONENT": {
@@ -9918,19 +10206,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValue": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -9941,7 +10229,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -9955,7 +10243,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -9963,28 +10251,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsMap": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsValue"
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItem": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -9995,7 +10283,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -10009,7 +10297,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -10017,17 +10305,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsItem"
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponent": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponent": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -10041,7 +10329,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentDefaultFields",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -10062,27 +10350,27 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentPermissionsList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentSettings",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentType",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentActionsMap",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -10094,7 +10382,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponentNeoEventsList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponentNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -10113,13 +10401,13 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerDefaultFields": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerDefaultFieldsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -10130,13 +10418,22 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerPermissionsList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerDefaultFieldsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerDefaultFieldsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerPermissionsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerSettings": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerSettingsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -10147,7 +10444,16 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerType": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerSettingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerSettingsValue"
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerType": {
       "type": "enum",
       "members": {
         "CUSTOM_MC": {
@@ -10158,7 +10464,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerWorker": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerWorker": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -10175,19 +10481,19 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValueBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValueBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValueFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValueFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValue": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValue": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -10198,7 +10504,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValueBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValueBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -10212,7 +10518,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValueFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValueFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -10220,28 +10526,28 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsMap": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsValue"
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItemBlockingTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItemBlockingTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItemFiringTriggersList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItemFiringTriggersList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItem": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItem": {
       "type": "structure",
       "members": {
         "actionType": {
@@ -10252,7 +10558,7 @@
           }
         },
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItemBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItemBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking triggers IDs.",
             "smithy.api#required": {}
@@ -10266,7 +10572,7 @@
           }
         },
         "firingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItemFiringTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItemFiringTriggersList",
           "traits": {
             "smithy.api#documentation": "List of firing triggers IDs.",
             "smithy.api#required": {}
@@ -10274,17 +10580,17 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsList": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsItem"
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsItem"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorker": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorker": {
       "type": "structure",
       "members": {
         "blockingTriggers": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerBlockingTriggersList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerBlockingTriggersList",
           "traits": {
             "smithy.api#documentation": "List of blocking trigger IDs.",
             "smithy.api#required": {}
@@ -10298,7 +10604,7 @@
           }
         },
         "defaultFields": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerDefaultFields",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerDefaultFieldsMap",
           "traits": {
             "smithy.api#documentation": "Default fields for tool's actions.",
             "smithy.api#required": {}
@@ -10319,34 +10625,34 @@
           }
         },
         "permissions": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerPermissionsList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerPermissionsList",
           "traits": {
             "smithy.api#documentation": "List of permissions granted to the component.",
             "smithy.api#required": {}
           }
         },
         "settings": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerSettings",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerSettingsMap",
           "traits": {
             "smithy.api#documentation": "Tool's settings.",
             "smithy.api#required": {}
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerType",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "worker": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerWorker",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerWorker",
           "traits": {
             "smithy.api#documentation": "Cloudflare worker that acts as a managed component.",
             "smithy.api#required": {}
           }
         },
         "actions": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerActionsMap",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerActionsMap",
           "traits": {
             "smithy.api#documentation": "Actions configured on a tool. Either this or neoEvents field is required."
           }
@@ -10358,7 +10664,7 @@
           }
         },
         "neoEvents": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorkerNeoEventsList",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorkerNeoEventsList",
           "traits": {
             "smithy.api#documentation": "DEPRECATED - List of actions configured on a tool. Either this or actions field is required. If both are present, actions field will take precedence."
           }
@@ -10377,15 +10683,24 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigTools": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValue": {
       "type": "union",
       "members": {
         "ZarazManagedComponent": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsZarazManagedComponent"
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueZarazManagedComponent"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsWorker"
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigToolsValue"
       }
     },
     "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigTriggersValueExcludeRulesItemZarazLoadRuleOp": {
@@ -11329,7 +11644,7 @@
         "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigTriggersValue"
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesStringType": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueStringType": {
       "type": "enum",
       "members": {
         "STRING": {
@@ -11340,7 +11655,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesString": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueString": {
       "type": "structure",
       "members": {
         "name": {
@@ -11350,7 +11665,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesStringType",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueStringType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11363,7 +11678,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesSecretType": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueSecretType": {
       "type": "enum",
       "members": {
         "SECRET": {
@@ -11374,7 +11689,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesSecret": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueSecret": {
       "type": "structure",
       "members": {
         "name": {
@@ -11384,7 +11699,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesSecretType",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueSecretType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -11397,7 +11712,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorkerType": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorkerType": {
       "type": "enum",
       "members": {
         "WORKER": {
@@ -11408,7 +11723,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorkerValue": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorkerValue": {
       "type": "structure",
       "members": {
         "escapedWorkerName": {
@@ -11425,7 +11740,7 @@
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorker": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorker": {
       "type": "structure",
       "members": {
         "name": {
@@ -11435,31 +11750,40 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorkerType",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorkerType",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "value": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorkerValue",
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorkerValue",
           "traits": {
             "smithy.api#required": {}
           }
         }
       }
     },
-    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariables": {
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValue": {
       "type": "union",
       "members": {
         "String": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesString"
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueString"
         },
         "Secret": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesSecret"
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueSecret"
         },
         "Worker": {
-          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesWorker"
+          "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValueWorker"
         }
+      }
+    },
+    "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigVariablesValue"
       }
     },
     "com.cloudflare.zaraz#HistoryConfigsGetResultValueConfigAnalytics": {

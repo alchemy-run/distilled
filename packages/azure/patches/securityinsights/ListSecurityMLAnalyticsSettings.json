@@ -1,0 +1,15 @@
+{
+  "description": "List items of SecurityMLAnalyticsSettings are polymorphic on `kind`; add the dropped subtype `properties` bag as an untyped document so listing does not strip it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#SecurityMLAnalyticsSetting/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly)."
+        }
+      }
+    }
+  ]
+}

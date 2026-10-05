@@ -28,386 +28,6 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.cloudflare.email_sending#SendRequestFromEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestFrom": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestFromEmailSendingEmailAddressObject"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsItemInlineDisposition": {
-      "type": "enum",
-      "members": {
-        "INLINE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "inline"
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsItemInline": {
-      "type": "structure",
-      "members": {
-        "content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Base64-encoded content of the attachment.",
-            "smithy.api#required": {}
-          }
-        },
-        "content_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Content ID used to reference this attachment in HTML via cid: URI (e.g., ![](cid:logo)).",
-            "smithy.api#required": {}
-          }
-        },
-        "disposition": {
-          "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemInlineDisposition",
-          "traits": {
-            "smithy.api#documentation": "Use 'inline' to embed the attachment in the email body.",
-            "smithy.api#required": {}
-          }
-        },
-        "filename": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filename for the attachment.",
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "MIME type of the attachment (e.g., 'image/png', 'text/plain').",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsItemAttachmentDisposition": {
-      "type": "enum",
-      "members": {
-        "ATTACHMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "attachment"
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsItemAttachment": {
-      "type": "structure",
-      "members": {
-        "content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Base64-encoded content of the attachment.",
-            "smithy.api#required": {}
-          }
-        },
-        "disposition": {
-          "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemAttachmentDisposition",
-          "traits": {
-            "smithy.api#documentation": "Use 'attachment' for a standard file attachment.",
-            "smithy.api#required": {}
-          }
-        },
-        "filename": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Filename for the attachment.",
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "MIME type of the attachment (e.g., 'application/pdf', 'text/plain').",
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsItem": {
-      "type": "union",
-      "members": {
-        "Inline": {
-          "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemInline"
-        },
-        "Attachment": {
-          "target": "com.cloudflare.email_sending#SendRequestAttachmentsItemAttachment"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestAttachmentsList": {
-      "type": "list",
-      "member": {
-        "target": "com.cloudflare.email_sending#SendRequestAttachmentsItem"
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestBccEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestBccCase2ItemEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestBccCase2Item": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestBccCase2ItemEmailSendingEmailAddressObject"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestBccCase2List": {
-      "type": "list",
-      "member": {
-        "target": "com.cloudflare.email_sending#SendRequestBccCase2Item"
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestBcc": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestBccEmailSendingEmailAddressObject"
-        },
-        "SendRequestBccCase2List": {
-          "target": "com.cloudflare.email_sending#SendRequestBccCase2List"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestCcEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestCcCase2ItemEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestCcCase2Item": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestCcCase2ItemEmailSendingEmailAddressObject"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestCcCase2List": {
-      "type": "list",
-      "member": {
-        "target": "com.cloudflare.email_sending#SendRequestCcCase2Item"
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestCc": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestCcEmailSendingEmailAddressObject"
-        },
-        "SendRequestCcCase2List": {
-          "target": "com.cloudflare.email_sending#SendRequestCcCase2List"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestHeadersMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestReplyToEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestReplyTo": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestReplyToEmailSendingEmailAddressObject"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestToEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestToCase2ItemEmailSendingEmailAddressObject": {
-      "type": "structure",
-      "members": {
-        "address": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email address (e.g., '[user@example.com](mailto:user@example.com)').",
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name for the email address (e.g., 'John Doe'). Optional; set to null or leave it unset to send the address on its own."
-          }
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestToCase2Item": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestToCase2ItemEmailSendingEmailAddressObject"
-        }
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestToCase2List": {
-      "type": "list",
-      "member": {
-        "target": "com.cloudflare.email_sending#SendRequestToCase2Item"
-      }
-    },
-    "com.cloudflare.email_sending#SendRequestTo": {
-      "type": "union",
-      "members": {
-        "String": {
-          "target": "smithy.api#String"
-        },
-        "EmailSendingEmailAddressObject": {
-          "target": "com.cloudflare.email_sending#SendRequestToEmailSendingEmailAddressObject"
-        },
-        "SendRequestToCase2List": {
-          "target": "com.cloudflare.email_sending#SendRequestToCase2List"
-        }
-      }
-    },
     "com.cloudflare.email_sending#SendResponseDeliveredList": {
       "type": "list",
       "member": {
@@ -803,6 +423,70 @@
         "target": "com.cloudflare.email_sending#SubdomainsDnsGetResultItem"
       }
     },
+    "com.cloudflare.email_sending#CreateSuppressionRequestScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionRequestScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionRequestScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionRequestScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionRequestScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionRequestScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain to suppress for: the domain part of the envelope MAIL FROM. It is lowercased and trailing dots are removed. Internationalized domains must use the ASCII (punycode) form. Ownership is not checked; a domain the account does not send from never matches.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionRequestScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionRequestScopeType"
+        },
+        "SuppressionsCreateRequestScopeCase1": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionRequestScopeCase1"
+        }
+      }
+    },
     "com.cloudflare.email_sending#CreateSuppressionRequest": {
       "type": "structure",
       "members": {
@@ -832,10 +516,80 @@
           "traits": {
             "smithy.api#documentation": "Advisory note for this suppression. Not enforced or validated beyond length."
           }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionRequestScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies. Omit for `{ \"type\": \"account\" }`, which blocks the recipient for every sending domain of the account."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponseScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponseScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionResponseScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponseScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponseScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionResponseScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#CreateSuppressionResponseScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionResponseScopeType"
+        },
+        "SuppressionsCreateResponseScopeCase1": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionResponseScopeCase1"
+        }
       }
     },
     "com.cloudflare.email_sending#CreateSuppressionResponse": {
@@ -846,6 +600,12 @@
           "traits": {
             "smithy.api#documentation": "The suppression's identifier.",
             "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#CreateSuppressionResponseScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
           }
         }
       },
@@ -868,7 +628,7 @@
           "uri": "/accounts/{account_id}/email/sending/suppressions",
           "code": 200
         },
-        "smithy.api#documentation": "Creates an account-wide suppression. If a mutable legacy zone-linked row already exists, it is promoted without changing its identifier."
+        "smithy.api#documentation": "Creates a suppression for every sending domain of the account (default) or for one sending domain (`scope.type = sending_domain`). Creating an existing active suppression returns its identifier. If a mutable legacy zone-linked account row already exists, it is promoted without changing its identifier."
       }
     },
     "com.cloudflare.email_sending#DeleteSuppressionRequest": {
@@ -895,6 +655,70 @@
         "smithy.api#input": {}
       }
     },
+    "com.cloudflare.email_sending#DeleteSuppressionResponseScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionResponseScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#DeleteSuppressionResponseScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionResponseScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionResponseScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#DeleteSuppressionResponseScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#DeleteSuppressionResponseScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#DeleteSuppressionResponseScopeType"
+        },
+        "SuppressionsDeleteResponseScopeCase1": {
+          "target": "com.cloudflare.email_sending#DeleteSuppressionResponseScopeCase1"
+        }
+      }
+    },
     "com.cloudflare.email_sending#DeleteSuppressionResponse": {
       "type": "structure",
       "members": {
@@ -903,6 +727,12 @@
           "traits": {
             "smithy.api#documentation": "The suppression's identifier.",
             "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#DeleteSuppressionResponseScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
           }
         }
       },
@@ -959,10 +789,80 @@
           "traits": {
             "smithy.api#documentation": "Replacement advisory note. Send an empty string to clear it; omit to leave it unchanged."
           }
+        },
+        "scope": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Not editable. Scope is fixed when the suppression is created; any value returns 400 with code `scope_immutable`. Delete and recreate the suppression to change it."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponseScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponseScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#EditSuppressionResponseScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponseScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponseScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#EditSuppressionResponseScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#EditSuppressionResponseScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#EditSuppressionResponseScopeType"
+        },
+        "SuppressionsEditResponseScopeCase1": {
+          "target": "com.cloudflare.email_sending#EditSuppressionResponseScopeCase1"
+        }
       }
     },
     "com.cloudflare.email_sending#EditSuppressionResponse": {
@@ -1015,6 +915,12 @@
           "traits": {
             "smithy.api#documentation": "Advisory note for this suppression, if any."
           }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#EditSuppressionResponseScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
+          }
         }
       },
       "traits": {
@@ -1036,7 +942,7 @@
           "uri": "/accounts/{account_id}/email/sending/suppressions/{suppression_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates expiry or advisory note fields without changing legacy internal zone memberships."
+        "smithy.api#documentation": "Updates expiry or advisory note fields without changing legacy internal zone memberships. Scope cannot be changed."
       }
     },
     "com.cloudflare.email_sending#GetSuppressionRequest": {
@@ -1061,6 +967,70 @@
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponseScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponseScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#GetSuppressionResponseScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponseScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponseScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#GetSuppressionResponseScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#GetSuppressionResponseScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#GetSuppressionResponseScopeType"
+        },
+        "SuppressionsGetResponseScopeCase1": {
+          "target": "com.cloudflare.email_sending#GetSuppressionResponseScopeCase1"
+        }
       }
     },
     "com.cloudflare.email_sending#GetSuppressionResponse": {
@@ -1113,6 +1083,12 @@
           "traits": {
             "smithy.api#documentation": "Advisory note for this suppression, if any."
           }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#GetSuppressionResponseScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
+          }
         }
       },
       "traits": {
@@ -1138,6 +1114,70 @@
         "smithy.api#readonly": {}
       }
     },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain to suppress for: the domain part of the envelope MAIL FROM. It is lowercased and trailing dots are removed. Internationalized domains must use the ASCII (punycode) form. Ownership is not checked; a domain the account does not send from never matches.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeType"
+        },
+        "SuppressionsImportRequestItemsItemScopeCase1": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScopeCase1"
+        }
+      }
+    },
     "com.cloudflare.email_sending#ImportSuppressionRequestItemsItem": {
       "type": "structure",
       "members": {
@@ -1158,6 +1198,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Advisory note for this suppression. Not enforced or validated beyond length."
+          }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsItemScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies. Omit for `{ \"type\": \"account\" }`, which blocks the recipient for every sending domain of the account."
           }
         }
       }
@@ -1182,7 +1228,7 @@
         "items": {
           "target": "com.cloudflare.email_sending#ImportSuppressionRequestItemsList",
           "traits": {
-            "smithy.api#documentation": "Suppressions to import. Items with a duplicate email address are deduplicated before processing.",
+            "smithy.api#documentation": "Suppressions to import. Items with the same email address and scope are deduplicated before processing.",
             "smithy.api#required": {}
           }
         }
@@ -1220,6 +1266,70 @@
         }
       }
     },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeType"
+        },
+        "SuppressionsImportResponseItemsItemScopeCase1": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScopeCase1"
+        }
+      }
+    },
     "com.cloudflare.email_sending#ImportSuppressionResponseItemsItem": {
       "type": "structure",
       "members": {
@@ -1254,6 +1364,12 @@
           "traits": {
             "smithy.api#documentation": "Human-readable error message. Present when `status` is `invalid`, `error`, or `skipped`."
           }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#ImportSuppressionResponseItemsItemScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
+          }
         }
       }
     },
@@ -1269,7 +1385,7 @@
         "deduplicated": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Number of items dropped because their email address repeated an earlier item in this request. Counted once and excluded from `items`.",
+            "smithy.api#documentation": "Number of items dropped because their email address and scope repeated an earlier item in this request. Counted once and excluded from `items`.",
             "smithy.api#required": {}
           }
         },
@@ -1283,7 +1399,7 @@
         "invalid": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Number of items with an invalid email address.",
+            "smithy.api#documentation": "Number of items with an invalid email address or sending domain.",
             "smithy.api#required": {}
           }
         },
@@ -1335,7 +1451,7 @@
           "uri": "/accounts/{account_id}/email/sending/suppressions/bulk",
           "code": 200
         },
-        "smithy.api#documentation": "Imports up to 1,000 account-level Email Sending suppressions in one request."
+        "smithy.api#documentation": "Imports up to 1,000 Email Sending suppressions in one request. Each item applies to every sending domain of the account (default) or to one sending domain."
       }
     },
     "com.cloudflare.email_sending#ListSuppressionsRequestReason": {
@@ -1369,6 +1485,23 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "policy"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsRequestScopeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        },
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
           }
         }
       }
@@ -1412,6 +1545,20 @@
             "smithy.api#httpQuery": "reason"
           }
         },
+        "scope_type": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsRequestScopeType",
+          "traits": {
+            "smithy.api#documentation": "Filter by scope: `account` returns only account-wide suppressions, `sending_domain` only sending-domain suppressions. Omit to list both, sending-domain suppressions first.",
+            "smithy.api#httpQuery": "scope_type"
+          }
+        },
+        "scope_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact sending-domain filter. Requires `scope_type=sending_domain`.",
+            "smithy.api#httpQuery": "scope_value"
+          }
+        },
         "search": {
           "target": "smithy.api#String",
           "traits": {
@@ -1422,6 +1569,70 @@
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItemScopeTypeType": {
+      "type": "enum",
+      "members": {
+        "ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItemScopeType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultItemScopeTypeType",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient for every sending domain of the account.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItemScopeCase1Type": {
+      "type": "enum",
+      "members": {
+        "SENDING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sending_domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItemScopeCase1": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultItemScopeCase1Type",
+          "traits": {
+            "smithy.api#documentation": "Blocks the recipient only for mail whose envelope MAIL FROM uses `value`.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The sending domain: the domain part of the envelope MAIL FROM, lowercase, without a trailing dot.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_sending#ListSuppressionsResultItemScope": {
+      "type": "union",
+      "members": {
+        "Type": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultItemScopeType"
+        },
+        "SuppressionsListResultItemScopeCase1": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultItemScopeCase1"
+        }
       }
     },
     "com.cloudflare.email_sending#ListSuppressionsResultItem": {
@@ -1474,6 +1685,12 @@
           "traits": {
             "smithy.api#documentation": "Advisory note for this suppression, if any."
           }
+        },
+        "scope": {
+          "target": "com.cloudflare.email_sending#ListSuppressionsResultItemScope",
+          "traits": {
+            "smithy.api#documentation": "Where the suppression applies: `account` for every sending domain of the account, or `sending_domain` for one envelope MAIL FROM domain."
+          }
         }
       }
     },
@@ -1512,7 +1729,7 @@
           "uri": "/accounts/{account_id}/email/sending/suppressions",
           "code": 200
         },
-        "smithy.api#documentation": "Lists every active Email Sending suppression owned by the account, including legacy rows with internal zone memberships.",
+        "smithy.api#documentation": "Lists every active Email Sending suppression owned by the account: sending-domain suppressions first, then account-wide suppressions (including legacy rows with internal zone memberships). Each group is newest first.",
         "smithy.api#readonly": {}
       }
     },
@@ -2051,68 +2268,6 @@
             "smithy.api#documentation": "Identifier of the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
-          }
-        },
-        "from": {
-          "target": "com.cloudflare.email_sending#SendRequestFrom",
-          "traits": {
-            "smithy.api#documentation": "Sender email address. Either a plain string or an object with address and name.",
-            "smithy.api#required": {}
-          }
-        },
-        "subject": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email subject line.",
-            "smithy.api#required": {}
-          }
-        },
-        "attachments": {
-          "target": "com.cloudflare.email_sending#SendRequestAttachmentsList",
-          "traits": {
-            "smithy.api#documentation": "File attachments and inline images."
-          }
-        },
-        "bcc": {
-          "target": "com.cloudflare.email_sending#SendRequestBcc",
-          "traits": {
-            "smithy.api#documentation": "Blind carbon copy recipient(s). Optional. A single email string, a named address object, or an array of either."
-          }
-        },
-        "cc": {
-          "target": "com.cloudflare.email_sending#SendRequestCc",
-          "traits": {
-            "smithy.api#documentation": "Carbon copy recipient(s). Optional. A single email string, a named address object, or an array of either."
-          }
-        },
-        "headers": {
-          "target": "com.cloudflare.email_sending#SendRequestHeadersMap",
-          "traits": {
-            "smithy.api#documentation": "Custom email headers as key-value pairs."
-          }
-        },
-        "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "HTML body of the email. Provide at least one of text or html (non-empty)."
-          }
-        },
-        "reply_to": {
-          "target": "com.cloudflare.email_sending#SendRequestReplyTo",
-          "traits": {
-            "smithy.api#documentation": "Reply-to address. Either a plain string or an object with address and name."
-          }
-        },
-        "text": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Plain text body of the email. Provide at least one of text or html (non-empty)."
-          }
-        },
-        "to": {
-          "target": "com.cloudflare.email_sending#SendRequestTo",
-          "traits": {
-            "smithy.api#documentation": "Recipient(s). Optional if cc or bcc is provided. A single email string, a named address object, or an array of either."
           }
         }
       },

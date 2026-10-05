@@ -68,7 +68,11 @@ export interface BundleBench {
     readonly memoryGb?: number;
   };
   readonly rolldown: string;
-  readonly bun: string;
+  /** Runtime that drove the builds, e.g. `node 24.9.0`. */
+  readonly runtime?: string;
+  /** Older recordings name the runtime by key instead of `runtime`. */
+  readonly node?: string;
+  readonly bun?: string;
   readonly runs: number;
   readonly seed?: boolean;
   readonly rows: ReadonlyArray<BundleRow>;
@@ -93,17 +97,13 @@ const firstOf = async <T>(
   return null;
 };
 
-export const readRuntimeBench = (
-  repoRoot: string,
-): Promise<RuntimeBench | null> =>
+export const readRuntimeBench = (repoRoot: string): Promise<RuntimeBench | null> =>
   firstOf<RuntimeBench>(
     [join(repoRoot, "benches", "runtime", "results", "latest.json")],
     (d) => d.schema === 1 && Array.isArray(d.results) && d.results.length > 0,
   );
 
-export const readBundleBench = (
-  repoRoot: string,
-): Promise<BundleBench | null> =>
+export const readBundleBench = (repoRoot: string): Promise<BundleBench | null> =>
   firstOf<BundleBench>(
     [join(repoRoot, "benches", "bundle", "results", "latest.json")],
     (d) => d.schema === 1 && Array.isArray(d.rows) && d.rows.length > 0,

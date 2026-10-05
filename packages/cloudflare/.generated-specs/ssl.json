@@ -2552,7 +2552,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#required": {}
           }
         },
@@ -3319,7 +3319,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#required": {}
           }
         },
@@ -3445,7 +3445,7 @@
         "certificate_pack_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3461,7 +3461,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "The unique identifier for a certificate_pack."
           }
         }
       },
@@ -3572,7 +3572,7 @@
         "certificate_pack_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -3588,7 +3588,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#required": {}
           }
         },
@@ -4026,7 +4026,7 @@
         "certificate_pack_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -4048,7 +4048,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "The unique identifier for a certificate_pack.",
             "smithy.api#required": {}
           }
         },

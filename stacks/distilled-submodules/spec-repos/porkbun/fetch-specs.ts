@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Porkbun's OpenAPI spec and vendor docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * mirror snapshots the spec plus the vendor-hosted docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -28,6 +28,7 @@ const LLMS_OUTPUT = `${SPECS_DIR}/llms.txt`;
 const LLMS_FULL_OUTPUT = `${SPECS_DIR}/llms-full.txt`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -39,7 +40,7 @@ const headers = {
 };
 
 const writeText = async (path: string, text: string): Promise<void> => {
-  await Bun.write(path, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(path, text.endsWith("\n") ? text : `${text}\n`);
 };
 
 async function fetchOpenApi(): Promise<void> {
@@ -50,9 +51,7 @@ async function fetchOpenApi(): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -68,11 +67,9 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchText(
@@ -83,9 +80,7 @@ async function fetchText(
   console.log(`Fetching ${url}...`);
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   const text = await response.text();
   const reason = validate(text);
@@ -104,9 +99,7 @@ async function main() {
       : "did not look like Porkbun's API documentation page",
   );
   await fetchText(LLMS_URL, LLMS_OUTPUT, (text) =>
-    /porkbun/i.test(text) && /api/i.test(text)
-      ? undefined
-      : "did not look like Porkbun's llms.txt",
+    /porkbun/i.test(text) && /api/i.test(text) ? undefined : "did not look like Porkbun's llms.txt",
   );
   await fetchText(LLMS_FULL_URL, LLMS_FULL_OUTPUT, (text) =>
     /porkbun/i.test(text) && (/\/ping/.test(text) || /openapi/i.test(text))

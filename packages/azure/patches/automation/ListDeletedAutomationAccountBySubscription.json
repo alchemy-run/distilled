@@ -1,0 +1,50 @@
+{
+  "description": "The deleted-accounts list returns PascalCase keys (`Id`, `Name`, `Properties.AutomationAccountId`, `Properties.DeletedTime`, ...) instead of the camelCase names in the spec, so every field decoded as undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccount/members/id/traits/smithy.api#jsonName",
+      "value": "Id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccount/members/name/traits/smithy.api#jsonName",
+      "value": "Name"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccount/members/type/traits/smithy.api#jsonName",
+      "value": "Type"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccount/members/location/traits/smithy.api#jsonName",
+      "value": "Location"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccount/members/properties/traits/smithy.api#jsonName",
+      "value": "Properties"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccountProperties/members/automationAccountResourceId/traits/smithy.api#jsonName",
+      "value": "AutomationAccountResourceId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccountProperties/members/automationAccountId/traits/smithy.api#jsonName",
+      "value": "AutomationAccountId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccountProperties/members/location/traits/smithy.api#jsonName",
+      "value": "Location"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#DeletedAutomationAccountProperties/members/deletionTime/traits/smithy.api#jsonName",
+      "value": "DeletedTime"
+    }
+  ]
+}

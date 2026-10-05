@@ -34,11 +34,7 @@ import {
   isStreamingType,
 } from "../traits.ts";
 import { getEncodedPropertySignatures, getIdentifier } from "../util/ast.ts";
-import {
-  extractJsonErrorCode,
-  extractJsonErrorData,
-  sanitizeErrorCode,
-} from "../util/error.ts";
+import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
 import { readStreamAsText } from "../util/stream.ts";
 
 /** AWS JSON 1.0 Protocol */
@@ -69,8 +65,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
     // rather than "XxxRequest".
     const identifier = getIdentifier(inputAst) ?? "";
     const operationName =
-      operation.operationName ??
-      identifier.replace(/(?:Request|Input|Message)$/, "");
+      operation.operationName ?? identifier.replace(/(?:Request|Input|Message)$/, "");
 
     // Build X-Amz-Target from the identifier structure
     const targetHeader = buildXAmzTarget(inputAst, operationName);
@@ -143,9 +138,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
         // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
         if (bodyText) {
           try {
-            const parsed = JSON.parse(bodyText, (_, v) =>
-              v === null ? undefined : v,
-            );
+            const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
             if (parsed && typeof parsed === "object") {
               return parsed as Record<string, unknown>;
             }
@@ -171,9 +164,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): Protocol {
         let body: Record<string, unknown> = {};
         if (bodyText) {
           try {
-            const parsed = JSON.parse(bodyText, (_, v) =>
-              v === null ? undefined : v,
-            );
+            const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
             if (parsed && typeof parsed === "object") {
               body = parsed as Record<string, unknown>;
             }
@@ -226,8 +217,7 @@ function buildXAmzTarget(ast: AST.AST, operationName: string): string {
   // Use the service shape name from the Smithy model
   // This is the proper spec-compliant value (e.g., "TrentService" for KMS,
   // "AWSStepFunctions" for SFN, "DynamoDB_20120810" for DynamoDB)
-  const serviceName =
-    awsApiService?.serviceShapeName ?? awsApiService?.sdkId ?? "";
+  const serviceName = awsApiService?.serviceShapeName ?? awsApiService?.sdkId ?? "";
 
   if (serviceName) {
     return `${serviceName}.${operationName}`;

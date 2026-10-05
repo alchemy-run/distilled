@@ -14,9 +14,8 @@ const hints = [
  * to resolve wins, and a source whose failure is final (an MFA prompt that
  * cannot be answered, say) stops the chain there.
  */
-export const createCredentialChain = (
-  ...sources: ReadonlyArray<CredentialSource>
-) => createLazyProvider(chain(sources), "chain", hints);
+export const createCredentialChain = (...sources: ReadonlyArray<CredentialSource>) =>
+  createLazyProvider(chain(sources), "chain", hints);
 
 /** {@link createCredentialChain}, under the AWS SDK's other name for it. */
 export { createCredentialChain as propertyProviderChain };

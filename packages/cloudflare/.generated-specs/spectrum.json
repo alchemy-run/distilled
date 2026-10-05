@@ -783,6 +783,12 @@
           "traits": {
             "smithy.api#enumValue": "https"
           }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
         }
       }
     },
@@ -1063,6 +1069,12 @@
           "traits": {
             "smithy.api#enumValue": "https"
           }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
         }
       }
     },
@@ -1330,7 +1342,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigAppConfigTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.",
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`.",
             "smithy.api#required": {}
           }
         },
@@ -1368,6 +1380,12 @@
           "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigAppConfigOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {
@@ -1540,6 +1558,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "https"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
           }
         }
       }
@@ -1808,7 +1832,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigAppConfigTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.",
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`.",
             "smithy.api#required": {}
           }
         },
@@ -1846,6 +1870,12 @@
           "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigAppConfigOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {
@@ -2070,6 +2100,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "https"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
           }
         }
       }
@@ -2338,7 +2374,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsListResultCase0ItemTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.",
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`.",
             "smithy.api#required": {}
           }
         },
@@ -2376,6 +2412,12 @@
           "target": "com.cloudflare.spectrum#AppsListResultCase0ItemOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {
@@ -2560,6 +2602,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "https"
+          }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
           }
         }
       }
@@ -2841,6 +2889,12 @@
           "traits": {
             "smithy.api#enumValue": "https"
           }
+        },
+        "WORKER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker"
+          }
         }
       }
     },
@@ -3108,7 +3162,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigAppConfigTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly.",
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`.",
             "smithy.api#required": {}
           }
         },
@@ -3146,6 +3200,12 @@
           "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigAppConfigOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {
@@ -3507,7 +3567,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsCreateRequestTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly."
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`."
           }
         },
         "argo_smart_routing": {
@@ -3544,6 +3604,12 @@
           "target": "com.cloudflare.spectrum#AppsCreateRequestOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {
@@ -4218,7 +4284,7 @@
         "traffic_type": {
           "target": "com.cloudflare.spectrum#AppsUpdateRequestTrafficType",
           "traits": {
-            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly."
+            "smithy.api#documentation": "Determines how data travels from the edge to your origin. When set to \"direct\", Spectrum will send traffic directly to your origin, and the application's type is derived from the `protocol`. When set to \"http\" or \"https\", Spectrum will apply Cloudflare's HTTP/HTTPS features as it sends traffic to your origin, and the application type matches this property exactly. When set to \"worker\", traffic is sent to the Worker specified by `origin_worker_id`."
           }
         },
         "argo_smart_routing": {
@@ -4255,6 +4321,12 @@
           "target": "com.cloudflare.spectrum#AppsUpdateRequestOriginPort",
           "traits": {
             "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
+          }
+        },
+        "origin_worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional Worker script tag (worker ID) to use as the application's origin. Only supported for TCP applications with traffic_type \"worker\"; mutually exclusive with origin_direct, origin_dns, origin_port, proxy_protocol, and argo_smart_routing. tls may only be \"off\" or \"flexible\"."
           }
         },
         "proxy_protocol": {

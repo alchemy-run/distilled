@@ -1,14 +1,25 @@
 ---
 name: distilled-sdk-patch
-description: Add or change a patch in packages/<pkg>/patches/ to correct a distilled SDK's upstream spec — a missing error response or typed error (status, code, message, body or header matchers), a field that should be nullable or optional, a secret with no sensitive mark, a wrong response schema, or a shared model that needs splitting — then regenerate and prove the patch does exactly what it says with `pnpm patches:audit`. Use for "patch <pkg>", "type this error", "this field is null on the wire", "mark X sensitive", or any fix that would otherwise be an edit to generated code. Moving to a newer spec and pruning patches is distilled-sdk-update.
+description: Add or change a patch in packages/<pkg>/patches/ to correct a distilled SDK's upstream spec — a missing error response or typed error (status, code, message, body or header matchers), a field that should be nullable or optional, a secret with no sensitive mark, a wrong response schema, or a shared model that needs splitting — then regenerate and read the generated diff to confirm it changes exactly what the patch says. Also for merging, slimming or rebasing an existing patch PR. Use for "patch <pkg>", "type this error", "this field is null on the wire", "mark X sensitive", or any fix that would otherwise be an edit to generated code. Moving to a newer spec and pruning patches is distilled-sdk-update.
 ---
 
 # Patching a distilled SDK
 
 A patch is a claim that the upstream description is wrong about the wire.
-It lives in `packages/<pkg>/patches/`, applies during `convert`, and is
-committed together with the `.generated-specs/` and `src/services/` it
-produces. How convert applies patches (OpenAPI pointers before convert,
+It lives in `packages/<pkg>/patches/` and is committed together with the
+`src/services/` it produces. A package applies patches at one of two
+stages, set by `distilled.patches` in its package.json (engine:
+`packages/core/src/codegen/patches.ts`):
+
+- **convert** (the default): applied by `convert`, so `.generated-specs/`
+  is the patched model and is committed with the patch.
+- **generate** (`"distilled": { "patches": "generate" }`, e.g. azure):
+  `patches/<model>/*.json` are Smithy ops the generator applies to the
+  unpatched `.generated-specs/<model>.json`. Regenerating is enough to land
+  a fix, and the audit needs no spec mirror. Prefer this stage for a
+  package whose patches are all Smithy pointers.
+
+How convert applies patches (OpenAPI pointers before convert,
 Smithy pointers after, stale pointers fail the run, operation names are
 `operationNames` in convert and never a patch) is in the `distilled-sdk`
 skill, step 5.
@@ -34,6 +45,7 @@ callers a type they trust.
 | --- | --- |
 | One OpenAPI spec (`planetscale`, `neon`) | flat `patches/<topic>.patch.json` |
 | Several specs in one package (`fly-io`, `gcp`, `axiom`) | a subdirectory per spec — whichever one the package's `convert.ts` passes as its patches dir (`patches/machines/`, `patches/aiplatform_v1/`, `patches/v1-edge-ingest/`) |
+| Generate stage (`azure`) | `patches/<model>/<topic>.json`, Smithy pointers only — `<model>` is the `.generated-specs/<model>.json` it patches |
 | Cloudflare | `patches/<service>/<operation>.json`; error shapes shared by a service go once in `patches/<service>/_errors.json` |
 | AWS | `patches/<sdkId>.json` — a typed config for `applyAwsSpecPatches` (`errors`, `syntheticErrors`, `errorCategories`, `enums`, …), not RFC-6902. Follow the neighbours. |
 
@@ -64,8 +76,8 @@ copy the exact id rather than guessing it.
 
 Schemas the spec inlines are separate copies. A fix on
 `/definitions/ServiceToken` does not reach the inlined item schema of
-`PaginatedServiceToken`; patch each copy (the audit diff in step 5 lists
-every shape a patch touched, so missing copies are visible).
+`PaginatedServiceToken`; patch each copy (the generated diff in step 5
+shows every shape a patch touched, so missing copies are visible).
 
 ## Recipes
 
@@ -147,30 +159,41 @@ replaced.
 pnpm generate <pkg>
 ```
 
-For a failure a caller will branch on (a typed error, a response split),
-add a fixture test next to the package source that stubs the HTTP response
-and asserts the class or the decoded shape — `packages/neon/src/branch.test.ts`
-is the pattern. It keeps the classification when a later regeneration
-moves things.
+Always regenerate with `pnpm generate <pkg>`, even for one service. It
+converts, generates and formats; a bare `convert` (with or without
+`--resource`) leaves `.generated-specs/` unformatted, and the diff then
+shows every file as changed.
 
-## Step 5 — prove the patch
+Do not add a per-package test for the patch. The generated diff in the next
+step shows what the patch changes, and the behaviour it relies on (error
+matchers, nullability, sensitive members) is tested once in
+`packages/core`. When updating an existing patch PR that added one, delete
+that test in the same update.
+
+## Step 5 — check the change
 
 ```sh
-pnpm patches:audit <pkg> --only <file> --ops
+git diff origin/main -- packages/<pkg>/.generated-specs packages/<pkg>/src/services
 ```
 
-The audit (`distilled-sdk-update`, step 3) converts with and without the
-file and lists every pointer in the model that changed. Read that list
-against the description:
+Diff against `origin/main` so a patch already committed on a PR branch
+still shows up. Read the diff against the description:
 
-- **needed**, and the changed shapes are exactly the ones meant — done.
-- **no effect** — the spec already says this (delete the patch) or the
+- exactly the shapes and members meant changed — done.
+- nothing changed — the spec already says this (drop the patch), or the
   pointer landed somewhere convert does not read.
-- extra shapes changed — the patch reaches further than intended; narrow it.
-- an op reported with no effect under `--ops` — remove it.
+- more changed than intended — the patch reaches further than meant (a
+  shared shape, say); narrow it.
+
+Do not run `pnpm patches:audit` here. A patch is written to change the
+model, and the diff above already shows whether it did. The audit rebuilds
+the whole model once per patch file (minutes for `cloudflare`) and only
+answers a question once the spec has moved underneath existing patches.
+That is the `distilled-sdk-update` skill's job.
 
 Then check the generated TypeScript reads the way a caller needs, run
 `pnpm exec tsc -b packages/<pkg> --noCheck false`, and commit the patch
-with the `.generated-specs/` and `src/services/` it produced, as
+with the `src/services/` it produced (and `.generated-specs/` for a
+convert-stage package), as
 `fix(<pkg>): …` naming what callers gain ("type 422s observed on the live
 API").

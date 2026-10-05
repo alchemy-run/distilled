@@ -143,10 +143,7 @@
   "errorCategories": {
     "ClusterNotFound": ["NotFoundError"],
     "SecurityConfigurationNotFound": ["NotFoundError"],
-    "SecurityConfigurationAlreadyExists": [
-      "AlreadyExistsError",
-      "ConflictError"
-    ],
+    "SecurityConfigurationAlreadyExists": ["AlreadyExistsError", "ConflictError"],
     "StudioNotFound": ["NotFoundError"],
     "StudioServiceRoleNotAssumable": ["RetryableError"],
     "StudioServiceRoleMissingS3Access": ["RetryableError"],

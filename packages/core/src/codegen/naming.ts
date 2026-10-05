@@ -75,8 +75,7 @@ export const lowerFirst = (s: string): string => {
 };
 
 /** Upper-case the first character. */
-export const upperFirst = (s: string): string =>
-  s.charAt(0).toUpperCase() + s.slice(1);
+export const upperFirst = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
 
 /**
  * Collapse a smithy documentation string to a single safe line for a

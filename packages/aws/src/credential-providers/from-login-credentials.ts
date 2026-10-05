@@ -1,3 +1,10 @@
+import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Redacted from "effect/Redacted";
 /**
  * Credentials cached by `aws login`. The CLI writes a token document under
  * `~/.aws/login/cache`, named after the profile's `login_session`, that
@@ -9,20 +16,7 @@
  * document. Node only — the cache is a file and the proof needs
  * `node:crypto`.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
-import * as HttpClient from "effect/http/HttpClient";
-import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import {
-  createHash,
-  createPrivateKey,
-  createPublicKey,
-  randomUUID,
-  sign,
-} from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import {
   createLazyProvider,
   Credentials,
@@ -30,11 +24,7 @@ import {
 } from "../credentials-service.ts";
 import type * as Region from "../region.ts";
 import { getHomeDir } from "../util/shared-config.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
 import { getProfileName, loadProfiles, profileRegion } from "./profile.ts";
 import { stsRegion } from "./sts.ts";
@@ -97,28 +87,22 @@ const isLoginToken = (value: unknown): value is LoginToken => {
   );
 };
 
-const loadToken = (
-  loginSession: string,
-): Effect.Effect<LoginToken, CredentialSourceError> => {
+const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSourceError> => {
   const path = tokenFilePath(loginSession);
   return Effect.tryPromise({
     try: () => readFile(path, "utf8"),
-    catch: (cause) =>
-      invalidToken(`Failed to load the login token at ${path}.`, cause),
+    catch: (cause) => invalidToken(`Failed to load the login token at ${path}.`, cause),
   }).pipe(
     Effect.flatMap((contents) =>
       Effect.try({
         try: () => JSON.parse(contents) as unknown,
-        catch: (cause) =>
-          invalidToken(`The login token at ${path} is not valid JSON.`, cause),
+        catch: (cause) => invalidToken(`The login token at ${path} is not valid JSON.`, cause),
       }),
     ),
     Effect.flatMap((parsed) =>
       isLoginToken(parsed)
         ? Effect.succeed(parsed)
-        : Effect.fail(
-            invalidToken(`The login token at ${path} is missing fields.`),
-          ),
+        : Effect.fail(invalidToken(`The login token at ${path} is missing fields.`)),
     ),
   );
 };
@@ -144,15 +128,13 @@ const toCredentials = (token: LoginAccessToken): AwsCredentialIdentity => ({
   ...(token.accountId && { accountId: token.accountId }),
 });
 
-const expiresAt = (token: LoginToken): number =>
-  new Date(token.accessToken.expiresAt).getTime();
+const expiresAt = (token: LoginToken): number => new Date(token.accessToken.expiresAt).getTime();
 
 // ---------------------------------------------------------------------------
 // DPoP
 // ---------------------------------------------------------------------------
 
-const base64url = (value: string): string =>
-  Buffer.from(value).toString("base64url");
+const base64url = (value: string): string => Buffer.from(value).toString("base64url");
 
 /** ES256 signatures are DER from `node:crypto` but raw `r || s` in a JWT. */
 const derToRaw = (der: Buffer): Buffer => {
@@ -168,12 +150,7 @@ const derToRaw = (der: Buffer): Buffer => {
   let s = der.subarray(6 + rLength, 6 + rLength + sLength);
   r = r[0] === 0x00 ? r.subarray(1) : r;
   s = s[0] === 0x00 ? s.subarray(1) : s;
-  return Buffer.concat([
-    Buffer.alloc(32 - r.length),
-    r,
-    Buffer.alloc(32 - s.length),
-    s,
-  ]);
+  return Buffer.concat([Buffer.alloc(32 - r.length), r, Buffer.alloc(32 - s.length), s]);
 };
 
 type DpopProof = (method: string, endpoint: string) => string;
@@ -182,9 +159,7 @@ type DpopProof = (method: string, endpoint: string) => string;
  * A signer for the cached key. The key is parsed once, up front, so a
  * malformed one fails before a request is made rather than mid-flight.
  */
-const dpopProof = (
-  dpopKey: string,
-): Effect.Effect<DpopProof, CredentialSourceError> =>
+const dpopProof = (dpopKey: string): Effect.Effect<DpopProof, CredentialSourceError> =>
   Effect.try({
     try: () => {
       const privateKey = createPrivateKey({
@@ -220,17 +195,11 @@ const dpopProof = (
           }),
         );
         const message = `${header}.${payload}`;
-        const signature = derToRaw(
-          sign("sha256", Buffer.from(message), privateKey),
-        );
+        const signature = derToRaw(sign("sha256", Buffer.from(message), privateKey));
         return `${message}.${signature.toString("base64url")}`;
       };
     },
-    catch: (cause) =>
-      invalidToken(
-        "Failed to generate a DPoP proof from the login token.",
-        cause,
-      ),
+    catch: (cause) => invalidToken("Failed to generate a DPoP proof from the login token.", cause),
   });
 
 /** The proof covers the method and the URL without its query string. */
@@ -297,12 +266,7 @@ const refresh = (
     }).pipe(
       Effect.provideService(
         Credentials,
-        Effect.succeed(
-          fromAwsCredentialIdentity(
-            { accessKeyId: "", secretAccessKey: "" },
-            region,
-          ),
-        ),
+        Effect.succeed(fromAwsCredentialIdentity({ accessKeyId: "", secretAccessKey: "" }, region)),
       ),
       withDpop(proof),
       withHttpClient,
@@ -318,9 +282,7 @@ const refresh = (
             accessKeyId: output.accessToken.accessKeyId,
             secretAccessKey: output.accessToken.secretAccessKey,
             sessionToken: output.accessToken.sessionToken,
-            expiresAt: new Date(
-              Date.now() + (output.expiresIn || 900) * 1000,
-            ).toISOString(),
+            expiresAt: new Date(Date.now() + (output.expiresIn || 900) * 1000).toISOString(),
           },
           refreshToken: unredact(output.refreshToken),
         };
@@ -330,10 +292,7 @@ const refresh = (
         cause._tag === "AccessDeniedException"
           ? Effect.fail(
               new CredentialSourceError({
-                message: accessDeniedMessage(
-                  "error" in cause ? cause.error : "",
-                  cause.message,
-                ),
+                message: accessDeniedMessage("error" in cause ? cause.error : "", cause.message),
                 cause,
                 tryNextLink: false,
               }),
@@ -342,10 +301,7 @@ const refresh = (
             expiresAt(token) > Date.now()
             ? Effect.succeed(undefined)
             : Effect.fail(
-                invalidToken(
-                  `Failed to refresh the login token: ${String(cause)}.`,
-                  cause,
-                ),
+                invalidToken(`Failed to refresh the login token: ${String(cause)}.`, cause),
               ),
       ),
     );
@@ -395,14 +351,10 @@ export const loginCredentialsSource = (
     return yield* refresh(loginSession, token, region);
   });
 
-const hints = [
-  "Run `aws login` for the profile, and check that it has a login_session.",
-];
+const hints = ["Run `aws login` for the profile, and check that it has a login_session."];
 
 /** The token `aws login` cached for the profile's `login_session`. */
-export const fromLoginCredentials = (
-  options: FromLoginCredentialsOptions = {},
-) =>
+export const fromLoginCredentials = (options: FromLoginCredentialsOptions = {}) =>
   createLazyProvider(
     loginCredentialsSource(options),
     "login",

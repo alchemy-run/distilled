@@ -13,10 +13,7 @@
 import * as Effect from "effect/Effect";
 import { makeStreamingBodyMiddleware } from "../middleware/streaming-body.ts";
 import { getMiddleware, getProtocol } from "../traits.ts";
-import {
-  fillIdempotencyTokens,
-  findIdempotencyTokenProps,
-} from "./generate-idempotency-tokens.ts";
+import { fillIdempotencyTokens, findIdempotencyTokenProps } from "./generate-idempotency-tokens.ts";
 import type { Operation } from "./operation.ts";
 import type { Protocol, ProtocolHandler } from "./protocol.ts";
 
@@ -34,10 +31,7 @@ export interface RequestBuilderOptions {
  * @param options - Optional overrides
  * @returns A function that builds requests from input values
  */
-export const makeRequestBuilder = (
-  operation: Operation,
-  options?: RequestBuilderOptions,
-) => {
+export const makeRequestBuilder = (operation: Operation, options?: RequestBuilderOptions) => {
   const inputSchema = operation.input;
   const inputAst = inputSchema.ast;
 

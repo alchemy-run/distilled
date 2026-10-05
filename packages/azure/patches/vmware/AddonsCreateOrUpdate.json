@@ -1,0 +1,85 @@
+{
+  "description": "Addon properties are a discriminated union on addonType in ARM (SRM licenseKey, VR vrsCount, HCX offer, Arc vCenter); the converted model only kept the base addonType, so add the variant fields as optional members on input and output.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonPropertiesInput/members/licenseKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SRM addon: the Site Recovery Manager license key."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonPropertiesInput/members/vrsCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "VR addon: the vSphere Replication Server (VRS) count."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonPropertiesInput/members/offer",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "HCX addon: the HCX offer, e.g. `VMware MaaS Cloud Provider (Enterprise)`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonPropertiesInput/members/vCenter",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Arc addon: the VMware vCenter resource ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonProperties/members/licenseKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SRM addon: the Site Recovery Manager license key."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonProperties/members/vrsCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "VR addon: the vSphere Replication Server (VRS) count."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonProperties/members/offer",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "HCX addon: the HCX offer, e.g. `VMware MaaS Cloud Provider (Enterprise)`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AddonProperties/members/vCenter",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Arc addon: the VMware vCenter resource ID."
+        }
+      }
+    }
+  ]
+}

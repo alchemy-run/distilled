@@ -60,7 +60,7 @@
         "registration_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years.",
+            "smithy.api#documentation": "The first-year cost to register this domain.",
             "smithy.api#required": {}
           }
         },
@@ -145,7 +145,7 @@
         "pricing": {
           "target": "com.cloudflare.registrar_sandbox#CheckResponseDomainsItemPricing",
           "traits": {
-            "smithy.api#documentation": "Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision."
+            "smithy.api#documentation": "Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision."
           }
         },
         "reason": {
@@ -258,7 +258,7 @@
         "registration_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years.",
+            "smithy.api#documentation": "The first-year cost to register this domain.",
             "smithy.api#required": {}
           }
         },
@@ -343,7 +343,7 @@
         "pricing": {
           "target": "com.cloudflare.registrar_sandbox#SearchResponseDomainsItemPricing",
           "traits": {
-            "smithy.api#documentation": "Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision."
+            "smithy.api#documentation": "Provides annual pricing information for a given domain. The API returns all per-year prices as strings to preserve decimal precision."
           }
         },
         "reason": {
@@ -458,6 +458,13 @@
             "smithy.api#documentation": "JSON Schema describing the expected input structure for registration operations on this extension.",
             "smithy.api#required": {}
           }
+        },
+        "transfer_schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema describing the expected input structure for transfer operations on this extension.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -479,7 +486,7 @@
           "uri": "/accounts/{account_id}/registrar-sandbox/extensions/{extension}",
           "code": 200
         },
-        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
+        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
         "smithy.api#readonly": {}
       }
     },
@@ -609,6 +616,13 @@
             "smithy.api#documentation": "JSON Schema describing the expected input structure for registration operations on this extension.",
             "smithy.api#required": {}
           }
+        },
+        "transfer_schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema describing the expected input structure for transfer operations on this extension.",
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -647,7 +661,7 @@
           "uri": "/accounts/{account_id}/registrar-sandbox/extensions",
           "code": 200
         },
-        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
+        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration and transfer operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
         "smithy.api#readonly": {}
       }
     },
@@ -1767,6 +1781,12 @@
             "smithy.api#enumValue": "registration_pending"
           }
         },
+        "TRANSFER_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer_pending"
+          }
+        },
         "EXPIRED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1820,7 +1840,7 @@
         "expires_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null.",
+            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` and `transfer_pending` may return null.",
             "smithy.api#required": {}
           }
         },
@@ -1985,6 +2005,12 @@
             "smithy.api#enumValue": "registration_pending"
           }
         },
+        "TRANSFER_PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "transfer_pending"
+          }
+        },
         "EXPIRED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2038,7 +2064,7 @@
         "expires_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null.",
+            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` and `transfer_pending` may return null.",
             "smithy.api#required": {}
           }
         },

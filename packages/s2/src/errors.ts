@@ -30,6 +30,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   Conflict as CoreConflict,
@@ -39,9 +40,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * HTTP 408 — a long-poll `read` (one with `wait` set) elapsed before any
@@ -49,12 +48,9 @@ import * as Category from "@distilled.cloud/core/category";
  * the error is marked retryable and the default policy re-asks after a
  * short backoff.
  */
-export class RequestTimeout extends Schema.TaggedError<RequestTimeout>()(
-  "RequestTimeout",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withRetryableError) {}
+export class RequestTimeout extends Schema.TaggedError<RequestTimeout>()("RequestTimeout", {
+  message: Schema.String,
+}).pipe(Category.withRetryableError) {}
 
 /**
  * HTTP 412 — `append_condition_failed`: an append's precondition did not
@@ -88,23 +84,17 @@ export class RangeNotSatisfiable extends Schema.TaggedError<RangeNotSatisfiable>
  * mapped error class. `code` is S2's own error code (the machine-parsable
  * half of its error envelope). See https://s2.dev/docs.
  */
-export class UnknownS2Error extends Schema.TaggedError<UnknownS2Error>()(
-  "UnknownS2Error",
-  {
-    code: Schema.optional(Schema.String),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownS2Error extends Schema.TaggedError<UnknownS2Error>()("UnknownS2Error", {
+  code: Schema.optional(Schema.String),
+  message: Schema.optional(Schema.String),
+  body: Schema.Unknown,
+}).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class S2ParseError extends Schema.TaggedError<S2ParseError>()(
-  "S2ParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class S2ParseError extends Schema.TaggedError<S2ParseError>()("S2ParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any S2 operation may surface in addition to the shared HTTP

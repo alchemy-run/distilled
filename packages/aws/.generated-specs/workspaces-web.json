@@ -3091,12 +3091,7 @@
             "documentation": "Creates a session logger that captures only specific events with JSONLines format and nested folder structure",
             "input": {
               "eventFilter": {
-                "include": [
-                  "SessionStart",
-                  "SessionEnd",
-                  "UrlLoad",
-                  "WebsiteInteract"
-                ]
+                "include": ["SessionStart", "SessionEnd", "UrlLoad", "WebsiteInteract"]
               },
               "logConfiguration": {
                 "s3": {
@@ -5704,12 +5699,7 @@
               "sessionLogger": {
                 "sessionLoggerArn": "arn:aws:workspaces-web:us-west-2:123456789012:sessionLogger/87654321-4321-4321-4321-210987654321",
                 "eventFilter": {
-                  "include": [
-                    "SessionStart",
-                    "SessionEnd",
-                    "UrlLoad",
-                    "WebsiteInteract"
-                  ]
+                  "include": ["SessionStart", "SessionEnd", "UrlLoad", "WebsiteInteract"]
                 },
                 "logConfiguration": {
                   "s3": {
@@ -10447,24 +10437,14 @@
             "input": {
               "sessionLoggerArn": "arn:aws:workspaces-web:us-west-2:123456789012:sessionLogger/12345678-1234-1234-1234-123456789012",
               "eventFilter": {
-                "include": [
-                  "SessionStart",
-                  "SessionEnd",
-                  "UrlLoad",
-                  "WebsiteInteract"
-                ]
+                "include": ["SessionStart", "SessionEnd", "UrlLoad", "WebsiteInteract"]
               }
             },
             "output": {
               "sessionLogger": {
                 "sessionLoggerArn": "arn:aws:workspaces-web:us-west-2:123456789012:sessionLogger/12345678-1234-1234-1234-123456789012",
                 "eventFilter": {
-                  "include": [
-                    "SessionStart",
-                    "SessionEnd",
-                    "UrlLoad",
-                    "WebsiteInteract"
-                  ]
+                  "include": ["SessionStart", "SessionEnd", "UrlLoad", "WebsiteInteract"]
                 },
                 "logConfiguration": {
                   "s3": {

@@ -1,8 +1,8 @@
+import type { ShapeMap } from "./graph.ts";
 /**
  * Operation-level smithy helpers for the SDK generators (dev-time only).
  */
 import { local } from "./naming.ts";
-import type { ShapeMap } from "./graph.ts";
 
 export interface OpEntry {
   id: string;
@@ -57,10 +57,7 @@ export const ensureNamedIo = (
  * Every error shape id referenced by the operations' `errors` lists —
  * deduplicated, existing in the model, sorted by local name.
  */
-export const collectOpErrorIds = (
-  operations: readonly OpEntry[],
-  shapes: ShapeMap,
-): string[] => {
+export const collectOpErrorIds = (operations: readonly OpEntry[], shapes: ShapeMap): string[] => {
   const errorIds: string[] = [];
   const seen = new Set<string>();
   for (const op of operations) {

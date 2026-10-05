@@ -18,10 +18,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
-export class Region extends Context.Service<
-  Region,
-  Effect.Effect<RegionName>
->()("AWS::Region") {}
+export class Region extends Context.Service<Region, Effect.Effect<RegionName>>()("AWS::Region") {}
 
 /**
  * `AWS_REGION`, then `AWS_DEFAULT_REGION` — the variables every AWS tool
@@ -35,12 +32,10 @@ export const fromEnvironment = Config.String("AWS_REGION").pipe(
 );
 
 /** Override the region with whatever the environment names. */
-export const fromEnv = () =>
-  Layer.succeed(Region, fromEnvironment.pipe(Effect.orDie));
+export const fromEnv = () => Layer.succeed(Region, fromEnvironment.pipe(Effect.orDie));
 
 /** Override the region for a scope, e.g. `Region.of("us-west-2")`. */
-export const of = (region: RegionName) =>
-  Layer.succeed(Region, Effect.succeed(region));
+export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));
 
 export type RegionName =
   | "us-east-1"

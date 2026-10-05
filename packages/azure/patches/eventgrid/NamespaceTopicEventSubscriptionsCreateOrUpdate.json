@@ -1,0 +1,25 @@
+{
+  "description": "Filter (namespace topic subscription filters) is polymorphic on operatorType; the converted model keeps only the base members, so S.Struct strips `value`/`values` on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#Filter/members/value",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Single comparison value (polymorphic on `operatorType`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#Filter/members/values",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Comparison values (polymorphic on `operatorType`)."
+        }
+      }
+    }
+  ]
+}

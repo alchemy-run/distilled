@@ -1,3 +1,4 @@
+import { getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
 /**
  * STACKIT pagination — hand-written.
  *
@@ -10,40 +11,26 @@
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import {
-  getPath,
-  type PaginationStrategy,
-} from "@distilled.cloud/core/pagination";
 
-export type {
-  PaginatedTrait,
-  PaginationStrategy,
-} from "@distilled.cloud/core/pagination";
+export type { PaginatedTrait, PaginationStrategy } from "@distilled.cloud/core/pagination";
 
 /**
  * Stream of pages using STACKIT's `page` / `totalPages` envelope: request
  * `page`, `page+1`, … while `page < totalPages` and the collection is
  * non-empty.
  */
-export const paginateByTotalPages: PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+export const paginateByTotalPages: PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   const totalPagesPath = pagination.outputToken;
   const itemsPath = pagination.items;
   if (!inputToken || !totalPagesPath) {
     return Stream.die(
-      new Error(
-        "Total-pages pagination requires inputToken and outputToken (totalPages)",
-      ),
+      new Error("Total-pages pagination requires inputToken and outputToken (totalPages)"),
     );
   }
 
   type State = { page: number; done: boolean };
-  const startPage =
-    typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
   return Stream.unfold({ page: startPage, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -64,10 +51,7 @@ export const paginateByTotalPages: PaginationStrategy = (
         state.page >= totalPages ||
         (items !== undefined && items.length === 0);
 
-      return [
-        response,
-        { page: state.page + 1, done: exhausted } satisfies State,
-      ] as const;
+      return [response, { page: state.page + 1, done: exhausted } satisfies State] as const;
     }),
   );
 };

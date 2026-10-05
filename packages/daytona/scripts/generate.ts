@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * Daytona Effect SDK.
@@ -19,7 +20,6 @@
  * the barrel exports them camelCased (`apiKeys.listApiKeys`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -109,7 +109,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Daytona Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,

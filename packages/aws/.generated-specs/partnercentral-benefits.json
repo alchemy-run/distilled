@@ -364,10 +364,7 @@
         "aws.api#arn": {
           "template": "catalog/{CatalogName}/benefit-allocation/benalloc-{BenefitAllocationId}"
         },
-        "aws.iam#conditionKeys": [
-          "partnercentral:Catalog",
-          "partnercentral:FulfillmentTypes"
-        ],
+        "aws.iam#conditionKeys": ["partnercentral:Catalog", "partnercentral:FulfillmentTypes"],
         "aws.iam#disableConditionKeyInference": {}
       }
     },
@@ -2801,10 +2798,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "partnercentral:Catalog",
-          "partnercentral:FulfillmentTypes"
-        ],
+        "aws.iam#conditionKeys": ["partnercentral:Catalog", "partnercentral:FulfillmentTypes"],
         "smithy.api#documentation": "<p>Retrieves a paginated list of benefit allocations based on specified filter criteria.</p>",
         "smithy.api#http": {
           "code": 200,
@@ -3441,12 +3435,7 @@
             "externalDocumentation": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#awsJson1_0": {},
         "smithy.api#documentation": "<p>AWS Partner Central Benefits Service provides APIs for managing partner benefits, applications, and allocations within the AWS Partner Network ecosystem.</p>",
         "smithy.api#title": "Partner Central Benefits API",

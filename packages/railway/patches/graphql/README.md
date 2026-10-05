@@ -39,8 +39,8 @@ same model produces both selected-field error unions and runtime matchers.
 Run from the package directory after editing a patch:
 
 ```sh
-bun scripts/convert.ts
-bun scripts/generate.ts
+node --conditions=bun scripts/convert.ts
+node --conditions=bun scripts/generate.ts
 pnpm exec oxfmt src/graphql.ts .generated-graphql/railway.json patches/graphql
 ```
 

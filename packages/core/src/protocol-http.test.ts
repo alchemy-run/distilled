@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { buildRequest, mapKeys } from "./protocol-http.ts";
 import { SensitiveValue, wrapSensitive } from "./protocol-rest.ts";
 import * as S from "./schema.ts";
@@ -13,17 +13,11 @@ import * as T from "./trait.ts";
 const JsonInput = S.Struct({
   flag: S.optional(S.Boolean.pipe(T.Body("flag"), T.StringEncoded())),
   plain: S.optional(S.Boolean.pipe(T.Body("plain"))),
-  nullable: S.optional(
-    S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded()),
-  ),
-  flags: S.optional(
-    S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded()),
-  ),
+  nullable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded())),
+  flags: S.optional(S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded())),
   profile: S.optional(
     S.Struct({
-      nested: S.optional(
-        S.Boolean.pipe(T.Body("nested_flag"), T.StringEncoded()),
-      ),
+      nested: S.optional(S.Boolean.pipe(T.Body("nested_flag"), T.StringEncoded())),
       plain: S.optional(S.Boolean.pipe(T.Body("plain_flag"))),
     }).pipe(T.Body("profile")),
   ),
@@ -103,6 +97,32 @@ describe("URI label encoding", () => {
   });
 });
 
+describe("greedy labels", () => {
+  const ScopedInput = S.Struct({
+    scope: S.String.pipe(T.Label()),
+    name: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/{scope+}/providers/Things/{name}" }));
+
+  const urlOf = (input: unknown) =>
+    buildRequest({
+      input,
+      inputAst: ScopedInput.ast,
+      baseUrl: "https://example.test",
+    }).url;
+
+  test("keeps slashes and drops the leading slash of the value", () => {
+    expect(urlOf({ scope: "/subscriptions/abc/resourceGroups/my rg", name: "a/b" })).toBe(
+      "https://example.test/subscriptions/abc/resourceGroups/my%20rg/providers/Things/a%2Fb",
+    );
+  });
+
+  test("accepts a value without a leading slash", () => {
+    expect(urlOf({ scope: "subscriptions/abc", name: "x" })).toBe(
+      "https://example.test/subscriptions/abc/providers/Things/x",
+    );
+  });
+});
+
 describe("multipart binary parts", () => {
   const schema = S.Struct({ zip: S.Unknown, environment: S.String }).pipe(
     T.Http({ method: "POST", uri: "/deployments", contentType: "multipart" }),
@@ -125,9 +145,7 @@ describe("multipart binary parts", () => {
       method: "POST",
       body: request.body.formData,
     });
-    expect(wire.headers.get("content-type")).toContain(
-      "multipart/form-data; boundary=",
-    );
+    expect(wire.headers.get("content-type")).toContain("multipart/form-data; boundary=");
   });
 
   test("preserves File names and ArrayBuffer bytes", async () => {
@@ -140,13 +158,10 @@ describe("multipart binary parts", () => {
         inputAst: schema.ast,
         baseUrl: "https://example.test",
       });
-      if (request.body._tag !== "FormData")
-        throw new Error("Expected multipart");
+      if (request.body._tag !== "FormData") throw new Error("Expected multipart");
       const part = request.body.formData.get("zip") as File;
       expect(part.name).toBe(zip instanceof File ? "bundle.zip" : "zip");
-      expect(new Uint8Array(await part.arrayBuffer())).toEqual(
-        new Uint8Array([80, 75, 255]),
-      );
+      expect(new Uint8Array(await part.arrayBuffer())).toEqual(new Uint8Array([80, 75, 255]));
     }
   });
 });
@@ -192,18 +207,11 @@ describe("sensitive union responses", () => {
       provider: S.optional(S.NullOr(schema)),
       providers: S.Array(schema),
     });
-    for (const value of [
-      {},
-      { provider: null },
-      { provider: { type: "shared" } },
-    ]) {
+    for (const value of [{}, { provider: null }, { provider: { type: "shared" } }]) {
       expect(
         wrapSensitive(nested.ast, {
           ...value,
-          providers: [
-            { type: "standard", password: "fixture-password" },
-            { type: "shared" },
-          ],
+          providers: [{ type: "standard", password: "fixture-password" }, { type: "shared" }],
         }),
       ).toEqual({
         ...value,
@@ -250,9 +258,7 @@ describe("UnionCases decoding", () => {
     const schema = S.Unknown.pipe(
       T.UnionCases(cases, { key: "type", values: ["zone", "account"] }),
     );
-    expect(
-      decode(schema, { ...merged, type: "other", accountName: null }),
-    ).toEqual({
+    expect(decode(schema, { ...merged, type: "other", accountName: null })).toEqual({
       id: "1",
       type: "other",
       zoneName: "zone-a",

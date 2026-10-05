@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Apache Superset's OpenAPI description into ../specs/.
  *
@@ -8,7 +8,7 @@
  * docs snapshot.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -17,6 +17,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "apache/superset";
@@ -64,19 +65,14 @@ async function fetchResponse(url: string): Promise<Response> {
   console.log(`Fetching ${url}...`);
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 }
 
 async function main() {
   const specUrl = rawUrl("docs/static/resources/openapi.json");
-  const spec = (await (await fetchResponse(specUrl)).json()) as Record<
-    string,
-    unknown
-  >;
+  const spec = (await (await fetchResponse(specUrl)).json()) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.
@@ -88,7 +84,7 @@ async function main() {
 
   const outputPath = `${SPECS_DIR}/openapi.json`;
   console.log(`Writing ${outputPath}...`);
-  await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
   for (const file of DOC_FILES) {
     const url = rawUrl(file.path);
@@ -98,7 +94,7 @@ async function main() {
     }
     const docPath = `${DOCS_DIR}/${file.output}`;
     console.log(`Writing ${docPath}...`);
-    await Bun.write(docPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(docPath, text.endsWith("\n") ? text : `${text}\n`);
   }
 
   console.log(

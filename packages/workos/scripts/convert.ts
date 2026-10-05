@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the WorkOS OpenAPI spec into a Smithy 2.0 JSON model.
  *
  * Input:  specs/spec-mirror-workos/specs/open-api-spec.yaml  (spec submodule; the
- *         WorkOS spec is YAML — parsed with Bun's native YAML support, so no
+ *         WorkOS spec is YAML — parsed with the `yaml` package, so no
  *         temp-JSON dance like distilled v0's driver)
  *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document —
  *         ported verbatim from distilled v0: observed 404s + `required`
@@ -16,9 +16,10 @@
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { parse as parseYaml } from "yaml";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "workos",
@@ -28,7 +29,7 @@ await runOpenApiConvert({
   // OpenAPI-document patches (v0 layout: flat patches/*.patch.json). The
   // smithy-model patch chain in generate.ts is disabled (`patchesDir: false`).
   patchesDir: "patches",
-  parse: (text) => Bun.YAML.parse(text),
+  parse: (text) => parseYaml(text),
   options: {
     namespace: "com.workos.api",
     serviceName: "Workos",

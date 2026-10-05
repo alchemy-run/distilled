@@ -1,0 +1,25 @@
+{
+  "description": "LimitJsonObject is polymorphic on `limitObjectType`; the converted model keeps only the discriminator, so the `LimitValue` subtype's `value` and `limitType` are missing from the types and stripped by S.Struct. Add them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.quota#LimitJsonObject/members/value",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "The quota limit value (`LimitValue` subtype)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.quota#LimitJsonObject/members/limitType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The quota limit type, e.g. `Independent` or `Shared` (`LimitValue` subtype)."
+        }
+      }
+    }
+  ]
+}

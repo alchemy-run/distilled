@@ -1,14 +1,10 @@
+import * as Effect from "effect/Effect";
 /**
  * Credentials from the process environment.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 
 export const ENV_KEY = "AWS_ACCESS_KEY_ID";
 export const ENV_SECRET = "AWS_SECRET_ACCESS_KEY";

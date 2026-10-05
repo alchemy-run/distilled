@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -13,7 +14,6 @@
  * fields on its one pageable endpoint; v0 emitted no paginated ops either).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -62,13 +62,12 @@ const spec: SdkSpec = {
 
   // No commonErrorClasses → the default header's errors import is empty;
   // drop it rather than shipping a dead `import {} from "../errors.ts"`.
-  postProcess: (code) =>
-    code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
+  postProcess: (code) => code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
 };
 
 runGeneratorCli({
   description: "Generate the Turso Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,

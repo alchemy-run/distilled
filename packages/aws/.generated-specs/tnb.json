@@ -4587,11 +4587,7 @@
             "x-amzn-platform-id",
             "x-amzn-trace-id"
           ],
-          "additionalExposedHeaders": [
-            "x-amzn-errortype",
-            "x-amzn-requestid",
-            "x-amzn-trace-id"
-          ],
+          "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
         "smithy.api#documentation": "<p>\n         Amazon Web Services Telco Network Builder (TNB) is a network automation service that helps\n         you deploy and manage telecom networks. AWS TNB helps you with the lifecycle management of\n         your telecommunication network functions throughout planning, deployment, and\n         post-deployment activities.</p>",
