@@ -14,13 +14,10 @@ export type { CloudflareOpError, CloudflareOpContext };
 
 export class RepositoryConfigNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<RepositoryConfigNotFound>()(
-      "RepositoryConfigNotFound",
-      {
-        code: S.Number,
-        message: S.String,
-      },
-    ),
+    /*@__PURE__*/ S.TaggedError<RepositoryConfigNotFound>()("RepositoryConfigNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
     [{ status: 404, code: 12000 }],
   ) {}
 
@@ -3317,9 +3314,7 @@ export const getLatestBuilds: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetReposConfigAutofillError =
-  | RepositoryConfigNotFound
-  | CloudflareOpError;
+export type GetReposConfigAutofillError = RepositoryConfigNotFound | CloudflareOpError;
 /** Analyze repository for automatic configuration detection */
 export const getReposConfigAutofill: API.OperationMethod<
   GetReposConfigAutofillRequest,

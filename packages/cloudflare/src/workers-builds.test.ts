@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
 import { matchTypedError } from "@distilled.cloud/core/protocol-http";
+import { describe, expect, test } from "vitest";
 import { RepositoryConfigNotFound } from "./services/workers_builds.ts";
 
 const errors = [{ code: 12000, message: "Not found" }];
@@ -16,9 +16,7 @@ describe("Workers Builds repository configuration errors", () => {
   });
 
   test("does not classify a different status as missing configuration", () => {
-    expect(
-      matchTypedError([RepositoryConfigNotFound], 403, errors),
-    ).toBeUndefined();
+    expect(matchTypedError([RepositoryConfigNotFound], 403, errors)).toBeUndefined();
   });
 
   test("does not classify another error code as missing configuration", () => {
