@@ -2,10 +2,11 @@ import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
 import * as API from "./api.ts";
@@ -324,6 +325,69 @@ describe("makeRestProtocol request encoding", () => {
       creds(),
     );
     expect(JSON.parse(bodyText(recorded.requests[0]!)!)).toEqual({ extraField: 1 });
+  });
+});
+
+describe("makeRestProtocol raw request bodies", () => {
+  // Shaped like Cloudflare R2 putObject: a raw body, a Content-Type header
+  // member, and a declared bodyMediaType.
+  const UploadInput = S.Struct({
+    key: S.String.pipe(T.Label()),
+    body: S.optional(S.String.pipe(T.HttpBody())),
+    contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+  }).pipe(
+    T.Http({ method: "PUT", uri: "/objects/{key}", bodyMediaType: "application/octet-stream" }),
+  );
+  const NdjsonInput = S.Struct({
+    body: S.optional(S.String.pipe(T.HttpBody())),
+  }).pipe(T.Http({ method: "POST", uri: "/insert", bodyMediaType: "application/x-ndjson" }));
+  const UntypedUploadInput = S.Struct({
+    body: S.optional(S.Unknown.pipe(T.HttpBody())),
+  }).pipe(T.Http({ method: "PUT", uri: "/blob" }));
+
+  const op = (input: S.Top) =>
+    API.make(() => ({
+      input,
+      output: S.Struct({}),
+      errors: [],
+      protocol: DefaultProtocol,
+    })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+  const upload = op(UploadInput);
+  const insert = op(NdjsonInput);
+  const untypedUpload = op(UntypedUploadInput);
+
+  // The request as `fetch` would receive it.
+  const send = async (effect: Effect.Effect<any, any, any>) => {
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      effect,
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    return Result.getOrThrow(HttpClientRequest.toWebResult(recorded.requests[0]!));
+  };
+
+  test("a raw body is sent under the caller's Content-Type, for every body type", async () => {
+    const bytes = new Uint8Array([1, 2, 3]);
+    for (const body of [bytes, bytes.buffer, new Blob([bytes]), "#EXTM3U"]) {
+      const request = await send(upload({ key: "a.mp4", body, contentType: "video/mp4" }));
+      expect(request.headers.get("content-type")).toBe("video/mp4");
+    }
+    const request = await send(upload({ key: "a.mp4", body: bytes, contentType: "video/mp4" }));
+    expect(new Uint8Array(await request.arrayBuffer())).toEqual(bytes);
+  });
+
+  test("without a Content-Type member value, the declared bodyMediaType is used", async () => {
+    const object = await send(upload({ key: "a.bin", body: new Uint8Array([1]) }));
+    expect(object.headers.get("content-type")).toBe("application/octet-stream");
+    const ndjson = await send(insert({ body: '{"id":"1"}\n' }));
+    expect(ndjson.headers.get("content-type")).toBe("application/x-ndjson");
+    expect(await ndjson.text()).toBe('{"id":"1"}\n');
+  });
+
+  test("with neither, a Blob body is sent under its own type", async () => {
+    const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
+    expect(request.headers.get("content-type")).toBe("text/html");
   });
 });
 
