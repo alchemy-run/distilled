@@ -539,6 +539,22 @@ describe("restJson1 request serialization: HTTP bindings", () => {
     expect(request.query).toEqual({ tagKeys: ["env", "team"] });
   });
 
+  test("greedy labels keep / and encode each segment; plain labels encode /", async () => {
+    const input = S.Struct({
+      Id: S.String.pipe(T.HttpLabel("Id")),
+      Key: S.String.pipe(T.HttpLabel("Key")),
+    }).pipe(T.Http({ method: "GET", uri: "/stores/{Id}/objects/{Key+}" }));
+    const handler = restJson1Protocol(op(input));
+    const request = await run(
+      handler.serializeRequest({ Id: "a/b c", Key: "/dir/a b+c~(x)!'*/é%.txt" }),
+    );
+    expect(request.path).toBe(
+      "/stores/a%2Fb%20c/objects//dir/a%20b%2Bc~%28x%29%21%27%2A/%C3%A9%25.txt",
+    );
+    const dollar = await run(handler.serializeRequest({ Id: "$&", Key: "$1/$&" }));
+    expect(dollar.path).toBe("/stores/%24%26/objects/%241/%24%26");
+  });
+
   test("encodes query and header values, including timestamps", async () => {
     const input = S.Struct({
       Id: S.String.pipe(T.HttpLabel("Id")),
