@@ -3210,24 +3210,6 @@ export const GetBuildResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GetBuildResponse" }) as any as S.Schema<GetBuildResponse>;
 
-export interface GetBuildLogsRequest {
-  buildId: string;
-  follow?: boolean;
-  cursor?: string;
-}
-export const GetBuildLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    buildId: S.String.pipe(T.Label()),
-    follow: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
-    cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/v1/builds/{buildId}/logs", code: 200 })),
-).annotate({ identifier: "GetBuildLogsRequest" }) as any as S.Schema<GetBuildLogsRequest>;
-
-export interface GetBuildLogsResponse {}
-export const GetBuildLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetBuildLogsResponse",
-}) as any as S.Schema<GetBuildLogsResponse>;
-
 export type GetBuildsRequestState = "pending" | "running" | "succeeded" | "failed" | "cancelled";
 export const GetBuildsRequestState = S.String;
 
@@ -4529,14 +4511,21 @@ export const GetMeResponseDataUser = /*@__PURE__*/ S.suspend(() =>
 export type GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 export const GetMeResponseDataWorkspace = CreateDatabaseResponseDataRegion;
 
+export type GetMeResponseDataCredentialType =
+  | "oauth"
+  | "service_token"
+  | "management_token"
+  | "agent_token";
+export const GetMeResponseDataCredentialType = S.String;
+
 export interface GetMeResponseDataCredential {
-  type: string;
+  type: GetMeResponseDataCredentialType;
   id: string | null;
   name: string | null;
 }
 export const GetMeResponseDataCredential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: GetMeResponseDataCredentialType,
     id: S.NullOr(S.String),
     name: S.NullOr(S.String),
   }),
@@ -6662,8 +6651,8 @@ export interface UpdateBucketRequest {
   branchId?: string;
   /** Git name of the branch to move the bucket to; the branch is created when it does not exist. Mutually exclusive with branchId. */
   branchGitName?: string;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
 }
 export const UpdateBucketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6671,7 +6660,7 @@ export const UpdateBucketRequest = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     branchId: S.optional(S.String),
     branchGitName: S.optional(S.String),
-    logicalId: S.optional(S.String),
+    logicalId: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/buckets/{bucketId}", code: 200 })),
 ).annotate({ identifier: "UpdateBucketRequest" }) as any as S.Schema<UpdateBucketRequest>;
 
@@ -6805,8 +6794,8 @@ export interface UpdateDatabaseRequest {
   branchId?: string | null;
   /** Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected. */
   branchGitName?: string | null;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
 }
 export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6814,7 +6803,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
-    logicalId: S.optional(S.String),
+    logicalId: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
 ).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
@@ -7093,8 +7082,8 @@ export const UpdateProjectBranchAlchemyStateLeaseResponse = /*@__PURE__*/ S.susp
 export interface UpdateServiceRequest {
   serviceId: string;
   displayName?: string;
-  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
-  logicalId?: string;
+  /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id. */
+  logicalId?: string | null;
   branchId?: string | null;
   branchGitName?: string | null;
 }
@@ -7102,7 +7091,7 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     displayName: S.optional(S.String),
-    logicalId: S.optional(S.String),
+    logicalId: S.optional(S.NullOr(S.String)),
     branchId: S.optional(S.NullOr(S.String)),
     branchGitName: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/services/{serviceId}", code: 200 })),
@@ -7926,21 +7915,6 @@ export const getBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBuildRequest,
   output: GetBuildResponse,
-  errors: [NotFound, UnknownPrismaError],
-  protocol: PrismaProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetBuildLogsError = NotFound | PrismaOpError;
-/** Stream build logs ⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️ Streams the full build log for a build as newline-delimited JSON (`application/x-ndjson`). Each line is a JSON object discriminated by `type`: `log` (a build output line) or `terminal` (end-of-stream marker with a `cursor` for resumption). The default is a finite dump that ends once the stream is drained; pass `follow=true` to keep the connection open for an in-flight build, and `cursor` to resume from a prior terminal cursor. */
-export const getBuildLogs: API.OperationMethod<
-  GetBuildLogsRequest,
-  GetBuildLogsResponse,
-  GetBuildLogsError,
-  PrismaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetBuildLogsRequest,
-  output: GetBuildLogsResponse,
   errors: [NotFound, UnknownPrismaError],
   protocol: PrismaProtocol,
   retry: Retry.Retry,

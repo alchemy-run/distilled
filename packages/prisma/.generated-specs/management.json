@@ -737,7 +737,8 @@
         "logicalId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "branchId": {
@@ -3242,7 +3243,8 @@
         "logicalId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -5433,73 +5435,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Report a resource a build acted on\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nRecords that the build created, acted on, or deleted a platform resource — the provenance a deploy run leaves behind. Idempotent: re-reporting the same resource updates the row rather than adding one, and never weakens the recorded action. The resource must belong to the caller's workspace, and must still be findable: a soft-deleted resource can be reported, but `project`, `database`, `service_key` and `config_variable` leave no row behind, so a build that deletes one must report it before deleting it. Reporting a deployment as `created` also attaches the deployment to the build and records the app it deployed into, both in the same transaction, because a deployment relates its build to that app whether or not the reporter says so."
-      }
-    },
-    "com.prisma#GetBuildLogsRequestFollow": {
-      "type": "enum",
-      "members": {
-        "TRUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "true"
-          }
-        },
-        "FALSE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "false"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.prisma#GetBuildLogsRequest": {
-      "type": "structure",
-      "members": {
-        "buildId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "follow": {
-          "target": "com.prisma#GetBuildLogsRequestFollow",
-          "traits": {
-            "smithy.api#httpQuery": "follow"
-          }
-        },
-        "cursor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "cursor"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.prisma#GetBuildLogs": {
-      "type": "operation",
-      "input": {
-        "target": "com.prisma#GetBuildLogsRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.prisma#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/v1/builds/{buildId}/logs",
-          "code": 200
-        },
-        "smithy.api#documentation": "Stream build logs\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nStreams the full build log for a build as newline-delimited JSON (`application/x-ndjson`). Each line is a JSON object discriminated by `type`: `log` (a build output line) or `terminal` (end-of-stream marker with a `cursor` for resumption). The default is a finite dump that ends once the stream is drained; pass `follow=true` to keep the connection open for an in-flight build, and `cursor` to resume from a prior terminal cursor."
       }
     },
     "com.prisma#GetDomainRequest": {
@@ -9048,7 +8983,8 @@
         "logicalId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. Send null to clear the logical id.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -17410,11 +17346,41 @@
       },
       "traits": {}
     },
+    "com.prisma#GetMeResponseDataCredentialType": {
+      "type": "enum",
+      "members": {
+        "OAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oauth"
+          }
+        },
+        "SERVICE_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "service_token"
+          }
+        },
+        "MANAGEMENT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "management_token"
+          }
+        },
+        "AGENT_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "agent_token"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.prisma#GetMeResponseDataCredential": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.prisma#GetMeResponseDataCredentialType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -20008,9 +19974,6 @@
         },
         {
           "target": "com.prisma#PutBuildResource"
-        },
-        {
-          "target": "com.prisma#GetBuildLogs"
         },
         {
           "target": "com.prisma#GetDomain"
