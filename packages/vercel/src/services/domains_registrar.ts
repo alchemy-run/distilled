@@ -119,9 +119,7 @@ export const BuyDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     domains: BuyDomainsRequestDomainsList,
     contactInformation: BuyDomainsRequestContactInformation,
   }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/buy", code: 200 })),
-).annotate({
-  identifier: "BuyDomainsRequest",
-}) as any as S.Schema<BuyDomainsRequest>;
+).annotate({ identifier: "BuyDomainsRequest" }) as any as S.Schema<BuyDomainsRequest>;
 
 export type BuyDomainsResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export const BuyDomainsResponseLinksValueMethod = S.String;
@@ -156,9 +154,7 @@ export const BuyDomainsResponse = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String,
     _links: BuyDomainsResponseLinksMap,
   }),
-).annotate({
-  identifier: "BuyDomainsResponse",
-}) as any as S.Schema<BuyDomainsResponse>;
+).annotate({ identifier: "BuyDomainsResponse" }) as any as S.Schema<BuyDomainsResponse>;
 
 /** The contact information for the domain. Some TLDs require additional contact information. Use the [Get contact info schema](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-contact-info-schema) endpoint to retrieve the required fields. */
 export type BuySingleDomainRequestContactInformation = BuyDomainsRequestContactInformation;
@@ -186,16 +182,8 @@ export const BuySingleDomainRequest = /*@__PURE__*/ S.suspend(() =>
     expectedPrice: S.Number,
     contactInformation: BuyDomainsRequestContactInformation,
     languageCode: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/registrar/domains/{domain}/buy",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "BuySingleDomainRequest",
-}) as any as S.Schema<BuySingleDomainRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/{domain}/buy", code: 200 })),
+).annotate({ identifier: "BuySingleDomainRequest" }) as any as S.Schema<BuySingleDomainRequest>;
 
 export type BuySingleDomainResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export const BuySingleDomainResponseLinksValueMethod = S.String;
@@ -230,9 +218,7 @@ export const BuySingleDomainResponse = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String,
     _links: BuySingleDomainResponseLinksMap,
   }),
-).annotate({
-  identifier: "BuySingleDomainResponse",
-}) as any as S.Schema<BuySingleDomainResponse>;
+).annotate({ identifier: "BuySingleDomainResponse" }) as any as S.Schema<BuySingleDomainResponse>;
 
 /** an array of at most 50 item(s) */
 export type GetBulkAvailabilityRequestDomainsList = Array<string>;
@@ -249,13 +235,7 @@ export const GetBulkAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamId: S.optional(S.String.pipe(T.Query())),
     domains: GetBulkAvailabilityRequestDomainsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/registrar/domains/availability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/availability", code: 200 })),
 ).annotate({
   identifier: "GetBulkAvailabilityRequest",
 }) as any as S.Schema<GetBulkAvailabilityRequest>;
@@ -289,6 +269,72 @@ export const GetBulkAvailabilityResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBulkAvailabilityResponse",
 }) as any as S.Schema<GetBulkAvailabilityResponse>;
 
+/** an array of at most 50 item(s) */
+export type GetBulkPriceRequestDomainsList = Array<string>;
+export const GetBulkPriceRequestDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetBulkPriceRequestDomainsList>;
+
+export interface GetBulkPriceRequest {
+  teamId?: string;
+  /** an array of at most 50 item(s) */
+  domains: GetBulkPriceRequestDomainsList;
+  /** The number of years to get the price for. If not provided, the minimum number of years for the TLD will be used. */
+  years?: number;
+}
+export const GetBulkPriceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    domains: GetBulkPriceRequestDomainsList,
+    years: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/price", code: 200 })),
+).annotate({ identifier: "GetBulkPriceRequest" }) as any as S.Schema<GetBulkPriceRequest>;
+
+export type GetBulkPriceResponseResultsItemPurchasePrice = number | string;
+export const GetBulkPriceResponseResultsItemPurchasePrice =
+  S.Unknown as any as S.Schema<GetBulkPriceResponseResultsItemPurchasePrice>;
+
+export type GetBulkPriceResponseResultsItemRenewalPrice = number | string;
+export const GetBulkPriceResponseResultsItemRenewalPrice =
+  S.Unknown as any as S.Schema<GetBulkPriceResponseResultsItemRenewalPrice>;
+
+export type GetBulkPriceResponseResultsItemTransferPrice = number | string;
+export const GetBulkPriceResponseResultsItemTransferPrice =
+  S.Unknown as any as S.Schema<GetBulkPriceResponseResultsItemTransferPrice>;
+
+export interface GetBulkPriceResponseResultsItem {
+  domain: string;
+  years: number;
+  purchasePrice: GetBulkPriceResponseResultsItemPurchasePrice;
+  renewalPrice: GetBulkPriceResponseResultsItemRenewalPrice;
+  transferPrice: GetBulkPriceResponseResultsItemTransferPrice;
+}
+export const GetBulkPriceResponseResultsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    years: S.Number,
+    purchasePrice: GetBulkPriceResponseResultsItemPurchasePrice,
+    renewalPrice: GetBulkPriceResponseResultsItemRenewalPrice,
+    transferPrice: GetBulkPriceResponseResultsItemTransferPrice,
+  }),
+).annotate({
+  identifier: "GetBulkPriceResponseResultsItem",
+}) as any as S.Schema<GetBulkPriceResponseResultsItem>;
+
+export type GetBulkPriceResponseResultsList = Array<GetBulkPriceResponseResultsItem>;
+export const GetBulkPriceResponseResultsList = /*@__PURE__*/ S.Array(
+  GetBulkPriceResponseResultsItem,
+) as any as S.Schema<GetBulkPriceResponseResultsList>;
+
+export interface GetBulkPriceResponse {
+  results: GetBulkPriceResponseResultsList;
+}
+export const GetBulkPriceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: GetBulkPriceResponseResultsList,
+  }),
+).annotate({ identifier: "GetBulkPriceResponse" }) as any as S.Schema<GetBulkPriceResponse>;
+
 export interface GetContactInfoSchemaRequest {
   domain: string;
   teamId?: string;
@@ -298,11 +344,7 @@ export const GetContactInfoSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/registrar/domains/{domain}/contact-info/schema",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/registrar/domains/{domain}/contact-info/schema", code: 200 }),
   ),
 ).annotate({
   identifier: "GetContactInfoSchemaRequest",
@@ -323,16 +365,8 @@ export const GetDomainAuthCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/registrar/domains/{domain}/auth-code",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainAuthCodeRequest",
-}) as any as S.Schema<GetDomainAuthCodeRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/domains/{domain}/auth-code", code: 200 })),
+).annotate({ identifier: "GetDomainAuthCodeRequest" }) as any as S.Schema<GetDomainAuthCodeRequest>;
 
 export interface GetDomainAuthCodeResponse {
   authCode: string;
@@ -353,13 +387,7 @@ export const GetDomainAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/registrar/domains/{domain}/availability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/domains/{domain}/availability", code: 200 })),
 ).annotate({
   identifier: "GetDomainAvailabilityRequest",
 }) as any as S.Schema<GetDomainAvailabilityRequest>;
@@ -402,9 +430,7 @@ export const ContactVerified = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     verified: S.Boolean,
   }),
-).annotate({
-  identifier: "ContactVerified",
-}) as any as S.Schema<ContactVerified>;
+).annotate({ identifier: "ContactVerified" }) as any as S.Schema<ContactVerified>;
 
 /** The registrant contact has not yet been verified. The contact must be verified by `verifyBy`, and a verification email is sent to `email`. */
 export interface ContactPendingVerification {
@@ -444,16 +470,8 @@ export const GetDomainPriceRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     years: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/registrar/domains/{domain}/price",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainPriceRequest",
-}) as any as S.Schema<GetDomainPriceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/domains/{domain}/price", code: 200 })),
+).annotate({ identifier: "GetDomainPriceRequest" }) as any as S.Schema<GetDomainPriceRequest>;
 
 export type GetDomainPriceResponsePurchasePrice = number | string;
 export const GetDomainPriceResponsePurchasePrice =
@@ -480,9 +498,7 @@ export const GetDomainPriceResponse = /*@__PURE__*/ S.suspend(() =>
     renewalPrice: GetDomainPriceResponseRenewalPrice,
     transferPrice: GetDomainPriceResponseTransferPrice,
   }),
-).annotate({
-  identifier: "GetDomainPriceResponse",
-}) as any as S.Schema<GetDomainPriceResponse>;
+).annotate({ identifier: "GetDomainPriceResponse" }) as any as S.Schema<GetDomainPriceResponse>;
 
 export interface GetDomainTransferInRequest {
   domain: string;
@@ -492,13 +508,7 @@ export const GetDomainTransferInRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/registrar/domains/{domain}/transfer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/domains/{domain}/transfer", code: 200 })),
 ).annotate({
   identifier: "GetDomainTransferInRequest",
 }) as any as S.Schema<GetDomainTransferInRequest>;
@@ -539,9 +549,7 @@ export const GetOrderRequest = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/orders/{orderId}", code: 200 })),
-).annotate({
-  identifier: "GetOrderRequest",
-}) as any as S.Schema<GetOrderRequest>;
+).annotate({ identifier: "GetOrderRequest" }) as any as S.Schema<GetOrderRequest>;
 
 export type GetOrderResponseDomainsItemCase0PurchaseType = "purchase";
 export const GetOrderResponseDomainsItemCase0PurchaseType = S.String;
@@ -1502,9 +1510,7 @@ export const GetOrderResponse = /*@__PURE__*/ S.suspend(() =>
     status: GetOrderResponseStatus,
     error: S.optional(GetOrderResponseError),
   }),
-).annotate({
-  identifier: "GetOrderResponse",
-}) as any as S.Schema<GetOrderResponse>;
+).annotate({ identifier: "GetOrderResponse" }) as any as S.Schema<GetOrderResponse>;
 
 export interface GetSupportedTldsRequest {
   teamId?: string;
@@ -1513,9 +1519,7 @@ export const GetSupportedTldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/tlds/supported", code: 200 })),
-).annotate({
-  identifier: "GetSupportedTldsRequest",
-}) as any as S.Schema<GetSupportedTldsRequest>;
+).annotate({ identifier: "GetSupportedTldsRequest" }) as any as S.Schema<GetSupportedTldsRequest>;
 
 /** A list of the TLDs supported by Vercel. */
 export type GetSupportedTldsResponseBodyList = Array<string>;
@@ -1526,9 +1530,7 @@ export const GetSupportedTldsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetSupportedTldsResponse = GetSupportedTldsResponseBodyList;
 export const GetSupportedTldsResponse = /*@__PURE__*/ S.suspend(() =>
   GetSupportedTldsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSupportedTldsResponse",
-}) as any as S.Schema<GetSupportedTldsResponse>;
+).annotate({ identifier: "GetSupportedTldsResponse" }) as any as S.Schema<GetSupportedTldsResponse>;
 
 export interface GetTldRequest {
   tld: string;
@@ -1542,9 +1544,7 @@ export const GetTldRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetTldRequest" }) as any as S.Schema<GetTldRequest>;
 
 /** The language codes that are supported for the TLD. The key is the language code, and the value is the name of the language. */
-export type GetTldResponseSupportedLanguageCodesMap = {
-  [key: string]: string | undefined;
-};
+export type GetTldResponseSupportedLanguageCodesMap = { [key: string]: string | undefined };
 export const GetTldResponseSupportedLanguageCodesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1572,9 +1572,7 @@ export const GetTldPriceRequest = /*@__PURE__*/ S.suspend(() =>
     years: S.optional(S.String.pipe(T.Query())),
     teamId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/registrar/tlds/{tld}/price", code: 200 })),
-).annotate({
-  identifier: "GetTldPriceRequest",
-}) as any as S.Schema<GetTldPriceRequest>;
+).annotate({ identifier: "GetTldPriceRequest" }) as any as S.Schema<GetTldPriceRequest>;
 
 export type GetTldPriceResponsePurchasePrice = number | string;
 export const GetTldPriceResponsePurchasePrice =
@@ -1602,9 +1600,7 @@ export const GetTldPriceResponse = /*@__PURE__*/ S.suspend(() =>
     renewalPrice: GetTldPriceResponseRenewalPrice,
     transferPrice: GetTldPriceResponseTransferPrice,
   }),
-).annotate({
-  identifier: "GetTldPriceResponse",
-}) as any as S.Schema<GetTldPriceResponse>;
+).annotate({ identifier: "GetTldPriceResponse" }) as any as S.Schema<GetTldPriceResponse>;
 
 export interface RenewDomainRequestContactInformation {
   firstName: string;
@@ -1654,16 +1650,8 @@ export const RenewDomainRequest = /*@__PURE__*/ S.suspend(() =>
     years: S.Number,
     expectedPrice: S.Number,
     contactInformation: S.optional(RenewDomainRequestContactInformation),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/registrar/domains/{domain}/renew",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RenewDomainRequest",
-}) as any as S.Schema<RenewDomainRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/{domain}/renew", code: 200 })),
+).annotate({ identifier: "RenewDomainRequest" }) as any as S.Schema<RenewDomainRequest>;
 
 export type RenewDomainResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export const RenewDomainResponseLinksValueMethod = S.String;
@@ -1698,9 +1686,80 @@ export const RenewDomainResponse = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String,
     _links: RenewDomainResponseLinksMap,
   }),
+).annotate({ identifier: "RenewDomainResponse" }) as any as S.Schema<RenewDomainResponse>;
+
+/** an array of at most 200 item(s) */
+export type SearchDomainsRequestDomainsList = Array<string>;
+export const SearchDomainsRequestDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SearchDomainsRequestDomainsList>;
+
+export interface SearchDomainsRequest {
+  teamId?: string;
+  /** an array of at most 200 item(s) */
+  domains: SearchDomainsRequestDomainsList;
+}
+export const SearchDomainsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    teamId: S.optional(S.String.pipe(T.Query())),
+    domains: SearchDomainsRequestDomainsList,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/search", code: 200 })),
+).annotate({ identifier: "SearchDomainsRequest" }) as any as S.Schema<SearchDomainsRequest>;
+
+export interface SearchDomainsResponseResultsItemCase0 {
+  domain: string;
+  /** `false` means the domain is unavailable or its availability could not be confirmed. */
+  available: boolean;
+}
+export const SearchDomainsResponseResultsItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    available: S.Boolean,
+  }),
 ).annotate({
-  identifier: "RenewDomainResponse",
-}) as any as S.Schema<RenewDomainResponse>;
+  identifier: "SearchDomainsResponseResultsItemCase0",
+}) as any as S.Schema<SearchDomainsResponseResultsItemCase0>;
+
+export interface SearchDomainsResponseResultsItemCase1 {
+  domain: string;
+  available: boolean;
+  years: number;
+  price: number;
+  renewalPrice: number;
+  premium: boolean;
+}
+export const SearchDomainsResponseResultsItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String,
+    available: S.Boolean,
+    years: S.Number,
+    price: S.Number,
+    renewalPrice: S.Number,
+    premium: S.Boolean,
+  }),
+).annotate({
+  identifier: "SearchDomainsResponseResultsItemCase1",
+}) as any as S.Schema<SearchDomainsResponseResultsItemCase1>;
+
+export type SearchDomainsResponseResultsItem =
+  | SearchDomainsResponseResultsItemCase0
+  | SearchDomainsResponseResultsItemCase1;
+export const SearchDomainsResponseResultsItem =
+  S.Unknown as any as S.Schema<SearchDomainsResponseResultsItem>;
+
+export type SearchDomainsResponseResultsList = Array<SearchDomainsResponseResultsItem>;
+export const SearchDomainsResponseResultsList = /*@__PURE__*/ S.Array(
+  SearchDomainsResponseResultsItem,
+) as any as S.Schema<SearchDomainsResponseResultsList>;
+
+export interface SearchDomainsResponse {
+  results: SearchDomainsResponseResultsList;
+}
+export const SearchDomainsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: SearchDomainsResponseResultsList,
+  }),
+).annotate({ identifier: "SearchDomainsResponse" }) as any as S.Schema<SearchDomainsResponse>;
 
 export type TransferInDomainRequestContactInformation = RenewDomainRequestContactInformation;
 export const TransferInDomainRequestContactInformation = RenewDomainRequestContactInformation;
@@ -1726,16 +1785,8 @@ export const TransferInDomainRequest = /*@__PURE__*/ S.suspend(() =>
     years: S.Number,
     expectedPrice: S.Number,
     contactInformation: RenewDomainRequestContactInformation,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/registrar/domains/{domain}/transfer",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TransferInDomainRequest",
-}) as any as S.Schema<TransferInDomainRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/registrar/domains/{domain}/transfer", code: 200 })),
+).annotate({ identifier: "TransferInDomainRequest" }) as any as S.Schema<TransferInDomainRequest>;
 
 export type TransferInDomainResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export const TransferInDomainResponseLinksValueMethod = S.String;
@@ -1770,9 +1821,7 @@ export const TransferInDomainResponse = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String,
     _links: TransferInDomainResponseLinksMap,
   }),
-).annotate({
-  identifier: "TransferInDomainResponse",
-}) as any as S.Schema<TransferInDomainResponse>;
+).annotate({ identifier: "TransferInDomainResponse" }) as any as S.Schema<TransferInDomainResponse>;
 
 export interface UpdateDomainAutoRenewRequest {
   domain: string;
@@ -1784,13 +1833,7 @@ export const UpdateDomainAutoRenewRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     autoRenew: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/registrar/domains/{domain}/auto-renew",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/registrar/domains/{domain}/auto-renew", code: 200 })),
 ).annotate({
   identifier: "UpdateDomainAutoRenewRequest",
 }) as any as S.Schema<UpdateDomainAutoRenewRequest>;
@@ -1816,11 +1859,7 @@ export const UpdateDomainNameserversRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     nameservers: UpdateDomainNameserversRequestNameserversList,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/registrar/domains/{domain}/nameservers",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v1/registrar/domains/{domain}/nameservers", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateDomainNameserversRequest",
@@ -1828,9 +1867,7 @@ export const UpdateDomainNameserversRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateDomainNameserversResponse {}
 export const UpdateDomainNameserversResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateDomainNameserversResponse",
-  },
+  { identifier: "UpdateDomainNameserversResponse" },
 ) as any as S.Schema<UpdateDomainNameserversResponse>;
 
 export type BuyDomainsError = BadRequest | Forbidden | VercelOpError;
@@ -1873,6 +1910,21 @@ export const getBulkAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBulkAvailabilityRequest,
   output: GetBulkAvailabilityResponse,
+  errors: [BadRequest, Forbidden],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBulkPriceError = BadRequest | Forbidden | VercelOpError;
+/** Get price data for multiple domains Get price data for multiple domains in a single request. */
+export const getBulkPrice: API.OperationMethod<
+  GetBulkPriceRequest,
+  GetBulkPriceResponse,
+  GetBulkPriceError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBulkPriceRequest,
+  output: GetBulkPriceResponse,
   errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2039,6 +2091,21 @@ export const renewDomain: API.OperationMethod<
   input: RenewDomainRequest,
   output: RenewDomainResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SearchDomainsError = BadRequest | Forbidden | VercelOpError;
+/** Get Domain Availability and Pricing Start domain research here. Get registration availability and pricing for 1–200 exact domain names. Returns results in input order, with registration and renewal prices in USD for available domains. No authentication required. */
+export const searchDomains: API.OperationMethod<
+  SearchDomainsRequest,
+  SearchDomainsResponse,
+  SearchDomainsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchDomainsRequest,
+  output: SearchDomainsResponse,
+  errors: [BadRequest, Forbidden],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

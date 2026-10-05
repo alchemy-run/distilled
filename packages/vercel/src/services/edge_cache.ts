@@ -66,11 +66,7 @@ export const DangerouslyDeleteBySrcImagesRequest = /*@__PURE__*/ S.suspend(() =>
     revalidationDeadlineSeconds: S.optional(S.Number),
     srcImages: DangerouslyDeleteBySrcImagesRequestSrcImagesList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/edge-cache/dangerously-delete-by-src-images",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/edge-cache/dangerously-delete-by-src-images", code: 200 }),
   ),
 ).annotate({
   identifier: "DangerouslyDeleteBySrcImagesRequest",
@@ -115,22 +111,14 @@ export const DangerouslyDeleteByTagsRequest = /*@__PURE__*/ S.suspend(() =>
     revalidationDeadlineSeconds: S.optional(S.Number),
     tags: DangerouslyDeleteByTagsRequestTags,
     target: S.optional(DangerouslyDeleteByTagsRequestTarget),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/edge-cache/dangerously-delete-by-tags",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/edge-cache/dangerously-delete-by-tags", code: 200 })),
 ).annotate({
   identifier: "DangerouslyDeleteByTagsRequest",
 }) as any as S.Schema<DangerouslyDeleteByTagsRequest>;
 
 export interface DangerouslyDeleteByTagsResponse {}
 export const DangerouslyDeleteByTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DangerouslyDeleteByTagsResponse",
-  },
+  { identifier: "DangerouslyDeleteByTagsResponse" },
 ) as any as S.Schema<DangerouslyDeleteByTagsResponse>;
 
 export type InvalidateBySrcImagesRequestSrcImagesList = Array<string>;
@@ -152,13 +140,7 @@ export const InvalidateBySrcImagesRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     srcImages: InvalidateBySrcImagesRequestSrcImagesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/edge-cache/invalidate-by-src-images",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/edge-cache/invalidate-by-src-images", code: 200 })),
 ).annotate({
   identifier: "InvalidateBySrcImagesRequest",
 }) as any as S.Schema<InvalidateBySrcImagesRequest>;
@@ -196,16 +178,8 @@ export const InvalidateByTagsRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     tags: InvalidateByTagsRequestTags,
     target: S.optional(InvalidateByTagsRequestTarget),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/edge-cache/invalidate-by-tags",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InvalidateByTagsRequest",
-}) as any as S.Schema<InvalidateByTagsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/edge-cache/invalidate-by-tags", code: 200 })),
+).annotate({ identifier: "InvalidateByTagsRequest" }) as any as S.Schema<InvalidateByTagsRequest>;
 
 export interface InvalidateByTagsResponse {}
 export const InvalidateByTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

@@ -41,9 +41,7 @@ export type CreateConfigurableLogDrainRequestDeliveryFormat = "json" | "ndjson";
 export const CreateConfigurableLogDrainRequestDeliveryFormat = S.String;
 
 /** Headers to be sent together with the request */
-export type CreateConfigurableLogDrainRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CreateConfigurableLogDrainRequestHeadersMap = { [key: string]: string | undefined };
 export const CreateConfigurableLogDrainRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -152,9 +150,7 @@ export const CreateLogDrainRequestSourcesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateLogDrainRequestSourcesList>;
 
 /** Headers to be sent together with the request */
-export type CreateLogDrainRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CreateLogDrainRequestHeadersMap = { [key: string]: string | undefined };
 export const CreateLogDrainRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -202,19 +198,87 @@ export const CreateLogDrainRequest = /*@__PURE__*/ S.suspend(() =>
     headers: S.optional(CreateLogDrainRequestHeadersMap),
     environments: S.optional(CreateLogDrainRequestEnvironmentsList),
   }).pipe(T.Http({ method: "POST", uri: "/v2/integrations/log-drains", code: 200 })),
-).annotate({
-  identifier: "CreateLogDrainRequest",
-}) as any as S.Schema<CreateLogDrainRequest>;
+).annotate({ identifier: "CreateLogDrainRequest" }) as any as S.Schema<CreateLogDrainRequest>;
+
+/** Whether the log drain was created by an integration or by a user */
+export type CreateLogDrainResponseCreatedFrom = "integration" | "self-served";
+export const CreateLogDrainResponseCreatedFrom = S.String;
 
 /** The delivery log format */
 export type CreateLogDrainResponseDeliveryFormat = "json" | "ndjson" | "protobuf";
 export const CreateLogDrainResponseDeliveryFormat = S.String;
+
+/** The environment of log drain */
+export type CreateLogDrainResponseEnvironmentsItem = "preview" | "production";
+export const CreateLogDrainResponseEnvironmentsItem = S.String;
+
+/** The environment of log drain */
+export type CreateLogDrainResponseEnvironmentsList = Array<CreateLogDrainResponseEnvironmentsItem>;
+export const CreateLogDrainResponseEnvironmentsList = /*@__PURE__*/ S.Array(
+  CreateLogDrainResponseEnvironmentsItem,
+) as any as S.Schema<CreateLogDrainResponseEnvironmentsList>;
+
+/** The headers to send with the request */
+export type CreateLogDrainResponseHeadersMap = { [key: string]: string | undefined };
+export const CreateLogDrainResponseHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<CreateLogDrainResponseHeadersMap>;
 
 /** The identifier of the projects this log drain is associated with */
 export type CreateLogDrainResponseProjectIdsList = Array<string>;
 export const CreateLogDrainResponseProjectIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateLogDrainResponseProjectIdsList>;
+
+/** Informational marker for a system-owned default drain. */
+export type CreateLogDrainResponseSourceCase0DefaultFor = "eve-tracing";
+export const CreateLogDrainResponseSourceCase0DefaultFor = S.String;
+
+export type CreateLogDrainResponseSourceCase0Kind = "self-served";
+export const CreateLogDrainResponseSourceCase0Kind = S.String;
+
+export interface CreateLogDrainResponseSourceCase0 {
+  /** Informational marker for a system-owned default drain. */
+  defaultFor?: CreateLogDrainResponseSourceCase0DefaultFor;
+  kind: CreateLogDrainResponseSourceCase0Kind;
+}
+export const CreateLogDrainResponseSourceCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultFor: S.optional(CreateLogDrainResponseSourceCase0DefaultFor),
+    kind: CreateLogDrainResponseSourceCase0Kind,
+  }),
+).annotate({
+  identifier: "CreateLogDrainResponseSourceCase0",
+}) as any as S.Schema<CreateLogDrainResponseSourceCase0>;
+
+export type CreateLogDrainResponseSourceCase1Kind = "integration";
+export const CreateLogDrainResponseSourceCase1Kind = S.String;
+
+export interface CreateLogDrainResponseSourceCase1 {
+  externalResourceId?: string;
+  integrationConfigurationId: string;
+  integrationId: string;
+  kind: CreateLogDrainResponseSourceCase1Kind;
+  resourceId?: string;
+}
+export const CreateLogDrainResponseSourceCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalResourceId: S.optional(S.String),
+    integrationConfigurationId: S.String,
+    integrationId: S.String,
+    kind: CreateLogDrainResponseSourceCase1Kind,
+    resourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateLogDrainResponseSourceCase1",
+}) as any as S.Schema<CreateLogDrainResponseSourceCase1>;
+
+export type CreateLogDrainResponseSource =
+  | CreateLogDrainResponseSourceCase0
+  | CreateLogDrainResponseSourceCase1;
+export const CreateLogDrainResponseSource =
+  S.Unknown as any as S.Schema<CreateLogDrainResponseSource>;
 
 /** The sources from which logs are currently being delivered to this log drain. */
 export type CreateLogDrainResponseSourcesItem =
@@ -233,82 +297,25 @@ export const CreateLogDrainResponseSourcesList = /*@__PURE__*/ S.Array(
   CreateLogDrainResponseSourcesItem,
 ) as any as S.Schema<CreateLogDrainResponseSourcesList>;
 
-/** Whether the log drain was created by an integration or by a user */
-export type CreateLogDrainResponseCreatedFrom = "integration" | "self-served";
-export const CreateLogDrainResponseCreatedFrom = S.String;
-
-/** The headers to send with the request */
-export type CreateLogDrainResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
-export const CreateLogDrainResponseHeadersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<CreateLogDrainResponseHeadersMap>;
-
-/** The environment of log drain */
-export type CreateLogDrainResponseEnvironmentsItem = "preview" | "production";
-export const CreateLogDrainResponseEnvironmentsItem = S.String;
-
-/** The environment of log drain */
-export type CreateLogDrainResponseEnvironmentsList = Array<CreateLogDrainResponseEnvironmentsItem>;
-export const CreateLogDrainResponseEnvironmentsList = /*@__PURE__*/ S.Array(
-  CreateLogDrainResponseEnvironmentsItem,
-) as any as S.Schema<CreateLogDrainResponseEnvironmentsList>;
-
-export type CreateLogDrainResponseSourceCase0Kind = "self-served";
-export const CreateLogDrainResponseSourceCase0Kind = S.String;
-
-export interface CreateLogDrainResponseSourceCase0 {
-  kind: CreateLogDrainResponseSourceCase0Kind;
-}
-export const CreateLogDrainResponseSourceCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: CreateLogDrainResponseSourceCase0Kind,
-  }),
-).annotate({
-  identifier: "CreateLogDrainResponseSourceCase0",
-}) as any as S.Schema<CreateLogDrainResponseSourceCase0>;
-
-export type CreateLogDrainResponseSourceCase1Kind = "integration";
-export const CreateLogDrainResponseSourceCase1Kind = S.String;
-
-export interface CreateLogDrainResponseSourceCase1 {
-  kind: CreateLogDrainResponseSourceCase1Kind;
-  resourceId?: string;
-  externalResourceId?: string;
-  integrationId: string;
-  integrationConfigurationId: string;
-}
-export const CreateLogDrainResponseSourceCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: CreateLogDrainResponseSourceCase1Kind,
-    resourceId: S.optional(S.String),
-    externalResourceId: S.optional(S.String),
-    integrationId: S.String,
-    integrationConfigurationId: S.String,
-  }),
-).annotate({
-  identifier: "CreateLogDrainResponseSourceCase1",
-}) as any as S.Schema<CreateLogDrainResponseSourceCase1>;
-
-export type CreateLogDrainResponseSource =
-  | CreateLogDrainResponseSourceCase0
-  | CreateLogDrainResponseSourceCase1;
-export const CreateLogDrainResponseSource =
-  S.Unknown as any as S.Schema<CreateLogDrainResponseSource>;
-
 export interface CreateLogDrainResponse {
+  /** The branch regexp of log drain */
+  branch?: string;
   /** The oauth2 client application id that created this log drain */
   clientId?: string;
   /** The client configuration this log drain was created with */
   configurationId?: string;
   /** A timestamp that tells you when the log drain was created */
   createdAt: number;
-  /** The unique identifier of the log drain. Always prefixed with `ld_` */
-  id: string;
+  /** Whether the log drain was created by an integration or by a user */
+  createdFrom?: CreateLogDrainResponseCreatedFrom;
   /** The delivery log format */
   deliveryFormat?: CreateLogDrainResponseDeliveryFormat;
+  /** The environment of log drain */
+  environments?: CreateLogDrainResponseEnvironmentsList;
+  /** The headers to send with the request */
+  headers?: CreateLogDrainResponseHeadersMap;
+  /** The unique identifier of the log drain. Always prefixed with `ld_` */
+  id: string;
   /** The name of the log drain */
   name: string;
   /** The identifier of the team or user whose events will trigger the log drain */
@@ -316,45 +323,35 @@ export interface CreateLogDrainResponse {
   projectId?: string | null;
   /** The identifier of the projects this log drain is associated with */
   projectIds?: CreateLogDrainResponseProjectIdsList;
-  /** The URL to call when logs are generated */
-  url: string;
-  /** The sources from which logs are currently being delivered to this log drain. */
-  sources?: CreateLogDrainResponseSourcesList;
-  /** Whether the log drain was created by an integration or by a user */
-  createdFrom?: CreateLogDrainResponseCreatedFrom;
-  /** The headers to send with the request */
-  headers?: CreateLogDrainResponseHeadersMap;
-  /** The environment of log drain */
-  environments?: CreateLogDrainResponseEnvironmentsList;
-  /** The branch regexp of log drain */
-  branch?: string;
   /** The sampling rate of log drain */
   samplingRate?: number;
   source: CreateLogDrainResponseSource;
+  /** The sources from which logs are currently being delivered to this log drain. */
+  sources?: CreateLogDrainResponseSourcesList;
+  /** The URL to call when logs are generated */
+  url: string;
 }
 export const CreateLogDrainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    branch: S.optional(S.String),
     clientId: S.optional(S.String),
     configurationId: S.optional(S.String),
     createdAt: S.Number,
-    id: S.String,
+    createdFrom: S.optional(CreateLogDrainResponseCreatedFrom),
     deliveryFormat: S.optional(CreateLogDrainResponseDeliveryFormat),
+    environments: S.optional(CreateLogDrainResponseEnvironmentsList),
+    headers: S.optional(CreateLogDrainResponseHeadersMap),
+    id: S.String,
     name: S.String,
     ownerId: S.String,
     projectId: S.optional(S.NullOr(S.String)),
     projectIds: S.optional(CreateLogDrainResponseProjectIdsList),
-    url: S.String,
-    sources: S.optional(CreateLogDrainResponseSourcesList),
-    createdFrom: S.optional(CreateLogDrainResponseCreatedFrom),
-    headers: S.optional(CreateLogDrainResponseHeadersMap),
-    environments: S.optional(CreateLogDrainResponseEnvironmentsList),
-    branch: S.optional(S.String),
     samplingRate: S.optional(S.Number),
     source: CreateLogDrainResponseSource,
+    sources: S.optional(CreateLogDrainResponseSourcesList),
+    url: S.String,
   }),
-).annotate({
-  identifier: "CreateLogDrainResponse",
-}) as any as S.Schema<CreateLogDrainResponse>;
+).annotate({ identifier: "CreateLogDrainResponse" }) as any as S.Schema<CreateLogDrainResponse>;
 
 export interface DeleteConfigurableLogDrainRequest {
   id: string;
@@ -393,13 +390,7 @@ export const DeleteIntegrationLogDrainRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/integrations/log-drains/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/integrations/log-drains/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteIntegrationLogDrainRequest",
 }) as any as S.Schema<DeleteIntegrationLogDrainRequest>;
@@ -428,9 +419,7 @@ export const GetAllLogDrainsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/log-drains", code: 200 })),
-).annotate({
-  identifier: "GetAllLogDrainsRequest",
-}) as any as S.Schema<GetAllLogDrainsRequest>;
+).annotate({ identifier: "GetAllLogDrainsRequest" }) as any as S.Schema<GetAllLogDrainsRequest>;
 
 export type GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework =
   | "actix-web"
@@ -510,20 +499,20 @@ export type GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework =
 export const GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem {
-  id: string;
-  name: string;
   framework?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework | null;
+  id: string;
   latestDeployment?: string;
+  name: string;
 }
 export const GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      id: S.String,
-      name: S.String,
       framework: S.optional(
         S.NullOr(GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItemFramework),
       ),
+      id: S.String,
       latestDeployment: S.optional(S.String),
+      name: S.String,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataItem",
@@ -536,25 +525,25 @@ export const GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList = /*@__PUR
 ) as any as S.Schema<GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList>;
 
 export interface GetAllLogDrainsResponseBodyCase0Item {
-  createdFrom: string;
   clientId?: string;
   configurationId?: string;
-  projectsMetadata?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList | null;
-  integrationIcon?: string;
+  createdFrom: string;
   integrationConfigurationUri?: string;
+  integrationIcon?: string;
   integrationWebsite?: string;
+  projectsMetadata?: GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList | null;
 }
 export const GetAllLogDrainsResponseBodyCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdFrom: S.String,
     clientId: S.optional(S.String),
     configurationId: S.optional(S.String),
+    createdFrom: S.String,
+    integrationConfigurationUri: S.optional(S.String),
+    integrationIcon: S.optional(S.String),
+    integrationWebsite: S.optional(S.String),
     projectsMetadata: S.optional(
       S.NullOr(GetAllLogDrainsResponseBodyCase0ItemProjectsMetadataList),
     ),
-    integrationIcon: S.optional(S.String),
-    integrationConfigurationUri: S.optional(S.String),
-    integrationWebsite: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase0Item",
@@ -565,60 +554,15 @@ export const GetAllLogDrainsResponseBodyCase0List = /*@__PURE__*/ S.Array(
   GetAllLogDrainsResponseBodyCase0Item,
 ) as any as S.Schema<GetAllLogDrainsResponseBodyCase0List>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList = Array<string>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus =
-  | "disabled"
-  | "enabled"
-  | "errored";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason =
-  | "account-plan-downgrade"
-  | "disabled-by-admin"
-  | "disabled-by-owner"
-  | "feature-not-available"
-  | "limits-exceeded";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason = S.String;
-
-export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas {
-  log?: unknown;
-  trace?: unknown;
-  analytics?: unknown;
-  speed_insights?: unknown;
-  ai_gateway?: unknown;
-  audit_log?: unknown;
-  connect?: unknown;
-}
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    log: S.optional(S.Unknown),
-    trace: S.optional(S.Unknown),
-    analytics: S.optional(S.Unknown),
-    speed_insights: S.optional(S.Unknown),
-    ai_gateway: S.optional(S.Unknown),
-    audit_log: S.optional(S.Unknown),
-    connect: S.optional(S.Unknown),
-  }),
-).annotate({
-  identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas",
-}) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type = "http";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression =
+  | "gzip"
+  | "none";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding =
   | "json"
   | "ndjson";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression =
-  | "gzip"
-  | "none";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0HeadersMap = {
   [key: string]: string | undefined;
@@ -651,32 +595,35 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type = "http";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type;
-  endpoint: string;
-  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding;
   compression?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression;
+  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding;
+  endpoint: string;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0HeadersMap;
   secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type,
-      endpoint: S.String,
-      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding,
       compression: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Compression,
       ),
+      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Encoding,
+      endpoint: S.String,
       headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0HeadersMap,
       secret: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Secret),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase0>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type = "otlphttp";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding = "json" | "proto";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint {
   traces: string;
@@ -689,9 +636,6 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoin
   ).annotate({
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint",
   }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding = "json" | "proto";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1HeadersMap = {
   [key: string]: string | undefined;
@@ -724,21 +668,24 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type = "otlphttp";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type;
-  endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding;
+  endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1HeadersMap;
   secret?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type,
-      endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint,
       encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Encoding,
+      endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint,
       headers: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1HeadersMap,
       secret: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Secret),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1",
@@ -748,41 +695,31 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type = "
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type;
   endpoint: string;
   table: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type,
       endpoint: S.String,
       table: S.String,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase2>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type = "s3";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression = "none";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding =
   | "json"
   | "ndjson";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding = S.String;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression = "none";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression = S.String;
-
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure = "hive";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption =
-  | "AES256"
-  | "aws:kms"
-  | "aws:kms:dsse";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption =
-  S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl =
   | "authenticated-read"
@@ -794,52 +731,62 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAc
   | "public-read-write";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption =
+  | "AES256"
+  | "aws:kms"
+  | "aws:kms:dsse";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption =
+  S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type = "s3";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type;
-  endpoint: string;
-  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding;
   compression: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression;
+  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding;
+  endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure;
-  roleArn: string;
-  region: string;
-  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption;
   objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl;
+  region: string;
+  roleArn: string;
+  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type,
-      endpoint: S.String,
-      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding,
       compression: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Compression,
+      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Encoding,
+      endpoint: S.String,
       fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3FileStructure,
-      roleArn: S.String,
+      objectAcl: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl),
       region: S.String,
+      roleArn: S.String,
       serverSideEncryption: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ServerSideEncryption,
       ),
-      objectAcl: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3ObjectAcl),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase3>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type = "internal";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type = S.String;
-
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Target =
   "vercel-otel-traces-db";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Target = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type = "internal";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type;
   target: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Target;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type,
       target: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Target,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase4",
@@ -854,27 +801,40 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType = "head_sampling";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason =
+  | "account-plan-downgrade"
+  | "disabled-by-admin"
+  | "disabled-by-owner"
+  | "feature-not-available"
+  | "limits-exceeded";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason = S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList = Array<string>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList>;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv =
   | "preview"
   | "production";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType = "head_sampling";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType;
-  rate: number;
   env?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv;
+  rate: number;
   requestPath?: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType,
-      rate: S.Number,
       env: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemEnv),
+      rate: S.Number,
       requestPath: S.optional(S.String),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItemType,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem",
@@ -886,15 +846,45 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList = /*@__
   GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingItem,
 ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList>;
 
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas {
+  ai_gateway?: unknown;
+  analytics?: unknown;
+  audit_log?: unknown;
+  connect?: unknown;
+  log?: unknown;
+  speed_insights?: unknown;
+  trace?: unknown;
+}
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ai_gateway: S.optional(S.Unknown),
+    analytics: S.optional(S.Unknown),
+    audit_log: S.optional(S.Unknown),
+    connect: S.optional(S.Unknown),
+    log: S.optional(S.Unknown),
+    speed_insights: S.optional(S.Unknown),
+    trace: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas",
+}) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas>;
+
+/** Informational marker for a system-owned default drain. */
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor = "eve-tracing";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor = S.String;
+
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind = "self-served";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0 {
+  /** Informational marker for a system-owned default drain. */
+  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      defaultFor: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0DefaultFor),
       kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase0Kind,
     }),
 ).annotate({
@@ -905,20 +895,20 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind = "in
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1 {
+  externalResourceId?: string;
+  integrationConfigurationId: string;
+  integrationId: string;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind;
   resourceId?: string;
-  externalResourceId?: string;
-  integrationId: string;
-  integrationConfigurationId: string;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      externalResourceId: S.optional(S.String),
+      integrationConfigurationId: S.String,
+      integrationId: S.String,
       kind: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1Kind,
       resourceId: S.optional(S.String),
-      externalResourceId: S.optional(S.String),
-      integrationId: S.String,
-      integrationConfigurationId: S.String,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSourceCase1",
@@ -930,66 +920,11 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version = "v2";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type = "basic";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList =
-  Array<string>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList>;
-
-export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project {
-  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList;
-}
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ids: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project",
-  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem =
-  | "build"
-  | "edge"
-  | "external"
-  | "firewall"
-  | "lambda"
-  | "redirect"
-  | "static";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem =
-  S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList =
-  Array<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList =
-  /*@__PURE__*/ S.Array(
-    GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem,
-  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList>;
-
-export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log {
-  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList;
-  legacy_excludeCachedStaticAssetLogs?: boolean;
-}
-export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      sources: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList,
-      ),
-      legacy_excludeCachedStaticAssetLogs: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log",
-  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log>;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus =
+  | "disabled"
+  | "enabled"
+  | "errored";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
@@ -1018,23 +953,81 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0D
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment",
   }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem =
+  | "build"
+  | "edge"
+  | "external"
+  | "firewall"
+  | "lambda"
+  | "redirect"
+  | "static";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem =
+  S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList =
+  Array<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList =
+  /*@__PURE__*/ S.Array(
+    GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesItem,
+  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList>;
+
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log {
+  legacy_excludeCachedStaticAssetLogs?: boolean;
+  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList;
+}
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      legacy_excludeCachedStaticAssetLogs: S.optional(S.Boolean),
+      sources: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0LogSourcesList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log",
+  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log>;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList =
+  Array<string>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList>;
+
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project {
+  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList;
+}
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ids: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0ProjectIdsList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project",
+  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project>;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type = "basic";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type;
-  project?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project;
-  log?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log;
   deployment?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment;
+  log?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log;
+  project?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type,
-      project: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project,
-      ),
-      log: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log),
       deployment: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Deployment,
       ),
+      log: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Log),
+      project: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Project,
+      ),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0Type,
     }),
   ).annotate({
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase0",
@@ -1044,14 +1037,14 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Ty
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type;
   text: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type,
       text: S.String,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1Type,
     }),
   ).annotate({
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2FilterCase1",
@@ -1063,56 +1056,59 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Filter =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Filter =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Filter>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version = "v2";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2 {
-  version: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version;
   filter: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Filter;
+  version: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version,
     filter: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Filter,
+    version: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2Version,
   }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2>;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase0Item {
-  id: string;
   createdAt: number;
-  updatedAt: number;
-  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList;
-  name: string;
-  teamId?: string | null;
-  ownerId: string;
-  status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus;
-  firstErrorTimestamp?: number;
+  delivery: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery;
   disabledAt?: number;
   disabledBy?: string;
   disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason;
-  schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
-  delivery: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery;
+  firstErrorTimestamp?: number;
+  id: string;
+  name: string;
+  ownerId: string;
+  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList;
   sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList;
+  schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
   source: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource;
+  status?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus;
+  teamId?: string | null;
+  updatedAt: number;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase0Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
-    updatedAt: S.Number,
-    projectIds: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList),
-    name: S.String,
-    teamId: S.optional(S.NullOr(S.String)),
-    ownerId: S.String,
-    status: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus),
-    firstErrorTimestamp: S.optional(S.Number),
+    delivery: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery,
     disabledAt: S.optional(S.Number),
     disabledBy: S.optional(S.String),
     disabledReason: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDisabledReason),
-    schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas,
-    delivery: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDelivery,
+    firstErrorTimestamp: S.optional(S.Number),
+    id: S.String,
+    name: S.String,
+    ownerId: S.String,
+    projectIds: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemProjectIdsList),
     sampling: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSamplingList),
+    schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas,
     source: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSource,
+    status: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemStatus),
+    teamId: S.optional(S.NullOr(S.String)),
+    updatedAt: S.Number,
     filterV2: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase0ItemFilterV2),
   }),
 ).annotate({
@@ -1125,42 +1121,15 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase0List = /*@__PURE__*/ S.A
   GetAllLogDrainsResponseBodyCase1DrainsCase0Item,
 ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase0List>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList = Array<string>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus =
-  | "disabled"
-  | "enabled"
-  | "errored";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason =
-  | "account-plan-downgrade"
-  | "disabled-by-admin"
-  | "disabled-by-owner"
-  | "feature-not-available"
-  | "limits-exceeded";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSchemas =
-  GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSchemas =
-  GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type = "http";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression =
+  | "gzip"
+  | "none";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding =
   | "json"
   | "ndjson";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression =
-  | "gzip"
-  | "none";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0HeadersMap = {
   [key: string]: string | undefined;
@@ -1193,40 +1162,40 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type = "http";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type;
-  endpoint: string;
-  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding;
   compression?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression;
+  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding;
+  endpoint: string;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0HeadersMap;
   secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type,
-      endpoint: S.String,
-      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding,
       compression: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Compression,
       ),
+      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Encoding,
+      endpoint: S.String,
       headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0HeadersMap,
       secret: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Secret),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase0>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type = "otlphttp";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding = "json" | "proto";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Endpoint =
   GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Endpoint =
   GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding = "json" | "proto";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1HeadersMap = {
   [key: string]: string | undefined;
@@ -1259,21 +1228,24 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type = "otlphttp";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type;
-  endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding;
+  endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint;
   headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1HeadersMap;
   secret?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type,
-      endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint,
       encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Encoding,
+      endpoint: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemDeliveryCase1Endpoint,
       headers: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1HeadersMap,
       secret: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Secret),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase1",
@@ -1283,41 +1255,31 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type = "
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type;
   endpoint: string;
   table: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type,
       endpoint: S.String,
       table: S.String,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase2>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type = "s3";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression = "none";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding =
   | "json"
   | "ndjson";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding = S.String;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression = "none";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression = S.String;
-
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure = "hive";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption =
-  | "AES256"
-  | "aws:kms"
-  | "aws:kms:dsse";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption =
-  S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl =
   | "authenticated-read"
@@ -1329,52 +1291,62 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAc
   | "public-read-write";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption =
+  | "AES256"
+  | "aws:kms"
+  | "aws:kms:dsse";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption =
+  S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type = "s3";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type;
-  endpoint: string;
-  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding;
   compression: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression;
+  encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding;
+  endpoint: string;
   fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure;
-  roleArn: string;
-  region: string;
-  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption;
   objectAcl?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl;
+  region: string;
+  roleArn: string;
+  serverSideEncryption?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type,
-      endpoint: S.String,
-      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding,
       compression: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Compression,
+      encoding: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Encoding,
+      endpoint: S.String,
       fileStructure: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3FileStructure,
-      roleArn: S.String,
+      objectAcl: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl),
       region: S.String,
+      roleArn: S.String,
       serverSideEncryption: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ServerSideEncryption,
       ),
-      objectAcl: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3ObjectAcl),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3",
 }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase3>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type = "internal";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type = S.String;
-
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Target =
   "vercel-otel-traces-db";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Target = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type = "internal";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type;
   target: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Target;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type,
       target: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Target,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4Type,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDeliveryCase4",
@@ -1389,27 +1361,40 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType = "head_sampling";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType = S.String;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason =
+  | "account-plan-downgrade"
+  | "disabled-by-admin"
+  | "disabled-by-owner"
+  | "feature-not-available"
+  | "limits-exceeded";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason = S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList = Array<string>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList>;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv =
   | "preview"
   | "production";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv = S.String;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType = "head_sampling";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItem {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType;
-  rate: number;
   env?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv;
+  rate: number;
   requestPath?: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItem = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType,
-      rate: S.Number,
       env: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemEnv),
+      rate: S.Number,
       requestPath: S.optional(S.String),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItemType,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItem",
@@ -1421,15 +1406,27 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList = /*@__
   GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingItem,
 ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSchemas =
+  GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSchemas =
+  GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
+
+/** Informational marker for a system-owned default drain. */
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor = "eve-tracing";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor = S.String;
+
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind = "self-served";
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0 {
+  /** Informational marker for a system-owned default drain. */
+  defaultFor?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      defaultFor: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0DefaultFor),
       kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase0Kind,
     }),
 ).annotate({
@@ -1440,20 +1437,20 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind = "in
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1 {
+  externalResourceId?: string;
+  integrationConfigurationId: string;
+  integrationId: string;
   kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind;
   resourceId?: string;
-  externalResourceId?: string;
-  integrationId: string;
-  integrationConfigurationId: string;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      externalResourceId: S.optional(S.String),
+      integrationConfigurationId: S.String,
+      integrationId: S.String,
       kind: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1Kind,
       resourceId: S.optional(S.String),
-      externalResourceId: S.optional(S.String),
-      integrationId: S.String,
-      integrationConfigurationId: S.String,
     }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSourceCase1",
@@ -1465,66 +1462,11 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource>;
 
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version = "v2";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type = "basic";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type = S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList =
-  Array<string>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList>;
-
-export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project {
-  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList;
-}
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ids: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project",
-  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project>;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem =
-  | "build"
-  | "edge"
-  | "external"
-  | "firewall"
-  | "lambda"
-  | "redirect"
-  | "static";
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem =
-  S.String;
-
-export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList =
-  Array<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem>;
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList =
-  /*@__PURE__*/ S.Array(
-    GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem,
-  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList>;
-
-export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log {
-  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList;
-  legacy_excludeCachedStaticAssetLogs?: boolean;
-}
-export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      sources: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList,
-      ),
-      legacy_excludeCachedStaticAssetLogs: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log",
-  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log>;
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus =
+  | "disabled"
+  | "enabled"
+  | "errored";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus = S.String;
 
 export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0DeploymentEnvironmentsItem =
   | "preview"
@@ -1553,23 +1495,81 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0D
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment",
   }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem =
+  | "build"
+  | "edge"
+  | "external"
+  | "firewall"
+  | "lambda"
+  | "redirect"
+  | "static";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem =
+  S.String;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList =
+  Array<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList =
+  /*@__PURE__*/ S.Array(
+    GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesItem,
+  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList>;
+
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log {
+  legacy_excludeCachedStaticAssetLogs?: boolean;
+  sources?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList;
+}
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      legacy_excludeCachedStaticAssetLogs: S.optional(S.Boolean),
+      sources: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0LogSourcesList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log",
+  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log>;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList =
+  Array<string>;
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList>;
+
+export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project {
+  ids?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList;
+}
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ids: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0ProjectIdsList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project",
+  }) as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project>;
+
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type = "basic";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type;
-  project?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project;
-  log?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log;
   deployment?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment;
+  log?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log;
+  project?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type,
-      project: S.optional(
-        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project,
-      ),
-      log: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log),
       deployment: S.optional(
         GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Deployment,
       ),
+      log: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Log),
+      project: S.optional(
+        GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Project,
+      ),
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0Type,
     }),
   ).annotate({
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase0",
@@ -1579,14 +1579,14 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Ty
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type = S.String;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1 {
-  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type;
   text: string;
+  type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type,
       text: S.String,
+      type: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1Type,
     }),
   ).annotate({
     identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2FilterCase1",
@@ -1598,14 +1598,17 @@ export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Filter =
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Filter =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Filter>;
 
+export type GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version = "v2";
+export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version = S.String;
+
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2 {
-  version: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version;
   filter: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Filter;
+  version: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version,
     filter: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Filter,
+    version: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2Version,
   }),
 ).annotate({
   identifier: "GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2",
@@ -1671,49 +1674,49 @@ export const GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess =
   S.Unknown as any as S.Schema<GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess>;
 
 export interface GetAllLogDrainsResponseBodyCase1DrainsCase1Item {
-  id: string;
   createdAt: number;
-  updatedAt: number;
-  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList;
-  name: string;
-  teamId?: string | null;
-  ownerId: string;
-  status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus;
-  firstErrorTimestamp?: number;
+  delivery: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery;
   disabledAt?: number;
   disabledBy?: string;
   disabledReason?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason;
-  schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
-  delivery: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery;
+  firstErrorTimestamp?: number;
+  id: string;
+  name: string;
+  ownerId: string;
+  projectIds?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList;
   sampling?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList;
+  schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas;
   source: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource;
+  status?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus;
+  teamId?: string | null;
+  updatedAt: number;
   filterV2?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2;
-  integrationIcon?: string;
   integrationConfigurationUri?: string;
+  integrationIcon?: string;
   integrationWebsite?: string;
   projectAccess?: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess;
 }
 export const GetAllLogDrainsResponseBodyCase1DrainsCase1Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     createdAt: S.Number,
-    updatedAt: S.Number,
-    projectIds: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList),
-    name: S.String,
-    teamId: S.optional(S.NullOr(S.String)),
-    ownerId: S.String,
-    status: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus),
-    firstErrorTimestamp: S.optional(S.Number),
+    delivery: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery,
     disabledAt: S.optional(S.Number),
     disabledBy: S.optional(S.String),
     disabledReason: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDisabledReason),
-    schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas,
-    delivery: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemDelivery,
+    firstErrorTimestamp: S.optional(S.Number),
+    id: S.String,
+    name: S.String,
+    ownerId: S.String,
+    projectIds: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectIdsList),
     sampling: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSamplingList),
+    schemas: GetAllLogDrainsResponseBodyCase1DrainsCase0ItemSchemas,
     source: GetAllLogDrainsResponseBodyCase1DrainsCase1ItemSource,
+    status: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemStatus),
+    teamId: S.optional(S.NullOr(S.String)),
+    updatedAt: S.Number,
     filterV2: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemFilterV2),
-    integrationIcon: S.optional(S.String),
     integrationConfigurationUri: S.optional(S.String),
+    integrationIcon: S.optional(S.String),
     integrationWebsite: S.optional(S.String),
     projectAccess: S.optional(GetAllLogDrainsResponseBodyCase1DrainsCase1ItemProjectAccess),
   }),
@@ -1753,9 +1756,7 @@ export const GetAllLogDrainsResponseBody =
 export type GetAllLogDrainsResponse = GetAllLogDrainsResponseBody;
 export const GetAllLogDrainsResponse = /*@__PURE__*/ S.suspend(() =>
   GetAllLogDrainsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAllLogDrainsResponse",
-}) as any as S.Schema<GetAllLogDrainsResponse>;
+).annotate({ identifier: "GetAllLogDrainsResponse" }) as any as S.Schema<GetAllLogDrainsResponse>;
 
 export interface GetConfigurableLogDrainRequest {
   id: string;
@@ -1852,17 +1853,17 @@ export type GetConfigurableLogDrainResponseProjectsMetadataItemFramework =
 export const GetConfigurableLogDrainResponseProjectsMetadataItemFramework = S.String;
 
 export interface GetConfigurableLogDrainResponseProjectsMetadataItem {
-  id: string;
-  name: string;
   framework?: GetConfigurableLogDrainResponseProjectsMetadataItemFramework | null;
+  id: string;
   latestDeployment?: string;
+  name: string;
 }
 export const GetConfigurableLogDrainResponseProjectsMetadataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
     framework: S.optional(S.NullOr(GetConfigurableLogDrainResponseProjectsMetadataItemFramework)),
+    id: S.String,
     latestDeployment: S.optional(S.String),
+    name: S.String,
   }),
 ).annotate({
   identifier: "GetConfigurableLogDrainResponseProjectsMetadataItem",
@@ -1875,23 +1876,23 @@ export const GetConfigurableLogDrainResponseProjectsMetadataList = /*@__PURE__*/
 ) as any as S.Schema<GetConfigurableLogDrainResponseProjectsMetadataList>;
 
 export interface GetConfigurableLogDrainResponse {
-  createdFrom: string;
   clientId?: string;
   configurationId?: string;
-  projectsMetadata?: GetConfigurableLogDrainResponseProjectsMetadataList | null;
-  integrationIcon?: string;
+  createdFrom: string;
   integrationConfigurationUri?: string;
+  integrationIcon?: string;
   integrationWebsite?: string;
+  projectsMetadata?: GetConfigurableLogDrainResponseProjectsMetadataList | null;
 }
 export const GetConfigurableLogDrainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createdFrom: S.String,
     clientId: S.optional(S.String),
     configurationId: S.optional(S.String),
-    projectsMetadata: S.optional(S.NullOr(GetConfigurableLogDrainResponseProjectsMetadataList)),
-    integrationIcon: S.optional(S.String),
+    createdFrom: S.String,
     integrationConfigurationUri: S.optional(S.String),
+    integrationIcon: S.optional(S.String),
     integrationWebsite: S.optional(S.String),
+    projectsMetadata: S.optional(S.NullOr(GetConfigurableLogDrainResponseProjectsMetadataList)),
   }),
 ).annotate({
   identifier: "GetConfigurableLogDrainResponse",
@@ -1912,15 +1913,88 @@ export const GetIntegrationLogDrainsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIntegrationLogDrainsRequest",
 }) as any as S.Schema<GetIntegrationLogDrainsRequest>;
 
+/** Whether the log drain was created by an integration or by a user */
+export type GetIntegrationLogDrainsResponseBodyItemCreatedFrom = "integration" | "self-served";
+export const GetIntegrationLogDrainsResponseBodyItemCreatedFrom = S.String;
+
 /** The delivery log format */
 export type GetIntegrationLogDrainsResponseBodyItemDeliveryFormat = "json" | "ndjson" | "protobuf";
 export const GetIntegrationLogDrainsResponseBodyItemDeliveryFormat = S.String;
+
+/** The environment of log drain */
+export type GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem = "preview" | "production";
+export const GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem = S.String;
+
+/** The environment of log drain */
+export type GetIntegrationLogDrainsResponseBodyItemEnvironmentsList =
+  Array<GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem>;
+export const GetIntegrationLogDrainsResponseBodyItemEnvironmentsList = /*@__PURE__*/ S.Array(
+  GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem,
+) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemEnvironmentsList>;
+
+/** The headers to send with the request */
+export type GetIntegrationLogDrainsResponseBodyItemHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const GetIntegrationLogDrainsResponseBodyItemHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemHeadersMap>;
 
 /** The identifier of the projects this log drain is associated with */
 export type GetIntegrationLogDrainsResponseBodyItemProjectIdsList = Array<string>;
 export const GetIntegrationLogDrainsResponseBodyItemProjectIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemProjectIdsList>;
+
+/** Informational marker for a system-owned default drain. */
+export type GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor = "eve-tracing";
+export const GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor = S.String;
+
+export type GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = "self-served";
+export const GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = S.String;
+
+export interface GetIntegrationLogDrainsResponseBodyItemSourceCase0 {
+  /** Informational marker for a system-owned default drain. */
+  defaultFor?: GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor;
+  kind: GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind;
+}
+export const GetIntegrationLogDrainsResponseBodyItemSourceCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    defaultFor: S.optional(GetIntegrationLogDrainsResponseBodyItemSourceCase0DefaultFor),
+    kind: GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind,
+  }),
+).annotate({
+  identifier: "GetIntegrationLogDrainsResponseBodyItemSourceCase0",
+}) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSourceCase0>;
+
+export type GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind = "integration";
+export const GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind = S.String;
+
+export interface GetIntegrationLogDrainsResponseBodyItemSourceCase1 {
+  externalResourceId?: string;
+  integrationConfigurationId: string;
+  integrationId: string;
+  kind: GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind;
+  resourceId?: string;
+}
+export const GetIntegrationLogDrainsResponseBodyItemSourceCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    externalResourceId: S.optional(S.String),
+    integrationConfigurationId: S.String,
+    integrationId: S.String,
+    kind: GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind,
+    resourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetIntegrationLogDrainsResponseBodyItemSourceCase1",
+}) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSourceCase1>;
+
+export type GetIntegrationLogDrainsResponseBodyItemSource =
+  | GetIntegrationLogDrainsResponseBodyItemSourceCase0
+  | GetIntegrationLogDrainsResponseBodyItemSourceCase1;
+export const GetIntegrationLogDrainsResponseBodyItemSource =
+  S.Unknown as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSource>;
 
 /** The sources from which logs are currently being delivered to this log drain. */
 export type GetIntegrationLogDrainsResponseBodyItemSourcesItem =
@@ -1940,83 +2014,25 @@ export const GetIntegrationLogDrainsResponseBodyItemSourcesList = /*@__PURE__*/ 
   GetIntegrationLogDrainsResponseBodyItemSourcesItem,
 ) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSourcesList>;
 
-/** Whether the log drain was created by an integration or by a user */
-export type GetIntegrationLogDrainsResponseBodyItemCreatedFrom = "integration" | "self-served";
-export const GetIntegrationLogDrainsResponseBodyItemCreatedFrom = S.String;
-
-/** The headers to send with the request */
-export type GetIntegrationLogDrainsResponseBodyItemHeadersMap = {
-  [key: string]: string | undefined;
-};
-export const GetIntegrationLogDrainsResponseBodyItemHeadersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemHeadersMap>;
-
-/** The environment of log drain */
-export type GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem = "preview" | "production";
-export const GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem = S.String;
-
-/** The environment of log drain */
-export type GetIntegrationLogDrainsResponseBodyItemEnvironmentsList =
-  Array<GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem>;
-export const GetIntegrationLogDrainsResponseBodyItemEnvironmentsList = /*@__PURE__*/ S.Array(
-  GetIntegrationLogDrainsResponseBodyItemEnvironmentsItem,
-) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemEnvironmentsList>;
-
-export type GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = "self-served";
-export const GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind = S.String;
-
-export interface GetIntegrationLogDrainsResponseBodyItemSourceCase0 {
-  kind: GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind;
-}
-export const GetIntegrationLogDrainsResponseBodyItemSourceCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: GetIntegrationLogDrainsResponseBodyItemSourceCase0Kind,
-  }),
-).annotate({
-  identifier: "GetIntegrationLogDrainsResponseBodyItemSourceCase0",
-}) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSourceCase0>;
-
-export type GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind = "integration";
-export const GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind = S.String;
-
-export interface GetIntegrationLogDrainsResponseBodyItemSourceCase1 {
-  kind: GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind;
-  resourceId?: string;
-  externalResourceId?: string;
-  integrationId: string;
-  integrationConfigurationId: string;
-}
-export const GetIntegrationLogDrainsResponseBodyItemSourceCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: GetIntegrationLogDrainsResponseBodyItemSourceCase1Kind,
-    resourceId: S.optional(S.String),
-    externalResourceId: S.optional(S.String),
-    integrationId: S.String,
-    integrationConfigurationId: S.String,
-  }),
-).annotate({
-  identifier: "GetIntegrationLogDrainsResponseBodyItemSourceCase1",
-}) as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSourceCase1>;
-
-export type GetIntegrationLogDrainsResponseBodyItemSource =
-  | GetIntegrationLogDrainsResponseBodyItemSourceCase0
-  | GetIntegrationLogDrainsResponseBodyItemSourceCase1;
-export const GetIntegrationLogDrainsResponseBodyItemSource =
-  S.Unknown as any as S.Schema<GetIntegrationLogDrainsResponseBodyItemSource>;
-
 export interface GetIntegrationLogDrainsResponseBodyItem {
+  /** The branch regexp of log drain */
+  branch?: string;
   /** The oauth2 client application id that created this log drain */
   clientId?: string;
   /** The client configuration this log drain was created with */
   configurationId?: string;
   /** A timestamp that tells you when the log drain was created */
   createdAt: number;
-  /** The unique identifier of the log drain. Always prefixed with `ld_` */
-  id: string;
+  /** Whether the log drain was created by an integration or by a user */
+  createdFrom?: GetIntegrationLogDrainsResponseBodyItemCreatedFrom;
   /** The delivery log format */
   deliveryFormat?: GetIntegrationLogDrainsResponseBodyItemDeliveryFormat;
+  /** The environment of log drain */
+  environments?: GetIntegrationLogDrainsResponseBodyItemEnvironmentsList;
+  /** The headers to send with the request */
+  headers?: GetIntegrationLogDrainsResponseBodyItemHeadersMap;
+  /** The unique identifier of the log drain. Always prefixed with `ld_` */
+  id: string;
   /** The name of the log drain */
   name: string;
   /** The identifier of the team or user whose events will trigger the log drain */
@@ -2024,41 +2040,33 @@ export interface GetIntegrationLogDrainsResponseBodyItem {
   projectId?: string | null;
   /** The identifier of the projects this log drain is associated with */
   projectIds?: GetIntegrationLogDrainsResponseBodyItemProjectIdsList;
-  /** The URL to call when logs are generated */
-  url: string;
-  /** The sources from which logs are currently being delivered to this log drain. */
-  sources?: GetIntegrationLogDrainsResponseBodyItemSourcesList;
-  /** Whether the log drain was created by an integration or by a user */
-  createdFrom?: GetIntegrationLogDrainsResponseBodyItemCreatedFrom;
-  /** The headers to send with the request */
-  headers?: GetIntegrationLogDrainsResponseBodyItemHeadersMap;
-  /** The environment of log drain */
-  environments?: GetIntegrationLogDrainsResponseBodyItemEnvironmentsList;
-  /** The branch regexp of log drain */
-  branch?: string;
   /** The sampling rate of log drain */
   samplingRate?: number;
   source: GetIntegrationLogDrainsResponseBodyItemSource;
+  /** The sources from which logs are currently being delivered to this log drain. */
+  sources?: GetIntegrationLogDrainsResponseBodyItemSourcesList;
+  /** The URL to call when logs are generated */
+  url: string;
 }
 export const GetIntegrationLogDrainsResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    branch: S.optional(S.String),
     clientId: S.optional(S.String),
     configurationId: S.optional(S.String),
     createdAt: S.Number,
-    id: S.String,
+    createdFrom: S.optional(GetIntegrationLogDrainsResponseBodyItemCreatedFrom),
     deliveryFormat: S.optional(GetIntegrationLogDrainsResponseBodyItemDeliveryFormat),
+    environments: S.optional(GetIntegrationLogDrainsResponseBodyItemEnvironmentsList),
+    headers: S.optional(GetIntegrationLogDrainsResponseBodyItemHeadersMap),
+    id: S.String,
     name: S.String,
     ownerId: S.String,
     projectId: S.optional(S.NullOr(S.String)),
     projectIds: S.optional(GetIntegrationLogDrainsResponseBodyItemProjectIdsList),
-    url: S.String,
-    sources: S.optional(GetIntegrationLogDrainsResponseBodyItemSourcesList),
-    createdFrom: S.optional(GetIntegrationLogDrainsResponseBodyItemCreatedFrom),
-    headers: S.optional(GetIntegrationLogDrainsResponseBodyItemHeadersMap),
-    environments: S.optional(GetIntegrationLogDrainsResponseBodyItemEnvironmentsList),
-    branch: S.optional(S.String),
     samplingRate: S.optional(S.Number),
     source: GetIntegrationLogDrainsResponseBodyItemSource,
+    sources: S.optional(GetIntegrationLogDrainsResponseBodyItemSourcesList),
+    url: S.String,
   }),
 ).annotate({
   identifier: "GetIntegrationLogDrainsResponseBodyItem",
@@ -2077,7 +2085,7 @@ export const GetIntegrationLogDrainsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIntegrationLogDrainsResponse",
 }) as any as S.Schema<GetIntegrationLogDrainsResponse>;
 
-export type CreateConfigurableLogDrainError = BadRequest | Forbidden | VercelOpError;
+export type CreateConfigurableLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Creates a Configurable Log Drain (deprecated) Creates a configurable log drain. This endpoint must be called with a team AccessToken (integration OAuth2 clients are not allowed) */
 export const createConfigurableLogDrain: API.OperationMethod<
   CreateConfigurableLogDrainRequest,
@@ -2087,12 +2095,12 @@ export const createConfigurableLogDrain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateConfigurableLogDrainRequest,
   output: CreateConfigurableLogDrainResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateLogDrainError = BadRequest | Forbidden | VercelOpError;
+export type CreateLogDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Creates a new Integration Log Drain (deprecated) Creates an Integration log drain. This endpoint must be called with an OAuth2 client (integration), since log drains are tied to integrations. If it is called with a different token type it will produce a 400 error. */
 export const createLogDrain: API.OperationMethod<
   CreateLogDrainRequest,
@@ -2102,7 +2110,7 @@ export const createLogDrain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateLogDrainRequest,
   output: CreateLogDrainResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -2167,7 +2175,7 @@ export const getConfigurableLogDrain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetIntegrationLogDrainsError = BadRequest | Forbidden | VercelOpError;
+export type GetIntegrationLogDrainsError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Retrieves a list of Integration log drains (deprecated) Retrieves a list of all Integration log drains that are defined for the authenticated user or team. When using an OAuth2 token, the list is limited to log drains created by the authenticated integration. */
 export const getIntegrationLogDrains: API.OperationMethod<
   GetIntegrationLogDrainsRequest,
@@ -2177,7 +2185,7 @@ export const getIntegrationLogDrains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetIntegrationLogDrainsRequest,
   output: GetIntegrationLogDrainsResponse,
-  errors: [BadRequest, Forbidden],
+  errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));

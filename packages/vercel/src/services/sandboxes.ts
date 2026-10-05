@@ -414,12 +414,48 @@ export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1Value
     CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  { [key: string]: string | undefined };
+export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -431,6 +467,9 @@ export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1Value
         CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(
+        CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse,
+      ),
     }),
   ).annotate({
     identifier: "CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -443,7 +482,7 @@ export const CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1Value
     CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem,
   ) as any as S.Schema<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]:
     | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueList
@@ -529,22 +568,20 @@ export const CreateSandboxesByNameForkV2RequestPortsList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<CreateSandboxesByNameForkV2RequestPortsList>;
 
 /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-export type CreateSandboxesByNameForkV2RequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesByNameForkV2RequestEnvMap = { [key: string]: string | undefined };
 export const CreateSandboxesByNameForkV2RequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateSandboxesByNameForkV2RequestEnvMap>;
 
-/** Mount the drive read-only or read-write. */
-export type CreateSandboxesByNameForkV2RequestMountsValueMode = "read-only" | "read-write";
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type CreateSandboxesByNameForkV2RequestMountsValueMode = "snapshot" | "read-write";
 export const CreateSandboxesByNameForkV2RequestMountsValueMode = S.String;
 
 export interface CreateSandboxesByNameForkV2RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
-  /** Mount the drive read-only or read-write. */
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
   mode?: CreateSandboxesByNameForkV2RequestMountsValueMode | (string & {});
 }
 export const CreateSandboxesByNameForkV2RequestMountsValue = /*@__PURE__*/ S.suspend(() =>
@@ -648,9 +685,7 @@ export const CreateSandboxesByNameForkV2RequestKeepLastSnapshots = /*@__PURE__*/
 }) as any as S.Schema<CreateSandboxesByNameForkV2RequestKeepLastSnapshots>;
 
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-export type CreateSandboxesByNameForkV2RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesByNameForkV2RequestTagsMap = { [key: string]: string | undefined };
 export const CreateSandboxesByNameForkV2RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -682,6 +717,8 @@ export interface CreateSandboxesByNameForkV2Request {
   region?: CreateSandboxesByNameForkV2RequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: CreateSandboxesByNameForkV2RequestFailoverRegionsList;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to the source sandbox setting. */
   persistent?: boolean;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
@@ -706,6 +743,7 @@ export const CreateSandboxesByNameForkV2Request = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateSandboxesByNameForkV2RequestMountsMap),
     region: S.optional(CreateSandboxesByNameForkV2RequestRegion),
     failoverRegions: S.optional(CreateSandboxesByNameForkV2RequestFailoverRegionsList),
+    networkId: S.optional(S.String),
     persistent: S.optional(S.Boolean),
     snapshotExpiration: S.optional(CreateSandboxesByNameForkV2RequestSnapshotExpiration),
     keepLastSnapshots: S.optional(CreateSandboxesByNameForkV2RequestKeepLastSnapshots),
@@ -715,9 +753,34 @@ export const CreateSandboxesByNameForkV2Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSandboxesByNameForkV2Request",
 }) as any as S.Schema<CreateSandboxesByNameForkV2Request>;
 
-/** The status of the current sandbox. */
-export type NamedSandboxStatus = "running" | "stopped" | "stopping";
-export const NamedSandboxStatus = S.String;
+/** This object represents a public route in a Vercel Sandbox. */
+export interface SandboxPublicRoute {
+  /** The user port number that the route is mapped to. */
+  port: number;
+  /** The subdomain assigned to this route. */
+  subdomain: string;
+  /** Whether the route is reserved by the system (e.g. for internal use). */
+  system?: boolean;
+  /** A public URL to access the corresponding port in the Sandbox. */
+  url: string;
+}
+export const SandboxPublicRoute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    port: S.Number,
+    subdomain: S.String,
+    system: S.optional(S.Boolean),
+    url: S.String,
+  }),
+).annotate({ identifier: "SandboxPublicRoute" }) as any as S.Schema<SandboxPublicRoute>;
+
+export type CreateSandboxesByNameForkV2ResponseRoutesList = Array<SandboxPublicRoute>;
+export const CreateSandboxesByNameForkV2ResponseRoutesList = /*@__PURE__*/ S.Array(
+  SandboxPublicRoute,
+) as any as S.Schema<CreateSandboxesByNameForkV2ResponseRoutesList>;
+
+/** CPU architecture of the sandbox. This value does not change. */
+export type NamedSandboxArchitecture = "amd64" | "arm64";
+export const NamedSandboxArchitecture = S.String;
 
 /** The regions the sandbox fails over to. Empty when it does not fail over. */
 export type NamedSandboxFailoverRegionsItem =
@@ -752,72 +815,22 @@ export const NamedSandboxFailoverRegionsList = /*@__PURE__*/ S.Array(
 export interface NamedSandboxKeepLastSnapshots {
   /** Number of most recent snapshots to keep. */
   count: number;
-  /** Expiration time in milliseconds for kept snapshots. */
-  expiration?: number;
   /** Whether to immediately delete evicted snapshots. */
   deleteEvicted: boolean;
+  /** Expiration time in milliseconds for kept snapshots. */
+  expiration?: number;
 }
 export const NamedSandboxKeepLastSnapshots = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
-    expiration: S.optional(S.Number),
     deleteEvicted: S.Boolean,
+    expiration: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "NamedSandboxKeepLastSnapshots",
 }) as any as S.Schema<NamedSandboxKeepLastSnapshots>;
 
-export type NamedSandboxNetworkPolicyMode =
-  | "allow-all"
-  | "custom"
-  | "default-allow"
-  | "default-deny"
-  | "deny-all";
-export const NamedSandboxNetworkPolicyMode = S.String;
-
-export type NamedSandboxNetworkPolicyAllowedDomainsList = Array<string>;
-export const NamedSandboxNetworkPolicyAllowedDomainsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<NamedSandboxNetworkPolicyAllowedDomainsList>;
-
-export type NamedSandboxNetworkPolicyAllowedCIDRsList = Array<string>;
-export const NamedSandboxNetworkPolicyAllowedCIDRsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<NamedSandboxNetworkPolicyAllowedCIDRsList>;
-
-export type NamedSandboxNetworkPolicyDeniedCIDRsList = Array<string>;
-export const NamedSandboxNetworkPolicyDeniedCIDRsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<NamedSandboxNetworkPolicyDeniedCIDRsList>;
-
-/** Network policy configuration. */
-export interface NamedSandboxNetworkPolicy {
-  mode: NamedSandboxNetworkPolicyMode;
-  allowedDomains?: NamedSandboxNetworkPolicyAllowedDomainsList;
-  allowedCIDRs?: NamedSandboxNetworkPolicyAllowedCIDRsList;
-  deniedCIDRs?: NamedSandboxNetworkPolicyDeniedCIDRsList;
-  s3Key?: string;
-}
-export const NamedSandboxNetworkPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    mode: NamedSandboxNetworkPolicyMode,
-    allowedDomains: S.optional(NamedSandboxNetworkPolicyAllowedDomainsList),
-    allowedCIDRs: S.optional(NamedSandboxNetworkPolicyAllowedCIDRsList),
-    deniedCIDRs: S.optional(NamedSandboxNetworkPolicyDeniedCIDRsList),
-    s3Key: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NamedSandboxNetworkPolicy",
-}) as any as S.Schema<NamedSandboxNetworkPolicy>;
-
-/** Key-value tags attached to the named sandbox. */
-export type NamedSandboxTagsMap = { [key: string]: string | undefined };
-export const NamedSandboxTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<NamedSandboxTagsMap>;
-
-export type NamedSandboxMountsValueMode = "read-only" | "read-write";
+export type NamedSandboxMountsValueMode = "read-only" | "read-write" | "snapshot";
 export const NamedSandboxMountsValueMode = S.String;
 
 /** Key-value pairs of mount path and drive. */
@@ -830,131 +843,179 @@ export const NamedSandboxMountsValue = /*@__PURE__*/ S.suspend(() =>
     drive: S.String,
     mode: S.optional(NamedSandboxMountsValueMode),
   }),
-).annotate({
-  identifier: "NamedSandboxMountsValue",
-}) as any as S.Schema<NamedSandboxMountsValue>;
+).annotate({ identifier: "NamedSandboxMountsValue" }) as any as S.Schema<NamedSandboxMountsValue>;
 
 /** Key-value pairs of mount path and drive. */
-export type NamedSandboxMountsMap = {
-  [key: string]: NamedSandboxMountsValue | undefined;
-};
+export type NamedSandboxMountsMap = { [key: string]: NamedSandboxMountsValue | undefined };
 export const NamedSandboxMountsMap = /*@__PURE__*/ S.Record(
   S.String,
   NamedSandboxMountsValue,
 ) as any as S.Schema<NamedSandboxMountsMap>;
 
+export type NamedSandboxNetworkPolicyAllowedCIDRsList = Array<string>;
+export const NamedSandboxNetworkPolicyAllowedCIDRsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NamedSandboxNetworkPolicyAllowedCIDRsList>;
+
+export type NamedSandboxNetworkPolicyAllowedDomainsList = Array<string>;
+export const NamedSandboxNetworkPolicyAllowedDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NamedSandboxNetworkPolicyAllowedDomainsList>;
+
+export type NamedSandboxNetworkPolicyDeniedCIDRsList = Array<string>;
+export const NamedSandboxNetworkPolicyDeniedCIDRsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<NamedSandboxNetworkPolicyDeniedCIDRsList>;
+
+export type NamedSandboxNetworkPolicyMode =
+  | "allow-all"
+  | "custom"
+  | "default-allow"
+  | "default-deny"
+  | "deny-all";
+export const NamedSandboxNetworkPolicyMode = S.String;
+
+/** Network policy configuration. */
+export interface NamedSandboxNetworkPolicy {
+  allowedCIDRs?: NamedSandboxNetworkPolicyAllowedCIDRsList;
+  allowedDomains?: NamedSandboxNetworkPolicyAllowedDomainsList;
+  deniedCIDRs?: NamedSandboxNetworkPolicyDeniedCIDRsList;
+  mode: NamedSandboxNetworkPolicyMode;
+  s3Key?: string;
+}
+export const NamedSandboxNetworkPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedCIDRs: S.optional(NamedSandboxNetworkPolicyAllowedCIDRsList),
+    allowedDomains: S.optional(NamedSandboxNetworkPolicyAllowedDomainsList),
+    deniedCIDRs: S.optional(NamedSandboxNetworkPolicyDeniedCIDRsList),
+    mode: NamedSandboxNetworkPolicyMode,
+    s3Key: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "NamedSandboxNetworkPolicy",
+}) as any as S.Schema<NamedSandboxNetworkPolicy>;
+
+/** The status of the current sandbox. */
+export type NamedSandboxStatus = "running" | "stopped" | "stopping";
+export const NamedSandboxStatus = S.String;
+
+/** Key-value tags attached to the named sandbox. */
+export type NamedSandboxTagsMap = { [key: string]: string | undefined };
+export const NamedSandboxTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<NamedSandboxTagsMap>;
+
 /** This object contains information related to a Vercel NamedSandbox. */
 export interface NamedSandbox {
-  /** The unique identifier of the sandbox. */
-  name: string;
-  /** Current snapshot ID that the named sandbox is pointing to. */
-  currentSnapshotId?: string;
+  /** CPU architecture of the sandbox. This value does not change. */
+  architecture?: NamedSandboxArchitecture;
+  /** The time when the named sandbox was created, in milliseconds since the epoch. */
+  createdAt: number;
   /** Current session ID the sandbox is pointing to. */
   currentSessionId: string;
-  /** The status of the current sandbox. */
-  status: NamedSandboxStatus;
-  /** The time when the sandbox status was last updated, in milliseconds since the epoch. */
-  statusUpdatedAt: number;
+  /** Current snapshot ID that the named sandbox is pointing to. */
+  currentSnapshotId?: string;
+  /** The working directory of the sandbox. */
+  cwd?: string;
+  /** The time at which the currently running sandbox will time out, in milliseconds since the epoch. Only present while a session is running. */
+  expiresAt?: number;
+  /** The regions the sandbox fails over to. Empty when it does not fail over. */
+  failoverRegions?: NamedSandboxFailoverRegionsList;
+  /** Owner-qualified, digest-pinned reference of the container image the sandbox was created from ("{team}/{project}/{repository}@{manifestDigest}"). */
+  image?: string;
+  /** Keep-last snapshot configuration. */
+  keepLastSnapshots?: NamedSandboxKeepLastSnapshots;
+  /** Memory allocated in MB. */
+  memory?: number;
+  /** Key-value pairs of mount path and drive. */
+  mounts?: NamedSandboxMountsMap;
+  /** The unique identifier of the sandbox. */
+  name: string;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
+  /** Network policy configuration. */
+  networkPolicy?: NamedSandboxNetworkPolicy;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. */
   persistent: boolean;
   /** The region the sandbox is pinned to: the region stored on the sandbox, otherwise the platform default. Where a running session actually landed is reported by `session.region`. */
   region?: string;
-  /** The regions the sandbox fails over to. Empty when it does not fail over. */
-  failoverRegions?: NamedSandboxFailoverRegionsList;
-  /** Number of virtual CPUs allocated. */
-  vcpus?: number;
-  /** Memory allocated in MB. */
-  memory?: number;
   /** Runtime identifier. */
   runtime?: string;
-  /** Digest-pinned reference of the container image the sandbox was created from, when it was created from an image ("{repository}@{manifestDigest}"). */
-  image?: string;
-  /** Timeout in milliseconds. */
-  timeout?: number;
   /** Default snapshot expiration time in milliseconds. 0 means no expiration. */
   snapshotExpiration?: number;
-  /** Keep-last snapshot configuration. */
-  keepLastSnapshots?: NamedSandboxKeepLastSnapshots;
-  /** Network policy configuration. */
-  networkPolicy?: NamedSandboxNetworkPolicy;
-  /** Cumulative egress bytes across all sandbox runs. */
-  totalEgressBytes?: number;
-  /** Cumulative ingress bytes across all sandbox runs. */
-  totalIngressBytes?: number;
+  /** The status of the current sandbox. */
+  status: NamedSandboxStatus;
+  /** The time when the sandbox status was last updated, in milliseconds since the epoch. */
+  statusUpdatedAt: number;
+  /** Key-value tags attached to the named sandbox. */
+  tags?: NamedSandboxTagsMap;
+  /** Timeout in milliseconds. */
+  timeout?: number;
   /** Cumulative active CPU duration in milliseconds across all sandbox runs. */
   totalActiveCpuDurationMs?: number;
   /** Cumulative wall-clock duration in milliseconds across all sandbox runs. */
   totalDurationMs?: number;
-  /** The working directory of the sandbox. */
-  cwd?: string;
-  /** Key-value tags attached to the named sandbox. */
-  tags?: NamedSandboxTagsMap;
-  /** Key-value pairs of mount path and drive. */
-  mounts?: NamedSandboxMountsMap;
-  /** The time when the named sandbox was created, in milliseconds since the epoch. */
-  createdAt: number;
+  /** Cumulative egress bytes across all sandbox runs. */
+  totalEgressBytes?: number;
+  /** Cumulative ingress bytes across all sandbox runs. */
+  totalIngressBytes?: number;
   /** The time when the named sandbox was last updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** The time at which the currently running sandbox will time out, in milliseconds since the epoch. Only present while a session is running. */
-  expiresAt?: number;
+  /** Whether this sandbox is managed by v0 on the customer's behalf. */
+  v0?: boolean;
+  /** Number of virtual CPUs allocated. */
+  vcpus?: number;
 }
 export const NamedSandbox = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String,
-    currentSnapshotId: S.optional(S.String),
+    architecture: S.optional(NamedSandboxArchitecture),
+    createdAt: S.Number,
     currentSessionId: S.String,
-    status: NamedSandboxStatus,
-    statusUpdatedAt: S.Number,
+    currentSnapshotId: S.optional(S.String),
+    cwd: S.optional(S.String),
+    expiresAt: S.optional(S.Number),
+    failoverRegions: S.optional(NamedSandboxFailoverRegionsList),
+    image: S.optional(S.String),
+    keepLastSnapshots: S.optional(NamedSandboxKeepLastSnapshots),
+    memory: S.optional(S.Number),
+    mounts: S.optional(NamedSandboxMountsMap),
+    name: S.String,
+    networkId: S.optional(S.String),
+    networkPolicy: S.optional(NamedSandboxNetworkPolicy),
     persistent: S.Boolean,
     region: S.optional(S.String),
-    failoverRegions: S.optional(NamedSandboxFailoverRegionsList),
-    vcpus: S.optional(S.Number),
-    memory: S.optional(S.Number),
     runtime: S.optional(S.String),
-    image: S.optional(S.String),
-    timeout: S.optional(S.Number),
     snapshotExpiration: S.optional(S.Number),
-    keepLastSnapshots: S.optional(NamedSandboxKeepLastSnapshots),
-    networkPolicy: S.optional(NamedSandboxNetworkPolicy),
-    totalEgressBytes: S.optional(S.Number),
-    totalIngressBytes: S.optional(S.Number),
+    status: NamedSandboxStatus,
+    statusUpdatedAt: S.Number,
+    tags: S.optional(NamedSandboxTagsMap),
+    timeout: S.optional(S.Number),
     totalActiveCpuDurationMs: S.optional(S.Number),
     totalDurationMs: S.optional(S.Number),
-    cwd: S.optional(S.String),
-    tags: S.optional(NamedSandboxTagsMap),
-    mounts: S.optional(NamedSandboxMountsMap),
-    createdAt: S.Number,
+    totalEgressBytes: S.optional(S.Number),
+    totalIngressBytes: S.optional(S.Number),
     updatedAt: S.Number,
-    expiresAt: S.optional(S.Number),
+    v0: S.optional(S.Boolean),
+    vcpus: S.optional(S.Number),
   }),
 ).annotate({ identifier: "NamedSandbox" }) as any as S.Schema<NamedSandbox>;
 
-/** The status of the sandbox. */
-export type SessionStatus =
-  | "aborted"
-  | "failed"
-  | "pending"
-  | "running"
-  | "snapshotting"
-  | "stopped"
-  | "stopping";
-export const SessionStatus = S.String;
-
-/** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
-export type SandboxNetworkPolicyMode = "allow-all" | "custom" | "deny-all";
-export const SandboxNetworkPolicyMode = S.String;
-
-/** List of domain names the sandbox is allowed to connect to. Supports wildcard patterns (e.g., "*.vercel.com" matches all subdomains). */
-export type SandboxNetworkPolicyAllowedDomainsList = Array<string>;
-export const SandboxNetworkPolicyAllowedDomainsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SandboxNetworkPolicyAllowedDomainsList>;
+/** CPU architecture of the sandbox. */
+export type SessionArchitecture = "amd64" | "arm64";
+export const SessionArchitecture = S.String;
 
 /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. */
 export type SandboxNetworkPolicyAllowedCIDRsList = Array<string>;
 export const SandboxNetworkPolicyAllowedCIDRsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SandboxNetworkPolicyAllowedCIDRsList>;
+
+/** List of domain names the sandbox is allowed to connect to. Supports wildcard patterns (e.g., "*.vercel.com" matches all subdomains). */
+export type SandboxNetworkPolicyAllowedDomainsList = Array<string>;
+export const SandboxNetworkPolicyAllowedDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SandboxNetworkPolicyAllowedDomainsList>;
 
 /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
 export type SandboxNetworkPolicyDeniedCIDRsList = Array<string>;
@@ -980,9 +1041,7 @@ export const SandboxInjectionRule = /*@__PURE__*/ S.suspend(() =>
     domain: S.String,
     headerNames: S.optional(SandboxInjectionRuleHeaderNamesList),
   }),
-).annotate({
-  identifier: "SandboxInjectionRule",
-}) as any as S.Schema<SandboxInjectionRule>;
+).annotate({ identifier: "SandboxInjectionRule" }) as any as S.Schema<SandboxInjectionRule>;
 
 /** HTTP header injection rules for outgoing requests matching specific domains. */
 export type SandboxNetworkPolicyInjectionRulesList = Array<SandboxInjectionRule>;
@@ -990,158 +1049,148 @@ export const SandboxNetworkPolicyInjectionRulesList = /*@__PURE__*/ S.Array(
   SandboxInjectionRule,
 ) as any as S.Schema<SandboxNetworkPolicyInjectionRulesList>;
 
+/** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
+export type SandboxNetworkPolicyMode = "allow-all" | "custom" | "deny-all";
+export const SandboxNetworkPolicyMode = S.String;
+
 /** The network policy applied to this sandbox, if any. */
 export interface SandboxNetworkPolicy {
-  /** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
-  mode: SandboxNetworkPolicyMode;
-  /** List of domain names the sandbox is allowed to connect to. Supports wildcard patterns (e.g., "*.vercel.com" matches all subdomains). */
-  allowedDomains?: SandboxNetworkPolicyAllowedDomainsList;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. */
   allowedCIDRs?: SandboxNetworkPolicyAllowedCIDRsList;
+  /** List of domain names the sandbox is allowed to connect to. Supports wildcard patterns (e.g., "*.vercel.com" matches all subdomains). */
+  allowedDomains?: SandboxNetworkPolicyAllowedDomainsList;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
   deniedCIDRs?: SandboxNetworkPolicyDeniedCIDRsList;
   /** HTTP header injection rules for outgoing requests matching specific domains. */
   injectionRules?: SandboxNetworkPolicyInjectionRulesList;
+  /** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
+  mode: SandboxNetworkPolicyMode;
 }
 export const SandboxNetworkPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    mode: SandboxNetworkPolicyMode,
-    allowedDomains: S.optional(SandboxNetworkPolicyAllowedDomainsList),
     allowedCIDRs: S.optional(SandboxNetworkPolicyAllowedCIDRsList),
+    allowedDomains: S.optional(SandboxNetworkPolicyAllowedDomainsList),
     deniedCIDRs: S.optional(SandboxNetworkPolicyDeniedCIDRsList),
     injectionRules: S.optional(SandboxNetworkPolicyInjectionRulesList),
+    mode: SandboxNetworkPolicyMode,
   }),
-).annotate({
-  identifier: "SandboxNetworkPolicy",
-}) as any as S.Schema<SandboxNetworkPolicy>;
+).annotate({ identifier: "SandboxNetworkPolicy" }) as any as S.Schema<SandboxNetworkPolicy>;
 
 /** The quantity of data transfered to and from the sandbox, in bytes. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
 export interface SessionNetworkTransfer {
-  ingress: number;
   egress: number;
+  ingress: number;
 }
 export const SessionNetworkTransfer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ingress: S.Number,
     egress: S.Number,
+    ingress: S.Number,
   }),
-).annotate({
-  identifier: "SessionNetworkTransfer",
-}) as any as S.Schema<SessionNetworkTransfer>;
+).annotate({ identifier: "SessionNetworkTransfer" }) as any as S.Schema<SessionNetworkTransfer>;
+
+/** The status of the sandbox. */
+export type SessionStatus =
+  | "aborted"
+  | "failed"
+  | "pending"
+  | "running"
+  | "snapshotting"
+  | "stopped"
+  | "stopping";
+export const SessionStatus = S.String;
 
 /** This object contains information related to a Vercel Sandbox Session. v2 endpoints return "session" instead of "sandbox" as the response wrapper key. */
 export interface Session {
-  /** The name of the source sandbox. */
-  sourceSandboxName: string;
-  /** The unique identifier of the project associated with this session. */
-  projectId: string;
+  /** The time when the sandbox was aborted, in milliseconds since the epoch. */
+  abortedAt?: number;
+  /** The amount of CPU time the sandbox consumed, if available, in milliseconds. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
+  activeCpuDurationMs?: number;
+  /** CPU architecture of the sandbox. */
+  architecture?: SessionArchitecture;
+  /** The time when the sandbox was created, in milliseconds since the epoch. */
+  createdAt: number;
+  /** The working directory of the sandbox. */
+  cwd: string;
+  /** The duration of the sandbox in milliseconds. */
+  duration?: number;
   /** The unique identifier of the sandbox. */
   id: string;
   /** Memory allocated to this sandbox in MB. */
   memory: number;
-  /** Number of vCPUs allocated to this sandbox. */
-  vcpus: number;
-  /** The region where the sandbox is hosted. */
-  region: string;
-  /** The runtime of the sandbox. */
-  runtime: string;
-  /** The maximum amount of time the sandbox will run for in milliseconds. */
-  timeout: number;
-  /** The status of the sandbox. */
-  status: SessionStatus;
-  /** The time when the sandbox was requested, in milliseconds since the epoch. */
-  requestedAt: number;
-  /** The time when the sandbox was started, in milliseconds since the epoch. */
-  startedAt?: number;
-  /** The working directory of the sandbox. */
-  cwd: string;
-  /** The time when the sandbox was requested to stop, in milliseconds since the epoch. */
-  requestedStopAt?: number;
-  /** The time when the sandbox was stopped, in milliseconds since the epoch. */
-  stoppedAt?: number;
-  /** The time when the sandbox was aborted, in milliseconds since the epoch. */
-  abortedAt?: number;
-  /** The duration of the sandbox in milliseconds. */
-  duration?: number;
-  /** The unique identifier of the snapshot associated with this sandbox, if any. */
-  sourceSnapshotId?: string;
-  /** The time when a snapshot was requested, in milliseconds since the epoch. */
-  snapshottedAt?: number;
-  /** The time when the sandbox was created, in milliseconds since the epoch. */
-  createdAt: number;
-  /** The last time the sandbox was updated, in milliseconds since the epoch. */
-  updatedAt: number;
   networkPolicy?: SandboxNetworkPolicy;
-  /** The amount of CPU time the sandbox consumed, if available, in milliseconds. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
-  activeCpuDurationMs?: number;
   /** The quantity of data transfered to and from the sandbox, in bytes. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
   networkTransfer?: SessionNetworkTransfer;
+  /** The unique identifier of the project associated with this session. */
+  projectId: string;
+  /** The region where the sandbox is hosted. */
+  region: string;
+  /** The time when the sandbox was requested, in milliseconds since the epoch. */
+  requestedAt: number;
+  /** The time when the sandbox was requested to stop, in milliseconds since the epoch. */
+  requestedStopAt?: number;
+  /** The runtime of the sandbox. */
+  runtime: string;
+  /** The time when a snapshot was requested, in milliseconds since the epoch. */
+  snapshottedAt?: number;
+  /** The name of the source sandbox. */
+  sourceSandboxName: string;
+  /** The unique identifier of the snapshot associated with this sandbox, if any. */
+  sourceSnapshotId?: string;
+  /** The time when the sandbox was started, in milliseconds since the epoch. */
+  startedAt?: number;
+  /** The status of the sandbox. */
+  status: SessionStatus;
+  /** The time when the sandbox was stopped, in milliseconds since the epoch. */
+  stoppedAt?: number;
+  /** The maximum amount of time the sandbox will run for in milliseconds. */
+  timeout: number;
+  /** The last time the sandbox was updated, in milliseconds since the epoch. */
+  updatedAt: number;
+  /** Whether this sandbox is managed by v0 on the customer's behalf. */
+  v0?: boolean;
+  /** Number of vCPUs allocated to this sandbox. */
+  vcpus: number;
 }
 export const Session = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sourceSandboxName: S.String,
-    projectId: S.String,
+    abortedAt: S.optional(S.Number),
+    activeCpuDurationMs: S.optional(S.Number),
+    architecture: S.optional(SessionArchitecture),
+    createdAt: S.Number,
+    cwd: S.String,
+    duration: S.optional(S.Number),
     id: S.String,
     memory: S.Number,
-    vcpus: S.Number,
-    region: S.String,
-    runtime: S.String,
-    timeout: S.Number,
-    status: SessionStatus,
-    requestedAt: S.Number,
-    startedAt: S.optional(S.Number),
-    cwd: S.String,
-    requestedStopAt: S.optional(S.Number),
-    stoppedAt: S.optional(S.Number),
-    abortedAt: S.optional(S.Number),
-    duration: S.optional(S.Number),
-    sourceSnapshotId: S.optional(S.String),
-    snapshottedAt: S.optional(S.Number),
-    createdAt: S.Number,
-    updatedAt: S.Number,
     networkPolicy: S.optional(SandboxNetworkPolicy),
-    activeCpuDurationMs: S.optional(S.Number),
     networkTransfer: S.optional(SessionNetworkTransfer),
+    projectId: S.String,
+    region: S.String,
+    requestedAt: S.Number,
+    requestedStopAt: S.optional(S.Number),
+    runtime: S.String,
+    snapshottedAt: S.optional(S.Number),
+    sourceSandboxName: S.String,
+    sourceSnapshotId: S.optional(S.String),
+    startedAt: S.optional(S.Number),
+    status: SessionStatus,
+    stoppedAt: S.optional(S.Number),
+    timeout: S.Number,
+    updatedAt: S.Number,
+    v0: S.optional(S.Boolean),
+    vcpus: S.Number,
   }),
 ).annotate({ identifier: "Session" }) as any as S.Schema<Session>;
 
-/** This object represents a public route in a Vercel Sandbox. */
-export interface SandboxPublicRoute {
-  /** A public URL to access the corresponding port in the Sandbox. */
-  url: string;
-  /** The user port number that the route is mapped to. */
-  port: number;
-  /** The subdomain assigned to this route. */
-  subdomain: string;
-  /** Whether the route is reserved by the system (e.g. for internal use). */
-  system?: boolean;
-}
-export const SandboxPublicRoute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.String,
-    port: S.Number,
-    subdomain: S.String,
-    system: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SandboxPublicRoute",
-}) as any as S.Schema<SandboxPublicRoute>;
-
-export type CreateSandboxesByNameForkV2ResponseRoutesList = Array<SandboxPublicRoute>;
-export const CreateSandboxesByNameForkV2ResponseRoutesList = /*@__PURE__*/ S.Array(
-  SandboxPublicRoute,
-) as any as S.Schema<CreateSandboxesByNameForkV2ResponseRoutesList>;
-
 export interface CreateSandboxesByNameForkV2Response {
+  routes: CreateSandboxesByNameForkV2ResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: CreateSandboxesByNameForkV2ResponseRoutesList;
 }
 export const CreateSandboxesByNameForkV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    routes: CreateSandboxesByNameForkV2ResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: CreateSandboxesByNameForkV2ResponseRoutesList,
   }),
 ).annotate({
   identifier: "CreateSandboxesByNameForkV2Response",
@@ -1471,12 +1520,48 @@ export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1Value
     CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  { [key: string]: string | undefined };
+export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -1488,6 +1573,9 @@ export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1Value
         CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(
+        CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse,
+      ),
     }),
   ).annotate({
     identifier: "CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -1500,7 +1588,7 @@ export const CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1Value
     CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem,
   ) as any as S.Schema<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]:
     | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueList
@@ -1576,22 +1664,20 @@ export const CreateSandboxesByNameForkV3RequestPortsList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<CreateSandboxesByNameForkV3RequestPortsList>;
 
 /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-export type CreateSandboxesByNameForkV3RequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesByNameForkV3RequestEnvMap = { [key: string]: string | undefined };
 export const CreateSandboxesByNameForkV3RequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateSandboxesByNameForkV3RequestEnvMap>;
 
-/** Mount the drive read-only or read-write. */
-export type CreateSandboxesByNameForkV3RequestMountsValueMode = "read-only" | "read-write";
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type CreateSandboxesByNameForkV3RequestMountsValueMode = "snapshot" | "read-write";
 export const CreateSandboxesByNameForkV3RequestMountsValueMode = S.String;
 
 export interface CreateSandboxesByNameForkV3RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
-  /** Mount the drive read-only or read-write. */
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
   mode?: CreateSandboxesByNameForkV3RequestMountsValueMode | (string & {});
 }
 export const CreateSandboxesByNameForkV3RequestMountsValue = /*@__PURE__*/ S.suspend(() =>
@@ -1702,9 +1788,7 @@ export const CreateSandboxesByNameForkV3RequestKeepLastSnapshots =
   S.Unknown as any as S.Schema<CreateSandboxesByNameForkV3RequestKeepLastSnapshots>;
 
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-export type CreateSandboxesByNameForkV3RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesByNameForkV3RequestTagsMap = { [key: string]: string | undefined };
 export const CreateSandboxesByNameForkV3RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1736,6 +1820,8 @@ export interface CreateSandboxesByNameForkV3Request {
   region?: CreateSandboxesByNameForkV3RequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: CreateSandboxesByNameForkV3RequestFailoverRegionsList;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to the source sandbox setting. */
   persistent?: boolean;
   /** Default snapshot expiration time in milliseconds. Defaults to 7 days. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
@@ -1760,6 +1846,7 @@ export const CreateSandboxesByNameForkV3Request = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateSandboxesByNameForkV3RequestMountsMap),
     region: S.optional(CreateSandboxesByNameForkV3RequestRegion),
     failoverRegions: S.optional(CreateSandboxesByNameForkV3RequestFailoverRegionsList),
+    networkId: S.optional(S.String),
     persistent: S.optional(S.Boolean),
     snapshotExpiration: S.optional(CreateSandboxesByNameForkV3RequestSnapshotExpiration),
     keepLastSnapshots: S.optional(CreateSandboxesByNameForkV3RequestKeepLastSnapshots),
@@ -1775,15 +1862,15 @@ export const CreateSandboxesByNameForkV3ResponseRoutesList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<CreateSandboxesByNameForkV3ResponseRoutesList>;
 
 export interface CreateSandboxesByNameForkV3Response {
+  routes: CreateSandboxesByNameForkV3ResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: CreateSandboxesByNameForkV3ResponseRoutesList;
 }
 export const CreateSandboxesByNameForkV3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    routes: CreateSandboxesByNameForkV3ResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: CreateSandboxesByNameForkV3ResponseRoutesList,
   }),
 ).annotate({
   identifier: "CreateSandboxesByNameForkV3Response",
@@ -1811,15 +1898,19 @@ export const CreateSandboxesSessionsBySessionIdSnapshotV2Request = /*@__PURE__*/
     slug: S.optional(S.String.pipe(T.Query())),
     expiration: S.optional(CreateSandboxesSessionsBySessionIdSnapshotV2RequestExpiration),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/snapshot",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/snapshot", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Request",
 }) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Request>;
+
+/** CPU architecture required to restore the snapshot. */
+export type SnapshotArchitecture = "amd64" | "arm64";
+export const SnapshotArchitecture = S.String;
+
+/** The method used to create the snapshot. */
+export type SnapshotCreationMethod = "automatic" | "manual";
+export const SnapshotCreationMethod = S.String;
 
 /** The regions where the snapshot is available. */
 export type SnapshotRegionsList = Array<string>;
@@ -1831,62 +1922,64 @@ export const SnapshotRegionsList = /*@__PURE__*/ S.Array(
 export type SnapshotStatus = "created" | "deleted" | "failed";
 export const SnapshotStatus = S.String;
 
-/** The method used to create the snapshot. */
-export type SnapshotCreationMethod = "automatic" | "manual";
-export const SnapshotCreationMethod = S.String;
-
 /** This object contains information related to a Snapshot of a Vercel Sandbox session (v2 API). */
 export interface Snapshot {
+  /** CPU architecture required to restore the snapshot. */
+  architecture?: SnapshotArchitecture;
+  /** The time when the snapshot was created, in milliseconds since the epoch. */
+  createdAt: number;
+  /** The method used to create the snapshot. */
+  creationMethod?: SnapshotCreationMethod;
+  /** The time when the snapshot will expire, in milliseconds since the epoch. If not set, the snapshot does not have any expiration. */
+  expiresAt?: number;
   /** The unique identifier of the snapshot. */
   id: string;
-  /** The unique identifier of the session from which the snapshot was created. */
-  sourceSessionId: string;
+  /** The last time the snapshot was used (e.g. to resume or create a sandbox), in milliseconds since the epoch. Falls back to `createdAt` for older snapshots that predate this field. */
+  lastUsedAt: number;
+  /** The unique identifier of the parent snapshot, if this snapshot was created from another snapshot. */
+  parentId?: string;
   /** The region where the snapshot is stored. */
   region?: string;
   /** The regions where the snapshot is available. */
   regions?: SnapshotRegionsList;
-  /** The status of the snapshot. */
-  status: SnapshotStatus;
   /** The size of the snapshot in bytes. */
   sizeBytes: number;
-  /** The time when the snapshot will expire, in milliseconds since the epoch. If not set, the snapshot does not have any expiration. */
-  expiresAt?: number;
-  /** The time when the snapshot was created, in milliseconds since the epoch. */
-  createdAt: number;
+  /** The unique identifier of the session from which the snapshot was created. */
+  sourceSessionId: string;
+  /** The status of the snapshot. */
+  status: SnapshotStatus;
   /** The last time the snapshot was updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** The last time the snapshot was used (e.g. to resume or create a sandbox), in milliseconds since the epoch. Falls back to `createdAt` for older snapshots that predate this field. */
-  lastUsedAt: number;
-  /** The method used to create the snapshot. */
-  creationMethod?: SnapshotCreationMethod;
-  /** The unique identifier of the parent snapshot, if this snapshot was created from another snapshot. */
-  parentId?: string;
+  /** Whether this snapshot is managed by v0 on the customer's behalf. */
+  v0?: boolean;
 }
 export const Snapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    architecture: S.optional(SnapshotArchitecture),
+    createdAt: S.Number,
+    creationMethod: S.optional(SnapshotCreationMethod),
+    expiresAt: S.optional(S.Number),
     id: S.String,
-    sourceSessionId: S.String,
+    lastUsedAt: S.Number,
+    parentId: S.optional(S.String),
     region: S.optional(S.String),
     regions: S.optional(SnapshotRegionsList),
-    status: SnapshotStatus,
     sizeBytes: S.Number,
-    expiresAt: S.optional(S.Number),
-    createdAt: S.Number,
+    sourceSessionId: S.String,
+    status: SnapshotStatus,
     updatedAt: S.Number,
-    lastUsedAt: S.Number,
-    creationMethod: S.optional(SnapshotCreationMethod),
-    parentId: S.optional(S.String),
+    v0: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 
 export interface CreateSandboxesSessionsBySessionIdSnapshotV2Response {
-  snapshot: Snapshot;
   session: Session;
+  snapshot: Snapshot;
 }
 export const CreateSandboxesSessionsBySessionIdSnapshotV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshot: Snapshot,
     session: Session,
+    snapshot: Snapshot,
   }),
 ).annotate({
   identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Response",
@@ -1914,24 +2007,20 @@ export const CreateSandboxesSessionsBySessionIdSnapshotV3Request = /*@__PURE__*/
     slug: S.optional(S.String.pipe(T.Query())),
     expiration: S.optional(CreateSandboxesSessionsBySessionIdSnapshotV3RequestExpiration),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/sandboxes/sessions/{sessionId}/snapshot",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v3/sandboxes/sessions/{sessionId}/snapshot", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSandboxesSessionsBySessionIdSnapshotV3Request",
 }) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Request>;
 
 export interface CreateSandboxesSessionsBySessionIdSnapshotV3Response {
-  snapshot: Snapshot;
   session: Session;
+  snapshot: Snapshot;
 }
 export const CreateSandboxesSessionsBySessionIdSnapshotV3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshot: Snapshot,
     session: Session,
+    snapshot: Snapshot,
   }),
 ).annotate({
   identifier: "CreateSandboxesSessionsBySessionIdSnapshotV3Response",
@@ -2250,12 +2339,49 @@ export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransf
     CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -2265,6 +2391,7 @@ export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem =
         CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse),
     }),
   ).annotate({
     identifier: "CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -2276,7 +2403,7 @@ export const CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueList = /*@
   CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem,
 ) as any as S.Schema<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueList | undefined;
 };
@@ -2336,6 +2463,10 @@ export const CreateSandboxesV2RequestNetworkPolicy =
 /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
 export type CreateSandboxesV2RequestRuntime = "node22" | "node24" | "node26" | "python3.13";
 export const CreateSandboxesV2RequestRuntime = S.String;
+
+/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+export type CreateSandboxesV2RequestArchitecture = "amd64" | "arm64";
+export const CreateSandboxesV2RequestArchitecture = S.String;
 
 /** Resources to define the VM */
 export type CreateSandboxesV2RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -2416,22 +2547,20 @@ export const CreateSandboxesV2RequestPortsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV2RequestPortsList>;
 
 /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-export type CreateSandboxesV2RequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV2RequestEnvMap = { [key: string]: string | undefined };
 export const CreateSandboxesV2RequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateSandboxesV2RequestEnvMap>;
 
-/** Mount the drive read-only or read-write. */
-export type CreateSandboxesV2RequestMountsValueMode = "read-only" | "read-write";
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type CreateSandboxesV2RequestMountsValueMode = "snapshot" | "read-write";
 export const CreateSandboxesV2RequestMountsValueMode = S.String;
 
 export interface CreateSandboxesV2RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
-  /** Mount the drive read-only or read-write. */
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
   mode?: CreateSandboxesV2RequestMountsValueMode | (string & {});
 }
 export const CreateSandboxesV2RequestMountsValue = /*@__PURE__*/ S.suspend(() =>
@@ -2535,9 +2664,7 @@ export const CreateSandboxesV2RequestKeepLastSnapshots = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CreateSandboxesV2RequestKeepLastSnapshots>;
 
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-export type CreateSandboxesV2RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV2RequestTagsMap = { [key: string]: string | undefined };
 export const CreateSandboxesV2RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2551,6 +2678,8 @@ export interface CreateSandboxesV2Request {
   networkPolicy?: CreateSandboxesV2RequestNetworkPolicy;
   /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
   runtime?: CreateSandboxesV2RequestRuntime | (string & {});
+  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+  architecture?: CreateSandboxesV2RequestArchitecture | (string & {});
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
@@ -2571,6 +2700,8 @@ export interface CreateSandboxesV2Request {
   region?: CreateSandboxesV2RequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: CreateSandboxesV2RequestFailoverRegionsList;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name?: string;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
@@ -2588,6 +2719,7 @@ export const CreateSandboxesV2Request = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     networkPolicy: S.optional(CreateSandboxesV2RequestNetworkPolicy),
     runtime: S.optional(CreateSandboxesV2RequestRuntime),
+    architecture: S.optional(CreateSandboxesV2RequestArchitecture),
     resources: S.optional(CreateSandboxesByNameForkV2RequestResources),
     source: S.optional(CreateSandboxesV2RequestSource),
     projectId: S.optional(S.String),
@@ -2598,15 +2730,14 @@ export const CreateSandboxesV2Request = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateSandboxesV2RequestMountsMap),
     region: S.optional(CreateSandboxesV2RequestRegion),
     failoverRegions: S.optional(CreateSandboxesV2RequestFailoverRegionsList),
+    networkId: S.optional(S.String),
     name: S.optional(S.String),
     persistent: S.optional(S.Boolean),
     snapshotExpiration: S.optional(CreateSandboxesV2RequestSnapshotExpiration),
     keepLastSnapshots: S.optional(CreateSandboxesV2RequestKeepLastSnapshots),
     tags: S.optional(CreateSandboxesV2RequestTagsMap),
   }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes", code: 200 })),
-).annotate({
-  identifier: "CreateSandboxesV2Request",
-}) as any as S.Schema<CreateSandboxesV2Request>;
+).annotate({ identifier: "CreateSandboxesV2Request" }) as any as S.Schema<CreateSandboxesV2Request>;
 
 export type CreateSandboxesV2ResponseRoutesList = Array<SandboxPublicRoute>;
 export const CreateSandboxesV2ResponseRoutesList = /*@__PURE__*/ S.Array(
@@ -2614,15 +2745,15 @@ export const CreateSandboxesV2ResponseRoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV2ResponseRoutesList>;
 
 export interface CreateSandboxesV2Response {
+  routes: CreateSandboxesV2ResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: CreateSandboxesV2ResponseRoutesList;
 }
 export const CreateSandboxesV2Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    routes: CreateSandboxesV2ResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: CreateSandboxesV2ResponseRoutesList,
   }),
 ).annotate({
   identifier: "CreateSandboxesV2Response",
@@ -2941,12 +3072,49 @@ export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransf
     CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -2956,6 +3124,7 @@ export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem =
         CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse),
     }),
   ).annotate({
     identifier: "CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -2967,7 +3136,7 @@ export const CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueList = /*@
   CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem,
 ) as any as S.Schema<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueList | undefined;
 };
@@ -3024,6 +3193,10 @@ export type CreateSandboxesV3RequestNetworkPolicy =
 export const CreateSandboxesV3RequestNetworkPolicy =
   S.Unknown as any as S.Schema<CreateSandboxesV3RequestNetworkPolicy>;
 
+/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+export type CreateSandboxesV3RequestArchitecture = "amd64" | "arm64";
+export const CreateSandboxesV3RequestArchitecture = S.String;
+
 /** Resources to define the VM */
 export type CreateSandboxesV3RequestResources = CreateSandboxesByNameForkV2RequestResources;
 export const CreateSandboxesV3RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -3055,22 +3228,20 @@ export const CreateSandboxesV3RequestPortsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV3RequestPortsList>;
 
 /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-export type CreateSandboxesV3RequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV3RequestEnvMap = { [key: string]: string | undefined };
 export const CreateSandboxesV3RequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateSandboxesV3RequestEnvMap>;
 
-/** Mount the drive read-only or read-write. */
-export type CreateSandboxesV3RequestMountsValueMode = "read-only" | "read-write";
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type CreateSandboxesV3RequestMountsValueMode = "snapshot" | "read-write";
 export const CreateSandboxesV3RequestMountsValueMode = S.String;
 
 export interface CreateSandboxesV3RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
-  /** Mount the drive read-only or read-write. */
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
   mode?: CreateSandboxesV3RequestMountsValueMode | (string & {});
 }
 export const CreateSandboxesV3RequestMountsValue = /*@__PURE__*/ S.suspend(() =>
@@ -3174,9 +3345,7 @@ export const CreateSandboxesV3RequestKeepLastSnapshots = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CreateSandboxesV3RequestKeepLastSnapshots>;
 
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-export type CreateSandboxesV3RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV3RequestTagsMap = { [key: string]: string | undefined };
 export const CreateSandboxesV3RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3188,6 +3357,8 @@ export interface CreateSandboxesV3Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
   networkPolicy?: CreateSandboxesV3RequestNetworkPolicy;
+  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+  architecture?: CreateSandboxesV3RequestArchitecture | (string & {});
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
@@ -3208,6 +3379,8 @@ export interface CreateSandboxesV3Request {
   region?: CreateSandboxesV3RequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: CreateSandboxesV3RequestFailoverRegionsList;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name?: string;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
@@ -3224,6 +3397,7 @@ export const CreateSandboxesV3Request = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     networkPolicy: S.optional(CreateSandboxesV3RequestNetworkPolicy),
+    architecture: S.optional(CreateSandboxesV3RequestArchitecture),
     resources: S.optional(CreateSandboxesByNameForkV2RequestResources),
     source: S.optional(CreateSandboxesV3RequestSource),
     projectId: S.optional(S.String),
@@ -3234,15 +3408,14 @@ export const CreateSandboxesV3Request = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateSandboxesV3RequestMountsMap),
     region: S.optional(CreateSandboxesV3RequestRegion),
     failoverRegions: S.optional(CreateSandboxesV3RequestFailoverRegionsList),
+    networkId: S.optional(S.String),
     name: S.optional(S.String),
     persistent: S.optional(S.Boolean),
     snapshotExpiration: S.optional(CreateSandboxesV3RequestSnapshotExpiration),
     keepLastSnapshots: S.optional(CreateSandboxesV3RequestKeepLastSnapshots),
     tags: S.optional(CreateSandboxesV3RequestTagsMap),
   }).pipe(T.Http({ method: "POST", uri: "/v3/sandboxes", code: 200 })),
-).annotate({
-  identifier: "CreateSandboxesV3Request",
-}) as any as S.Schema<CreateSandboxesV3Request>;
+).annotate({ identifier: "CreateSandboxesV3Request" }) as any as S.Schema<CreateSandboxesV3Request>;
 
 export type CreateSandboxesV3ResponseRoutesList = Array<SandboxPublicRoute>;
 export const CreateSandboxesV3ResponseRoutesList = /*@__PURE__*/ S.Array(
@@ -3250,15 +3423,15 @@ export const CreateSandboxesV3ResponseRoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV3ResponseRoutesList>;
 
 export interface CreateSandboxesV3Response {
+  routes: CreateSandboxesV3ResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: CreateSandboxesV3ResponseRoutesList;
 }
 export const CreateSandboxesV3Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    routes: CreateSandboxesV3ResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: CreateSandboxesV3ResponseRoutesList,
   }),
 ).annotate({
   identifier: "CreateSandboxesV3Response",
@@ -3577,12 +3750,49 @@ export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransf
     CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -3592,6 +3802,7 @@ export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem =
         CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse),
     }),
   ).annotate({
     identifier: "CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -3603,7 +3814,7 @@ export const CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueList = /*@
   CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem,
 ) as any as S.Schema<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueList | undefined;
 };
@@ -3660,6 +3871,10 @@ export type CreateSandboxesV4RequestNetworkPolicy =
 export const CreateSandboxesV4RequestNetworkPolicy =
   S.Unknown as any as S.Schema<CreateSandboxesV4RequestNetworkPolicy>;
 
+/** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+export type CreateSandboxesV4RequestArchitecture = "amd64" | "arm64";
+export const CreateSandboxesV4RequestArchitecture = S.String;
+
 /** Resources to define the VM */
 export type CreateSandboxesV4RequestResources = CreateSandboxesByNameForkV2RequestResources;
 export const CreateSandboxesV4RequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -3691,22 +3906,20 @@ export const CreateSandboxesV4RequestPortsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV4RequestPortsList>;
 
 /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-export type CreateSandboxesV4RequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV4RequestEnvMap = { [key: string]: string | undefined };
 export const CreateSandboxesV4RequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateSandboxesV4RequestEnvMap>;
 
-/** Mount the drive read-only or read-write. */
-export type CreateSandboxesV4RequestMountsValueMode = "read-only" | "read-write";
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type CreateSandboxesV4RequestMountsValueMode = "snapshot" | "read-write";
 export const CreateSandboxesV4RequestMountsValueMode = S.String;
 
 export interface CreateSandboxesV4RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
-  /** Mount the drive read-only or read-write. */
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
   mode?: CreateSandboxesV4RequestMountsValueMode | (string & {});
 }
 export const CreateSandboxesV4RequestMountsValue = /*@__PURE__*/ S.suspend(() =>
@@ -3816,9 +4029,7 @@ export const CreateSandboxesV4RequestKeepLastSnapshots =
   S.Unknown as any as S.Schema<CreateSandboxesV4RequestKeepLastSnapshots>;
 
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-export type CreateSandboxesV4RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxesV4RequestTagsMap = { [key: string]: string | undefined };
 export const CreateSandboxesV4RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3830,6 +4041,8 @@ export interface CreateSandboxesV4Request {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
   networkPolicy?: CreateSandboxesV4RequestNetworkPolicy;
+  /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
+  architecture?: CreateSandboxesV4RequestArchitecture | (string & {});
   /** Resources to define the VM */
   resources?: CreateSandboxesByNameForkV2RequestResources;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
@@ -3850,6 +4063,8 @@ export interface CreateSandboxesV4Request {
   region?: CreateSandboxesV4RequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: CreateSandboxesV4RequestFailoverRegionsList;
+  /** The Connect network id for the target Secure Compute private network. */
+  networkId?: string;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name?: string;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
@@ -3866,6 +4081,7 @@ export const CreateSandboxesV4Request = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
     networkPolicy: S.optional(CreateSandboxesV4RequestNetworkPolicy),
+    architecture: S.optional(CreateSandboxesV4RequestArchitecture),
     resources: S.optional(CreateSandboxesByNameForkV2RequestResources),
     source: S.optional(CreateSandboxesV4RequestSource),
     projectId: S.optional(S.String),
@@ -3876,15 +4092,14 @@ export const CreateSandboxesV4Request = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateSandboxesV4RequestMountsMap),
     region: S.optional(CreateSandboxesV4RequestRegion),
     failoverRegions: S.optional(CreateSandboxesV4RequestFailoverRegionsList),
+    networkId: S.optional(S.String),
     name: S.optional(S.String),
     persistent: S.optional(S.Boolean),
     snapshotExpiration: S.optional(CreateSandboxesV4RequestSnapshotExpiration),
     keepLastSnapshots: S.optional(CreateSandboxesV4RequestKeepLastSnapshots),
     tags: S.optional(CreateSandboxesV4RequestTagsMap),
   }).pipe(T.Http({ method: "POST", uri: "/v4/sandboxes", code: 200 })),
-).annotate({
-  identifier: "CreateSandboxesV4Request",
-}) as any as S.Schema<CreateSandboxesV4Request>;
+).annotate({ identifier: "CreateSandboxesV4Request" }) as any as S.Schema<CreateSandboxesV4Request>;
 
 export type CreateSandboxesV4ResponseRoutesList = Array<SandboxPublicRoute>;
 export const CreateSandboxesV4ResponseRoutesList = /*@__PURE__*/ S.Array(
@@ -3892,15 +4107,15 @@ export const CreateSandboxesV4ResponseRoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSandboxesV4ResponseRoutesList>;
 
 export interface CreateSandboxesV4Response {
+  routes: CreateSandboxesV4ResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: CreateSandboxesV4ResponseRoutesList;
 }
 export const CreateSandboxesV4Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    routes: CreateSandboxesV4ResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: CreateSandboxesV4ResponseRoutesList,
   }),
 ).annotate({
   identifier: "CreateSandboxesV4Response",
@@ -3929,11 +4144,7 @@ export const CreateSessionDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     recursive: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/fs/mkdir",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/fs/mkdir", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSessionDirectoryRequest",
@@ -3963,42 +4174,43 @@ export const DeleteDriveRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/sandboxes/drives/{name}", code: 200 })),
-).annotate({
-  identifier: "DeleteDriveRequest",
-}) as any as S.Schema<DeleteDriveRequest>;
+).annotate({ identifier: "DeleteDriveRequest" }) as any as S.Schema<DeleteDriveRequest>;
 
 /** This object contains information related to a Vercel Sandbox Drive. */
 export interface Drive {
+  /** The time when the drive was created, in milliseconds since the epoch. */
+  createdAt: number;
+  /** Current sandbox name the drive is attached to, if any. */
+  currentSandboxName?: string;
+  /** Current session ID the drive is attached to, if any. */
+  currentSessionId?: string;
   /** The unique drive ID. */
   id: string;
+  /** The maximum drive size in bytes. */
+  maxSizeBytes: number;
   /** The unique drive name within the project. */
   name: string;
   /** The project that owns the drive. */
   projectId: string;
-  /** The maximum drive size in bytes. */
-  maxSizeBytes: number;
   /** The region where the drive is stored. */
   region: string;
-  /** Current session ID the drive is attached to, if any. */
-  currentSessionId?: string;
-  /** Current sandbox name the drive is attached to, if any. */
-  currentSandboxName?: string;
-  /** The time when the drive was created, in milliseconds since the epoch. */
-  createdAt: number;
   /** The last time the drive was updated, in milliseconds since the epoch. */
   updatedAt: number;
+  /** Whether this drive is managed by v0 on the customer's behalf. */
+  v0?: boolean;
 }
 export const Drive = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    createdAt: S.Number,
+    currentSandboxName: S.optional(S.String),
+    currentSessionId: S.optional(S.String),
     id: S.String,
+    maxSizeBytes: S.Number,
     name: S.String,
     projectId: S.String,
-    maxSizeBytes: S.Number,
     region: S.String,
-    currentSessionId: S.optional(S.String),
-    currentSandboxName: S.optional(S.String),
-    createdAt: S.Number,
     updatedAt: S.Number,
+    v0: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Drive" }) as any as S.Schema<Drive>;
 
@@ -4009,9 +4221,7 @@ export const DeleteDriveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     drive: Drive,
   }),
-).annotate({
-  identifier: "DeleteDriveResponse",
-}) as any as S.Schema<DeleteDriveResponse>;
+).annotate({ identifier: "DeleteDriveResponse" }) as any as S.Schema<DeleteDriveResponse>;
 
 export interface DeleteSandboxRequest {
   /** The sandbox name to delete. */
@@ -4033,9 +4243,7 @@ export const DeleteSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v2/sandboxes/{name}", code: 200 })),
-).annotate({
-  identifier: "DeleteSandboxRequest",
-}) as any as S.Schema<DeleteSandboxRequest>;
+).annotate({ identifier: "DeleteSandboxRequest" }) as any as S.Schema<DeleteSandboxRequest>;
 
 export interface DeleteSandboxResponse {
   sandbox: NamedSandbox;
@@ -4044,9 +4252,7 @@ export const DeleteSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandbox: NamedSandbox,
   }),
-).annotate({
-  identifier: "DeleteSandboxResponse",
-}) as any as S.Schema<DeleteSandboxResponse>;
+).annotate({ identifier: "DeleteSandboxResponse" }) as any as S.Schema<DeleteSandboxResponse>;
 
 export interface DeleteSessionSnapshotRequest {
   /** The unique identifier of the snapshot to delete. */
@@ -4061,13 +4267,7 @@ export const DeleteSessionSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshotId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v2/sandboxes/snapshots/{snapshotId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v2/sandboxes/snapshots/{snapshotId}", code: 200 })),
 ).annotate({
   identifier: "DeleteSessionSnapshotRequest",
 }) as any as S.Schema<DeleteSessionSnapshotRequest>;
@@ -4100,11 +4300,7 @@ export const ExtendSessionTimeoutRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     duration: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/extend-timeout",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/extend-timeout", code: 200 }),
   ),
 ).annotate({
   identifier: "ExtendSessionTimeoutRequest",
@@ -4141,9 +4337,7 @@ export const GetNamedSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/{name}", code: 200 })),
-).annotate({
-  identifier: "GetNamedSandboxRequest",
-}) as any as S.Schema<GetNamedSandboxRequest>;
+).annotate({ identifier: "GetNamedSandboxRequest" }) as any as S.Schema<GetNamedSandboxRequest>;
 
 export type GetNamedSandboxResponseRoutesList = Array<SandboxPublicRoute>;
 export const GetNamedSandboxResponseRoutesList = /*@__PURE__*/ S.Array(
@@ -4151,21 +4345,19 @@ export const GetNamedSandboxResponseRoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetNamedSandboxResponseRoutesList>;
 
 export interface GetNamedSandboxResponse {
+  resumed: boolean;
+  routes: GetNamedSandboxResponseRoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: GetNamedSandboxResponseRoutesList;
-  resumed: boolean;
 }
 export const GetNamedSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resumed: S.Boolean,
+    routes: GetNamedSandboxResponseRoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: GetNamedSandboxResponseRoutesList,
-    resumed: S.Boolean,
   }),
-).annotate({
-  identifier: "GetNamedSandboxResponse",
-}) as any as S.Schema<GetNamedSandboxResponse>;
+).annotate({ identifier: "GetNamedSandboxResponse" }) as any as S.Schema<GetNamedSandboxResponse>;
 
 /** Region where the drive is stored. Defaults to iad1. */
 export type GetOrCreateDriveRequestRegion =
@@ -4199,7 +4391,7 @@ export interface GetOrCreateDriveRequest {
   slug?: string;
   /** The project ID or name to associate the drive with. Required unless using a Vercel OIDC token scoped to a project. */
   projectId?: string;
-  /** Maximum drive size in bytes. Defaults to 100 GiB when omitted. */
+  /** Maximum drive size in bytes. Defaults to 1 TiB when omitted (1 GiB for Hobby). The maximum quota is 16 TiB. Request a quota above 16 TiB at https://vercel.com/help. */
   maxSizeBytes?: number;
   /** Region where the drive is stored. Defaults to iad1. */
   region?: GetOrCreateDriveRequestRegion | (string & {});
@@ -4213,9 +4405,7 @@ export const GetOrCreateDriveRequest = /*@__PURE__*/ S.suspend(() =>
     maxSizeBytes: S.optional(S.Number),
     region: S.optional(GetOrCreateDriveRequestRegion),
   }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/drives/{name}", code: 200 })),
-).annotate({
-  identifier: "GetOrCreateDriveRequest",
-}) as any as S.Schema<GetOrCreateDriveRequest>;
+).annotate({ identifier: "GetOrCreateDriveRequest" }) as any as S.Schema<GetOrCreateDriveRequest>;
 
 export interface GetOrCreateDriveResponse {
   drive: Drive;
@@ -4224,9 +4414,7 @@ export const GetOrCreateDriveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     drive: Drive,
   }),
-).annotate({
-  identifier: "GetOrCreateDriveResponse",
-}) as any as S.Schema<GetOrCreateDriveResponse>;
+).annotate({ identifier: "GetOrCreateDriveResponse" }) as any as S.Schema<GetOrCreateDriveResponse>;
 
 export interface GetSessionRequest {
   /** The unique identifier of the session to retrieve. */
@@ -4241,16 +4429,8 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/sandboxes/sessions/{sessionId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/sessions/{sessionId}", code: 200 })),
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 
 export type GetSessionResponseRoutesList = Array<SandboxPublicRoute>;
 export const GetSessionResponseRoutesList = /*@__PURE__*/ S.Array(
@@ -4258,17 +4438,15 @@ export const GetSessionResponseRoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetSessionResponseRoutesList>;
 
 export interface GetSessionResponse {
-  session: Session;
   routes: GetSessionResponseRoutesList;
+  session: Session;
 }
 export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    session: Session,
     routes: GetSessionResponseRoutesList,
+    session: Session,
   }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
+).annotate({ identifier: "GetSessionResponse" }) as any as S.Schema<GetSessionResponse>;
 
 export interface GetSessionCommandRequest {
   /** The unique identifier of the session containing the command. */
@@ -4290,15 +4468,9 @@ export const GetSessionCommandRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/sandboxes/sessions/{sessionId}/cmd/{cmdId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/sandboxes/sessions/{sessionId}/cmd/{cmdId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSessionCommandRequest",
-}) as any as S.Schema<GetSessionCommandRequest>;
+).annotate({ identifier: "GetSessionCommandRequest" }) as any as S.Schema<GetSessionCommandRequest>;
 
 /** The arguments of the command. */
 export type SessionCommandArgsList = Array<string>;
@@ -4308,33 +4480,33 @@ export const SessionCommandArgsList = /*@__PURE__*/ S.Array(
 
 /** This object represents a command run in a Vercel Sandbox session (v2 API). */
 export interface SessionCommand {
-  /** The ID of the command. */
-  id: string;
-  /** The name of the command. */
-  name: string;
   /** The arguments of the command. */
   args: SessionCommandArgsList;
   /** The current working directory of the command. */
   cwd: string;
-  /** The ID of the session associated with the command. */
-  sessionId: string;
-  /** If the command did finish, the exit code. */
-  exitCode: number | null;
-  /** When the command was started, in milliseconds since the epoch. */
-  startedAt: number;
   /** Duration of the command execution in milliseconds. */
   durationMs?: number;
+  /** If the command did finish, the exit code. */
+  exitCode: number | null;
+  /** The ID of the command. */
+  id: string;
+  /** The name of the command. */
+  name: string;
+  /** The ID of the session associated with the command. */
+  sessionId: string;
+  /** When the command was started, in milliseconds since the epoch. */
+  startedAt: number;
 }
 export const SessionCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
-    name: S.String,
     args: SessionCommandArgsList,
     cwd: S.String,
-    sessionId: S.String,
-    exitCode: S.NullOr(S.Number),
-    startedAt: S.Number,
     durationMs: S.optional(S.Number),
+    exitCode: S.NullOr(S.Number),
+    id: S.String,
+    name: S.String,
+    sessionId: S.String,
+    startedAt: S.Number,
   }),
 ).annotate({ identifier: "SessionCommand" }) as any as S.Schema<SessionCommand>;
 
@@ -4394,13 +4566,7 @@ export const GetSessionSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     snapshotId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/sandboxes/snapshots/{snapshotId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/snapshots/{snapshotId}", code: 200 })),
 ).annotate({
   identifier: "GetSessionSnapshotRequest",
 }) as any as S.Schema<GetSessionSnapshotRequest>;
@@ -4494,9 +4660,7 @@ export const ListDrivesRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/drives", code: 200 })),
-).annotate({
-  identifier: "ListDrivesRequest",
-}) as any as S.Schema<ListDrivesRequest>;
+).annotate({ identifier: "ListDrivesRequest" }) as any as S.Schema<ListDrivesRequest>;
 
 export type ListDrivesResponseDrivesList = Array<Drive>;
 export const ListDrivesResponseDrivesList = /*@__PURE__*/ S.Array(
@@ -4525,9 +4689,93 @@ export const ListDrivesResponse = /*@__PURE__*/ S.suspend(() =>
     drives: ListDrivesResponseDrivesList,
     pagination: ListDrivesResponsePagination,
   }),
+).annotate({ identifier: "ListDrivesResponse" }) as any as S.Schema<ListDrivesResponse>;
+
+/** Field to sort by. */
+export type ListNamedSandboxesRequestSortBy =
+  | "createdAt"
+  | "name"
+  | "statusUpdatedAt"
+  | "currentSnapshotId";
+export const ListNamedSandboxesRequestSortBy = S.String;
+
+/** Sort direction. Defaults to desc. */
+export type ListNamedSandboxesRequestSortOrder = "asc" | "desc";
+export const ListNamedSandboxesRequestSortOrder = S.String;
+
+/** Filter named sandboxes by status. Only valid when sortBy is createdAt. */
+export type ListNamedSandboxesRequestStatus = "running" | "stopping" | "stopped";
+export const ListNamedSandboxesRequestStatus = S.String;
+
+export type ListNamedSandboxesRequestTagsCase1List = Array<string>;
+export const ListNamedSandboxesRequestTagsCase1List = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListNamedSandboxesRequestTagsCase1List>;
+
+/** Filter sandboxes by tag. Format: \"key:value\". Only one tag filter is supported at a time. */
+export type ListNamedSandboxesRequestTags = string | ListNamedSandboxesRequestTagsCase1List;
+export const ListNamedSandboxesRequestTags =
+  S.Unknown as any as S.Schema<ListNamedSandboxesRequestTags>;
+
+export interface ListNamedSandboxesRequest {
+  /** The unique identifier or name of the project to list named sandboxes for. */
+  project?: string;
+  /** Maximum number of named sandboxes to return in the response. Used for pagination. */
+  limit?: number;
+  /** Field to sort by. */
+  sortBy?: ListNamedSandboxesRequestSortBy | (string & {});
+  /** Filter named sandboxes whose name starts with this prefix. Only valid when sortBy=name. */
+  namePrefix?: string;
+  /** Opaque pagination cursor from a previous response. */
+  cursor?: string;
+  /** Sort direction. Defaults to desc. */
+  sortOrder?: ListNamedSandboxesRequestSortOrder | (string & {});
+  /** Filter named sandboxes by status. Only valid when sortBy is createdAt. */
+  status?: ListNamedSandboxesRequestStatus | (string & {});
+  /** Filter sandboxes by tag. Format: \"key:value\". Only one tag filter is supported at a time. */
+  tags?: ListNamedSandboxesRequestTags;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string;
+}
+export const ListNamedSandboxesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    sortBy: S.optional(ListNamedSandboxesRequestSortBy.pipe(T.Query())),
+    namePrefix: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    sortOrder: S.optional(ListNamedSandboxesRequestSortOrder.pipe(T.Query())),
+    status: S.optional(ListNamedSandboxesRequestStatus.pipe(T.Query())),
+    tags: S.optional(ListNamedSandboxesRequestTags.pipe(T.Query())),
+    teamId: S.optional(S.String.pipe(T.Query())),
+    slug: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes", code: 200 })),
 ).annotate({
-  identifier: "ListDrivesResponse",
-}) as any as S.Schema<ListDrivesResponse>;
+  identifier: "ListNamedSandboxesRequest",
+}) as any as S.Schema<ListNamedSandboxesRequest>;
+
+export type ListNamedSandboxesResponsePagination = ListDrivesResponsePagination;
+export const ListNamedSandboxesResponsePagination = ListDrivesResponsePagination;
+
+export type ListNamedSandboxesResponseSandboxesList = Array<NamedSandbox>;
+export const ListNamedSandboxesResponseSandboxesList = /*@__PURE__*/ S.Array(
+  NamedSandbox,
+) as any as S.Schema<ListNamedSandboxesResponseSandboxesList>;
+
+export interface ListNamedSandboxesResponse {
+  pagination: ListDrivesResponsePagination;
+  sandboxes: ListNamedSandboxesResponseSandboxesList;
+}
+export const ListNamedSandboxesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pagination: ListDrivesResponsePagination,
+    sandboxes: ListNamedSandboxesResponseSandboxesList,
+  }),
+).annotate({
+  identifier: "ListNamedSandboxesResponse",
+}) as any as S.Schema<ListNamedSandboxesResponse>;
 
 export interface ListSessionCommandsRequest {
   /** The unique identifier of the session to list commands for. */
@@ -4542,13 +4790,7 @@ export const ListSessionCommandsRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/sandboxes/sessions/{sessionId}/cmd",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/sessions/{sessionId}/cmd", code: 200 })),
 ).annotate({
   identifier: "ListSessionCommandsRequest",
 }) as any as S.Schema<ListSessionCommandsRequest>;
@@ -4599,26 +4841,24 @@ export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/sessions", code: 200 })),
-).annotate({
-  identifier: "ListSessionsRequest",
-}) as any as S.Schema<ListSessionsRequest>;
+).annotate({ identifier: "ListSessionsRequest" }) as any as S.Schema<ListSessionsRequest>;
+
+export type ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
+export const ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
 
 export type ListSessionsResponseBodyCase1SessionsList = Array<Session>;
 export const ListSessionsResponseBodyCase1SessionsList = /*@__PURE__*/ S.Array(
   Session,
 ) as any as S.Schema<ListSessionsResponseBodyCase1SessionsList>;
 
-export type ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
-export const ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
-
 export interface ListSessionsResponseBodyCase1 {
-  sessions: ListSessionsResponseBodyCase1SessionsList;
   pagination: ListDrivesResponsePagination;
+  sessions: ListSessionsResponseBodyCase1SessionsList;
 }
 export const ListSessionsResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sessions: ListSessionsResponseBodyCase1SessionsList,
     pagination: ListDrivesResponsePagination,
+    sessions: ListSessionsResponseBodyCase1SessionsList,
   }),
 ).annotate({
   identifier: "ListSessionsResponseBodyCase1",
@@ -4630,9 +4870,7 @@ export const ListSessionsResponseBody = S.Unknown as any as S.Schema<ListSession
 export type ListSessionsResponse = ListSessionsResponseBody;
 export const ListSessionsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSessionsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSessionsResponse",
-}) as any as S.Schema<ListSessionsResponse>;
+).annotate({ identifier: "ListSessionsResponse" }) as any as S.Schema<ListSessionsResponse>;
 
 /** Sort direction for results by creation time. */
 export type ListSessionSnapshotsRequestSortOrder = "asc" | "desc";
@@ -4668,22 +4906,22 @@ export const ListSessionSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSessionSnapshotsRequest",
 }) as any as S.Schema<ListSessionSnapshotsRequest>;
 
+export type ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
+export const ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
+
 export type ListSessionSnapshotsResponseBodyCase1SnapshotsList = Array<Snapshot>;
 export const ListSessionSnapshotsResponseBodyCase1SnapshotsList = /*@__PURE__*/ S.Array(
   Snapshot,
 ) as any as S.Schema<ListSessionSnapshotsResponseBodyCase1SnapshotsList>;
 
-export type ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
-export const ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
-
 export interface ListSessionSnapshotsResponseBodyCase1 {
-  snapshots: ListSessionSnapshotsResponseBodyCase1SnapshotsList;
   pagination: ListDrivesResponsePagination;
+  snapshots: ListSessionSnapshotsResponseBodyCase1SnapshotsList;
 }
 export const ListSessionSnapshotsResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshots: ListSessionSnapshotsResponseBodyCase1SnapshotsList,
     pagination: ListDrivesResponsePagination,
+    snapshots: ListSessionSnapshotsResponseBodyCase1SnapshotsList,
   }),
 ).annotate({
   identifier: "ListSessionSnapshotsResponseBodyCase1",
@@ -4719,16 +4957,8 @@ export const ReadSessionFileRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     cwd: S.optional(S.String),
     path: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/fs/read",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReadSessionFileRequest",
-}) as any as S.Schema<ReadSessionFileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/fs/read", code: 200 })),
+).annotate({ identifier: "ReadSessionFileRequest" }) as any as S.Schema<ReadSessionFileRequest>;
 
 export interface ReadSessionFileResponse {}
 export const ReadSessionFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4742,9 +4972,7 @@ export const RunSessionCommandRequestArgsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RunSessionCommandRequestArgsList>;
 
 /** Additional environment variables to set for this command. These are merged with the sandbox environment. */
-export type RunSessionCommandRequestEnvMap = {
-  [key: string]: string | undefined;
-};
+export type RunSessionCommandRequestEnvMap = { [key: string]: string | undefined };
 export const RunSessionCommandRequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4790,16 +5018,8 @@ export const RunSessionCommandRequest = /*@__PURE__*/ S.suspend(() =>
     wait: S.optional(S.Boolean),
     logs: S.optional(S.Boolean),
     timeout: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/cmd",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RunSessionCommandRequest",
-}) as any as S.Schema<RunSessionCommandRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/cmd", code: 200 })),
+).annotate({ identifier: "RunSessionCommandRequest" }) as any as S.Schema<RunSessionCommandRequest>;
 
 export interface RunSessionCommandResponse {
   command: SessionCommand;
@@ -4825,16 +5045,8 @@ export const StopSessionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.Label()),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/stop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopSessionRequest",
-}) as any as S.Schema<StopSessionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/stop", code: 200 })),
+).annotate({ identifier: "StopSessionRequest" }) as any as S.Schema<StopSessionRequest>;
 
 export interface StopSessionResponseBodyCase0 {
   session: Session;
@@ -4848,15 +5060,15 @@ export const StopSessionResponseBodyCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StopSessionResponseBodyCase0>;
 
 export interface StopSessionResponseBodyCase1 {
-  snapshot: Snapshot;
   sandbox: NamedSandbox;
   session: Session;
+  snapshot: Snapshot;
 }
 export const StopSessionResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    snapshot: Snapshot,
     sandbox: NamedSandbox,
     session: Session,
+    snapshot: Snapshot,
   }),
 ).annotate({
   identifier: "StopSessionResponseBodyCase1",
@@ -4868,9 +5080,7 @@ export const StopSessionResponseBody = S.Unknown as any as S.Schema<StopSessionR
 export type StopSessionResponse = StopSessionResponseBody;
 export const StopSessionResponse = /*@__PURE__*/ S.suspend(() =>
   StopSessionResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "StopSessionResponse",
-}) as any as S.Schema<StopSessionResponse>;
+).annotate({ identifier: "StopSessionResponse" }) as any as S.Schema<StopSessionResponse>;
 
 /** Resources to define the VM */
 export type UpdateSandboxRequestResources = CreateSandboxesByNameForkV2RequestResources;
@@ -5221,12 +5431,49 @@ export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformL
     UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse>;
+
 export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatch;
   transform?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse;
 }
 export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -5234,6 +5481,7 @@ export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem = /*@__PU
       match: S.optional(UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatch),
       transform: S.optional(UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList),
       forwardURL: S.optional(S.String),
+      response: S.optional(UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse),
     }),
 ).annotate({
   identifier: "UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem",
@@ -5245,7 +5493,7 @@ export const UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueList = /*@__PU
   UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem,
 ) as any as S.Schema<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1Map = {
   [key: string]: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueList | undefined;
 };
@@ -5355,6 +5603,34 @@ export const UpdateSandboxRequestFailoverRegionsList = /*@__PURE__*/ S.Array(
   UpdateSandboxRequestFailoverRegionsItem,
 ) as any as S.Schema<UpdateSandboxRequestFailoverRegionsList>;
 
+/** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+export type UpdateSandboxRequestMountsValueMode = "snapshot" | "read-write";
+export const UpdateSandboxRequestMountsValueMode = S.String;
+
+export interface UpdateSandboxRequestMountsValue {
+  /** Name of the drive to mount. The drive must already exist. */
+  drive: string;
+  /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
+  mode?: UpdateSandboxRequestMountsValueMode | (string & {});
+}
+export const UpdateSandboxRequestMountsValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    drive: S.String,
+    mode: S.optional(UpdateSandboxRequestMountsValueMode),
+  }),
+).annotate({
+  identifier: "UpdateSandboxRequestMountsValue",
+}) as any as S.Schema<UpdateSandboxRequestMountsValue>;
+
+/** Drives to mount to the sandbox at the provided path. Replaces the current mounts; an empty object removes them all. Changes take effect when the next session starts. */
+export type UpdateSandboxRequestMountsMap = {
+  [key: string]: UpdateSandboxRequestMountsValue | undefined;
+};
+export const UpdateSandboxRequestMountsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UpdateSandboxRequestMountsValue,
+) as any as S.Schema<UpdateSandboxRequestMountsMap>;
+
 /** Default environment variables for the sandbox. Set to empty object to clear. */
 export type UpdateSandboxRequestEnvMap = { [key: string]: string | undefined };
 export const UpdateSandboxRequestEnvMap = /*@__PURE__*/ S.Record(
@@ -5403,6 +5679,10 @@ export interface UpdateSandboxRequest {
   region?: UpdateSandboxRequestRegion | (string & {});
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
   failoverRegions?: UpdateSandboxRequestFailoverRegionsList;
+  /** Drives to mount to the sandbox at the provided path. Replaces the current mounts; an empty object removes them all. Changes take effect when the next session starts. */
+  mounts?: UpdateSandboxRequestMountsMap;
+  /** The Connect network id for the target Secure Compute private network. Set to null to remove the sandbox from Secure Compute. */
+  networkId?: string;
   /** Default environment variables for the sandbox. Set to empty object to clear. */
   env?: UpdateSandboxRequestEnvMap;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
@@ -5428,14 +5708,14 @@ export const UpdateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     networkPolicy: S.optional(UpdateSandboxRequestNetworkPolicy),
     region: S.optional(UpdateSandboxRequestRegion),
     failoverRegions: S.optional(UpdateSandboxRequestFailoverRegionsList),
+    mounts: S.optional(UpdateSandboxRequestMountsMap),
+    networkId: S.optional(S.String),
     env: S.optional(UpdateSandboxRequestEnvMap),
     ports: S.optional(UpdateSandboxRequestPortsList),
     currentSnapshotId: S.optional(S.String),
     tags: S.optional(UpdateSandboxRequestTagsMap),
   }).pipe(T.Http({ method: "PATCH", uri: "/v2/sandboxes/{name}", code: 200 })),
-).annotate({
-  identifier: "UpdateSandboxRequest",
-}) as any as S.Schema<UpdateSandboxRequest>;
+).annotate({ identifier: "UpdateSandboxRequest" }) as any as S.Schema<UpdateSandboxRequest>;
 
 export type UpdateSandboxResponseBodyCase0RoutesList = Array<SandboxPublicRoute>;
 export const UpdateSandboxResponseBodyCase0RoutesList = /*@__PURE__*/ S.Array(
@@ -5461,17 +5741,17 @@ export const UpdateSandboxResponseBodyCase1RoutesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateSandboxResponseBodyCase1RoutesList>;
 
 export interface UpdateSandboxResponseBodyCase1 {
+  resumed: boolean;
+  routes: UpdateSandboxResponseBodyCase1RoutesList;
   sandbox: NamedSandbox;
   session: Session;
-  routes: UpdateSandboxResponseBodyCase1RoutesList;
-  resumed: boolean;
 }
 export const UpdateSandboxResponseBodyCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resumed: S.Boolean,
+    routes: UpdateSandboxResponseBodyCase1RoutesList,
     sandbox: NamedSandbox,
     session: Session,
-    routes: UpdateSandboxResponseBodyCase1RoutesList,
-    resumed: S.Boolean,
   }),
 ).annotate({
   identifier: "UpdateSandboxResponseBodyCase1",
@@ -5485,9 +5765,7 @@ export const UpdateSandboxResponseBody = S.Unknown as any as S.Schema<UpdateSand
 export type UpdateSandboxResponse = UpdateSandboxResponseBody;
 export const UpdateSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateSandboxResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateSandboxResponse",
-}) as any as S.Schema<UpdateSandboxResponse>;
+).annotate({ identifier: "UpdateSandboxResponse" }) as any as S.Schema<UpdateSandboxResponse>;
 
 /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
 export type UpdateSessionNetworkPolicyRequestBodyCase0Mode =
@@ -5802,12 +6080,49 @@ export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransf
     UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItem,
   ) as any as S.Schema<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList>;
 
+/** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap = {
+  [key: string]: string | undefined;
+};
+export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.String,
+  ) as any as S.Schema<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap>;
+
+/** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse {
+  /** HTTP status code returned to the sandbox. */
+  statusCode: number;
+  /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
+  headers?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap;
+  /** UTF-8 response body. Requires `contentType`. */
+  body?: string;
+  /** Value of the `Content-Type` response header. Required when `body` is set. */
+  contentType?: string;
+}
+export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      statusCode: S.Number,
+      headers: S.optional(
+        UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap,
+      ),
+      body: S.optional(S.String),
+      contentType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse",
+  }) as any as S.Schema<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse>;
+
 export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
   match?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatch;
   transform?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
   forwardURL?: string;
+  /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
+  response?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse;
 }
 export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -5817,6 +6132,7 @@ export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem =
         UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList,
       ),
       forwardURL: S.optional(S.String),
+      response: S.optional(UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse),
     }),
   ).annotate({
     identifier: "UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem",
@@ -5828,7 +6144,7 @@ export const UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueList = /*@
   UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem,
 ) as any as S.Schema<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueList>;
 
-/** A rule applied to requests matching a domain in the network policy. Only one of `transform` or `forwardURL` can be specified per rule. */
+/** A rule applied to requests matching a domain in the network policy. Only one of `transform`, `forwardURL`, or `response` can be specified per rule. */
 export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1Map = {
   [key: string]: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueList | undefined;
 };
@@ -5901,11 +6217,7 @@ export const UpdateSessionNetworkPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UpdateSessionNetworkPolicyRequestBody.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/network-policy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/network-policy", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSessionNetworkPolicyRequest",
@@ -5939,15 +6251,9 @@ export const WriteSessionFilesRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     xCwd: S.optional(S.String.pipe(T.Header("x-cwd"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/sandboxes/sessions/{sessionId}/fs/write",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/fs/write", code: 200 }),
   ),
-).annotate({
-  identifier: "WriteSessionFilesRequest",
-}) as any as S.Schema<WriteSessionFilesRequest>;
+).annotate({ identifier: "WriteSessionFilesRequest" }) as any as S.Schema<WriteSessionFilesRequest>;
 
 export type WriteSessionFilesResponse = unknown;
 export const WriteSessionFilesResponse = /*@__PURE__*/ S.suspend(() =>
@@ -6129,7 +6435,7 @@ export const createSessionDirectory: API.OperationMethod<
 }));
 
 export type DeleteDriveError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
-/** Delete a drive Deletes a drive by project and name. Attached drives cannot be deleted. Stop or replace the session currently using the drive before retrying deletion. Drives are in private beta. Register your interest to get access: https://vercel.com/changelog/drives-for-vercel-sandbox-in-private-beta */
+/** Delete a drive Deletes a drive by project and name. Attached drives cannot be deleted. Stop or replace the session currently using the drive before retrying deletion. */
 export const deleteDrive: API.OperationMethod<
   DeleteDriveRequest,
   DeleteDriveResponse,
@@ -6144,7 +6450,7 @@ export const deleteDrive: API.OperationMethod<
 }));
 
 export type DeleteSandboxError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Delete a sandbox Deletes a sandbox by name. If sandboxes are currently running, they will be stopped first. This operation deletes all sandbox entities with the given name and the named sandbox metadata. */
+/** Delete a sandbox Deletes a sandbox by name. If sandboxes are currently running, they will be stopped first. This operation deletes all sandbox entities with the given name and the named sandbox metadata. Returns 404 if the sandbox does not exist or was deleted by a concurrent request. */
 export const deleteSandbox: API.OperationMethod<
   DeleteSandboxRequest,
   DeleteSandboxResponse,
@@ -6199,8 +6505,9 @@ export type GetNamedSandboxError =
   | Forbidden
   | NotFound
   | Conflict
+  | UnprocessableEntity
   | VercelOpError;
-/** Get a named sandbox Retrieves a named sandbox by name, including its current sandbox and routes. If the sandbox is stopped and resume is true, a new sandbox will be created from the most recent snapshot. */
+/** Get a named sandbox Retrieves a named sandbox by name, including its current sandbox and routes. If the sandbox is stopped and resume is true, a new sandbox will be created from the most recent snapshot. Returns 404 if the named sandbox or its configuration no longer exists. */
 export const getNamedSandbox: API.OperationMethod<
   GetNamedSandboxRequest,
   GetNamedSandboxResponse,
@@ -6209,7 +6516,7 @@ export const getNamedSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNamedSandboxRequest,
   output: GetNamedSandboxResponse,
-  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
 }));
@@ -6221,7 +6528,7 @@ export type GetOrCreateDriveError =
   | NotFound
   | Conflict
   | VercelOpError;
-/** Get or create a drive Gets an existing drive by project and name, or creates it when it does not exist. Drives are in private beta. Register your interest to get access: https://vercel.com/changelog/drives-for-vercel-sandbox-in-private-beta */
+/** Get or create a drive Gets an existing drive by project and name, or creates it when it does not exist. */
 export const getOrCreateDrive: API.OperationMethod<
   GetOrCreateDriveRequest,
   GetOrCreateDriveResponse,
@@ -6326,7 +6633,7 @@ export const killSessionCommand: API.OperationMethod<
 }));
 
 export type ListDrivesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List drives Retrieves a paginated list of drives belonging to a specific project. Drives are in private beta. Register your interest to get access: https://vercel.com/changelog/drives-for-vercel-sandbox-in-private-beta */
+/** List drives Retrieves a paginated list of drives belonging to a specific project. */
 export const listDrives: API.OperationMethod<
   ListDrivesRequest,
   ListDrivesResponse,
@@ -6335,6 +6642,21 @@ export const listDrives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListDrivesRequest,
   output: ListDrivesResponse,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListNamedSandboxesError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List sandboxes Retrieves a paginated list of named sandboxes belonging to a specific project. Results can be sorted by creation time or name, and optionally filtered by name prefix or status. */
+export const listNamedSandboxes: API.OperationMethod<
+  ListNamedSandboxesRequest,
+  ListNamedSandboxesResponse,
+  ListNamedSandboxesError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListNamedSandboxesRequest,
+  output: ListNamedSandboxesResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,

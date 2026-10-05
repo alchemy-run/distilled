@@ -137,56 +137,10 @@
     "com.vercel.dns#GetRecordsResponseBodyCase1RecordsItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "com.vercel.dns#GetRecordsResponseBodyCase1RecordsItemType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "mxPriority": {
-          "target": "smithy.api#Double"
-        },
-        "priority": {
-          "target": "smithy.api#Double"
-        },
-        "creator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "comment": {
+          "target": "smithy.api#String"
         },
         "created": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updated": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {},
@@ -200,6 +154,52 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "creator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mxPriority": {
+          "target": "smithy.api#Double"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Double"
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Double"
+        },
+        "type": {
+          "target": "com.vercel.dns#GetRecordsResponseBodyCase1RecordsItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "updatedAt": {
           "target": "smithy.api#Double",
           "traits": {
@@ -207,11 +207,11 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "ttl": {
-          "target": "smithy.api#Double"
-        },
-        "comment": {
-          "target": "smithy.api#String"
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -234,6 +234,37 @@
         }
       },
       "traits": {}
+    },
+    "com.vercel.dns#Pagination": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Amount of items in the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp that must be used to request the next page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "prev": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Timestamp that must be used to request the previous page.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data."
+      }
     },
     "com.vercel.dns#GetRecordsResponseBodyCase2RecordsItemType": {
       "type": "enum",
@@ -304,56 +335,10 @@
     "com.vercel.dns#GetRecordsResponseBodyCase2RecordsItem": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "com.vercel.dns#GetRecordsResponseBodyCase2RecordsItemType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "mxPriority": {
-          "target": "smithy.api#Double"
-        },
-        "priority": {
-          "target": "smithy.api#Double"
-        },
-        "creator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "comment": {
+          "target": "smithy.api#String"
         },
         "created": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "updated": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {},
@@ -367,6 +352,52 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "creator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "mxPriority": {
+          "target": "smithy.api#Double"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "priority": {
+          "target": "smithy.api#Double"
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#Double"
+        },
+        "type": {
+          "target": "com.vercel.dns#GetRecordsResponseBodyCase2RecordsItemType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "updatedAt": {
           "target": "smithy.api#Double",
           "traits": {
@@ -374,11 +405,11 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "ttl": {
-          "target": "smithy.api#Double"
-        },
-        "comment": {
-          "target": "smithy.api#String"
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -390,48 +421,17 @@
       },
       "traits": {}
     },
-    "com.vercel.dns#Pagination": {
-      "type": "structure",
-      "members": {
-        "count": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Amount of items in the current page.",
-            "smithy.api#required": {}
-          }
-        },
-        "next": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp that must be used to request the next page.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "prev": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Timestamp that must be used to request the previous page.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data."
-      }
-    },
     "com.vercel.dns#GetRecordsResponseBodyCase2": {
       "type": "structure",
       "members": {
-        "records": {
-          "target": "com.vercel.dns#GetRecordsResponseBodyCase2RecordsList",
+        "pagination": {
+          "target": "com.vercel.dns#Pagination",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "pagination": {
-          "target": "com.vercel.dns#Pagination",
+        "records": {
+          "target": "com.vercel.dns#GetRecordsResponseBodyCase2RecordsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -904,24 +904,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.dns#UpdateRecordResponseType": {
-      "type": "enum",
-      "members": {
-        "RECORD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "record"
-          }
-        },
-        "RECORD_SYS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "record-sys"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.dns#UpdateRecordResponseRecordType": {
       "type": "enum",
       "members": {
@@ -988,31 +970,34 @@
       },
       "traits": {}
     },
+    "com.vercel.dns#UpdateRecordResponseType": {
+      "type": "enum",
+      "members": {
+        "RECORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "record"
+          }
+        },
+        "RECORD_SYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "record-sys"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.dns#UpdateRecordResponse": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "comment": {
+          "target": "smithy.api#String"
         },
-        "name": {
-          "target": "smithy.api#String",
+        "createdAt": {
+          "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "type": {
-          "target": "com.vercel.dns#UpdateRecordResponseType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
+            "com.distilled.openapi#nullable": {}
           }
         },
         "creator": {
@@ -1027,11 +1012,17 @@
             "smithy.api#required": {}
           }
         },
-        "ttl": {
-          "target": "smithy.api#Double"
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
-        "comment": {
-          "target": "smithy.api#String"
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "recordType": {
           "target": "com.vercel.dns#UpdateRecordResponseRecordType",
@@ -1039,10 +1030,19 @@
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "ttl": {
+          "target": "smithy.api#Double"
+        },
+        "type": {
+          "target": "com.vercel.dns#UpdateRecordResponseType",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       },
@@ -1167,7 +1167,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.dns#GetDomainsRecordResponseType": {
+    "com.vercel.dns#GetDomainsRecordResponseRecordType": {
       "type": "enum",
       "members": {
         "A": {
@@ -1233,7 +1233,7 @@
       },
       "traits": {}
     },
-    "com.vercel.dns#GetDomainsRecordResponseRecordType": {
+    "com.vercel.dns#GetDomainsRecordResponseType": {
       "type": "enum",
       "members": {
         "A": {
@@ -1302,8 +1302,23 @@
     "com.vercel.dns#GetDomainsRecordResponse": {
       "type": "structure",
       "members": {
-        "type": {
-          "target": "com.vercel.dns#GetDomainsRecordResponseType",
+        "comment": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "creator": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1320,20 +1335,8 @@
             "smithy.api#required": {}
           }
         },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "creator": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "domain": {
-          "target": "smithy.api#String",
+        "recordType": {
+          "target": "com.vercel.dns#GetDomainsRecordResponseRecordType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1341,19 +1344,16 @@
         "ttl": {
           "target": "smithy.api#Double"
         },
-        "comment": {
-          "target": "smithy.api#String"
-        },
-        "recordType": {
-          "target": "com.vercel.dns#GetDomainsRecordResponseRecordType",
+        "type": {
+          "target": "com.vercel.dns#GetDomainsRecordResponseType",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "createdAt": {
-          "target": "smithy.api#Double",
+        "value": {
+          "target": "smithy.api#String",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#required": {}
           }
         }
       },

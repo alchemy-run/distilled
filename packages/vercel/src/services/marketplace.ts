@@ -109,9 +109,7 @@ export const CreateEventRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateEventRequest",
-}) as any as S.Schema<CreateEventRequest>;
+).annotate({ identifier: "CreateEventRequest" }) as any as S.Schema<CreateEventRequest>;
 
 export interface CreateEventResponse {}
 export const CreateEventResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -284,9 +282,7 @@ export const GetAccountInfoRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAccountInfoRequest",
-}) as any as S.Schema<GetAccountInfoRequest>;
+).annotate({ identifier: "GetAccountInfoRequest" }) as any as S.Schema<GetAccountInfoRequest>;
 
 /** The best contact for the integration, which can change as team members and their roles change. */
 export interface GetAccountInfoResponseContact {
@@ -303,22 +299,20 @@ export const GetAccountInfoResponseContact = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccountInfoResponseContact>;
 
 export interface GetAccountInfoResponse {
+  /** The best contact for the integration, which can change as team members and their roles change. */
+  contact: GetAccountInfoResponseContact | null;
   /** The name of the team the installation is tied to. */
   name?: string;
   /** A URL linking to the installation in the Vercel Dashboard. */
   url: string;
-  /** The best contact for the integration, which can change as team members and their roles change. */
-  contact: GetAccountInfoResponseContact | null;
 }
 export const GetAccountInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    contact: S.NullOr(GetAccountInfoResponseContact),
     name: S.optional(S.String),
     url: S.String,
-    contact: S.NullOr(GetAccountInfoResponseContact),
   }),
-).annotate({
-  identifier: "GetAccountInfoResponse",
-}) as any as S.Schema<GetAccountInfoResponse>;
+).annotate({ identifier: "GetAccountInfoResponse" }) as any as S.Schema<GetAccountInfoResponse>;
 
 export interface GetInstallationResourceExperimentationGlobalConfigRequest {
   integrationConfigurationId: string;
@@ -340,9 +334,7 @@ export const GetInstallationResourceExperimentationGlobalConfigRequest = /*@__PU
   identifier: "GetInstallationResourceExperimentationGlobalConfigRequest",
 }) as any as S.Schema<GetInstallationResourceExperimentationGlobalConfigRequest>;
 
-export type GlobalConfigItemValueCase2Map = {
-  [key: string]: GlobalConfigItemValue | undefined;
-};
+export type GlobalConfigItemValueCase2Map = { [key: string]: GlobalConfigItemValue | undefined };
 export const GlobalConfigItemValueCase2Map = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => GlobalConfigItemValue),
@@ -376,18 +368,18 @@ export type GetInstallationResourceExperimentationGlobalConfigResponsePurpose =
 export const GetInstallationResourceExperimentationGlobalConfigResponsePurpose = S.String;
 
 export interface GetInstallationResourceExperimentationGlobalConfigResponse {
-  items: GetInstallationResourceExperimentationGlobalConfigResponseItemsMap;
-  updatedAt: number;
   digest: string;
+  items: GetInstallationResourceExperimentationGlobalConfigResponseItemsMap;
   purpose?: GetInstallationResourceExperimentationGlobalConfigResponsePurpose;
+  updatedAt: number;
 }
 export const GetInstallationResourceExperimentationGlobalConfigResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      items: GetInstallationResourceExperimentationGlobalConfigResponseItemsMap,
-      updatedAt: S.Number,
       digest: S.String,
+      items: GetInstallationResourceExperimentationGlobalConfigResponseItemsMap,
       purpose: S.optional(GetInstallationResourceExperimentationGlobalConfigResponsePurpose),
+      updatedAt: S.Number,
     }),
 ).annotate({
   identifier: "GetInstallationResourceExperimentationGlobalConfigResponse",
@@ -414,105 +406,94 @@ export const GetIntegrationResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetIntegrationResourceRequest",
 }) as any as S.Schema<GetIntegrationResourceRequest>;
 
-/** The current status of the resource */
-export type GetIntegrationResourceResponseStatus =
-  | "error"
-  | "onboarding"
-  | "pending"
-  | "ready"
-  | "resumed"
-  | "suspended"
-  | "uninstalled";
-export const GetIntegrationResourceResponseStatus = S.String;
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue =
+  | string
+  | number
+  | boolean;
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue =
+  S.Unknown as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue>;
 
-export interface GetIntegrationResourceResponseProtocolSettingsExperimentation {
-  edgeConfigId?: string;
-  globalConfigId?: string;
-}
-export const GetIntegrationResourceResponseProtocolSettingsExperimentation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      edgeConfigId: S.optional(S.String),
-      globalConfigId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetIntegrationResourceResponseProtocolSettingsExperimentation",
-  }) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsExperimentation>;
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap = {
+  [key: string]:
+    | GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue
+    | null
+    | undefined;
+};
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.NullOr(GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsValue),
+  ) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap>;
 
-export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget =
-  | "development"
-  | "preview"
-  | "production";
-export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget =
-  S.String;
-
-export interface GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem {
-  url: string;
-  target: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget;
-}
-export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      url: S.String,
-      target: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget,
-    }),
-  ).annotate({
-    identifier: "GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem",
-  }) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem>;
-
-export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList =
-  Array<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem>;
-export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList =
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList =
+  Array<string>;
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList =
   /*@__PURE__*/ S.Array(
-    GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem,
-  ) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList>;
+    S.String,
+  ) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList>;
 
-export interface GetIntegrationResourceResponseProtocolSettingsAuthentication {
-  appUrls?: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList;
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList>;
+
+export interface GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen {
+  environment?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList;
+  role?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList;
 }
-export const GetIntegrationResourceResponseProtocolSettingsAuthentication = /*@__PURE__*/ S.suspend(
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      appUrls: S.optional(GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList),
+      environment: S.optional(
+        GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenEnvironmentList,
+      ),
+      role: S.optional(GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhenRoleList),
     }),
 ).annotate({
-  identifier: "GetIntegrationResourceResponseProtocolSettingsAuthentication",
-}) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthentication>;
+  identifier: "GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen",
+}) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen>;
 
-/** Any settings provided for the resource to support its product's protocols */
-export interface GetIntegrationResourceResponseProtocolSettings {
-  experimentation?: GetIntegrationResourceResponseProtocolSettingsExperimentation;
-  authentication?: GetIntegrationResourceResponseProtocolSettingsAuthentication;
+export interface GetIntegrationResourceResponseCustomClaimsClaimRulesItem {
+  claims: GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap;
+  when?: GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen;
 }
-export const GetIntegrationResourceResponseProtocolSettings = /*@__PURE__*/ S.suspend(() =>
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      claims: GetIntegrationResourceResponseCustomClaimsClaimRulesItemClaimsMap,
+      when: S.optional(GetIntegrationResourceResponseCustomClaimsClaimRulesItemWhen),
+    }),
+).annotate({
+  identifier: "GetIntegrationResourceResponseCustomClaimsClaimRulesItem",
+}) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesItem>;
+
+export type GetIntegrationResourceResponseCustomClaimsClaimRulesList =
+  Array<GetIntegrationResourceResponseCustomClaimsClaimRulesItem>;
+export const GetIntegrationResourceResponseCustomClaimsClaimRulesList = /*@__PURE__*/ S.Array(
+  GetIntegrationResourceResponseCustomClaimsClaimRulesItem,
+) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsClaimRulesList>;
+
+export type GetIntegrationResourceResponseCustomClaimsRolesList = Array<string>;
+export const GetIntegrationResourceResponseCustomClaimsRolesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetIntegrationResourceResponseCustomClaimsRolesList>;
+
+/** The roles and claim rules Vercel resolves into the resource tokens it mints for this resource */
+export interface GetIntegrationResourceResponseCustomClaims {
+  claimRules?: GetIntegrationResourceResponseCustomClaimsClaimRulesList;
+  defaultRole?: string;
+  roles?: GetIntegrationResourceResponseCustomClaimsRolesList;
+}
+export const GetIntegrationResourceResponseCustomClaims = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    experimentation: S.optional(GetIntegrationResourceResponseProtocolSettingsExperimentation),
-    authentication: S.optional(GetIntegrationResourceResponseProtocolSettingsAuthentication),
+    claimRules: S.optional(GetIntegrationResourceResponseCustomClaimsClaimRulesList),
+    defaultRole: S.optional(S.String),
+    roles: S.optional(GetIntegrationResourceResponseCustomClaimsRolesList),
   }),
 ).annotate({
-  identifier: "GetIntegrationResourceResponseProtocolSettings",
-}) as any as S.Schema<GetIntegrationResourceResponseProtocolSettings>;
-
-export type GetIntegrationResourceResponseNotificationLevel = "error" | "info" | "warn";
-export const GetIntegrationResourceResponseNotificationLevel = S.String;
-
-/** The notification, if set, displayed to the user when viewing the resource in Vercel */
-export interface GetIntegrationResourceResponseNotification {
-  level: GetIntegrationResourceResponseNotificationLevel;
-  title: string;
-  message?: string;
-  href?: string;
-}
-export const GetIntegrationResourceResponseNotification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    level: GetIntegrationResourceResponseNotificationLevel,
-    title: S.String,
-    message: S.optional(S.String),
-    href: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetIntegrationResourceResponseNotification",
-}) as any as S.Schema<GetIntegrationResourceResponseNotification>;
+  identifier: "GetIntegrationResourceResponseCustomClaims",
+}) as any as S.Schema<GetIntegrationResourceResponseCustomClaims>;
 
 /** The configured metadata for the resource as defined by its product's Metadata Schema */
 export type GetIntegrationResourceResponseMetadataValueCase2List = Array<string>;
@@ -544,37 +525,140 @@ export const GetIntegrationResourceResponseMetadataMap = /*@__PURE__*/ S.Record(
   GetIntegrationResourceResponseMetadataValue,
 ) as any as S.Schema<GetIntegrationResourceResponseMetadataMap>;
 
+export type GetIntegrationResourceResponseNotificationLevel = "error" | "info" | "warn";
+export const GetIntegrationResourceResponseNotificationLevel = S.String;
+
+/** The notification, if set, displayed to the user when viewing the resource in Vercel */
+export interface GetIntegrationResourceResponseNotification {
+  href?: string;
+  level: GetIntegrationResourceResponseNotificationLevel;
+  message?: string;
+  title: string;
+}
+export const GetIntegrationResourceResponseNotification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    href: S.optional(S.String),
+    level: GetIntegrationResourceResponseNotificationLevel,
+    message: S.optional(S.String),
+    title: S.String,
+  }),
+).annotate({
+  identifier: "GetIntegrationResourceResponseNotification",
+}) as any as S.Schema<GetIntegrationResourceResponseNotification>;
+
+export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget =
+  | "development"
+  | "preview"
+  | "production";
+export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget =
+  S.String;
+
+export interface GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem {
+  target: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget;
+  url: string;
+}
+export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      target: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItemTarget,
+      url: S.String,
+    }),
+  ).annotate({
+    identifier: "GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem",
+  }) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem>;
+
+export type GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList =
+  Array<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem>;
+export const GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList =
+  /*@__PURE__*/ S.Array(
+    GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsItem,
+  ) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList>;
+
+export interface GetIntegrationResourceResponseProtocolSettingsAuthentication {
+  appUrls?: GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList;
+}
+export const GetIntegrationResourceResponseProtocolSettingsAuthentication = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      appUrls: S.optional(GetIntegrationResourceResponseProtocolSettingsAuthenticationAppUrlsList),
+    }),
+).annotate({
+  identifier: "GetIntegrationResourceResponseProtocolSettingsAuthentication",
+}) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsAuthentication>;
+
+export interface GetIntegrationResourceResponseProtocolSettingsExperimentation {
+  edgeConfigId?: string;
+  globalConfigId?: string;
+}
+export const GetIntegrationResourceResponseProtocolSettingsExperimentation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      edgeConfigId: S.optional(S.String),
+      globalConfigId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetIntegrationResourceResponseProtocolSettingsExperimentation",
+  }) as any as S.Schema<GetIntegrationResourceResponseProtocolSettingsExperimentation>;
+
+/** Any settings provided for the resource to support its product's protocols */
+export interface GetIntegrationResourceResponseProtocolSettings {
+  authentication?: GetIntegrationResourceResponseProtocolSettingsAuthentication;
+  experimentation?: GetIntegrationResourceResponseProtocolSettingsExperimentation;
+}
+export const GetIntegrationResourceResponseProtocolSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authentication: S.optional(GetIntegrationResourceResponseProtocolSettingsAuthentication),
+    experimentation: S.optional(GetIntegrationResourceResponseProtocolSettingsExperimentation),
+  }),
+).annotate({
+  identifier: "GetIntegrationResourceResponseProtocolSettings",
+}) as any as S.Schema<GetIntegrationResourceResponseProtocolSettings>;
+
+/** The current status of the resource */
+export type GetIntegrationResourceResponseStatus =
+  | "error"
+  | "onboarding"
+  | "pending"
+  | "ready"
+  | "resumed"
+  | "suspended"
+  | "uninstalled";
+export const GetIntegrationResourceResponseStatus = S.String;
+
 export interface GetIntegrationResourceResponse {
+  /** The ID of the billing plan the resource is subscribed to, if applicable */
+  billingPlanId?: string;
+  /** The roles and claim rules Vercel resolves into the resource tokens it mints for this resource */
+  customClaims?: GetIntegrationResourceResponseCustomClaims;
   /** The ID provided by the 3rd party provider for the given resource */
   id: string;
   /** The ID assigned by Vercel for the given resource */
   internalId: string;
+  /** The configured metadata for the resource as defined by its product's Metadata Schema */
+  metadata?: GetIntegrationResourceResponseMetadataMap;
   /** The name of the resource as it is recorded in Vercel */
   name: string;
-  /** The current status of the resource */
-  status?: GetIntegrationResourceResponseStatus;
+  /** The notification, if set, displayed to the user when viewing the resource in Vercel */
+  notification?: GetIntegrationResourceResponseNotification;
   /** The ID of the product the resource is derived from */
   productId: string;
   /** Any settings provided for the resource to support its product's protocols */
   protocolSettings?: GetIntegrationResourceResponseProtocolSettings;
-  /** The notification, if set, displayed to the user when viewing the resource in Vercel */
-  notification?: GetIntegrationResourceResponseNotification;
-  /** The ID of the billing plan the resource is subscribed to, if applicable */
-  billingPlanId?: string;
-  /** The configured metadata for the resource as defined by its product's Metadata Schema */
-  metadata?: GetIntegrationResourceResponseMetadataMap;
+  /** The current status of the resource */
+  status?: GetIntegrationResourceResponseStatus;
 }
 export const GetIntegrationResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    billingPlanId: S.optional(S.String),
+    customClaims: S.optional(GetIntegrationResourceResponseCustomClaims),
     id: S.String,
     internalId: S.String,
+    metadata: S.optional(GetIntegrationResourceResponseMetadataMap),
     name: S.String,
-    status: S.optional(GetIntegrationResourceResponseStatus),
+    notification: S.optional(GetIntegrationResourceResponseNotification),
     productId: S.String,
     protocolSettings: S.optional(GetIntegrationResourceResponseProtocolSettings),
-    notification: S.optional(GetIntegrationResourceResponseNotification),
-    billingPlanId: S.optional(S.String),
-    metadata: S.optional(GetIntegrationResourceResponseMetadataMap),
+    status: S.optional(GetIntegrationResourceResponseStatus),
   }),
 ).annotate({
   identifier: "GetIntegrationResourceResponse",
@@ -596,125 +680,6 @@ export const GetIntegrationResourcesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetIntegrationResourcesRequest",
 }) as any as S.Schema<GetIntegrationResourcesRequest>;
-
-/** The current status of the resource */
-export type GetIntegrationResourcesResponseResourcesItemStatus =
-  | "error"
-  | "onboarding"
-  | "pending"
-  | "ready"
-  | "resumed"
-  | "suspended"
-  | "uninstalled";
-export const GetIntegrationResourcesResponseResourcesItemStatus = S.String;
-
-export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation {
-  edgeConfigSyncingEnabled?: boolean;
-  edgeConfigId?: string;
-  globalConfigId?: string;
-  globalConfigSyncingEnabled?: boolean;
-  edgeConfigTokenId?: string;
-}
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      edgeConfigSyncingEnabled: S.optional(S.Boolean),
-      edgeConfigId: S.optional(S.String),
-      globalConfigId: S.optional(S.String),
-      globalConfigSyncingEnabled: S.optional(S.Boolean),
-      edgeConfigTokenId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation",
-  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation>;
-
-export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget =
-  | "development"
-  | "preview"
-  | "production";
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget =
-  S.String;
-
-export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem {
-  url: string;
-  target: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget;
-}
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      url: S.String,
-      target:
-        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget,
-    }),
-  ).annotate({
-    identifier:
-      "GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem",
-  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem>;
-
-export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList =
-  Array<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem>;
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList =
-  /*@__PURE__*/ S.Array(
-    GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem,
-  ) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList>;
-
-export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication {
-  appUrls?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList;
-}
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appUrls: S.optional(
-        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication",
-  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication>;
-
-/** Any settings provided for the resource to support its product's protocols */
-export interface GetIntegrationResourcesResponseResourcesItemProtocolSettings {
-  experimentation?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation;
-  authentication?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication;
-}
-export const GetIntegrationResourcesResponseResourcesItemProtocolSettings = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      experimentation: S.optional(
-        GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation,
-      ),
-      authentication: S.optional(
-        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication,
-      ),
-    }),
-).annotate({
-  identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettings",
-}) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettings>;
-
-export type GetIntegrationResourcesResponseResourcesItemNotificationLevel =
-  | "error"
-  | "info"
-  | "warn";
-export const GetIntegrationResourcesResponseResourcesItemNotificationLevel = S.String;
-
-/** The notification, if set, displayed to the user when viewing the resource in Vercel */
-export interface GetIntegrationResourcesResponseResourcesItemNotification {
-  level: GetIntegrationResourcesResponseResourcesItemNotificationLevel;
-  title: string;
-  message?: string;
-  href?: string;
-}
-export const GetIntegrationResourcesResponseResourcesItemNotification = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      level: GetIntegrationResourcesResponseResourcesItemNotificationLevel,
-      title: S.String,
-      message: S.optional(S.String),
-      href: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "GetIntegrationResourcesResponseResourcesItemNotification",
-}) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemNotification>;
 
 /** The configured metadata for the resource as defined by its product's Metadata Schema */
 export type GetIntegrationResourcesResponseResourcesItemMetadataValueCase2List = Array<string>;
@@ -748,37 +713,156 @@ export const GetIntegrationResourcesResponseResourcesItemMetadataMap = /*@__PURE
   GetIntegrationResourcesResponseResourcesItemMetadataValue,
 ) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemMetadataMap>;
 
+export type GetIntegrationResourcesResponseResourcesItemNotificationLevel =
+  | "error"
+  | "info"
+  | "warn";
+export const GetIntegrationResourcesResponseResourcesItemNotificationLevel = S.String;
+
+/** The notification, if set, displayed to the user when viewing the resource in Vercel */
+export interface GetIntegrationResourcesResponseResourcesItemNotification {
+  href?: string;
+  level: GetIntegrationResourcesResponseResourcesItemNotificationLevel;
+  message?: string;
+  title: string;
+}
+export const GetIntegrationResourcesResponseResourcesItemNotification = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      href: S.optional(S.String),
+      level: GetIntegrationResourcesResponseResourcesItemNotificationLevel,
+      message: S.optional(S.String),
+      title: S.String,
+    }),
+).annotate({
+  identifier: "GetIntegrationResourcesResponseResourcesItemNotification",
+}) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemNotification>;
+
+export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget =
+  | "development"
+  | "preview"
+  | "production";
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget =
+  S.String;
+
+export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem {
+  target: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget;
+  url: string;
+}
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      target:
+        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItemTarget,
+      url: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem",
+  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem>;
+
+export type GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList =
+  Array<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem>;
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList =
+  /*@__PURE__*/ S.Array(
+    GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsItem,
+  ) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList>;
+
+export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication {
+  appUrls?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList;
+}
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      appUrls: S.optional(
+        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthenticationAppUrlsList,
+      ),
+    }),
+  ).annotate({
+    identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication",
+  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication>;
+
+export interface GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation {
+  edgeConfigId?: string;
+  edgeConfigSyncingEnabled?: boolean;
+  edgeConfigTokenId?: string;
+  globalConfigId?: string;
+  globalConfigSyncingEnabled?: boolean;
+}
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      edgeConfigId: S.optional(S.String),
+      edgeConfigSyncingEnabled: S.optional(S.Boolean),
+      edgeConfigTokenId: S.optional(S.String),
+      globalConfigId: S.optional(S.String),
+      globalConfigSyncingEnabled: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation",
+  }) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation>;
+
+/** Any settings provided for the resource to support its product's protocols */
+export interface GetIntegrationResourcesResponseResourcesItemProtocolSettings {
+  authentication?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication;
+  experimentation?: GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation;
+}
+export const GetIntegrationResourcesResponseResourcesItemProtocolSettings = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      authentication: S.optional(
+        GetIntegrationResourcesResponseResourcesItemProtocolSettingsAuthentication,
+      ),
+      experimentation: S.optional(
+        GetIntegrationResourcesResponseResourcesItemProtocolSettingsExperimentation,
+      ),
+    }),
+).annotate({
+  identifier: "GetIntegrationResourcesResponseResourcesItemProtocolSettings",
+}) as any as S.Schema<GetIntegrationResourcesResponseResourcesItemProtocolSettings>;
+
+/** The current status of the resource */
+export type GetIntegrationResourcesResponseResourcesItemStatus =
+  | "error"
+  | "onboarding"
+  | "pending"
+  | "ready"
+  | "resumed"
+  | "suspended"
+  | "uninstalled";
+export const GetIntegrationResourcesResponseResourcesItemStatus = S.String;
+
 export interface GetIntegrationResourcesResponseResourcesItem {
-  /** The ID provided by the partner for the given resource */
-  partnerId: string;
+  /** The ID of the billing plan the resource is subscribed to, if applicable */
+  billingPlanId?: string;
   /** The ID assigned by Vercel for the given resource */
   internalId: string;
+  /** The configured metadata for the resource as defined by its product's Metadata Schema */
+  metadata?: GetIntegrationResourcesResponseResourcesItemMetadataMap;
   /** The name of the resource as it is recorded in Vercel */
   name: string;
-  /** The current status of the resource */
-  status?: GetIntegrationResourcesResponseResourcesItemStatus;
+  /** The notification, if set, displayed to the user when viewing the resource in Vercel */
+  notification?: GetIntegrationResourcesResponseResourcesItemNotification;
+  /** The ID provided by the partner for the given resource */
+  partnerId: string;
   /** The ID of the product the resource is derived from */
   productId: string;
   /** Any settings provided for the resource to support its product's protocols */
   protocolSettings?: GetIntegrationResourcesResponseResourcesItemProtocolSettings;
-  /** The notification, if set, displayed to the user when viewing the resource in Vercel */
-  notification?: GetIntegrationResourcesResponseResourcesItemNotification;
-  /** The ID of the billing plan the resource is subscribed to, if applicable */
-  billingPlanId?: string;
-  /** The configured metadata for the resource as defined by its product's Metadata Schema */
-  metadata?: GetIntegrationResourcesResponseResourcesItemMetadataMap;
+  /** The current status of the resource */
+  status?: GetIntegrationResourcesResponseResourcesItemStatus;
 }
 export const GetIntegrationResourcesResponseResourcesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    partnerId: S.String,
+    billingPlanId: S.optional(S.String),
     internalId: S.String,
+    metadata: S.optional(GetIntegrationResourcesResponseResourcesItemMetadataMap),
     name: S.String,
-    status: S.optional(GetIntegrationResourcesResponseResourcesItemStatus),
+    notification: S.optional(GetIntegrationResourcesResponseResourcesItemNotification),
+    partnerId: S.String,
     productId: S.String,
     protocolSettings: S.optional(GetIntegrationResourcesResponseResourcesItemProtocolSettings),
-    notification: S.optional(GetIntegrationResourcesResponseResourcesItemNotification),
-    billingPlanId: S.optional(S.String),
-    metadata: S.optional(GetIntegrationResourcesResponseResourcesItemMetadataMap),
+    status: S.optional(GetIntegrationResourcesResponseResourcesItemStatus),
   }),
 ).annotate({
   identifier: "GetIntegrationResourcesResponseResourcesItem",
@@ -816,9 +900,102 @@ export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
+
+/** Invoice discounts. */
+export interface GetInvoiceResponseDiscountsItem {
+  /** Discount amount. A dollar-based decimal string. */
+  amount: string;
+  /** Partner's billing plan ID. */
+  billingPlanId: string;
+  /** Additional discount details. */
+  details?: string;
+  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
+  end?: string;
+  /** Discount name. */
+  name: string;
+  /** Partner's resource ID. If not specified, indicates installation-wide discount. */
+  resourceId?: string;
+  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
+  start?: string;
+}
+export const GetInvoiceResponseDiscountsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.String,
+    billingPlanId: S.String,
+    details: S.optional(S.String),
+    end: S.optional(S.String),
+    name: S.String,
+    resourceId: S.optional(S.String),
+    start: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "GetInvoiceRequest",
-}) as any as S.Schema<GetInvoiceRequest>;
+  identifier: "GetInvoiceResponseDiscountsItem",
+}) as any as S.Schema<GetInvoiceResponseDiscountsItem>;
+
+/** Invoice discounts. */
+export type GetInvoiceResponseDiscountsList = Array<GetInvoiceResponseDiscountsItem>;
+export const GetInvoiceResponseDiscountsList = /*@__PURE__*/ S.Array(
+  GetInvoiceResponseDiscountsItem,
+) as any as S.Schema<GetInvoiceResponseDiscountsList>;
+
+/** Invoice items. */
+export interface GetInvoiceResponseItemsItem {
+  /** Partner's billing plan ID. */
+  billingPlanId: string;
+  /** Additional item details. */
+  details?: string;
+  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
+  end?: string;
+  /** Invoice item name. */
+  name: string;
+  /** Item price. A dollar-based decimal string. */
+  price: string;
+  /** Item quantity. */
+  quantity: number;
+  /** Partner's resource ID. If not specified, indicates installation-wide item. */
+  resourceId?: string;
+  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
+  start?: string;
+  /** Item total. A dollar-based decimal string. */
+  total: string;
+  /** Units for item's quantity. */
+  units: string;
+}
+export const GetInvoiceResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingPlanId: S.String,
+    details: S.optional(S.String),
+    end: S.optional(S.String),
+    name: S.String,
+    price: S.String,
+    quantity: S.Number,
+    resourceId: S.optional(S.String),
+    start: S.optional(S.String),
+    total: S.String,
+    units: S.String,
+  }),
+).annotate({
+  identifier: "GetInvoiceResponseItemsItem",
+}) as any as S.Schema<GetInvoiceResponseItemsItem>;
+
+/** Invoice items. */
+export type GetInvoiceResponseItemsList = Array<GetInvoiceResponseItemsItem>;
+export const GetInvoiceResponseItemsList = /*@__PURE__*/ S.Array(
+  GetInvoiceResponseItemsItem,
+) as any as S.Schema<GetInvoiceResponseItemsList>;
+
+/** Subscription period for this billing cycle. ISO 8601 timestamps. */
+export interface GetInvoiceResponsePeriod {
+  end: string;
+  start: string;
+}
+export const GetInvoiceResponsePeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    end: S.String,
+    start: S.String,
+  }),
+).annotate({ identifier: "GetInvoiceResponsePeriod" }) as any as S.Schema<GetInvoiceResponsePeriod>;
 
 /** Invoice state. */
 export type GetInvoiceResponseState =
@@ -833,162 +1010,63 @@ export type GetInvoiceResponseState =
   | "scheduled";
 export const GetInvoiceResponseState = S.String;
 
-/** Subscription period for this billing cycle. ISO 8601 timestamps. */
-export interface GetInvoiceResponsePeriod {
-  start: string;
-  end: string;
-}
-export const GetInvoiceResponsePeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    start: S.String,
-    end: S.String,
-  }),
-).annotate({
-  identifier: "GetInvoiceResponsePeriod",
-}) as any as S.Schema<GetInvoiceResponsePeriod>;
-
-/** Invoice items. */
-export interface GetInvoiceResponseItemsItem {
-  /** Partner's billing plan ID. */
-  billingPlanId: string;
-  /** Partner's resource ID. If not specified, indicates installation-wide item. */
-  resourceId?: string;
-  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  start?: string;
-  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  end?: string;
-  /** Invoice item name. */
-  name: string;
-  /** Additional item details. */
-  details?: string;
-  /** Item price. A dollar-based decimal string. */
-  price: string;
-  /** Item quantity. */
-  quantity: number;
-  /** Units for item's quantity. */
-  units: string;
-  /** Item total. A dollar-based decimal string. */
-  total: string;
-}
-export const GetInvoiceResponseItemsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingPlanId: S.String,
-    resourceId: S.optional(S.String),
-    start: S.optional(S.String),
-    end: S.optional(S.String),
-    name: S.String,
-    details: S.optional(S.String),
-    price: S.String,
-    quantity: S.Number,
-    units: S.String,
-    total: S.String,
-  }),
-).annotate({
-  identifier: "GetInvoiceResponseItemsItem",
-}) as any as S.Schema<GetInvoiceResponseItemsItem>;
-
-/** Invoice items. */
-export type GetInvoiceResponseItemsList = Array<GetInvoiceResponseItemsItem>;
-export const GetInvoiceResponseItemsList = /*@__PURE__*/ S.Array(
-  GetInvoiceResponseItemsItem,
-) as any as S.Schema<GetInvoiceResponseItemsList>;
-
-/** Invoice discounts. */
-export interface GetInvoiceResponseDiscountsItem {
-  /** Partner's billing plan ID. */
-  billingPlanId: string;
-  /** Partner's resource ID. If not specified, indicates installation-wide discount. */
-  resourceId?: string;
-  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  start?: string;
-  /** Start and end are only needed if different from the period's start/end. ISO 8601 timestamp. */
-  end?: string;
-  /** Discount name. */
-  name: string;
-  /** Additional discount details. */
-  details?: string;
-  /** Discount amount. A dollar-based decimal string. */
-  amount: string;
-}
-export const GetInvoiceResponseDiscountsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    billingPlanId: S.String,
-    resourceId: S.optional(S.String),
-    start: S.optional(S.String),
-    end: S.optional(S.String),
-    name: S.String,
-    details: S.optional(S.String),
-    amount: S.String,
-  }),
-).annotate({
-  identifier: "GetInvoiceResponseDiscountsItem",
-}) as any as S.Schema<GetInvoiceResponseDiscountsItem>;
-
-/** Invoice discounts. */
-export type GetInvoiceResponseDiscountsList = Array<GetInvoiceResponseDiscountsItem>;
-export const GetInvoiceResponseDiscountsList = /*@__PURE__*/ S.Array(
-  GetInvoiceResponseDiscountsItem,
-) as any as S.Schema<GetInvoiceResponseDiscountsList>;
-
 export interface GetInvoiceResponse {
-  /** Whether the invoice is in the testmode (no real transaction created). */
-  test?: boolean;
-  /** Vercel Marketplace Invoice ID. */
-  invoiceId: string;
-  /** Partner-supplied Invoice ID, if applicable. */
-  externalId?: string;
-  /** Invoice state. */
-  state: GetInvoiceResponseState;
-  /** User-readable invoice number. */
-  invoiceNumber?: string;
-  /** Invoice date. ISO 8601 timestamp. */
-  invoiceDate: string;
-  /** Subscription period for this billing cycle. ISO 8601 timestamps. */
-  period: GetInvoiceResponsePeriod;
-  /** Moment the invoice was paid. ISO 8601 timestamp. */
-  paidAt?: string;
-  /** Most recent moment the invoice was refunded. ISO 8601 timestamp. */
-  refundedAt?: string;
-  /** Additional memo for the invoice. */
-  memo?: string;
-  /** Invoice items. */
-  items: GetInvoiceResponseItemsList;
+  /** System creation date. ISO 8601 timestamp. */
+  created: string;
   /** Invoice discounts. */
   discounts?: GetInvoiceResponseDiscountsList;
-  /** Invoice total amount. A dollar-based decimal string. */
-  total: string;
+  /** Partner-supplied Invoice ID, if applicable. */
+  externalId?: string;
+  /** Invoice date. ISO 8601 timestamp. */
+  invoiceDate: string;
+  /** Vercel Marketplace Invoice ID. */
+  invoiceId: string;
+  /** User-readable invoice number. */
+  invoiceNumber?: string;
+  /** Invoice items. */
+  items: GetInvoiceResponseItemsList;
+  /** Additional memo for the invoice. */
+  memo?: string;
+  /** Moment the invoice was paid. ISO 8601 timestamp. */
+  paidAt?: string;
+  /** Subscription period for this billing cycle. ISO 8601 timestamps. */
+  period: GetInvoiceResponsePeriod;
+  /** Most recent moment the invoice was refunded. ISO 8601 timestamp. */
+  refundedAt?: string;
   /** The reason for refund. Only applicable for states "refunded" or "refund_request". */
   refundReason?: string;
   /** Refund amount. Only applicable for states "refunded" or "refund_request". A dollar-based decimal string. */
   refundTotal?: string;
-  /** System creation date. ISO 8601 timestamp. */
-  created: string;
+  /** Invoice state. */
+  state: GetInvoiceResponseState;
+  /** Whether the invoice is in the testmode (no real transaction created). */
+  test?: boolean;
+  /** Invoice total amount. A dollar-based decimal string. */
+  total: string;
   /** System update date. ISO 8601 timestamp. */
   updated: string;
 }
 export const GetInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    test: S.optional(S.Boolean),
-    invoiceId: S.String,
-    externalId: S.optional(S.String),
-    state: GetInvoiceResponseState,
-    invoiceNumber: S.optional(S.String),
-    invoiceDate: S.String,
-    period: GetInvoiceResponsePeriod,
-    paidAt: S.optional(S.String),
-    refundedAt: S.optional(S.String),
-    memo: S.optional(S.String),
-    items: GetInvoiceResponseItemsList,
+    created: S.String,
     discounts: S.optional(GetInvoiceResponseDiscountsList),
-    total: S.String,
+    externalId: S.optional(S.String),
+    invoiceDate: S.String,
+    invoiceId: S.String,
+    invoiceNumber: S.optional(S.String),
+    items: GetInvoiceResponseItemsList,
+    memo: S.optional(S.String),
+    paidAt: S.optional(S.String),
+    period: GetInvoiceResponsePeriod,
+    refundedAt: S.optional(S.String),
     refundReason: S.optional(S.String),
     refundTotal: S.optional(S.String),
-    created: S.String,
+    state: GetInvoiceResponseState,
+    test: S.optional(S.Boolean),
+    total: S.String,
     updated: S.String,
   }),
-).annotate({
-  identifier: "GetInvoiceResponse",
-}) as any as S.Schema<GetInvoiceResponse>;
+).annotate({ identifier: "GetInvoiceResponse" }) as any as S.Schema<GetInvoiceResponse>;
 
 export interface GetMemberRequest {
   integrationConfigurationId: string;
@@ -1005,31 +1083,27 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetMemberRequest",
-}) as any as S.Schema<GetMemberRequest>;
+).annotate({ identifier: "GetMemberRequest" }) as any as S.Schema<GetMemberRequest>;
 
 /** "The `ADMIN` role, by default, is provided to users capable of installing integrations, while the `USER` role can be granted to Vercel users with the Vercel `Billing` or Vercel `Viewer` role, which are considered to be Read-Only roles." */
 export type GetMemberResponseRole = "ADMIN" | "USER";
 export const GetMemberResponseRole = S.String;
 
 export interface GetMemberResponse {
+  globalUserId?: string;
   id: string;
   /** "The `ADMIN` role, by default, is provided to users capable of installing integrations, while the `USER` role can be granted to Vercel users with the Vercel `Billing` or Vercel `Viewer` role, which are considered to be Read-Only roles." */
   role: GetMemberResponseRole;
-  globalUserId?: string;
   userEmail?: string;
 }
 export const GetMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    globalUserId: S.optional(S.String),
     id: S.String,
     role: GetMemberResponseRole,
-    globalUserId: S.optional(S.String),
     userEmail: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetMemberResponse",
-}) as any as S.Schema<GetMemberResponse>;
+).annotate({ identifier: "GetMemberResponse" }) as any as S.Schema<GetMemberResponse>;
 
 export interface HeadInstallationResourceExperimentationGlobalConfigRequest {
   integrationConfigurationId: string;
@@ -1071,9 +1145,7 @@ export type ImportResourceRequestStatus =
   | "error";
 export const ImportResourceRequestStatus = S.String;
 
-export type ImportResourceRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type ImportResourceRequestMetadataMap = { [key: string]: unknown | undefined };
 export const ImportResourceRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1159,9 +1231,7 @@ export const ImportResourceRequestNotification = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportResourceRequestNotification",
 }) as any as S.Schema<ImportResourceRequestNotification>;
 
-export type ImportResourceRequestExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type ImportResourceRequestExtrasMap = { [key: string]: unknown | undefined };
 export const ImportResourceRequestExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1209,6 +1279,93 @@ export const ImportResourceRequestSecretsList = /*@__PURE__*/ S.Array(
   ImportResourceRequestSecretsItem,
 ) as any as S.Schema<ImportResourceRequestSecretsList>;
 
+/** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+export type ImportResourceRequestCustomClaimsRolesList = Array<string>;
+export const ImportResourceRequestCustomClaimsRolesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ImportResourceRequestCustomClaimsRolesList>;
+
+/** Applies only when the token is minted for one of these roles. */
+export type ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
+export const ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList>;
+
+/** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
+export type ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList = Array<string>;
+export const ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList>;
+
+export interface ImportResourceRequestCustomClaimsClaimRulesItemWhen {
+  /** Applies only when the token is minted for one of these roles. */
+  role?: ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList;
+  /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
+  environment?: ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
+}
+export const ImportResourceRequestCustomClaimsClaimRulesItemWhen = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(ImportResourceRequestCustomClaimsClaimRulesItemWhenRoleList),
+    environment: S.optional(ImportResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList),
+  }),
+).annotate({
+  identifier: "ImportResourceRequestCustomClaimsClaimRulesItemWhen",
+}) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItemWhen>;
+
+export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue = string | number | boolean;
+export const ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue =
+  S.Unknown as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue>;
+
+/** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+export type ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
+  [key: string]: ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue | null | undefined;
+};
+export const ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(ImportResourceRequestCustomClaimsClaimRulesItemClaimsValue),
+) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap>;
+
+export interface ImportResourceRequestCustomClaimsClaimRulesItem {
+  when?: ImportResourceRequestCustomClaimsClaimRulesItemWhen;
+  /** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+  claims: ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap;
+}
+export const ImportResourceRequestCustomClaimsClaimRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    when: S.optional(ImportResourceRequestCustomClaimsClaimRulesItemWhen),
+    claims: ImportResourceRequestCustomClaimsClaimRulesItemClaimsMap,
+  }),
+).annotate({
+  identifier: "ImportResourceRequestCustomClaimsClaimRulesItem",
+}) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesItem>;
+
+/** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
+export type ImportResourceRequestCustomClaimsClaimRulesList =
+  Array<ImportResourceRequestCustomClaimsClaimRulesItem>;
+export const ImportResourceRequestCustomClaimsClaimRulesList = /*@__PURE__*/ S.Array(
+  ImportResourceRequestCustomClaimsClaimRulesItem,
+) as any as S.Schema<ImportResourceRequestCustomClaimsClaimRulesList>;
+
+/** Custom claims embedded in the resource tokens Vercel mints for this resource. */
+export interface ImportResourceRequestCustomClaims {
+  /** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+  roles?: ImportResourceRequestCustomClaimsRolesList;
+  /** Role used when the deployment does not request one. Required when `roles` is set. */
+  defaultRole?: string;
+  /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
+  claimRules?: ImportResourceRequestCustomClaimsClaimRulesList;
+}
+export const ImportResourceRequestCustomClaims = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    roles: S.optional(ImportResourceRequestCustomClaimsRolesList),
+    defaultRole: S.optional(S.String),
+    claimRules: S.optional(ImportResourceRequestCustomClaimsClaimRulesList),
+  }),
+).annotate({
+  identifier: "ImportResourceRequestCustomClaims",
+}) as any as S.Schema<ImportResourceRequestCustomClaims>;
+
 export interface ImportResourceRequest {
   integrationConfigurationId: string;
   resourceId: string;
@@ -1221,6 +1378,8 @@ export interface ImportResourceRequest {
   notification?: ImportResourceRequestNotification;
   extras?: ImportResourceRequestExtrasMap;
   secrets?: ImportResourceRequestSecretsList;
+  /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
+  customClaims?: ImportResourceRequestCustomClaims;
 }
 export const ImportResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1235,6 +1394,7 @@ export const ImportResourceRequest = /*@__PURE__*/ S.suspend(() =>
     notification: S.optional(ImportResourceRequestNotification),
     extras: S.optional(ImportResourceRequestExtrasMap),
     secrets: S.optional(ImportResourceRequestSecretsList),
+    customClaims: S.optional(ImportResourceRequestCustomClaims),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1242,9 +1402,7 @@ export const ImportResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ImportResourceRequest",
-}) as any as S.Schema<ImportResourceRequest>;
+).annotate({ identifier: "ImportResourceRequest" }) as any as S.Schema<ImportResourceRequest>;
 
 export interface ImportResourceResponse {
   name: string;
@@ -1253,9 +1411,7 @@ export const ImportResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "ImportResourceResponse",
-}) as any as S.Schema<ImportResourceResponse>;
+).annotate({ identifier: "ImportResourceResponse" }) as any as S.Schema<ImportResourceResponse>;
 
 export type ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequestDataMap =
   { [key: string]: unknown | undefined };
@@ -1303,21 +1459,21 @@ export const ReplaceInstallationsByIntegrationConfigurationIdResourcesByResource
   S.String;
 
 export interface ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse {
-  items: ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap;
-  updatedAt: number;
   digest: string;
+  items: ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap;
   purpose?: ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose;
+  updatedAt: number;
 }
 export const ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      digest: S.String,
       items:
         ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap,
-      updatedAt: S.Number,
-      digest: S.String,
       purpose: S.optional(
         ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose,
       ),
+      updatedAt: S.Number,
     }),
   ).annotate({
     identifier:
@@ -1348,13 +1504,13 @@ export const RevokeInstallationCredentialRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RevokeInstallationCredentialRequest>;
 
 export interface RevokeInstallationCredentialResponse {
-  revoked: boolean;
   already_revoked: boolean;
+  revoked: boolean;
 }
 export const RevokeInstallationCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    revoked: S.Boolean,
     already_revoked: S.Boolean,
+    revoked: S.Boolean,
   }),
 ).annotate({
   identifier: "RevokeInstallationCredentialResponse",
@@ -1385,16 +1541,16 @@ export type RotateInstallationCredentialResponseTokenType = "oauth2-token";
 export const RotateInstallationCredentialResponseTokenType = S.String;
 
 export interface RotateInstallationCredentialResponse {
-  scope: string;
-  expires_in: number;
   access_token: string | Redacted.Redacted<string>;
+  expires_in: number;
+  scope: string;
   token_type: RotateInstallationCredentialResponseTokenType;
 }
 export const RotateInstallationCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scope: S.String,
-    expires_in: S.Number,
     access_token: S.String.pipe(T.SensitiveValue({})),
+    expires_in: S.Number,
+    scope: S.String,
     token_type: RotateInstallationCredentialResponseTokenType,
   }),
 ).annotate({
@@ -1402,8 +1558,18 @@ export const RotateInstallationCredentialResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<RotateInstallationCredentialResponse>;
 
 /** Period for the billing cycle. The period end date cannot be older than 24 hours earlier than our current server's time. */
-export type SubmitBillingDataRequestPeriod = GetInvoiceResponsePeriod;
-export const SubmitBillingDataRequestPeriod = GetInvoiceResponsePeriod;
+export interface SubmitBillingDataRequestPeriod {
+  start: string;
+  end: string;
+}
+export const SubmitBillingDataRequestPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    start: S.String,
+    end: S.String,
+  }),
+).annotate({
+  identifier: "SubmitBillingDataRequestPeriod",
+}) as any as S.Schema<SubmitBillingDataRequestPeriod>;
 
 export interface SubmitBillingDataRequestBillingCase0Item {
   /** Partner's billing plan ID. */
@@ -1563,7 +1729,7 @@ export interface SubmitBillingDataRequest {
   /** End of Day, the UTC datetime for when the end of the billing/usage day is in UTC time. This tells us which day the usage data is for, and also allows for your "end of day" to be different from UTC 00:00:00. eod must be within the period dates, and cannot be older than 24h earlier from our server's current time. */
   eod: string;
   /** Period for the billing cycle. The period end date cannot be older than 24 hours earlier than our current server's time. */
-  period: GetInvoiceResponsePeriod;
+  period: SubmitBillingDataRequestPeriod;
   /** Billing data (interim invoicing data). */
   billing: SubmitBillingDataRequestBilling;
   usage: SubmitBillingDataRequestUsageList;
@@ -1573,7 +1739,7 @@ export const SubmitBillingDataRequest = /*@__PURE__*/ S.suspend(() =>
     integrationConfigurationId: S.String.pipe(T.Label()),
     timestamp: S.String,
     eod: S.String,
-    period: GetInvoiceResponsePeriod,
+    period: SubmitBillingDataRequestPeriod,
     billing: SubmitBillingDataRequestBilling,
     usage: SubmitBillingDataRequestUsageList,
   }).pipe(
@@ -1583,9 +1749,7 @@ export const SubmitBillingDataRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SubmitBillingDataRequest",
-}) as any as S.Schema<SubmitBillingDataRequest>;
+).annotate({ identifier: "SubmitBillingDataRequest" }) as any as S.Schema<SubmitBillingDataRequest>;
 
 export interface SubmitBillingDataResponse {}
 export const SubmitBillingDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1593,8 +1757,8 @@ export const SubmitBillingDataResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<SubmitBillingDataResponse>;
 
 /** Subscription period for this billing cycle. */
-export type SubmitInvoiceRequestPeriod = GetInvoiceResponsePeriod;
-export const SubmitInvoiceRequestPeriod = GetInvoiceResponsePeriod;
+export type SubmitInvoiceRequestPeriod = SubmitBillingDataRequestPeriod;
+export const SubmitInvoiceRequestPeriod = SubmitBillingDataRequestPeriod;
 
 export interface SubmitInvoiceRequestItemsItem {
   /** Partner's resource ID. */
@@ -1682,9 +1846,7 @@ export const SubmitInvoiceRequestTest = /*@__PURE__*/ S.suspend(() =>
     validate: S.optional(S.Boolean),
     result: S.optional(SubmitInvoiceRequestTestResult),
   }),
-).annotate({
-  identifier: "SubmitInvoiceRequestTest",
-}) as any as S.Schema<SubmitInvoiceRequestTest>;
+).annotate({ identifier: "SubmitInvoiceRequestTest" }) as any as S.Schema<SubmitInvoiceRequestTest>;
 
 export interface SubmitInvoiceRequest {
   integrationConfigurationId: string;
@@ -1695,7 +1857,7 @@ export interface SubmitInvoiceRequest {
   /** Additional memo for the invoice. */
   memo?: string;
   /** Subscription period for this billing cycle. */
-  period: GetInvoiceResponsePeriod;
+  period: SubmitBillingDataRequestPeriod;
   items: SubmitInvoiceRequestItemsList;
   discounts?: SubmitInvoiceRequestDiscountsList;
   /** Set this to `true` if this is the final invoice for the installation. Can only be set when the installation is pending deletion. */
@@ -1709,7 +1871,7 @@ export const SubmitInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.String),
     invoiceDate: S.String,
     memo: S.optional(S.String),
-    period: GetInvoiceResponsePeriod,
+    period: SubmitBillingDataRequestPeriod,
     items: SubmitInvoiceRequestItemsList,
     discounts: S.optional(SubmitInvoiceRequestDiscountsList),
     final: S.optional(S.Boolean),
@@ -1721,9 +1883,7 @@ export const SubmitInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SubmitInvoiceRequest",
-}) as any as S.Schema<SubmitInvoiceRequest>;
+).annotate({ identifier: "SubmitInvoiceRequest" }) as any as S.Schema<SubmitInvoiceRequest>;
 
 export type SubmitInvoiceResponseValidationErrorsList = Array<string>;
 export const SubmitInvoiceResponseValidationErrorsList = /*@__PURE__*/ S.Array(
@@ -1741,9 +1901,7 @@ export const SubmitInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
     test: S.optional(S.Boolean),
     validationErrors: S.optional(SubmitInvoiceResponseValidationErrorsList),
   }),
-).annotate({
-  identifier: "SubmitInvoiceResponse",
-}) as any as S.Schema<SubmitInvoiceResponse>;
+).annotate({ identifier: "SubmitInvoiceResponse" }) as any as S.Schema<SubmitInvoiceResponse>;
 
 /** A credit balance for a particular token type */
 export interface SubmitPrepaymentBalancesRequestBalancesItem {
@@ -1907,11 +2065,7 @@ export const UpdateInstallationRequest = /*@__PURE__*/ S.suspend(() =>
     billingPlan: S.optional(UpdateInstallationRequestBillingPlan),
     notification: S.optional(UpdateInstallationRequestNotification),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/installations/{integrationConfigurationId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/v1/installations/{integrationConfigurationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateInstallationRequest",
@@ -1994,9 +2148,7 @@ export const UpdateInvoiceRequestBody = /*@__PURE__*/ S.suspend(() =>
     reason: S.String,
     total: S.String,
   }),
-).annotate({
-  identifier: "UpdateInvoiceRequestBody",
-}) as any as S.Schema<UpdateInvoiceRequestBody>;
+).annotate({ identifier: "UpdateInvoiceRequestBody" }) as any as S.Schema<UpdateInvoiceRequestBody>;
 
 export interface UpdateInvoiceRequest {
   integrationConfigurationId: string;
@@ -2015,9 +2167,7 @@ export const UpdateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateInvoiceRequest",
-}) as any as S.Schema<UpdateInvoiceRequest>;
+).annotate({ identifier: "UpdateInvoiceRequest" }) as any as S.Schema<UpdateInvoiceRequest>;
 
 export interface UpdateInvoiceResponse {}
 export const UpdateInvoiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2037,9 +2187,7 @@ export type UpdateResourceRequestStatus =
   | "error";
 export const UpdateResourceRequestStatus = S.String;
 
-export type UpdateResourceRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateResourceRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateResourceRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2121,9 +2269,7 @@ export type UpdateResourceRequestNotification = UpdateResourceRequestNotificatio
 export const UpdateResourceRequestNotification =
   S.Unknown as any as S.Schema<UpdateResourceRequestNotification>;
 
-export type UpdateResourceRequestExtrasMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateResourceRequestExtrasMap = { [key: string]: unknown | undefined };
 export const UpdateResourceRequestExtrasMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2177,6 +2323,93 @@ export type UpdateResourceRequestSecrets =
 export const UpdateResourceRequestSecrets =
   S.Unknown as any as S.Schema<UpdateResourceRequestSecrets>;
 
+/** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+export type UpdateResourceRequestCustomClaimsRolesList = Array<string>;
+export const UpdateResourceRequestCustomClaimsRolesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateResourceRequestCustomClaimsRolesList>;
+
+/** Applies only when the token is minted for one of these roles. */
+export type UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList = Array<string>;
+export const UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList>;
+
+/** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
+export type UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList = Array<string>;
+export const UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList>;
+
+export interface UpdateResourceRequestCustomClaimsClaimRulesItemWhen {
+  /** Applies only when the token is minted for one of these roles. */
+  role?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList;
+  /** Applies only when the token is minted for one of these environments: `production`, `preview`, `development`, or a custom environment slug. A custom environment also matches `preview`. */
+  environment?: UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList;
+}
+export const UpdateResourceRequestCustomClaimsClaimRulesItemWhen = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    role: S.optional(UpdateResourceRequestCustomClaimsClaimRulesItemWhenRoleList),
+    environment: S.optional(UpdateResourceRequestCustomClaimsClaimRulesItemWhenEnvironmentList),
+  }),
+).annotate({
+  identifier: "UpdateResourceRequestCustomClaimsClaimRulesItemWhen",
+}) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItemWhen>;
+
+export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue = string | number | boolean;
+export const UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue =
+  S.Unknown as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue>;
+
+/** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+export type UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap = {
+  [key: string]: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue | null | undefined;
+};
+export const UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(UpdateResourceRequestCustomClaimsClaimRulesItemClaimsValue),
+) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap>;
+
+export interface UpdateResourceRequestCustomClaimsClaimRulesItem {
+  when?: UpdateResourceRequestCustomClaimsClaimRulesItemWhen;
+  /** Claims to set (string, number, or boolean), shallow-merged over earlier rules and over the default claims. `null` removes a claim. Reserved claims cannot be set; `aud` and `sub` can be overridden with a string but not removed. */
+  claims: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap;
+}
+export const UpdateResourceRequestCustomClaimsClaimRulesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    when: S.optional(UpdateResourceRequestCustomClaimsClaimRulesItemWhen),
+    claims: UpdateResourceRequestCustomClaimsClaimRulesItemClaimsMap,
+  }),
+).annotate({
+  identifier: "UpdateResourceRequestCustomClaimsClaimRulesItem",
+}) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesItem>;
+
+/** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
+export type UpdateResourceRequestCustomClaimsClaimRulesList =
+  Array<UpdateResourceRequestCustomClaimsClaimRulesItem>;
+export const UpdateResourceRequestCustomClaimsClaimRulesList = /*@__PURE__*/ S.Array(
+  UpdateResourceRequestCustomClaimsClaimRulesItem,
+) as any as S.Schema<UpdateResourceRequestCustomClaimsClaimRulesList>;
+
+/** Custom claims embedded in the resource tokens Vercel mints for this resource. */
+export interface UpdateResourceRequestCustomClaims {
+  /** Roles a deployment may request when minting a token. The selected role becomes the `sub` claim. */
+  roles?: UpdateResourceRequestCustomClaimsRolesList;
+  /** Role used when the deployment does not request one. Required when `roles` is set. */
+  defaultRole?: string;
+  /** Ordered rules resolved at mint time. Later rules win and shallow-merge over earlier ones. */
+  claimRules?: UpdateResourceRequestCustomClaimsClaimRulesList;
+}
+export const UpdateResourceRequestCustomClaims = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    roles: S.optional(UpdateResourceRequestCustomClaimsRolesList),
+    defaultRole: S.optional(S.String),
+    claimRules: S.optional(UpdateResourceRequestCustomClaimsClaimRulesList),
+  }),
+).annotate({
+  identifier: "UpdateResourceRequestCustomClaims",
+}) as any as S.Schema<UpdateResourceRequestCustomClaims>;
+
 export interface UpdateResourceRequest {
   integrationConfigurationId: string;
   resourceId: string;
@@ -2188,6 +2421,8 @@ export interface UpdateResourceRequest {
   notification?: UpdateResourceRequestNotification;
   extras?: UpdateResourceRequestExtrasMap;
   secrets?: UpdateResourceRequestSecrets;
+  /** Custom claims embedded in the resource tokens Vercel mints for this resource. */
+  customClaims?: UpdateResourceRequestCustomClaims;
 }
 export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2201,6 +2436,7 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
     notification: S.optional(UpdateResourceRequestNotification),
     extras: S.optional(UpdateResourceRequestExtrasMap),
     secrets: S.optional(UpdateResourceRequestSecrets),
+    customClaims: S.optional(UpdateResourceRequestCustomClaims),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -2208,9 +2444,7 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateResourceRequest",
-}) as any as S.Schema<UpdateResourceRequest>;
+).annotate({ identifier: "UpdateResourceRequest" }) as any as S.Schema<UpdateResourceRequest>;
 
 export interface UpdateResourceResponse {
   name: string;
@@ -2219,9 +2453,7 @@ export const UpdateResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "UpdateResourceResponse",
-}) as any as S.Schema<UpdateResourceResponse>;
+).annotate({ identifier: "UpdateResourceResponse" }) as any as S.Schema<UpdateResourceResponse>;
 
 /** A map of environments to override values for the secret, used for setting different values across deployments in production, preview, and development environments. Note: the same value will be used for all deployments in the given environment. */
 export type UpdateResourceSecretsByIdRequestSecretsItemEnvironmentOverrides =

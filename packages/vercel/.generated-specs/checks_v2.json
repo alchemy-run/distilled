@@ -89,6 +89,49 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.checks_v2#ListProjectChecksResponseAvailableNativeChecksList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListProjectChecksResponseChecksItemBlocks": {
+      "type": "enum",
+      "members": {
+        "BUILD_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-start"
+          }
+        },
+        "DEPLOYMENT_ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-alias"
+          }
+        },
+        "DEPLOYMENT_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-promotion"
+          }
+        },
+        "DEPLOYMENT_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-start"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListProjectChecksResponseChecksItemRequires": {
       "type": "enum",
       "members": {
@@ -128,8 +171,11 @@
     "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -140,16 +186,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -221,6 +264,12 @@
     "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase2Kind",
           "traits": {
@@ -229,12 +278,6 @@
         },
         "provider": {
           "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase2Provider",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -254,49 +297,6 @@
         "Case2": {
           "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceCase2"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListProjectChecksResponseChecksItemBlocks": {
-      "type": "enum",
-      "members": {
-        "BUILD_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-start"
-          }
-        },
-        "DEPLOYMENT_ALIAS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-alias"
-          }
-        },
-        "DEPLOYMENT_PROMOTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-promotion"
-          }
-        },
-        "DEPLOYMENT_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-start"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListProjectChecksResponseChecksItemTargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -348,11 +348,39 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListProjectChecksResponseChecksItemTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListProjectChecksResponseChecksItem": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemBlocks",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double"
+        },
         "id": {
           "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isRerequestable": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -375,12 +403,6 @@
             "smithy.api#required": {}
           }
         },
-        "isRerequestable": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "requires": {
           "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemRequires",
           "traits": {
@@ -393,8 +415,11 @@
             "smithy.api#required": {}
           }
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemBlocks",
+        "sourceIntegrationConfigurationId": {
+          "target": "smithy.api#String"
+        },
+        "sourceKind": {
+          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -405,22 +430,7 @@
             "smithy.api#required": {}
           }
         },
-        "sourceKind": {
-          "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksItemSourceKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sourceIntegrationConfigurationId": {
-          "target": "smithy.api#String"
-        },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -431,9 +441,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {}
@@ -448,6 +455,12 @@
     "com.vercel.checks_v2#ListProjectChecksResponse": {
       "type": "structure",
       "members": {
+        "availableNativeChecks": {
+          "target": "com.vercel.checks_v2#ListProjectChecksResponseAvailableNativeChecksList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "checks": {
           "target": "com.vercel.checks_v2#ListProjectChecksResponseChecksList",
           "traits": {
@@ -473,6 +486,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {
@@ -685,6 +701,42 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.checks_v2#CreateProjectCheckResponseBlocks": {
+      "type": "enum",
+      "members": {
+        "BUILD_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-start"
+          }
+        },
+        "DEPLOYMENT_ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-alias"
+          }
+        },
+        "DEPLOYMENT_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-promotion"
+          }
+        },
+        "DEPLOYMENT_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-start"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateProjectCheckResponseRequires": {
       "type": "enum",
       "members": {
@@ -724,8 +776,11 @@
     "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -736,16 +791,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -817,6 +869,12 @@
     "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase2Kind",
           "traits": {
@@ -825,12 +883,6 @@
         },
         "provider": {
           "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase2Provider",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -850,49 +902,6 @@
         "Case2": {
           "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceCase2"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateProjectCheckResponseBlocks": {
-      "type": "enum",
-      "members": {
-        "BUILD_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-start"
-          }
-        },
-        "DEPLOYMENT_ALIAS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-alias"
-          }
-        },
-        "DEPLOYMENT_PROMOTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-promotion"
-          }
-        },
-        "DEPLOYMENT_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-start"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateProjectCheckResponseTargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -944,11 +953,39 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateProjectCheckResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateProjectCheckResponse": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#CreateProjectCheckResponseBlocks",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double"
+        },
         "id": {
           "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isRerequestable": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -971,12 +1008,6 @@
             "smithy.api#required": {}
           }
         },
-        "isRerequestable": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "requires": {
           "target": "com.vercel.checks_v2#CreateProjectCheckResponseRequires",
           "traits": {
@@ -989,8 +1020,11 @@
             "smithy.api#required": {}
           }
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#CreateProjectCheckResponseBlocks",
+        "sourceIntegrationConfigurationId": {
+          "target": "smithy.api#String"
+        },
+        "sourceKind": {
+          "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1001,22 +1035,7 @@
             "smithy.api#required": {}
           }
         },
-        "sourceKind": {
-          "target": "com.vercel.checks_v2#CreateProjectCheckResponseSourceKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sourceIntegrationConfigurationId": {
-          "target": "smithy.api#String"
-        },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -1027,9 +1046,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -1050,6 +1066,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {
@@ -1098,6 +1117,42 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.checks_v2#GetProjectCheckResponseBlocks": {
+      "type": "enum",
+      "members": {
+        "BUILD_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-start"
+          }
+        },
+        "DEPLOYMENT_ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-alias"
+          }
+        },
+        "DEPLOYMENT_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-promotion"
+          }
+        },
+        "DEPLOYMENT_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-start"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetProjectCheckResponseRequires": {
       "type": "enum",
       "members": {
@@ -1137,8 +1192,11 @@
     "com.vercel.checks_v2#GetProjectCheckResponseSourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1149,16 +1207,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -1230,6 +1285,12 @@
     "com.vercel.checks_v2#GetProjectCheckResponseSourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceCase2Kind",
           "traits": {
@@ -1238,12 +1299,6 @@
         },
         "provider": {
           "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceCase2Provider",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1263,49 +1318,6 @@
         "Case2": {
           "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceCase2"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetProjectCheckResponseBlocks": {
-      "type": "enum",
-      "members": {
-        "BUILD_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-start"
-          }
-        },
-        "DEPLOYMENT_ALIAS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-alias"
-          }
-        },
-        "DEPLOYMENT_PROMOTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-promotion"
-          }
-        },
-        "DEPLOYMENT_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-start"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetProjectCheckResponseTargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1357,11 +1369,39 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetProjectCheckResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetProjectCheckResponse": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#GetProjectCheckResponseBlocks",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double"
+        },
         "id": {
           "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isRerequestable": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1384,12 +1424,6 @@
             "smithy.api#required": {}
           }
         },
-        "isRerequestable": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "requires": {
           "target": "com.vercel.checks_v2#GetProjectCheckResponseRequires",
           "traits": {
@@ -1402,8 +1436,11 @@
             "smithy.api#required": {}
           }
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#GetProjectCheckResponseBlocks",
+        "sourceIntegrationConfigurationId": {
+          "target": "smithy.api#String"
+        },
+        "sourceKind": {
+          "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1414,22 +1451,7 @@
             "smithy.api#required": {}
           }
         },
-        "sourceKind": {
-          "target": "com.vercel.checks_v2#GetProjectCheckResponseSourceKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sourceIntegrationConfigurationId": {
-          "target": "smithy.api#String"
-        },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -1440,9 +1462,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -1463,6 +1482,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {
@@ -1487,6 +1509,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
       },
@@ -1589,6 +1617,42 @@
         "smithy.api#input": {}
       }
     },
+    "com.vercel.checks_v2#UpdateProjectCheckResponseBlocks": {
+      "type": "enum",
+      "members": {
+        "BUILD_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-start"
+          }
+        },
+        "DEPLOYMENT_ALIAS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-alias"
+          }
+        },
+        "DEPLOYMENT_PROMOTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-promotion"
+          }
+        },
+        "DEPLOYMENT_START": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-start"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateProjectCheckResponseRequires": {
       "type": "enum",
       "members": {
@@ -1628,8 +1692,11 @@
     "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1640,16 +1707,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -1721,6 +1785,12 @@
     "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase2Kind",
           "traits": {
@@ -1729,12 +1799,6 @@
         },
         "provider": {
           "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase2Provider",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1754,49 +1818,6 @@
         "Case2": {
           "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceCase2"
         }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateProjectCheckResponseBlocks": {
-      "type": "enum",
-      "members": {
-        "BUILD_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-start"
-          }
-        },
-        "DEPLOYMENT_ALIAS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-alias"
-          }
-        },
-        "DEPLOYMENT_PROMOTION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-promotion"
-          }
-        },
-        "DEPLOYMENT_START": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-start"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateProjectCheckResponseTargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -1848,11 +1869,39 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateProjectCheckResponseTargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateProjectCheckResponse": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseBlocks",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#Double"
+        },
         "id": {
           "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isRerequestable": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1875,12 +1924,6 @@
             "smithy.api#required": {}
           }
         },
-        "isRerequestable": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
         "requires": {
           "target": "com.vercel.checks_v2#UpdateProjectCheckResponseRequires",
           "traits": {
@@ -1893,8 +1936,11 @@
             "smithy.api#required": {}
           }
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseBlocks",
+        "sourceIntegrationConfigurationId": {
+          "target": "smithy.api#String"
+        },
+        "sourceKind": {
+          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1905,22 +1951,7 @@
             "smithy.api#required": {}
           }
         },
-        "sourceKind": {
-          "target": "com.vercel.checks_v2#UpdateProjectCheckResponseSourceKind",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "sourceIntegrationConfigurationId": {
-          "target": "smithy.api#String"
-        },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -1931,9 +1962,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "deletedAt": {
-          "target": "smithy.api#Double"
         }
       },
       "traits": {
@@ -2083,30 +2111,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Blocks": {
       "type": "enum",
       "members": {
@@ -2138,37 +2142,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -2216,6 +2189,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0OutputMap": {
       "type": "map",
       "key": {
@@ -2223,6 +2226,61 @@
       },
       "value": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Requires": {
+      "type": "enum",
+      "members": {
+        "BUILD_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -2241,8 +2299,11 @@
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2253,16 +2314,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -2334,6 +2392,12 @@
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase2Kind",
           "traits": {
@@ -2344,24 +2408,6 @@
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase2Provider",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_NATIVE_CHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-native-check"
           }
         }
       },
@@ -2385,18 +2431,213 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_NATIVE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-check"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3SubKind"
-        },
         "origin": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3Origin"
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3SubKind"
         }
       },
       "traits": {
         "smithy.api#documentation": "Native Vercel checks — check definition and check run `source`."
+      }
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4Origin": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INVOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invocation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind": {
+      "type": "enum",
+      "members": {
+        "JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1": {
+      "type": "structure",
+      "members": {
+        "job": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Job": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Kind": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2": {
+      "type": "structure",
+      "members": {
+        "failIfNoMatch": {
+          "target": "smithy.api#Boolean"
+        },
+        "filters": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Job",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4Selection": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-check"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4": {
+      "type": "structure",
+      "members": {
+        "origin": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4Origin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4Selection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4SubKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project-defined CI requirement; its selection is frozen on each check run."
       }
     },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Source": {
@@ -2413,6 +2654,9 @@
         },
         "Case3": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase3"
+        },
+        "Case4": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0SourceCase4"
         }
       },
       "traits": {}
@@ -2420,6 +2664,45 @@
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -2432,13 +2715,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2450,40 +2730,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase0TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -2494,9 +2750,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "checkId": {
           "target": "smithy.api#String",
@@ -2514,30 +2767,6 @@
       "traits": {
         "smithy.api#documentation": "Check run backed by a project-level `check` definition."
       }
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Blocks": {
       "type": "enum",
@@ -2570,37 +2799,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -2648,6 +2846,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1OutputMap": {
       "type": "map",
       "key": {
@@ -2658,15 +2886,58 @@
       },
       "traits": {}
     },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase0SubKind": {
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Requires": {
       "type": "enum",
       "members": {
-        "VERCEL_CI": {
+        "BUILD_READY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "vercel-ci"
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -2682,11 +2953,32 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase0SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase0": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase0SubKind",
+        "invocationAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2697,17 +2989,8 @@
             "smithy.api#required": {}
           }
         },
-        "invocationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "invocationAttempt": {
-          "target": "smithy.api#Double"
-        },
-        "jobDefinitionId": {
-          "target": "smithy.api#String",
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase0SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2716,18 +2999,6 @@
       "traits": {
         "smithy.api#documentation": "Config-driven CI task — check run `source` only (no parent check)."
       }
-    },
-    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_CI_SENTINEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-ci-sentinel"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1Origin": {
       "type": "enum",
@@ -2741,17 +3012,29 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_SENTINEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-sentinel"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1SubKind",
+        "origin": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1Origin",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "origin": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1Origin",
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1SourceCase1SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -2776,6 +3059,45 @@
     "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -2788,13 +3110,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -2806,40 +3125,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -2850,9 +3145,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "source": {
           "target": "com.vercel.checks_v2#ListCheckRunsResponseRunsItemCase1Source",
@@ -2912,6 +3204,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {
@@ -2952,30 +3247,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Blocks": {
       "type": "enum",
       "members": {
@@ -3007,37 +3278,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -3085,6 +3325,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0OutputMap": {
       "type": "map",
       "key": {
@@ -3092,6 +3362,61 @@
       },
       "value": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Requires": {
+      "type": "enum",
+      "members": {
+        "BUILD_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -3110,8 +3435,11 @@
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3122,16 +3450,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -3203,6 +3528,12 @@
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase2Kind",
           "traits": {
@@ -3213,24 +3544,6 @@
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase2Provider",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_NATIVE_CHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-native-check"
           }
         }
       },
@@ -3254,18 +3567,213 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_NATIVE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-check"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3SubKind"
-        },
         "origin": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3Origin"
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3SubKind"
         }
       },
       "traits": {
         "smithy.api#documentation": "Native Vercel checks — check definition and check run `source`."
+      }
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4Origin": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INVOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invocation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind": {
+      "type": "enum",
+      "members": {
+        "JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1": {
+      "type": "structure",
+      "members": {
+        "job": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Job": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Kind": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2": {
+      "type": "structure",
+      "members": {
+        "failIfNoMatch": {
+          "target": "smithy.api#Boolean"
+        },
+        "filters": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Job",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4Selection": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-check"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4": {
+      "type": "structure",
+      "members": {
+        "origin": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4Origin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4Selection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SubKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project-defined CI requirement; its selection is frozen on each check run."
       }
     },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Source": {
@@ -3282,6 +3790,9 @@
         },
         "Case3": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase3"
+        },
+        "Case4": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4"
         }
       },
       "traits": {}
@@ -3289,6 +3800,45 @@
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -3301,13 +3851,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3319,40 +3866,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase0TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -3363,9 +3886,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "checkId": {
           "target": "smithy.api#String",
@@ -3383,30 +3903,6 @@
       "traits": {
         "smithy.api#documentation": "Check run backed by a project-level `check` definition."
       }
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Blocks": {
       "type": "enum",
@@ -3439,37 +3935,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -3517,6 +3982,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1OutputMap": {
       "type": "map",
       "key": {
@@ -3527,15 +4022,58 @@
       },
       "traits": {}
     },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0SubKind": {
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Requires": {
       "type": "enum",
       "members": {
-        "VERCEL_CI": {
+        "BUILD_READY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "vercel-ci"
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -3551,11 +4089,32 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0SubKind",
+        "invocationAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3566,17 +4125,8 @@
             "smithy.api#required": {}
           }
         },
-        "invocationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "invocationAttempt": {
-          "target": "smithy.api#Double"
-        },
-        "jobDefinitionId": {
-          "target": "smithy.api#String",
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3585,18 +4135,6 @@
       "traits": {
         "smithy.api#documentation": "Config-driven CI task — check run `source` only (no parent check)."
       }
-    },
-    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_CI_SENTINEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-ci-sentinel"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1Origin": {
       "type": "enum",
@@ -3610,17 +4148,29 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_SENTINEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-sentinel"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1SubKind",
+        "origin": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1Origin",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "origin": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1Origin",
+        "subKind": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1SourceCase1SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3645,6 +4195,45 @@
     "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -3657,13 +4246,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -3675,40 +4261,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -3719,9 +4281,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "source": {
           "target": "com.vercel.checks_v2#ListDeploymentCheckRunsResponseRunsItemCase1Source",
@@ -3781,6 +4340,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {
@@ -3827,30 +4389,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Blocks": {
       "type": "enum",
       "members": {
@@ -3882,37 +4420,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -3960,6 +4467,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0OutputMap": {
       "type": "map",
       "key": {
@@ -3967,6 +4504,61 @@
       },
       "value": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Requires": {
+      "type": "enum",
+      "members": {
+        "BUILD_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -3985,8 +4577,11 @@
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3997,16 +4592,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -4078,6 +4670,12 @@
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase2Kind",
           "traits": {
@@ -4088,24 +4686,6 @@
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase2Provider",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_NATIVE_CHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-native-check"
           }
         }
       },
@@ -4129,18 +4709,213 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_NATIVE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-check"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
-        },
         "origin": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3Origin"
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
         }
       },
       "traits": {
         "smithy.api#documentation": "Native Vercel checks — check definition and check run `source`."
+      }
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4Origin": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INVOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invocation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind": {
+      "type": "enum",
+      "members": {
+        "JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1": {
+      "type": "structure",
+      "members": {
+        "job": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2": {
+      "type": "structure",
+      "members": {
+        "failIfNoMatch": {
+          "target": "smithy.api#Boolean"
+        },
+        "filters": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4Selection": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-check"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4": {
+      "type": "structure",
+      "members": {
+        "origin": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4Origin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4Selection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4SubKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project-defined CI requirement; its selection is frozen on each check run."
       }
     },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Source": {
@@ -4157,6 +4932,9 @@
         },
         "Case3": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase3"
+        },
+        "Case4": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0SourceCase4"
         }
       },
       "traits": {}
@@ -4164,6 +4942,45 @@
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -4176,13 +4993,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -4194,40 +5008,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase0TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -4238,9 +5028,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "checkId": {
           "target": "smithy.api#String",
@@ -4258,30 +5045,6 @@
       "traits": {
         "smithy.api#documentation": "Check run backed by a project-level `check` definition."
       }
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Blocks": {
       "type": "enum",
@@ -4314,37 +5077,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -4392,6 +5124,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1OutputMap": {
       "type": "map",
       "key": {
@@ -4402,15 +5164,58 @@
       },
       "traits": {}
     },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Requires": {
       "type": "enum",
       "members": {
-        "VERCEL_CI": {
+        "BUILD_READY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "vercel-ci"
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -4426,11 +5231,32 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase0": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
+        "invocationAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4441,17 +5267,8 @@
             "smithy.api#required": {}
           }
         },
-        "invocationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "invocationAttempt": {
-          "target": "smithy.api#Double"
-        },
-        "jobDefinitionId": {
-          "target": "smithy.api#String",
+        "subKind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4460,18 +5277,6 @@
       "traits": {
         "smithy.api#documentation": "Config-driven CI task — check run `source` only (no parent check)."
       }
-    },
-    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_CI_SENTINEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-ci-sentinel"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1Origin": {
       "type": "enum",
@@ -4485,17 +5290,29 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_SENTINEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-sentinel"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
+        "origin": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "origin": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
+        "subKind": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4520,6 +5337,45 @@
     "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -4532,13 +5388,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -4550,40 +5403,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -4594,9 +5423,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "source": {
           "target": "com.vercel.checks_v2#CreateDeploymentCheckRunResponseBodyCase1Source",
@@ -4701,30 +5527,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Blocks": {
       "type": "enum",
       "members": {
@@ -4756,37 +5558,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -4834,6 +5605,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0OutputMap": {
       "type": "map",
       "key": {
@@ -4841,6 +5642,61 @@
       },
       "value": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Requires": {
+      "type": "enum",
+      "members": {
+        "BUILD_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -4859,8 +5715,11 @@
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4871,16 +5730,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -4952,6 +5808,12 @@
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase2Kind",
           "traits": {
@@ -4962,24 +5824,6 @@
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase2Provider",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_NATIVE_CHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-native-check"
           }
         }
       },
@@ -5003,18 +5847,213 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_NATIVE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-check"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
-        },
         "origin": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3Origin"
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
         }
       },
       "traits": {
         "smithy.api#documentation": "Native Vercel checks — check definition and check run `source`."
+      }
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4Origin": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INVOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invocation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind": {
+      "type": "enum",
+      "members": {
+        "JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1": {
+      "type": "structure",
+      "members": {
+        "job": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2": {
+      "type": "structure",
+      "members": {
+        "failIfNoMatch": {
+          "target": "smithy.api#Boolean"
+        },
+        "filters": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4Selection": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-check"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4": {
+      "type": "structure",
+      "members": {
+        "origin": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4Origin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4Selection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4SubKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project-defined CI requirement; its selection is frozen on each check run."
       }
     },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Source": {
@@ -5031,6 +6070,9 @@
         },
         "Case3": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase3"
+        },
+        "Case4": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0SourceCase4"
         }
       },
       "traits": {}
@@ -5038,6 +6080,45 @@
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -5050,13 +6131,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -5068,40 +6146,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase0TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -5112,9 +6166,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "checkId": {
           "target": "smithy.api#String",
@@ -5132,30 +6183,6 @@
       "traits": {
         "smithy.api#documentation": "Check run backed by a project-level `check` definition."
       }
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Blocks": {
       "type": "enum",
@@ -5188,37 +6215,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -5266,6 +6262,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1OutputMap": {
       "type": "map",
       "key": {
@@ -5276,15 +6302,58 @@
       },
       "traits": {}
     },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Requires": {
       "type": "enum",
       "members": {
-        "VERCEL_CI": {
+        "BUILD_READY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "vercel-ci"
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -5300,11 +6369,32 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase0": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
+        "invocationAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5315,17 +6405,8 @@
             "smithy.api#required": {}
           }
         },
-        "invocationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "invocationAttempt": {
-          "target": "smithy.api#Double"
-        },
-        "jobDefinitionId": {
-          "target": "smithy.api#String",
+        "subKind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5334,18 +6415,6 @@
       "traits": {
         "smithy.api#documentation": "Config-driven CI task — check run `source` only (no parent check)."
       }
-    },
-    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_CI_SENTINEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-ci-sentinel"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1Origin": {
       "type": "enum",
@@ -5359,17 +6428,29 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_SENTINEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-sentinel"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
+        "origin": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "origin": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
+        "subKind": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5394,6 +6475,45 @@
     "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -5406,13 +6526,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -5424,40 +6541,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -5468,9 +6561,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "source": {
           "target": "com.vercel.checks_v2#GetDeploymentCheckRunResponseBodyCase1Source",
@@ -5661,30 +6751,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Blocks": {
       "type": "enum",
       "members": {
@@ -5716,37 +6782,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -5794,6 +6829,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0OutputMap": {
       "type": "map",
       "key": {
@@ -5801,6 +6866,61 @@
       },
       "value": {
         "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Requires": {
+      "type": "enum",
+      "members": {
+        "BUILD_READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -5819,8 +6939,11 @@
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase0": {
       "type": "structure",
       "members": {
-        "kind": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
+        "externalResourceId": {
+          "target": "smithy.api#String"
+        },
+        "integrationConfigurationId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -5831,16 +6954,13 @@
             "smithy.api#required": {}
           }
         },
-        "integrationConfigurationId": {
-          "target": "smithy.api#String",
+        "kind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase0Kind",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "resourceId": {
-          "target": "smithy.api#String"
-        },
-        "externalResourceId": {
           "target": "smithy.api#String"
         }
       },
@@ -5912,6 +7032,12 @@
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase2": {
       "type": "structure",
       "members": {
+        "externalCheckName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "kind": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase2Kind",
           "traits": {
@@ -5922,24 +7048,6 @@
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase2Provider",
           "traits": {
             "smithy.api#required": {}
-          }
-        },
-        "externalCheckName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_NATIVE_CHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-native-check"
           }
         }
       },
@@ -5963,18 +7071,213 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_NATIVE_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-native-check"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
-        },
         "origin": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3Origin"
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3SubKind"
         }
       },
       "traits": {
         "smithy.api#documentation": "Native Vercel checks — check definition and check run `source`."
+      }
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4Origin": {
+      "type": "enum",
+      "members": {
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind": {
+      "type": "enum",
+      "members": {
+        "INVOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "invocation"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind": {
+      "type": "enum",
+      "members": {
+        "JOB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "job"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1": {
+      "type": "structure",
+      "members": {
+        "job": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind": {
+      "type": "enum",
+      "members": {
+        "TURBOREPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "turborepo"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2": {
+      "type": "structure",
+      "members": {
+        "failIfNoMatch": {
+          "target": "smithy.api#Boolean"
+        },
+        "filters": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "job": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Job",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2Kind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4Selection": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0"
+        },
+        "Case1": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1"
+        },
+        "Case2": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_CHECK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-check"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4": {
+      "type": "structure",
+      "members": {
+        "origin": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4Origin",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "selection": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4Selection",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subKind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SubKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Project-defined CI requirement; its selection is frozen on each check run."
       }
     },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Source": {
@@ -5991,6 +7294,9 @@
         },
         "Case3": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase3"
+        },
+        "Case4": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0SourceCase4"
         }
       },
       "traits": {}
@@ -5998,6 +7304,45 @@
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -6010,13 +7355,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -6028,40 +7370,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase0TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -6072,9 +7390,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "checkId": {
           "target": "smithy.api#String",
@@ -6092,30 +7407,6 @@
       "traits": {
         "smithy.api#documentation": "Check run backed by a project-level `check` definition."
       }
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Requires": {
-      "type": "enum",
-      "members": {
-        "BUILD_READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "build-ready"
-          }
-        },
-        "DEPLOYMENT_URL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "deployment-url"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Blocks": {
       "type": "enum",
@@ -6148,37 +7439,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "none"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1TargetsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {}
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Status": {
-      "type": "enum",
-      "members": {
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "running"
           }
         }
       },
@@ -6226,6 +7486,36 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1ExpectationRef": {
+      "type": "structure",
+      "members": {
+        "invocationAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobRunAttempt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1OutputMap": {
       "type": "map",
       "key": {
@@ -6236,15 +7526,58 @@
       },
       "traits": {}
     },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Requires": {
       "type": "enum",
       "members": {
-        "VERCEL_CI": {
+        "BUILD_READY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "vercel-ci"
+            "smithy.api#enumValue": "build-ready"
+          }
+        },
+        "DEPLOYMENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment-url"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
           }
         }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Status": {
+      "type": "enum",
+      "members": {
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1TargetsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       },
       "traits": {}
     },
@@ -6260,11 +7593,32 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase0": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
+        "invocationAttempt": {
+          "target": "smithy.api#Double"
+        },
+        "invocationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "jobDefinitionId": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6275,17 +7629,8 @@
             "smithy.api#required": {}
           }
         },
-        "invocationId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "invocationAttempt": {
-          "target": "smithy.api#Double"
-        },
-        "jobDefinitionId": {
-          "target": "smithy.api#String",
+        "subKind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6294,18 +7639,6 @@
       "traits": {
         "smithy.api#documentation": "Config-driven CI task — check run `source` only (no parent check)."
       }
-    },
-    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
-      "type": "enum",
-      "members": {
-        "VERCEL_CI_SENTINEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-ci-sentinel"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1Origin": {
       "type": "enum",
@@ -6319,17 +7652,29 @@
       },
       "traits": {}
     },
+    "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind": {
+      "type": "enum",
+      "members": {
+        "VERCEL_CI_SENTINEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vercel-ci-sentinel"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1": {
       "type": "structure",
       "members": {
-        "subKind": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
+        "origin": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "origin": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1Origin",
+        "subKind": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1SourceCase1SubKind",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6354,6 +7699,45 @@
     "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1": {
       "type": "structure",
       "members": {
+        "blocks": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Blocks"
+        },
+        "completedAt": {
+          "target": "smithy.api#Double"
+        },
+        "conclusion": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Conclusion"
+        },
+        "conclusionText": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expectationRef": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1ExpectationRef"
+        },
+        "expectationRevision": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Latest aggregate revision applied to this check run."
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String"
+        },
+        "externalUrl": {
+          "target": "smithy.api#String"
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -6366,13 +7750,10 @@
             "smithy.api#required": {}
           }
         },
-        "ownerId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "output": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1OutputMap"
         },
-        "deploymentId": {
+        "ownerId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -6384,40 +7765,16 @@
         "requires": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Requires"
         },
-        "blocks": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Blocks"
-        },
-        "targets": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1TargetsList"
-        },
         "status": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Status",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "conclusion": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Conclusion"
-        },
-        "conclusionText": {
-          "target": "smithy.api#String"
-        },
-        "externalId": {
-          "target": "smithy.api#String"
-        },
-        "externalUrl": {
-          "target": "smithy.api#String"
-        },
-        "output": {
-          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1OutputMap"
+        "targets": {
+          "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1TargetsList"
         },
         "timeout": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "createdAt": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#required": {}
@@ -6428,9 +7785,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "completedAt": {
-          "target": "smithy.api#Double"
         },
         "source": {
           "target": "com.vercel.checks_v2#UpdateDeploymentCheckRunResponseBodyCase1Source",
@@ -6484,6 +7838,9 @@
         },
         {
           "target": "com.vercel.checks_v2#Forbidden"
+        },
+        {
+          "target": "com.vercel.checks_v2#NotFound"
         }
       ],
       "traits": {

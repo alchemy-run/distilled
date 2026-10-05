@@ -75,9 +75,7 @@ export const BuyCreditsRequestItem = /*@__PURE__*/ S.suspend(() =>
     creditType: BuyCreditsRequestItemCreditType,
     amount: S.Number,
   }),
-).annotate({
-  identifier: "BuyCreditsRequestItem",
-}) as any as S.Schema<BuyCreditsRequestItem>;
+).annotate({ identifier: "BuyCreditsRequestItem" }) as any as S.Schema<BuyCreditsRequestItem>;
 
 export interface BuyCreditsRequest {
   /** The source of the purchase request. Defaults to `api` if not specified. */
@@ -95,9 +93,7 @@ export const BuyCreditsRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String.pipe(T.Query())),
     item: BuyCreditsRequestItem,
   }).pipe(T.Http({ method: "POST", uri: "/v1/billing/buy", code: 200 })),
-).annotate({
-  identifier: "BuyCreditsRequest",
-}) as any as S.Schema<BuyCreditsRequest>;
+).annotate({ identifier: "BuyCreditsRequest" }) as any as S.Schema<BuyCreditsRequest>;
 
 export interface BuyCreditsResponseBodyCase0 {
   checkoutSessionId: string;
@@ -270,27 +266,27 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsR
   ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesList>;
 
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Options {
-  effectiveDate: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate;
-  /** The ID of the Orb subscription to change */
-  orbSubscriptionId: string;
   /** Whether or not to reset the billing cycle */
   alignBillingWithPlanChangeDate?: boolean;
   /** The coupon redemption code to apply to the plan change */
   couponRedemptionCode?: string;
+  effectiveDate: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate;
   /** The ID of the external plan to change to */
   externalPlanId?: string;
+  /** The ID of the Orb subscription to change */
+  orbSubscriptionId: string;
   /** The prices to replace in the subscription */
   replacePrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesList;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Options =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      effectiveDate:
-        BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate,
-      orbSubscriptionId: S.String,
       alignBillingWithPlanChangeDate: S.optional(S.Boolean),
       couponRedemptionCode: S.optional(S.String),
+      effectiveDate:
+        BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsEffectiveDate,
       externalPlanId: S.optional(S.String),
+      orbSubscriptionId: S.String,
       replacePrices: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2OptionsReplacePricesList,
       ),
@@ -332,6 +328,70 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2 = /*@__
   identifier: "BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2",
 }) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2>;
 
+/** The price intervals to add to the subscription */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList =
+  Array<unknown>;
+export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList>;
+
+/** The adjustment intervals to add to the subscription */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList =
+  Array<unknown>;
+export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList>;
+
+/** The price intervals to edit on the subscription */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList =
+  Array<unknown>;
+export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList>;
+
+/** The adjustment intervals to edit on the subscription */
+export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList =
+  Array<unknown>;
+export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList>;
+
+export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options {
+  /** The price intervals to add to the subscription */
+  add?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList;
+  /** The adjustment intervals to add to the subscription */
+  addAdjustments?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList;
+  /** Whether to allow invoice credit or void */
+  allowInvoiceCreditOrVoid?: boolean;
+  /** The price intervals to edit on the subscription */
+  edit?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList;
+  /** The adjustment intervals to edit on the subscription */
+  editAdjustments?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList;
+  /** The ID of the Orb subscription to modify price intervals for */
+  orbSubscriptionId: string;
+}
+export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      add: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddList),
+      addAdjustments: S.optional(
+        BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsAddAdjustmentsList,
+      ),
+      allowInvoiceCreditOrVoid: S.optional(S.Boolean),
+      edit: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditList),
+      editAdjustments: S.optional(
+        BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3OptionsEditAdjustmentsList,
+      ),
+      orbSubscriptionId: S.String,
+    }),
+  ).annotate({
+    identifier: "BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options",
+  }) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options>;
+
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Output =
   BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Output;
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Output =
@@ -342,14 +402,14 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Type = S
 
 /** The configuration for a credit purchase */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3 {
-  options: unknown;
+  options: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options;
   output: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Output;
   type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Type;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3 = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      options: S.Unknown,
+      options: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Options,
       output: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase2Output,
       type: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase3Type,
     }),
@@ -434,14 +494,14 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsR
   ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsReplacePricesList>;
 
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Options {
-  /** The external plan ID of the Orb plan to subscribe to */
-  externalPlanId: string;
   /** The prices to add to the subscription */
   addPrices?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsAddPricesList;
   /** Whether to align the subscription start date with the billing subscription start date */
   alignBillingWithSubscriptionStartDate?: boolean;
   /** The coupon redemption code to apply to the subscription */
   couponRedemptionCode?: string;
+  /** The external plan ID of the Orb plan to subscribe to */
+  externalPlanId: string;
   /** The initial phase order to use for the subscription */
   initialPhaseOrder?: number;
   /** Optional metadata to associate with the subscription */
@@ -456,12 +516,12 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Opti
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4Options =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      externalPlanId: S.String,
       addPrices: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsAddPricesList,
       ),
       alignBillingWithSubscriptionStartDate: S.optional(S.Boolean),
       couponRedemptionCode: S.optional(S.String),
+      externalPlanId: S.String,
       initialPhaseOrder: S.optional(S.Number),
       metadata: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap,
@@ -514,39 +574,39 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsL
 
 /** The line items that make up the Purchase Intent. */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItem {
-  /** The ID of the line item */
-  id: string;
   /** The description of the line item */
   description: string;
+  /** The ID of the line item */
+  id: string;
+  /** Optional metadata for the line item */
+  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap;
   /** The name of the line item */
   name: string;
+  /** The alias of the product being purchased */
+  productAlias?: string;
   /** The ID of the product being purchased */
   productId: string;
   /** The quantity of the line item */
   quantity: string;
-  /** The unit amount of the line item */
-  unitAmount: string;
-  /** Optional metadata for the line item */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap;
-  /** The alias of the product being purchased */
-  productAlias?: string;
   /** The amount of the line item that has been refunded */
   refund?: string;
+  /** The unit amount of the line item */
+  unitAmount: string;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      id: S.String,
       description: S.String,
-      name: S.String,
-      productId: S.String,
-      quantity: S.String,
-      unitAmount: S.String,
+      id: S.String,
       metadata: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItemMetadataMap,
       ),
+      name: S.String,
       productAlias: S.optional(S.String),
+      productId: S.String,
+      quantity: S.String,
       refund: S.optional(S.String),
+      unitAmount: S.String,
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsItem",
@@ -561,33 +621,33 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsL
   ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList>;
 
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Options {
+  /** The line items that make up the Purchase Intent. */
+  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList;
   /** The ID of the Orb customer to create */
   orbCustomerId: string;
   /** The external ID of the Orb customer to create */
   orbExternalCustomerId: string;
   /** The external ID of the Orb plan to create */
   orbExternalPlanId: string;
+  /** The ID of the pending subscription change */
+  orbPendingSubscriptionChangeId?: string;
   /** The ID of the Orb plan to create */
   orbPlanId: string;
   /** The ID of the Orb subscription to create */
   orbSubscriptionId: string;
-  /** The line items that make up the Purchase Intent. */
-  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList;
-  /** The ID of the pending subscription change */
-  orbPendingSubscriptionChangeId?: string;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Options =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orbCustomerId: S.String,
-      orbExternalCustomerId: S.String,
-      orbExternalPlanId: S.String,
-      orbPlanId: S.String,
-      orbSubscriptionId: S.String,
       lineItems: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5OptionsLineItemsList,
       ),
+      orbCustomerId: S.String,
+      orbExternalCustomerId: S.String,
+      orbExternalPlanId: S.String,
       orbPendingSubscriptionChangeId: S.optional(S.String),
+      orbPlanId: S.String,
+      orbSubscriptionId: S.String,
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase5Options",
@@ -735,10 +795,10 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsP
 
 /** Purchase configuration specific options */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options {
-  /** The ID of the plan to subscribe to */
-  planId: string;
   /** The current plan being replaced by this purchase */
   fromPlan?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan;
+  /** The ID of the plan to subscribe to */
+  planId: string;
   /** The plan item quantities to set for the subscription */
   planItemQuantities?: BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList;
   /** The rate variant key to apply to the subscription */
@@ -747,10 +807,10 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Opti
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6Options =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      planId: S.String,
       fromPlan: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsFromPlan,
       ),
+      planId: S.String,
       planItemQuantities: S.optional(
         BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase6OptionsPlanItemQuantitiesList,
       ),
@@ -809,53 +869,16 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfiguration =
 export type BuyCreditsResponseBodyCase1PurchaseIntentCurrency = "miu" | "usd";
 export const BuyCreditsResponseBodyCase1PurchaseIntentCurrency = S.String;
 
-/** The type of the purchase provider */
-export type BuyCreditsResponseBodyCase1PurchaseIntentProviderType =
-  | "apple_in_app_purchase"
-  | "orb_ledger"
-  | "stripe_elements"
-  | "stripe_hosted"
-  | "stripe_invoice_deferred"
-  | "stripe_invoice_elements"
-  | "stripe_invoice_immediate"
-  | "tackle_aws_marketplace";
-export const BuyCreditsResponseBodyCase1PurchaseIntentProviderType = S.String;
-
-export interface BuyCreditsResponseBodyCase1PurchaseIntentProvider {
-  /** Provider resource id */
-  resourceId: string;
-  /** The type of the purchase provider */
-  type: BuyCreditsResponseBodyCase1PurchaseIntentProviderType;
-  /** The currency conversion rate used by the provider */
-  currencyConversionRate?: string;
-  /** Whether a Stripe Shared Payment Token was used for this purchase. Only applicable when type is stripe_invoice_immediate. */
-  stripeSharedPaymentTokenUsed?: boolean;
-}
-export const BuyCreditsResponseBodyCase1PurchaseIntentProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceId: S.String,
-    type: BuyCreditsResponseBodyCase1PurchaseIntentProviderType,
-    currencyConversionRate: S.optional(S.String),
-    stripeSharedPaymentTokenUsed: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "BuyCreditsResponseBodyCase1PurchaseIntentProvider",
-}) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentProvider>;
-
-/** The status of the Purchase Intent. */
-export type BuyCreditsResponseBodyCase1PurchaseIntentStatus = "failed" | "pending" | "succeeded";
-export const BuyCreditsResponseBodyCase1PurchaseIntentStatus = S.String;
-
 /** The dispute details, if any. */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentDispute {
-  /** The unique ID of the dispute entity. */
-  id: string;
   /** The disputed amount. */
   amount: string;
   /** When the dispute was first recorded. */
   createdAt: string;
   /** The dispute currency. */
   currency: string;
+  /** The unique ID of the dispute entity. */
+  id: string;
   /** The external provider dispute ID (e.g. Stripe dispute ID). */
   providerId: string;
   /** The dispute reason. */
@@ -867,10 +890,10 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntentDispute {
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentDispute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     amount: S.String,
     createdAt: S.String,
     currency: S.String,
+    id: S.String,
     providerId: S.String,
     reason: S.NullOr(S.String),
     status: S.String,
@@ -892,36 +915,36 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap =
 
 /** The line items that make up the Purchase Intent. */
 export interface BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem {
-  /** The ID of the line item */
-  id: string;
   /** The description of the line item */
   description: string;
+  /** The ID of the line item */
+  id: string;
+  /** Optional metadata for the line item */
+  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap;
   /** The name of the line item */
   name: string;
+  /** The alias of the product being purchased */
+  productAlias?: string;
   /** The ID of the product being purchased */
   productId: string;
   /** The quantity of the line item */
   quantity: string;
-  /** The unit amount of the line item */
-  unitAmount: string;
-  /** Optional metadata for the line item */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap;
-  /** The alias of the product being purchased */
-  productAlias?: string;
   /** The amount of the line item that has been refunded */
   refund?: string;
+  /** The unit amount of the line item */
+  unitAmount: string;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     description: S.String,
+    id: S.String,
+    metadata: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap),
     name: S.String,
+    productAlias: S.optional(S.String),
     productId: S.String,
     quantity: S.String,
-    unitAmount: S.String,
-    metadata: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItemMetadataMap),
-    productAlias: S.optional(S.String),
     refund: S.optional(S.String),
+    unitAmount: S.String,
   }),
 ).annotate({
   identifier: "BuyCreditsResponseBodyCase1PurchaseIntentLineItemsItem",
@@ -943,18 +966,65 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap = /*@__PURE__*
   S.String,
 ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap>;
 
+/** The type of the purchase provider */
+export type BuyCreditsResponseBodyCase1PurchaseIntentProviderType =
+  | "apple_in_app_purchase"
+  | "orb_ledger"
+  | "stripe_elements"
+  | "stripe_hosted"
+  | "stripe_invoice_deferred"
+  | "stripe_invoice_elements"
+  | "stripe_invoice_immediate"
+  | "tackle_aws_marketplace";
+export const BuyCreditsResponseBodyCase1PurchaseIntentProviderType = S.String;
+
+export interface BuyCreditsResponseBodyCase1PurchaseIntentProvider {
+  /** The currency conversion rate used by the provider */
+  currencyConversionRate?: string;
+  /** Provider resource id */
+  resourceId: string;
+  /** Whether a Stripe Shared Payment Token was used for this purchase. Only applicable when type is stripe_invoice_immediate. */
+  stripeSharedPaymentTokenUsed?: boolean;
+  /** The type of the purchase provider */
+  type: BuyCreditsResponseBodyCase1PurchaseIntentProviderType;
+}
+export const BuyCreditsResponseBodyCase1PurchaseIntentProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    currencyConversionRate: S.optional(S.String),
+    resourceId: S.String,
+    stripeSharedPaymentTokenUsed: S.optional(S.Boolean),
+    type: BuyCreditsResponseBodyCase1PurchaseIntentProviderType,
+  }),
+).annotate({
+  identifier: "BuyCreditsResponseBodyCase1PurchaseIntentProvider",
+}) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentProvider>;
+
+/** The status of the Purchase Intent. */
+export type BuyCreditsResponseBodyCase1PurchaseIntentStatus = "failed" | "pending" | "succeeded";
+export const BuyCreditsResponseBodyCase1PurchaseIntentStatus = S.String;
+
 /** The created purchase intent */
 export interface BuyCreditsResponseBodyCase1PurchaseIntent {
-  /** The unique ID of a Purchase Intent. Uses the format `pur_*` */
-  id: string;
   configuration: BuyCreditsResponseBodyCase1PurchaseIntentConfiguration;
   /** The datetime when the Purchase Intent was created. */
   createdAt: string;
   /** The currency for the purchase intent */
   currency: BuyCreditsResponseBodyCase1PurchaseIntentCurrency;
+  /** The dispute details, if any. */
+  dispute?: BuyCreditsResponseBodyCase1PurchaseIntentDispute;
+  /** The unique ID of a Purchase Intent. Uses the format `pur_*` */
+  id: string;
+  /** The line items that make up the Purchase Intent. */
+  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList;
+  /** Optional metadata associated with the purchase intent */
+  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap;
   /** The ID of the owner of the Purchase Intent. */
   ownerId: string;
   provider: BuyCreditsResponseBodyCase1PurchaseIntentProvider;
+  /** The amount of the purchase intent that has been refunded */
+  refund?: string;
+  /** The URL to redirect to after the purchase is complete */
+  returnUrl?: string;
   /** The status of the Purchase Intent. */
   status: BuyCreditsResponseBodyCase1PurchaseIntentStatus;
   /** The subtotal of the Purchase Intent. */
@@ -965,35 +1035,25 @@ export interface BuyCreditsResponseBodyCase1PurchaseIntent {
   total: string;
   /** The datetime when the Purchase Intent was last updated. */
   updatedAt: string;
-  /** The dispute details, if any. */
-  dispute?: BuyCreditsResponseBodyCase1PurchaseIntentDispute;
-  /** The line items that make up the Purchase Intent. */
-  lineItems?: BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList;
-  /** Optional metadata associated with the purchase intent */
-  metadata?: BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap;
-  /** The amount of the purchase intent that has been refunded */
-  refund?: string;
-  /** The URL to redirect to after the purchase is complete */
-  returnUrl?: string;
 }
 export const BuyCreditsResponseBodyCase1PurchaseIntent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     configuration: BuyCreditsResponseBodyCase1PurchaseIntentConfiguration,
     createdAt: S.String,
     currency: BuyCreditsResponseBodyCase1PurchaseIntentCurrency,
+    dispute: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentDispute),
+    id: S.String,
+    lineItems: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList),
+    metadata: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap),
     ownerId: S.String,
     provider: BuyCreditsResponseBodyCase1PurchaseIntentProvider,
+    refund: S.optional(S.String),
+    returnUrl: S.optional(S.String),
     status: BuyCreditsResponseBodyCase1PurchaseIntentStatus,
     subtotal: S.String,
     tax: S.String,
     total: S.String,
     updatedAt: S.String,
-    dispute: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentDispute),
-    lineItems: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentLineItemsList),
-    metadata: S.optional(BuyCreditsResponseBodyCase1PurchaseIntentMetadataMap),
-    refund: S.optional(S.String),
-    returnUrl: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BuyCreditsResponseBodyCase1PurchaseIntent",
@@ -1041,20 +1101,6 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0O
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Options",
   }) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Options>;
 
-/** When the subscription change should take effect. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior =
-  | "end_of_term"
-  | "immediate";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior =
-  S.String;
-
-/** The source used as the authoritative price for this intent. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource =
-  | "copper"
-  | "orb";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource =
-  S.String;
-
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList =
   Array<string>;
@@ -1081,16 +1127,16 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0O
 
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItem {
+  /** Resource IDs that were added. */
+  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList;
+  /** When this resource change should take effect for downstream consumers. */
+  effectiveAt?: string;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
   productId: string;
   /** The resulting quantity after this change. */
   quantity: number;
-  /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList;
-  /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
   /** Resource IDs that were removed. */
   removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemRemovedResourceIdsList;
   /** The full set of resource IDs after the change. */
@@ -1099,13 +1145,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      productAlias: S.String,
-      productId: S.String,
-      quantity: S.Number,
       addedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemAddedResourceIdsList,
       ),
       effectiveAt: S.optional(S.String),
+      productAlias: S.String,
+      productId: S.String,
+      quantity: S.Number,
       removedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItemRemovedResourceIdsList,
       ),
@@ -1126,6 +1172,13 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0O
     BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesItem,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList>;
 
+/** When the subscription change should take effect. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior =
+  | "end_of_term"
+  | "immediate";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior =
+  S.String;
+
 /** Optional metadata associated with the intent to update the Orb subscription with. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap = {
   [key: string]: string | undefined;
@@ -1136,39 +1189,72 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0O
     S.String,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap>;
 
+/** The source used as the authoritative price for this intent. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource =
+  | "copper"
+  | "orb";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource =
+  S.String;
+
+/** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod {
+  /** The exclusive end of the reference billing period. */
+  endDate: string;
+  /** The inclusive start of the reference billing period. */
+  startDate: string;
+}
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      endDate: S.String,
+      startDate: S.String,
+    }),
+  ).annotate({
+    identifier:
+      "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod",
+  }) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod>;
+
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output {
+  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList;
+  /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
+  customerTimezone?: string;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior;
+  /** Optional metadata associated with the intent to update the Orb subscription with. */
+  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
+  /** The ID of the pending subscription change if there is one. */
+  pendingSubscriptionChangeId?: string;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
-  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList;
-  /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap;
-  /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
 }
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      effectiveBehavior:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior,
-      orbPriceId: S.String,
-      pricingSource:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource,
-      productId: S.String,
       changedResources: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputChangedResourcesList,
       ),
+      customerTimezone: S.optional(S.String),
+      effectiveBehavior:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputEffectiveBehavior,
       metadata: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputMetadataMap,
       ),
+      orbPriceId: S.String,
       pendingSubscriptionChangeId: S.optional(S.String),
+      pricingSource:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputPricingSource,
+      productId: S.String,
+      referenceBillingPeriod: S.optional(
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod,
+      ),
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0Output",
@@ -1223,20 +1309,6 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1O
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Options",
   }) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Options>;
 
-/** When the subscription change should take effect. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior =
-  | "end_of_term"
-  | "immediate";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior =
-  S.String;
-
-/** The source used as the authoritative price for this intent. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource =
-  | "copper"
-  | "orb";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource =
-  S.String;
-
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList =
   Array<string>;
@@ -1263,16 +1335,16 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1O
 
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItem {
+  /** Resource IDs that were added. */
+  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList;
+  /** When this resource change should take effect for downstream consumers. */
+  effectiveAt?: string;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
   productId: string;
   /** The resulting quantity after this change. */
   quantity: number;
-  /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList;
-  /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
   /** Resource IDs that were removed. */
   removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemRemovedResourceIdsList;
   /** The full set of resource IDs after the change. */
@@ -1281,13 +1353,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      productAlias: S.String,
-      productId: S.String,
-      quantity: S.Number,
       addedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemAddedResourceIdsList,
       ),
       effectiveAt: S.optional(S.String),
+      productAlias: S.String,
+      productId: S.String,
+      quantity: S.Number,
       removedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItemRemovedResourceIdsList,
       ),
@@ -1308,6 +1380,13 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1O
     BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesItem,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList>;
 
+/** When the subscription change should take effect. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior =
+  | "end_of_term"
+  | "immediate";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior =
+  S.String;
+
 /** Optional metadata associated with the intent to update the Orb subscription with. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap = {
   [key: string]: string | undefined;
@@ -1318,39 +1397,60 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1O
     S.String,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap>;
 
+/** The source used as the authoritative price for this intent. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource =
+  | "copper"
+  | "orb";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource =
+  S.String;
+
+/** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output {
+  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList;
+  /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
+  customerTimezone?: string;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior;
+  /** Optional metadata associated with the intent to update the Orb subscription with. */
+  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
+  /** The ID of the pending subscription change if there is one. */
+  pendingSubscriptionChangeId?: string;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
-  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList;
-  /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap;
-  /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
 }
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      effectiveBehavior:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior,
-      orbPriceId: S.String,
-      pricingSource:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource,
-      productId: S.String,
       changedResources: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputChangedResourcesList,
       ),
+      customerTimezone: S.optional(S.String),
+      effectiveBehavior:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputEffectiveBehavior,
       metadata: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputMetadataMap,
       ),
+      orbPriceId: S.String,
       pendingSubscriptionChangeId: S.optional(S.String),
+      pricingSource:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1OutputPricingSource,
+      productId: S.String,
+      referenceBillingPeriod: S.optional(
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod,
+      ),
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase1Output",
@@ -1405,20 +1505,6 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2O
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Options",
   }) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Options>;
 
-/** When the subscription change should take effect. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior =
-  | "end_of_term"
-  | "immediate";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior =
-  S.String;
-
-/** The source used as the authoritative price for this intent. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource =
-  | "copper"
-  | "orb";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource =
-  S.String;
-
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList =
   Array<string>;
@@ -1445,16 +1531,16 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2O
 
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItem {
+  /** Resource IDs that were added. */
+  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList;
+  /** When this resource change should take effect for downstream consumers. */
+  effectiveAt?: string;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
   productId: string;
   /** The resulting quantity after this change. */
   quantity: number;
-  /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList;
-  /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
   /** Resource IDs that were removed. */
   removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemRemovedResourceIdsList;
   /** The full set of resource IDs after the change. */
@@ -1463,13 +1549,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      productAlias: S.String,
-      productId: S.String,
-      quantity: S.Number,
       addedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemAddedResourceIdsList,
       ),
       effectiveAt: S.optional(S.String),
+      productAlias: S.String,
+      productId: S.String,
+      quantity: S.Number,
       removedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItemRemovedResourceIdsList,
       ),
@@ -1490,6 +1576,13 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2O
     BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesItem,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList>;
 
+/** When the subscription change should take effect. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior =
+  | "end_of_term"
+  | "immediate";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior =
+  S.String;
+
 /** Optional metadata associated with the intent to update the Orb subscription with. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap = {
   [key: string]: string | undefined;
@@ -1500,39 +1593,60 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2O
     S.String,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap>;
 
+/** The source used as the authoritative price for this intent. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource =
+  | "copper"
+  | "orb";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource =
+  S.String;
+
+/** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output {
+  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList;
+  /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
+  customerTimezone?: string;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior;
+  /** Optional metadata associated with the intent to update the Orb subscription with. */
+  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
+  /** The ID of the pending subscription change if there is one. */
+  pendingSubscriptionChangeId?: string;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
-  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList;
-  /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap;
-  /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
 }
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      effectiveBehavior:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior,
-      orbPriceId: S.String,
-      pricingSource:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource,
-      productId: S.String,
       changedResources: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputChangedResourcesList,
       ),
+      customerTimezone: S.optional(S.String),
+      effectiveBehavior:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputEffectiveBehavior,
       metadata: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputMetadataMap,
       ),
+      orbPriceId: S.String,
       pendingSubscriptionChangeId: S.optional(S.String),
+      pricingSource:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2OutputPricingSource,
+      productId: S.String,
+      referenceBillingPeriod: S.optional(
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod,
+      ),
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase2Output",
@@ -1599,20 +1713,6 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3O
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Options",
   }) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Options>;
 
-/** When the subscription change should take effect. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior =
-  | "end_of_term"
-  | "immediate";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior =
-  S.String;
-
-/** The source used as the authoritative price for this intent. */
-export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource =
-  | "copper"
-  | "orb";
-export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource =
-  S.String;
-
 /** Resource IDs that were added. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList =
   Array<string>;
@@ -1639,16 +1739,16 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3O
 
 /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItem {
+  /** Resource IDs that were added. */
+  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList;
+  /** When this resource change should take effect for downstream consumers. */
+  effectiveAt?: string;
   /** The alias of the product that was changed. */
   productAlias: string;
   /** The ID of the product that was changed. */
   productId: string;
   /** The resulting quantity after this change. */
   quantity: number;
-  /** Resource IDs that were added. */
-  addedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList;
-  /** When this resource change should take effect for downstream consumers. */
-  effectiveAt?: string;
   /** Resource IDs that were removed. */
   removedResourceIds?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemRemovedResourceIdsList;
   /** The full set of resource IDs after the change. */
@@ -1657,13 +1757,13 @@ export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCa
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      productAlias: S.String,
-      productId: S.String,
-      quantity: S.Number,
       addedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemAddedResourceIdsList,
       ),
       effectiveAt: S.optional(S.String),
+      productAlias: S.String,
+      productId: S.String,
+      quantity: S.Number,
       removedResourceIds: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItemRemovedResourceIdsList,
       ),
@@ -1684,6 +1784,13 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3O
     BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesItem,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList>;
 
+/** When the subscription change should take effect. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior =
+  | "end_of_term"
+  | "immediate";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior =
+  S.String;
+
 /** Optional metadata associated with the intent to update the Orb subscription with. */
 export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap = {
   [key: string]: string | undefined;
@@ -1694,39 +1801,60 @@ export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3O
     S.String,
   ) as any as S.Schema<BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap>;
 
+/** The source used as the authoritative price for this intent. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource =
+  | "copper"
+  | "orb";
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource =
+  S.String;
+
+/** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputReferenceBillingPeriod =
+  BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
+
 /** Output returned after configuring an OrbSubscriptionIntent. */
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output {
+  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
+  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList;
+  /** The Orb customer's timezone when the intent was created. Omitted for legacy intents. */
+  customerTimezone?: string;
   /** When the subscription change should take effect. */
   effectiveBehavior: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior;
+  /** Optional metadata associated with the intent to update the Orb subscription with. */
+  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap;
   /** The Orb price ID for the subscription item being modified. */
   orbPriceId: string;
+  /** The ID of the pending subscription change if there is one. */
+  pendingSubscriptionChangeId?: string;
   /** The source used as the authoritative price for this intent. */
   pricingSource: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource;
   /** The product ID associated with this intent. */
   productId: string;
-  /** Resources that were changed as part of this intent. Tracks all logical changes including the primary change and any side effects. */
-  changedResources?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList;
-  /** Optional metadata associated with the intent to update the Orb subscription with. */
-  metadata?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap;
-  /** The ID of the pending subscription change if there is one. */
-  pendingSubscriptionChangeId?: string;
+  /** The canonical reference-product billing period at intent creation. Omitted for historical intents. */
+  referenceBillingPeriod?: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod;
 }
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      effectiveBehavior:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior,
-      orbPriceId: S.String,
-      pricingSource:
-        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource,
-      productId: S.String,
       changedResources: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputChangedResourcesList,
       ),
+      customerTimezone: S.optional(S.String),
+      effectiveBehavior:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputEffectiveBehavior,
       metadata: S.optional(
         BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputMetadataMap,
       ),
+      orbPriceId: S.String,
       pendingSubscriptionChangeId: S.optional(S.String),
+      pricingSource:
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3OutputPricingSource,
+      productId: S.String,
+      referenceBillingPeriod: S.optional(
+        BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase0OutputReferenceBillingPeriod,
+      ),
     }),
   ).annotate({
     identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfigurationCase3Output",
@@ -1843,34 +1971,34 @@ export type BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus =
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus = S.String;
 
 export interface BuyCreditsResponseBodyCase2OrbSubscriptionIntent {
-  /** The ID of the Orb subscription intent with the format `orbsubint_`. */
-  id: string;
   configuration: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfiguration;
   /** The ISO 8601 date-time that the intent was created. */
   createdAt: string;
+  /** The ID of the Orb subscription intent with the format `orbsubint_`. */
+  id: string;
   /** The Orb subscription ID this intent is associated with. */
   orbSubscriptionId: string;
   orbUpdate: BuyCreditsResponseBodyCase2OrbSubscriptionIntentOrbUpdate;
   /** The owner ID for this intent (e.g., team or user ID). */
   ownerId: string;
+  /** Optional purchase intent ID if this is associated with a purchase. */
+  purchaseIntentId?: string;
   /** The status of the Orb subscription intent. */
   status: BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus;
   /** The ISO 8601 date-time that the intent was last updated. */
   updatedAt: string;
-  /** Optional purchase intent ID if this is associated with a purchase. */
-  purchaseIntentId?: string;
 }
 export const BuyCreditsResponseBodyCase2OrbSubscriptionIntent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     configuration: BuyCreditsResponseBodyCase2OrbSubscriptionIntentConfiguration,
     createdAt: S.String,
+    id: S.String,
     orbSubscriptionId: S.String,
     orbUpdate: BuyCreditsResponseBodyCase2OrbSubscriptionIntentOrbUpdate,
     ownerId: S.String,
+    purchaseIntentId: S.optional(S.String),
     status: BuyCreditsResponseBodyCase2OrbSubscriptionIntentStatus,
     updatedAt: S.String,
-    purchaseIntentId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "BuyCreditsResponseBodyCase2OrbSubscriptionIntent",
@@ -1896,9 +2024,7 @@ export const BuyCreditsResponseBody = S.Unknown as any as S.Schema<BuyCreditsRes
 export type BuyCreditsResponse = BuyCreditsResponseBody;
 export const BuyCreditsResponse = /*@__PURE__*/ S.suspend(() =>
   BuyCreditsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "BuyCreditsResponse",
-}) as any as S.Schema<BuyCreditsResponse>;
+).annotate({ identifier: "BuyCreditsResponse" }) as any as S.Schema<BuyCreditsResponse>;
 
 export interface ListBillingChargesRequest {
   /** Inclusive start of the date range as an ISO 8601 date-time string in UTC. */
@@ -1936,22 +2062,14 @@ export const ListContractCommitmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/billing/contract-commitments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/billing/contract-commitments", code: 200 })),
 ).annotate({
   identifier: "ListContractCommitmentsRequest",
 }) as any as S.Schema<ListContractCommitmentsRequest>;
 
 export interface ListContractCommitmentsResponse {}
 export const ListContractCommitmentsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ListContractCommitmentsResponse",
-  },
+  { identifier: "ListContractCommitmentsResponse" },
 ) as any as S.Schema<ListContractCommitmentsResponse>;
 
 export type BuyCreditsError =
@@ -1976,7 +2094,7 @@ export const buyCredits: API.OperationMethod<
 }));
 
 export type ListBillingChargesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List FOCUS billing charges Returns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team. */
+/** List FOCUS billing charges Returns the billing charge data in FOCUS v1.3 JSONL format for a specified Vercel team, within a date range specified by `from` and `to` query parameters. Supports 1-day granularity with a maximum date range of 1 year. The response is streamed as newline-delimited JSON (JSONL) and can be optionally compressed with gzip if the `Accept-Encoding: gzip` header is provided. `SkuId` is the stable product ID. For unmapped items, it is derived from the item identifier. This is only available for Owner, Member, Developer, Security, Billing, and Enterprise Viewer roles for the supplied team. */
 export const listBillingCharges: API.OperationMethod<
   ListBillingChargesRequest,
   ListBillingChargesResponse,
