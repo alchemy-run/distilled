@@ -21,8 +21,9 @@
  * Two upstream quirks shape the rest of this script:
  *
  *   - The Markdown endpoint truncates the largest pages mid-stream (the Access
- *     application schemas, for one): the response ends early with `<details>`
- *     elements left unclosed. The page's HTML is served complete, so such a
+ *     application schemas, for one): the response ends early, either with
+ *     `<details>` elements left unclosed or with an "incomplete conversion"
+ *     comment. The page's HTML is served complete, so such a
  *     page falls back to rendering the HTML as the same Markdown
  *     ({@link pageHtmlToMarkdown}).
  *   - Some pages the sidebar links 404 altogether. A failed page is reported
@@ -448,10 +449,12 @@ const compactDeepLinks = (markdown: string): string =>
     );
 
 /**
- * A truncated response stops mid-page, leaving `<details>` elements unclosed.
- * Both counts match on every complete page.
+ * A truncated response stops mid-page. Older responses left `<details>`
+ * elements unclosed; by October 2026 the converter closes them and appends
+ * `<!-- Cloudflare Markdown for Agents: incomplete conversion; … -->`.
  */
 const isTruncatedMarkdown = (markdown: string): boolean => {
+  if (/<!--[^>]*incomplete conversion/.test(markdown)) return true;
   const opened = markdown.match(/<details\b/g)?.length ?? 0;
   const closed = markdown.match(/<\/details>/g)?.length ?? 0;
   return opened !== closed;
