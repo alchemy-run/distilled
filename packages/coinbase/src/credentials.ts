@@ -49,8 +49,15 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 const envConfig = EffectConfig.all({
   apiKeyId: EffectConfig.option(EffectConfig.String("CDP_API_KEY_ID")),
   apiKeyName: EffectConfig.option(EffectConfig.String("CDP_API_KEY_NAME")),
-  apiKeySecret: EffectConfig.String("CDP_API_KEY_SECRET"),
-  walletSecret: EffectConfig.option(EffectConfig.String("CDP_WALLET_SECRET")),
+  apiKeySecret: EffectConfig.Redacted("CDP_API_KEY_SECRET"),
+  walletSecret: EffectConfig.option(EffectConfig.String("CDP_WALLET_SECRET")).pipe(
+    EffectConfig.map((value) =>
+      value.pipe(
+        Option.filter((secret) => secret.length > 0),
+        Option.map(Redacted.make),
+      ),
+    ),
+  ),
 });
 
 export const CredentialsFromEnv = Layer.succeed(
@@ -74,12 +81,10 @@ export const CredentialsFromEnv = Layer.succeed(
       });
     }
 
-    const walletSecret = Option.getOrUndefined(config.walletSecret);
-
     return {
       apiKeyId,
-      apiKeySecret: Redacted.make(config.apiKeySecret),
-      walletSecret: walletSecret ? Redacted.make(walletSecret) : undefined,
+      apiKeySecret: config.apiKeySecret,
+      walletSecret: Option.getOrUndefined(config.walletSecret),
       apiBaseUrl: DEFAULT_API_BASE_URL,
     };
   }).pipe(Effect.orDie),

@@ -35,15 +35,15 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "KubernetesCredentials",
 ) {}
 
-/** Layer from a plain bearer token + API server URL. */
+/** Layer from a plain or redacted bearer token + API server URL. */
 export const fromToken = (config: {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
       apiBaseUrl: config.apiBaseUrl,
     }),
   );

@@ -26,13 +26,13 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 /** Layer from a plain API key + optional instance origin. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

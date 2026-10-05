@@ -46,6 +46,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
@@ -337,11 +338,10 @@ const orgFromGraphql = (body: unknown): string | undefined => {
 const discoverOrgSlug = (fly: Config) =>
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient;
-    const token = Redacted.value(fly.apiKey);
     const machinesRoot = fly.apiBaseUrl.replace(/\/+$/, "");
     const currentReq = HttpClientRequest.make("GET")(`${machinesRoot}/v1/tokens/current`).pipe(
       HttpClientRequest.setHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Redacted.value(fly.apiKey)}`,
         Accept: "application/json",
       }),
     );
@@ -355,7 +355,7 @@ const discoverOrgSlug = (fly: Config) =>
 
     const gqlReq = HttpClientRequest.make("POST")(`${DEFAULT_FLY_API_BASE_URL}/graphql`).pipe(
       HttpClientRequest.setHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Redacted.value(fly.apiKey)}`,
         Accept: "application/json",
       }),
       HttpClientRequest.bodyJsonUnsafe({
@@ -409,33 +409,40 @@ const mintOnce = (fly: Config) =>
         }),
       );
     }
-    // Cache the raw string, not a Redacted whose registry entry may be erased.
-    return token;
+    return Redacted.make(token);
   });
 
-const mintedTokens = new Map<string, string>();
-const mintInFlight = new Map<
-  string,
-  Deferred.Deferred<string, Effect.Error<ReturnType<typeof mintOnce>>>
+// Keyed by the Fly token itself: `Redacted` hashes and compares by value.
+const mintedTokens = MutableHashMap.empty<Redacted.Redacted<string>, Redacted.Redacted<string>>();
+const mintInFlight = MutableHashMap.empty<
+  Redacted.Redacted<string>,
+  Deferred.Deferred<Redacted.Redacted<string>, Effect.Error<ReturnType<typeof mintOnce>>>
 >();
 
 /** Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. */
 const mintSpritesToken = (fly: Config) =>
   Effect.uninterruptibleMask((restore) =>
     Effect.suspend(() => {
-      const key = Redacted.value(fly.apiKey);
-      const hit = mintedTokens.get(key);
-      if (hit !== undefined) return Effect.succeed(hit);
-      const pending = mintInFlight.get(key);
-      if (pending !== undefined) return restore(Deferred.await(pending));
-      const result = Deferred.makeUnsafe<string, Effect.Error<ReturnType<typeof mintOnce>>>();
-      mintInFlight.set(key, result);
+      const key = fly.apiKey;
+      const hit = MutableHashMap.get(mintedTokens, key);
+      if (Option.isSome(hit)) return Effect.succeed(hit.value);
+      const pending = MutableHashMap.get(mintInFlight, key);
+      if (Option.isSome(pending)) {
+        return restore(Deferred.await(pending.value));
+      }
+      const result = Deferred.makeUnsafe<
+        Redacted.Redacted<string>,
+        Effect.Error<ReturnType<typeof mintOnce>>
+      >();
+      MutableHashMap.set(mintInFlight, key, result);
       return restore(mintOnce(fly)).pipe(
         Effect.onExit((exit) =>
           Effect.gen(function* () {
-            if (Exit.isSuccess(exit)) mintedTokens.set(key, exit.value);
+            if (Exit.isSuccess(exit)) {
+              MutableHashMap.set(mintedTokens, key, exit.value);
+            }
             // Release all waiters, including on defects and owner interruption.
-            mintInFlight.delete(key);
+            MutableHashMap.remove(mintInFlight, key);
             yield* Deferred.done(result, exit);
           }),
         ),
@@ -459,7 +466,7 @@ const encodeSpritesRequest = ({
       authorization = `FlyV1 ${stripFlyAuthScheme(Redacted.value(fly.apiKey))}`;
     } else {
       const token = yield* mintSpritesToken(fly);
-      authorization = `Bearer ${token}`;
+      authorization = `Bearer ${Redacted.value(token)}`;
     }
     return buildRequest({
       input: unwrapRedactedDeep(input),

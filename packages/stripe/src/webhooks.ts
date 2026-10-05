@@ -66,8 +66,8 @@ const payloadToString = (payload: WebhookPayload): string => {
   return textDecoder.decode(payloadToBytes(payload));
 };
 
-const secretToString = (secret: WebhookSecret): string =>
-  Redacted.isRedacted(secret) ? (Redacted.value(secret) as string) : secret;
+const redactSecret = (secret: WebhookSecret): Redacted.Redacted<string> =>
+  Redacted.isRedacted(secret) ? secret : Redacted.make(secret);
 
 const parseSignatureHeader = (
   signature: string | null | undefined,
@@ -135,7 +135,7 @@ const signedPayloadBytes = (timestamp: string, payload: WebhookPayload): ArrayBu
 };
 
 const hmacSha256 = (
-  secret: string,
+  secret: Redacted.Redacted<string>,
   timestamp: string,
   payload: WebhookPayload,
 ): Effect.Effect<Uint8Array, StripeWebhookSignatureError> =>
@@ -143,7 +143,7 @@ const hmacSha256 = (
     try: async () => {
       const key = await crypto.subtle.importKey(
         "raw",
-        textEncoder.encode(secret),
+        textEncoder.encode(Redacted.value(secret)),
         { name: "HMAC", hash: "SHA-256" },
         false,
         ["sign"],
@@ -240,7 +240,7 @@ export const verifySignature = ({
       return yield* Effect.fail(parsed);
     }
 
-    const expectedSignature = yield* hmacSha256(secretToString(secret), parsed.timestamp, payload);
+    const expectedSignature = yield* hmacSha256(redactSecret(secret), parsed.timestamp, payload);
 
     if (!hasMatchingSignature(expectedSignature, parsed.signatures)) {
       return yield* Effect.fail(

@@ -39,6 +39,9 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "SlackCredentials",
 ) {}
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 const envConfig = EffectConfig.all({
   // SLACK_BOT_TOKEN is the spelling Bolt and most hosting platforms use;
   // SLACK_TOKEN is the fallback (the node SDK's CLI convention).
@@ -72,13 +75,13 @@ export const CredentialsFromEnv = Layer.succeed(
  * token (`""`) for the credential-less OAuth exchange methods.
  */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: redact(config.token),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

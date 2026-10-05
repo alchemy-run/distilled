@@ -30,14 +30,14 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 /** Layer from a Management API token + tenant domain. */
 export const fromToken = (config: {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly domain: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
       domain: config.domain,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForDomain(config.domain),
     }),

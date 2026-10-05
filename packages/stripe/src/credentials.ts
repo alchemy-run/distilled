@@ -23,6 +23,9 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "StripeCredentials",
 ) {}
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("STRIPE_API_KEY"),
 });
@@ -46,13 +49,13 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** Convenience layer from a plain API key + optional base URL. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: redact(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

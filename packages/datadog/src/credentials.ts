@@ -35,8 +35,8 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 
 /** Layer from a plain API key + optional application key / site / base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly applicationKey?: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
+  readonly applicationKey?: string | Redacted.Redacted<string>;
   readonly site?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> => {
@@ -44,9 +44,11 @@ export const fromApiKey = (config: {
   return Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
       applicationKey:
-        config.applicationKey !== undefined ? Redacted.make(config.applicationKey) : undefined,
+        config.applicationKey === undefined || Redacted.isRedacted(config.applicationKey)
+          ? config.applicationKey
+          : Redacted.make(config.applicationKey),
       site,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForSite(site),
     }),

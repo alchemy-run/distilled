@@ -78,18 +78,17 @@ export const fromOAuth = (input: {
     Credentials,
     Effect.succeed({
       type: "oauth",
-      accessToken:
-        typeof input.accessToken === "string"
-          ? Redacted.make(input.accessToken)
-          : input.accessToken,
+      accessToken: Redacted.isRedacted(input.accessToken)
+        ? input.accessToken
+        : Redacted.make(input.accessToken),
       organization: input.organization,
       apiBaseUrl: input.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
 
 const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.String("PLANETSCALE_API_TOKEN_ID"),
-  token: EffectConfig.String("PLANETSCALE_API_TOKEN"),
+  tokenId: EffectConfig.Redacted("PLANETSCALE_API_TOKEN_ID"),
+  token: EffectConfig.Redacted("PLANETSCALE_API_TOKEN"),
   organization: EffectConfig.String("PLANETSCALE_ORGANIZATION"),
 });
 
@@ -105,8 +104,8 @@ export const CredentialsFromEnv = Layer.succeed(
           }),
       ),
       Effect.map(({ tokenId, token, organization }) => ({
-        tokenId: Redacted.make(tokenId),
-        token: Redacted.make(token),
+        tokenId,
+        token,
         organization,
         apiBaseUrl: DEFAULT_API_BASE_URL,
       })),

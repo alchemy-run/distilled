@@ -24,15 +24,18 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "TurbopufferCredentials",
 ) {}
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 /** Layer from a plain API key + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: redact(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

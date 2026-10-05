@@ -40,17 +40,16 @@ export interface Config {
 }
 
 /**
- * Build a {@link Config} from a raw token string. Always wraps with this
- * package's `Redacted` so protocol-side `Redacted.value` works even when
- * the caller lives in a different `effect` install (nested distilled vs
- * alchemy workspace).
+ * Build a {@link Config} from a raw or already-redacted token. A raw string
+ * is wrapped with this package's `Redacted` so protocol-side
+ * `Redacted.value` works.
  */
 export const toConfig = (config: {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
 }): Config => ({
-  token: Redacted.make(config.token),
+  token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
   tokenKind: config.tokenKind ?? "account",
   apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
 });
@@ -65,17 +64,7 @@ export const CredentialsFromToken = (config: {
   /** Defaults to `"account"` (the `Authorization: Bearer` header). */
   readonly tokenKind?: TokenKind;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
-    Effect.succeed(
-      toConfig({
-        token: Redacted.isRedacted(config.token) ? Redacted.value(config.token) : config.token,
-        tokenKind: config.tokenKind,
-        apiBaseUrl: config.apiBaseUrl,
-      }),
-    ),
-  );
+}): Layer.Layer<Credentials> => Layer.succeed(Credentials, Effect.succeed(toConfig(config)));
 
 const envConfig = EffectConfig.all({
   apiToken: EffectConfig.option(EffectConfig.String("RAILWAY_API_TOKEN")),

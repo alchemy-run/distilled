@@ -42,8 +42,8 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 const envConfig = EffectConfig.all({
   // DISCORD_BOT_TOKEN is the spelling discord.js and most hosting platforms
   // use; DISCORD_TOKEN is the fallback.
-  token: EffectConfig.String("DISCORD_BOT_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.String("DISCORD_TOKEN")),
+  token: EffectConfig.Redacted("DISCORD_BOT_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.Redacted("DISCORD_TOKEN")),
   ),
   tokenType: EffectConfig.String("DISCORD_TOKEN_TYPE").pipe(EffectConfig.withDefault("Bot")),
   apiBaseUrl: EffectConfig.String("DISCORD_API_URL").pipe(
@@ -61,7 +61,7 @@ export const CredentialsFromEnv = Layer.succeed(
         }),
     ),
     Effect.map(({ token, tokenType, apiBaseUrl }) => ({
-      token: Redacted.make(token),
+      token,
       // Anything but an explicit `Bearer` means a bot token — the OAuth2
       // flavor is the opt-in.
       tokenType: (tokenType.toLowerCase() === "bearer" ? "Bearer" : "Bot") as TokenType,
@@ -73,14 +73,14 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** Convenience layer from a plain token + optional token type / base URL. */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: string | Redacted.Redacted<string>;
   readonly tokenType?: TokenType;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: Redacted.isRedacted(config.token) ? config.token : Redacted.make(config.token),
       tokenType: config.tokenType ?? "Bot",
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),

@@ -27,20 +27,22 @@ export class Credentials extends Context.Service<
 
 /** Layer from a plain token + optional base URL. */
 export const fromApiToken = (config: {
-  readonly apiToken: string;
+  readonly apiToken: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiToken: Redacted.make(config.apiToken),
+      apiToken: Redacted.isRedacted(config.apiToken)
+        ? config.apiToken
+        : Redacted.make(config.apiToken),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
 
 const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.String("PRISMA_API_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.String("PRISMA_POSTGRES_API_TOKEN")),
+  apiToken: EffectConfig.Redacted("PRISMA_API_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.Redacted("PRISMA_POSTGRES_API_TOKEN")),
   ),
 });
 
@@ -60,7 +62,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
         }),
     ),
     Effect.map(({ apiToken }) => ({
-      apiToken: Redacted.make(apiToken),
+      apiToken,
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
   ),

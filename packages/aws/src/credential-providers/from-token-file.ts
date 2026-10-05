@@ -3,6 +3,7 @@
  * service accounts.
  */
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import { createLazyProvider } from "../credentials-service.ts";
 import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 import { readFileString } from "./node-file-system.ts";
@@ -45,6 +46,7 @@ export const tokenFileSource = (options: FromTokenFileOptions = {}): CredentialS
             cause,
           }),
       ),
+      Effect.map((token) => Redacted.make(token)),
     );
     const region = yield* profileStsRegion(options.region, options.profile);
     return yield* assumeRoleWithWebIdentity(

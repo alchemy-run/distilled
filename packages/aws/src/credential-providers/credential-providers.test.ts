@@ -723,6 +723,50 @@ describe("fromWebToken", () => {
     expect(resolved.region).toBe("ap-south-1");
   });
 
+  test("accepts the token as a Redacted or as an Effect run on every resolution", async () => {
+    let fetched = 0;
+    const tokens = [
+      Redacted.make("redacted-token"),
+      Effect.sync(() => Redacted.make(`effect-token-${++fetched}`)),
+    ];
+    for (const webIdentityToken of tokens) {
+      const { layer, calls } = recordingHttp(() =>
+        assumeRoleXml("AssumeRoleWithWebIdentity", "ASIA-web"),
+      );
+      const source = webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken,
+        region: "us-east-1",
+      }).pipe(Effect.provide(layer));
+      await run(source);
+      await run(source);
+      expect(calls.map((call) => call.body)).toEqual(
+        Redacted.isRedacted(webIdentityToken)
+          ? [
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+              expect.stringContaining("WebIdentityToken=redacted-token"),
+            ]
+          : [
+              expect.stringContaining("WebIdentityToken=effect-token-1"),
+              expect.stringContaining("WebIdentityToken=effect-token-2"),
+            ],
+      );
+    }
+  });
+
+  test("a token Effect that fails is a final failure", async () => {
+    const error = await runFail(
+      webTokenSource({
+        roleArn: "arn:aws:iam::123456789012:role/Web",
+        webIdentityToken: Effect.fail("vault unavailable"),
+        region: "us-east-1",
+      }),
+    );
+    expect(error.message).toBe("Could not resolve the web identity token.");
+    expect(error.cause).toBe("vault unavailable");
+    expect(error.tryNextLink).toBe(false);
+  });
+
   test("an STS failure does not fall through to another source", async () => {
     const { layer } = recordingHttp(
       () =>
@@ -822,6 +866,7 @@ describe("fromCognitoIdentity", () => {
         logins: {
           "accounts.google.com": "static-token",
           "graph.facebook.com": Effect.succeed("effect-token"),
+          "cognito-idp.us-east-1.amazonaws.com/pool": Redacted.make("id-token"),
         },
       }).pipe(Effect.provide(layer)),
     );
@@ -836,6 +881,7 @@ describe("fromCognitoIdentity", () => {
     expect(body.Logins).toEqual({
       "accounts.google.com": "static-token",
       "graph.facebook.com": "effect-token",
+      "cognito-idp.us-east-1.amazonaws.com/pool": "id-token",
     });
   });
 
@@ -1202,5 +1248,27 @@ describe("Credentials layers", () => {
     if (error._tag === "AWS::CredentialProviderError") {
       expect(error.provider).toBe("chain");
     }
+  });
+});
+
+describe("fromCredentials", () => {
+  test("takes plain or Redacted secrets and holds them all redacted", async () => {
+    const resolved = await run(
+      resolveLayer(
+        Credentials.fromCredentials(
+          {
+            accessKeyId: "AKIA-static",
+            secretAccessKey: Redacted.make("secret-static"),
+            sessionToken: Redacted.make("session-static"),
+          },
+          "us-east-2",
+        ),
+      ),
+    );
+    expect(Redacted.isRedacted(resolved.accessKeyId)).toBe(true);
+    expect(Redacted.value(resolved.accessKeyId)).toBe("AKIA-static");
+    expect(Redacted.value(resolved.secretAccessKey)).toBe("secret-static");
+    expect(resolved.sessionToken && Redacted.value(resolved.sessionToken)).toBe("session-static");
+    expect(resolved.region).toBe("us-east-2");
   });
 });

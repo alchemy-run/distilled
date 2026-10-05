@@ -25,9 +25,12 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "OpencodeCredentials",
 ) {}
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 /** Layer from an optional password + optional base URL. */
 export const fromPassword = (config: {
-  readonly password?: string;
+  readonly password?: string | Redacted.Redacted<string>;
   readonly username?: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
@@ -35,7 +38,7 @@ export const fromPassword = (config: {
     Credentials,
     Effect.succeed({
       username: config.username ?? DEFAULT_USERNAME,
-      password: config.password !== undefined ? Redacted.make(config.password) : undefined,
+      password: config.password !== undefined ? redact(config.password) : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

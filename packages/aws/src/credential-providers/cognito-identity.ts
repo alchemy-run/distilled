@@ -12,7 +12,12 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { Credentials, fromAwsCredentialIdentity } from "../credentials-service.ts";
 import * as Region from "../region.ts";
-import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
+import {
+  type CredentialSource,
+  CredentialSourceError,
+  resolveSecret,
+  type Secret,
+} from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
 
 /**
@@ -20,24 +25,16 @@ import { withHttpClient } from "./http-client.ts";
  * `{ "accounts.google.com": idToken }`. An `Effect` is re-run on every
  * credential resolution, for a token that has to be refreshed.
  */
-export type Logins = Readonly<Record<string, string | Effect.Effect<string, unknown>>>;
+export type Logins = Readonly<Record<string, Secret>>;
 
 export const resolveLogins = (
   logins: Logins | undefined,
-): Effect.Effect<Record<string, string> | undefined, CredentialSourceError> => {
+): Effect.Effect<Record<string, Redacted.Redacted<string>> | undefined, CredentialSourceError> => {
   if (!logins) return Effect.succeed(undefined);
   const entries = Object.entries(logins);
   if (entries.length === 0) return Effect.succeed(undefined);
   return Effect.forEach(entries, ([provider, token]) =>
-    (typeof token === "string" ? Effect.succeed(token) : token).pipe(
-      Effect.mapError(
-        (cause) =>
-          new CredentialSourceError({
-            message: `Could not resolve the Cognito login token for ${provider}.`,
-            cause,
-            tryNextLink: false,
-          }),
-      ),
+    resolveSecret(token, `Could not resolve the Cognito login token for ${provider}.`).pipe(
       Effect.map((resolved) => [provider, resolved] as const),
     ),
   ).pipe(Effect.map((resolved) => Object.fromEntries(resolved)));

@@ -62,7 +62,7 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
 ) {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.String("DAYTONA_API_KEY"),
+  apiKey: EffectConfig.Redacted("DAYTONA_API_KEY"),
   apiBaseUrl: EffectConfig.String("DAYTONA_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
@@ -87,7 +87,7 @@ export const CredentialsFromEnv = Layer.succeed(
     ),
     Effect.map(
       ({ apiKey, apiBaseUrl, analyticsBaseUrl, toolboxBaseUrl, sandboxId, organizationId }) => ({
-        apiKey: Redacted.make(apiKey),
+        apiKey,
         apiBaseUrl,
         analyticsBaseUrl,
         toolboxBaseUrl,
@@ -101,7 +101,7 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** Convenience layer from a plain API key + optional endpoints/scope. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly analyticsBaseUrl?: string;
   readonly toolboxBaseUrl?: string;
@@ -111,7 +111,7 @@ export const credentials = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       analyticsBaseUrl: config.analyticsBaseUrl ?? DEFAULT_ANALYTICS_BASE_URL,
       toolboxBaseUrl: config.toolboxBaseUrl ?? DEFAULT_TOOLBOX_BASE_URL,

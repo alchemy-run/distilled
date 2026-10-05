@@ -29,6 +29,9 @@ export class Credentials extends Context.Service<Credentials, Effect.Effect<Conf
   "TypesenseCredentials",
 ) {}
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("TYPESENSE_API_KEY"),
   apiBaseUrl: EffectConfig.String("TYPESENSE_API_URL"),
@@ -53,13 +56,13 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** Convenience layer from a plain key + base URL (kept for local tests). */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: redact(config.apiKey),
       apiBaseUrl: config.apiBaseUrl,
     }),
   );

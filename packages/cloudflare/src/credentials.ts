@@ -22,19 +22,19 @@ export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 export interface ApiTokenConfig {
-  readonly apiToken: string;
+  readonly apiToken: string | Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }
 
 export interface ApiKeyConfig {
-  readonly apiKey: string;
+  readonly apiKey: string | Redacted.Redacted<string>;
   readonly email: string;
   readonly apiBaseUrl?: string;
 }
 
 export interface OAuthConfig {
-  readonly accessToken: string;
-  readonly refreshToken?: string;
+  readonly accessToken: string | Redacted.Redacted<string>;
+  readonly refreshToken?: string | Redacted.Redacted<string>;
   readonly expiresAt?: number;
 }
 
@@ -81,23 +81,26 @@ export class Credentials extends Context.Service<
 
 const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
 export const apiTokenCredentials = (config: ApiTokenConfig): ApiTokenCredentials => ({
   type: "apiToken",
-  apiToken: Redacted.make(config.apiToken),
+  apiToken: redact(config.apiToken),
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
   type: "apiKey",
-  apiKey: Redacted.make(config.apiKey),
+  apiKey: redact(config.apiKey),
   email: config.email,
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
 export const oauthCredentials = (config: OAuthConfig, apiBaseUrl?: string): OAuthCredentials => ({
   type: "oauth",
-  accessToken: Redacted.make(config.accessToken),
-  refreshToken: config.refreshToken ? Redacted.make(config.refreshToken) : undefined,
+  accessToken: redact(config.accessToken),
+  refreshToken: config.refreshToken ? redact(config.refreshToken) : undefined,
   expiresAt: config.expiresAt,
   apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
 });
@@ -155,6 +158,8 @@ export const fromApiKey = (config: ApiKeyConfig): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, Effect.succeed(apiKeyCredentials(config)));
 
 export const fromOAuth = (provider: OAuthProvider): Layer.Layer<Credentials> => {
+  // Kept exactly as the provider returned it, so `refresh` gets back the
+  // same shape `load` produced.
   let currentCredentials: OAuthConfig | undefined;
 
   const resolve = Effect.gen(function* () {
@@ -181,9 +186,15 @@ const fromConfigError = (message: string) => () =>
     message,
   });
 
+const redactNonEmpty = (value: Option.Option<string>): Option.Option<Redacted.Redacted<string>> =>
+  value.pipe(
+    Option.filter((v) => v.length > 0),
+    Option.map(Redacted.make),
+  );
+
 const envConfig = Config.all({
-  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")),
-  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")),
+  apiToken: Config.option(Config.String("CLOUDFLARE_API_TOKEN")).pipe(Config.map(redactNonEmpty)),
+  apiKey: Config.option(Config.String("CLOUDFLARE_API_KEY")).pipe(Config.map(redactNonEmpty)),
   email: Config.option(Config.String("CLOUDFLARE_EMAIL")),
   apiBaseUrl: Config.String("CLOUDFLARE_API_BASE_URL").pipe(
     Config.withDefault(DEFAULT_API_BASE_URL),
@@ -254,7 +265,7 @@ export const formatHeaders = (credentials: ResolvedCredentials): Record<string, 
  * tests; distilled's equivalent is `fromApiToken`).
  */
 export const credentials = (config: {
-  readonly apiToken: string;
+  readonly apiToken: string | Redacted.Redacted<string>;
   readonly baseUrl?: string;
 }): Layer.Layer<Credentials> =>
   fromApiToken({ apiToken: config.apiToken, apiBaseUrl: config.baseUrl });

@@ -95,6 +95,35 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
+/** {@link Config} with secrets accepted as plain strings or `Redacted`. */
+export interface ConfigInput extends Omit<Config, "accountKey" | "externalAccountBinding"> {
+  readonly accountKey: string | Redacted.Redacted<string>;
+  readonly externalAccountBinding?:
+    | {
+        readonly keyId: string;
+        readonly hmacKey: string | Redacted.Redacted<string>;
+      }
+    | undefined;
+}
+
+const redact = (value: string | Redacted.Redacted<string>): Redacted.Redacted<string> =>
+  Redacted.isRedacted(value) ? value : Redacted.make(value);
+
+const normalize = (config: ConfigInput): Config => ({
+  ...config,
+  accountKey: redact(config.accountKey),
+  externalAccountBinding:
+    config.externalAccountBinding === undefined
+      ? undefined
+      : {
+          keyId: config.externalAccountBinding.keyId,
+          hmacKey: redact(config.externalAccountBinding.hmacKey),
+        },
+});
+
 /** A fixed credentials layer (tests, and consumers that manage keys themselves). */
-export const layer = (config: Config | Effect.Effect<Config>) =>
-  Layer.succeed(Credentials, Effect.isEffect(config) ? config : Effect.succeed(config));
+export const layer = (config: ConfigInput | Effect.Effect<ConfigInput>) =>
+  Layer.succeed(
+    Credentials,
+    Effect.isEffect(config) ? Effect.map(config, normalize) : Effect.succeed(normalize(config)),
+  );
