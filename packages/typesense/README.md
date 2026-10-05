@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Typesense from "@distilled.cloud/typesense";
 
 const program = Effect.gen(function* () {
-  const result = yield* Typesense.listDocument({});
+  const result = yield* Typesense.getCollections({});
   return result;
 });
 

@@ -1118,7 +1118,7 @@
       },
       "traits": {}
     },
-    "com.typesense.api#ListDocumentRequest": {
+    "com.typesense.api#IndexDocumentRequest": {
       "type": "structure",
       "members": {
         "collectionName": {
@@ -1148,7 +1148,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.typesense.api#ListDocumentResponse": {
+    "com.typesense.api#IndexDocumentResponse": {
       "type": "structure",
       "members": {
         "body": {
@@ -1163,13 +1163,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.typesense.api#ListDocument": {
+    "com.typesense.api#IndexDocument": {
       "type": "operation",
       "input": {
-        "target": "com.typesense.api#ListDocumentRequest"
+        "target": "com.typesense.api#IndexDocumentRequest"
       },
       "output": {
-        "target": "com.typesense.api#ListDocumentResponse"
+        "target": "com.typesense.api#IndexDocumentResponse"
       },
       "errors": [
         {
@@ -1416,6 +1416,12 @@
             "smithy.api#documentation": "Filter conditions for refining your open api validator search results. Separate multiple conditions with &&."
           }
         },
+        "enable_lazy_filter": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false\n"
+          }
+        },
         "max_filter_by_candidates": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -1444,6 +1450,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix \"shoe\"."
+          }
+        },
+        "facet_query_num_typos": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Controls the fuzziness of the facet query filter. Default: 2.\n"
           }
         },
         "num_typos": {
@@ -1492,6 +1504,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true\n"
+          }
+        },
+        "group_max_candidates": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value.\n"
           }
         },
         "include_fields": {
@@ -1593,6 +1611,12 @@
             "smithy.api#documentation": "Allow synonym resolution on word prefixes in the query. Default: false\n"
           }
         },
+        "demote_synonym_match": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false\n"
+          }
+        },
         "synonym_num_typos": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -1621,6 +1645,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A list of custom fields that must be highlighted even if you don't query for them\n"
+          }
+        },
+        "rerank_hybrid_matches": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score.\n"
           }
         },
         "split_join_tokens": {
@@ -1689,6 +1719,12 @@
             "smithy.api#documentation": "Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.\n"
           }
         },
+        "limit_hits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results.\n"
+          }
+        },
         "use_cache": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1747,6 +1783,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Comma separated string of nested facet fields whose parent object should be returned in facet response.\n"
+          }
+        },
+        "facet_sample_percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage of hits that will be used to estimate facet counts. Default: 100.\n"
+          }
+        },
+        "facet_sample_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of hits above which the facet counts are sampled. Default: 0.\n"
+          }
+        },
+        "facet_sample_slope": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0.\n"
           }
         },
         "voice_query": {
@@ -5966,6 +6020,18 @@
             "smithy.api#documentation": "Filter conditions for refining youropen api validator search results. Separate multiple conditions with &&."
           }
         },
+        "enable_lazy_filter": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false\n"
+          }
+        },
+        "max_filter_by_candidates": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Controls the number of similar words that Typesense considers during fuzzy search on filter_by values. Useful for controlling prefix matches like company_name:Acm*."
+          }
+        },
         "sort_by": {
           "target": "smithy.api#String",
           "traits": {
@@ -5988,6 +6054,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix \"shoe\"."
+          }
+        },
+        "facet_query_num_typos": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Controls the fuzziness of the facet query filter. Default: 2.\n"
           }
         },
         "num_typos": {
@@ -6036,6 +6108,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true\n"
+          }
+        },
+        "group_max_candidates": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value.\n"
           }
         },
         "include_fields": {
@@ -6125,6 +6203,12 @@
             "smithy.api#documentation": "Allow synonym resolution on word prefixes in the query. Default: false\n"
           }
         },
+        "demote_synonym_match": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false\n"
+          }
+        },
         "synonym_num_typos": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -6153,6 +6237,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A list of custom fields that must be highlighted even if you don't query for them\n"
+          }
+        },
+        "rerank_hybrid_matches": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score.\n"
           }
         },
         "pre_segmented_query": {
@@ -6207,6 +6297,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.\n"
+          }
+        },
+        "limit_hits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results.\n"
           }
         },
         "use_cache": {
@@ -6267,6 +6363,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Comma separated string of nested facet fields whose parent object should be returned in facet response.\n"
+          }
+        },
+        "facet_sample_percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage of hits that will be used to estimate facet counts. Default: 100.\n"
+          }
+        },
+        "facet_sample_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of hits above which the facet counts are sampled. Default: 0.\n"
+          }
+        },
+        "facet_sample_slope": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0.\n"
           }
         },
         "voice_query": {
@@ -6361,6 +6475,18 @@
             "smithy.api#documentation": "Filter conditions for refining youropen api validator search results. Separate multiple conditions with &&."
           }
         },
+        "enable_lazy_filter": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Applies the filtering operation incrementally / lazily. Set this to true when you are potentially filtering on large values but the tokens in the query are expected to match very few documents. Default: false\n"
+          }
+        },
+        "max_filter_by_candidates": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Controls the number of similar words that Typesense considers during fuzzy search on filter_by values. Useful for controlling prefix matches like company_name:Acm*."
+          }
+        },
         "sort_by": {
           "target": "smithy.api#String",
           "traits": {
@@ -6383,6 +6509,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Facet values that are returned can now be filtered via this parameter. The matching facet text is also highlighted. For example, when faceting by `category`, you can set `facet_query=category:shoe` to return only facet values that contain the prefix \"shoe\"."
+          }
+        },
+        "facet_query_num_typos": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Controls the fuzziness of the facet query filter. Default: 2.\n"
           }
         },
         "num_typos": {
@@ -6431,6 +6563,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Setting this parameter to true will place all documents that have a null value in the group_by field, into a single group. Setting this parameter to false, will cause each document with a null value in the group_by field to not be grouped with other documents. Default: true\n"
+          }
+        },
+        "group_max_candidates": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Overrides the behavior of group_by queries where found value is an approximation. When group_max_candidates is passed, found will be accurate up until its value.\n"
           }
         },
         "include_fields": {
@@ -6520,6 +6658,12 @@
             "smithy.api#documentation": "Allow synonym resolution on word prefixes in the query. Default: false\n"
           }
         },
+        "demote_synonym_match": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When set to true, search results that matched via synonyms will be demoted in ranking, appearing below results that have a direct match. Default: false\n"
+          }
+        },
         "synonym_num_typos": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -6548,6 +6692,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A list of custom fields that must be highlighted even if you don't query for them\n"
+          }
+        },
+        "rerank_hybrid_matches": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score.\n"
           }
         },
         "pre_segmented_query": {
@@ -6602,6 +6752,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Typesense will attempt to return results early if the cutoff time has elapsed. This is not a strict guarantee and facet computation is not bound by this parameter.\n"
+          }
+        },
+        "limit_hits": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of hits that can be fetched from the collection. page * per_page should be less than this number for the search request to return results.\n"
           }
         },
         "use_cache": {
@@ -6664,6 +6820,24 @@
             "smithy.api#documentation": "Comma separated string of nested facet fields whose parent object should be returned in facet response.\n"
           }
         },
+        "facet_sample_percent": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Percentage of hits that will be used to estimate facet counts. Default: 100.\n"
+          }
+        },
+        "facet_sample_threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of hits above which the facet counts are sampled. Default: 0.\n"
+          }
+        },
+        "facet_sample_slope": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Controls how steeply facet_sample_percent falls as the collection grows. facet_sample_threshold should be non-zero for facet_sample_slope to be effective. Default: 0.\n"
+          }
+        },
         "voice_query": {
           "target": "smithy.api#String",
           "traits": {
@@ -6705,12 +6879,6 @@
           "traits": {
             "smithy.api#documentation": "A separate search API key for each search within a multi_search request",
             "smithy.api#jsonName": "x-typesense-api-key"
-          }
-        },
-        "rerank_hybrid_matches": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "When true, computes both text match and vector distance scores for all matches in hybrid search. Documents found only through keyword search will get a vector distance score, and documents found only through vector search will get a text match score.\n"
           }
         }
       },
@@ -9724,7 +9892,7 @@
           "target": "com.typesense.api#DeleteCollection"
         },
         {
-          "target": "com.typesense.api#ListDocument"
+          "target": "com.typesense.api#IndexDocument"
         },
         {
           "target": "com.typesense.api#UpdateDocuments"
