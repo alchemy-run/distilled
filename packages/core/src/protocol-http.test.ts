@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { buildRequest, mapKeys } from "./protocol-http.ts";
 import { SensitiveValue, wrapSensitive } from "./protocol-rest.ts";
 import * as S from "./schema.ts";

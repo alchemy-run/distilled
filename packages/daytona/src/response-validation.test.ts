@@ -1,7 +1,7 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { credentials } from "./credentials.ts";
 import { DaytonaParseError } from "./errors.ts";
 import type { DaytonaOpError } from "./protocol.ts";

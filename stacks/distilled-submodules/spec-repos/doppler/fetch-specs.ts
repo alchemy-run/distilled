@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Assembles Doppler's REST API description into ../specs/.
  *
@@ -9,7 +9,7 @@
  * merges the snippets into one document.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/llms.txt
@@ -34,12 +34,15 @@ const MAX_FAILURE_RATE_FOR_PRUNE = 0.05;
 const HTTP_METHODS = ["get", "put", "post", "delete", "options", "head", "patch", "trace"] as const;
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 

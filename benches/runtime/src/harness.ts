@@ -48,7 +48,7 @@ export const parseArgs = (argv: ReadonlyArray<string>): BenchOptions => {
     else if (a.startsWith("--filter=")) filter = new RegExp(a.slice(9));
     else if (a === "-h" || a === "--help") {
       console.log(
-        "usage: bun run.ts [--full] [--json] [--record] [--filter <regex>]\n" +
+        "usage: node --conditions=bun run.ts [--full] [--json] [--record] [--filter <regex>]\n" +
           "  --full     mitata's default sampling budget (~0.6s CPU per case)\n" +
           "  --json     print results as JSON\n" +
           "  --record   write results/latest.json (committed; read by the website)\n" +

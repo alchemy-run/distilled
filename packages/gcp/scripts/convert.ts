@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Google Discovery documents → Smithy 2.0 JSON models.
  *
@@ -38,9 +38,9 @@
  *     (lists/maps shared per element type).
  *
  * Usage:
- *   bun scripts/convert.ts                     # all services
- *   bun scripts/convert.ts --service storage   # one service (all versions)
- *   bun scripts/convert.ts --service storage --version v1
+ *   node --conditions=bun scripts/convert.ts                     # all services
+ *   node --conditions=bun scripts/convert.ts --service storage   # one service (all versions)
+ *   node --conditions=bun scripts/convert.ts --service storage --version v1
  */
 
 import * as fs from "node:fs";
@@ -646,7 +646,7 @@ const args = process.argv.slice(2);
 const serviceFilter = args.includes("--service") ? args[args.indexOf("--service") + 1] : undefined;
 const versionFilter = args.includes("--version") ? args[args.indexOf("--version") + 1] : undefined;
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specsDir = resolveSpecPath(root, "specs/spec-mirror-gcp/specs");
 const manifestPath = path.join(specsDir, "_manifest.json");
 

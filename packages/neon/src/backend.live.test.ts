@@ -1,4 +1,3 @@
-import { expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
@@ -7,6 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
+import { expect, test } from "vitest";
 import { CredentialsFromEnv } from "./credentials.ts";
 import { Retry } from "./retry.ts";
 import * as Neon from "./services/neon.ts";

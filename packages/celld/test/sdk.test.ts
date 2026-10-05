@@ -1,4 +1,3 @@
-import { describe, expect, test } from "bun:test";
 import { buildRequest } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -7,6 +6,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
+import { describe, expect, test } from "vitest";
 import nodeSpec from "../specs/node.json";
 import runtimeSpec from "../specs/runtime.json";
 import * as Endpoint from "../src/endpoint.ts";

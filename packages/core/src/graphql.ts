@@ -64,7 +64,10 @@ const inspect = Symbol.for("nodejs.util.inspect.custom");
 /** A plan that cannot be compiled (a programming error, raised as a defect). */
 export class GqlError {
   readonly _tag = "GqlError" as const;
-  constructor(readonly message: string) {}
+  readonly message: string;
+  constructor(message: string) {
+    this.message = message;
+  }
 }
 
 // ── Errors ──────────────────────────────────────────────────────────────────
@@ -438,7 +441,9 @@ export class QueryNode<out Value = unknown, out Error = never> {
   readonly [QuerySymbol] = QuerySymbol;
   declare readonly valueType: Value;
   declare readonly errorType: Error;
-  constructor(readonly expr: Expr) {
+  readonly expr: Expr;
+  constructor(expr: Expr) {
+    this.expr = expr;
     return proxy(this) as QueryNode<Value, Error>;
   }
   pipe<Self>(this: Self): Self;

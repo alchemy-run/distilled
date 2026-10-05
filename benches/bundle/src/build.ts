@@ -1,10 +1,10 @@
 /**
  * One fixture × one variant, built `runs` times in this process. Spawned by
- * `run.ts` as a fresh `bun` process per fixture so the first build is a true
+ * `run.ts` as a fresh `node` process per fixture so the first build is a true
  * cold start (native binding load, resolver caches, plugin package cache);
  * later builds in the same process are the warm number.
  *
- * Usage: `bun src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
+ * Usage: `node --conditions=bun src/build.ts '<BuildRequest json>'` — prints `BuildResult` JSON.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";

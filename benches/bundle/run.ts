@@ -1,11 +1,11 @@
 /**
  * Rolldown bundle benchmark for Distilled SDKs.
  *
- *   bun benches/bundle/run.ts [--runs N] [--only name,…] [--variants a,b]
- *                             [--all-variants] [--json] [--keep]
- *                             [--out results/latest.json]
+ *   node --conditions=bun benches/bundle/run.ts [--runs N] [--only name,…] [--variants a,b]
+ *                                             [--all-variants] [--json] [--keep]
+ *                                             [--out results/latest.json]
  *
- * Each fixture × variant is built in a fresh `bun` process (cold = first
+ * Each fixture × variant is built in a fresh `node` process (cold = first
  * build in that process, warm = median of the remaining `--runs`). Prints a
  * markdown report and writes `.out/report.md` + `.out/results.json`.
  * `--out` additionally writes the slim, committed-artifact shape
@@ -13,6 +13,7 @@
  * prints that same shape to stdout instead of the markdown. `--runs`
  * defaults to `$BENCH_RUNS`, then 3.
  */
+import { spawn, spawnSync } from "node:child_process";
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -37,6 +38,8 @@ const runs = Number(flag("runs") ?? process.env.BENCH_RUNS ?? 3);
 const only = flag("only")?.split(",").filter(Boolean);
 const keep = has("keep");
 const outFile = flag("out");
+/** Recorded as `runtime`; older results name it by key (`"bun": "1.3.13"`). */
+const runtime = `node ${process.versions.node}`;
 
 /**
  * Default variant matrix. `bun` = Alchemy's `BUN_CONDITION_NAMES` with the
@@ -136,13 +139,18 @@ async function runOne(fixture: Fixture, variant: BuildVariant): Promise<Row> {
     variant,
     runs,
   };
-  const proc = Bun.spawn(["bun", path.join(here, "src/build.ts"), JSON.stringify(req)], {
-    cwd: here,
-    stdout: "pipe",
-    stderr: "inherit",
+  const proc = spawn(
+    process.execPath,
+    ["--conditions=bun", path.join(here, "src/build.ts"), JSON.stringify(req)],
+    { cwd: here, stdio: ["ignore", "pipe", "inherit"] },
+  );
+  const chunks: Buffer[] = [];
+  proc.stdout.on("data", (chunk: Buffer) => chunks.push(chunk));
+  const code = await new Promise<number>((resolve, reject) => {
+    proc.on("error", reject);
+    proc.on("close", (exitCode) => resolve(exitCode ?? 1));
   });
-  const stdout = await new Response(proc.stdout).text();
-  const code = await proc.exited;
+  const stdout = Buffer.concat(chunks).toString("utf8");
   if (code !== 0) throw new Error(`${fixture.name}/${id}: build process exited ${code}`);
   const result = JSON.parse(stdout) as BuildResult;
 
@@ -182,7 +190,7 @@ function report(rows: Row[], rolldownVersion: string): string {
   lines.push(`# Distilled rolldown bundle bench`);
   lines.push("");
   lines.push(
-    `rolldown ${rolldownVersion} · bun ${Bun.version} · runs/fixture: ${runs} (cold = 1st build in a fresh process, warm = median of the rest) · conditions \`bun,module,default\` (resolves \`packages/*/src\`) · PURE annotator on unless \`+nopure\` · minify on unless \`+nominify\``,
+    `rolldown ${rolldownVersion} · ${runtime} · runs/fixture: ${runs} (cold = 1st build in a fresh process, warm = median of the rest) · conditions \`bun,module,default\` (resolves \`packages/*/src\`) · PURE annotator on unless \`+nopure\` · minify on unless \`+nominify\``,
   );
   lines.push("");
   lines.push("| fixture | variant | cold | warm | bytes | gzip | modules | tree-shake |");
@@ -269,7 +277,7 @@ function slimResults(rows: Row[], rolldownVersion: string) {
       memoryGb: Math.round(os.totalmem() / 1024 ** 3),
     },
     rolldown: rolldownVersion,
-    bun: Bun.version,
+    runtime,
     runs,
     rows: rows.map((r) => {
       const [cold, ...rest] = r.result.timesMs;
@@ -290,12 +298,12 @@ function slimResults(rows: Row[], rolldownVersion: string) {
 }
 
 function gitShortSha(): string | null {
-  const proc = Bun.spawnSync(["git", "rev-parse", "--short", "HEAD"], {
+  const proc = spawnSync("git", ["rev-parse", "--short", "HEAD"], {
     cwd: repoRoot,
-    stdout: "pipe",
-    stderr: "ignore",
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "ignore"],
   });
-  return proc.exitCode === 0 ? proc.stdout.toString().trim() : null;
+  return proc.status === 0 ? proc.stdout.trim() : null;
 }
 
 // --- main -------------------------------------------------------------------
@@ -335,7 +343,7 @@ await fs.writeFile(
   JSON.stringify(
     {
       rolldown: rolldownVersion,
-      bun: Bun.version,
+      runtime,
       runs,
       wallMs: wall,
       rows: rows.map((r) => ({

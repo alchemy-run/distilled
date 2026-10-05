@@ -1,4 +1,5 @@
-import { describe, expect, test, spyOn } from "bun:test";
+import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
+import type { AddressInfo } from "node:net";
 import { inspect } from "node:util";
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
@@ -11,9 +12,27 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { describe, expect, test, vi } from "vitest";
 import { fromApiKey } from "./credentials.ts";
 import { Retry } from "./retry.ts";
 import * as Neon from "./services/neon.ts";
+
+/** Start a loopback HTTP server on an ephemeral port. */
+const serve = (handler: (request: IncomingMessage, response: ServerResponse) => void) =>
+  new Promise<{ url: URL; close: () => Promise<void> }>((resolve) => {
+    const server = createServer(handler);
+    server.listen(0, "127.0.0.1", () => {
+      const { port } = server.address() as AddressInfo;
+      resolve({
+        url: new URL(`http://127.0.0.1:${port}/`),
+        close: () =>
+          new Promise<void>((done) => {
+            server.closeAllConnections();
+            server.close(() => done());
+          }),
+      });
+    });
+  });
 
 const scope = { project_id: "project-fixture", branch_id: "br-fixture" };
 const harness = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
@@ -342,22 +361,14 @@ describe("Neon backend wire contracts", () => {
   test("download redirects preserve bytes without forwarding account credentials across origins", async () => {
     const bytes = new Uint8Array([0, 255, 128, 80, 75]);
     let authorization: string | null | undefined;
-    const storage = Bun.serve({
-      hostname: "127.0.0.1",
-      port: 0,
-      fetch(request) {
-        authorization = request.headers.get("authorization");
-        return new Response(bytes, {
-          headers: { "content-type": "application/octet-stream" },
-        });
-      },
+    const storage = await serve((request, response) => {
+      authorization = request.headers.authorization ?? null;
+      response.writeHead(200, { "content-type": "application/octet-stream" });
+      response.end(bytes);
     });
-    const api = Bun.serve({
-      hostname: "127.0.0.1",
-      port: 0,
-      fetch() {
-        return Response.redirect(storage.url, 302);
-      },
+    const api = await serve((_request, response) => {
+      response.writeHead(302, { location: storage.url.href });
+      response.end();
     });
     try {
       const result = await Effect.runPromise(
@@ -382,8 +393,8 @@ describe("Neon backend wire contracts", () => {
       expect(result).toEqual(bytes);
       expect(authorization).toBeNull();
     } finally {
-      await api.stop(true);
-      await storage.stop(true);
+      await api.close();
+      await storage.close();
     }
   });
 
@@ -429,7 +440,7 @@ describe("Neon backend wire contracts", () => {
   test("debug diagnostics never emit request or response secrets", async () => {
     const previous = process.env.DISTILLED_DEBUG_HTTP;
     const logs: string[] = [];
-    const spy = spyOn(console, "error").mockImplementation((...args) => {
+    const spy = vi.spyOn(console, "error").mockImplementation((...args) => {
       logs.push(args.join(" "));
     });
     process.env.DISTILLED_DEBUG_HTTP = "1";
@@ -513,7 +524,7 @@ describe("Neon Auth email provider contracts", () => {
   test("returned SMTP passwords stay redacted through codecs, JSON and diagnostics", async () => {
     const previous = process.env.DISTILLED_DEBUG_HTTP;
     const logs: string[] = [];
-    const spy = spyOn(console, "error").mockImplementation((...args) => {
+    const spy = vi.spyOn(console, "error").mockImplementation((...args) => {
       logs.push(args.join(" "));
     });
     process.env.DISTILLED_DEBUG_HTTP = "1";
@@ -533,7 +544,7 @@ describe("Neon Auth email provider contracts", () => {
         if (!Redacted.isRedacted(value.password)) throw new Error("Expected redacted password");
         expect(Redacted.value(value.password)).toBe(standard.password);
         expect(JSON.stringify(value)).not.toContain(standard.password);
-        expect(Bun.inspect(value)).not.toContain(standard.password);
+        expect(inspect(value)).not.toContain(standard.password);
       }
       expect(() =>
         Schema.encodeSync(Schema.toCodecJson(Neon.NeonAuthEmailServerConfigResponse))(result),

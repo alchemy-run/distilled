@@ -1,5 +1,3 @@
-/** Mock-transport regressions for the Railway Query SDK. */
-import { describe, expect, test } from "bun:test";
 import {
   GqlTransport,
   type CompiledOperation,
@@ -23,6 +21,8 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
+/** Mock-transport regressions for the Railway Query SDK. */
+import { describe, expect, test } from "vitest";
 
 /** Answers each request with the next response; the last one repeats. */
 const sequence = (...responses: GraphQLResponse[]) => {

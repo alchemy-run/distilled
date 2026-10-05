@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * import-distilled-patches — mechanically author patches/<service>/<op>.json
  * by mining a local checkout of the distilled repo.
@@ -20,7 +20,7 @@
  * error-metadata oracle, never as the type source.
  *
  * Usage:
- *   bun scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
+ *   node --conditions=bun scripts/import-distilled-patches.ts [--distilled D:/code/alchemy/distilled]
  */
 
 import * as fs from "node:fs";
@@ -33,7 +33,7 @@ const flag = (name: string, dflt: string): string => {
 };
 
 const DISTILLED = flag("distilled", "D:/code/alchemy/distilled");
-const ROOT = path.resolve(import.meta.dir, "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const SMITHY_DIR = path.join(ROOT, ".generated-specs");
 const PATCH_DIR = path.join(ROOT, "patches");
 const MANUAL_SPEC_DIR = path.join(ROOT, "manual-specs");

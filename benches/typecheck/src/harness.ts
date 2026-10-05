@@ -2,16 +2,19 @@
  * Runs one `tsc -b` and measures it.
  *
  * Wall time is `performance.now()` around the child from spawn to exit.
- * Peak RSS is the kernel's `ru_maxrss` for the child, read through
- * `Bun.spawn(...).resourceUsage()`. The child is `node
- * node_modules/typescript/bin/tsc`, exactly what `pnpm typecheck` runs; that
- * shim `execve`s into the native `tsc` binary, so the numbers are the
- * compiler's, not node's.
+ * Peak RSS is sampled while the child runs, because Node exposes no
+ * per-child `ru_maxrss`: on Linux it is the kernel's high-water mark
+ * (`VmHWM` in `/proc/<pid>/status`), which is exact unless the peak lands in
+ * the last sampling interval; elsewhere it is the largest `ps -o rss` seen.
+ * The child is `node node_modules/typescript/bin/tsc`, exactly what
+ * `pnpm typecheck` runs; that shim `execve`s into the native `tsc` binary
+ * (same pid), so the numbers are the compiler's, not node's.
  *
  * `--extendedDiagnostics` is passed so tsc's own phase split (parse / check /
  * emit) can be read off stdout; the flag itself costs nothing measurable.
  */
-import { rmSync, existsSync } from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+import { readFileSync, rmSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { REPO_ROOT, type Target } from "./targets.ts";
 
@@ -47,7 +50,7 @@ export const parseArgs = (argv: ReadonlyArray<string>): BenchOptions => {
     else if (a.startsWith("--filter=")) filter = new RegExp(a.slice(9));
     else if (a === "-h" || a === "--help") {
       console.log(
-        "usage: bun run.ts [--full] [--runs N] [--filter <regex>] [--json] [--record]\n" +
+        "usage: node --conditions=bun run.ts [--full] [--runs N] [--filter <regex>] [--json] [--record]\n" +
           "  --full     every SDK package (default: core, aws, cloudflare) + monorepo\n" +
           "  --runs N   repeat each clean+incremental cycle N times, report the best (default 1)\n" +
           "  --filter   only targets whose name matches (core|aws|cloudflare|monorepo|…)\n" +
@@ -112,9 +115,21 @@ const num = (stdout: string, label: string): number | undefined => {
   return m ? Number(m[1]) : undefined;
 };
 
-const maxRssMiB = (maxRSS: number): number =>
-  // ru_maxrss is KiB on Linux, bytes on macOS.
-  process.platform === "darwin" ? maxRSS / 1024 / 1024 : maxRSS / 1024;
+/** Current peak (Linux) or resident (elsewhere) set of `pid`, in KiB; 0 once it is gone. */
+const sampleRssKiB = (pid: number): number => {
+  try {
+    if (process.platform === "linux") {
+      const status = readFileSync(`/proc/${pid}/status`, "utf8");
+      return Number(/^VmHWM:\s+(\d+) kB$/m.exec(status)?.[1] ?? 0);
+    }
+    const ps = spawnSync("ps", ["-o", "rss=", "-p", String(pid)], { encoding: "utf8" });
+    return Number(ps.stdout?.trim() || 0);
+  } catch {
+    return 0;
+  }
+};
+
+const RSS_SAMPLE_MS = process.platform === "linux" ? 20 : 100;
 
 export const cleanOutputs = (target: Target): void => {
   for (const out of target.outputs) {
@@ -124,19 +139,27 @@ export const cleanOutputs = (target: Target): void => {
 };
 
 export const measureOnce = async (target: Target, mode: Mode, run: Run): Promise<Measurement> => {
-  const proc = Bun.spawn([...TSC, ...tscArgs(target, mode), "--extendedDiagnostics"], {
+  const [cmd, ...cmdArgs] = TSC;
+  const proc = spawn(cmd!, [...cmdArgs, ...tscArgs(target, mode), "--extendedDiagnostics"], {
     cwd: REPO_ROOT,
-    stdout: "pipe",
-    stderr: "pipe",
+    stdio: ["ignore", "pipe", "pipe"],
   });
   const started = performance.now();
-  const [stdout, stderr, exitCode] = await Promise.all([
-    new Response(proc.stdout).text(),
-    new Response(proc.stderr).text(),
-    proc.exited,
-  ]);
+  let peakKiB = 0;
+  const sampler = setInterval(() => {
+    if (proc.pid !== undefined) peakKiB = Math.max(peakKiB, sampleRssKiB(proc.pid));
+  }, RSS_SAMPLE_MS);
+  const out: Buffer[] = [];
+  const err: Buffer[] = [];
+  proc.stdout.on("data", (chunk: Buffer) => out.push(chunk));
+  proc.stderr.on("data", (chunk: Buffer) => err.push(chunk));
+  const exitCode = await new Promise<number>((resolve, reject) => {
+    proc.on("error", reject);
+    proc.on("close", (code) => resolve(code ?? 1));
+  }).finally(() => clearInterval(sampler));
   const wallSec = (performance.now() - started) / 1000;
-  const usage = proc.resourceUsage();
+  const stdout = Buffer.concat(out).toString("utf8");
+  const stderr = Buffer.concat(err).toString("utf8");
   const firstError = (stdout + stderr).split("\n").find((l) => /error TS\d+/.test(l));
   return {
     target: target.name,
@@ -144,7 +167,7 @@ export const measureOnce = async (target: Target, mode: Mode, run: Run): Promise
     run,
     command: displayCommand(target, mode),
     wallSec,
-    peakRssMiB: usage ? maxRssMiB(usage.maxRSS) : 0,
+    peakRssMiB: peakKiB / 1024,
     tscCheckSec: num(stdout, "Aggregate Check time"),
     tscEmitSec: num(stdout, "Aggregate Emit time"),
     projectsBuilt: num(stdout, "Projects built"),

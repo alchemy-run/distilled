@@ -1,5 +1,5 @@
-import { expect, test } from "bun:test";
 import type * as Redacted from "effect/Redacted";
+import { expect, test } from "vitest";
 import type {
   GetNeonAuthEmailProviderResponse,
   NeonAuthEmailServerConfig,

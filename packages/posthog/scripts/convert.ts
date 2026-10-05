@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — PostHog OpenAPI spec → Smithy JSON models in .generated-specs.
  *
@@ -33,7 +33,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-posthog/specs/openapi.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");

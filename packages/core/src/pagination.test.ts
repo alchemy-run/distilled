@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
+import { describe, expect, test } from "vitest";
 import { extractItems, paginateCursor, type PaginatedTrait } from "./pagination.ts";
 
 const pagination: PaginatedTrait = {

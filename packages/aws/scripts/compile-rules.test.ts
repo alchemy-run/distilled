@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { compileRuleSet, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 
 describe("endpoint resolver helpers", () => {

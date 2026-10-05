@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — original AWS Smithy models + patches/{sdkId}.json →
  * `.generated-specs/<sdkId>.json`, plus the endpoint rules engine's
@@ -12,7 +12,7 @@ import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import { loadServiceSpecPatch } from "./spec-schema.ts";
 import { applyAwsSpecPatches, dropForeignNamespaceShapes } from "./spec.ts";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specsRoot = resolveSpecPath(root, "specs/spec-mirror-aws/specs");
 const modelsRoot = path.join(specsRoot, "models");
 const outDir = path.join(root, ".generated-specs");

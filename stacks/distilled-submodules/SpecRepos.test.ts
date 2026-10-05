@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { mirrorId, repositoryName, SPEC_REPOS } from "./SpecRepos.ts";
 
 describe("mirror identity", () => {

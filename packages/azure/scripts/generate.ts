@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
@@ -117,7 +117,7 @@ const markScopeLabelsGreedy = (model: any): void => {
  * patch fails the run.
  */
 const applyServicePatches = (model: any, service: string): void => {
-  const dir = path.join(import.meta.dir, "..", "patches", service);
+  const dir = path.join(import.meta.dirname, "..", "patches", service);
   if (!fs.existsSync(dir)) return;
   const files = fs
     .readdirSync(dir)
@@ -144,7 +144,7 @@ const applyServicePatches = (model: any, service: string): void => {
 
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // Azure ships no patches (v0 parity — packages/azure/patches did not
   // exist; all correction logic lives in convert.ts's ref-resolution and
   // merging preprocessing).

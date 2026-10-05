@@ -69,31 +69,32 @@ export class EventParseError extends Data.TaggedError("EventParseError")<{
 // ============================================================================
 
 /** Header type indicators as defined in the spec */
-export enum HeaderType {
-  BoolTrue = 0,
-  BoolFalse = 1,
-  Byte = 2,
-  Short = 3,
-  Int = 4,
-  Long = 5,
-  ByteArray = 6,
-  String = 7,
-  Timestamp = 8,
-  Uuid = 9,
-}
+export const HeaderType = {
+  BoolTrue: 0,
+  BoolFalse: 1,
+  Byte: 2,
+  Short: 3,
+  Int: 4,
+  Long: 5,
+  ByteArray: 6,
+  String: 7,
+  Timestamp: 8,
+  Uuid: 9,
+} as const;
+export type HeaderType = (typeof HeaderType)[keyof typeof HeaderType];
 
 /** Header value type discriminated union */
 export type HeaderValue =
-  | { type: HeaderType.BoolTrue; value: true }
-  | { type: HeaderType.BoolFalse; value: false }
-  | { type: HeaderType.Byte; value: number }
-  | { type: HeaderType.Short; value: number }
-  | { type: HeaderType.Int; value: number }
-  | { type: HeaderType.Long; value: bigint }
-  | { type: HeaderType.ByteArray; value: Uint8Array }
-  | { type: HeaderType.String; value: string }
-  | { type: HeaderType.Timestamp; value: Date }
-  | { type: HeaderType.Uuid; value: Uint8Array };
+  | { type: typeof HeaderType.BoolTrue; value: true }
+  | { type: typeof HeaderType.BoolFalse; value: false }
+  | { type: typeof HeaderType.Byte; value: number }
+  | { type: typeof HeaderType.Short; value: number }
+  | { type: typeof HeaderType.Int; value: number }
+  | { type: typeof HeaderType.Long; value: bigint }
+  | { type: typeof HeaderType.ByteArray; value: Uint8Array }
+  | { type: typeof HeaderType.String; value: string }
+  | { type: typeof HeaderType.Timestamp; value: Date }
+  | { type: typeof HeaderType.Uuid; value: Uint8Array };
 
 /** Headers are a record of name to typed value */
 export type Headers = Record<string, HeaderValue>;

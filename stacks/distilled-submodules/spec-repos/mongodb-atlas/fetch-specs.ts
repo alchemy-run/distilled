@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Mongodb-atlas OpenAPI spec to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/openapi.json
@@ -14,6 +14,7 @@ const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 // Ensure the specs directory exists
 if (!existsSync(SPECS_DIR)) {
@@ -32,7 +33,7 @@ async function main() {
   const spec = await response.json();
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2));
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2));
 
   console.log("Done!");
 }

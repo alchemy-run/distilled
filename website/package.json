@@ -10,7 +10,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "bun scripts/og.ts --all && vite build && node build/finish.ts",
+    "build": "node --conditions=bun scripts/og.ts --all && vite build && node build/finish.ts",
     "dev:site": "vite dev",
     "preview": "vite preview",
     "deploy": "pnpm exec alchemy deploy",
@@ -19,7 +19,6 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@effect/platform-bun": "catalog:",
     "@effect/platform-node": "catalog:",
     "@solidjs/meta": "0.29.4",
     "@solidjs/router": "1.0.0",
@@ -32,7 +31,7 @@
   "devDependencies": {
     "@fontsource-variable/fraunces": "5.3.0",
     "@tailwindcss/vite": "4.3.3",
-    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
     "nitro": "3.0.260903-beta",
     "tailwindcss": "4.3.3",
     "typescript": "catalog:",

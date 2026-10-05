@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import { generateService } from "./generator.ts";
 

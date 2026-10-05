@@ -54,7 +54,7 @@ this table is the whole decision.
 
 A YAML spec does not have to be converted in the mirror: `spec-repos/coinbase`
 mirrors `openapi.yaml` verbatim and `packages/coinbase/scripts/convert.ts`
-passes `parse: (text) => Bun.YAML.parse(text)` to `runOpenApiConvert`. Convert
+passes `parse` from the `yaml` package to `runOpenApiConvert`. Convert
 in the mirror only when the upstream is an endpoint rather than a file.
 
 **When the user says "like GitHub"** they mean a few files out of a big repo —
@@ -109,7 +109,7 @@ packages/<pkg>/specs/.local/
 ```
 
 The directory is gitignored. Re-run the command to refetch after editing the
-fetch script (the `bun install` only happens once).
+fetch script (the `pnpm install` only happens once).
 
 ## Step 4 — write the package
 
@@ -270,7 +270,7 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`bun test`); add
+`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not RFC-6902-patch
 `/paths/~1foo/get/operationId`; those break when upstream adds a prefix.
 Patch the spec, not the generated TypeScript. Writing and checking a
@@ -436,7 +436,7 @@ Body, in order:
 4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
    green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output,
    the error-construction check from step 4 finds both classes, and
-   `bun test src/response-validation.test.ts` passes.
+   `pnpm vitest run packages/<pkg>/src/response-validation.test.ts` passes.
 
 ```sh
 git push -u origin HEAD

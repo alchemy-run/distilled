@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Polar's OpenAPI document and vendor docs to ../specs/.
  *
@@ -8,7 +8,7 @@
  * under docs/ so generate never crawls live docs.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The specs are saved to:
  *   ../specs/openapi.json
@@ -35,12 +35,15 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 class FetchError extends Error {
-  constructor(
-    readonly url: string,
-    readonly status?: number,
-    readonly reason?: unknown,
-  ) {
+  readonly url: string;
+  readonly status?: number;
+  readonly reason?: unknown;
+
+  constructor(url: string, status?: number, reason?: unknown) {
     super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
+    this.url = url;
+    this.status = status;
+    this.reason = reason;
   }
 }
 
@@ -197,7 +200,7 @@ async function main() {
   if (!llms.includes("polar.sh/docs/") && !llms.includes("/docs/")) {
     throw new Error(`${LLMS_URL} did not look like Polar's docs index — refusing to continue`);
   }
-  await Bun.write(`${SPECS_DIR}/llms.txt`, llms.endsWith("\n") ? llms : `${llms}\n`);
+  await writeFile(`${SPECS_DIR}/llms.txt`, llms.endsWith("\n") ? llms : `${llms}\n`);
 
   const openApiUrl = latestOpenApiUrl(llms);
   console.log(`Fetching OpenAPI spec from ${openApiUrl}...`);
@@ -208,7 +211,7 @@ async function main() {
     );
   }
   console.log(`Writing spec to ${OPENAPI_PATH}...`);
-  await Bun.write(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   const pages = pagesFromLlms(llms);

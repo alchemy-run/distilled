@@ -20,7 +20,7 @@ docker run -d --rm --name distilled-celld-sdk-store \
   quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z server /data
 curl --fail http://127.0.0.1:19000/minio/health/live
 CELLD_TEST_STORAGE_URL=http://127.0.0.1:19000 \
-  bun packages/celld/test/prepare-live.ts
+  node --conditions=bun packages/celld/test/prepare-live.ts
 
 docker run -d --rm --name distilled-celld-sdk-v060 \
   --network distilled-celld-sdk-test \
@@ -35,7 +35,7 @@ docker run -d --rm --name distilled-celld-sdk-v060 \
   --advertise distilled-celld-sdk-v060:8081
 curl --fail http://127.0.0.1:18080/
 CELLD_TEST_NODE_URL=http://127.0.0.1:18081 CELLD_TEST_SHUTDOWN=1 \
-  bun test packages/celld/test/sdk.live.test.ts
+  pnpm vitest run packages/celld/test/sdk.live.test.ts
 ```
 
 Wait for each health request to succeed before the next step. The live test has

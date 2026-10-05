@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import { describe, expect, test } from "vitest";
 import * as Endpoint from "./endpoint.ts";
 import { CelldParseError } from "./errors.ts";
 import type { CelldOpError } from "./protocol.ts";

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Whop's two OpenAPI descriptions → Smithy JSON models in
  * .generated-specs.
@@ -61,7 +61,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specDir = path.join(rootDir, "specs");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -145,7 +145,7 @@ for (const surface of SURFACES) {
   const specPath = path.join(specDir, surface.file);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI documents`,
+      `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI documents`,
     );
   }
   documents.set(surface.id, JSON.parse(fs.readFileSync(specPath, "utf-8")));

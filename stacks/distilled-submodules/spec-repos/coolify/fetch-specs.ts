@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Coolify's bundled OpenAPI spec and vendor docs into ../specs/.
  *
@@ -8,7 +8,7 @@
  * https://coolify.io/docs/llms.txt so generate-time never crawls live pages.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -16,6 +16,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "coollabsio/coolify";
@@ -67,7 +68,7 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
@@ -93,7 +94,7 @@ async function fetchDocs(): Promise<void> {
   }
 
   console.log(`Writing docs to ${DOCS_OUTPUT}...`);
-  await Bun.write(DOCS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
+  await writeFile(DOCS_OUTPUT, text.endsWith("\n") ? text : `${text}\n`);
 }
 
 async function main() {

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /** Compile the complete mirrored GraphQL schema, then apply field error contracts. */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
@@ -9,7 +9,7 @@ import {
 import { applyRfc6902Files, listRfc6902PatchFiles } from "../../core/src/codegen/patches.ts";
 import { resolveSpecPath } from "../../core/src/codegen/spec-path.ts";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const source = resolveSpecPath(root, "specs/spec-mirror-railway/specs/schema.json");
 const model = convertGraphQLClient(JSON.parse(await fs.readFile(source, "utf8")), {
   scalars: {

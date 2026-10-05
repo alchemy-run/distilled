@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * Download every Whop docs page as Markdown.
  *
@@ -36,13 +36,13 @@
  * specs/docs/_manifest.json.
  *
  * Usage:
- *   bun scripts/download-api-docs.ts
- *   bun scripts/download-api-docs.ts --concurrency 16
- *   bun scripts/download-api-docs.ts --limit 20        # smoke test
- *   bun scripts/download-api-docs.ts --out specs/docs --force
+ *   node --conditions=bun scripts/download-api-docs.ts
+ *   node --conditions=bun scripts/download-api-docs.ts --concurrency 16
+ *   node --conditions=bun scripts/download-api-docs.ts --limit 20        # smoke test
+ *   node --conditions=bun scripts/download-api-docs.ts --out specs/docs --force
  */
 
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Data, Effect, Schedule } from "effect";
 import { Command, Flag } from "effect/cli";
 import * as FileSystem from "effect/FileSystem";
@@ -254,7 +254,7 @@ const downloadApiDocs = Command.make(
       const path = yield* Path.Path;
 
       // The whop/ folder is the parent of this scripts/ dir.
-      const root = path.resolve(import.meta.dir, "..");
+      const root = path.resolve(import.meta.dirname, "..");
       const outDir = path.resolve(root, config.out);
 
       yield* Console.log("🛒 Whop docs downloader");
@@ -355,4 +355,4 @@ const downloadApiDocs = Command.make(
 
 const program = Command.run(downloadApiDocs, { version: "1.0.0" });
 
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));

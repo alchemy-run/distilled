@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — S2's OpenAPI description → Smithy JSON models in .generated-specs.
  *
@@ -38,7 +38,7 @@ import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-s2/specs/openapi.json");
 const outDir = path.join(rootDir, ".generated-specs");
 

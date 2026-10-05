@@ -1,10 +1,10 @@
-import { describe, expect, test } from "bun:test";
 import * as Cache from "effect/Cache";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import * as Credentials from "./credentials.browser.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Presign from "./presign.ts";

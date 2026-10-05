@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
@@ -114,7 +114,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Whop Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI documents in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

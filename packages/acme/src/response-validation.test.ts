@@ -1,7 +1,7 @@
-import { beforeEach, describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import { beforeEach, describe, expect, test } from "vitest";
 import { layer } from "./credentials.ts";
 import { AcmeParseError } from "./errors.ts";
 import { resetProtocolCaches } from "./protocol.ts";

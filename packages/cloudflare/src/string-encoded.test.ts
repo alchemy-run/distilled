@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import { buildRequest } from "@distilled.cloud/core/protocol-http";
 import type * as AST from "effect/SchemaAST";
+import { describe, expect, test } from "vitest";
 import { CreateUserSchemaRequest } from "./services/api_gateway.ts";
 import { CreateProjectDeploymentRequest } from "./services/pages.ts";
 import { SummaryCtRequest } from "./services/radar.ts";

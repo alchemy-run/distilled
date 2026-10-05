@@ -38,7 +38,7 @@ export interface OpenApiSpecEntry {
 }
 
 export interface RunOpenApiConvertOptions {
-  /** Absolute package root (usually `path.resolve(import.meta.dir, "..")`). */
+  /** Absolute package root (usually `path.resolve(import.meta.dirname, "..")`). */
   readonly root: string;
   readonly specs: readonly OpenApiSpecEntry[];
   /**

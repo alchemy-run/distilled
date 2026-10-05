@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the downloaded Slack Web API reference (specs/) → Smithy JSON
  * models in .generated-specs, one per method family.
@@ -45,7 +45,7 @@ import * as path from "node:path";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specsDir = path.join(rootDir, "specs");
 const methodsDir = path.join(specsDir, "methods");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -438,7 +438,7 @@ const buildOutputSchema = (name: string, page: MethodPage): Record<string, any> 
 
 const indexPath = path.join(specsDir, "methods.json");
 if (!fs.existsSync(indexPath)) {
-  throw new Error(`${indexPath} not found — run \`bun run download-docs\` first`);
+  throw new Error(`${indexPath} not found — run \`pnpm run download-docs\` first`);
 }
 const index = JSON.parse(fs.readFileSync(indexPath, "utf-8")) as ReadonlyArray<{
   readonly name: string;

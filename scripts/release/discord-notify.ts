@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * Post a release announcement to Discord as a single embed. The body is
  * read verbatim from the CHANGELOG.md entry the release-notes step just
@@ -16,7 +16,7 @@
  *
  * Reads DISCORD_WEBHOOK from the environment. Silently no-ops if unset.
  *
- * Usage: bun discord-notify.ts <tag> <release|beta|alpha|tag>
+ * Usage: node discord-notify.ts <tag> <release|beta|alpha|tag>
  *
  * Reads ALCHEMY_REPO for the GitHub repo to link to.
  */
@@ -30,7 +30,7 @@ const EMBED_DESCRIPTION_LIMIT = 4096;
 const tag = process.argv[2];
 const channel = process.argv[3];
 if (!tag || !channel) {
-  console.error("Usage: bun discord-notify.ts <tag> <channel>");
+  console.error("Usage: node discord-notify.ts <tag> <channel>");
   process.exit(1);
 }
 

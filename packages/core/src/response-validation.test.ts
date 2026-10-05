@@ -1,9 +1,9 @@
-import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
+import { describe, expect, test } from "vitest";
 import * as API from "./api.ts";
 import { makeRestProtocol } from "./protocol-rest.ts";
 import * as ResponseValidation from "./response-validation.ts";

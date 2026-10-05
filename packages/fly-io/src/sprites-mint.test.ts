@@ -1,4 +1,3 @@
-import { describe, expect, test } from "bun:test";
 import * as API from "@distilled.cloud/core/api";
 import * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
@@ -9,6 +8,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { Credentials } from "./credentials.ts";
 import { SpritesProtocol } from "./protocol.ts";
 import { ListSpritesRequest } from "./services/sprites.ts";

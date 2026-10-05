@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
@@ -96,7 +96,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Prisma Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,

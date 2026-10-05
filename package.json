@@ -6,19 +6,19 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b",
-    "generate": "bun scripts/generate-all.ts",
+    "generate": "node --conditions=bun scripts/generate-all.ts",
     "specs:sync": "git submodule sync && git submodule update --force --init --depth=1",
-    "specs:local": "bun scripts/specs.ts local",
-    "specs:link": "bun scripts/specs.ts link",
-    "specs:check": "bun scripts/specs.ts check",
-    "patches:audit": "bun scripts/patches.ts audit",
+    "specs:local": "node --conditions=bun scripts/specs.ts local",
+    "specs:link": "node --conditions=bun scripts/specs.ts link",
+    "specs:check": "node --conditions=bun scripts/specs.ts check",
+    "patches:audit": "node --conditions=bun scripts/patches.ts audit",
     "typecheck": "tsc -b",
     "bench": "pnpm bench:runtime && pnpm bench:bundle && pnpm bench:typecheck",
-    "bench:runtime": "bun benches/runtime/run.ts",
-    "bench:runtime:record": "bun benches/runtime/run.ts --record",
-    "bench:bundle": "bun benches/bundle/run.ts",
-    "bench:typecheck": "bun benches/typecheck/run.ts",
-    "bench:typecheck:record": "bun benches/typecheck/run.ts --record",
+    "bench:runtime": "node --conditions=bun benches/runtime/run.ts",
+    "bench:runtime:record": "node --conditions=bun benches/runtime/run.ts --record",
+    "bench:bundle": "node --conditions=bun benches/bundle/run.ts",
+    "bench:typecheck": "node --conditions=bun benches/typecheck/run.ts",
+    "bench:typecheck:record": "node --conditions=bun benches/typecheck/run.ts --record",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "oxlint -c oxlint.config.ts",
@@ -27,21 +27,16 @@
     "typecheck:ci": "tsc -b --noCheck false"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "changelogithub": "catalog:",
     "husky": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "devEngines": {
     "runtime": [
-      {
-        "name": "bun",
-        "version": "1.3.13",
-        "onFail": "warn"
-      },
       {
         "name": "node",
         "version": "24",

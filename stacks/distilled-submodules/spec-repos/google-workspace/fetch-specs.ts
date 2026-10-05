@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Google Workspace API discovery documents (all versions) to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Source: Google's API Discovery Service
  *   https://www.googleapis.com/discovery/v1/apis
@@ -20,7 +20,8 @@
  *   ../specs/_manifest.json    – manifest of successfully fetched specs
  */
 
-import { mkdirSync } from "fs";
+import { mkdirSync, statSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis";
 const SPECS_DIR = "../specs";
@@ -102,7 +103,7 @@ const isDiscoveryDoc = (doc: unknown): doc is DiscoveryDoc => {
 };
 
 const writeJson = async (filepath: string, value: unknown): Promise<void> => {
-  await Bun.write(filepath, JSON.stringify(value, null, 2) + "\n");
+  await writeFile(filepath, JSON.stringify(value, null, 2) + "\n");
 };
 
 const concurrency = 20;
@@ -182,7 +183,7 @@ async function main() {
   const manifest = items
     .filter((item) => {
       try {
-        return Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
+        return statSync(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
       } catch {
         return false;
       }

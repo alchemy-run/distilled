@@ -514,9 +514,9 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/spec-to-smithy.ts",
-    "spec-to-smithy": "bun scripts/spec-to-smithy.ts",
-    "generate": "bun scripts/generate.ts",
+    "convert": "node --conditions=bun scripts/spec-to-smithy.ts",
+    "spec-to-smithy": "node --conditions=bun scripts/spec-to-smithy.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
     "typecheck:strict": "tsc -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-cloudflare",
@@ -526,8 +526,7 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
+    "@effect/platform-node": "catalog:",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

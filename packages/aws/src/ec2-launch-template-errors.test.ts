@@ -1,9 +1,9 @@
-import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
+import { describe, expect, test } from "vitest";
 import { Credentials } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import * as ec2 from "./services/ec2.ts";

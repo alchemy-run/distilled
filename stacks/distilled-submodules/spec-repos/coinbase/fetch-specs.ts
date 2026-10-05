@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Coinbase API spec into ../specs/.
  *
@@ -8,13 +8,14 @@
  * spec itself.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.yaml
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "coinbase/cdp-sdk";
@@ -57,7 +58,7 @@ async function main() {
 
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing ${outputPath}...`);
-    await Bun.write(outputPath, await response.arrayBuffer());
+    await writeFile(outputPath, new Uint8Array(await response.arrayBuffer()));
   }
 
   console.log("Done!");

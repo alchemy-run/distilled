@@ -10,7 +10,7 @@
  * A provider's `scripts/generate.ts` is: trait consts + an SdkSpec + a
  * `runGeneratorCli` call.
  */
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
 import { Flag } from "effect/cli";
 import { Command } from "effect/cli";
@@ -23,7 +23,7 @@ import { generateService, type SdkSpec } from "./generator.ts";
 export interface GeneratorCliOptions {
   /** Command description shown in --help. */
   readonly description: string;
-  /** Absolute package root (usually `path.resolve(import.meta.dir, "..")`). */
+  /** Absolute package root (usually `path.resolve(import.meta.dirname, "..")`). */
   readonly root: string;
   /** Model directory default (relative to root). Default `.generated-specs`. */
   readonly smithyDir?: string;
@@ -91,7 +91,7 @@ export interface GeneratorCliOptions {
   readonly spec: (model: any) => SdkSpec;
 }
 
-/** Run the generator CLI (BunRuntime main — call at module top level). */
+/** Run the generator CLI (NodeRuntime main — call at module top level). */
 export const runGeneratorCli = (options: GeneratorCliOptions): void => {
   const command = Command.make(
     "generate",
@@ -253,5 +253,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
       }),
   ).pipe(Command.withDescription(options.description));
 
-  BunRuntime.runMain(Effect.provide(Command.run(command, { version: "1.0.0" }), BunServices.layer));
+  NodeRuntime.runMain(
+    Effect.provide(Command.run(command, { version: "1.0.0" }), NodeServices.layer),
+  );
 };

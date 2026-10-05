@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — GitHub's OpenAPI description → Smithy JSON models in
  * .generated-specs.
@@ -25,7 +25,7 @@
  *
  * The submodule is sparse-checked-out to the single spec file — a full
  * checkout of github/rest-api-description is ~6.7 GB of GHES snapshots and
- * dereferenced variants. `bun run specs:fetch` sets that up.
+ * dereferenced variants. `pnpm run specs:fetch` sets that up.
  *
  * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false` — the
  * patches apply HERE, to the OpenAPI document) then compiles the models.
@@ -41,7 +41,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-github/specs/api.github.com.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -80,7 +80,7 @@ const shortId = (operationId: string, tag: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
   throw new Error(
-    `${specPath} not found — run \`bun run specs:fetch\` to check out the spec submodule`,
+    `${specPath} not found — run \`pnpm run specs:fetch\` to check out the spec submodule`,
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));

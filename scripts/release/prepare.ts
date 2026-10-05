@@ -1,12 +1,12 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { $ } from "bun";
+import { exec } from "./exec.ts";
 
 type Channel = "release" | "beta" | "alpha" | "rc" | "tag";
 
 const spec = (process.argv[2] ?? "").trim();
 const forceLatest = process.env.FORCE_LATEST === "true";
-const root = path.resolve(import.meta.dir, "../..");
+const root = path.resolve(import.meta.dirname, "../..");
 const entries = await readdir(path.join(root, "packages"), {
   withFileTypes: true,
 });
@@ -60,9 +60,17 @@ if (spec === "" || prerelease) {
     const maximum = Math.max(0, ...maxima);
     const remoteTag =
       maximum > 0
-        ? await $`git ls-remote --exit-code --tags origin ${`refs/tags/v1.0.0-${channel}.${maximum}`}`
-            .nothrow()
-            .quiet()
+        ? exec(
+            "git",
+            [
+              "ls-remote",
+              "--exit-code",
+              "--tags",
+              "origin",
+              `refs/tags/v1.0.0-${channel}.${maximum}`,
+            ],
+            { nothrow: true, quiet: true },
+          )
         : undefined;
     const complete = maximum > 0 && maxima.every((value) => value === maximum);
     const next = complete && remoteTag?.exitCode === 0 ? maximum + 1 : maximum || 1;
@@ -105,7 +113,7 @@ await writeFile(
   )}\n`,
 );
 
-await $`pnpm install --lockfile-only`.cwd(root).quiet();
+exec("pnpm", ["install", "--lockfile-only"], { cwd: root, quiet: true });
 
 const tag = forceLatest
   ? "latest"

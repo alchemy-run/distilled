@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Redis Cloud OpenAPI spec (and a snapshot of vendor API docs)
  * to ../specs/.
@@ -9,7 +9,7 @@
  * saved so convert/generate never has to crawl redis.io live.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/openapi.json
@@ -48,6 +48,7 @@ const DOCS: ReadonlyArray<{ readonly url: string; readonly output: string }> = [
 ];
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import * as path from "node:path";
 
 if (!existsSync(SPECS_DIR)) {
@@ -128,7 +129,7 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
@@ -139,7 +140,7 @@ async function main() {
     const snapshot = snapshotDoc(doc.url, body);
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     mkdirSync(path.dirname(outputPath), { recursive: true });
-    await Bun.write(outputPath, snapshot);
+    await writeFile(outputPath, snapshot);
     console.log(`Wrote ${outputPath}`);
   }
 

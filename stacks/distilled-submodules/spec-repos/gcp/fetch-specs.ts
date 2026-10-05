@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches all GCP API discovery documents (all versions) to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Discovery docs are saved to:
  *   ../specs/{name}-{version}.json
@@ -13,7 +13,8 @@
  *   ../specs/_manifest.json    – manifest of successfully fetched specs
  */
 
-import { mkdirSync } from "fs";
+import { mkdirSync, statSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const DISCOVERY_URL = "https://discovery.googleapis.com/discovery/v1/apis";
 const SPECS_DIR = "../specs";
@@ -68,7 +69,7 @@ async function main() {
   const directory: DirectoryResponse = await dirResponse.json();
 
   // Save directory
-  await Bun.write(`${SPECS_DIR}/_directory.json`, JSON.stringify(directory, null, 2));
+  await writeFile(`${SPECS_DIR}/_directory.json`, JSON.stringify(directory, null, 2));
 
   // Merge in APIs published outside the central directory. Re-sort by
   // name+version so the manifest stays alphabetically stable.
@@ -101,7 +102,7 @@ async function main() {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
           const doc = await response.json();
-          await Bun.write(filepath, JSON.stringify(doc, null, 2));
+          await writeFile(filepath, JSON.stringify(doc, null, 2));
           fetched++;
         } catch (err) {
           failed++;
@@ -131,7 +132,7 @@ async function main() {
     .filter((item) => {
       // Check if file was actually written
       try {
-        return Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
+        return statSync(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
       } catch {
         return false;
       }
@@ -144,7 +145,7 @@ async function main() {
       filename: `${item.name}-${item.version}.json`,
     }));
 
-  await Bun.write(`${SPECS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2));
+  await writeFile(`${SPECS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2));
 
   console.log(`\nDone! ${fetched} specs saved to specs/, ${failed} failed.`);
   console.log(`Manifest: ${SPECS_DIR}/_manifest.json`);

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors PayPal's REST API OpenAPI specs into ../specs/.
  *
@@ -9,7 +9,7 @@
  * never crawls the live developer site.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/<name>.json
@@ -17,6 +17,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "paypal/paypal-rest-api-specifications";
@@ -120,7 +121,7 @@ async function main() {
     );
     // 2-space indent + trailing newline so a whitespace-only change upstream
     // produces no diff.
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
   }
 
   for (const doc of DOCS) {
@@ -129,13 +130,13 @@ async function main() {
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     if (doc.kind === "json") {
       const body = (await response.json()) as unknown;
-      await Bun.write(outputPath, JSON.stringify(body, null, 2) + "\n");
+      await writeFile(outputPath, JSON.stringify(body, null, 2) + "\n");
     } else {
       const text = await response.text();
       if (text.trim().length === 0) {
         throw new Error(`${doc.url} returned an empty document`);
       }
-      await Bun.write(outputPath, text.endsWith("\n") ? text : `${text}\n`);
+      await writeFile(outputPath, text.endsWith("\n") ? text : `${text}\n`);
     }
     console.log(`Writing ${outputPath}...`);
   }

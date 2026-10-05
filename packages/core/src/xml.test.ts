@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
 import * as Effect from "effect/Effect";
+import { describe, it } from "vitest";
 import fixtures from "./fixtures/xml/upstream-validator.json" with { type: "json" };
 import { escapeXml, parseXml, parseXmlSync, XmlParseError } from "./xml.ts";
 

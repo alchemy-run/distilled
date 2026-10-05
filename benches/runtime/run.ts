@@ -1,12 +1,12 @@
 /**
  * Distilled runtime benchmark runner.
  *
- *   bun run.ts                 quick profile (~1–2 min)
- *   bun run.ts --full          mitata's default budget per case (longer)
- *   bun run.ts --filter aws/   only cases whose name matches
- *   bun run.ts --json          JSON results on stdout (for CI artifacts)
- *   bun run.ts --record        also write results/latest.json (committed;
- *                              the distilled.cloud website reads it)
+ *   node --conditions=bun run.ts                 quick profile (~1–2 min)
+ *   node --conditions=bun run.ts --full          mitata's default budget per case (longer)
+ *   node --conditions=bun run.ts --filter aws/   only cases whose name matches
+ *   node --conditions=bun run.ts --json          JSON results on stdout (for CI artifacts)
+ *   node --conditions=bun run.ts --record        also write results/latest.json (committed;
+ *                                                the distilled.cloud website reads it)
  *
  * Case names are `provider/service/op/stage`. See README.md for what each
  * stage measures and how to read the table.
@@ -46,7 +46,7 @@ if (opts.json) {
   console.log(
     JSON.stringify(
       {
-        runtime: `bun ${Bun.version}`,
+        runtime: `node ${process.versions.node}`,
         profile: opts.full ? "full" : "quick",
         setupMs: Math.round(setupMs),
         elapsedMs: Math.round(elapsedMs),
@@ -59,7 +59,7 @@ if (opts.json) {
 } else {
   console.log("");
   console.log(
-    `distilled runtime benches — bun ${Bun.version}, profile=${opts.full ? "full" : "quick"}, ` +
+    `distilled runtime benches — node ${process.versions.node}, profile=${opts.full ? "full" : "quick"}, ` +
       `setup ${Math.round(setupMs)} ms, total ${(elapsedMs / 1000).toFixed(1)} s`,
   );
   console.log("times are per call; ops/sec = 1e9 / avg ns\n");

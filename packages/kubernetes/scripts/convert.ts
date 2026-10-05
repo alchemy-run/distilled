@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the aggregated Kubernetes Swagger 2.0 spec into Smithy 2.0
  * JSON models, one per Kubernetes API group.
@@ -44,7 +44,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specPath = path.join(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
 const patchesDir = path.join(root, "patches");
 const outDir = path.join(root, ".generated-specs");

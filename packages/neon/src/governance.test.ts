@@ -1,4 +1,3 @@
-import { expect, test, spyOn } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -7,6 +6,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
+import { expect, test, vi } from "vitest";
 import { fromApiKey } from "./credentials.ts";
 import { Retry } from "./retry.ts";
 import * as Neon from "./services/neon.ts";
@@ -92,7 +92,7 @@ test("organization and personal create operations redact reveal-once keys and pr
       Effect.provide(
         harness((request) => {
           expect(request.method).toBe("POST");
-          expect(request.url).toEndWith("/organizations/org-fixture/api_keys");
+          expect(request.url.endsWith("/organizations/org-fixture/api_keys")).toBe(true);
           expect(request.headers.authorization).toBe("Bearer fixture-deployment-secret");
           if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON body");
           expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
@@ -123,7 +123,7 @@ test("organization and personal create operations redact reveal-once keys and pr
 test("API key debug diagnostics never expose deployment or reveal-once tokens", async () => {
   const previous = process.env.DISTILLED_DEBUG_HTTP;
   const logs: string[] = [];
-  const spy = spyOn(console, "error").mockImplementation((...args) => {
+  const spy = vi.spyOn(console, "error").mockImplementation((...args) => {
     logs.push(args.join(" "));
   });
   process.env.DISTILLED_DEBUG_HTTP = "1";
@@ -159,7 +159,7 @@ test("organization key list is an unpaginated metadata array and revoke uses the
       Effect.provide(
         harness((request) => {
           expect(request.method).toBe("GET");
-          expect(request.url).toEndWith("/organizations/org-fixture/api_keys");
+          expect(request.url.endsWith("/organizations/org-fixture/api_keys")).toBe(true);
           return Response.json([metadata]);
         }),
       ),
@@ -171,7 +171,7 @@ test("organization key list is an unpaginated metadata array and revoke uses the
       Effect.provide(
         harness((request) => {
           expect(request.method).toBe("DELETE");
-          expect(request.url).toEndWith("/organizations/org-fixture/api_keys/123");
+          expect(request.url.endsWith("/organizations/org-fixture/api_keys/123")).toBe(true);
           expect(request.body._tag).toBe("Empty");
           return Response.json({
             ...metadata,

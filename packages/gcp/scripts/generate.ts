@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * generate — turn the Smithy JSON models in .generated-specs into an Effect SDK.
  *
@@ -13,8 +13,8 @@
  * protocol/retry names.
  *
  * Run twice to cover both trees (see package.json `generate`):
- *   bun scripts/generate.ts
- *   bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
+ *   node --conditions=bun scripts/generate.ts
+ *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
@@ -102,7 +102,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the GCP Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs/stable",
   outDir: "src/services",
   spec: (model) => makeGcpSpec(model.metadata ?? {}),

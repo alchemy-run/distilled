@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
@@ -69,7 +69,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Typesense Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — there is no smithy-model patch chain.
   patchesDir: false,

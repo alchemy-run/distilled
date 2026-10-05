@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn Fly.io specs into Smithy JSON models.
  *
@@ -48,7 +48,7 @@ if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
   throw new Error("Only --resource machines is supported");
 }
 
-const root = `${import.meta.dir}/..`;
+const root = `${import.meta.dirname}/..`;
 const patchesRoot = path.join(root, "patches");
 const generatedDir = path.join(root, ".generated-specs");
 

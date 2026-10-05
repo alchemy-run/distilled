@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the DigitalOcean public OpenAPI spec to ../specs/.
  *
@@ -9,7 +9,7 @@
  * upstream produces no diff.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/openapi.json
@@ -21,6 +21,8 @@ const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -41,7 +43,7 @@ async function main() {
   }
 
   const text = await response.text();
-  const spec = Bun.YAML.parse(text) as Record<string, unknown>;
+  const spec = YAML.parse(text) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI document.
@@ -52,7 +54,7 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }

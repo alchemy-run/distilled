@@ -1,9 +1,9 @@
-import { expect, test } from "bun:test";
 import * as Prisma from "@distilled.cloud/prisma";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import { expect, test } from "vitest";
 
 const credentials = (env: Record<string, string>) =>
   Effect.gen(function* () {

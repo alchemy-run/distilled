@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Boat
@@ -89,7 +89,7 @@ const boatSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Boat Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {
     const shapes = (model.shapes ?? {}) as Record<string, any>;

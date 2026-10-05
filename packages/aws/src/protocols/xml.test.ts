@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -9,6 +8,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as Stream from "effect/Stream";
+import { describe, it } from "vitest";
 import type { Response } from "../client/response.ts";
 import * as Credentials from "../credentials.browser.ts";
 import * as Endpoint from "../endpoint.ts";

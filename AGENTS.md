@@ -64,9 +64,11 @@ pnpm patches:audit <pkg>    # which of packages/<pkg>/patches/ the spec no longe
 ```
 
 Package manager is pnpm 12 (`packageManager` pins it), Node 24
-(`.node-version`). Bun runs the scripts under `scripts/` and
-`packages/*/scripts/`, so you need both on PATH. A `pre-commit` hook runs
-`bun format`.
+(`.node-version`). Node runs the scripts under `scripts/` and
+`packages/*/scripts/` directly (native TypeScript type stripping) with
+`--conditions=bun`, which resolves workspace packages to their `src/*.ts`
+through the `bun` export condition. Tests use vitest: `pnpm vitest run
+<paths>`. A `pre-commit` hook runs `pnpm format`.
 
 ## Things that will surprise you
 

@@ -35,7 +35,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -52,7 +52,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -75,12 +75,12 @@ jobs:
         run: pnpm specs:check
 
       - name: Test Prisma credentials and spec mirror identities
-        run: bun test packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
+        run: pnpm vitest run packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
 
       # Every SDK's lenient/strict response-validation contract, against a
       # mocked HttpClient (no network, no credentials).
       - name: Test response validation
-        run: bun test ./packages/*/src/response-validation.test.ts
+        run: pnpm vitest run packages/*/src/response-validation.test.ts
 
   website:
     name: Website (typecheck & static build)
@@ -89,7 +89,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm & Bun
+      - name: Setup pnpm
         uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           cache: true
@@ -128,7 +128,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true

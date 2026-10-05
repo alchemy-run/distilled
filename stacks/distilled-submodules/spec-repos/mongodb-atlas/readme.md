@@ -19,8 +19,8 @@ git submodule add https://github.com/distilled-mirror/spec-mirror-mongodb-atlas.
 From `.meta/`:
 
 ```sh
-bun install
-bun run fetch-specs
+pnpm install
+pnpm run fetch-specs
 ```
 
 ---

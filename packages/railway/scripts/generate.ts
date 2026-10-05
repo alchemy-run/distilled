@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * Generate the Railway Query SDK from the complete GraphQL model.
  *
@@ -9,7 +9,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { generateGraphQLClient, type GraphQLModel } from "../../core/src/codegen/graphql-client.ts";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const model: GraphQLModel = JSON.parse(
   await fs.readFile(path.join(root, ".generated-graphql/railway.json"), "utf8"),
 );

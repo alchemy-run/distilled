@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * specs — the spec-mirror workflow, from a local working copy to a real
  * submodule.
@@ -38,7 +38,7 @@ import { spawnSync } from "node:child_process";
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
-const ROOT = join(import.meta.dir, "..");
+const ROOT = join(import.meta.dirname, "..");
 const STACK = join(ROOT, "stacks", "distilled-submodules");
 const PACKAGES = join(ROOT, "packages");
 
@@ -83,6 +83,7 @@ const die = (message: string): never => {
 
 const run = (cmd: string[], cwd: string) => {
   const result = spawnSync(cmd[0]!, cmd.slice(1), { cwd, stdio: "inherit" });
+  if (result.error) die(`\n${cmd.join(" ")} could not start in ${cwd}: ${result.error.message}`);
   if (result.status !== 0) {
     die(`\n${cmd.join(" ")} failed in ${cwd} (exit ${result.status})`);
   }
@@ -130,13 +131,15 @@ const local = (pkg: string) => {
   const meta = join(dest, ".meta");
   // The mirror's own workflow installs before every fetch; here the install is
   // the expensive part and the dependencies never change between runs, so it
-  // happens once and a refetch is just the script.
+  // happens once and a refetch is just the script. Both run the way the
+  // mirror's own workflow does (pnpm + Node), so this tree behaves like the
+  // mirror.
   if (!existsSync(join(meta, "node_modules"))) {
-    console.log(`📦 bun install (${pkg})`);
-    run(["bun", "install"], meta);
+    console.log(`📦 pnpm install (${pkg})`);
+    run(["pnpm", "install", "--ignore-workspace", "--no-frozen-lockfile"], meta);
   }
   console.log(`🌐 fetch-specs (${pkg})`);
-  run(["bun", "run", "fetch-specs.ts"], meta);
+  run(["node", "fetch-specs.ts"], meta);
 
   console.log(
     `\n✅ ${pkg}: generate against it with\n` +

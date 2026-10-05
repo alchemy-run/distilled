@@ -1,6 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { DopplerParseError } from "./errors.ts";
 import type { DopplerOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";

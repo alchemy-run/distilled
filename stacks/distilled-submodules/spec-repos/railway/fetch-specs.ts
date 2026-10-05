@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Railway API spec(s) to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Sources may be OpenAPI documents (fetched via GET) or GraphQL endpoints
  * (introspected via POST). For GraphQL, both an introspection JSON and an
@@ -14,6 +14,7 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import {
   buildClientSchema,
   getIntrospectionQuery,
@@ -63,7 +64,7 @@ async function fetchOpenApi(src: SpecSource) {
   const spec = parseSpec(await response.text());
   const outputPath = `${SPECS_DIR}/${src.output}.json`;
   console.log(`Writing ${outputPath}...`);
-  await Bun.write(outputPath, JSON.stringify(spec, null, 2));
+  await writeFile(outputPath, JSON.stringify(spec, null, 2));
 }
 
 async function fetchGraphQL(src: SpecSource) {
@@ -93,12 +94,12 @@ async function fetchGraphQL(src: SpecSource) {
   const introspection = payload.data;
   const jsonPath = `${SPECS_DIR}/${src.output}.json`;
   console.log(`Writing ${jsonPath}...`);
-  await Bun.write(jsonPath, JSON.stringify(introspection, null, 2));
+  await writeFile(jsonPath, JSON.stringify(introspection, null, 2));
 
   const schema = buildClientSchema(introspection);
   const sdlPath = `${SPECS_DIR}/${src.output}.graphql`;
   console.log(`Writing ${sdlPath}...`);
-  await Bun.write(sdlPath, printSchema(schema));
+  await writeFile(sdlPath, printSchema(schema));
 }
 
 async function main() {

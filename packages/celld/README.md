@@ -78,7 +78,7 @@ there is no speculative mirror repository or runtime code scraper.
 ## Validation
 
 ```sh
-bun test packages/celld/test/sdk.test.ts
+pnpm vitest run packages/celld/test/sdk.test.ts
 pnpm exec tsc -b packages/celld/tsconfig.json packages/celld/tsconfig.scripts.json --noCheck false
 pnpm exec tsc -p packages/celld/tsconfig.test.json
 ```

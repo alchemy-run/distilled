@@ -65,8 +65,8 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts && bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts && node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
     "typecheck": "tsc -p tsconfig.json",
     "typecheck:strict": "tsc -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-google-workspace",
@@ -76,8 +76,6 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:",
-    "@types/bun": "catalog:",
     "@types/node": "catalog:"
   },
   "peerDependencies": {

@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Neon OpenAPI spec to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/openapi.json
@@ -14,6 +14,7 @@ const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 export function serializeSpec(spec: unknown): string {
   if (
@@ -48,7 +49,7 @@ async function main() {
     mkdirSync(SPECS_DIR, { recursive: true });
   }
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, serialized);
+  await writeFile(OUTPUT_PATH, serialized);
 
   console.log("Done!");
 }

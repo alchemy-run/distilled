@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Gusto OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -54,7 +54,7 @@ const dropProtocolHeaders = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "gusto",

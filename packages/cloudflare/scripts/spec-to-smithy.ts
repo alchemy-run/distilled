@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * spec-to-smithy — convert the mirrored Cloudflare API markdown specs into
  * Smithy 2.0 JSON models.
@@ -32,15 +32,15 @@
  * plus `smithy.api#required`, `smithy.api#jsonName`, and `smithy.api#documentation`.
  *
  * Usage:
- *   bun scripts/spec-to-smithy.ts
- *   bun scripts/spec-to-smithy.ts --resource ai          # one top-level resource
- *   bun scripts/spec-to-smithy.ts --limit 50             # first N operations
- *   bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
+ *   node --conditions=bun scripts/spec-to-smithy.ts
+ *   node --conditions=bun scripts/spec-to-smithy.ts --resource ai          # one top-level resource
+ *   node --conditions=bun scripts/spec-to-smithy.ts --limit 50             # first N operations
+ *   node --conditions=bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
  */
 
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
-import { BunRuntime, BunServices } from "@effect/platform-bun";
+import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
 import { Flag } from "effect/cli";
 import { Command } from "effect/cli";
@@ -2033,7 +2033,7 @@ const command = Command.make(
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
-      const root = path.resolve(import.meta.dir, "..");
+      const root = path.resolve(import.meta.dirname, "..");
       const specsDir = resolveSpecPath(root, config.specs);
       const outDir = path.resolve(root, config.out);
 
@@ -2177,4 +2177,4 @@ const command = Command.make(
 
 const program = Command.run(command, { version: "1.0.0" });
 
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+NodeRuntime.runMain(Effect.provide(program, NodeServices.layer));

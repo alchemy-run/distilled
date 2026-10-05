@@ -9,6 +9,9 @@
     "allowJs": true,
     "esModuleInterop": true,
     "noEmit": true,
+    "types": ["node"],
+    // Node runs fetch-specs.ts by stripping types, so only erasable syntax.
+    "erasableSyntaxOnly": true,
     // Bundler mode
     "module": "Preserve",
     "moduleResolution": "Bundler",

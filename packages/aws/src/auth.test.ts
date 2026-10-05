@@ -1,4 +1,3 @@
-import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -11,6 +10,7 @@ import * as Layer from "effect/Layer";
 import * as Path from "effect/Path";
 import * as PlatformError from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { makeAuthService, ssoRoleCredentialsCacheName, ssoTokenCacheName } from "./auth.ts";
 
 const sha1 = (input: string) => createHash("sha1").update(input).digest("hex");

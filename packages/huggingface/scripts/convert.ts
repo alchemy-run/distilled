@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — the Hub's OpenAPI description → Smithy JSON models in
  * .generated-specs.
@@ -35,7 +35,7 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-huggingface/specs/openapi.json");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -176,7 +176,7 @@ const toPascal = (slug: string): string =>
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
   throw new Error(
-    `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI document`,
+    `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI document`,
   );
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));

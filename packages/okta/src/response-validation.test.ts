@@ -1,7 +1,7 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { fromApiToken } from "./credentials.ts";
 import { OktaParseError } from "./errors.ts";
 import type { OktaOpError } from "./protocol.ts";

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
@@ -76,7 +76,7 @@ const modrinthSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Modrinth Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: () => modrinthSpec,
 });

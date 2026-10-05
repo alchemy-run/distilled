@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the turbopuffer OpenAPI spec and a snapshot of vendor docs into
  * ../specs/.
@@ -10,7 +10,7 @@
  * generate never crawl turbopuffer.com at convert time.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
@@ -19,7 +19,9 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile as fsWriteFile } from "fs/promises";
 import { dirname } from "path";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "turbopuffer/turbopuffer-openapi";
@@ -92,7 +94,7 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
 
 const writeFile = async (path: string, body: string): Promise<void> => {
   mkdirSync(dirname(path), { recursive: true });
-  await Bun.write(path, body.endsWith("\n") ? body : `${body}\n`);
+  await fsWriteFile(path, body.endsWith("\n") ? body : `${body}\n`);
 };
 
 async function main() {
@@ -100,7 +102,7 @@ async function main() {
   console.log(`Fetching OpenAPI spec from ${specUrl}...`);
 
   const yamlText = await (await fetchText(specUrl, "text/yaml, text/plain")).text();
-  const spec = Bun.YAML.parse(yamlText) as Record<string, unknown>;
+  const spec = YAML.parse(yamlText) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid YAML/JSON, but it is not an OpenAPI
@@ -115,7 +117,7 @@ async function main() {
   // Convert YAML → JSON in the mirror so convert.ts can use JSON.parse.
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await fsWriteFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
   console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);

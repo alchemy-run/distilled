@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * patches — find RFC-6902 patches a package's spec no longer needs.
  *
@@ -28,7 +28,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 
-const ROOT = join(import.meta.dir, "..");
+const ROOT = join(import.meta.dirname, "..");
 const SKIP_ENV = "DISTILLED_SKIP_PATCHES";
 const MAX_DIFF_LINES = 12;
 
@@ -101,7 +101,8 @@ const convert = (pkgDir: string, outDir: string, skip?: string): Run => {
   const env = { ...process.env };
   if (skip === undefined) delete env[SKIP_ENV];
   else env[SKIP_ENV] = skip;
-  const result = spawnSync("bun", ["run", "convert"], {
+  // --silent: no script banner on stdout, no ELIFECYCLE trailer under the error lines.
+  const result = spawnSync("pnpm", ["--silent", "run", "convert"], {
     cwd: pkgDir,
     env,
     encoding: "utf8",

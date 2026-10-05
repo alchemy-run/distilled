@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Daytona's three published API descriptions to ../specs/.
  *
@@ -14,7 +14,7 @@
  * snapshots them as deterministic JSON.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -23,6 +23,7 @@
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const SPECS_DIR = "../specs";
 
@@ -87,7 +88,7 @@ async function main() {
     console.log(`Writing ${outputPath}...`);
     // 2-space indent + trailing newline so a whitespace-only change upstream
     // produces no diff.
-    await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
 
     const version = typeof spec.openapi === "string" ? spec.openapi : spec.swagger;
     console.log(

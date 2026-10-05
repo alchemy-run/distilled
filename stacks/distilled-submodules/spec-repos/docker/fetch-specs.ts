@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Docker Engine API spec into ../specs/.
  *
@@ -9,13 +9,14 @@
  * deterministic JSON so a whitespace-only change upstream produces no diff.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/swagger.json
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
@@ -54,8 +55,6 @@ async function main() {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
-  // Bun.YAML rejects flow-map `example: { ... }` values that this spec uses;
-  // the `yaml` package parses the document correctly.
   const spec = YAML.parse(await response.text()) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
@@ -73,7 +72,7 @@ async function main() {
   }
 
   console.log(`Writing ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`);
 }
