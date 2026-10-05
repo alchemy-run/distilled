@@ -14,9 +14,14 @@ export type { CloudflareOpError, CloudflareOpContext };
 
 /** Fallback camelCase→wire mapping for opaque content (mined from the distilled SDK). */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
+  aiBotsMigrationOptOut: "ai_bots_migration_opt_out",
   aiBotsProtection: "ai_bots_protection",
+  aiSearch: "ai_search",
+  aiTraining: "ai_training",
+  aiUser: "ai_user",
   autoUpdateModel: "auto_update_model",
   bmCookieEnabled: "bm_cookie_enabled",
+  botPreferenceSyncEnabled: "bot_preference_sync_enabled",
   cfRobotsVariant: "cf_robots_variant",
   contentBotsProtection: "content_bots_protection",
   crawlerProtection: "crawler_protection",
@@ -55,17 +60,13 @@ export const CreateFeedbackRequestRequestsByAttribute = /*@__PURE__*/ S.suspend(
   identifier: "CreateFeedbackRequestRequestsByAttribute",
 }) as any as S.Schema<CreateFeedbackRequestRequestsByAttribute>;
 
-export type CreateFeedbackRequestRequestsByScoreMap = {
-  [key: string]: number | undefined;
-};
+export type CreateFeedbackRequestRequestsByScoreMap = { [key: string]: number | undefined };
 export const CreateFeedbackRequestRequestsByScoreMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<CreateFeedbackRequestRequestsByScoreMap>;
 
-export type CreateFeedbackRequestRequestsByScoreSrcMap = {
-  [key: string]: number | undefined;
-};
+export type CreateFeedbackRequestRequestsByScoreSrcMap = { [key: string]: number | undefined };
 export const CreateFeedbackRequestRequestsByScoreSrcMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -111,24 +112,14 @@ export const CreateFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
     type: CreateFeedbackRequestType,
     subtype: S.optional(S.String),
   })
-    .pipe(
-      T.Http({
-        method: "POST",
-        uri: "/zones/{zone_id}/bot_management/feedback",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/bot_management/feedback", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFeedbackRequest",
-}) as any as S.Schema<CreateFeedbackRequest>;
+).annotate({ identifier: "CreateFeedbackRequest" }) as any as S.Schema<CreateFeedbackRequest>;
 
 export interface CreateFeedbackResponse {}
 export const CreateFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "CreateFeedbackResponse",
-}) as any as S.Schema<CreateFeedbackResponse>;
+).annotate({ identifier: "CreateFeedbackResponse" }) as any as S.Schema<CreateFeedbackResponse>;
 
 export interface GetBotManagementRequest {
   /** Identifier. */
@@ -138,17 +129,9 @@ export const GetBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/bot_management",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/bot_management", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBotManagementRequest",
-}) as any as S.Schema<GetBotManagementRequest>;
+).annotate({ identifier: "GetBotManagementRequest" }) as any as S.Schema<GetBotManagementRequest>;
 
 export type GetResultBotFightModeConfigurationAiBotsProtection =
   | "block"
@@ -854,9 +837,7 @@ export const GetResult = /*@__PURE__*/ S.Unknown.pipe(
 export type GetBotManagementResponse = GetResult;
 export const GetBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   GetResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetBotManagementResponse",
-}) as any as S.Schema<GetBotManagementResponse>;
+).annotate({ identifier: "GetBotManagementResponse" }) as any as S.Schema<GetBotManagementResponse>;
 
 export interface ListFeedbackRequest {
   /** Identifier. */
@@ -866,32 +847,20 @@ export const ListFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
   })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/bot_management/feedback",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/bot_management/feedback", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFeedbackRequest",
-}) as any as S.Schema<ListFeedbackRequest>;
+).annotate({ identifier: "ListFeedbackRequest" }) as any as S.Schema<ListFeedbackRequest>;
 
 export type ListFeedbackResponseRequestsByAttribute = CreateFeedbackRequestRequestsByAttribute;
 export const ListFeedbackResponseRequestsByAttribute = CreateFeedbackRequestRequestsByAttribute;
 
-export type ListFeedbackResponseRequestsByScoreMap = {
-  [key: string]: number | undefined;
-};
+export type ListFeedbackResponseRequestsByScoreMap = { [key: string]: number | undefined };
 export const ListFeedbackResponseRequestsByScoreMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
 ) as any as S.Schema<ListFeedbackResponseRequestsByScoreMap>;
 
-export type ListFeedbackResponseRequestsByScoreSrcMap = {
-  [key: string]: number | undefined;
-};
+export type ListFeedbackResponseRequestsByScoreSrcMap = { [key: string]: number | undefined };
 export const ListFeedbackResponseRequestsByScoreSrcMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -937,9 +906,7 @@ export const ListFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
     subtype: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "ListFeedbackResponse",
-}) as any as S.Schema<ListFeedbackResponse>;
+).annotate({ identifier: "ListFeedbackResponse" }) as any as S.Schema<ListFeedbackResponse>;
 
 export type UpdateRequestAiBotsProtection = "block" | "disabled" | "only_on_ad_pages";
 export const UpdateRequestAiBotsProtection = S.String;
@@ -1174,17 +1141,9 @@ export const PutBotManagementRequest = /*@__PURE__*/ S.suspend(() =>
     bmCookieEnabled: S.optional(S.Boolean.pipe(T.Body("bm_cookie_enabled"))),
     suppressSessionScore: S.optional(S.Boolean.pipe(T.Body("suppress_session_score"))),
   })
-    .pipe(
-      T.Http({
-        method: "PUT",
-        uri: "/zones/{zone_id}/bot_management",
-        code: 200,
-      }),
-    )
+    .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/bot_management", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutBotManagementRequest",
-}) as any as S.Schema<PutBotManagementRequest>;
+).annotate({ identifier: "PutBotManagementRequest" }) as any as S.Schema<PutBotManagementRequest>;
 
 export type UpdateResultBotFightModeConfigurationAiBotsProtection =
   | "block"
@@ -1839,9 +1798,7 @@ export const UpdateResult = /*@__PURE__*/ S.Unknown.pipe(
 export type PutBotManagementResponse = UpdateResult;
 export const PutBotManagementResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateResult.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "PutBotManagementResponse",
-}) as any as S.Schema<PutBotManagementResponse>;
+).annotate({ identifier: "PutBotManagementResponse" }) as any as S.Schema<PutBotManagementResponse>;
 
 export type CreateFeedbackError = CloudflareOpError;
 /** Submit a feedback report for the specified zone. Use `type` to indicate whether the report is a false positive (good traffic flagged as bot) or a false negative (bot traffic missed). Furthermore, you can also use `expression` as a wirefilter to identify the affected traffic sample. See more accepted API fields and expression types at https://developers.cloudflare.com/bots/concepts/feedback-loop/#api-fields and https://developers.cloudflare.com/bots/concepts/feedback-loop/#expression-fields, respectively. */
