@@ -94,9 +94,7 @@ export const AddDiskUserRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: DiskUser.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/users", code: 200 })),
-).annotate({
-  identifier: "AddDiskUserRequest",
-}) as any as S.Schema<AddDiskUserRequest>;
+).annotate({ identifier: "AddDiskUserRequest" }) as any as S.Schema<AddDiskUserRequest>;
 
 export type AuthorizedUserType = "token" | "awssts";
 export const AuthorizedUserType = S.String;
@@ -149,9 +147,7 @@ export const CreateApiTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/tokens", code: 200 })),
-).annotate({
-  identifier: "CreateApiTokenRequest",
-}) as any as S.Schema<CreateApiTokenRequest>;
+).annotate({ identifier: "CreateApiTokenRequest" }) as any as S.Schema<CreateApiTokenRequest>;
 
 export interface ApiResponseTokenCreatedData {
   /** Token hash/ID */
@@ -188,9 +184,7 @@ export const ApiResponseTokenCreated = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseTokenCreatedData,
   }),
-).annotate({
-  identifier: "ApiResponseTokenCreated",
-}) as any as S.Schema<ApiResponseTokenCreated>;
+).annotate({ identifier: "ApiResponseTokenCreated" }) as any as S.Schema<ApiResponseTokenCreated>;
 
 /** Mount type identifier */
 export type S3MountType = "s3";
@@ -307,9 +301,7 @@ export const S3CompatibleMount = /*@__PURE__*/ S.suspend(() =>
     secretAccessKey: S.String.pipe(T.SensitiveValue({})),
     bucketPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "S3CompatibleMount",
-}) as any as S.Schema<S3CompatibleMount>;
+).annotate({ identifier: "S3CompatibleMount" }) as any as S.Schema<S3CompatibleMount>;
 
 /** Mount type identifier */
 export type AzureBlobMountType = "azure-blob";
@@ -376,9 +368,7 @@ export const CreateDiskRequest = /*@__PURE__*/ S.suspend(() =>
     mounts: S.optional(CreateDiskRequestMountsList),
     authMethods: S.optional(CreateDiskRequestAuthMethodsList),
   }).pipe(T.Http({ method: "POST", uri: "/api/disks", code: 200 })),
-).annotate({
-  identifier: "CreateDiskRequest",
-}) as any as S.Schema<CreateDiskRequest>;
+).annotate({ identifier: "CreateDiskRequest" }) as any as S.Schema<CreateDiskRequest>;
 
 export type ApiResponseCreateDiskDataAuthorizedUsersList = Array<AuthorizedUser>;
 export const ApiResponseCreateDiskDataAuthorizedUsersList = /*@__PURE__*/ S.Array(
@@ -407,9 +397,13 @@ export const ApiResponseCreateDisk = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseCreateDiskData,
   }),
-).annotate({
-  identifier: "ApiResponseCreateDisk",
-}) as any as S.Schema<ApiResponseCreateDisk>;
+).annotate({ identifier: "ApiResponseCreateDisk" }) as any as S.Schema<ApiResponseCreateDisk>;
+
+/** TCP ports to expose publicly when the sandbox is created. */
+export type CreateSandboxRequestPortsList = Array<number>;
+export const CreateSandboxRequestPortsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateSandboxRequestPortsList>;
 
 /** Environment variables applied to every process */
 export type CreateSandboxRequestEnvMap = { [key: string]: string | undefined };
@@ -418,6 +412,93 @@ export const CreateSandboxRequestEnvMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<CreateSandboxRequestEnvMap>;
 
+export type SandboxNetworkAction = "allow" | "deny";
+export const SandboxNetworkAction = S.String;
+
+/** Outbound HTTPS request headers to set, overwriting values supplied by the sandbox. */
+export type SandboxEgressTransformHeadersMap = { [key: string]: string | undefined };
+export const SandboxEgressTransformHeadersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<SandboxEgressTransformHeadersMap>;
+
+/** Optional outbound HTTPS request transformations. An omitted or empty transform leaves the rule as an ordinary allow without request mutations. */
+export interface SandboxEgressTransform {
+  /** Outbound HTTPS request headers to set, overwriting values supplied by the sandbox. */
+  headers?: SandboxEgressTransformHeadersMap;
+}
+export const SandboxEgressTransform = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headers: S.optional(SandboxEgressTransformHeadersMap),
+  }),
+).annotate({ identifier: "SandboxEgressTransform" }) as any as S.Schema<SandboxEgressTransform>;
+
+export interface SandboxEgressRule {
+  /** Target allowed by this rule. Effective transformations and forwarding require an exact or wildcard lowercase domain. */
+  target: string;
+  transform?: SandboxEgressTransform;
+  /** Absolute public HTTPS URL that receives this rule's permitted HTTP and HTTPS requests instead of their original upstream. The original path is appended to this URL, and Archil overwrites the archil-forwarded-host, archil-forwarded-scheme, archil-forwarded-port, archil-forwarded-path, and archil-sandbox-id headers with request metadata. A transform on the same rule is applied before forwarding, so the forwarded request carries the transformed headers. URLs containing credentials, a query, or a fragment are rejected. */
+  forward_url?: string;
+}
+export const SandboxEgressRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    target: S.String,
+    transform: S.optional(SandboxEgressTransform),
+    forward_url: S.optional(S.String),
+  }),
+).annotate({ identifier: "SandboxEgressRule" }) as any as S.Schema<SandboxEgressRule>;
+
+export type SandboxEgressPolicyAllowItem = string | SandboxEgressRule;
+export const SandboxEgressPolicyAllowItem =
+  S.Unknown as any as S.Schema<SandboxEgressPolicyAllowItem>;
+
+/** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
+export type SandboxEgressPolicyAllowList = Array<SandboxEgressPolicyAllowItem>;
+export const SandboxEgressPolicyAllowList = /*@__PURE__*/ S.Array(
+  SandboxEgressPolicyAllowItem,
+) as any as S.Schema<SandboxEgressPolicyAllowList>;
+
+/** Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain. */
+export type SandboxEgressPolicyDenyList = Array<string>;
+export const SandboxEgressPolicyDenyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SandboxEgressPolicyDenyList>;
+
+/** Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume. */
+export type SandboxEgressPolicyDrainOnPauseList = Array<string>;
+export const SandboxEgressPolicyDrainOnPauseList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SandboxEgressPolicyDrainOnPauseList>;
+
+/** Deny targets take precedence when an address or domain matches both lists. When domain rules or drain selectors are present, TCP ports 80 and 443 are restricted to HTTP/1.1 or HTTP/2. Plaintext HTTP authority is enforced on port 80, but requests matching a transformation rule are rejected unless the rule also forwards. Port 443 is TLS-terminated; both TLS SNI and HTTP authority are evaluated, and the HTTP authority selects the upstream, any request transformations, and any request forwarding. DNS to the sandbox's configured resolvers is allowed and UDP port 443 is denied. */
+export interface SandboxEgressPolicy {
+  default: SandboxNetworkAction | (string & {});
+  /** Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations. */
+  allow?: SandboxEgressPolicyAllowList;
+  /** Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain. */
+  deny?: SandboxEgressPolicyDenyList;
+  /** Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume. */
+  drain_on_pause?: SandboxEgressPolicyDrainOnPauseList;
+}
+export const SandboxEgressPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    default: SandboxNetworkAction,
+    allow: S.optional(SandboxEgressPolicyAllowList),
+    deny: S.optional(SandboxEgressPolicyDenyList),
+    drain_on_pause: S.optional(SandboxEgressPolicyDrainOnPauseList),
+  }),
+).annotate({ identifier: "SandboxEgressPolicy" }) as any as S.Schema<SandboxEgressPolicy>;
+
+/** Sandbox network policy. New sandboxes on free plans receive deny-all egress with no allowlist exceptions. Start/resume and forks retain the stored policy. For paid accounts, egress is unrestricted when omitted. */
+export interface SandboxNetwork {
+  egress?: SandboxEgressPolicy;
+}
+export const SandboxNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    egress: S.optional(SandboxEgressPolicy),
+  }),
+).annotate({ identifier: "SandboxNetwork" }) as any as S.Schema<SandboxNetwork>;
+
 export interface CreateSandboxRequest {
   /** Hold the request for a completed sandbox lifecycle transition */
   wait?: boolean;
@@ -425,13 +506,20 @@ export interface CreateSandboxRequest {
   name?: string;
   vcpu_count?: number;
   mem_size_mib?: number;
-  /** Public Linux OCI image reference. Docker shorthand and tags are accepted. */
+  /** Public Linux OCI image reference. Docker shorthand and tags are accepted; the selected platform manifest is pinned at creation. */
   base_image?: string;
+  /** TCP ports to expose publicly when the sandbox is created. */
+  ports?: CreateSandboxRequestPortsList;
+  /** Allow services inside the sandbox to expose ingress. When false, services still run but their ports must be exposed explicitly through the API. Retained across starts, resumes, and forks. */
+  enable_service_ingress?: boolean;
   /** Environment variables applied to every process */
   env?: CreateSandboxRequestEnvMap;
-  /** Lifetime budget for each powered-on session. Activity does not extend the deadline; starting or resuming the sandbox begins a fresh session. */
+  network?: SandboxNetwork;
+  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. */
   max_ttl_seconds?: number;
-  /** Maximum concurrently attached process sessions */
+  /** Pause after this many seconds without a direct process connection, preserving memory and processes for resume. Omit or set to zero to disable idle expiry. */
+  idle_ttl_seconds?: number;
+  /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
   max_concurrent_execs?: number;
 }
 export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
@@ -441,13 +529,15 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     vcpu_count: S.optional(S.Number),
     mem_size_mib: S.optional(S.Number),
     base_image: S.optional(S.String),
+    ports: S.optional(CreateSandboxRequestPortsList),
+    enable_service_ingress: S.optional(S.Boolean),
     env: S.optional(CreateSandboxRequestEnvMap),
+    network: S.optional(SandboxNetwork),
     max_ttl_seconds: S.optional(S.Number),
+    idle_ttl_seconds: S.optional(S.Number),
     max_concurrent_execs: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes", code: 200 })),
-).annotate({
-  identifier: "CreateSandboxRequest",
-}) as any as S.Schema<CreateSandboxRequest>;
+).annotate({ identifier: "CreateSandboxRequest" }) as any as S.Schema<CreateSandboxRequest>;
 
 export interface CreateSandboxResponse {}
 export const CreateSandboxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -461,13 +551,7 @@ export interface CreateSandboxConnectionRequest {
 export const CreateSandboxConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/sandboxes/{sid}/connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/connections", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxConnectionRequest",
 }) as any as S.Schema<CreateSandboxConnectionRequest>;
@@ -481,9 +565,7 @@ export const SandboxConnection = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     expires_at: S.String,
   }),
-).annotate({
-  identifier: "SandboxConnection",
-}) as any as S.Schema<SandboxConnection>;
+).annotate({ identifier: "SandboxConnection" }) as any as S.Schema<SandboxConnection>;
 
 export interface ApiResponseSandboxConnection {
   success: boolean;
@@ -497,6 +579,59 @@ export const ApiResponseSandboxConnection = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ApiResponseSandboxConnection",
 }) as any as S.Schema<ApiResponseSandboxConnection>;
+
+export interface CreateSandboxPortTokenRequest {
+  /** Sandbox UUID */
+  sid: string;
+  port: number;
+  /** Token lifetime as a Go duration string (for example, "4m", "1h", or "24h"). Maximum 365 days ("8760h"). Omit for no expiration. */
+  ttl?: string;
+}
+export const CreateSandboxPortTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    port: S.Number,
+    ttl: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/port-tokens", code: 200 })),
+).annotate({
+  identifier: "CreateSandboxPortTokenRequest",
+}) as any as S.Schema<CreateSandboxPortTokenRequest>;
+
+export interface CreatedSandboxPortToken {
+  /** Stable token identifier used for get and revoke operations. */
+  id: string;
+  port: number;
+  created_at: string;
+  /** When the token expires. Absent for a non-expiring token. */
+  expires_at?: string;
+  /** Stable sandbox port hostname, shared with public access. */
+  hostname: string;
+  /** Raw token returned only when the token is created. */
+  token: string;
+}
+export const CreatedSandboxPortToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    port: S.Number,
+    created_at: S.String,
+    expires_at: S.optional(S.String),
+    hostname: S.String,
+    token: S.String,
+  }),
+).annotate({ identifier: "CreatedSandboxPortToken" }) as any as S.Schema<CreatedSandboxPortToken>;
+
+export interface ApiResponseCreatedSandboxPortToken {
+  success: boolean;
+  data: CreatedSandboxPortToken;
+}
+export const ApiResponseCreatedSandboxPortToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: CreatedSandboxPortToken,
+  }),
+).annotate({
+  identifier: "ApiResponseCreatedSandboxPortToken",
+}) as any as S.Schema<ApiResponseCreatedSandboxPortToken>;
 
 export interface CreateShareUrlRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -512,9 +647,7 @@ export const CreateShareUrlRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     expiresIn: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/share", code: 200 })),
-).annotate({
-  identifier: "CreateShareUrlRequest",
-}) as any as S.Schema<CreateShareUrlRequest>;
+).annotate({ identifier: "CreateShareUrlRequest" }) as any as S.Schema<CreateShareUrlRequest>;
 
 export interface ApiResponseShareUrlData {
   /** The signed, public download URL. */
@@ -527,9 +660,7 @@ export const ApiResponseShareUrlData = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     expiresIn: S.Number,
   }),
-).annotate({
-  identifier: "ApiResponseShareUrlData",
-}) as any as S.Schema<ApiResponseShareUrlData>;
+).annotate({ identifier: "ApiResponseShareUrlData" }) as any as S.Schema<ApiResponseShareUrlData>;
 
 export interface ApiResponseShareUrl {
   success: boolean;
@@ -540,9 +671,7 @@ export const ApiResponseShareUrl = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseShareUrlData,
   }),
-).annotate({
-  identifier: "ApiResponseShareUrl",
-}) as any as S.Schema<ApiResponseShareUrl>;
+).annotate({ identifier: "ApiResponseShareUrl" }) as any as S.Schema<ApiResponseShareUrl>;
 
 export interface DeleteDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -552,9 +681,7 @@ export const DeleteDiskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/disks/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteDiskRequest",
-}) as any as S.Schema<DeleteDiskRequest>;
+).annotate({ identifier: "DeleteDiskRequest" }) as any as S.Schema<DeleteDiskRequest>;
 
 export interface ApiResponseEmpty {
   success: boolean;
@@ -563,9 +690,7 @@ export const ApiResponseEmpty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "ApiResponseEmpty",
-}) as any as S.Schema<ApiResponseEmpty>;
+).annotate({ identifier: "ApiResponseEmpty" }) as any as S.Schema<ApiResponseEmpty>;
 
 export interface DeleteSandboxRequest {
   /** Sandbox UUID */
@@ -575,14 +700,50 @@ export const DeleteSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/sandboxes/{sid}", code: 200 })),
-).annotate({
-  identifier: "DeleteSandboxRequest",
-}) as any as S.Schema<DeleteSandboxRequest>;
+).annotate({ identifier: "DeleteSandboxRequest" }) as any as S.Schema<DeleteSandboxRequest>;
 
 export interface DeleteSandboxResponse {}
 export const DeleteSandboxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSandboxResponse",
 }) as any as S.Schema<DeleteSandboxResponse>;
+
+export interface DeleteSandboxPortRequest {
+  /** Sandbox UUID */
+  sid: string;
+  port: number;
+}
+export const DeleteSandboxPortRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    port: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/sandboxes/{sid}/ports/{port}", code: 200 })),
+).annotate({ identifier: "DeleteSandboxPortRequest" }) as any as S.Schema<DeleteSandboxPortRequest>;
+
+export interface DeleteSandboxPortResponse {}
+export const DeleteSandboxPortResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteSandboxPortResponse",
+}) as any as S.Schema<DeleteSandboxPortResponse>;
+
+export interface DeleteSandboxPortTokenRequest {
+  /** Sandbox UUID */
+  sid: string;
+  token_id: string;
+}
+export const DeleteSandboxPortTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    token_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/api/sandboxes/{sid}/port-tokens/{token_id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteSandboxPortTokenRequest",
+}) as any as S.Schema<DeleteSandboxPortTokenRequest>;
+
+export interface DeleteSandboxPortTokenResponse {}
+export const DeleteSandboxPortTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteSandboxPortTokenResponse",
+}) as any as S.Schema<DeleteSandboxPortTokenResponse>;
 
 export interface DeleteTokenRequest {
   /** The token ID (hash) */
@@ -592,9 +753,7 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export interface ApiResponseMessageData {
   message?: string;
@@ -603,9 +762,7 @@ export const ApiResponseMessageData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiResponseMessageData",
-}) as any as S.Schema<ApiResponseMessageData>;
+).annotate({ identifier: "ApiResponseMessageData" }) as any as S.Schema<ApiResponseMessageData>;
 
 export interface ApiResponseMessage {
   success: boolean;
@@ -616,9 +773,7 @@ export const ApiResponseMessage = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseMessageData,
   }),
-).annotate({
-  identifier: "ApiResponseMessage",
-}) as any as S.Schema<ApiResponseMessage>;
+).annotate({ identifier: "ApiResponseMessage" }) as any as S.Schema<ApiResponseMessage>;
 
 export interface ExecMount {
   /** Disk ID to mount at this relative path */
@@ -640,9 +795,7 @@ export type ExecRequestDisksValue = string | ExecMount;
 export const ExecRequestDisksValue = S.Unknown as any as S.Schema<ExecRequestDisksValue>;
 
 /** Map of relative path under `/mnt/archil` to the disk to mount there. At least one entry is required. Relative paths must be non-empty, non-absolute, and contain no `.` or `..` segments. Each value is either a plain disk ID string (mounts the disk's root, read-write) or an object that additionally selects a subdirectory of the disk and/or marks the mount as read-only. */
-export type ExecRequestDisksMap = {
-  [key: string]: ExecRequestDisksValue | undefined;
-};
+export type ExecRequestDisksMap = { [key: string]: ExecRequestDisksValue | undefined };
 export const ExecRequestDisksMap = /*@__PURE__*/ S.Record(
   S.String,
   ExecRequestDisksValue,
@@ -705,9 +858,7 @@ export const ApiResponseExec = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ExecDiskResult,
   }),
-).annotate({
-  identifier: "ApiResponseExec",
-}) as any as S.Schema<ApiResponseExec>;
+).annotate({ identifier: "ApiResponseExec" }) as any as S.Schema<ApiResponseExec>;
 
 export interface ExecDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -720,9 +871,7 @@ export const ExecDiskRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     command: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/exec", code: 200 })),
-).annotate({
-  identifier: "ExecDiskRequest",
-}) as any as S.Schema<ExecDiskRequest>;
+).annotate({ identifier: "ExecDiskRequest" }) as any as S.Schema<ExecDiskRequest>;
 
 export interface ApiResponseExecDisk {
   success: boolean;
@@ -733,9 +882,41 @@ export const ApiResponseExecDisk = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ExecDiskResult,
   }),
-).annotate({
-  identifier: "ApiResponseExecDisk",
-}) as any as S.Schema<ApiResponseExecDisk>;
+).annotate({ identifier: "ApiResponseExecDisk" }) as any as S.Schema<ApiResponseExecDisk>;
+
+export interface ExposeSandboxPortRequest {
+  /** Sandbox UUID */
+  sid: string;
+  port: number;
+}
+export const ExposeSandboxPortRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    port: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/sandboxes/{sid}/ports/{port}", code: 200 })),
+).annotate({ identifier: "ExposeSandboxPortRequest" }) as any as S.Schema<ExposeSandboxPortRequest>;
+
+export interface SandboxPort {
+  port: number;
+  hostname: string;
+}
+export const SandboxPort = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    port: S.Number,
+    hostname: S.String,
+  }),
+).annotate({ identifier: "SandboxPort" }) as any as S.Schema<SandboxPort>;
+
+export interface ApiResponseSandboxPort {
+  success: boolean;
+  data: SandboxPort;
+}
+export const ApiResponseSandboxPort = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: SandboxPort,
+  }),
+).annotate({ identifier: "ApiResponseSandboxPort" }) as any as S.Schema<ApiResponseSandboxPort>;
 
 export interface ForkSandboxRequest {
   /** Sandbox UUID */
@@ -744,16 +925,17 @@ export interface ForkSandboxRequest {
   wait?: boolean;
   /** Name for the fork. A random word-list name is generated when omitted. */
   name?: string;
+  /** Fork this checkpoint of the source, as returned by pause, stop, or describe, instead of the source's live state. The source is neither paused nor resumed. Only the current session's checkpoint and the one before it are accepted; an uncommitted or superseded checkpoint is rejected with 409. */
+  checkpoint?: string;
 }
 export const ForkSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
     wait: S.optional(S.Boolean.pipe(T.Query())),
     name: S.optional(S.String),
+    checkpoint: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/fork", code: 200 })),
-).annotate({
-  identifier: "ForkSandboxRequest",
-}) as any as S.Schema<ForkSandboxRequest>;
+).annotate({ identifier: "ForkSandboxRequest" }) as any as S.Schema<ForkSandboxRequest>;
 
 export interface ForkSandboxResponse {}
 export const ForkSandboxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -800,9 +982,7 @@ export const MountConfigResponse = /*@__PURE__*/ S.suspend(() =>
     bucketPrefix: S.optional(S.String),
     sessionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MountConfigResponse",
-}) as any as S.Schema<MountConfigResponse>;
+).annotate({ identifier: "MountConfigResponse" }) as any as S.Schema<MountConfigResponse>;
 
 /** Current connection status */
 export type MountResponseConnectionStatus = "connected" | "disconnected";
@@ -877,9 +1057,7 @@ export const ConnectedClient = /*@__PURE__*/ S.suspend(() =>
     ipAddress: S.optional(S.String),
     connectedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectedClient",
-}) as any as S.Schema<ConnectedClient>;
+).annotate({ identifier: "ConnectedClient" }) as any as S.Schema<ConnectedClient>;
 
 export type DiskResponseConnectedClientsList = Array<ConnectedClient>;
 export const DiskResponseConnectedClientsList = /*@__PURE__*/ S.Array(
@@ -948,9 +1126,7 @@ export const ApiResponseDisk = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: DiskResponse,
   }),
-).annotate({
-  identifier: "ApiResponseDisk",
-}) as any as S.Schema<ApiResponseDisk>;
+).annotate({ identifier: "ApiResponseDisk" }) as any as S.Schema<ApiResponseDisk>;
 
 export interface GetSandboxRequest {
   /** Sandbox UUID */
@@ -960,9 +1136,7 @@ export const GetSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}", code: 200 })),
-).annotate({
-  identifier: "GetSandboxRequest",
-}) as any as S.Schema<GetSandboxRequest>;
+).annotate({ identifier: "GetSandboxRequest" }) as any as S.Schema<GetSandboxRequest>;
 
 export type SandboxState =
   | "pending"
@@ -981,22 +1155,13 @@ export const SandboxState = S.String;
 export type SandboxPlatform = "arm64" | "amd64";
 export const SandboxPlatform = S.String;
 
-export interface SandboxEndpoint {
-  port: number;
-  hostname: string;
-}
-export const SandboxEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    port: S.Number,
-    hostname: S.String,
-  }),
-).annotate({
-  identifier: "SandboxEndpoint",
-}) as any as S.Schema<SandboxEndpoint>;
+export type SandboxEndpoint = SandboxPort;
+export const SandboxEndpoint = SandboxPort;
 
-export type SandboxEndpointsList = Array<SandboxEndpoint>;
+/** Public hostnames published by enabled sandbox services. */
+export type SandboxEndpointsList = Array<SandboxPort>;
 export const SandboxEndpointsList = /*@__PURE__*/ S.Array(
-  SandboxEndpoint,
+  SandboxPort,
 ) as any as S.Schema<SandboxEndpointsList>;
 
 export interface Sandbox {
@@ -1006,22 +1171,27 @@ export interface Sandbox {
   status: SandboxState;
   vcpu_count: number;
   mem_size_mib: number;
-  /** Lifetime budget for each powered-on session. Activity does not extend the deadline; starting or resuming the sandbox begins a fresh session. */
+  /** Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Defaults to 24 hours and can be reset with the timeout endpoint. */
   max_ttl_seconds: number;
-  /** Maximum concurrently attached process sessions */
+  /** Seconds without a direct process connection before the sandbox pauses, preserving memory and processes for resume. Zero disables idle expiry. */
+  idle_ttl_seconds: number;
+  /** Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count. */
   max_concurrent_execs: number;
   /** OCI reference requested when the sandbox was created. */
   base_image: string;
   /** Sandbox CPU architecture. */
   platform?: SandboxPlatform;
+  /** Public hostnames published by enabled sandbox services. */
   endpoints?: SandboxEndpointsList;
+  /** Whether services inside the sandbox can expose ingress. Explicit API port exposure remains available regardless of this setting. */
+  enable_service_ingress?: boolean;
   created_at: string;
   running_at?: string;
   finished_at?: string;
   last_active_at: string;
-  /** Current powered-on session deadline; absent while inactive. */
-  expires_at?: string;
   exit_reason?: string;
+  /** Disk checkpoint the current session leaves behind. Present while pausing, paused, stopping, or stopped, and committed once the sandbox is paused or stopped. Pass it to the fork endpoint to fork exactly this state. */
+  checkpoint?: string;
 }
 export const Sandbox = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1031,16 +1201,18 @@ export const Sandbox = /*@__PURE__*/ S.suspend(() =>
     vcpu_count: S.Number,
     mem_size_mib: S.Number,
     max_ttl_seconds: S.Number,
+    idle_ttl_seconds: S.Number,
     max_concurrent_execs: S.Number,
     base_image: S.String,
     platform: S.optional(SandboxPlatform),
     endpoints: S.optional(SandboxEndpointsList),
+    enable_service_ingress: S.optional(S.Boolean),
     created_at: S.String,
     running_at: S.optional(S.String),
     finished_at: S.optional(S.String),
     last_active_at: S.String,
-    expires_at: S.optional(S.String),
     exit_reason: S.optional(S.String),
+    checkpoint: S.optional(S.String),
   }),
 ).annotate({ identifier: "Sandbox" }) as any as S.Schema<Sandbox>;
 
@@ -1053,9 +1225,74 @@ export const ApiResponseSandbox = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: Sandbox,
   }),
+).annotate({ identifier: "ApiResponseSandbox" }) as any as S.Schema<ApiResponseSandbox>;
+
+export interface GetSandboxNetworkRequest {
+  /** Sandbox UUID */
+  sid: string;
+}
+export const GetSandboxNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/network", code: 200 })),
+).annotate({ identifier: "GetSandboxNetworkRequest" }) as any as S.Schema<GetSandboxNetworkRequest>;
+
+export interface ApiResponseSandboxNetwork {
+  success: boolean;
+  data: SandboxNetwork;
+}
+export const ApiResponseSandboxNetwork = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: SandboxNetwork,
+  }),
 ).annotate({
-  identifier: "ApiResponseSandbox",
-}) as any as S.Schema<ApiResponseSandbox>;
+  identifier: "ApiResponseSandboxNetwork",
+}) as any as S.Schema<ApiResponseSandboxNetwork>;
+
+export interface GetSandboxPortTokenRequest {
+  /** Sandbox UUID */
+  sid: string;
+  token_id: string;
+}
+export const GetSandboxPortTokenRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    token_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/port-tokens/{token_id}", code: 200 })),
+).annotate({
+  identifier: "GetSandboxPortTokenRequest",
+}) as any as S.Schema<GetSandboxPortTokenRequest>;
+
+export interface SandboxPortToken {
+  /** Stable token identifier used for get and revoke operations. */
+  id: string;
+  port: number;
+  created_at: string;
+  /** When the token expires. Absent for a non-expiring token. */
+  expires_at?: string;
+}
+export const SandboxPortToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    port: S.Number,
+    created_at: S.String,
+    expires_at: S.optional(S.String),
+  }),
+).annotate({ identifier: "SandboxPortToken" }) as any as S.Schema<SandboxPortToken>;
+
+export interface ApiResponseSandboxPortToken {
+  success: boolean;
+  data: SandboxPortToken;
+}
+export const ApiResponseSandboxPortToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: SandboxPortToken,
+  }),
+).annotate({
+  identifier: "ApiResponseSandboxPortToken",
+}) as any as S.Schema<ApiResponseSandboxPortToken>;
 
 export interface GrepDiskRequest {
   /** Disk ID (format `dsk-{16 hex chars}`) */
@@ -1083,9 +1320,7 @@ export const GrepDiskRequest = /*@__PURE__*/ S.suspend(() =>
     concurrency: S.optional(S.Number),
     maxResults: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/api/disks/{id}/grep", code: 200 })),
-).annotate({
-  identifier: "GrepDiskRequest",
-}) as any as S.Schema<GrepDiskRequest>;
+).annotate({ identifier: "GrepDiskRequest" }) as any as S.Schema<GrepDiskRequest>;
 
 export interface GrepMatch {
   /** Path to the file (relative to the disk root). */
@@ -1155,9 +1390,7 @@ export const ApiResponseGrepDisk = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: GrepDiskResult,
   }),
-).annotate({
-  identifier: "ApiResponseGrepDisk",
-}) as any as S.Schema<ApiResponseGrepDisk>;
+).annotate({ identifier: "ApiResponseGrepDisk" }) as any as S.Schema<ApiResponseGrepDisk>;
 
 export interface ListApiTokensRequest {
   /** Maximum number of items to return */
@@ -1170,9 +1403,7 @@ export const ListApiTokensRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/tokens", code: 200 })),
-).annotate({
-  identifier: "ListApiTokensRequest",
-}) as any as S.Schema<ListApiTokensRequest>;
+).annotate({ identifier: "ListApiTokensRequest" }) as any as S.Schema<ListApiTokensRequest>;
 
 export interface ApiTokenResponse {
   /** Token hash/ID */
@@ -1193,9 +1424,7 @@ export const ApiTokenResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     lastUsedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiTokenResponse",
-}) as any as S.Schema<ApiTokenResponse>;
+).annotate({ identifier: "ApiTokenResponse" }) as any as S.Schema<ApiTokenResponse>;
 
 export type ApiResponseTokenListDataTokensList = Array<ApiTokenResponse>;
 export const ApiResponseTokenListDataTokensList = /*@__PURE__*/ S.Array(
@@ -1209,9 +1438,7 @@ export const ApiResponseTokenListData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokens: S.optional(ApiResponseTokenListDataTokensList),
   }),
-).annotate({
-  identifier: "ApiResponseTokenListData",
-}) as any as S.Schema<ApiResponseTokenListData>;
+).annotate({ identifier: "ApiResponseTokenListData" }) as any as S.Schema<ApiResponseTokenListData>;
 
 export interface ApiResponseTokenList {
   success: boolean;
@@ -1222,9 +1449,7 @@ export const ApiResponseTokenList = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseTokenListData,
   }),
-).annotate({
-  identifier: "ApiResponseTokenList",
-}) as any as S.Schema<ApiResponseTokenList>;
+).annotate({ identifier: "ApiResponseTokenList" }) as any as S.Schema<ApiResponseTokenList>;
 
 export interface ListDisksRequest {
   /** Maximum number of items to return */
@@ -1240,9 +1465,7 @@ export const ListDisksRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/disks", code: 200 })),
-).annotate({
-  identifier: "ListDisksRequest",
-}) as any as S.Schema<ListDisksRequest>;
+).annotate({ identifier: "ListDisksRequest" }) as any as S.Schema<ListDisksRequest>;
 
 export type ApiResponseDiskListDataList = Array<DiskResponse>;
 export const ApiResponseDiskListDataList = /*@__PURE__*/ S.Array(
@@ -1259,9 +1482,7 @@ export const ApiResponseDiskList = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseDiskListDataList,
   }),
-).annotate({
-  identifier: "ApiResponseDiskList",
-}) as any as S.Schema<ApiResponseDiskList>;
+).annotate({ identifier: "ApiResponseDiskList" }) as any as S.Schema<ApiResponseDiskList>;
 
 export interface ListSandboxesRequest {
   /** Only sandboxes that mount this disk */
@@ -1271,9 +1492,7 @@ export const ListSandboxesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filesystem: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes", code: 200 })),
-).annotate({
-  identifier: "ListSandboxesRequest",
-}) as any as S.Schema<ListSandboxesRequest>;
+).annotate({ identifier: "ListSandboxesRequest" }) as any as S.Schema<ListSandboxesRequest>;
 
 export type ApiResponseSandboxListDataSandboxesList = Array<Sandbox>;
 export const ApiResponseSandboxListDataSandboxesList = /*@__PURE__*/ S.Array(
@@ -1300,9 +1519,92 @@ export const ApiResponseSandboxList = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     data: ApiResponseSandboxListData,
   }),
+).annotate({ identifier: "ApiResponseSandboxList" }) as any as S.Schema<ApiResponseSandboxList>;
+
+export interface ListSandboxPortsRequest {
+  /** Sandbox UUID */
+  sid: string;
+}
+export const ListSandboxPortsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/ports", code: 200 })),
+).annotate({ identifier: "ListSandboxPortsRequest" }) as any as S.Schema<ListSandboxPortsRequest>;
+
+export type SandboxPortListPortsList = Array<SandboxPort>;
+export const SandboxPortListPortsList = /*@__PURE__*/ S.Array(
+  SandboxPort,
+) as any as S.Schema<SandboxPortListPortsList>;
+
+export interface SandboxPortList {
+  ports: SandboxPortListPortsList;
+}
+export const SandboxPortList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ports: SandboxPortListPortsList,
+  }),
+).annotate({ identifier: "SandboxPortList" }) as any as S.Schema<SandboxPortList>;
+
+export interface ApiResponseSandboxPortList {
+  success: boolean;
+  data: SandboxPortList;
+}
+export const ApiResponseSandboxPortList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: SandboxPortList,
+  }),
 ).annotate({
-  identifier: "ApiResponseSandboxList",
-}) as any as S.Schema<ApiResponseSandboxList>;
+  identifier: "ApiResponseSandboxPortList",
+}) as any as S.Schema<ApiResponseSandboxPortList>;
+
+export interface ListSandboxPortTokensRequest {
+  /** Sandbox UUID */
+  sid: string;
+  /** Maximum number of items to return */
+  limit?: number;
+  /** Pagination cursor from a previous response */
+  cursor?: string;
+}
+export const ListSandboxPortTokensRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/sandboxes/{sid}/port-tokens", code: 200 })),
+).annotate({
+  identifier: "ListSandboxPortTokensRequest",
+}) as any as S.Schema<ListSandboxPortTokensRequest>;
+
+export type SandboxPortTokenListTokensList = Array<SandboxPortToken>;
+export const SandboxPortTokenListTokensList = /*@__PURE__*/ S.Array(
+  SandboxPortToken,
+) as any as S.Schema<SandboxPortTokenListTokensList>;
+
+export interface SandboxPortTokenList {
+  tokens: SandboxPortTokenListTokensList;
+}
+export const SandboxPortTokenList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokens: SandboxPortTokenListTokensList,
+  }),
+).annotate({ identifier: "SandboxPortTokenList" }) as any as S.Schema<SandboxPortTokenList>;
+
+export interface ApiResponseSandboxPortTokenList {
+  success: boolean;
+  data: SandboxPortTokenList;
+  /** Set when more port tokens remain. */
+  nextCursor?: string;
+}
+export const ApiResponseSandboxPortTokenList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    success: S.Boolean,
+    data: SandboxPortTokenList,
+    nextCursor: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ApiResponseSandboxPortTokenList",
+}) as any as S.Schema<ApiResponseSandboxPortTokenList>;
 
 export interface PauseSandboxRequest {
   /** Sandbox UUID */
@@ -1312,9 +1614,7 @@ export const PauseSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/pause", code: 200 })),
-).annotate({
-  identifier: "PauseSandboxRequest",
-}) as any as S.Schema<PauseSandboxRequest>;
+).annotate({ identifier: "PauseSandboxRequest" }) as any as S.Schema<PauseSandboxRequest>;
 
 export type RemoveDiskUserRequestUserType = "token" | "awssts";
 export const RemoveDiskUserRequestUserType = S.String;
@@ -1335,16 +1635,8 @@ export const RemoveDiskUserRequest = /*@__PURE__*/ S.suspend(() =>
     userType: RemoveDiskUserRequestUserType.pipe(T.Label()),
     identifier: S.optional(S.String.pipe(T.Query())),
     principal: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/disks/{id}/users/{userType}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveDiskUserRequest",
-}) as any as S.Schema<RemoveDiskUserRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/disks/{id}/users/{userType}", code: 200 })),
+).annotate({ identifier: "RemoveDiskUserRequest" }) as any as S.Schema<RemoveDiskUserRequest>;
 
 export interface ResumeSandboxRequest {
   /** Sandbox UUID */
@@ -1357,9 +1649,23 @@ export const ResumeSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sid: S.String.pipe(T.Label()),
     wait: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/resume", code: 200 })),
-).annotate({
-  identifier: "ResumeSandboxRequest",
-}) as any as S.Schema<ResumeSandboxRequest>;
+).annotate({ identifier: "ResumeSandboxRequest" }) as any as S.Schema<ResumeSandboxRequest>;
+
+export interface SetSandboxTimeoutRequest {
+  /** Sandbox UUID */
+  sid: string;
+  /** Seconds from now until a running sandbox expires, and the lifetime budget for its next powered-on session. */
+  timeout?: number;
+  /** Seconds without a direct process connection before the sandbox pauses. Zero disables idle expiry. */
+  idle_ttl_seconds?: number;
+}
+export const SetSandboxTimeoutRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    timeout: S.optional(S.Number),
+    idle_ttl_seconds: S.optional(S.Number),
+  }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/timeout", code: 200 })),
+).annotate({ identifier: "SetSandboxTimeoutRequest" }) as any as S.Schema<SetSandboxTimeoutRequest>;
 
 export interface StartSandboxRequest {
   /** Sandbox UUID */
@@ -1372,9 +1678,7 @@ export const StartSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sid: S.String.pipe(T.Label()),
     wait: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/start", code: 200 })),
-).annotate({
-  identifier: "StartSandboxRequest",
-}) as any as S.Schema<StartSandboxRequest>;
+).annotate({ identifier: "StartSandboxRequest" }) as any as S.Schema<StartSandboxRequest>;
 
 export interface StopSandboxRequest {
   /** Sandbox UUID */
@@ -1384,9 +1688,21 @@ export const StopSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sid: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/api/sandboxes/{sid}/stop", code: 200 })),
+).annotate({ identifier: "StopSandboxRequest" }) as any as S.Schema<StopSandboxRequest>;
+
+export interface UpdateSandboxNetworkRequest {
+  /** Sandbox UUID */
+  sid: string;
+  egress?: SandboxEgressPolicy;
+}
+export const UpdateSandboxNetworkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sid: S.String.pipe(T.Label()),
+    egress: S.optional(SandboxEgressPolicy),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/sandboxes/{sid}/network", code: 200 })),
 ).annotate({
-  identifier: "StopSandboxRequest",
-}) as any as S.Schema<StopSandboxRequest>;
+  identifier: "UpdateSandboxNetworkRequest",
+}) as any as S.Schema<UpdateSandboxNetworkRequest>;
 
 export type AddDiskUserError = BadRequest | ArchilOpError;
 /** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN */
@@ -1449,7 +1765,7 @@ export const createSandbox: API.OperationMethod<
 }));
 
 export type CreateSandboxConnectionError = NotFound | Conflict | ArchilOpError;
-/** Create a sandbox process connection Returns a short-lived WebSocket URL for the process API in a running sandbox. The URL contains a signed token that expires at `expires_at`. */
+/** Create a sandbox process connection Returns a short-lived WebSocket URL used by the sandbox process API. The URL contains a signed token that expires at `expires_at`; an open WebSocket can remain connected after the token expires. */
 export const createSandboxConnection: API.OperationMethod<
   CreateSandboxConnectionRequest,
   ApiResponseSandboxConnection,
@@ -1459,6 +1775,21 @@ export const createSandboxConnection: API.OperationMethod<
   input: CreateSandboxConnectionRequest,
   output: ApiResponseSandboxConnection,
   errors: [NotFound, Conflict, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateSandboxPortTokenError = BadRequest | NotFound | ArchilOpError;
+/** Create a private sandbox port token Creates token-authorized HTTP access to one port. Send the raw token returned by this request in the `X-Archil-Token` request header at the stable `<port>-<sandbox-route-id>.<zone>` hostname. Public ports accept connections without a token; otherwise a valid token for that sandbox and port is required. The token is not returned again. */
+export const createSandboxPortToken: API.OperationMethod<
+  CreateSandboxPortTokenRequest,
+  ApiResponseCreatedSandboxPortToken,
+  CreateSandboxPortTokenError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxPortTokenRequest,
+  output: ApiResponseCreatedSandboxPortToken,
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
 }));
@@ -1508,6 +1839,36 @@ export const deleteSandbox: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteSandboxPortError = BadRequest | NotFound | ArchilOpError;
+/** Stop exposing a sandbox port Removes an explicitly exposed public port. An enabled sandbox service publishing the same TCP port remains publicly reachable. */
+export const deleteSandboxPort: API.OperationMethod<
+  DeleteSandboxPortRequest,
+  DeleteSandboxPortResponse,
+  DeleteSandboxPortError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSandboxPortRequest,
+  output: DeleteSandboxPortResponse,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSandboxPortTokenError = NotFound | ArchilOpError;
+/** Revoke a sandbox port token New private connections using the token fail after this request completes; established connections remain open. Expired tokens return not found. */
+export const deleteSandboxPortToken: API.OperationMethod<
+  DeleteSandboxPortTokenRequest,
+  DeleteSandboxPortTokenResponse,
+  DeleteSandboxPortTokenError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSandboxPortTokenRequest,
+  output: DeleteSandboxPortTokenResponse,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteTokenError = NotFound | ArchilOpError;
 /** Delete API token Revokes and deletes an API token. */
 export const deleteToken: API.OperationMethod<
@@ -1549,8 +1910,23 @@ export const execDisk: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ExposeSandboxPortError = BadRequest | NotFound | ArchilOpError;
+/** Expose a sandbox port Creates or returns public access to a TCP port in the sandbox. */
+export const exposeSandboxPort: API.OperationMethod<
+  ExposeSandboxPortRequest,
+  ApiResponseSandboxPort,
+  ExposeSandboxPortError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExposeSandboxPortRequest,
+  output: ApiResponseSandboxPort,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ForkSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
-/** Fork a sandbox Checkpoints a running source sandbox and creates an isolated writable disk branch. Forks from running or paused sources resume from the source's CPU, memory, and disk state. Forks from stopped sources cold-boot from the saved disk checkpoint. A running source is resumed after its checkpoint; paused and stopped sources remain inactive. Forked sandboxes may themselves be forked. */
+/** Fork a sandbox Checkpoints a running source sandbox and creates an isolated writable disk branch. Forks from running or paused sources resume from the source's CPU, memory, and disk state. Forks from stopped sources cold-boot from the saved disk checkpoint. A running source is resumed after its checkpoint; paused and stopped sources remain inactive. Forked sandboxes may themselves be forked. Passing `checkpoint` forks that saved state without touching the source, so clients can pause once, wait for the checkpoint, and fork it from any number of places. Without `checkpoint` the server pauses a running source inside the request and resumes it afterwards; that path is kept for older clients and is bounded by the request timeout. */
 export const forkSandbox: API.OperationMethod<
   ForkSandboxRequest,
   ForkSandboxResponse,
@@ -1589,6 +1965,36 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSandboxRequest,
   output: ApiResponseSandbox,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSandboxNetworkError = NotFound | ArchilOpError;
+/** Get a sandbox's network policy Returns the last committed network policy for a running, paused, or stopped sandbox. */
+export const getSandboxNetwork: API.OperationMethod<
+  GetSandboxNetworkRequest,
+  ApiResponseSandboxNetwork,
+  GetSandboxNetworkError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSandboxNetworkRequest,
+  output: ApiResponseSandboxNetwork,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetSandboxPortTokenError = NotFound | ArchilOpError;
+/** Get a sandbox port token Returns token metadata without its raw token. Expired tokens return not found. */
+export const getSandboxPortToken: API.OperationMethod<
+  GetSandboxPortTokenRequest,
+  ApiResponseSandboxPortToken,
+  GetSandboxPortTokenError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetSandboxPortTokenRequest,
+  output: ApiResponseSandboxPortToken,
   errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
@@ -1654,6 +2060,36 @@ export const listSandboxes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListSandboxPortsError = NotFound | ArchilOpError;
+/** List exposed sandbox ports Lists the explicitly exposed public ports for the sandbox. */
+export const listSandboxPorts: API.OperationMethod<
+  ListSandboxPortsRequest,
+  ApiResponseSandboxPortList,
+  ListSandboxPortsError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSandboxPortsRequest,
+  output: ApiResponseSandboxPortList,
+  errors: [NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListSandboxPortTokensError = BadRequest | NotFound | ArchilOpError;
+/** List sandbox port tokens Lists unexpired private port token metadata without returning raw tokens. */
+export const listSandboxPortTokens: API.OperationMethod<
+  ListSandboxPortTokensRequest,
+  ApiResponseSandboxPortTokenList,
+  ListSandboxPortTokensError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSandboxPortTokensRequest,
+  output: ApiResponseSandboxPortTokenList,
+  errors: [BadRequest, NotFound, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
 export type PauseSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
 /** Pause a sandbox Snapshot the CPU & memory state, then stop the VM. The sandbox reports `pausing` until the snapshot commit marker is durable and the VM exits, then reports `paused`. Attached process connections close, while agent-owned processes remain available for reattachment after resume. A sandbox that is still `pending` must reach `running` before it can be paused. To restore the snapshot, call `/resume`. */
 export const pauseSandbox: API.OperationMethod<
@@ -1699,6 +2135,21 @@ export const resumeSandbox: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SetSandboxTimeoutError = BadRequest | NotFound | Conflict | ArchilOpError;
+/** Set a sandbox's timeouts Replaces one or both sandbox timeout settings. Updating `timeout` while the sandbox is running resets its hard expiration deadline to that many seconds from now. Updating `idle_ttl_seconds` resets the idle countdown when no direct process connection is active; zero disables idle expiry. Omitted settings remain unchanged. Updates are retained across later stops and starts. For an inactive sandbox, they apply to the next powered-on session. Sandboxes that are starting or shutting down, or whose timeout changes concurrently, return 409. */
+export const setSandboxTimeout: API.OperationMethod<
+  SetSandboxTimeoutRequest,
+  ApiResponseSandbox,
+  SetSandboxTimeoutError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetSandboxTimeoutRequest,
+  output: ApiResponseSandbox,
+  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
 export type StartSandboxError = BadRequest | NotFound | Conflict | ArchilOpError;
 /** Cold-start a sandbox Cold-boots from the persisted configuration and disks. If the sandbox was paused, its memory snapshot is consumed and discarded before the new VM runs; disk state remains. Starting a running sandbox or a pending cold start is idempotent. A sandbox that is stopping, pausing, or pending a resume returns 409. */
 export const startSandbox: API.OperationMethod<
@@ -1725,6 +2176,26 @@ export const stopSandbox: API.OperationMethod<
   input: StopSandboxRequest,
   output: ApiResponseSandbox,
   errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
+  protocol: ArchilProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateSandboxNetworkError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | ArchilOpError;
+/** Replace a running sandbox's network policy Applies the complete replacement policy to a running sandbox, then records it as the current policy. A rejected update leaves the previous policy unchanged. Free-plan accounts cannot update network policies and receive 403 with code sandbox_network_plan_required. For paid accounts, an empty object restores unrestricted egress. Existing network sessions are not terminated; the replacement governs new connections and is retained across later stops and resumes. Sandboxes that are not running, or whose policy changes concurrently, return 409. */
+export const updateSandboxNetwork: API.OperationMethod<
+  UpdateSandboxNetworkRequest,
+  ApiResponseSandboxNetwork,
+  UpdateSandboxNetworkError,
+  ArchilOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSandboxNetworkRequest,
+  output: ApiResponseSandboxNetwork,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
 }));
