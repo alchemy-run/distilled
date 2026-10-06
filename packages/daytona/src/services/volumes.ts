@@ -18,9 +18,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/volumes", code: 200 })),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 
 /** Volume state */
 export type VolumeState =
@@ -75,9 +73,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/volumes/{volumeId}", code: 200 })),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -95,9 +91,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     volumeId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/volumes/{volumeId}", code: 200 })),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 
 export interface GetVolumeByNameRequest {
   /** Name of the volume */
@@ -110,9 +104,7 @@ export const GetVolumeByNameRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/volumes/by-name/{name}", code: 200 })),
-).annotate({
-  identifier: "GetVolumeByNameRequest",
-}) as any as S.Schema<GetVolumeByNameRequest>;
+).annotate({ identifier: "GetVolumeByNameRequest" }) as any as S.Schema<GetVolumeByNameRequest>;
 
 export interface ListVolumesRequest {
   /** Include deleted volumes in the response */
@@ -125,9 +117,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/volumes", code: 200 })),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
 export type ListVolumesResponseBodyList = Array<VolumeDto>;
 export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -137,9 +127,7 @@ export const ListVolumesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVolumesResponse = ListVolumesResponseBodyList;
 export const ListVolumesResponse = /*@__PURE__*/ S.suspend(() =>
   ListVolumesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVolumesResponse",
-}) as any as S.Schema<ListVolumesResponse>;
+).annotate({ identifier: "ListVolumesResponse" }) as any as S.Schema<ListVolumesResponse>;
 
 export type CreateVolumeError = DaytonaOpError;
 /** Create a new volume */

@@ -25,9 +25,7 @@ export const AddFilesRequest = /*@__PURE__*/ S.suspend(() =>
     files: AddFilesRequestFilesList,
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/add", code: 200 })),
-).annotate({
-  identifier: "AddFilesRequest",
-}) as any as S.Schema<AddFilesRequest>;
+).annotate({ identifier: "AddFilesRequest" }) as any as S.Schema<AddFilesRequest>;
 
 export interface AddFilesResponse {}
 export const AddFilesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -51,9 +49,7 @@ export const AddRemoteRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     url: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/remotes", code: 200 })),
-).annotate({
-  identifier: "AddRemoteRequest",
-}) as any as S.Schema<AddRemoteRequest>;
+).annotate({ identifier: "AddRemoteRequest" }) as any as S.Schema<AddRemoteRequest>;
 
 export interface AddRemoteResponse {}
 export const AddRemoteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -75,9 +71,7 @@ export const AuthenticateRequest = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(S.String),
     username: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/credentials", code: 200 })),
-).annotate({
-  identifier: "AuthenticateRequest",
-}) as any as S.Schema<AuthenticateRequest>;
+).annotate({ identifier: "AuthenticateRequest" }) as any as S.Schema<AuthenticateRequest>;
 
 export interface AuthenticateResponse {}
 export const AuthenticateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -93,9 +87,7 @@ export const CheckoutBranchRequest = /*@__PURE__*/ S.suspend(() =>
     branch: S.String,
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/checkout", code: 200 })),
-).annotate({
-  identifier: "CheckoutBranchRequest",
-}) as any as S.Schema<CheckoutBranchRequest>;
+).annotate({ identifier: "CheckoutBranchRequest" }) as any as S.Schema<CheckoutBranchRequest>;
 
 export interface CheckoutBranchResponse {}
 export const CheckoutBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -125,9 +117,7 @@ export const CloneRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/git/clone", code: 200 })),
-).annotate({
-  identifier: "CloneRepositoryRequest",
-}) as any as S.Schema<CloneRepositoryRequest>;
+).annotate({ identifier: "CloneRepositoryRequest" }) as any as S.Schema<CloneRepositoryRequest>;
 
 export interface CloneRepositoryResponse {}
 export const CloneRepositoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -149,9 +139,7 @@ export const CommitChangesRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/commit", code: 200 })),
-).annotate({
-  identifier: "CommitChangesRequest",
-}) as any as S.Schema<CommitChangesRequest>;
+).annotate({ identifier: "CommitChangesRequest" }) as any as S.Schema<CommitChangesRequest>;
 
 export interface GitCommitResponse {
   hash: string;
@@ -160,9 +148,7 @@ export const GitCommitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hash: S.String,
   }),
-).annotate({
-  identifier: "GitCommitResponse",
-}) as any as S.Schema<GitCommitResponse>;
+).annotate({ identifier: "GitCommitResponse" }) as any as S.Schema<GitCommitResponse>;
 
 export interface ConfigureUserRequest {
   email: string;
@@ -179,9 +165,7 @@ export const ConfigureUserRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     scope: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/git/config/user", code: 200 })),
-).annotate({
-  identifier: "ConfigureUserRequest",
-}) as any as S.Schema<ConfigureUserRequest>;
+).annotate({ identifier: "ConfigureUserRequest" }) as any as S.Schema<ConfigureUserRequest>;
 
 export interface ConfigureUserResponse {}
 export const ConfigureUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -197,9 +181,7 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/branches", code: 200 })),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
+).annotate({ identifier: "CreateBranchRequest" }) as any as S.Schema<CreateBranchRequest>;
 
 export interface CreateBranchResponse {}
 export const CreateBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -215,9 +197,7 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     path: S.String,
   }).pipe(T.Http({ method: "DELETE", uri: "/git/branches", code: 200 })),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 
 export interface DeleteBranchResponse {}
 export const DeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -232,9 +212,7 @@ export const GetCommitHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/git/history", code: 200 })),
-).annotate({
-  identifier: "GetCommitHistoryRequest",
-}) as any as S.Schema<GetCommitHistoryRequest>;
+).annotate({ identifier: "GetCommitHistoryRequest" }) as any as S.Schema<GetCommitHistoryRequest>;
 
 export interface GitCommitInfo {
   author: string;
@@ -261,9 +239,7 @@ export const GetCommitHistoryResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetCommitHistoryResponse = GetCommitHistoryResponseBodyList;
 export const GetCommitHistoryResponse = /*@__PURE__*/ S.suspend(() =>
   GetCommitHistoryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCommitHistoryResponse",
-}) as any as S.Schema<GetCommitHistoryResponse>;
+).annotate({ identifier: "GetCommitHistoryResponse" }) as any as S.Schema<GetCommitHistoryResponse>;
 
 export interface GetGitConfigRequest {
   /** Config key (e.g. user.name) */
@@ -279,9 +255,7 @@ export const GetGitConfigRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String.pipe(T.Query())),
     scope: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/git/config", code: 200 })),
-).annotate({
-  identifier: "GetGitConfigRequest",
-}) as any as S.Schema<GetGitConfigRequest>;
+).annotate({ identifier: "GetGitConfigRequest" }) as any as S.Schema<GetGitConfigRequest>;
 
 export interface GitConfigResponse {
   /** Value is the config value, null when the key is not set. */
@@ -291,9 +265,7 @@ export const GitConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitConfigResponse",
-}) as any as S.Schema<GitConfigResponse>;
+).annotate({ identifier: "GitConfigResponse" }) as any as S.Schema<GitConfigResponse>;
 
 export interface GetStatusRequest {
   /** Repository path */
@@ -303,9 +275,7 @@ export const GetStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/git/status", code: 200 })),
-).annotate({
-  identifier: "GetStatusRequest",
-}) as any as S.Schema<GetStatusRequest>;
+).annotate({ identifier: "GetStatusRequest" }) as any as S.Schema<GetStatusRequest>;
 
 export type Status =
   | "Unmodified"
@@ -374,9 +344,7 @@ export const InitRepositoryRequest = /*@__PURE__*/ S.suspend(() =>
     initial_branch: S.optional(S.String),
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/init", code: 200 })),
-).annotate({
-  identifier: "InitRepositoryRequest",
-}) as any as S.Schema<InitRepositoryRequest>;
+).annotate({ identifier: "InitRepositoryRequest" }) as any as S.Schema<InitRepositoryRequest>;
 
 export interface InitRepositoryResponse {}
 export const InitRepositoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -391,9 +359,7 @@ export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/git/branches", code: 200 })),
-).annotate({
-  identifier: "ListBranchesRequest",
-}) as any as S.Schema<ListBranchesRequest>;
+).annotate({ identifier: "ListBranchesRequest" }) as any as S.Schema<ListBranchesRequest>;
 
 export type ListBranchResponseBranchesList = Array<string>;
 export const ListBranchResponseBranchesList = /*@__PURE__*/ S.Array(
@@ -410,9 +376,7 @@ export const ListBranchResponse = /*@__PURE__*/ S.suspend(() =>
     branches: ListBranchResponseBranchesList,
     current: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListBranchResponse",
-}) as any as S.Schema<ListBranchResponse>;
+).annotate({ identifier: "ListBranchResponse" }) as any as S.Schema<ListBranchResponse>;
 
 export interface ListRemotesRequest {
   /** Repository path */
@@ -422,9 +386,7 @@ export const ListRemotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/git/remotes", code: 200 })),
-).annotate({
-  identifier: "ListRemotesRequest",
-}) as any as S.Schema<ListRemotesRequest>;
+).annotate({ identifier: "ListRemotesRequest" }) as any as S.Schema<ListRemotesRequest>;
 
 export interface GitRemote {
   name: string;
@@ -449,9 +411,7 @@ export const ListRemotesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     remotes: ListRemotesResponseRemotesList,
   }),
-).annotate({
-  identifier: "ListRemotesResponse",
-}) as any as S.Schema<ListRemotesResponse>;
+).annotate({ identifier: "ListRemotesResponse" }) as any as S.Schema<ListRemotesResponse>;
 
 export interface PullChangesRequest {
   /** Branch to pull (defaults to the current branch's upstream). */
@@ -470,9 +430,7 @@ export const PullChangesRequest = /*@__PURE__*/ S.suspend(() =>
     remote: S.optional(S.String),
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/git/pull", code: 200 })),
-).annotate({
-  identifier: "PullChangesRequest",
-}) as any as S.Schema<PullChangesRequest>;
+).annotate({ identifier: "PullChangesRequest" }) as any as S.Schema<PullChangesRequest>;
 
 export interface PullChangesResponse {}
 export const PullChangesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -499,9 +457,7 @@ export const PushChangesRequest = /*@__PURE__*/ S.suspend(() =>
     set_upstream: S.optional(S.Boolean),
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/git/push", code: 200 })),
-).annotate({
-  identifier: "PushChangesRequest",
-}) as any as S.Schema<PushChangesRequest>;
+).annotate({ identifier: "PushChangesRequest" }) as any as S.Schema<PushChangesRequest>;
 
 export interface PushChangesResponse {}
 export const PushChangesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -530,9 +486,7 @@ export const ResetChangesRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     target: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/git/reset", code: 200 })),
-).annotate({
-  identifier: "ResetChangesRequest",
-}) as any as S.Schema<ResetChangesRequest>;
+).annotate({ identifier: "ResetChangesRequest" }) as any as S.Schema<ResetChangesRequest>;
 
 export interface ResetChangesResponse {}
 export const ResetChangesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -562,9 +516,7 @@ export const RestoreFilesRequest = /*@__PURE__*/ S.suspend(() =>
     staged: S.optional(S.Boolean),
     worktree: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/git/restore", code: 200 })),
-).annotate({
-  identifier: "RestoreFilesRequest",
-}) as any as S.Schema<RestoreFilesRequest>;
+).annotate({ identifier: "RestoreFilesRequest" }) as any as S.Schema<RestoreFilesRequest>;
 
 export interface RestoreFilesResponse {}
 export const RestoreFilesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -586,9 +538,7 @@ export const SetGitConfigRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String),
     value: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/git/config", code: 200 })),
-).annotate({
-  identifier: "SetGitConfigRequest",
-}) as any as S.Schema<SetGitConfigRequest>;
+).annotate({ identifier: "SetGitConfigRequest" }) as any as S.Schema<SetGitConfigRequest>;
 
 export interface SetGitConfigResponse {}
 export const SetGitConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

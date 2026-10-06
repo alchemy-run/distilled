@@ -11,9 +11,7 @@ export type { DaytonaOpError, DaytonaOpContext };
 export interface GetPortsRequest {}
 export const GetPortsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/port", code: 200 })),
-).annotate({
-  identifier: "GetPortsRequest",
-}) as any as S.Schema<GetPortsRequest>;
+).annotate({ identifier: "GetPortsRequest" }) as any as S.Schema<GetPortsRequest>;
 
 export type PortListPortsList = Array<number>;
 export const PortListPortsList = /*@__PURE__*/ S.Array(
@@ -37,9 +35,7 @@ export const IsPortInUseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     port: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/port/{port}/in-use", code: 200 })),
-).annotate({
-  identifier: "IsPortInUseRequest",
-}) as any as S.Schema<IsPortInUseRequest>;
+).annotate({ identifier: "IsPortInUseRequest" }) as any as S.Schema<IsPortInUseRequest>;
 
 export interface IsPortInUseResponse {
   isInUse?: boolean;
@@ -48,9 +44,7 @@ export const IsPortInUseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isInUse: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IsPortInUseResponse",
-}) as any as S.Schema<IsPortInUseResponse>;
+).annotate({ identifier: "IsPortInUseResponse" }) as any as S.Schema<IsPortInUseResponse>;
 
 export type GetPortsError = DaytonaOpError;
 /** Get active ports Get a list of all currently active ports */

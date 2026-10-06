@@ -57,9 +57,7 @@ export const CreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     permissions: CreateApiKeyRequestPermissionsList,
     expiresAt: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/api-keys", code: 200 })),
-).annotate({
-  identifier: "CreateApiKeyRequest",
-}) as any as S.Schema<CreateApiKeyRequest>;
+).annotate({ identifier: "CreateApiKeyRequest" }) as any as S.Schema<CreateApiKeyRequest>;
 
 export type ApiKeyResponsePermissionsItem =
   | "write:registries"
@@ -123,9 +121,7 @@ export const DeleteApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/api-keys/{name}", code: 200 })),
-).annotate({
-  identifier: "DeleteApiKeyRequest",
-}) as any as S.Schema<DeleteApiKeyRequest>;
+).annotate({ identifier: "DeleteApiKeyRequest" }) as any as S.Schema<DeleteApiKeyRequest>;
 
 export interface DeleteApiKeyResponse {}
 export const DeleteApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -163,9 +159,7 @@ export const GetApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/api-keys/{name}", code: 200 })),
-).annotate({
-  identifier: "GetApiKeyRequest",
-}) as any as S.Schema<GetApiKeyRequest>;
+).annotate({ identifier: "GetApiKeyRequest" }) as any as S.Schema<GetApiKeyRequest>;
 
 export type ApiKeyListPermissionsItem =
   | "write:registries"
@@ -236,9 +230,7 @@ export const GetCurrentApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/api-keys/current", code: 200 })),
-).annotate({
-  identifier: "GetCurrentApiKeyRequest",
-}) as any as S.Schema<GetCurrentApiKeyRequest>;
+).annotate({ identifier: "GetCurrentApiKeyRequest" }) as any as S.Schema<GetCurrentApiKeyRequest>;
 
 export interface ListApiKeysRequest {
   /** Use with JWT to specify the organization ID */
@@ -248,9 +240,7 @@ export const ListApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/api-keys", code: 200 })),
-).annotate({
-  identifier: "ListApiKeysRequest",
-}) as any as S.Schema<ListApiKeysRequest>;
+).annotate({ identifier: "ListApiKeysRequest" }) as any as S.Schema<ListApiKeysRequest>;
 
 export type ListApiKeysResponseBodyList = Array<ApiKeyList>;
 export const ListApiKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -260,9 +250,7 @@ export const ListApiKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListApiKeysResponse = ListApiKeysResponseBodyList;
 export const ListApiKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListApiKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListApiKeysResponse",
-}) as any as S.Schema<ListApiKeysResponse>;
+).annotate({ identifier: "ListApiKeysResponse" }) as any as S.Schema<ListApiKeysResponse>;
 
 export type CreateApiKeyError = DaytonaOpError;
 /** Create API key */

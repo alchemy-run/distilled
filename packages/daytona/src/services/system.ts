@@ -11,9 +11,7 @@ export type { DaytonaOpError, DaytonaOpContext };
 export interface GetSystemMetricsRequest {}
 export const GetSystemMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/system/metrics", code: 200 })),
-).annotate({
-  identifier: "GetSystemMetricsRequest",
-}) as any as S.Schema<GetSystemMetricsRequest>;
+).annotate({ identifier: "GetSystemMetricsRequest" }) as any as S.Schema<GetSystemMetricsRequest>;
 
 export interface SystemMetrics {
   cpuCount?: number;

@@ -52,14 +52,14 @@
       "type": "structure",
       "members": {
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "page",
             "smithy.api#documentation": "Page number of the results"
           }
         },
         "limit": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Maximum number of jobs to return (default: 100, max: 500)"
@@ -73,7 +73,7 @@
           }
         },
         "offset": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "Number of jobs to skip for pagination (default: 0)"
@@ -94,19 +94,19 @@
           }
         },
         "total": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "totalPages": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
@@ -356,14 +356,14 @@
       "type": "structure",
       "members": {
         "timeout": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "timeout",
             "smithy.api#documentation": "Timeout in seconds for long polling (default: 30, max: 60)"
           }
         },
         "limit": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Maximum number of jobs to return (default: 10, max: 100)"

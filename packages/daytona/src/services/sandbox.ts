@@ -17,16 +17,8 @@ export const ArchiveSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/archive",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ArchiveSandboxRequest",
-}) as any as S.Schema<ArchiveSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/archive", code: 200 })),
+).annotate({ identifier: "ArchiveSandboxRequest" }) as any as S.Schema<ArchiveSandboxRequest>;
 
 /** Environment variables for the sandbox */
 export type SandboxEnvMap = { [key: string]: string | undefined };
@@ -42,7 +34,14 @@ export const SandboxLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<SandboxLabelsMap>;
 
-export type GpuType = "H100" | "H200" | "RTX-PRO-6000" | "RTX-4090" | "RTX-5090" | "MI355X";
+export type GpuType =
+  | "H100"
+  | "H200"
+  | "B300"
+  | "RTX-PRO-6000"
+  | "RTX-4090"
+  | "RTX-5090"
+  | "MI355X";
 export const GpuType = S.String;
 
 export type SandboxState =
@@ -135,7 +134,7 @@ export const BuildInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "BuildInfo" }) as any as S.Schema<BuildInfo>;
 
 /** The class of the sandbox */
-export type SandboxSandboxClass = "linux-vm" | "container" | "android" | "windows";
+export type SandboxSandboxClass = "linux-vm" | "container" | "windows";
 export const SandboxSandboxClass = S.String;
 
 export interface Sandbox2 {
@@ -157,6 +156,8 @@ export interface Sandbox2 {
   public: boolean;
   /** Whether to block all network access for the sandbox */
   networkBlockAll: boolean;
+  /** Whether the sandbox exposes KVM (/dev/kvm) to its guest */
+  kvm: boolean;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
   networkAllowList?: string;
   /** Comma-separated list of allowed domains for the sandbox */
@@ -175,6 +176,8 @@ export interface Sandbox2 {
   spot?: boolean;
   /** When this sandbox was destroyed by spot preemption. Set only for spot-evicted sandboxes, which stay retrievable by ID for 24 hours after eviction. */
   spotEvictedAt?: string;
+  /** When this sandbox was destroyed because it waited too long for a runner. Set only for queue-timeout sandboxes, which stay retrievable by ID for 24 hours after the timeout. */
+  queueTimedOutAt?: string;
   /** The GPU type assigned to the sandbox */
   gpuType?: GpuType;
   /** The memory quota for the sandbox */
@@ -205,6 +208,8 @@ export interface Sandbox2 {
   autoDeleteInterval?: number;
   /** When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured) */
   autoDestroyAt?: string;
+  /** Minutes to wait for runner assignment before cancelling sandbox creation. Null means the wait is unlimited. */
+  queueTimeout?: number | null;
   /** Array of volumes attached to the sandbox */
   volumes?: SandboxVolumesList;
   /** Build information for the sandbox */
@@ -237,6 +242,7 @@ export const Sandbox2 = /*@__PURE__*/ S.suspend(() =>
     labels: SandboxLabelsMap,
     public: S.Boolean,
     networkBlockAll: S.Boolean,
+    kvm: S.Boolean,
     networkAllowList: S.optional(S.String),
     domainAllowList: S.optional(S.String),
     outboundProxyUrl: S.optional(S.String),
@@ -246,6 +252,7 @@ export const Sandbox2 = /*@__PURE__*/ S.suspend(() =>
     gpu: S.Number,
     spot: S.optional(S.Boolean),
     spotEvictedAt: S.optional(S.String),
+    queueTimedOutAt: S.optional(S.String),
     gpuType: S.optional(GpuType),
     memory: S.Number,
     disk: S.Number,
@@ -261,6 +268,7 @@ export const Sandbox2 = /*@__PURE__*/ S.suspend(() =>
     autoArchiveInterval: S.optional(S.Number),
     autoDeleteInterval: S.optional(S.Number),
     autoDestroyAt: S.optional(S.String),
+    queueTimeout: S.optional(S.NullOr(S.Number)),
     volumes: S.optional(SandboxVolumesList),
     buildInfo: S.optional(BuildInfo),
     createdAt: S.optional(S.String),
@@ -282,9 +290,7 @@ export const CreateSandboxRequestEnvMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<CreateSandboxRequestEnvMap>;
 
 /** Labels for the sandbox */
-export type CreateSandboxRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateSandboxRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -319,13 +325,9 @@ export const CreateBuildInfo = /*@__PURE__*/ S.suspend(() =>
     dockerfileContent: S.String,
     contextHashes: S.optional(CreateBuildInfoContextHashesList),
   }),
-).annotate({
-  identifier: "CreateBuildInfo",
-}) as any as S.Schema<CreateBuildInfo>;
+).annotate({ identifier: "CreateBuildInfo" }) as any as S.Schema<CreateBuildInfo>;
 
-export type CreateSandboxRequestSecretsItemMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSandboxRequestSecretsItemMap = { [key: string]: string | undefined };
 export const CreateSandboxRequestSecretsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -354,6 +356,8 @@ export interface CreateSandboxRequest {
   public?: boolean;
   /** Whether to block all network access for the sandbox */
   networkBlockAll?: boolean;
+  /** Expose KVM (/dev/kvm) inside the sandbox via nested virtualization. linux-vm snapshots only. Requires the sandbox_kvm feature for the organization. */
+  kvm?: boolean;
   /** Comma-separated list of allowed CIDR network addresses for the sandbox */
   networkAllowList?: string;
   /** Comma-separated list of allowed domains for the sandbox */
@@ -386,6 +390,8 @@ export interface CreateSandboxRequest {
   autoDeleteInterval?: number;
   /** Maximum time to live in minutes, counted as wall-clock time since creation regardless of sandbox state (0 means disabled). When it elapses the sandbox is destroyed, even if it is stopped, paused, or archived. Subject to the maximum sandbox lifespan configured for the organization region and sandbox class, in which case it also defaults to that maximum and cannot be disabled. */
   ttlMinutes?: number;
+  /** Minutes to wait for runner assignment before cancelling sandbox creation. Applies only while the sandbox is unassigned in pending_build or pulling_snapshot. Only honored when default queue timeout is enabled for the organization. Omit to use the organization default; null/omit with no organization default leaves the wait unlimited. Must be a positive integer. */
+  queueTimeout?: number;
   /** Array of volumes to attach to the sandbox */
   volumes?: CreateSandboxRequestVolumesList;
   /** Build information for the sandbox */
@@ -405,6 +411,7 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(CreateSandboxRequestLabelsMap),
     public: S.optional(S.Boolean),
     networkBlockAll: S.optional(S.Boolean),
+    kvm: S.optional(S.Boolean),
     networkAllowList: S.optional(S.String),
     domainAllowList: S.optional(S.String),
     outboundProxyUrl: S.optional(S.String),
@@ -421,14 +428,13 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     autoArchiveInterval: S.optional(S.Number),
     autoDeleteInterval: S.optional(S.Number),
     ttlMinutes: S.optional(S.Number),
+    queueTimeout: S.optional(S.Number),
     volumes: S.optional(CreateSandboxRequestVolumesList),
     buildInfo: S.optional(CreateBuildInfo),
     linkedSandbox: S.optional(S.String),
     secrets: S.optional(CreateSandboxRequestSecretsList),
   }).pipe(T.Http({ method: "POST", uri: "/sandbox", code: 200 })),
-).annotate({
-  identifier: "CreateSandboxRequest",
-}) as any as S.Schema<CreateSandboxRequest>;
+).annotate({ identifier: "CreateSandboxRequest" }) as any as S.Schema<CreateSandboxRequest>;
 
 export interface CreateSandboxSnapshotRequest {
   sandboxIdOrName: string;
@@ -445,13 +451,7 @@ export const CreateSandboxSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     name: S.String,
     includeMemory: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/snapshot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/snapshot", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxSnapshotRequest",
 }) as any as S.Schema<CreateSandboxSnapshotRequest>;
@@ -469,16 +469,8 @@ export const CreateSshAccessRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     expiresInMinutes: S.optional(S.Number.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/ssh-access",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSshAccessRequest",
-}) as any as S.Schema<CreateSshAccessRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/ssh-access", code: 200 })),
+).annotate({ identifier: "CreateSshAccessRequest" }) as any as S.Schema<CreateSshAccessRequest>;
 
 export interface SshAccessDto {
   /** Unique identifier for the SSH access */
@@ -519,9 +511,7 @@ export const DeleteSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/sandbox/{sandboxIdOrName}", code: 200 })),
-).annotate({
-  identifier: "DeleteSandboxRequest",
-}) as any as S.Schema<DeleteSandboxRequest>;
+).annotate({ identifier: "DeleteSandboxRequest" }) as any as S.Schema<DeleteSandboxRequest>;
 
 export interface ExpireSignedPortPreviewUrlRequest {
   /** ID or name of the sandbox */
@@ -569,16 +559,8 @@ export const ForkSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/fork",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ForkSandboxRequest",
-}) as any as S.Schema<ForkSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/fork", code: 200 })),
+).annotate({ identifier: "ForkSandboxRequest" }) as any as S.Schema<ForkSandboxRequest>;
 
 export interface GetBuildLogsUrlRequest {
   /** ID or name of the sandbox */
@@ -590,16 +572,8 @@ export const GetBuildLogsUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxIdOrName}/build-logs-url",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBuildLogsUrlRequest",
-}) as any as S.Schema<GetBuildLogsUrlRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxIdOrName}/build-logs-url", code: 200 })),
+).annotate({ identifier: "GetBuildLogsUrlRequest" }) as any as S.Schema<GetBuildLogsUrlRequest>;
 
 export interface Url {
   /** URL response */
@@ -621,16 +595,14 @@ export const GetOrganizationBySandboxIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/organization",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/organization", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationBySandboxIdRequest",
 }) as any as S.Schema<GetOrganizationBySandboxIdRequest>;
+
+/** Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in) */
+export type DirectorySyncStatus = "active" | "inactive" | "deleted";
+export const DirectorySyncStatus = S.String;
 
 /** Headers */
 export type OtelConfigHeadersMap = { [key: string]: string | undefined };
@@ -690,6 +662,8 @@ export interface Organization {
   maxSecretsPerSandbox: number;
   /** Time in minutes before an unused snapshot is deactivated */
   snapshotDeactivationTimeoutMinutes: number;
+  /** Default minutes to wait for runner assignment before cancelling sandbox creation. Applied when sandbox create omits queueTimeout. Null means no default. */
+  defaultQueueTimeout: number | null;
   /** Sandbox default network block all */
   sandboxLimitedNetworkEgress: boolean;
   /** Whether the proxy shows the preview URL warning page for this organization */
@@ -702,6 +676,12 @@ export interface Organization {
   defaultRegionId?: string;
   /** ID of the WorkOS organization mirrored from this organization (absent for personal organizations, which are never mirrored) */
   workosOrgId?: string;
+  /** Connection state of the WorkOS SCIM directory, as last reported by WorkOS (absent when no directory has ever reported in) */
+  directorySyncStatus?: DirectorySyncStatus;
+  /** When the directory sync status last changed */
+  directorySyncStatusChangedAt?: string;
+  /** When the directory bearer token was revoked; absent while a valid token exists. A revoked token stops provisioning even if the directory is still active. */
+  directorySyncTokenRevokedAt?: string;
   /** Authenticated rate limit per minute */
   authenticatedRateLimit: number | null;
   /** Sandbox create rate limit per minute */
@@ -738,12 +718,16 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     secretQuota: S.Number,
     maxSecretsPerSandbox: S.Number,
     snapshotDeactivationTimeoutMinutes: S.Number,
+    defaultQueueTimeout: S.NullOr(S.Number),
     sandboxLimitedNetworkEgress: S.Boolean,
     previewWarningEnabled: S.Boolean,
     ssoEnabled: S.Boolean,
     scimEnabled: S.Boolean,
     defaultRegionId: S.optional(S.String),
     workosOrgId: S.optional(S.String),
+    directorySyncStatus: S.optional(DirectorySyncStatus),
+    directorySyncStatusChangedAt: S.optional(S.String),
+    directorySyncTokenRevokedAt: S.optional(S.String),
     authenticatedRateLimit: S.NullOr(S.Number),
     sandboxCreateRateLimit: S.NullOr(S.Number),
     sandboxLifecycleRateLimit: S.NullOr(S.Number),
@@ -775,9 +759,7 @@ export const GetPortPreviewUrlRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetPortPreviewUrlRequest",
-}) as any as S.Schema<GetPortPreviewUrlRequest>;
+).annotate({ identifier: "GetPortPreviewUrlRequest" }) as any as S.Schema<GetPortPreviewUrlRequest>;
 
 export interface PortPreviewUrl {
   /** ID of the sandbox */
@@ -805,18 +787,12 @@ export const GetRegionQuotaBySandboxIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/region-quota",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/region-quota", code: 200 })),
 ).annotate({
   identifier: "GetRegionQuotaBySandboxIdRequest",
 }) as any as S.Schema<GetRegionQuotaBySandboxIdRequest>;
 
-export type SandboxClass = "linux-vm" | "container" | "android" | "windows";
+export type SandboxClass = "linux-vm" | "container" | "windows";
 export const SandboxClass = S.String;
 
 export type RegionQuotaAllowedGpuTypesList = Array<GpuType>;
@@ -881,9 +857,7 @@ export const GetSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     verbose: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxIdOrName}", code: 200 })),
-).annotate({
-  identifier: "GetSandboxRequest",
-}) as any as S.Schema<GetSandboxRequest>;
+).annotate({ identifier: "GetSandboxRequest" }) as any as S.Schema<GetSandboxRequest>;
 
 export interface GetSandboxAncestorsRequest {
   sandboxIdOrName: string;
@@ -894,13 +868,7 @@ export const GetSandboxAncestorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxIdOrName}/ancestors",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxIdOrName}/ancestors", code: 200 })),
 ).annotate({
   identifier: "GetSandboxAncestorsRequest",
 }) as any as S.Schema<GetSandboxAncestorsRequest>;
@@ -958,16 +926,8 @@ export const GetSandboxForksRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     includeDestroyed: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxIdOrName}/forks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSandboxForksRequest",
-}) as any as S.Schema<GetSandboxForksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxIdOrName}/forks", code: 200 })),
+).annotate({ identifier: "GetSandboxForksRequest" }) as any as S.Schema<GetSandboxForksRequest>;
 
 export type GetSandboxForksResponseBodyList = Array<Sandbox2>;
 export const GetSandboxForksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -977,9 +937,7 @@ export const GetSandboxForksResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetSandboxForksResponse = GetSandboxForksResponseBodyList;
 export const GetSandboxForksResponse = /*@__PURE__*/ S.suspend(() =>
   GetSandboxForksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSandboxForksResponse",
-}) as any as S.Schema<GetSandboxForksResponse>;
+).annotate({ identifier: "GetSandboxForksResponse" }) as any as S.Schema<GetSandboxForksResponse>;
 
 export type GetSandboxLogsRequestSeveritiesList = Array<string>;
 export const GetSandboxLogsRequestSeveritiesList = /*@__PURE__*/ S.Array(
@@ -1014,21 +972,11 @@ export const GetSandboxLogsRequest = /*@__PURE__*/ S.suspend(() =>
     severities: S.optional(GetSandboxLogsRequestSeveritiesList.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/telemetry/logs",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSandboxLogsRequest",
-}) as any as S.Schema<GetSandboxLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/logs", code: 200 })),
+).annotate({ identifier: "GetSandboxLogsRequest" }) as any as S.Schema<GetSandboxLogsRequest>;
 
 /** Resource attributes from OTEL */
-export type LogEntryResourceAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type LogEntryResourceAttributesMap = { [key: string]: string | undefined };
 export const LogEntryResourceAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1124,16 +1072,8 @@ export const GetSandboxMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     to: S.String.pipe(T.Query()),
     metricNames: S.optional(GetSandboxMetricsRequestMetricNamesList.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/telemetry/metrics",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSandboxMetricsRequest",
-}) as any as S.Schema<GetSandboxMetricsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/metrics", code: 200 })),
+).annotate({ identifier: "GetSandboxMetricsRequest" }) as any as S.Schema<GetSandboxMetricsRequest>;
 
 export interface MetricDataPoint {
   /** Timestamp of the data point */
@@ -1146,9 +1086,7 @@ export const MetricDataPoint = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "MetricDataPoint",
-}) as any as S.Schema<MetricDataPoint>;
+).annotate({ identifier: "MetricDataPoint" }) as any as S.Schema<MetricDataPoint>;
 
 /** Data points for this metric */
 export type MetricSeriesDataPointsList = Array<MetricDataPoint>;
@@ -1183,9 +1121,7 @@ export const MetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     series: MetricsResponseSeriesList,
   }),
-).annotate({
-  identifier: "MetricsResponse",
-}) as any as S.Schema<MetricsResponse>;
+).annotate({ identifier: "MetricsResponse" }) as any as S.Schema<MetricsResponse>;
 
 export interface GetSandboxParentRequest {
   sandboxIdOrName: string;
@@ -1196,16 +1132,8 @@ export const GetSandboxParentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxIdOrName}/parent",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSandboxParentRequest",
-}) as any as S.Schema<GetSandboxParentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxIdOrName}/parent", code: 200 })),
+).annotate({ identifier: "GetSandboxParentRequest" }) as any as S.Schema<GetSandboxParentRequest>;
 
 export interface GetSandboxSigningKeyRequest {
   /** ID of the sandbox */
@@ -1217,13 +1145,7 @@ export const GetSandboxSigningKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/signing-key",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/signing-key", code: 200 })),
 ).annotate({
   identifier: "GetSandboxSigningKeyRequest",
 }) as any as S.Schema<GetSandboxSigningKeyRequest>;
@@ -1257,16 +1179,8 @@ export const GetSandboxTracesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/telemetry/traces",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSandboxTracesRequest",
-}) as any as S.Schema<GetSandboxTracesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/traces", code: 200 })),
+).annotate({ identifier: "GetSandboxTracesRequest" }) as any as S.Schema<GetSandboxTracesRequest>;
 
 export interface TraceSummary {
   /** Unique trace identifier */
@@ -1319,9 +1233,7 @@ export const PaginatedTraces = /*@__PURE__*/ S.suspend(() =>
     page: S.Number,
     totalPages: S.Number,
   }),
-).annotate({
-  identifier: "PaginatedTraces",
-}) as any as S.Schema<PaginatedTraces>;
+).annotate({ identifier: "PaginatedTraces" }) as any as S.Schema<PaginatedTraces>;
 
 export interface GetSandboxTraceSpansRequest {
   /** ID of the sandbox */
@@ -1337,11 +1249,7 @@ export const GetSandboxTraceSpansRequest = /*@__PURE__*/ S.suspend(() =>
     traceId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/telemetry/traces/{traceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/telemetry/traces/{traceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSandboxTraceSpansRequest",
@@ -1444,9 +1352,7 @@ export const SignedPortPreviewUrl = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "SignedPortPreviewUrl",
-}) as any as S.Schema<SignedPortPreviewUrl>;
+).annotate({ identifier: "SignedPortPreviewUrl" }) as any as S.Schema<SignedPortPreviewUrl>;
 
 export interface GetToolboxProxyUrlRequest {
   /** ID of the sandbox */
@@ -1458,13 +1364,7 @@ export const GetToolboxProxyUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/sandbox/{sandboxId}/toolbox-proxy-url",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/sandbox/{sandboxId}/toolbox-proxy-url", code: 200 })),
 ).annotate({
   identifier: "GetToolboxProxyUrlRequest",
 }) as any as S.Schema<GetToolboxProxyUrlRequest>;
@@ -1477,9 +1377,7 @@ export const ToolboxProxyUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "ToolboxProxyUrl",
-}) as any as S.Schema<ToolboxProxyUrl>;
+).annotate({ identifier: "ToolboxProxyUrl" }) as any as S.Schema<ToolboxProxyUrl>;
 
 export type ListSandboxesRequestStatesList = Array<SandboxState | (string & {})>;
 export const ListSandboxesRequestStatesList = /*@__PURE__*/ S.Array(
@@ -1608,9 +1506,7 @@ export const ListSandboxesRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(SandboxListSortDirection.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/sandbox", code: 200 })),
-).annotate({
-  identifier: "ListSandboxesRequest",
-}) as any as S.Schema<ListSandboxesRequest>;
+).annotate({ identifier: "ListSandboxesRequest" }) as any as S.Schema<ListSandboxesRequest>;
 
 /** Labels for the sandbox */
 export type SandboxListItemLabelsMap = { [key: string]: string | undefined };
@@ -1664,6 +1560,8 @@ export interface SandboxListItem {
   spot?: boolean;
   /** When this sandbox was evicted by spot preemption. Set as soon as the sandbox is marked for eviction, so it is already present while the sandbox is still winding down. */
   spotEvictedAt?: string;
+  /** When this sandbox was destroyed because it waited too long for a runner. Set only for queue-timeout sandboxes, which stay retrievable by ID for 24 hours after the timeout. */
+  queueTimedOutAt?: string;
   /** The GPU type assigned to the sandbox */
   gpuType?: GpuType;
   /** The memory quota for the sandbox */
@@ -1684,6 +1582,8 @@ export interface SandboxListItem {
   autoDeleteInterval?: number;
   /** When the sandbox will be automatically destroyed, regardless of its state (only set when a TTL is configured) */
   autoDestroyAt?: string;
+  /** Minutes to wait for runner assignment before cancelling sandbox creation. Null means the wait is unlimited. */
+  queueTimeout?: number | null;
   /** The creation timestamp of the sandbox */
   createdAt?: string;
   /** The last update timestamp of the sandbox */
@@ -1719,6 +1619,7 @@ export const SandboxListItem = /*@__PURE__*/ S.suspend(() =>
     gpu: S.Number,
     spot: S.optional(S.Boolean),
     spotEvictedAt: S.optional(S.String),
+    queueTimedOutAt: S.optional(S.String),
     gpuType: S.optional(GpuType),
     memory: S.Number,
     disk: S.Number,
@@ -1729,6 +1630,7 @@ export const SandboxListItem = /*@__PURE__*/ S.suspend(() =>
     autoArchiveInterval: S.optional(S.Number),
     autoDeleteInterval: S.optional(S.Number),
     autoDestroyAt: S.optional(S.String),
+    queueTimeout: S.optional(S.NullOr(S.Number)),
     createdAt: S.optional(S.String),
     updatedAt: S.optional(S.String),
     lastActivityAt: S.optional(S.String),
@@ -1736,9 +1638,7 @@ export const SandboxListItem = /*@__PURE__*/ S.suspend(() =>
     warmPoolId: S.optional(S.String),
     toolboxProxyUrl: S.String,
   }),
-).annotate({
-  identifier: "SandboxListItem",
-}) as any as S.Schema<SandboxListItem>;
+).annotate({ identifier: "SandboxListItem" }) as any as S.Schema<SandboxListItem>;
 
 /** List of results for the current page */
 export type ListSandboxesResponseItemsList = Array<SandboxListItem>;
@@ -1757,9 +1657,7 @@ export const ListSandboxesResponse = /*@__PURE__*/ S.suspend(() =>
     items: ListSandboxesResponseItemsList,
     nextCursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ListSandboxesResponse",
-}) as any as S.Schema<ListSandboxesResponse>;
+).annotate({ identifier: "ListSandboxesResponse" }) as any as S.Schema<ListSandboxesResponse>;
 
 export interface PauseSandboxRequest {
   /** ID or name of the sandbox */
@@ -1771,16 +1669,8 @@ export const PauseSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/pause",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PauseSandboxRequest",
-}) as any as S.Schema<PauseSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/pause", code: 200 })),
+).annotate({ identifier: "PauseSandboxRequest" }) as any as S.Schema<PauseSandboxRequest>;
 
 export interface RecoverSandboxRequest {
   /** ID or name of the sandbox */
@@ -1795,21 +1685,11 @@ export const RecoverSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     skipStart: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/recover",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RecoverSandboxRequest",
-}) as any as S.Schema<RecoverSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/recover", code: 200 })),
+).annotate({ identifier: "RecoverSandboxRequest" }) as any as S.Schema<RecoverSandboxRequest>;
 
 /** Key-value pairs of labels */
-export type ReplaceLabelsRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ReplaceLabelsRequestLabelsMap = { [key: string]: string | undefined };
 export const ReplaceLabelsRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1828,16 +1708,8 @@ export const ReplaceLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     labels: ReplaceLabelsRequestLabelsMap,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sandbox/{sandboxIdOrName}/labels",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceLabelsRequest",
-}) as any as S.Schema<ReplaceLabelsRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/sandbox/{sandboxIdOrName}/labels", code: 200 })),
+).annotate({ identifier: "ReplaceLabelsRequest" }) as any as S.Schema<ReplaceLabelsRequest>;
 
 /** Key-value pairs of labels */
 export type SandboxLabelsLabelsMap = { [key: string]: string | undefined };
@@ -1875,16 +1747,8 @@ export const ResizeSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     cpu: S.optional(S.Number),
     memory: S.optional(S.Number),
     disk: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/resize",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResizeSandboxRequest",
-}) as any as S.Schema<ResizeSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/resize", code: 200 })),
+).annotate({ identifier: "ResizeSandboxRequest" }) as any as S.Schema<ResizeSandboxRequest>;
 
 export interface ResolveSandboxSecretsRequest {
   /** Sandbox ID */
@@ -1948,16 +1812,8 @@ export const RevokeSshAccessRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     token: S.optional(S.String.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/sandbox/{sandboxIdOrName}/ssh-access",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeSshAccessRequest",
-}) as any as S.Schema<RevokeSshAccessRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/sandbox/{sandboxIdOrName}/ssh-access", code: 200 })),
+).annotate({ identifier: "RevokeSshAccessRequest" }) as any as S.Schema<RevokeSshAccessRequest>;
 
 export interface RotateSigningKeyRequest {
   /** ID of the sandbox */
@@ -1969,23 +1825,13 @@ export const RotateSigningKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxId}/signing-key/rotate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RotateSigningKeyRequest",
-}) as any as S.Schema<RotateSigningKeyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxId}/signing-key/rotate", code: 200 })),
+).annotate({ identifier: "RotateSigningKeyRequest" }) as any as S.Schema<RotateSigningKeyRequest>;
 
 export type RotateSigningKeyResponse = string;
 export const RotateSigningKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RotateSigningKeyResponse",
-}) as any as S.Schema<RotateSigningKeyResponse>;
+).annotate({ identifier: "RotateSigningKeyResponse" }) as any as S.Schema<RotateSigningKeyResponse>;
 
 export interface SetAutoArchiveIntervalRequest {
   /** ID or name of the sandbox */
@@ -2001,11 +1847,7 @@ export const SetAutoArchiveIntervalRequest = /*@__PURE__*/ S.suspend(() =>
     interval: S.Number.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/autoarchive/{interval}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/autoarchive/{interval}", code: 200 }),
   ),
 ).annotate({
   identifier: "SetAutoArchiveIntervalRequest",
@@ -2025,11 +1867,7 @@ export const SetAutoDeleteIntervalRequest = /*@__PURE__*/ S.suspend(() =>
     interval: S.Number.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/autodelete/{interval}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/autodelete/{interval}", code: 200 }),
   ),
 ).annotate({
   identifier: "SetAutoDeleteIntervalRequest",
@@ -2049,11 +1887,7 @@ export const SetAutoPauseIntervalRequest = /*@__PURE__*/ S.suspend(() =>
     interval: S.Number.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/autopause/{interval}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/autopause/{interval}", code: 200 }),
   ),
 ).annotate({
   identifier: "SetAutoPauseIntervalRequest",
@@ -2073,11 +1907,7 @@ export const SetAutostopIntervalRequest = /*@__PURE__*/ S.suspend(() =>
     interval: S.Number.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/autostop/{interval}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/autostop/{interval}", code: 200 }),
   ),
 ).annotate({
   identifier: "SetAutostopIntervalRequest",
@@ -2097,11 +1927,7 @@ export const SetTtlRequest = /*@__PURE__*/ S.suspend(() =>
     ttlMinutes: S.Number.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/ttl/{ttlMinutes}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/ttl/{ttlMinutes}", code: 200 }),
   ),
 ).annotate({ identifier: "SetTtlRequest" }) as any as S.Schema<SetTtlRequest>;
 
@@ -2115,16 +1941,8 @@ export const StartSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/start",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StartSandboxRequest",
-}) as any as S.Schema<StartSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/start", code: 200 })),
+).annotate({ identifier: "StartSandboxRequest" }) as any as S.Schema<StartSandboxRequest>;
 
 export interface StopSandboxRequest {
   /** ID or name of the sandbox */
@@ -2139,16 +1957,8 @@ export const StopSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/stop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopSandboxRequest",
-}) as any as S.Schema<StopSandboxRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/stop", code: 200 })),
+).annotate({ identifier: "StopSandboxRequest" }) as any as S.Schema<StopSandboxRequest>;
 
 export interface UpdateLastActivityRequest {
   /** ID of the sandbox */
@@ -2163,13 +1973,7 @@ export const UpdateLastActivityRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     activityType: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxId}/last-activity",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/{sandboxId}/last-activity", code: 200 })),
 ).annotate({
   identifier: "UpdateLastActivityRequest",
 }) as any as S.Schema<UpdateLastActivityRequest>;
@@ -2199,11 +2003,7 @@ export const UpdateNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     networkAllowList: S.optional(S.String),
     domainAllowList: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/network-settings",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/network-settings", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateNetworkSettingsRequest",
@@ -2223,19 +2023,13 @@ export const UpdatePublicStatusRequest = /*@__PURE__*/ S.suspend(() =>
     isPublic: S.Boolean.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/{sandboxIdOrName}/public/{isPublic}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/{sandboxIdOrName}/public/{isPublic}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdatePublicStatusRequest",
 }) as any as S.Schema<UpdatePublicStatusRequest>;
 
-export type UpdateSandboxSecretsRequestSecretsItemMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSandboxSecretsRequestSecretsItemMap = { [key: string]: string | undefined };
 export const UpdateSandboxSecretsRequestSecretsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2261,13 +2055,7 @@ export const UpdateSandboxSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     sandboxIdOrName: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
     secrets: UpdateSandboxSecretsRequestSecretsList,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/sandbox/{sandboxIdOrName}/secrets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/sandbox/{sandboxIdOrName}/secrets", code: 200 })),
 ).annotate({
   identifier: "UpdateSandboxSecretsRequest",
 }) as any as S.Schema<UpdateSandboxSecretsRequest>;
@@ -2338,9 +2126,7 @@ export const ValidateSshAccessRequest = /*@__PURE__*/ S.suspend(() =>
     token: S.String.pipe(T.Query()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/sandbox/ssh-access/validate", code: 200 })),
-).annotate({
-  identifier: "ValidateSshAccessRequest",
-}) as any as S.Schema<ValidateSshAccessRequest>;
+).annotate({ identifier: "ValidateSshAccessRequest" }) as any as S.Schema<ValidateSshAccessRequest>;
 
 export interface SshAccessValidationDto {
   /** Whether the SSH access token is valid */
@@ -2353,9 +2139,7 @@ export const SshAccessValidationDto = /*@__PURE__*/ S.suspend(() =>
     valid: S.Boolean,
     sandboxId: S.String,
   }),
-).annotate({
-  identifier: "SshAccessValidationDto",
-}) as any as S.Schema<SshAccessValidationDto>;
+).annotate({ identifier: "SshAccessValidationDto" }) as any as S.Schema<SshAccessValidationDto>;
 
 export type ArchiveSandboxError = DaytonaOpError;
 /** Archive sandbox */
@@ -2523,7 +2307,7 @@ export const getRegionQuotaBySandboxId: API.OperationMethod<
 }));
 
 export type GetSandboxError = DaytonaOpError;
-/** Get sandbox details Sandboxes destroyed by spot preemption remain retrievable for 24 hours so `spotEvictedAt` can be read. */
+/** Get sandbox details Sandboxes destroyed by spot preemption remain retrievable for 24 hours so `spotEvictedAt` can be read. Sandboxes destroyed by queue timeout remain retrievable for 24 hours so `queueTimedOutAt` can be read. */
 export const getSandbox: API.OperationMethod<
   GetSandboxRequest,
   Sandbox2,

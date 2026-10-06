@@ -12,9 +12,7 @@ export type { DaytonaOpError, DaytonaOpContext };
 export interface GetAuditScenariosRequest {}
 export const GetAuditScenariosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/audit/scenarios", code: 200 })),
-).annotate({
-  identifier: "GetAuditScenariosRequest",
-}) as any as S.Schema<GetAuditScenariosRequest>;
+).annotate({ identifier: "GetAuditScenariosRequest" }) as any as S.Schema<GetAuditScenariosRequest>;
 
 /** Resource type the actions apply to. Scenarios that are not scoped to a specific resource type (e.g. leaving an organization) are grouped under "other". */
 export type AuditTargetScenarioTargetType =
@@ -92,6 +90,7 @@ export type AuditTargetScenarioActionsItem =
   | "update_scim_enabled"
   | "update_otel_config"
   | "delete_otel_config"
+  | "update_default_queue_timeout"
   | "create_ssh_access"
   | "revoke_ssh_access"
   | "recover"
@@ -102,6 +101,7 @@ export type AuditTargetScenarioActionsItem =
   | "auto_archive"
   | "auto_delete"
   | "ttl_expire"
+  | "queue_timeout_expire"
   | "spot_evict";
 export const AuditTargetScenarioActionsItem = S.String;
 
@@ -122,9 +122,7 @@ export const AuditTargetScenario = /*@__PURE__*/ S.suspend(() =>
     targetType: AuditTargetScenarioTargetType,
     actions: AuditTargetScenarioActionsList,
   }),
-).annotate({
-  identifier: "AuditTargetScenario",
-}) as any as S.Schema<AuditTargetScenario>;
+).annotate({ identifier: "AuditTargetScenario" }) as any as S.Schema<AuditTargetScenario>;
 
 /** Supported audit log scenarios grouped by target type. Derived at runtime from the audited routes and system events, sorted by target type. */
 export type AuditScenariosTargetsList = Array<AuditTargetScenario>;
@@ -285,13 +283,7 @@ export const GetOrganizationAuditLogsRequest = /*@__PURE__*/ S.suspend(() =>
     targetId: S.optional(StringFilter.pipe(T.Query())),
     statusCode: S.optional(IntFilter.pipe(T.Query())),
     createdAt: S.optional(DateFilter.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audit/organizations/{organizationId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/audit/organizations/{organizationId}", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationAuditLogsRequest",
 }) as any as S.Schema<GetOrganizationAuditLogsRequest>;
@@ -362,9 +354,7 @@ export const PaginatedAuditLogs = /*@__PURE__*/ S.suspend(() =>
     totalPages: S.Number,
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaginatedAuditLogs",
-}) as any as S.Schema<PaginatedAuditLogs>;
+).annotate({ identifier: "PaginatedAuditLogs" }) as any as S.Schema<PaginatedAuditLogs>;
 
 export type GetAuditScenariosError = DaytonaOpError;
 /** Get supported audit log scenarios Returns the supported audit log actions grouped by target type. The list is derived at runtime from the audited routes and system events, so it always reflects what can actually appear in the audit log. */

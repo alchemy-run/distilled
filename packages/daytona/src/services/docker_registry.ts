@@ -32,9 +32,7 @@ export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     password: S.String.pipe(T.SensitiveValue({})),
     project: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/docker-registry", code: 200 })),
-).annotate({
-  identifier: "CreateRegistryRequest",
-}) as any as S.Schema<CreateRegistryRequest>;
+).annotate({ identifier: "CreateRegistryRequest" }) as any as S.Schema<CreateRegistryRequest>;
 
 /** Registry type */
 export type DockerRegistryRegistryType = "internal" | "organization" | "transient" | "backup";
@@ -69,9 +67,7 @@ export const DockerRegistry2 = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     updatedAt: S.String,
   }),
-).annotate({
-  identifier: "DockerRegistry2",
-}) as any as S.Schema<DockerRegistry2>;
+).annotate({ identifier: "DockerRegistry2" }) as any as S.Schema<DockerRegistry2>;
 
 export interface DeleteRegistryRequest {
   /** ID of the docker registry */
@@ -84,9 +80,7 @@ export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/docker-registry/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteRegistryRequest",
-}) as any as S.Schema<DeleteRegistryRequest>;
+).annotate({ identifier: "DeleteRegistryRequest" }) as any as S.Schema<DeleteRegistryRequest>;
 
 export interface DeleteRegistryResponse {}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -104,9 +98,7 @@ export const GetRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/docker-registry/{id}", code: 200 })),
-).annotate({
-  identifier: "GetRegistryRequest",
-}) as any as S.Schema<GetRegistryRequest>;
+).annotate({ identifier: "GetRegistryRequest" }) as any as S.Schema<GetRegistryRequest>;
 
 export interface GetTransientPushAccessRequest {
   /** ID of the region where the snapshot will be available (defaults to organization default region) */
@@ -118,13 +110,7 @@ export const GetTransientPushAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regionId: S.optional(S.String.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/docker-registry/registry-push-access",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/docker-registry/registry-push-access", code: 200 })),
 ).annotate({
   identifier: "GetTransientPushAccessRequest",
 }) as any as S.Schema<GetTransientPushAccessRequest>;
@@ -152,9 +138,7 @@ export const RegistryPushAccessDto = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     expiresAt: S.String,
   }),
-).annotate({
-  identifier: "RegistryPushAccessDto",
-}) as any as S.Schema<RegistryPushAccessDto>;
+).annotate({ identifier: "RegistryPushAccessDto" }) as any as S.Schema<RegistryPushAccessDto>;
 
 export interface ListRegistriesRequest {
   /** Use with JWT to specify the organization ID */
@@ -164,9 +148,7 @@ export const ListRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/docker-registry", code: 200 })),
-).annotate({
-  identifier: "ListRegistriesRequest",
-}) as any as S.Schema<ListRegistriesRequest>;
+).annotate({ identifier: "ListRegistriesRequest" }) as any as S.Schema<ListRegistriesRequest>;
 
 export type ListRegistriesResponseBodyList = Array<DockerRegistry2>;
 export const ListRegistriesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -176,9 +158,7 @@ export const ListRegistriesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRegistriesResponse = ListRegistriesResponseBodyList;
 export const ListRegistriesResponse = /*@__PURE__*/ S.suspend(() =>
   ListRegistriesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListRegistriesResponse",
-}) as any as S.Schema<ListRegistriesResponse>;
+).annotate({ identifier: "ListRegistriesResponse" }) as any as S.Schema<ListRegistriesResponse>;
 
 export interface UpdateRegistryRequest {
   /** ID of the docker registry */
@@ -206,9 +186,7 @@ export const UpdateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     project: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/docker-registry/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateRegistryRequest",
-}) as any as S.Schema<UpdateRegistryRequest>;
+).annotate({ identifier: "UpdateRegistryRequest" }) as any as S.Schema<UpdateRegistryRequest>;
 
 export type CreateRegistryError = DaytonaOpError;
 /** Create registry */

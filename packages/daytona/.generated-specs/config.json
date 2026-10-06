@@ -248,6 +248,12 @@
           "traits": {
             "smithy.api#documentation": "WorkOS \"Authentication API\" custom domain the dashboard's client-side SDK should call instead of api.workos.com, so the refresh-token cookie is first-party. Present only when the provider is workos and a custom domain is configured (WorkOS production environments only); absent means the SDK runs in devMode and keeps the refresh token in localStorage."
           }
+        },
+        "cli": {
+          "target": "com.daytona.config#CliOidcConfig",
+          "traits": {
+            "smithy.api#documentation": "WorkOS application the Daytona CLI logs in through, configured apart from the dashboard's so CLI sessions can have their own lifetime. Present only when the provider is workos and a CLI application is configured; absent means the CLI uses the issuer and client ID above."
+          }
         }
       },
       "traits": {}
@@ -271,6 +277,26 @@
       "traits": {
         "smithy.api#documentation": "Which identity provider the advertised issuer above belongs to. The dashboard needs this because provider-specific logout URLs are not discoverable from the issuer alone: ending an Auth0 session uses its proprietary /v2/logout, which does not exist on WorkOS AuthKit. Anything that branches on provider behaviour must read this rather than pattern-matching the issuer hostname."
       }
+    },
+    "com.daytona.config#CliOidcConfig": {
+      "type": "structure",
+      "members": {
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS issuer of the Daytona CLI application",
+            "smithy.api#required": {}
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "WorkOS client ID of the Daytona CLI application",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.daytona.config#SsoOidcConfig": {
       "type": "structure",

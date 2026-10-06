@@ -115,17 +115,13 @@ export const ListOrganizationSandboxTelemetryLogsRequest = /*@__PURE__*/ S.suspe
   identifier: "ListOrganizationSandboxTelemetryLogsRequest",
 }) as any as S.Schema<ListOrganizationSandboxTelemetryLogsRequest>;
 
-export type ModelsLogEntryLogAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type ModelsLogEntryLogAttributesMap = { [key: string]: string | undefined };
 export const ModelsLogEntryLogAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ModelsLogEntryLogAttributesMap>;
 
-export type ModelsLogEntryResourceAttributesMap = {
-  [key: string]: string | undefined;
-};
+export type ModelsLogEntryResourceAttributesMap = { [key: string]: string | undefined };
 export const ModelsLogEntryResourceAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -210,9 +206,7 @@ export const ModelsMetricPoint = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ModelsMetricPoint",
-}) as any as S.Schema<ModelsMetricPoint>;
+).annotate({ identifier: "ModelsMetricPoint" }) as any as S.Schema<ModelsMetricPoint>;
 
 export type ListOrganizationSandboxTelemetryMetricsResponseBodyList = Array<ModelsMetricPoint>;
 export const ListOrganizationSandboxTelemetryMetricsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -279,9 +273,7 @@ export const ModelsTraceSummary = /*@__PURE__*/ S.suspend(() =>
     totalDurationMs: S.optional(S.Number),
     traceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelsTraceSummary",
-}) as any as S.Schema<ModelsTraceSummary>;
+).annotate({ identifier: "ModelsTraceSummary" }) as any as S.Schema<ModelsTraceSummary>;
 
 export type ListOrganizationSandboxTelemetryTracesResponseBodyList = Array<ModelsTraceSummary>;
 export const ListOrganizationSandboxTelemetryTracesResponseBodyList = /*@__PURE__*/ S.Array(

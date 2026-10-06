@@ -17,9 +17,7 @@ export const GetPushAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/object-storage/push-access", code: 200 })),
-).annotate({
-  identifier: "GetPushAccessRequest",
-}) as any as S.Schema<GetPushAccessRequest>;
+).annotate({ identifier: "GetPushAccessRequest" }) as any as S.Schema<GetPushAccessRequest>;
 
 export interface StorageAccessDto {
   /** Access key for storage authentication */
@@ -47,9 +45,7 @@ export const StorageAccessDto = /*@__PURE__*/ S.suspend(() =>
     bucket: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "StorageAccessDto",
-}) as any as S.Schema<StorageAccessDto>;
+).annotate({ identifier: "StorageAccessDto" }) as any as S.Schema<StorageAccessDto>;
 
 export type GetPushAccessError = DaytonaOpError;
 /** Get temporary storage access for pushing objects */

@@ -267,12 +267,6 @@
             "smithy.api#enumValue": "container"
           }
         },
-        "ANDROID": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "android"
-          }
-        },
         "WINDOWS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -391,6 +385,32 @@
         "smithy.api#documentation": "Tags to associate with the runner"
       }
     },
+    "com.daytona.runners#CreateRunnerSandboxClass": {
+      "type": "enum",
+      "members": {
+        "CONTAINER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "container"
+          }
+        },
+        "LINUX_VM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "linux-vm"
+          }
+        },
+        "WINDOWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "windows"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The sandbox class supported by the runner. Defaults to container when omitted or null."
+      }
+    },
     "com.daytona.runners#CreateRunnerRequest": {
       "type": "structure",
       "members": {
@@ -417,6 +437,13 @@
           "target": "com.daytona.runners#CreateRunnerRequestTagsList",
           "traits": {
             "smithy.api#documentation": "Tags to associate with the runner"
+          }
+        },
+        "sandboxClass": {
+          "target": "com.daytona.runners#CreateRunnerSandboxClass",
+          "traits": {
+            "smithy.api#documentation": "The sandbox class supported by the runner. Defaults to container when omitted or null.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },

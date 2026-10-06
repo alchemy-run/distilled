@@ -11,9 +11,7 @@ export type { DaytonaOpError, DaytonaOpContext };
 export interface ListSharedRegionsRequest {}
 export const ListSharedRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/shared-regions", code: 200 })),
-).annotate({
-  identifier: "ListSharedRegionsRequest",
-}) as any as S.Schema<ListSharedRegionsRequest>;
+).annotate({ identifier: "ListSharedRegionsRequest" }) as any as S.Schema<ListSharedRegionsRequest>;
 
 /** The type of the region */
 export type RegionType = "shared" | "dedicated" | "custom";

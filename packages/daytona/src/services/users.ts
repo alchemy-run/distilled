@@ -10,13 +10,7 @@ export type { DaytonaOpError, DaytonaOpContext };
 
 export interface AcceptPrivacyPoliciesRequest {}
 export const AcceptPrivacyPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users/privacy-policies/accept",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/users/privacy-policies/accept", code: 200 })),
 ).annotate({
   identifier: "AcceptPrivacyPoliciesRequest",
 }) as any as S.Schema<AcceptPrivacyPoliciesRequest>;
@@ -32,13 +26,7 @@ export interface ConfirmPendingSsoLinkRequest {
 export const ConfirmPendingSsoLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users/me/pending-sso-links/{id}/confirm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/users/me/pending-sso-links/{id}/confirm", code: 200 })),
 ).annotate({
   identifier: "ConfirmPendingSsoLinkRequest",
 }) as any as S.Schema<ConfirmPendingSsoLinkRequest>;
@@ -54,13 +42,7 @@ export interface DismissPendingSsoLinkRequest {
 export const DismissPendingSsoLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/users/me/pending-sso-links/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/users/me/pending-sso-links/{id}", code: 200 })),
 ).annotate({
   identifier: "DismissPendingSsoLinkRequest",
 }) as any as S.Schema<DismissPendingSsoLinkRequest>;
@@ -70,19 +52,40 @@ export const DismissPendingSsoLinkResponse = /*@__PURE__*/ S.suspend(() => S.Str
   identifier: "DismissPendingSsoLinkResponse",
 }) as any as S.Schema<DismissPendingSsoLinkResponse>;
 
-export interface EnrollInSmsMfaRequest {}
-export const EnrollInSmsMfaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/users/mfa/sms/enroll", code: 200 })),
+export interface GetAccountProvidersRequest {}
+export const GetAccountProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users/account-providers", code: 200 })),
 ).annotate({
-  identifier: "EnrollInSmsMfaRequest",
-}) as any as S.Schema<EnrollInSmsMfaRequest>;
+  identifier: "GetAccountProvidersRequest",
+}) as any as S.Schema<GetAccountProvidersRequest>;
 
-export type EnrollInSmsMfaResponse = string;
-export const EnrollInSmsMfaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.String.pipe(T.RawResponseRoot()),
+export interface AccountProvider {
+  /** WorkOS identity provider, e.g. GoogleOAuth or GitHubOAuth */
+  provider: string;
+  /** Human-readable provider name */
+  displayName: string;
+  /** Whether the authenticated user has an identity from this provider */
+  linked: boolean;
+}
+export const AccountProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.String,
+    displayName: S.String,
+    linked: S.Boolean,
+  }),
+).annotate({ identifier: "AccountProvider" }) as any as S.Schema<AccountProvider>;
+
+export type GetAccountProvidersResponseBodyList = Array<AccountProvider>;
+export const GetAccountProvidersResponseBodyList = /*@__PURE__*/ S.Array(
+  AccountProvider,
+) as any as S.Schema<GetAccountProvidersResponseBodyList>;
+
+export type GetAccountProvidersResponse = GetAccountProvidersResponseBodyList;
+export const GetAccountProvidersResponse = /*@__PURE__*/ S.suspend(() =>
+  GetAccountProvidersResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({
-  identifier: "EnrollInSmsMfaResponse",
-}) as any as S.Schema<EnrollInSmsMfaResponse>;
+  identifier: "GetAccountProvidersResponse",
+}) as any as S.Schema<GetAccountProvidersResponse>;
 
 export interface GetAuthenticatedUserRequest {}
 export const GetAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
@@ -141,38 +144,6 @@ export const User = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 
-export interface GetAvailableAccountProvidersRequest {}
-export const GetAvailableAccountProvidersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users/account-providers", code: 200 })),
-).annotate({
-  identifier: "GetAvailableAccountProvidersRequest",
-}) as any as S.Schema<GetAvailableAccountProvidersRequest>;
-
-export interface AccountProvider {
-  name: string;
-  displayName: string;
-}
-export const AccountProvider = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    displayName: S.String,
-  }),
-).annotate({
-  identifier: "AccountProvider",
-}) as any as S.Schema<AccountProvider>;
-
-export type GetAvailableAccountProvidersResponseBodyList = Array<AccountProvider>;
-export const GetAvailableAccountProvidersResponseBodyList = /*@__PURE__*/ S.Array(
-  AccountProvider,
-) as any as S.Schema<GetAvailableAccountProvidersResponseBodyList>;
-
-export type GetAvailableAccountProvidersResponse = GetAvailableAccountProvidersResponseBodyList;
-export const GetAvailableAccountProvidersResponse = /*@__PURE__*/ S.suspend(() =>
-  GetAvailableAccountProvidersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAvailableAccountProvidersResponse",
-}) as any as S.Schema<GetAvailableAccountProvidersResponse>;
-
 export interface ListPendingSsoLinksRequest {}
 export const ListPendingSsoLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users/me/pending-sso-links", code: 200 })),
@@ -214,29 +185,15 @@ export const ListPendingSsoLinksResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListPendingSsoLinksResponse",
 }) as any as S.Schema<ListPendingSsoLinksResponse>;
 
-export interface UnlinkAccountRequest {
-  provider: string;
-  providerUserId: string;
-}
-export const UnlinkAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    provider: S.String.pipe(T.Label()),
-    providerUserId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/users/linked-accounts/{provider}/{providerUserId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnlinkAccountRequest",
-}) as any as S.Schema<UnlinkAccountRequest>;
+export interface LoginRecordRequest {}
+export const LoginRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/users/me/logins", code: 200 })),
+).annotate({ identifier: "LoginRecordRequest" }) as any as S.Schema<LoginRecordRequest>;
 
-export interface UnlinkAccountResponse {}
-export const UnlinkAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "UnlinkAccountResponse",
-}) as any as S.Schema<UnlinkAccountResponse>;
+export interface LoginRecordResponse {}
+export const LoginRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "LoginRecordResponse",
+}) as any as S.Schema<LoginRecordResponse>;
 
 export type AcceptPrivacyPoliciesError = DaytonaOpError;
 /** Accept the current privacy policies */
@@ -283,16 +240,16 @@ export const dismissPendingSsoLink: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type EnrollInSmsMfaError = DaytonaOpError;
-/** Enroll in SMS MFA */
-export const enrollInSmsMfa: API.OperationMethod<
-  EnrollInSmsMfaRequest,
-  EnrollInSmsMfaResponse,
-  EnrollInSmsMfaError,
+export type GetAccountProvidersError = DaytonaOpError;
+/** Get account providers Social sign-in providers (Google, GitHub, ...) enabled for this environment, each flagged with whether the authenticated user has an identity linked through it. */
+export const getAccountProviders: API.OperationMethod<
+  GetAccountProvidersRequest,
+  GetAccountProvidersResponse,
+  GetAccountProvidersError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: EnrollInSmsMfaRequest,
-  output: EnrollInSmsMfaResponse,
+  input: GetAccountProvidersRequest,
+  output: GetAccountProvidersResponse,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -313,21 +270,6 @@ export const getAuthenticatedUser: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetAvailableAccountProvidersError = DaytonaOpError;
-/** Get available account providers */
-export const getAvailableAccountProviders: API.OperationMethod<
-  GetAvailableAccountProvidersRequest,
-  GetAvailableAccountProvidersResponse,
-  GetAvailableAccountProvidersError,
-  DaytonaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetAvailableAccountProvidersRequest,
-  output: GetAvailableAccountProvidersResponse,
-  errors: [UnknownDaytonaError],
-  protocol: DaytonaProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ListPendingSsoLinksError = DaytonaOpError;
 /** List pending SSO account links for the authenticated user */
 export const listPendingSsoLinks: API.OperationMethod<
@@ -343,16 +285,16 @@ export const listPendingSsoLinks: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UnlinkAccountError = DaytonaOpError;
-/** Unlink account */
-export const unlinkAccount: API.OperationMethod<
-  UnlinkAccountRequest,
-  UnlinkAccountResponse,
-  UnlinkAccountError,
+export type LoginRecordError = DaytonaOpError;
+/** Record a completed login Called by the dashboard once per completed sign-in. The email access gate evaluates the user and reports the login to analytics; a refused user receives 403 with code EMAIL_ACCESS_DENIED. */
+export const loginRecord: API.OperationMethod<
+  LoginRecordRequest,
+  LoginRecordResponse,
+  LoginRecordError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: UnlinkAccountRequest,
-  output: UnlinkAccountResponse,
+  input: LoginRecordRequest,
+  output: LoginRecordResponse,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
