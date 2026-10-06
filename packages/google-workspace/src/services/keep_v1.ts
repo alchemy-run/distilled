@@ -68,23 +68,6 @@ export class NotFound
 export type PermissionRoleEnum = "ROLE_UNSPECIFIED" | "OWNER" | "WRITER";
 export const PermissionRoleEnum = S.String;
 
-/** Describes a single Group. */
-export interface Group {
-  /** The group email. */
-  email?: string;
-}
-export const Group = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-  }),
-).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
-
-/** Describes a single Google Family. */
-export interface Family {}
-export const Family = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "Family",
-}) as any as S.Schema<Family>;
-
 /** Describes a single user. */
 export interface User {
   /** The user's email. */
@@ -96,50 +79,65 @@ export const User = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 
+/** Describes a single Google Family. */
+export interface Family {}
+export const Family = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "Family",
+}) as any as S.Schema<Family>;
+
+/** Describes a single Group. */
+export interface Group {
+  /** The group email. */
+  email?: string;
+}
+export const Group = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email: S.optional(S.String),
+  }),
+).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
+
 /** A single permission on the note. Associates a `member` with a `role`. */
 export interface Permission {
-  /** Output only. The resource name. */
-  name?: string;
-  /** The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email. */
-  email?: string;
   /** The role granted by this permission. The role determines the entity’s ability to read, write, and share notes. */
   role?: PermissionRoleEnum | (string & {});
-  /** Output only. The group to which this role applies. */
-  group?: Group;
+  /** The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email. */
+  email?: string;
+  /** Output only. The resource name. */
+  name?: string;
   /** Output only. Whether this member has been deleted. If the member is recovered, this value is set to false and the recovered member retains the role on the note. */
   deleted?: boolean;
-  /** Output only. The Google Family to which this role applies. */
-  family?: Family;
   /** Output only. The user to whom this role applies. */
   user?: User;
+  /** Output only. The Google Family to which this role applies. */
+  family?: Family;
+  /** Output only. The group to which this role applies. */
+  group?: Group;
 }
 export const Permission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    email: S.optional(S.String),
     role: S.optional(PermissionRoleEnum),
-    group: S.optional(Group),
+    email: S.optional(S.String),
+    name: S.optional(S.String),
     deleted: S.optional(S.Boolean),
-    family: S.optional(Family),
     user: S.optional(User),
+    family: S.optional(Family),
+    group: S.optional(Group),
   }),
 ).annotate({ identifier: "Permission" }) as any as S.Schema<Permission>;
 
 /** The request to add a single permission on the note. */
 export interface CreatePermissionRequest {
-  /** Required. The parent note where this permission will be created. Format: `notes/{note}` */
-  parent?: string;
   /** Required. The permission to create. One of Permission.email, User.email or Group.email must be supplied. */
   permission?: Permission;
+  /** Required. The parent note where this permission will be created. Format: `notes/{note}` */
+  parent?: string;
 }
 export const CreatePermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.optional(S.String),
     permission: S.optional(Permission),
+    parent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePermissionRequest",
-}) as any as S.Schema<CreatePermissionRequest>;
+).annotate({ identifier: "CreatePermissionRequest" }) as any as S.Schema<CreatePermissionRequest>;
 
 export type CreatePermissionRequestList = Array<CreatePermissionRequest>;
 export const CreatePermissionRequestList = /*@__PURE__*/ S.Array(
@@ -252,17 +250,17 @@ export const TextContent = /*@__PURE__*/ S.suspend(() =>
 
 /** A single list item in a note's list. */
 export interface ListItem {
-  /** If set, list of list items nested under this list item. Only one level of nesting is allowed. */
-  childListItems?: ListItemList;
   /** Whether this item has been checked off or not. */
   checked?: boolean;
+  /** If set, list of list items nested under this list item. Only one level of nesting is allowed. */
+  childListItems?: ListItemList;
   /** The text of this item. Length must be less than 1,000 characters. */
   text?: TextContent;
 }
 export const ListItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    childListItems: S.optional(S.suspend(() => ListItemList)),
     checked: S.optional(S.Boolean),
+    childListItems: S.optional(S.suspend(() => ListItemList)),
     text: S.optional(TextContent),
   }),
 ).annotate({ identifier: "ListItem" }) as any as S.Schema<ListItem>;
@@ -316,34 +314,34 @@ export const AttachmentList = /*@__PURE__*/ S.Array(Attachment) as any as S.Sche
 export interface Note {
   /** Output only. When this note was trashed. If `trashed`, the note is eventually deleted. If the note is not trashed, this field is not set (and the trashed field is `false`). */
   trashTime?: string;
-  /** The title of the note. Length must be less than 1,000 characters. */
-  title?: string;
-  /** Output only. When this note was created. */
-  createTime?: string;
-  /** Output only. When this note was last modified. */
-  updateTime?: string;
-  /** The body of the note. */
-  body?: Section;
   /** Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted. */
   trashed?: boolean;
+  /** Output only. When this note was created. */
+  createTime?: string;
+  /** The body of the note. */
+  body?: Section;
   /** Output only. The list of permissions set on the note. Contains at least one entry for the note owner. */
   permissions?: PermissionList;
   /** Output only. The resource name of this note. See general note on identifiers in KeepService. */
   name?: string;
+  /** Output only. When this note was last modified. */
+  updateTime?: string;
   /** Output only. The attachments attached to this note. */
   attachments?: AttachmentList;
+  /** The title of the note. Length must be less than 1,000 characters. */
+  title?: string;
 }
 export const Note = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trashTime: S.optional(S.String),
-    title: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    body: S.optional(Section),
     trashed: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
+    body: S.optional(Section),
     permissions: S.optional(PermissionList),
     name: S.optional(S.String),
+    updateTime: S.optional(S.String),
     attachments: S.optional(AttachmentList),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Note" }) as any as S.Schema<Note>;
 
@@ -354,16 +352,8 @@ export interface CreateNotesRequest {
 export const CreateNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(Note.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/notes",
-      baseUrl: "https://keep.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "CreateNotesRequest",
-}) as any as S.Schema<CreateNotesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "v1/notes", baseUrl: "https://keep.googleapis.com/" })),
+).annotate({ identifier: "CreateNotesRequest" }) as any as S.Schema<CreateNotesRequest>;
 
 export interface DeleteNotesRequest {
   /** Required. Name of the note to delete. */
@@ -372,16 +362,8 @@ export interface DeleteNotesRequest {
 export const DeleteNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://keep.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DeleteNotesRequest",
-}) as any as S.Schema<DeleteNotesRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://keep.googleapis.com/" })),
+).annotate({ identifier: "DeleteNotesRequest" }) as any as S.Schema<DeleteNotesRequest>;
 
 export interface DownloadMediaRequest {
   /** The IANA MIME type format requested. The requested MIME type must be one specified in the attachment.mime_type. Required when downloading attachment media and ignored otherwise. */
@@ -393,16 +375,8 @@ export const DownloadMediaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mimeType: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://keep.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "DownloadMediaRequest",
-}) as any as S.Schema<DownloadMediaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://keep.googleapis.com/" })),
+).annotate({ identifier: "DownloadMediaRequest" }) as any as S.Schema<DownloadMediaRequest>;
 
 export interface GetNotesRequest {
   /** Required. Name of the resource. */
@@ -411,59 +385,41 @@ export interface GetNotesRequest {
 export const GetNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://keep.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "GetNotesRequest",
-}) as any as S.Schema<GetNotesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://keep.googleapis.com/" })),
+).annotate({ identifier: "GetNotesRequest" }) as any as S.Schema<GetNotesRequest>;
 
 export interface ListNotesRequest {
+  /** The maximum number of results to return. */
+  pageSize?: number;
   /** The previous page's `next_page_token` field. */
   pageToken?: string;
   /** Filter for list results. If no filter is supplied, the `trashed` filter is applied by default. Valid fields to filter by are: `create_time`, `update_time`, `trash_time`, and `trashed`. Filter syntax follows the [Google AIP filtering spec](https://aip.dev/160). */
   filter?: string;
-  /** The maximum number of results to return. */
-  pageSize?: number;
 }
 export const ListNotesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/notes",
-      baseUrl: "https://keep.googleapis.com/",
-    }),
-  ),
-).annotate({
-  identifier: "ListNotesRequest",
-}) as any as S.Schema<ListNotesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "v1/notes", baseUrl: "https://keep.googleapis.com/" })),
+).annotate({ identifier: "ListNotesRequest" }) as any as S.Schema<ListNotesRequest>;
 
 export type NoteList = Array<Note>;
 export const NoteList = /*@__PURE__*/ S.Array(Note) as any as S.Schema<NoteList>;
 
 /** The response when listing a page of notes. */
 export interface ListNotesResponse {
-  /** Next page's `page_token` field. */
-  nextPageToken?: string;
   /** A page of notes. */
   notes?: NoteList;
+  /** Next page's `page_token` field. */
+  nextPageToken?: string;
 }
 export const ListNotesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     notes: S.optional(NoteList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListNotesResponse",
-}) as any as S.Schema<ListNotesResponse>;
+).annotate({ identifier: "ListNotesResponse" }) as any as S.Schema<ListNotesResponse>;
 
 export type BatchCreateNotesPermissionsError =
   | NotFound
@@ -589,8 +545,5 @@ export const listNotes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
